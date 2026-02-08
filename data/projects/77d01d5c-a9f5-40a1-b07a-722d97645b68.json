@@ -1,0 +1,22 @@
+{
+  "id": "77d01d5c-a9f5-40a1-b07a-722d97645b68",
+  "driveFolderLink": "local",
+  "customer": {
+    "projectNumber": "TMP-199265399",
+    "companyName": "EverWatt Test"
+  },
+  "createdAt": "2026-01-19T18:45:54.821Z",
+  "updatedAt": "2026-01-19T18:45:55.408Z",
+  "userId": "default-user",
+  "proposalPacks": [
+    {
+      "proposalPackId": "98555788-eee0-4fb4-aa41-72f210b7ffa6",
+      "createdAt": "2026-01-19T18:45:54.890Z",
+      "createdBy": "battery_calculator",
+      "title": "Battery Option A (stub)",
+      "summary": "Stub proposal pack to prove end-to-end contract wiring (run → import → view).",
+      "basedOnSnapshotId": "126057a7-2438-4263-861a-7d9055732825",
+      "storageKey": "default-user/projects/77d01d5c-a9f5-40a1-b07a-722d97645b68/proposals/98555788-eee0-4fb4-aa41-72f210b7ffa6/proposal_pack.json"
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "schema_version": "project_record/v1",
+  "project_id": "pl_cb47d81cab3c",
+  "project_slug": "campus-central-plant-optimization",
+  "title": "Campus - Central Plant Optimization (Complex)",
+  "created_at": "1970-01-01T00:00:00.000Z",
+  "updated_at": "1970-01-01T00:00:00.000Z",
+  "project_year": 2021,
+  "client": {
+    "name": "Example Campus",
+    "industry": "education"
+  },
+  "site": {
+    "name": "Campus Central Plant",
+    "city": "San Jose",
+    "state": "CA"
+  },
+  "building_type": "school",
+  "tags": [
+    "central-plant",
+    "chw",
+    "hw",
+    "staging",
+    "resets",
+    "faults"
+  ],
+  "systems": [
+    {
+      "system_type": "CHW",
+      "description": "Campus chilled water plant"
+    },
+    {
+      "system_type": "HW",
+      "description": "Campus hot water plant"
+    },
+    {
+      "system_type": "Controls",
+      "description": "Plant supervisory control and overrides"
+    }
+  ],
+  "measures": [
+    {
+      "name": "Coordinated HWST/CHWST resets",
+      "status": "implemented",
+      "description": "Coordinate resets to avoid simultaneous heating/cooling patterns"
+    },
+    {
+      "name": "Staging logic cleanup",
+      "status": "implemented",
+      "description": "Clean up boiler/chiller staging and sequencing rules"
+    },
+    {
+      "name": "Override monitoring",
+      "status": "implemented",
+      "description": "Detect and escalate overrides left >24h"
+    }
+  ],
+  "assumptions": {
+    "notes": "Multiple buildings served; resets tuned conservatively to reduce comfort risk.",
+    "kv": {
+      "baseline_year": 2020,
+      "override_threshold_hours": 24
+    }
+  },
+  "calc_outputs": {
+    "annual_kwh_savings": 180000,
+    "annual_therm_savings": 9000,
+    "kw_reduction": 150,
+    "annual_cost_savings_usd": 28000
+  },
+  "confidence": {
+    "overall": 0.65
+  },
+  "implementation_notes": "Complex integration; enforce fault checks before any future optimization runs.",
+  "source_files": [
+    {
+      "path": "everwatt-project-library/raw/campus-central-plant-optimization/ems-summary.md",
+      "role": "summary",
+      "sha256": "12fea1a8c0f467c09425bb56bcf379271b2cb67ef26f9a16b6ac9cd6179de06e",
+      "bytes": 347,
+      "content_type": "text/markdown",
+      "description": "Human summary of scope, issues, and control changes",
+      "source": "raw"
+    },
+    {
+      "path": "everwatt-project-library/raw/campus-central-plant-optimization/final-savings-calc.txt",
+      "role": "calc",
+      "sha256": "6fccd9609ce314f4aa8235e56157e7cb74e6c9a6b95dda442aa3fbbc438cb771",
+      "bytes": 101,
+      "content_type": "text/plain",
+      "description": "Final annual savings numbers used for audit reference",
+      "source": "raw"
+    },
+    {
+      "path": "everwatt-project-library/raw/campus-central-plant-optimization/best-notes.md",
+      "role": "other",
+      "sha256": "edff3aa5d675cfb98700586b8b7ca9936caf7c5f9cf87769dca8af78de1187a9",
+      "bytes": 211,
+      "content_type": "text/markdown",
+      "description": "Best notes / pitfalls / future recommendations",
+      "source": "raw"
+    }
+  ]
+}

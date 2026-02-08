@@ -1,0 +1,120 @@
+{
+  "id": "480160a5-2ad1-4e90-80dd-304bbd73690f",
+  "userId": "default-user",
+  "createdAt": "2025-12-16T00:17:22.979Z",
+  "updatedAt": "2025-12-16T00:17:22.979Z",
+  "customerInfo": {
+    "companyName": "Untitled Project",
+    "siteLocation": "",
+    "serviceAgreementId": "",
+    "facilityType": "",
+    "climateZone": "",
+    "rateSchedule": ""
+  },
+  "status": "draft",
+  "cefoProject": false,
+  "cefoLoanAmount": null,
+  "intervalData": {
+    "intervals": [
+      {
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "kw": 259
+      },
+      {
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "kw": 295
+      },
+      {
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "kw": 306
+      },
+      {
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "kw": 344
+      },
+      {
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "kw": 313
+      },
+      {
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "kw": 310
+      },
+      {
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "kw": 283
+      },
+      {
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "kw": 252
+      },
+      {
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "kw": 275
+      },
+      {
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "kw": 322
+      },
+      {
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "kw": 306
+      },
+      {
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "kw": 332
+      },
+      {
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "kw": 336
+      },
+      {
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "kw": 314
+      },
+      {
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "kw": 284
+      },
+      {
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "kw": 286
+      },
+      {
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "kw": 247
+      },
+      {
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "kw": 274
+      },
+      {
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "kw": 244
+      },
+      {
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "kw": 203
+      },
+      {
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "kw": 204
+      },
+      {
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "kw": 259
+      },
+      {
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "kw": 265
+      }
+    ],
+    "statistics": {
+      "totalRows": 23,
+      "validRows": 23,
+      "invalidRows": 0,
+      "percentageAbsorbed": 100
+    },
+    "peakKw": 344
+  }
+}

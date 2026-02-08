@@ -1,0 +1,1701 @@
+{
+  "utility": "PGE",
+  "capturedAt": "2026-02-08T17:39:14.253Z",
+  "versionTag": "2026-02-08T1739Z",
+  "rates": [
+    {
+      "utility": "PGE",
+      "rateCode": "G-1",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-1.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-1.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-1.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-1.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-10",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-10.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-10.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-10.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-10.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-AA",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AA.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AA.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AA.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AA.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-AAOFF",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AAOFF.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AAOFF.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AAOFF.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AAOFF.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-AFT",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AFT.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AFT.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AFT.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AFT.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-AFTOFF",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AFTOFF.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AFTOFF.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AFTOFF.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AFTOFF.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-AMDS",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AMDS.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AMDS.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AMDS.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-AMDS.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-BAL",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-BAL.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-BAL.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-BAL.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-BAL.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-CARE",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CARE.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CARE.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CARE.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CARE.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-CFS",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CFS.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CFS.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CFS.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CFS.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-CP",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CP.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CP.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CP.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CP.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-CPX",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CPX.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CPX.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CPX.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CPX.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-CRED",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CRED.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CRED.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CRED.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CRED.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-CT",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CT.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CT.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CT.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-CT.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-EFLIC",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-EFLIC.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-EFLIC.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-EFLIC.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-EFLIC.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-EG",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-EG.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-EG.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-EG.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-EG.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-ESISP",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-ESISP.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-ESISP.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-ESISP.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-ESISP.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-ESP",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-ESP.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-ESP.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-ESP.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-ESP.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-LEND",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-LEND.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-LEND.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-LEND.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-LEND.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-LNG",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-LNG.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-LNG.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-LNG.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-LNG.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-MHPS",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-MHPS.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-MHPS.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-MHPS.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-MHPS.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-NAA",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NAA.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NAA.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NAA.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NAA.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-NAAOFF",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NAAOFF.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NAAOFF.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NAAOFF.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NAAOFF.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-NAS",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NAS.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NAS.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NAS.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NAS.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-NFS",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NFS.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NFS.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NFS.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NFS.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-NFT",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NFT.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NFT.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NFT.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NFT.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-NFTOFF",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NFTOFF.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NFTOFF.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NFTOFF.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NFTOFF.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-NGV1",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV1.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV1.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV1.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV1.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-NGV2",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV2.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV2.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV2.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV2.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-NGV4",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV4.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV4.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV4.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV4.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-NR1",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NR1.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NR1.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NR1.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NR1.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-NR2",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NR2.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NR2.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NR2.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NR2.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-NT",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NT.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NT.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NT.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NT.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-OBF",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-OBF.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-OBF.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-OBF.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-OBF.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-OBR",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-OBR.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-OBR.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-OBR.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-OBR.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-OEC",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-OEC.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-OEC.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-OEC.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-OEC.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-PARK",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-PARK.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-PARK.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-PARK.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-PARK.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-PIPP",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-PIPP.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-PIPP.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-PIPP.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-PIPP.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-PPPS",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-PPPS.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-PPPS.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-PPPS.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-PPPS.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-SFT",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-SFT.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-SFT.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-SFT.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-SFT.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-SOP",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-SOP.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-SOP.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-SOP.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-SOP.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-SUR",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-SUR.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-SUR.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-SUR.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-SUR.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-WSL",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-WSL.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-WSL.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-WSL.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-WSL.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G-XF",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-XF.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-XF.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-XF.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-XF.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "G1-NGV",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G1-NGV.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G1-NGV.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G1-NGV.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G1-NGV.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "GL-1",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GL-1.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GL-1.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GL-1.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GL-1.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "GL1-NGV",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GL1-NGV.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GL1-NGV.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GL1-NGV.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GL1-NGV.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "GM",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GM.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GM.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GM.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GM.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "GML",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GML.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GML.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GML.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GML.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "GS",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GS.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GS.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GS.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GS.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "GSL",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GSL.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GSL.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GSL.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GSL.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "GT",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GT.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GT.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GT.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GT.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "GTL",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GTL.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GTL.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GTL.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_GTL.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "NGV-1",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV1.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV1.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV1.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV1.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "NGV-2",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV2.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV2.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV2.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV2.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "NGV-4",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV4.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV4.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV4.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NGV4.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "NR-1",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NR1.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NR1.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NR1.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NR1.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "PGE",
+      "rateCode": "NR-2",
+      "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NR2.pdf",
+      "sourceTitle": "PDF",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NR2.pdf",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NR2.pdf"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_SCHEDS_G-NR2.pdf",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "effectiveStatus": "UNKNOWN"
+    }
+  ],
+  "metadataCompleteness": {
+    "customerClassPct": 0,
+    "voltagePct": 0,
+    "effectiveDatePct": 0,
+    "eligibilityNotesPct": 0
+  },
+  "sourceFingerprints": [
+    {
+      "url": "https://www.pge.com/tariffs/en.html",
+      "contentHash": "28125ad9a59e2bc80ace0508b465123dc3af83abe8db16e561ce1cc57a7d2b30"
+    }
+  ]
+}

@@ -1,0 +1,938 @@
+{
+  "id": "industry-specific",
+  "title": "Industry-Specific Guide",
+  "subtitle": "What to expect and find in different facility types",
+  "description": "Comprehensive guide to industry-specific energy efficiency opportunities: equipment types, common issues, typical savings, and what to look for during site visits in manufacturing, healthcare, retail, office, warehouse, data centers, hospitality, education, and other facility types.",
+  "icon": "🏭",
+  "category": "sales",
+  "order": 1,
+  "status": "published",
+  "metadata": {
+    "author": "EverWatt Training",
+    "lastUpdated": "2025-01-02",
+    "version": "1.0.0",
+    "estimatedTime": 150,
+    "difficulty": "intermediate",
+    "tags": ["industry", "manufacturing", "healthcare", "retail", "office", "warehouse", "data-center", "site-walk", "field-guide"]
+  },
+  "sections": [
+    {
+      "id": "quick-overview",
+      "title": "Quick Overview",
+      "subtitle": "Industry types at a glance",
+      "icon": "⚡",
+      "order": 0,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "navigation"]
+      },
+      "content": [
+        {
+          "id": "overview-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 3,
+          "cards": [
+            {
+              "title": "Manufacturing",
+              "description": "Compressed air, process heating, motors, steam systems, refrigeration. High energy intensity, 24/7 operations.",
+              "metadata": { "icon": "⚙️", "jumpTo": "manufacturing", "roles": ["sales", "engineer", "field"] }
+            },
+            {
+              "title": "Healthcare",
+              "description": "HVAC load, 24/7 operations, strict environmental controls, sterilization equipment, lighting.",
+              "metadata": { "icon": "🏥", "jumpTo": "healthcare", "roles": ["sales", "engineer", "field"] }
+            },
+            {
+              "title": "Retail",
+              "description": "Lighting (interior + exterior), HVAC, refrigeration (coolers/freezers), plug loads, long operating hours.",
+              "metadata": { "icon": "🛍️", "jumpTo": "retail", "roles": ["sales", "engineer", "field"] }
+            },
+            {
+              "title": "Office Buildings",
+              "description": "HVAC, lighting, plug loads, building envelope, occupancy patterns, tenant spaces.",
+              "metadata": { "icon": "🏢", "jumpTo": "office", "roles": ["sales", "engineer", "field"] }
+            },
+            {
+              "title": "Warehouses",
+              "description": "High-bay lighting, minimal HVAC, dock doors, refrigeration (if food distribution), material handling equipment.",
+              "metadata": { "icon": "📦", "jumpTo": "warehouse", "roles": ["sales", "engineer", "field"] }
+            },
+            {
+              "title": "Data Centers",
+              "description": "CRAC units, UPS systems, IT load, cooling efficiency, PUE metrics, redundancy systems.",
+              "metadata": { "icon": "💻", "jumpTo": "data-center", "roles": ["sales", "engineer"] }
+            },
+            {
+              "title": "Hospitality",
+              "description": "Guest room HVAC, common area lighting, commercial kitchens, laundry, pools/spas, 24/7 operations.",
+              "metadata": { "icon": "🏨", "jumpTo": "hospitality", "roles": ["sales", "engineer", "field"] }
+            },
+            {
+              "title": "K-12 Public Schools",
+              "description": "Elementary, middle, high schools. HVAC scheduling, lighting, gymnasiums, cafeterias, variable occupancy.",
+              "metadata": { "icon": "🏫", "jumpTo": "k12-public", "roles": ["sales", "engineer", "field"] }
+            },
+            {
+              "title": "K-12 Private Schools",
+              "description": "Private elementary, middle, high schools. Similar to public but often different funding and priorities.",
+              "metadata": { "icon": "🎓", "jumpTo": "k12-private", "roles": ["sales", "engineer", "field"] }
+            },
+            {
+              "title": "Universities",
+              "description": "Large campuses, research facilities, dorms, dining halls, labs, libraries, 24/7 operations in some areas.",
+              "metadata": { "icon": "🏛️", "jumpTo": "universities", "roles": ["sales", "engineer", "field"] }
+            },
+            {
+              "title": "Colleges",
+              "description": "Smaller campuses, community colleges, vocational schools. Classrooms, labs, common areas, variable occupancy.",
+              "metadata": { "icon": "📚", "jumpTo": "colleges", "roles": ["sales", "engineer", "field"] }
+            },
+            {
+              "title": "Food Service",
+              "description": "Commercial kitchens (ovens, fryers, hoods), refrigeration, HVAC, lighting, hot water, exhaust systems.",
+              "metadata": { "icon": "🍽️", "jumpTo": "food-service", "roles": ["sales", "engineer", "field"] }
+            }
+          ]
+        },
+        {
+          "id": "overview-intro",
+          "type": "markdown",
+          "order": 2,
+          "metadata": { "tags": ["overview"], "roles": ["sales", "engineer", "field"] },
+          "content": "## What to Expect\n\nEach industry has distinct energy consumption patterns, equipment types, and operational requirements. This guide helps you:\n\n- **Identify opportunities quickly** during site visits\n- **Speak the language** of each industry\n- **Prioritize measures** based on typical savings and feasibility\n- **Ask the right questions** to uncover hidden opportunities\n\n**Key Principle:** The same technology (e.g., LED lighting) may have different value propositions depending on operating hours, operational constraints, and utility rates."
+        }
+      ]
+    },
+    {
+      "id": "manufacturing",
+      "title": "Manufacturing Facilities",
+      "subtitle": "Industrial processes, compressed air, process heating",
+      "icon": "⚙️",
+      "order": 1,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["manufacturing", "compressed-air", "process-heating", "motors", "steam"]
+      },
+      "content": [
+        {
+          "id": "manufacturing-overview",
+          "type": "markdown",
+          "order": 1,
+          "metadata": { "tags": ["manufacturing"] },
+          "content": "## Manufacturing Facilities\n\n**Energy Profile:** Typically the highest energy intensity of all building types. Operations often run 24/7 with heavy process loads.\n\n**Key Characteristics:**\n- High base loads (process equipment rarely shuts off)\n- Multiple energy systems (compressed air, process heating, steam, motors)\n- Significant demand charges\n- Often eligible for industrial utility programs\n\n**Typical Energy Split:**\n- Process loads: 50–70% (compressed air, process heating, motors)\n- HVAC: 10–25%\n- Lighting: 5–15%\n- Other: 5–10%"
+        },
+        {
+          "id": "manufacturing-equipment",
+          "type": "table",
+          "order": 2,
+          "headers": ["Equipment/System", "What to Look For", "Typical Savings", "Priority"],
+          "rows": [
+            ["Compressed Air Systems", "Leaks, oversized compressors, lack of storage, no VFDs, uninsulated pipes, aftercoolers", "15–50% of compressed air energy", "Very High"],
+            ["Process Heating", "Old furnaces/ovens, lack of insulation, heat recovery opportunities, inefficient burners", "10–40% of heating energy", "Very High"],
+            ["Steam Systems", "Leaks, uninsulated pipes/tanks, condensate recovery, boiler efficiency, trap failures", "10–30% of steam energy", "High"],
+            ["Motors & Drives", "Oversized motors, lack of VFDs, old motors (premium efficiency), poor maintenance", "20–60% on variable load applications", "High"],
+            ["Refrigeration (process)", "Old equipment, lack of floating head pressure, subcooling, heat recovery", "15–35% of refrigeration energy", "Medium-High"],
+            ["HVAC", "Large air handlers, 24/7 operation, process cooling/heating needs, economizers", "15–40% with optimization", "Medium"],
+            ["Lighting", "High-bay HID/MH fixtures, long run hours, poor controls, exterior lighting", "40–70% with LED retrofit", "Medium"],
+            ["Material Handling", "Forklifts (electric vs propane), conveyor systems, overhead cranes", "Varies by application", "Low-Medium"]
+          ],
+          "caption": "Manufacturing Equipment & Opportunities"
+        },
+        {
+          "id": "manufacturing-questions",
+          "type": "markdown",
+          "order": 3,
+          "metadata": { "tags": ["manufacturing", "sales", "field"] },
+          "content": "## Key Questions to Ask\n\n**Operations:**\n- What are your operating hours? (24/7, 3 shifts, single shift?)\n- Do you have peak demand issues? What's your typical peak kW?\n- Are there process loads that could be shifted?\n\n**Compressed Air:**\n- How many compressors do you have? Are they always running?\n- Do you have compressed air leaks? (Easy to identify: listen for hissing, look for unconnected hoses)\n- What's your typical compressed air pressure? Could you reduce it?\n\n**Process Heating:**\n- What temperatures are required? Can they be optimized?\n- Do you vent hot air/exhaust that could be recovered?\n- Are furnaces/ovens insulated properly?\n\n**Motors:**\n- Do you have motors that run continuously but could be controlled?\n- Are there applications with variable loads that don't have VFDs?\n\n**Utilities:**\n- What utility rate are you on? (Industrial rates often have high demand charges)\n- Are you eligible for any industrial efficiency programs?"
+        },
+        {
+          "id": "manufacturing-field-checklist",
+          "type": "list",
+          "order": 4,
+          "ordered": false,
+          "metadata": { "tags": ["manufacturing", "field"] },
+          "items": [
+            "Listen for compressed air leaks (hissing sounds)",
+            "Check compressor room: multiple compressors running simultaneously?",
+            "Feel pipes: hot uninsulated steam/process pipes?",
+            "Check motor nameplates: efficiency ratings, sizes",
+            "Look for VFDs on variable load motors (fans, pumps, compressors)",
+            "Identify process heating equipment (furnaces, ovens, kilns)",
+            "Check lighting: HID/MH in high-bay areas?",
+            "Look for heat recovery opportunities (hot exhaust, condensate)",
+            "Check boiler room: age, efficiency ratings, insulation",
+            "Note operating hours and shift patterns"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "healthcare",
+      "title": "Healthcare Facilities",
+      "subtitle": "Hospitals, medical offices, clinics",
+      "icon": "🏥",
+      "order": 2,
+      "metadata": {
+        "estimatedTime": 18,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["healthcare", "hvac", "24-7", "hospital", "medical"]
+      },
+      "content": [
+        {
+          "id": "healthcare-overview",
+          "type": "markdown",
+          "order": 1,
+          "metadata": { "tags": ["healthcare"] },
+          "content": "## Healthcare Facilities\n\n**Energy Profile:** 24/7 operations with strict environmental controls. HVAC is typically the largest load.\n\n**Key Characteristics:**\n- Continuous operation (hospitals never shut down)\n- Strict temperature, humidity, and air quality requirements\n- High outside air requirements (infection control)\n- Multiple HVAC zones with different requirements\n- Significant lighting loads (especially in older facilities)\n\n**Typical Energy Split:**\n- HVAC: 50–65%\n- Lighting: 10–20%\n- Medical equipment: 5–10%\n- Sterilization/laundry: 5–10%\n- Other: 10–15%"
+        },
+        {
+          "id": "healthcare-equipment",
+          "type": "table",
+          "order": 2,
+          "headers": ["Equipment/System", "What to Look For", "Typical Savings", "Priority"],
+          "rows": [
+            ["HVAC Systems", "Older chillers/boilers, lack of VFDs, poor economizer operation, 24/7 full load operation", "15–35% with optimization", "Very High"],
+            ["Lighting (Interior)", "T12/T8 fluorescents, outdated LEDs, poor controls, 24/7 operation in some areas", "40–65% with LED + controls", "High"],
+            ["Sterilization Equipment", "Old autoclaves, steam generation inefficiencies, heat recovery", "10–25% of sterilization energy", "Medium-High"],
+            ["Laundry", "Old washers/dryers, inefficient steam/hot water, heat recovery", "15–30% of laundry energy", "Medium"],
+            ["Domestic Hot Water", "Older systems, lack of recirculation controls, insulation issues", "10–25% of DHW energy", "Medium"],
+            ["Building Envelope", "Windows, insulation, air leakage in older facilities", "5–15% overall reduction", "Medium"],
+            ["Plug Loads", "Medical equipment, computers, idle equipment", "5–15% with controls", "Low-Medium"],
+            ["Exterior Lighting", "Old HID fixtures, poor controls, 24/7 operation", "50–70% with LED + controls", "Low-Medium"]
+          ],
+          "caption": "Healthcare Equipment & Opportunities"
+        },
+        {
+          "id": "healthcare-questions",
+          "type": "markdown",
+          "order": 3,
+          "metadata": { "tags": ["healthcare", "sales"] },
+          "content": "## Key Questions to Ask\n\n**Operations:**\n- What are your peak demand charges? (Hospitals often have high demand)\n- Are there areas that operate 24/7 vs. normal business hours?\n- What are your temperature/humidity setpoints? (Can they be optimized within code requirements?)\n\n**HVAC:**\n- How old are your chillers/boilers? When were they last upgraded?\n- Do you have economizers? Are they working properly?\n- Are you using outside air for cooling when available?\n- Do you have VFDs on pumps and fans?\n\n**Lighting:**\n- What types of lighting are in patient rooms, hallways, operating rooms?\n- Are there controls (occupancy, scheduling, daylight)?\n- What are the operating hours for different areas?\n\n**Special Considerations:**\n- Healthcare facilities often have capital constraints but long-term planning horizons\n- ROI requirements may be longer (5–10 years) due to operational priorities\n- Patient comfort and safety are paramount—changes must not compromise operations"
+        },
+        {
+          "id": "healthcare-field-checklist",
+          "type": "list",
+          "order": 4,
+          "ordered": false,
+          "metadata": { "tags": ["healthcare", "field"] },
+          "items": [
+            "Check chiller/boiler room: age, efficiency ratings, maintenance logs",
+            "Identify HVAC zones and control systems",
+            "Note lighting types in different areas (patient rooms, hallways, ORs)",
+            "Look for economizers on air handlers",
+            "Check for VFDs on pumps and fans",
+            "Identify sterilization equipment and age",
+            "Check domestic hot water systems",
+            "Note building age and envelope condition",
+            "Look for scheduling/controls opportunities",
+            "Check exterior lighting and controls"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "retail",
+      "title": "Retail Facilities",
+      "subtitle": "Stores, shopping centers, big box",
+      "icon": "🛍️",
+      "order": 3,
+      "metadata": {
+        "estimatedTime": 18,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["retail", "lighting", "refrigeration", "hvac"]
+      },
+      "content": [
+        {
+          "id": "retail-overview",
+          "type": "markdown",
+          "order": 1,
+          "metadata": { "tags": ["retail"] },
+          "content": "## Retail Facilities\n\n**Energy Profile:** Lighting and HVAC are typically the largest loads, with significant refrigeration in grocery/convenience stores.\n\n**Key Characteristics:**\n- Long operating hours (often 12–16 hours/day, some 24/7)\n- High lighting requirements (ambient + accent lighting)\n- Significant refrigeration load in food retail\n- Variable occupancy (higher during business hours)\n- Exterior lighting for parking lots and signage\n\n**Typical Energy Split (Non-Food Retail):**\n- Lighting: 35–50%\n- HVAC: 30–45%\n- Plug loads: 10–15%\n- Other: 5–10%\n\n**Typical Energy Split (Food Retail):**\n- Refrigeration: 35–50%\n- Lighting: 20–30%\n- HVAC: 15–25%\n- Other: 5–10%"
+        },
+        {
+          "id": "retail-equipment",
+          "type": "table",
+          "order": 2,
+          "headers": ["Equipment/System", "What to Look For", "Typical Savings", "Priority"],
+          "rows": [
+            ["Interior Lighting", "T12/T8 fluorescents, halogen track lights, old LEDs, no controls, long hours", "40–70% with LED + controls", "Very High"],
+            ["Exterior Lighting", "HPS/MH parking lot lights, old signage, no controls, dusk-to-dawn operation", "50–75% with LED + controls", "High"],
+            ["Refrigeration (Food Retail)", "Old coolers/freezers, lack of doors, poor maintenance, inefficient systems", "15–35% with upgrades", "Very High (Food)"],
+            ["HVAC", "Packaged rooftop units, lack of economizers, poor controls, constant operation", "15–35% with optimization", "High"],
+            ["Building Envelope", "Leaky doors (frequent openings), windows, insulation", "5–15% overall", "Medium"],
+            ["Plug Loads", "POS systems, computers, idle equipment, vending machines", "10–20% with controls", "Low-Medium"],
+            ["Signage", "Old neon/LED signs, 24/7 operation, no controls", "40–60% with efficient LEDs", "Low-Medium"]
+          ],
+          "caption": "Retail Equipment & Opportunities"
+        },
+        {
+          "id": "retail-questions",
+          "type": "markdown",
+          "order": 3,
+          "metadata": { "tags": ["retail", "sales"] },
+          "content": "## Key Questions to Ask\n\n**Operations:**\n- What are your store hours? (Some retailers operate 24/7)\n- Are there areas that could have reduced lighting when closed?\n- Do you have peak demand charges?\n\n**Lighting:**\n- What types of lighting are used? (Fluorescent, halogen, LED?)\n- Are there controls (occupancy, scheduling, dimming)?\n- What about exterior lighting and signage?\n\n**Refrigeration (Food Retail):**\n- How old are your refrigeration systems?\n- Do coolers/freezers have doors? (Open cases use much more energy)\n- Are there opportunities for floating head pressure?\n- Is there subcooling or heat recovery?\n\n**HVAC:**\n- What type of HVAC? (Packaged rooftop units are common)\n- Are there economizers?\n- Are there controls for different zones?\n- What are temperature setpoints? (Can they be optimized?)\n\n**Financial:**\n- Retailers often prioritize quick payback (2–4 years)\n- ROI calculations should include maintenance savings (especially for lighting)\n- Chain stores may have standardized requirements"
+        },
+        {
+          "id": "retail-field-checklist",
+          "type": "list",
+          "order": 4,
+          "ordered": false,
+          "metadata": { "tags": ["retail", "field"] },
+          "items": [
+            "Count fixture types and note lighting technologies",
+            "Check for controls (occupancy sensors, scheduling, dimming)",
+            "Identify exterior lighting (parking lots, signage)",
+            "For food retail: check refrigeration systems, doors on cases",
+            "Check HVAC units (rooftop units common)",
+            "Look for economizers",
+            "Note operating hours and occupancy patterns",
+            "Check building envelope (doors, windows)",
+            "Identify plug load opportunities",
+            "Note any energy management systems or controls"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "office",
+      "title": "Office Buildings",
+      "subtitle": "Commercial offices, corporate campuses",
+      "icon": "🏢",
+      "order": 4,
+      "metadata": {
+        "estimatedTime": 16,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["office", "hvac", "lighting", "building-envelope"]
+      },
+      "content": [
+        {
+          "id": "office-overview",
+          "type": "markdown",
+          "order": 1,
+          "metadata": { "tags": ["office"] },
+          "content": "## Office Buildings\n\n**Energy Profile:** HVAC and lighting are typically the largest loads, with significant plug loads from computers and equipment.\n\n**Key Characteristics:**\n- Business hours operation (typically 8–12 hours/day, 5–7 days/week)\n- Variable occupancy (higher during business hours, lower at night/weekends)\n- Multiple tenants in some buildings (coordination challenges)\n- Comfort-focused (temperature, lighting quality important)\n- Often have data centers/server rooms\n\n**Typical Energy Split:**\n- HVAC: 40–55%\n- Lighting: 20–30%\n- Plug loads: 15–25%\n- Other: 5–10%"
+        },
+        {
+          "id": "office-equipment",
+          "type": "table",
+          "order": 2,
+          "headers": ["Equipment/System", "What to Look For", "Typical Savings", "Priority"],
+          "rows": [
+            ["HVAC Systems", "Older chillers/boilers, lack of VFDs, poor economizer operation, constant operation", "20–40% with optimization", "Very High"],
+            ["Lighting", "T12/T8 fluorescents, old LEDs, lack of controls, no daylighting integration", "40–65% with LED + controls", "High"],
+            ["Building Envelope", "Windows, insulation, air leakage, thermal bridging", "10–20% overall reduction", "High"],
+            ["Plug Loads", "Computers, monitors, printers, idle equipment, no controls", "15–30% with controls", "Medium-High"],
+            ["Data Centers/Server Rooms", "CRAC units, inefficient cooling, high IT load, poor PUE", "15–35% of data center energy", "Medium (if applicable)"],
+            ["Domestic Hot Water", "Older systems, lack of recirculation controls", "10–20% of DHW energy", "Low-Medium"],
+            ["Exterior Lighting", "Old HID fixtures, poor controls", "50–70% with LED + controls", "Low"]
+          ],
+          "caption": "Office Equipment & Opportunities"
+        },
+        {
+          "id": "office-questions",
+          "type": "markdown",
+          "order": 3,
+          "metadata": { "tags": ["office", "sales"] },
+          "content": "## Key Questions to Ask\n\n**Operations:**\n- What are your business hours? (Extended hours vs. standard 8–5?)\n- What's your occupancy pattern? (Higher during certain times?)\n- Are there tenant spaces? (Coordination required)\n- Do you have a data center or server room?\n\n**HVAC:**\n- How old are your chillers/boilers?\n- Do you have economizers? Are they working?\n- Are there VFDs on pumps and fans?\n- What are temperature setpoints? (Can they be optimized?)\n- Is HVAC running 24/7 or only during business hours?\n\n**Lighting:**\n- What types of lighting? (Fluorescent, LED?)\n- Are there controls (occupancy, scheduling, daylight)?\n- Do you have windows for daylighting?\n\n**Building Envelope:**\n- How old is the building?\n- Are there single-pane windows? (Upgrade to double/triple pane)\n- Is there insulation? (Check walls, roof)\n- Are there air leaks? (Drafty areas?)\n\n**Financial:**\n- Office buildings often prioritize tenant comfort and property value\n- ROI may be longer (5–7 years) but improvements can increase property value\n- Energy savings translate to lower operating expenses"
+        },
+        {
+          "id": "office-field-checklist",
+          "type": "list",
+          "order": 4,
+          "ordered": false,
+          "metadata": { "tags": ["office", "field"] },
+          "items": [
+            "Check chiller/boiler room: age, efficiency, maintenance",
+            "Identify HVAC zones and control systems",
+            "Note lighting types (fluorescent, LED, controls)",
+            "Look for economizers on air handlers",
+            "Check for VFDs on pumps and fans",
+            "Assess building envelope (windows, insulation)",
+            "Check for data centers/server rooms",
+            "Identify plug load opportunities",
+            "Note operating hours and occupancy patterns",
+            "Check for energy management systems"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "warehouse",
+      "title": "Warehouses & Distribution Centers",
+      "subtitle": "Storage facilities, distribution centers",
+      "icon": "📦",
+      "order": 5,
+      "metadata": {
+        "estimatedTime": 16,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["warehouse", "lighting", "hvac", "refrigeration"]
+      },
+      "content": [
+        {
+          "id": "warehouse-overview",
+          "type": "markdown",
+          "order": 1,
+          "metadata": { "tags": ["warehouse"] },
+          "content": "## Warehouses & Distribution Centers\n\n**Energy Profile:** Lighting is typically the largest load, with minimal HVAC (often just heating for worker comfort). Refrigeration may be significant if storing food products.\n\n**Key Characteristics:**\n- High ceilings (30–50+ feet)\n- Large open spaces\n- Long operating hours (often 16–24 hours/day)\n- Minimal HVAC (often just heating in cold climates)\n- Frequent dock door openings (air infiltration)\n- Forklifts and material handling equipment\n\n**Typical Energy Split (Dry Warehouse):**\n- Lighting: 60–80%\n- HVAC: 10–25%\n- Material handling: 5–15%\n- Other: 5–10%\n\n**Typical Energy Split (Cold Storage):**\n- Refrigeration: 50–70%\n- Lighting: 15–25%\n- HVAC: 5–15%\n- Other: 5–10%"
+        },
+        {
+          "id": "warehouse-equipment",
+          "type": "table",
+          "order": 2,
+          "headers": ["Equipment/System", "What to Look For", "Typical Savings", "Priority"],
+          "rows": [
+            ["High-Bay Lighting", "HID/MH fixtures, old LEDs, no controls, long hours, high mounting", "50–75% with LED + controls", "Very High"],
+            ["Dock Doors", "Lack of dock seals/shelters, frequent openings, air infiltration", "5–15% heating/cooling savings", "High"],
+            ["HVAC", "Oversized systems, lack of controls, minimal cooling (heating only in some)", "20–40% with optimization", "Medium-High"],
+            ["Refrigeration (Cold Storage)", "Old systems, lack of floating head pressure, poor insulation", "15–35% with upgrades", "Very High (Cold)"],
+            ["Material Handling", "Forklifts (electric vs propane), conveyor systems", "Varies by application", "Low-Medium"],
+            ["Building Envelope", "Roof insulation, air leakage, windows (minimal)", "5–15% overall", "Medium"],
+            ["Plug Loads", "Minimal in most warehouses", "5–10%", "Low"]
+          ],
+          "caption": "Warehouse Equipment & Opportunities"
+        },
+        {
+          "id": "warehouse-questions",
+          "type": "markdown",
+          "order": 3,
+          "metadata": { "tags": ["warehouse", "sales"] },
+          "content": "## Key Questions to Ask\n\n**Operations:**\n- What are your operating hours? (Many warehouses run 16–24 hours/day)\n- What's your ceiling height? (Affects lighting requirements)\n- Do you have cold storage?\n- How many dock doors? How frequently are they open?\n\n**Lighting:**\n- What types of high-bay lighting? (HID, MH, LED?)\n- Are there controls? (Occupancy sensors challenging with high ceilings, but scheduling works)\n- What are the mounting heights?\n- Are there different zones with different requirements?\n\n**HVAC:**\n- Do you have HVAC? (Many warehouses have minimal HVAC)\n- Is it just heating for worker comfort?\n- Are there controls?\n- What are temperature setpoints?\n\n**Dock Doors:**\n- Do you have dock seals/shelters?\n- How often are doors open?\n- Is there air infiltration? (Drafty areas?)\n\n**Refrigeration (Cold Storage):**\n- How old are refrigeration systems?\n- What temperatures are maintained?\n- Is there floating head pressure?\n- How's the insulation?\n\n**Financial:**\n- Warehouses often prioritize quick payback (2–4 years)\n- Lighting retrofits typically have excellent ROI due to long hours and high-bay costs"
+        },
+        {
+          "id": "warehouse-field-checklist",
+          "type": "list",
+          "order": 4,
+          "ordered": false,
+          "metadata": { "tags": ["warehouse", "field"] },
+          "items": [
+            "Count high-bay fixtures and note types (HID, MH, LED)",
+            "Measure ceiling height (affects lighting requirements)",
+            "Check for lighting controls (scheduling, occupancy)",
+            "Count dock doors and check for seals/shelters",
+            "Assess HVAC systems (often minimal)",
+            "For cold storage: check refrigeration systems",
+            "Note operating hours and occupancy patterns",
+            "Check building envelope (roof, walls, air leakage)",
+            "Identify material handling equipment",
+            "Look for energy management opportunities"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "data-center",
+      "title": "Data Centers",
+      "subtitle": "Server rooms, data centers, IT facilities",
+      "icon": "💻",
+      "order": 6,
+      "metadata": {
+        "estimatedTime": 18,
+        "difficulty": "advanced",
+        "roles": ["engineer", "sales"],
+        "tags": ["data-center", "cooling", "pue", "ups", "it"]
+      },
+      "content": [
+        {
+          "id": "data-center-overview",
+          "type": "markdown",
+          "order": 1,
+          "metadata": { "tags": ["data-center"] },
+          "content": "## Data Centers\n\n**Energy Profile:** Cooling and IT equipment are the largest loads. Power Usage Effectiveness (PUE) is the key metric.\n\n**Key Characteristics:**\n- 24/7 operation\n- Critical uptime requirements\n- High power density\n- Redundant systems (power, cooling)\n- Strict environmental controls (temperature, humidity)\n- PUE target: < 1.5 (best-in-class < 1.2)\n\n**Typical Energy Split:**\n- IT Equipment: 40–60%\n- Cooling: 30–50%\n- Power Distribution/UPS: 5–15%\n- Other: 5–10%"
+        },
+        {
+          "id": "data-center-equipment",
+          "type": "table",
+          "order": 2,
+          "headers": ["Equipment/System", "What to Look For", "Typical Savings", "Priority"],
+          "rows": [
+            ["Cooling Systems (CRAC/CRAH)", "Older systems, inefficient operation, lack of economization, poor airflow", "20–40% of cooling energy", "Very High"],
+            ["Economization", "Lack of air/water economizers, not using outside air when available", "15–30% of cooling energy", "Very High"],
+            ["Airflow Management", "Hot/cold aisle mixing, lack of containment, poor air distribution", "10–20% of cooling energy", "High"],
+            ["UPS Systems", "Older UPS, low efficiency, oversized capacity, lack of modular systems", "5–15% of UPS energy", "Medium-High"],
+            ["Power Distribution", "Old transformers, inefficient PDUs, lack of monitoring", "5–10% of power distribution", "Medium"],
+            ["Lighting", "Older fixtures, 24/7 operation, minimal need", "40–60% with LED", "Low"],
+            ["IT Equipment Efficiency", "Old servers, lack of virtualization, inefficient hardware", "Varies significantly", "Medium (IT-driven)"],
+            ["Monitoring & Controls", "Lack of DCIM, poor visibility, manual operation", "5–15% overall", "Medium"]
+          ],
+          "caption": "Data Center Equipment & Opportunities"
+        },
+        {
+          "id": "data-center-questions",
+          "type": "markdown",
+          "order": 3,
+          "metadata": { "tags": ["data-center", "sales"] },
+          "content": "## Key Questions to Ask\n\n**Metrics:**\n- What's your current PUE? (Power Usage Effectiveness)\n- What's your IT load? (kW)\n- What are your energy costs? (Often significant)\n\n**Cooling:**\n- What type of cooling? (CRAC, CRAH, chilled water, direct expansion?)\n- Do you have economizers? (Air or water economization?)\n- What are temperature/humidity setpoints? (Can they be optimized?)\n- Is there hot/cold aisle containment?\n- How's airflow management? (Mixing issues?)\n\n**Power:**\n- What type of UPS? (Age, efficiency, capacity?)\n- Is UPS oversized? (Common issue)\n- What's power distribution efficiency?\n\n**Operations:**\n- Is there a DCIM (Data Center Infrastructure Management) system?\n- What's the redundancy level? (N, N+1, 2N?)\n- Are there opportunities for consolidation/virtualization?\n\n**Financial:**\n- Data centers prioritize uptime and reliability\n- Energy efficiency improvements can be significant due to high loads\n- PUE improvements are a key selling point\n- ROI calculations should account for both energy and operational benefits"
+        },
+        {
+          "id": "data-center-field-checklist",
+          "type": "list",
+          "order": 4,
+          "ordered": false,
+          "metadata": { "tags": ["data-center", "field"] },
+          "items": [
+            "Identify cooling system types (CRAC, CRAH, etc.)",
+            "Check for economizers (air or water)",
+            "Assess airflow management (hot/cold aisles, containment)",
+            "Check temperature/humidity setpoints and controls",
+            "Identify UPS systems (age, efficiency, capacity)",
+            "Check power distribution systems",
+            "Look for DCIM or monitoring systems",
+            "Assess IT load and equipment age",
+            "Note redundancy levels",
+            "Check for lighting opportunities (typically low priority)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hospitality",
+      "title": "Hospitality",
+      "subtitle": "Hotels, resorts, lodging",
+      "icon": "🏨",
+      "order": 7,
+      "metadata": {
+        "estimatedTime": 16,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["hospitality", "hotel", "hvac", "lighting", "kitchen"]
+      },
+      "content": [
+        {
+          "id": "hospitality-overview",
+          "type": "markdown",
+          "order": 1,
+          "metadata": { "tags": ["hospitality"] },
+          "content": "## Hospitality Facilities\n\n**Energy Profile:** HVAC and lighting are typically the largest loads, with significant energy use in kitchens and laundry.\n\n**Key Characteristics:**\n- 24/7 operations\n- Variable occupancy (guest rooms)\n- Multiple building types (guest rooms, common areas, kitchens, pools)\n- High comfort expectations\n- Significant hot water use\n\n**Typical Energy Split:**\n- HVAC: 35–50%\n- Lighting: 15–25%\n- Hot Water: 10–20%\n- Kitchen: 10–15%\n- Laundry: 5–10%\n- Other: 5–10%"
+        },
+        {
+          "id": "hospitality-equipment",
+          "type": "table",
+          "order": 2,
+          "headers": ["Equipment/System", "What to Look For", "Typical Savings", "Priority"],
+          "rows": [
+            ["Guest Room HVAC", "PTAC units, lack of controls, constant operation, old equipment", "20–40% with controls + upgrades", "Very High"],
+            ["Common Area HVAC", "Older systems, lack of controls, 24/7 operation", "20–35% with optimization", "High"],
+            ["Lighting", "Old fixtures, lack of controls, 24/7 in some areas, exterior lighting", "40–65% with LED + controls", "High"],
+            ["Commercial Kitchen", "Old equipment, inefficient hoods, lack of controls, heat recovery", "15–30% of kitchen energy", "Medium-High"],
+            ["Hot Water", "Older systems, lack of recirculation controls, high demand", "15–25% of DHW energy", "Medium-High"],
+            ["Laundry", "Old washers/dryers, inefficient steam/hot water", "15–30% of laundry energy", "Medium"],
+            ["Pool/SPA", "Old pumps, lack of covers, inefficient heaters", "20–40% of pool energy", "Medium"],
+            ["Building Envelope", "Windows, insulation, air leakage", "5–15% overall", "Medium"]
+          ],
+          "caption": "Hospitality Equipment & Opportunities"
+        },
+        {
+          "id": "hospitality-questions",
+          "type": "markdown",
+          "order": 3,
+          "metadata": { "tags": ["hospitality", "sales"] },
+          "content": "## Key Questions to Ask\n\n**Operations:**\n- How many guest rooms?\n- What's your occupancy rate?\n- Do you have restaurants/kitchens?\n- Do you have laundry facilities?\n- Are there pools/spas?\n\n**Guest Room HVAC:**\n- What type of HVAC? (PTAC units common)\n- Are there controls? (Occupancy-based controls can save significant energy)\n- What are temperature setpoints?\n- Is HVAC running constantly or controlled?\n\n**Common Areas:**\n- What type of HVAC in common areas?\n- Are there controls?\n- What are operating hours?\n\n**Lighting:**\n- What types of lighting in guest rooms, common areas, exterior?\n- Are there controls?\n- What are operating hours?\n\n**Kitchen/Laundry:**\n- How old is kitchen equipment?\n- Are there heat recovery opportunities?\n- What about laundry equipment?\n\n**Financial:**\n- Hospitality facilities prioritize guest experience\n- Energy efficiency improvements should not compromise comfort\n- ROI may be longer (5–7 years) but improvements can increase property value\n- Utility costs are a significant operating expense"
+        },
+        {
+          "id": "hospitality-field-checklist",
+          "type": "list",
+          "order": 4,
+          "ordered": false,
+          "metadata": { "tags": ["hospitality", "field"] },
+          "items": [
+            "Check guest room HVAC (PTAC units common)",
+            "Identify common area HVAC systems",
+            "Note lighting types (guest rooms, common areas, exterior)",
+            "Check for HVAC and lighting controls",
+            "Assess kitchen equipment and age",
+            "Check laundry facilities",
+            "Identify hot water systems",
+            "Check pool/spa equipment (if applicable)",
+            "Assess building envelope",
+            "Note occupancy patterns and operating hours"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "k12-public",
+      "title": "K-12 Public Schools",
+      "subtitle": "Elementary, middle, and high schools",
+      "icon": "🏫",
+      "order": 8,
+      "metadata": {
+        "estimatedTime": 16,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["education", "k12", "public-schools", "hvac", "lighting"]
+      },
+      "content": [
+        {
+          "id": "k12-public-overview",
+          "type": "markdown",
+          "order": 1,
+          "metadata": { "tags": ["k12-public"] },
+          "content": "## K-12 Public Schools\n\n**Energy Profile:** HVAC and lighting are typically the largest loads, with variable occupancy patterns. Public schools often have tight budgets and must follow state regulations.\n\n**Key Characteristics:**\n- Variable occupancy (high during school hours, low at night/weekends/holidays)\n- Seasonal operation (many schools closed in summer, some have summer programs)\n- Multiple building types (classrooms, gymnasiums, cafeterias, libraries)\n- Budget constraints (public funding, bond measures)\n- State and district regulations\n- Often older buildings (built 1950s-1980s)\n- Pools common in high schools\n\n**Typical Energy Split:**\n- HVAC: 40–55%\n- Lighting: 20–30%\n- Plug loads: 10–20%\n- Other: 10–15%"
+        },
+        {
+          "id": "k12-public-equipment",
+          "type": "table",
+          "order": 2,
+          "headers": ["Equipment/System", "What to Look For", "Typical Savings", "Priority"],
+          "rows": [
+            ["HVAC Systems", "Older systems, lack of controls, constant operation, poor economizers, no scheduling", "20–40% with optimization", "Very High"],
+            ["Lighting", "T12/T8 fluorescents, old LEDs, lack of controls, no daylighting, gymnasium high-bay", "40–65% with LED + controls", "High"],
+            ["Gymnasium HVAC/Lighting", "High-bay HID/MH fixtures, large HVAC systems, variable use, no controls", "30–50% with optimization", "High"],
+            ["Building Envelope", "Windows (often single-pane), insulation, air leakage (older buildings)", "10–20% overall", "Medium-High"],
+            ["Plug Loads", "Computers, projectors, smart boards, idle equipment, no controls", "15–30% with controls", "Medium"],
+            ["Pool/SPA (High Schools)", "Old pumps, lack of covers, inefficient heaters, constant operation", "20–40% of pool energy", "Medium"],
+            ["Cafeteria Kitchen", "Old equipment, inefficient hoods, lack of controls", "15–30% of kitchen energy", "Low-Medium"],
+            ["Exterior Lighting", "Old HID fixtures, poor controls, dusk-to-dawn operation", "50–70% with LED + controls", "Low-Medium"]
+          ],
+          "caption": "K-12 Public School Equipment & Opportunities"
+        },
+        {
+          "id": "k12-public-questions",
+          "type": "markdown",
+          "order": 3,
+          "metadata": { "tags": ["k12-public", "sales"] },
+          "content": "## Key Questions to Ask\n\n**Operations:**\n- What are operating hours? (School day vs. extended hours?)\n- Are there summer programs? (Affects seasonal operation and HVAC scheduling)\n- What building types? (Elementary, middle, high school?)\n- Do you have pools? (Common in high schools)\n- How many students? (Affects load sizing)\n\n**HVAC:**\n- How old are HVAC systems? (Many public schools have 20+ year old systems)\n- Are there controls? (Scheduling critical for variable occupancy)\n- Do you have economizers?\n- What are temperature setpoints? (Often fixed, can they be optimized?)\n- Is HVAC running during unoccupied periods? (Common issue)\n- Are there different zones? (Classrooms vs. gyms vs. offices)\n\n**Lighting:**\n- What types of lighting? (Fluorescent, LED?)\n- Are there controls? (Scheduling, occupancy, daylight?)\n- Do you have gymnasiums? (High-bay lighting opportunities)\n- Are there windows for daylighting?\n\n**Building Envelope:**\n- How old is the building? (Older schools may have poor insulation)\n- Are there single-pane windows? (Common in older buildings)\n- Is there air leakage? (Drafty areas?)\n\n**Financial:**\n- Public schools often have tight budgets and long approval processes\n- Energy savings free up funds for educational programs\n- ROI requirements may be longer (5–7 years)\n- State and utility programs may be available (e.g., Prop 39 in California)\n- Bond measures may fund energy efficiency projects"
+        },
+        {
+          "id": "k12-public-field-checklist",
+          "type": "list",
+          "order": 4,
+          "ordered": false,
+          "metadata": { "tags": ["k12-public", "field"] },
+          "items": [
+            "Check HVAC systems and age (often 20+ years old)",
+            "Identify HVAC zones and control systems",
+            "Note lighting types (classrooms, gyms, common areas, exterior)",
+            "Check for scheduling/controls (critical for variable occupancy)",
+            "Look for economizers on air handlers",
+            "Assess building envelope (especially in older buildings)",
+            "Check gymnasium HVAC and lighting (high-bay opportunities)",
+            "Identify plug load opportunities (computers, projectors)",
+            "Check pool/spa equipment (if applicable, common in high schools)",
+            "Note operating hours and occupancy patterns",
+            "Check for state/utility program eligibility",
+            "Assess exterior lighting and controls"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "k12-private",
+      "title": "K-12 Private Schools",
+      "subtitle": "Private elementary, middle, and high schools",
+      "icon": "🎓",
+      "order": 9,
+      "metadata": {
+        "estimatedTime": 16,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["education", "k12", "private-schools", "hvac", "lighting"]
+      },
+      "content": [
+        {
+          "id": "k12-private-overview",
+          "type": "markdown",
+          "order": 1,
+          "metadata": { "tags": ["k12-private"] },
+          "content": "## K-12 Private Schools\n\n**Energy Profile:** Similar to public schools but often with different priorities and funding sources. May have more flexibility in decision-making.\n\n**Key Characteristics:**\n- Variable occupancy (high during school hours, low at night/weekends/holidays)\n- Seasonal operation (many closed in summer, some have summer programs)\n- Multiple building types (classrooms, gymnasiums, cafeterias, libraries, chapels)\n- Tuition-based funding (may have different budget priorities)\n- Often smaller class sizes and facilities\n- May have religious or specialized programs\n- Often newer or better-maintained facilities than public schools\n\n**Typical Energy Split:**\n- HVAC: 40–55%\n- Lighting: 20–30%\n- Plug loads: 10–20%\n- Other: 10–15%"
+        },
+        {
+          "id": "k12-private-equipment",
+          "type": "table",
+          "order": 2,
+          "headers": ["Equipment/System", "What to Look For", "Typical Savings", "Priority"],
+          "rows": [
+            ["HVAC Systems", "Older systems, lack of controls, constant operation, poor economizers", "20–40% with optimization", "Very High"],
+            ["Lighting", "T12/T8 fluorescents, old LEDs, lack of controls, no daylighting", "40–65% with LED + controls", "High"],
+            ["Gymnasium HVAC/Lighting", "High-bay lighting, large HVAC systems, variable use", "30–50% with optimization", "High"],
+            ["Building Envelope", "Windows, insulation, air leakage", "10–20% overall", "Medium-High"],
+            ["Plug Loads", "Computers, projectors, smart boards, idle equipment, no controls", "15–30% with controls", "Medium"],
+            ["Pool/SPA (if applicable)", "Old pumps, lack of covers, inefficient heaters", "20–40% of pool energy", "Medium"],
+            ["Cafeteria Kitchen", "Old equipment, inefficient hoods", "15–30% of kitchen energy", "Low-Medium"],
+            ["Exterior Lighting", "Old fixtures, poor controls", "50–70% with LED + controls", "Low-Medium"]
+          ],
+          "caption": "K-12 Private School Equipment & Opportunities"
+        },
+        {
+          "id": "k12-private-questions",
+          "type": "markdown",
+          "order": 3,
+          "metadata": { "tags": ["k12-private", "sales"] },
+          "content": "## Key Questions to Ask\n\n**Operations:**\n- What are operating hours? (School day vs. extended hours?)\n- Are there summer programs? (Affects seasonal operation)\n- What building types? (Elementary, middle, high school?)\n- Do you have pools? (Less common than public high schools)\n- How many students? (Often smaller than public schools)\n\n**HVAC:**\n- How old are HVAC systems?\n- Are there controls? (Scheduling critical for variable occupancy)\n- Do you have economizers?\n- What are temperature setpoints? (Can they be optimized?)\n- Is HVAC running during unoccupied periods?\n\n**Lighting:**\n- What types of lighting? (Fluorescent, LED?)\n- Are there controls? (Scheduling, occupancy, daylight?)\n- Do you have gymnasiums? (High-bay lighting)\n- Are there windows for daylighting?\n\n**Building Envelope:**\n- How old is the building?\n- Are there single-pane windows?\n- Is there air leakage?\n\n**Financial:**\n- Private schools may have more flexibility in decision-making\n- Tuition-based funding may allow for different ROI requirements\n- May prioritize improvements that enhance student experience\n- Energy savings can help keep tuition costs down\n- May have access to different utility programs than public schools"
+        },
+        {
+          "id": "k12-private-field-checklist",
+          "type": "list",
+          "order": 4,
+          "ordered": false,
+          "metadata": { "tags": ["k12-private", "field"] },
+          "items": [
+            "Check HVAC systems and age",
+            "Identify HVAC zones and control systems",
+            "Note lighting types (classrooms, gyms, common areas)",
+            "Check for scheduling/controls (critical for variable occupancy)",
+            "Look for economizers",
+            "Assess building envelope",
+            "Check gymnasium HVAC and lighting",
+            "Identify plug load opportunities",
+            "Check pool/spa equipment (if applicable)",
+            "Note operating hours and occupancy patterns"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "universities",
+      "title": "Universities",
+      "subtitle": "Large campuses, research facilities, dorms",
+      "icon": "🏛️",
+      "order": 10,
+      "metadata": {
+        "estimatedTime": 18,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["education", "university", "campus", "hvac", "lighting", "research"]
+      },
+      "content": [
+        {
+          "id": "universities-overview",
+          "type": "markdown",
+          "order": 1,
+          "metadata": { "tags": ["universities"] },
+          "content": "## Universities\n\n**Energy Profile:** Large, complex campuses with diverse building types. HVAC and lighting are major loads, with significant research facility loads.\n\n**Key Characteristics:**\n- Large campuses (multiple buildings, central plants)\n- 24/7 operations in some areas (dorms, research labs, libraries)\n- Variable occupancy (classrooms vs. dorms vs. labs)\n- Research facilities (high energy intensity, specialized HVAC)\n- Dormitories (residential-like loads, 24/7)\n- Dining halls (commercial kitchens)\n- Central plants (chilled water, steam, hot water)\n- Sustainability goals (many have carbon neutrality targets)\n\n**Typical Energy Split:**\n- HVAC: 40–50%\n- Lighting: 15–25%\n- Research/Plug loads: 15–25%\n- Other: 10–15%"
+        },
+        {
+          "id": "universities-equipment",
+          "type": "table",
+          "order": 2,
+          "headers": ["Equipment/System", "What to Look For", "Typical Savings", "Priority"],
+          "rows": [
+            ["Central Plant (Chilled Water/Steam)", "Older chillers/boilers, lack of optimization, poor sequencing", "15–35% with optimization", "Very High"],
+            ["HVAC Systems", "Older systems, lack of controls, constant operation, poor economizers", "20–40% with optimization", "Very High"],
+            ["Lighting", "T12/T8 fluorescents, old LEDs, lack of controls, no daylighting", "40–65% with LED + controls", "High"],
+            ["Dormitory HVAC", "PTAC units, lack of controls, constant operation, old equipment", "20–40% with controls + upgrades", "High"],
+            ["Research Lab HVAC", "Fume hoods, high ventilation rates, lack of controls, 24/7 operation", "15–30% with optimization", "High"],
+            ["Dining Hall Kitchens", "Old equipment, inefficient hoods, lack of controls", "15–30% of kitchen energy", "Medium-High"],
+            ["Building Envelope", "Windows, insulation, air leakage (older buildings)", "10–20% overall", "Medium-High"],
+            ["Plug Loads", "Computers, research equipment, idle equipment, no controls", "15–30% with controls", "Medium"],
+            ["Pool/SPA (Recreation Centers)", "Old pumps, lack of covers, inefficient heaters", "20–40% of pool energy", "Medium"],
+            ["Exterior Lighting", "Old HID fixtures, poor controls, 24/7 operation", "50–70% with LED + controls", "Low-Medium"]
+          ],
+          "caption": "University Equipment & Opportunities"
+        },
+        {
+          "id": "universities-questions",
+          "type": "markdown",
+          "order": 3,
+          "metadata": { "tags": ["universities", "sales"] },
+          "content": "## Key Questions to Ask\n\n**Operations:**\n- How large is the campus? (Number of buildings, square footage?)\n- What are operating hours for different building types? (Classrooms vs. dorms vs. labs?)\n- Do you have a central plant? (Chilled water, steam?)\n- What are your sustainability goals? (Carbon neutrality targets?)\n\n**Central Plant:**\n- How old are chillers/boilers?\n- Is there optimization/sequencing?\n- What's the efficiency of the central plant?\n- Are there opportunities for heat recovery?\n\n**HVAC:**\n- How old are HVAC systems across campus?\n- Are there controls? (Scheduling critical for variable occupancy)\n- Do you have economizers?\n- What are temperature setpoints?\n- Is HVAC running during unoccupied periods?\n\n**Research Labs:**\n- How many fume hoods?\n- Are fume hoods controlled? (Variable air volume?)\n- What are ventilation rates?\n- Are there opportunities to reduce ventilation when unoccupied?\n\n**Dormitories:**\n- What type of HVAC? (PTAC units common)\n- Are there controls? (Occupancy-based controls can save significant energy)\n- How many dorm rooms?\n\n**Financial:**\n- Universities often have sustainability goals that support energy efficiency\n- Large campuses allow for economies of scale\n- ROI requirements may be longer (5–10 years) but improvements support sustainability goals\n- May have access to green bonds or sustainability funding"
+        },
+        {
+          "id": "universities-field-checklist",
+          "type": "list",
+          "order": 4,
+          "ordered": false,
+          "metadata": { "tags": ["universities", "field"] },
+          "items": [
+            "Check central plant (if applicable): age, efficiency, optimization",
+            "Identify HVAC systems across different building types",
+            "Note lighting types (classrooms, labs, dorms, common areas)",
+            "Check for scheduling/controls (critical for variable occupancy)",
+            "Look for economizers on air handlers",
+            "Assess research lab HVAC and fume hoods",
+            "Check dormitory HVAC systems (PTAC units common)",
+            "Identify dining hall kitchen equipment",
+            "Assess building envelope (especially in older buildings)",
+            "Check pool/spa equipment (if applicable, recreation centers)",
+            "Note operating hours and occupancy patterns by building type",
+            "Check for sustainability goals and programs"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "colleges",
+      "title": "Colleges & Community Colleges",
+      "subtitle": "Community colleges, vocational schools, smaller campuses",
+      "icon": "📚",
+      "order": 11,
+      "metadata": {
+        "estimatedTime": 16,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["education", "college", "community-college", "vocational", "hvac", "lighting"]
+      },
+      "content": [
+        {
+          "id": "colleges-overview",
+          "type": "markdown",
+          "order": 1,
+          "metadata": { "tags": ["colleges"] },
+          "content": "## Colleges & Community Colleges\n\n**Energy Profile:** Smaller campuses than universities, but similar energy patterns. HVAC and lighting are major loads.\n\n**Key Characteristics:**\n- Smaller campuses (fewer buildings than universities)\n- Variable occupancy (classrooms, labs, common areas)\n- May have vocational programs (specialized equipment)\n- Community colleges often have tight budgets\n- May have evening/weekend programs (extended hours)\n- Often commuter-based (less 24/7 operation than universities)\n- May have specialized facilities (auto shops, welding, culinary)\n\n**Typical Energy Split:**\n- HVAC: 40–55%\n- Lighting: 20–30%\n- Plug loads: 10–20%\n- Vocational equipment: 5–15% (if applicable)\n- Other: 5–10%"
+        },
+        {
+          "id": "colleges-equipment",
+          "type": "table",
+          "order": 2,
+          "headers": ["Equipment/System", "What to Look For", "Typical Savings", "Priority"],
+          "rows": [
+            ["HVAC Systems", "Older systems, lack of controls, constant operation, poor economizers", "20–40% with optimization", "Very High"],
+            ["Lighting", "T12/T8 fluorescents, old LEDs, lack of controls, no daylighting", "40–65% with LED + controls", "High"],
+            ["Vocational Equipment", "Old welding equipment, auto shop equipment, lack of controls", "Varies by application", "Medium-High"],
+            ["Building Envelope", "Windows, insulation, air leakage", "10–20% overall", "Medium-High"],
+            ["Plug Loads", "Computers, projectors, idle equipment, no controls", "15–30% with controls", "Medium"],
+            ["Cafeteria Kitchen", "Old equipment, inefficient hoods", "15–30% of kitchen energy", "Low-Medium"],
+            ["Exterior Lighting", "Old fixtures, poor controls", "50–70% with LED + controls", "Low-Medium"],
+            ["Pool/SPA (if applicable)", "Old pumps, lack of covers, inefficient heaters", "20–40% of pool energy", "Low"]
+          ],
+          "caption": "College Equipment & Opportunities"
+        },
+        {
+          "id": "colleges-questions",
+          "type": "markdown",
+          "order": 3,
+          "metadata": { "tags": ["colleges", "sales"] },
+          "content": "## Key Questions to Ask\n\n**Operations:**\n- What are operating hours? (Day vs. evening/weekend programs?)\n- What programs do you offer? (Vocational programs may have specialized equipment)\n- How many buildings? (Smaller campuses than universities)\n- Do you have specialized facilities? (Auto shops, welding, culinary, etc.)\n\n**HVAC:**\n- How old are HVAC systems?\n- Are there controls? (Scheduling critical for variable occupancy)\n- Do you have economizers?\n- What are temperature setpoints? (Can they be optimized?)\n- Is HVAC running during unoccupied periods?\n\n**Lighting:**\n- What types of lighting? (Fluorescent, LED?)\n- Are there controls? (Scheduling, occupancy, daylight?)\n- Do you have specialized lighting needs? (Vocational programs)\n- Are there windows for daylighting?\n\n**Vocational Equipment:**\n- What types of equipment? (Welding, auto shop, etc.)\n- Are there controls? (Many run constantly)\n- What are the energy requirements?\n\n**Building Envelope:**\n- How old is the building?\n- Are there single-pane windows?\n- Is there air leakage?\n\n**Financial:**\n- Community colleges often have tight budgets\n- Energy savings free up funds for educational programs\n- ROI requirements may be longer (5–7 years)\n- May have access to state and utility programs"
+        },
+        {
+          "id": "colleges-field-checklist",
+          "type": "list",
+          "order": 4,
+          "ordered": false,
+          "metadata": { "tags": ["colleges", "field"] },
+          "items": [
+            "Check HVAC systems and age",
+            "Identify HVAC zones and control systems",
+            "Note lighting types (classrooms, labs, common areas)",
+            "Check for scheduling/controls (critical for variable occupancy)",
+            "Look for economizers",
+            "Assess building envelope",
+            "Identify vocational equipment and energy use",
+            "Check cafeteria kitchen equipment (if applicable)",
+            "Identify plug load opportunities",
+            "Note operating hours and occupancy patterns",
+            "Check for state/utility program eligibility"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "food-service",
+      "title": "Food Service",
+      "subtitle": "Restaurants, cafeterias, commercial kitchens",
+      "icon": "🍽️",
+      "order": 12,
+      "metadata": {
+        "estimatedTime": 16,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["food-service", "restaurant", "kitchen", "hvac", "refrigeration"]
+      },
+      "content": [
+        {
+          "id": "food-service-overview",
+          "type": "markdown",
+          "order": 1,
+          "metadata": { "tags": ["food-service"] },
+          "content": "## Food Service Facilities\n\n**Energy Profile:** Kitchen equipment, HVAC, and refrigeration are typically the largest loads.\n\n**Key Characteristics:**\n- High heat loads from cooking equipment\n- Significant ventilation requirements (hoods)\n- Refrigeration for food storage\n- Long operating hours (often 12–16 hours/day)\n- High hot water use\n- Comfort requirements (dining areas)\n\n**Typical Energy Split:**\n- Kitchen Equipment: 25–35%\n- HVAC: 20–30%\n- Refrigeration: 15–25%\n- Lighting: 10–15%\n- Hot Water: 10–15%\n- Other: 5–10%"
+        },
+        {
+          "id": "food-service-equipment",
+          "type": "table",
+          "order": 2,
+          "headers": ["Equipment/System", "What to Look For", "Typical Savings", "Priority"],
+          "rows": [
+            ["Kitchen Equipment", "Old ovens, fryers, grills, inefficient burners, lack of controls", "15–30% of kitchen energy", "Very High"],
+            ["Ventilation Hoods", "Oversized hoods, lack of controls, constant operation, inefficient fans", "20–40% of ventilation energy", "High"],
+            ["HVAC", "Oversized systems (due to kitchen heat), lack of controls, poor economizers", "20–35% with optimization", "High"],
+            ["Refrigeration", "Old walk-ins, reach-ins, lack of doors, poor maintenance", "15–35% with upgrades", "High"],
+            ["Hot Water", "Older systems, lack of recirculation controls, high demand", "15–25% of DHW energy", "Medium-High"],
+            ["Lighting", "Old fixtures, lack of controls, long hours", "40–65% with LED + controls", "Medium"],
+            ["Building Envelope", "Windows, insulation, air leakage", "5–15% overall", "Low-Medium"]
+          ],
+          "caption": "Food Service Equipment & Opportunities"
+        },
+        {
+          "id": "food-service-questions",
+          "type": "markdown",
+          "order": 3,
+          "metadata": { "tags": ["food-service", "sales"] },
+          "content": "## Key Questions to Ask\n\n**Operations:**\n- What are operating hours?\n- What type of cuisine? (Affects equipment types)\n- Do you have dining areas? (Affects HVAC needs)\n\n**Kitchen Equipment:**\n- How old is kitchen equipment? (Ovens, fryers, grills, etc.)\n- Are there controls? (Many systems run constantly)\n- What's the efficiency of burners/equipment?\n\n**Ventilation:**\n- What type of hoods? (Type I, Type II?)\n- Are hoods controlled? (Many run constantly)\n- Are hoods oversized? (Common issue)\n- What's the exhaust fan efficiency?\n\n**HVAC:**\n- How is HVAC sized? (Often oversized due to kitchen heat)\n- Are there controls?\n- Is there make-up air for kitchen exhaust?\n- What are temperature setpoints?\n\n**Refrigeration:**\n- How old are walk-ins and reach-ins?\n- Do they have doors? (Open cases use much more energy)\n- What's the maintenance history?\n\n**Hot Water:**\n- How is hot water generated? (Often high demand in kitchens)\n- Are there recirculation controls?\n\n**Financial:**\n- Food service facilities often prioritize quick payback (2–4 years)\n- Kitchen equipment upgrades can have significant energy and operational benefits\n- Ventilation improvements can improve comfort and reduce energy"
+        },
+        {
+          "id": "food-service-field-checklist",
+          "type": "list",
+          "order": 4,
+          "ordered": false,
+          "metadata": { "tags": ["food-service", "field"] },
+          "items": [
+            "Identify kitchen equipment types and age",
+            "Check ventilation hoods and controls",
+            "Assess HVAC systems (often oversized)",
+            "Check refrigeration systems (walk-ins, reach-ins)",
+            "Identify hot water systems",
+            "Note lighting types and controls",
+            "Check for make-up air systems",
+            "Assess building envelope",
+            "Note operating hours",
+            "Look for energy management opportunities"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "summary",
+      "title": "Summary & Best Practices",
+      "subtitle": "Cross-industry patterns and priorities",
+      "icon": "📋",
+      "order": 13,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["summary", "best-practices"]
+      },
+      "content": [
+        {
+          "id": "summary-patterns",
+          "type": "markdown",
+          "order": 1,
+          "metadata": { "tags": ["summary"] },
+          "content": "## Cross-Industry Patterns\n\nWhile each industry has unique characteristics, there are common patterns:\n\n### Universal Opportunities\n- **Lighting:** LED retrofits with controls are valuable in almost every industry\n- **HVAC Controls:** Scheduling, economizers, and VFDs apply broadly\n- **Building Envelope:** Insulation and air sealing benefit most facilities\n\n### High-Value Quick Wins\n1. **LED Lighting + Controls** (especially in facilities with long operating hours)\n2. **HVAC Optimization** (scheduling, economizers, VFDs)\n3. **Compressed Air** (manufacturing-specific, but huge opportunity)\n4. **Refrigeration** (food-related facilities)\n\n### Industry-Specific Priorities\n- **Manufacturing:** Compressed air, process heating, motors\n- **Healthcare:** HVAC optimization, lighting, 24/7 operations\n- **Retail:** Lighting, HVAC, refrigeration (food retail)\n- **Office:** HVAC, lighting, building envelope\n- **Warehouse:** High-bay lighting, dock doors\n- **Data Center:** Cooling efficiency, PUE improvements\n- **Hospitality:** Guest room HVAC, kitchen, laundry\n- **K-12 Schools:** HVAC scheduling, lighting, variable occupancy\n- **Universities:** Central plants, research labs, dormitories\n- **Colleges:** HVAC, lighting, vocational equipment\n- **Food Service:** Kitchen equipment, ventilation, refrigeration"
+        },
+        {
+          "id": "summary-questions",
+          "type": "markdown",
+          "order": 2,
+          "metadata": { "tags": ["summary", "sales"] },
+          "content": "## Universal Questions to Ask\n\nRegardless of industry, these questions help identify opportunities:\n\n1. **Operating Hours:** When is the facility occupied? (Affects lighting, HVAC scheduling)\n2. **Peak Demand:** Do you have high demand charges? (Affects battery storage, load shifting)\n3. **Equipment Age:** How old are major systems? (HVAC, lighting, process equipment)\n4. **Controls:** Do you have energy management systems or controls? (Scheduling, occupancy, etc.)\n5. **Maintenance:** What's your maintenance budget? (Energy efficiency can reduce maintenance)\n6. **Comfort Issues:** Are there comfort complaints? (Often indicates inefficiency)\n7. **Future Plans:** Are there planned renovations or expansions? (Opportunity to bundle improvements)\n8. **Utility Programs:** Are you aware of utility rebates/programs? (Can improve ROI)"
+        },
+        {
+          "id": "summary-field-approach",
+          "type": "markdown",
+          "order": 3,
+          "metadata": { "tags": ["summary", "field"] },
+          "content": "## Field Visit Approach\n\n**Before the Visit:**\n- Research the industry type and typical opportunities\n- Review utility bills if available\n- Prepare industry-specific questions\n\n**During the Visit:**\n- Start with a facility tour to understand operations\n- Ask discovery questions (operating hours, pain points, equipment age)\n- Identify equipment types and ages\n- Look for obvious inefficiencies (leaks, old equipment, lack of controls)\n- Take photos and notes\n\n**After the Visit:**\n- Prioritize opportunities by savings potential and feasibility\n- Consider utility rebates and programs\n- Develop recommendations with clear ROI\n- Present quick wins first, then deeper measures"
+        },
+        {
+          "id": "summary-final-tips",
+          "type": "quote",
+          "order": 4,
+          "quote": "Every facility is unique, but industry knowledge helps you ask the right questions and identify opportunities quickly. Start with quick wins, then go deeper.",
+          "author": "EverWatt Training",
+          "role": "Best Practice"
+        }
+      ]
+    }
+  ]
+}
+

@@ -1,0 +1,189 @@
+{
+  "title": "PG&E Site-Level NMEC Reporting Requirements",
+  "version": "2024.03.20",
+  "source": "NMEC Process & Tools and PGE-Site-NMEC-MV-Requirements",
+  "framework": {
+    "methodology": "IPMVP Option C",
+    "name": "Site-Level NMEC",
+    "description": "Normalized Metered Energy Consumption methodology for whole-facility energy savings verification"
+  },
+  "programs": [
+    {
+      "id": "public-sector-nmec",
+      "name": "Public Sector NMEC",
+      "description": "NMEC program for public sector facilities"
+    },
+    {
+      "id": "cwb-nmec",
+      "name": "Commercial Whole Building (CWB) NMEC",
+      "description": "NMEC program for commercial facilities"
+    }
+  ],
+  "statisticalCriteria": {
+    "cvrmse": {
+      "threshold": 25,
+      "unit": "%",
+      "description": "Coefficient of Variation of Root Mean Square Error",
+      "pass": "< 25%",
+      "formula": "CVRMSE = (RMSE / Mean_Actual) × 100"
+    },
+    "nmbe": {
+      "threshold": 0.5,
+      "unit": "%",
+      "description": "Normalized Mean Bias Error",
+      "pass": "± 0.5%",
+      "formula": "NMBE = (Sum(Predicted - Actual) / Sum(Actual)) × 100"
+    },
+    "rSquared": {
+      "description": "Coefficient of Determination",
+      "recommended": "> 0.7"
+    },
+    "savingsThreshold": {
+      "value": 10,
+      "unit": "%",
+      "description": "Minimum savings threshold for statistical detectability"
+    }
+  },
+  "dataRequirements": {
+    "electricity": {
+      "interval": "15-minute or Hourly",
+      "unit": "kWh",
+      "notes": "Can be aggregated to daily or monthly"
+    },
+    "naturalGas": {
+      "interval": "Daily or Monthly",
+      "unit": "therms",
+      "notes": "Daily preferred for NRE detection"
+    },
+    "solarPV": {
+      "interval": "15-minute",
+      "unit": "kWh",
+      "notes": "Must convert to Gross Load (Delivered + Generation - Export)"
+    },
+    "weather": {
+      "historicalSource": "NOAA or local weather station",
+      "normalizationSource": "CALEE2018 typical weather files",
+      "climateZones": ["CZ1", "CZ2", "CZ3", "CZ4", "CZ5", "CZ6", "CZ7", "CZ8", "CZ9", "CZ10", "CZ11", "CZ12", "CZ13", "CZ14", "CZ15", "CZ16"]
+    },
+    "missingDataRule": {
+      "name": "4-Hour Rule",
+      "description": "If a day has more than 4 hours of missing data, remove entire day from dataset"
+    }
+  },
+  "modelTypes": [
+    {
+      "id": "towt",
+      "name": "Time-of-Week & Temperature (TOWT)",
+      "description": "Captures both temperature dependence and weekly schedule patterns",
+      "useCase": "Buildings with regular weekly schedules and temperature-dependent loads"
+    },
+    {
+      "id": "change-point",
+      "name": "Change-Point Model",
+      "description": "Models heating/cooling with distinct temperature thresholds",
+      "variants": ["3-parameter cooling", "3-parameter heating", "4-parameter", "5-parameter"]
+    },
+    {
+      "id": "mean-model",
+      "name": "Mean Model",
+      "description": "Simple average when no significant variables are found",
+      "useCase": "Facilities with minimal temperature or schedule sensitivity"
+    }
+  ],
+  "reports": [
+    {
+      "id": "predictability-report",
+      "name": "Predictability Report",
+      "phase": "Baseline",
+      "purpose": "Prove that the building can be modeled",
+      "contents": [
+        "Time series plots of energy vs temperature",
+        "Scatter plots of regression",
+        "Table of GOF metrics (CVRMSE, NMBE, R²)",
+        "Data quality assessment"
+      ]
+    },
+    {
+      "id": "mv-plan",
+      "name": "M&V Plan",
+      "phase": "Feasibility",
+      "purpose": "Contract for the NMEC project",
+      "contents": [
+        "Measurement Boundary definition",
+        "Energy Efficiency Measures (EEMs) list",
+        "Expected Useful Life (EUL) calculation",
+        "Savings-Weighted EUL",
+        "Uncertainty Statement"
+      ]
+    },
+    {
+      "id": "savings-report",
+      "name": "Savings Report",
+      "phase": "Performance (12-month)",
+      "purpose": "Final deliverable documenting verified savings",
+      "contents": [
+        "Normalized Baseline calculation",
+        "Normalized Reporting Period calculation",
+        "Normalized Savings determination",
+        "Demand Savings (kW) during DEER Peak Period",
+        "Non-Routine Adjustments documentation",
+        "Interactive effects accounting"
+      ]
+    }
+  ],
+  "projectTimeline": {
+    "baselinePeriod": {
+      "duration": "12 months minimum",
+      "description": "Historical data for model training"
+    },
+    "installationPeriod": {
+      "maxDuration": "18 months",
+      "description": "Time from end of baseline to start of performance period"
+    },
+    "performancePeriod": {
+      "duration": "12 months",
+      "description": "Post-installation monitoring period"
+    }
+  },
+  "nonRoutineEvents": {
+    "description": "Events that significantly impact energy consumption outside normal operations",
+    "detectionMethod": "CUSUM (Cumulative Sum) analysis",
+    "adjustmentMethods": [
+      {
+        "type": "Variable Load Adjustment",
+        "useCase": "Constant load change (e.g., server rack added)",
+        "calculation": "Subtract kW load from Reporting Period data"
+      },
+      {
+        "type": "Operational Shift",
+        "useCase": "Schedule change (e.g., second shift added)",
+        "calculation": "Re-baseline or exclude affected days"
+      },
+      {
+        "type": "Low Occupancy Adjustment",
+        "useCase": "Global events (e.g., COVID-19)",
+        "calculation": "Use proxy variable or compare pre/post models"
+      }
+    ]
+  },
+  "demandSavings": {
+    "peakPeriod": "DEER Peak Period",
+    "definition": "3 hottest consecutive days, 4 PM - 9 PM",
+    "calculation": "Average demand reduction during peak windows",
+    "notes": "Standard uncertainty formulas are unreliable; report calculated reduction only"
+  },
+  "tools": [
+    {
+      "name": "nmecr",
+      "type": "R Package",
+      "developer": "kW Engineering",
+      "purpose": "Weighted regression and uncertainty calculations for NMEC"
+    },
+    {
+      "name": "RMV2.0",
+      "type": "Library",
+      "developer": "LBNL",
+      "purpose": "TOWT modeling"
+    }
+  ]
+}

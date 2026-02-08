@@ -1,0 +1,968 @@
+{
+  "id": "sales-tips-tricks",
+  "title": "Sales Tips & Tricks",
+  "subtitle": "EE sales fundamentals: talk tracks, lingo, units, quick math",
+  "description": "Sales-first Energy Efficiency fundamentals: industry lingo, therm/CFM/kWh/kW, free cooling/heating, utility bills, basic finance, objections, incentives, site-walk checklists, and practical selling patterns.",
+  "icon": "🧠",
+  "category": "sales",
+  "order": 0,
+  "status": "published",
+  "metadata": {
+    "author": "EverWatt Training",
+    "lastUpdated": "2025-12-30",
+    "version": "1.0.0",
+    "estimatedTime": 120,
+    "difficulty": "beginner",
+    "tags": ["sales", "fundamentals", "overview", "terminology", "units", "utility-bills", "finance", "objections", "incentives"]
+  },
+  "sections": [
+    {
+      "id": "quick-overview",
+      "title": "Quick Overview",
+      "subtitle": "90-second skim + where to jump",
+      "icon": "⚡",
+      "order": 0,
+      "metadata": {
+        "estimatedTime": 6,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["overview", "navigation", "sales"]
+      },
+      "content": [
+        {
+          "id": "overview-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 3,
+          "cards": [
+            {
+              "title": "The 4 numbers you sell with",
+              "description": "Annual $ savings, upfront cost, payback, and risk reduction (comfort, downtime, maintenance).",
+              "metadata": { "icon": "💵", "jumpTo": "financial-basics", "roles": ["sales"] }
+            },
+            {
+              "title": "Units that unlock every convo",
+              "description": "therm, CFM, kWh, kW — plus real-world examples you can say out loud.",
+              "metadata": { "icon": "📏", "jumpTo": "energy-units", "roles": ["sales"] }
+            },
+            {
+              "title": "CFM is expensive (when conditioned)",
+              "description": "A fast rule: $15–$25 per CFM-year (context matters). Use it to size the prize.",
+              "metadata": { "icon": "🌬️", "jumpTo": "cfm-cost", "roles": ["sales"] }
+            },
+            {
+              "title": "Free cooling / free heating",
+              "description": "Economizers + heat recovery: the simplest story for big wins without new equipment.",
+              "metadata": { "icon": "❄️", "jumpTo": "free-cooling-heating", "roles": ["sales"] }
+            },
+            {
+              "title": "Read a utility bill in 3 minutes",
+              "description": "Energy ($/kWh) vs demand ($/kW) and where the hidden money sits.",
+              "metadata": { "icon": "🧾", "jumpTo": "utility-bills", "roles": ["sales"] }
+            },
+            {
+              "title": "Objections + what to say",
+              "description": "Short, clean responses to 'too expensive', 'no budget', 'later', and 'rates are low'.",
+              "metadata": { "icon": "🛡️", "jumpTo": "sales-strategies", "roles": ["sales"] }
+            }
+          ]
+        },
+        {
+          "id": "overview-what-good-looks-like",
+          "type": "markdown",
+          "order": 2,
+          "metadata": { "tags": ["overview", "sales"], "roles": ["sales"] },
+          "content": "## What “good” sounds like on a call\n\n- You speak in **dollars first**, then explain the physics only as needed.\n- You can translate **any** technical detail into: **cost**, **risk**, or **comfort**.\n- You ask 5–7 discovery questions, then recommend **quick wins first**.\n\n**One-liner:** “We reduce energy spend and operational headaches — usually with optimization before replacement.”"
+        }
+      ]
+    },
+    {
+      "id": "industry-lingo",
+      "title": "Industry Lingo & Terminology",
+      "subtitle": "Say it like the trades do (without sounding fake)",
+      "icon": "🗣️",
+      "order": 1,
+      "metadata": {
+        "estimatedTime": 12,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "overview", "terminology"]
+      },
+      "content": [
+        {
+          "id": "lingo-intro",
+          "type": "markdown",
+          "order": 1,
+          "content": "Use lingo to **build trust**, not to flex. If you don’t know a term, ask: “When you say ___, do you mean ___?”"
+        },
+        {
+          "id": "lingo-accordion",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "HVAC equipment basics (RTU, AHU, VAV, DOAS)",
+              "content": [
+                {
+                  "id": "lingo-hvac",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- **RTU**: Rooftop Unit (packaged HVAC on the roof).\n- **AHU**: Air Handling Unit (moves/conditions air; often in a mechanical room).\n- **VAV**: Variable Air Volume (boxes modulate airflow to zones).\n- **DOAS**: Dedicated Outdoor Air System (handles ventilation separately).\n\n**Example:** “If you have VAV, we’ll look for reheat and scheduling — that’s where the money usually is.”"
+                }
+              ]
+            },
+            {
+              "title": "Controls & optimization (DDC, BAS/BMS, economizer, reset)",
+              "content": [
+                {
+                  "id": "lingo-controls",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- **DDC**: Direct Digital Control (modern controls).\n- **BAS/BMS**: Building Automation/System (central controls).\n- **Economizer**: Uses outdoor air for “free cooling” when conditions allow.\n- **Reset**: Adjust setpoints based on conditions (CHW reset, SAT reset, static pressure reset).\n\n**Example:** “Before we replace equipment, we usually unlock 10–25% just with schedules + resets.”"
+                }
+              ]
+            },
+            {
+              "title": "Motors & drives (VFD, ECM, fan wall)",
+              "content": [
+                {
+                  "id": "lingo-drives",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- **VFD**: Variable Frequency Drive (slows motors; huge savings on fans/pumps).\n- **ECM**: Efficient motor type (common in newer fans).\n- **Fan wall**: Array of smaller fans replacing one big fan.\n\n**Example:** “If that supply fan is constant-speed, a VFD + controls is often a fast payback.”"
+                }
+              ]
+            },
+            {
+              "title": "Efficiency metrics (kW/ton, COP, EER/SEER, IPLV)",
+              "content": [
+                {
+                  "id": "lingo-metrics",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- **kW/ton**: Power per ton of cooling (lower = better).\n- **COP**: Coefficient of performance (output/input).\n- **EER/SEER**: Cooling efficiency ratings (unit-dependent).\n- **IPLV**: Part-load efficiency (often more important than full-load).\n\n**Example:** “Most systems live at part load — we care more about IPLV than the brochure number.”"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "energy-units",
+      "title": "Energy Units Explained",
+      "subtitle": "therm, CFM, kWh, kW — with examples you can sell",
+      "icon": "📐",
+      "order": 2,
+      "metadata": {
+        "estimatedTime": 14,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "overview", "units"]
+      },
+      "content": [
+        {
+          "id": "units-table",
+          "type": "table",
+          "order": 1,
+          "headers": ["Thing", "What it is (plain English)", "Quick example you can say"],
+          "rows": [
+            ["kW", "Instantaneous power (how fast you’re using energy)", "A 10 kW load running for 1 hour uses 10 kWh."],
+            ["kWh", "Energy over time (what you “consume”)", "If power averages 100 kW for 10 hours, that’s 1,000 kWh."],
+            ["Therm", "Natural gas energy unit (100,000 BTU)", "1 therm ≈ about 1 hour of a 100k BTU/hr furnace firing at full."],
+            ["CFM", "Airflow (cubic feet of air per minute)", "20 CFM/person is a common ventilation design value (varies by use)."]
+          ],
+          "caption": "Sales-friendly unit cheat sheet"
+        },
+        {
+          "id": "kw-vs-kwh",
+          "type": "markdown",
+          "order": 2,
+          "content": "## kW vs kWh (the one you must nail)\n\n- **kW** is the **speedometer**.\n- **kWh** is the **odometer**.\n\nWhy it matters: many commercial bills charge both **energy ($/kWh)** *and* **demand ($/kW)**."
+        },
+        {
+          "id": "therm-example",
+          "type": "markdown",
+          "order": 3,
+          "content": "## What is a therm?\n\n- **1 therm = 100,000 BTU**.\n- If gas is **$1.50/therm**, then burning 10,000 therms/year costs **$15,000/year** (before demand/fixed charges).\n\n**Sales angle:** “We’ll reduce therms by cutting unnecessary heating (schedules, reheat, heat recovery) before we talk about replacing boilers.”"
+        }
+      ]
+    },
+    {
+      "id": "cfm-cost",
+      "title": "CFM Cost Analysis",
+      "subtitle": "How expensive is 1 CFM when it’s heated/cooled?",
+      "icon": "🌬️",
+      "order": 3,
+      "metadata": {
+        "estimatedTime": 12,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "overview", "hvac"]
+      },
+      "content": [
+        {
+          "id": "cfm-rule-quote",
+          "type": "quote",
+          "order": 1,
+          "quote": "Rule of thumb: in many commercial buildings, 1 CFM of conditioned air can be worth roughly $15–$25 per CFM per year. Treat this as a fast, directional sizing tool — climate, hours, and % outdoor air can swing it a lot."
+        },
+        {
+          "id": "cfm-why-expensive",
+          "type": "markdown",
+          "order": 2,
+          "content": "## Why CFM becomes dollars\n\nAirflow costs money because you pay to:\n\n- **Move it** (fan kWh)\n- **Cool it** (compressor/chiller kWh)\n- **Heat it** (therms or kWh)\n- **Dehumidify it** (often hidden but huge)\n\n**Sales move:** If you find “too much air” (excess OA, stuck dampers, constant volume, poor controls), you often found a big check."
+        },
+        {
+          "id": "cfm-method-formula",
+          "type": "formula",
+          "order": 3,
+          "formula": "Annual_$ ≈ (Fan_kWh + Cooling_kWh + Heating_therms×$/therm + Heating_kWh×$/kWh) × (runtime_hours/year factors)",
+          "explanation": "Use this only to explain the drivers. For fast selling, use the $/CFM-year heuristic with clear caveats."
+        },
+        {
+          "id": "cfm-industry-table",
+          "type": "table",
+          "order": 4,
+          "headers": ["Building type", "Why airflow is often high", "Directional $/CFM-year", "Example (size the prize)"],
+          "rows": [
+            ["Office", "Ventilation + reheat + poor scheduling", "$15–$22", "50,000 CFM × $18 ≈ $900k/year airflow-related energy opportunity (not all recoverable)."],
+            ["Retail", "Door losses + long hours + over-ventilation", "$18–$25", "30,000 CFM × $22 ≈ $660k/year directional value; 10% improvement ≈ $66k/year."],
+            ["Warehouse", "Dock doors + makeup air + destratification", "$10–$18", "200,000 CFM × $14 ≈ $2.8M/year directional; focus on controls + infiltration."],
+            ["Healthcare", "High ventilation + 24/7 + humidity control", "$20–$35", "80,000 CFM × $28 ≈ $2.24M/year directional; heat recovery is often key."],
+            ["Restaurant", "Exhaust + makeup air", "$20–$40", "10,000 CFM × $30 ≈ $300k/year directional; DCKV can be a hammer."],
+            ["Data center", "Airflow management + tight temp/humidity", "$15–$30", "60,000 CFM × $20 ≈ $1.2M/year directional; focus on containment + free cooling."]
+          ],
+          "caption": "CFM $ rule-of-thumb: use to prioritize, then validate with bills + schedules + sequences"
+        }
+      ]
+    },
+    {
+      "id": "free-cooling-heating",
+      "title": "Free Cooling & Free Heating",
+      "subtitle": "Sell “using what you already have” before buying equipment",
+      "icon": "🧊",
+      "order": 4,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "overview", "hvac", "controls"]
+      },
+      "content": [
+        {
+          "id": "free-cooling-compare",
+          "type": "comparison",
+          "order": 1,
+          "title": "Free Cooling (Economizer) — before vs after",
+          "before": {
+            "label": "Before (common)",
+            "content": [
+              {
+                "id": "fc-before",
+                "type": "markdown",
+                "order": 1,
+                "content": "- Dampers stuck / disabled\n- Outdoor air not used when it’s cool outside\n- Mechanical cooling runs when it doesn’t need to"
+              }
+            ]
+          },
+          "after": {
+            "label": "After (goal)",
+            "content": [
+              {
+                "id": "fc-after",
+                "type": "markdown",
+                "order": 1,
+                "content": "- Economizer enabled and tested\n- Outdoor air used during favorable conditions\n- Compressor/chiller runtime reduced"
+              }
+            ]
+          }
+        },
+        {
+          "id": "free-heating-compare",
+          "type": "comparison",
+          "order": 2,
+          "title": "Free Heating — heat recovery + controls",
+          "before": {
+            "label": "Before (common)",
+            "content": [
+              {
+                "id": "fh-before",
+                "type": "markdown",
+                "order": 1,
+                "content": "- Exhaust air dumped outside\n- Boilers fire while you’re throwing heat away\n- Reheat runs even when not needed"
+              }
+            ]
+          },
+          "after": {
+            "label": "After (goal)",
+            "content": [
+              {
+                "id": "fh-after",
+                "type": "markdown",
+                "order": 1,
+                "content": "- Heat recovery (ERV/HRV/heat wheel/runaround) captures waste heat\n- Controls prioritize recovered heat\n- Heating energy reduced; comfort often improves"
+              }
+            ]
+          }
+        },
+        {
+          "id": "free-cooling-heating-sales",
+          "type": "markdown",
+          "order": 3,
+          "content": "## How to sell it (simple)\n\n- **Pitch:** “We’ll use outdoor air and recovered heat before we buy new machines.”\n- **Proof:** “We’ll trend temperatures + damper positions + runtime and show the delta.”\n- **Expectation setting:** Savings depend on climate, schedules, and sequences."
+        }
+      ]
+    },
+    {
+      "id": "utility-bills",
+      "title": "Reading Utility Bills",
+      "subtitle": "Extract the money story fast",
+      "icon": "🧾",
+      "order": 5,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "overview", "utility-bills"]
+      },
+      "content": [
+        {
+          "id": "bill-3-minute-method",
+          "type": "markdown",
+          "order": 1,
+          "content": "## The 3-minute method\n\n1) Find **total $** and **total kWh** (energy story)\n2) Find **peak kW** and **$/kW** (demand story)\n3) Note **TOU periods** (when the pain happens)\n4) Ask about **operating hours** (scheduling opportunity)\n\n**Key insight:** Two buildings with the same kWh can have wildly different bills because of **demand charges**."
+        },
+        {
+          "id": "bill-components-table",
+          "type": "table",
+          "order": 2,
+          "headers": ["Line item", "What it means", "How you sell against it"],
+          "rows": [
+            ["Energy charges ($/kWh)", "Cost for total energy used", "Reduce runtime and kWh (LEDs, VFDs, controls, efficiency)."],
+            ["Demand charges ($/kW)", "Cost for peak 15-min average kW", "Peak shaving, staging, setpoints, pre-cool, batteries (where applicable)."],
+            ["TOU adders", "Higher rates at certain times", "Shift load, reduce peak-period usage, schedule intelligently."],
+            ["Fixed charges", "Monthly base fees", "Usually not controllable; focus on big levers above."]
+          ],
+          "caption": "Bill components: translate each into a sales lever"
+        }
+      ]
+    },
+    {
+      "id": "financial-basics",
+      "title": "Financial Basics (ROI, Payback, NPV, IRR)",
+      "subtitle": "Explain money like a CFO without drowning them",
+      "icon": "📊",
+      "order": 6,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "overview", "finance"]
+      },
+      "content": [
+        {
+          "id": "finance-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 2,
+          "cards": [
+            {
+              "title": "Payback",
+              "description": "Initial Cost ÷ Annual Savings. Great for quick screening.",
+              "metadata": { "icon": "⏱️" }
+            },
+            {
+              "title": "ROI",
+              "description": "(Annual Savings ÷ Initial Cost) × 100. Helps compare projects.",
+              "metadata": { "icon": "📈" }
+            },
+            {
+              "title": "NPV",
+              "description": "“What’s it worth in today’s dollars?” Positive NPV is good.",
+              "metadata": { "icon": "💎" }
+            },
+            {
+              "title": "IRR",
+              "description": "The effective annual return rate. Higher is better.",
+              "metadata": { "icon": "🏁" }
+            }
+          ]
+        },
+        {
+          "id": "finance-example",
+          "type": "markdown",
+          "order": 2,
+          "content": "## Example (simple)\n\n- Project cost: **$100,000**\n- Savings: **$25,000/year**\n\n- Payback ≈ **4 years**\n- ROI ≈ **25%**\n\n**Sales move:** Always pair financials with **risk reduction** (downtime, comfort complaints, maintenance)."
+        }
+      ]
+    },
+    {
+      "id": "sales-strategies",
+      "title": "Sales Strategies (Talk Tracks + Objections)",
+      "subtitle": "Discovery questions, talk tracks, and what to say when they push back",
+      "icon": "🧩",
+      "order": 7,
+      "metadata": {
+        "estimatedTime": 14,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "overview"]
+      },
+      "content": [
+        {
+          "id": "discovery-questions",
+          "type": "list",
+          "order": 1,
+          "ordered": false,
+          "items": [
+            "**What changed recently?** (hours, tenants, production, complaints)",
+            "**Any comfort problems?** hot/cold calls, humidity, odors",
+            "**What keeps you up at night?** downtime, maintenance, budget surprises",
+            "**Do you have 12 months of bills + interval data?** (if not, start there)",
+            "**Any major equipment near end-of-life?** (15–20 years is a flag)",
+            "**Who approves projects and what metric do they use?** payback, ROI, NPV",
+            "**Any rebate/OBF constraints or deadlines?**"
+          ]
+        },
+        {
+          "id": "objections-accordion",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "“It’s too expensive.”",
+              "content": [
+                {
+                  "id": "obj-expensive",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- “Totally fair — let’s measure it like an investment. If it pays back in X years and reduces downtime, does that fit your hurdle rate?”\n- “We can phase it: quick wins first, then the bigger capital items.”"
+                }
+              ]
+            },
+            {
+              "title": "“We don’t have budget.”",
+              "content": [
+                {
+                  "id": "obj-budget",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- “Let’s start with low/no-capital optimization so savings fund the next step.”\n- “We’ll also check rebates / on-bill financing so payments can track savings.”"
+                }
+              ]
+            },
+            {
+              "title": "“We’ll do it later.”",
+              "content": [
+                {
+                  "id": "obj-later",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- “Every month you wait costs about $X — want me to show the math from your bill?”\n- “Also, incentive windows can close — we can lock eligibility by starting now.”"
+                }
+              ]
+            },
+            {
+              "title": "“Our rates are low.”",
+              "content": [
+                {
+                  "id": "obj-rates-low",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- “Even with low $/kWh, demand charges and runtime waste can be big.”\n- “Plus: maintenance savings + comfort + risk are often the real ROI.”"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "incentives",
+      "title": "Incentive Programs Overview",
+      "subtitle": "Rebates, OBF, and how to not lose them",
+      "icon": "🎁",
+      "order": 8,
+      "metadata": {
+        "estimatedTime": 8,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "overview", "incentives"]
+      },
+      "content": [
+        {
+          "id": "incentives-markdown",
+          "type": "markdown",
+          "order": 1,
+          "content": "## The simplest incentive pitch\n\n- “We’ll **stack** incentives and financing so the project is easier to approve.”\n- “We’ll manage the paperwork so you don’t lose money to process.”\n\n**Common buckets:** utility rebates, on-bill financing (OBF), tax credits/deductions, demand response payments."
+        },
+        {
+          "id": "incentives-table",
+          "type": "table",
+          "order": 2,
+          "headers": ["Program type", "What it does", "Sales note"],
+          "rows": [
+            ["Prescriptive rebates", "Fixed $ per fixture/device", "Fast and simple; great for LEDs and common measures."],
+            ["Custom rebates", "Calculated based on savings", "Best for controls/plant optimization and complex projects."],
+            ["On-bill financing (OBF)", "Utility funds upfront, paid back on the bill", "Great when budget is tight; check eligibility early."],
+            ["Tax incentives", "Credits/deductions for qualifying upgrades", "Coordinate with accounting; don’t overpromise."]
+          ],
+          "caption": "Incentives: the goal is to reduce friction to ‘yes’"
+        }
+      ]
+    },
+    {
+      "id": "building-types",
+      "title": "Building Types & Energy Profiles",
+      "subtitle": "Know what usually matters before you walk in",
+      "icon": "🏢",
+      "order": 9,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "overview"]
+      },
+      "content": [
+        {
+          "id": "building-tabs",
+          "type": "tabs",
+          "order": 1,
+          "tabs": [
+            {
+              "label": "Office",
+              "content": [
+                {
+                  "id": "bt-office",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Typical big loads: HVAC + plug loads + lighting\n- Common wins: schedules, VFDs, controls tuning, LEDs\n- Sales angle: comfort complaints + predictable savings"
+                }
+              ]
+            },
+            {
+              "label": "Retail",
+              "content": [
+                {
+                  "id": "bt-retail",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Big loads: lighting + HVAC + (sometimes) refrigeration\n- Common wins: LEDs + controls, RTU controls, door/infiltration management\n- Sales angle: fast payback + maintenance reduction"
+                }
+              ]
+            },
+            {
+              "label": "Warehouse",
+              "content": [
+                {
+                  "id": "bt-warehouse",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Big loads: high-bay lighting, dock infiltration, heating\n- Common wins: LED high-bays + controls, destrat fans, dock seals\n- Sales angle: huge lighting savings + safety/visibility"
+                }
+              ]
+            },
+            {
+              "label": "Manufacturing",
+              "content": [
+                {
+                  "id": "bt-mfg",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Big loads: process + compressed air + motors\n- Common wins: compressed air leak fixes + controls, VFDs, heat recovery\n- Sales angle: reliability and production support"
+                }
+              ]
+            },
+            {
+              "label": "Healthcare / Lab",
+              "content": [
+                {
+                  "id": "bt-health",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Big loads: ventilation + humidity control + 24/7 HVAC\n- Common wins: heat recovery, controls, airflow optimization\n- Sales angle: compliance + comfort + massive airflow costs"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "site-walk",
+      "title": "Site Walk Basics",
+      "subtitle": "What to look for, fast",
+      "icon": "👟",
+      "order": 10,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "field"]
+      },
+      "content": [
+        {
+          "id": "site-walk-checklist",
+          "type": "list",
+          "order": 1,
+          "ordered": false,
+          "items": [
+            "**Take photos** of nameplates + controls (age, refrigerant, kW/HP, efficiency ratings).",
+            "**Find schedules**: what runs when no one’s there?",
+            "**Look for constant-speed** fans/pumps that should be variable.",
+            "**Look for outside air issues**: stuck dampers, wide-open OA, broken economizers.",
+            "**Ask about comfort calls**: hot/cold, humidity, odors, noise.",
+            "**Request docs**: 12 months bills, equipment list, setpoints, sequences (if BAS)."
+          ]
+        },
+        {
+          "id": "site-walk-red-flags",
+          "type": "markdown",
+          "order": 2,
+          "content": "## Red flags (usually money)\n\n- Equipment running **24/7** without a reason\n- Old pneumatic or poorly tuned controls\n- Simultaneous heating + cooling (reheat) in mild weather\n- Dirty coils/filters, obvious maintenance gaps\n- Oversized equipment short-cycling"
+        }
+      ]
+    },
+    {
+      "id": "stakeholder-communication",
+      "title": "Stakeholder Communication",
+      "subtitle": "Same project, different language",
+      "icon": "🤝",
+      "order": 11,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "overview"]
+      },
+      "content": [
+        {
+          "id": "stakeholder-tabs",
+          "type": "tabs",
+          "order": 1,
+          "tabs": [
+            {
+              "label": "Facility Manager",
+              "content": [
+                {
+                  "id": "st-fm",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Lead with: reliability, fewer comfort calls, less maintenance.\n- Proof: trends, runtime, alarms.\n- Phrase: “We’ll make your building easier to run.”"
+                }
+              ]
+            },
+            {
+              "label": "CFO / Finance",
+              "content": [
+                {
+                  "id": "st-cfo",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Lead with: ROI, payback, NPV, cash flow.\n- Proof: bill-based baselines.\n- Phrase: “This is a high-return, low-risk investment.”"
+                }
+              ]
+            },
+            {
+              "label": "Sustainability",
+              "content": [
+                {
+                  "id": "st-sus",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Lead with: CO₂ reduction + reporting.\n- Proof: kWh/therm to CO₂ conversion assumptions.\n- Phrase: “This is measurable, auditable carbon reduction.”"
+                }
+              ]
+            },
+            {
+              "label": "Executive",
+              "content": [
+                {
+                  "id": "st-exec",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Lead with: strategic risk + operating margin.\n- Proof: simplified dashboard view.\n- Phrase: “We reduce spend and operational risk with minimal disruption.”"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quick-wins",
+      "title": "Quick Wins vs Long-Term Projects",
+      "subtitle": "Win trust first, then scale",
+      "icon": "🏃",
+      "order": 12,
+      "metadata": {
+        "estimatedTime": 8,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "overview"]
+      },
+      "content": [
+        {
+          "id": "quick-wins-compare",
+          "type": "comparison",
+          "order": 1,
+          "title": "Phased approach",
+          "before": {
+            "label": "Wrong-first step (common)",
+            "content": [
+              {
+                "id": "qw-before",
+                "type": "markdown",
+                "order": 1,
+                "content": "- Jump straight to replacement\n- Big sticker shock\n- Long approval cycle"
+              }
+            ]
+          },
+          "after": {
+            "label": "Better-first step",
+            "content": [
+              {
+                "id": "qw-after",
+                "type": "markdown",
+                "order": 1,
+                "content": "- Start with controls/optimization + quick retrofits\n- Prove savings\n- Use savings to fund bigger projects"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quick-wins-table",
+          "type": "table",
+          "order": 2,
+          "headers": ["Bucket", "Typical examples", "How to position"],
+          "rows": [
+            ["0–2 year payback", "LEDs, schedules, VFDs, economizer repair", "“Fast, low-risk, minimal disruption.”"],
+            ["2–5 year payback", "Controls upgrades, major VFD retrofits", "“Strong ROI, operational upgrade.”"],
+            ["5+ year payback", "Major replacements, electrification", "“Strategic capex; do after optimization.”"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "energy-waste",
+      "title": "Common Energy Waste Patterns",
+      "subtitle": "If you see these, there’s almost always savings",
+      "icon": "🕳️",
+      "order": 13,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "overview", "field"]
+      },
+      "content": [
+        {
+          "id": "waste-table",
+          "type": "table",
+          "order": 1,
+          "headers": ["Pattern", "What it looks like", "Typical fix"],
+          "rows": [
+            ["24/7 runtime", "Fans/pumps run when building is empty", "Schedules + setpoint/setup + occupancy logic"],
+            ["Simultaneous heat/cool", "Cooling while reheat is on", "Sequence fixes + resets + setpoints"],
+            ["Too much outdoor air", "OA dampers stuck open, no control", "Economizer repair + ventilation reset"],
+            ["Constant-speed on variable load", "No VFDs on fans/pumps", "VFD + static pressure reset"],
+            ["Maintenance penalties", "Dirty coils/filters, fouling", "PM plan + verification"]
+          ],
+          "caption": "Waste patterns you can spot even without a deep audit"
+        }
+      ]
+    },
+    {
+      "id": "equipment-id",
+      "title": "Equipment Identification Quick Guide",
+      "subtitle": "What you should be able to recognize",
+      "icon": "🔎",
+      "order": 14,
+      "metadata": {
+        "estimatedTime": 8,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "field"]
+      },
+      "content": [
+        {
+          "id": "equip-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 3,
+          "cards": [
+            { "title": "RTU", "description": "Packaged rooftop HVAC. Look for economizer + controls + stage logic.", "metadata": { "icon": "🏠" } },
+            { "title": "AHU / VAV", "description": "Central air + zone boxes. Reheat + schedules are major levers.", "metadata": { "icon": "🌀" } },
+            { "title": "Chiller plant", "description": "Chiller + towers + pumps. Controls + lift reduction are big wins.", "metadata": { "icon": "❄️" } },
+            { "title": "Boiler plant", "description": "Heating plant. Look for reset, turndown, and runtime waste.", "metadata": { "icon": "🔥" } },
+            { "title": "VFD", "description": "Drive controlling motor speed. If absent where it should be, savings exist.", "metadata": { "icon": "🎛️" } },
+            { "title": "LED + controls", "description": "Fixtures + sensors + schedules. Easy savings + maintenance reduction.", "metadata": { "icon": "💡" } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "seasonal",
+      "title": "Seasonal Considerations",
+      "subtitle": "When to pitch what",
+      "icon": "🗓️",
+      "order": 15,
+      "metadata": {
+        "estimatedTime": 6,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "overview"]
+      },
+      "content": [
+        {
+          "id": "seasonal-tabs",
+          "type": "tabs",
+          "order": 1,
+          "tabs": [
+            {
+              "label": "Summer",
+              "content": [
+                { "id": "season-summer", "type": "markdown", "order": 1, "content": "- Pitch: peak demand reduction + cooling optimization\n- Best targets: chillers/RTUs, economizers, VFDs, scheduling" }
+              ]
+            },
+            {
+              "label": "Winter",
+              "content": [
+                { "id": "season-winter", "type": "markdown", "order": 1, "content": "- Pitch: therm reduction + comfort\n- Best targets: boilers, reheat, heat recovery, ventilation control" }
+              ]
+            },
+            {
+              "label": "Shoulder",
+              "content": [
+                { "id": "season-shoulder", "type": "markdown", "order": 1, "content": "- Pitch: plan + implement with less disruption\n- Best targets: controls upgrades, major retrofits, commissioning" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "calculations",
+      "title": "Simple Savings Calculations",
+      "subtitle": "Quick math to size savings on a call",
+      "icon": "🧮",
+      "order": 16,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "overview", "units"]
+      },
+      "content": [
+        {
+          "id": "calc-energy-formula",
+          "type": "formula",
+          "order": 1,
+          "formula": "kWh_savings/year = (kW_baseline − kW_improved) × hours/year",
+          "explanation": "If you can estimate kW reduction and hours, you can estimate kWh savings."
+        },
+        {
+          "id": "calc-demand-formula",
+          "type": "formula",
+          "order": 2,
+          "formula": "$_demand_savings/year ≈ kW_reduction × ($/kW-month) × 12",
+          "explanation": "Demand charges can dominate the bill in many commercial accounts."
+        },
+        {
+          "id": "calc-example",
+          "type": "markdown",
+          "order": 3,
+          "content": "## Example\n\nIf you reduce peak demand by **100 kW** and demand is **$15/kW-month**:\n\n- Annual demand savings ≈ 100 × 15 × 12 = **$18,000/year**\n\nIf you reduce average load by **30 kW** over **8,760 hours/year**:\n\n- kWh savings ≈ 30 × 8,760 = **262,800 kWh/year**\n- At **$0.15/kWh**, energy savings ≈ **$39,420/year**\n\nTotal directional savings ≈ **$57,420/year**"
+        }
+      ]
+    },
+    {
+      "id": "system-integration",
+      "title": "Understanding System Integration",
+      "subtitle": "Stacking savings without double-counting",
+      "icon": "🧷",
+      "order": 17,
+      "metadata": {
+        "estimatedTime": 8,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "overview"]
+      },
+      "content": [
+        {
+          "id": "integration-markdown",
+          "type": "markdown",
+          "order": 1,
+          "content": "## The key idea\n\nMeasures interact.\n\n- LEDs reduce lighting kWh **and** reduce cooling load (less heat).\n- Better schedules reduce kWh **and** reduce peak kW.\n- Controls often make equipment upgrades perform as promised.\n\n**Sales move:** “We’ll sequence projects so savings stack and performance is verifiable.”"
+        }
+      ]
+    },
+    {
+      "id": "misconceptions",
+      "title": "Common Misconceptions",
+      "subtitle": "Quick reality checks that keep deals alive",
+      "icon": "🧯",
+      "order": 18,
+      "metadata": {
+        "estimatedTime": 8,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "overview"]
+      },
+      "content": [
+        {
+          "id": "misconceptions-compare",
+          "type": "comparison",
+          "order": 1,
+          "title": "Misconception vs reality",
+          "before": {
+            "label": "Misconception",
+            "content": [
+              {
+                "id": "mc-before",
+                "type": "markdown",
+                "order": 1,
+                "content": "- “We need to replace everything.”\n- “Our rates are low, so savings will be small.”\n- “New equipment always fixes comfort.”"
+              }
+            ]
+          },
+          "after": {
+            "label": "Reality",
+            "content": [
+              {
+                "id": "mc-after",
+                "type": "markdown",
+                "order": 1,
+                "content": "- Optimization often delivers 10–30% before replacement.\n- Demand charges + runtime waste can be large even with low $/kWh.\n- Comfort problems are often controls + airflow + zoning issues."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "summary",
+      "title": "Summary of Everything",
+      "subtitle": "Your “what to do next” map",
+      "icon": "🧭",
+      "order": 19,
+      "metadata": {
+        "estimatedTime": 6,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "overview"]
+      },
+      "content": [
+        {
+          "id": "summary-markdown",
+          "type": "markdown",
+          "order": 1,
+          "content": "## If you remember nothing else\n\n1) Lead with **annual $** + **risk reduction**.\n2) Know the units: **kW, kWh, therm, CFM**.\n3) Start with **quick wins** (schedules, controls, VFDs, LEDs, economizers).\n4) Use bills to tell the story: **$/kWh** and **$/kW**.\n5) Ask discovery questions and align to the stakeholder’s metric.\n\n### Where to go next\n\n- Cooling optimization → **Commercial Cooling Systems**\n- Controls + BAS → **HVAC Controls**\n- Lighting + incentives → **Lighting Systems**\n- Motors + VFDs → **Motors & Electrical**\n- Compressed air → **Compressed Air**"
+        }
+      ]
+    }
+  ]
+}
+
+

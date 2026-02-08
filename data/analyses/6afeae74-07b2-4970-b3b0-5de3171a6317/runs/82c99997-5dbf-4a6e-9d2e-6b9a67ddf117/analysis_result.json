@@ -1,0 +1,326 @@
+{
+  "apiVersion": "battery-analysis-v1",
+  "analysisId": "6afeae74-07b2-4970-b3b0-5de3171a6317",
+  "runId": "82c99997-5dbf-4a6e-9d2e-6b9a67ddf117",
+  "createdAt": "2026-01-14T16:10:54.254Z",
+  "customerInfo": {
+    "billingName": "AMERICAN BAPTIST HOMES OF THE WEST",
+    "siteAddress": "800 BLOSSOM HILL RD BLDG A, LOS GATOS 95032",
+    "saId": "5663820753",
+    "rateCode": "HB19S"
+  },
+  "usageData": [
+    {
+      "billEndDate": "2026-01-01",
+      "peakDemandKw": 344.4,
+      "totalUsageKwh": 1000,
+      "totalCost": 5000
+    }
+  ],
+  "batteryMeta": null,
+  "result": {
+    "success": true,
+    "diagnostic": {
+      "captureRate": 1,
+      "utilizationRate": 0.05147007116290371,
+      "powerAdequacy": "oversized",
+      "capacityAdequacy": "oversized",
+      "peakEventAnalysis": {
+        "totalEvents": 1,
+        "averageDurationHours": 0.25,
+        "averageExcessKw": 63.411127672697376,
+        "longestEvent": {
+          "start": "2026-01-01T00:15:00.000Z",
+          "end": "2026-01-01T00:15:00.000Z",
+          "durationHours": 0.25,
+          "peakKw": 344.4,
+          "totalExcessKwh": 15.852781918174344,
+          "captureRate": 1
+        },
+        "mostSevereEvent": {
+          "start": "2026-01-01T00:15:00.000Z",
+          "end": "2026-01-01T00:15:00.000Z",
+          "durationHours": 0.25,
+          "peakKw": 344.4,
+          "totalExcessKwh": 15.852781918174344,
+          "captureRate": 1
+        },
+        "eventsPerMonth": [
+          1
+        ],
+        "excessEnergyKwhPerMonth": [
+          15.852781918174344
+        ],
+        "capturedEnergyKwhPerMonth": [
+          15.852781918174344
+        ]
+      },
+      "limitingFactors": [],
+      "usagePatternInsights": {
+        "loadFactor": 0.5462640340689121,
+        "peakinessScore": 45.373596593108786,
+        "emptyAtPeakRate": 0,
+        "weeklyPattern": {
+          "weekdayPeakKw": 344.4,
+          "weekendPeakKw": 0,
+          "weekdayAvgKw": 188.13333333333333,
+          "weekendAvgKw": 0
+        }
+      },
+      "kpis": {
+        "peakBeforeKw": 344.4,
+        "peakAfterKw": 280.9888723273026,
+        "thresholdKw": 280.9888723273026,
+        "excessEnergyKwh": 15.852781918174344,
+        "shavedEnergyKwh": 15.852781918174344,
+        "dischargedEnergyKwh": 15.852781918174344,
+        "chargedEnergyKwh": 16.710299370454692,
+        "achievedRoundTripEfficiency": 0.9486832980505115,
+        "timeUtilization": 0.6666666666666666,
+        "chargingHeadroomHours": 0.25,
+        "chargingPossibleKwh": 0.8575174522802826,
+        "chargingEffectiveness": 19.486832980505767
+      },
+      "improvementOpportunities": []
+    },
+    "peakEvents": [
+      {
+        "start": "2026-01-01T00:15:00.000Z",
+        "end": "2026-01-01T00:15:00.000Z",
+        "durationHours": 0.25,
+        "peakKw": 344.4,
+        "totalExcessKwh": 15.852781918174344
+      }
+    ],
+    "peakPatterns": [
+      {
+        "patternType": "evening_ramp",
+        "frequencyPerMonth": 1,
+        "typicalDurationHours": 0.25,
+        "typicalMagnitudeKw": 63.411127672697376,
+        "timeOfDay": {
+          "startHour": 16,
+          "endHour": 16
+        },
+        "dayOfWeek": [
+          3
+        ],
+        "seasonalTrend": "winter",
+        "batterySuitability": "excellent",
+        "reasoning": "Start hour 16 suggests late-day ramp/overlap peak."
+      }
+    ],
+    "peakFrequency": {
+      "eventsPerMonth": {
+        "2025-12": 1
+      },
+      "eventsPerDayOfWeek": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "eventsPerHour": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "usageOptimization": {
+      "loadShifting": [
+        {
+          "equipment": "HVAC pre-cool / setpoint strategy",
+          "currentPeakTime": "16:00–17:00",
+          "recommendedShiftTime": "10:00–12:00",
+          "potentialPeakReductionKw": 22.19389468544408,
+          "estimatedSavings": 8176.2308021175995,
+          "feasibility": "high",
+          "notes": "If peaks are driven by afternoon HVAC, pre-cooling earlier can reduce 4–9pm demand without affecting comfort."
+        },
+        {
+          "equipment": "Process scheduling / batch timing",
+          "currentPeakTime": "16:00–17:00",
+          "recommendedShiftTime": "10:00–12:00",
+          "potentialPeakReductionKw": 28.53500745271382,
+          "estimatedSavings": 10512.296745579772,
+          "feasibility": "medium",
+          "notes": "If peaks are driven by short process overlaps, staggering start times can reduce instantaneous kW peaks."
+        },
+        {
+          "equipment": "EV / fleet charging control",
+          "currentPeakTime": "16:00–17:00",
+          "recommendedShiftTime": "10:00–12:00",
+          "potentialPeakReductionKw": 12.682225534539477,
+          "estimatedSavings": 4672.131886924343,
+          "feasibility": "high",
+          "notes": "If any EV charging is present, ensure it does not occur during peak windows; shift to overnight."
+        }
+      ],
+      "peakSpreading": {
+        "currentPeakConcentration": 1,
+        "recommendedSpread": "Peaks are highly concentrated in a single hour. Stagger major loads to widen the peak window and reduce the billing max.",
+        "potentialBenefit": 0
+      },
+      "demandResponse": {
+        "eligible": true,
+        "potentialSavings": 0,
+        "participationLevel": "aggressive"
+      },
+      "efficiencySynergies": [
+        {
+          "measure": "HVAC optimization (controls + economizer + VFDs)",
+          "peakReductionKw": 0,
+          "batterySavingsIncrease": 0,
+          "standaloneSavings": 0,
+          "combinedSavings": 0,
+          "notes": "If afternoon peaks are temperature-driven, HVAC tuning reduces both baseline peaks and battery size needed for the same cap."
+        },
+        {
+          "measure": "Operational overlap reduction (stagger shifts / equipment start sequences)",
+          "peakReductionKw": 0,
+          "batterySavingsIncrease": 0,
+          "standaloneSavings": 0,
+          "combinedSavings": 0,
+          "notes": "If peaks coincide with late-day overlap, sequencing reduces instantaneous kW and improves battery effectiveness."
+        }
+      ]
+    },
+    "sizingRecommendation": {
+      "currentBattery": null,
+      "recommendedSizing": {
+        "minPowerKw": 34.44,
+        "optimalPowerKw": 226,
+        "maxPowerKw": 226,
+        "minCapacityKwh": 68.88,
+        "optimalCapacityKwh": 397.5,
+        "maxCapacityKwh": 397.5,
+        "reasoning": [
+          "Power sized to target reduction: 34.4 kW",
+          "Energy constraint (longest event): 10.3 kWh",
+          "Energy constraint (daily cycling): 6.0 kWh",
+          "Energy constraint (min duration): 68.9 kWh",
+          "Final energy requirement: 68.9 kWh",
+          "Required duration: 2.0 hours",
+          "Best catalog fit (economic knee): 3×HBPES110 + 1×HBPES060",
+          "System size: 226 kW / 398 kWh",
+          "Estimated demand-charge savings: $82669/yr; payback ~1.0 yrs"
+        ]
+      },
+      "sizingScenarios": [
+        {
+          "label": "3×HBPES110 + 1×HBPES060",
+          "powerKw": 226,
+          "capacityKwh": 397.5,
+          "captureRate": 0.6515679442508711,
+          "annualSavings": 82668.95999999999,
+          "systemCost": 85125,
+          "paybackYears": 1.0297093370958097,
+          "recommendation": "optimal"
+        },
+        {
+          "label": "2×HBPES160 + 1×HBPES110",
+          "powerKw": 242,
+          "capacityKwh": 432.5,
+          "captureRate": 0.6515679442508711,
+          "annualSavings": 82668.95999999999,
+          "systemCost": 88043,
+          "paybackYears": 1.0650067449741718,
+          "recommendation": "viable"
+        },
+        {
+          "label": "6×HBPES060",
+          "powerKw": 240,
+          "capacityKwh": 360,
+          "captureRate": 0.6515679442508711,
+          "annualSavings": 82668.95999999999,
+          "systemCost": 90000,
+          "paybackYears": 1.0886794753435873,
+          "recommendation": "viable"
+        },
+        {
+          "label": "2×HBPES110 + 3×HBPES060",
+          "powerKw": 244,
+          "capacityKwh": 405,
+          "captureRate": 0.6515679442508711,
+          "annualSavings": 82668.95999999999,
+          "systemCost": 91750,
+          "paybackYears": 1.1098482429197127,
+          "recommendation": "viable"
+        },
+        {
+          "label": "4×HBPES060 + 1×HBPES160",
+          "powerKw": 250,
+          "capacityKwh": 400,
+          "captureRate": 0.6515679442508711,
+          "annualSavings": 82668.95999999999,
+          "systemCost": 92334,
+          "paybackYears": 1.116912563070831,
+          "recommendation": "viable"
+        }
+      ],
+      "helpers": {}
+    },
+    "simulationResult": {
+      "original_peak": 344.4,
+      "new_peak": 280.9888723273026,
+      "savings_kwh": 15.852781918174344,
+      "energy_discharged": 15.852781918174344,
+      "energy_charged": 16.71029937045469,
+      "chartData": {
+        "intervals": [
+          {
+            "timestamp": "2026-01-01T00:00:00.000Z",
+            "kw": 100
+          },
+          {
+            "timestamp": "2026-01-01T00:15:00.000Z",
+            "kw": 344.4
+          },
+          {
+            "timestamp": "2026-01-01T00:30:00.000Z",
+            "kw": 120
+          }
+        ],
+        "afterKw": [
+          100,
+          280.9888723273026,
+          186.84119748181877
+        ],
+        "socHistory": [
+          0.8999999999999999,
+          0.8457457812647575,
+          0.8972158524276614
+        ]
+      },
+      "monthlyPeakReduction": {
+        "reductionKwMonthSum": 63.411127672697376,
+        "monthsCount": 1
+      }
+    },
+    "thresholdKw": 280.9888723273026
+  }
+}

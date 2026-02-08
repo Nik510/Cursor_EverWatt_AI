@@ -1,0 +1,10 @@
+# OpenAI API Key (for PDF/CSV parsing)
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Azure Document Intelligence (alternative to OpenAI)
+AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT=your_azure_endpoint_here
+AZURE_DOCUMENT_INTELLIGENCE_KEY=your_azure_key_here
+
+# Template Path (relative to this directory or absolute)
+TEMPLATE_PATH=../templates/016647 - NIFS Analysis Template.xlsx
+

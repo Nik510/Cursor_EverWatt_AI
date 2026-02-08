@@ -1,0 +1,85 @@
+{
+  "id": "hospitality-cert",
+  "industry": "hospitality",
+  "title": "EverWatt Energy Efficiency Certification - For Hospitality Engineers",
+  "subtitle": "Certification for energy efficiency in hotels and resorts",
+  "description": "Validate your expertise in identifying and implementing energy efficiency measures for hotels and resorts. This certification covers guest room HVAC, kitchens, laundry, pools/spas, and 24/7 operations.",
+  "icon": "🏨",
+  "passingScore": 80,
+  "timeLimit": 75,
+  "prerequisites": ["industry-specific"],
+  "metadata": {
+    "estimatedTime": 75,
+    "difficulty": "intermediate",
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-02"
+  },
+  "questions": [
+    {
+      "id": "hosp-001",
+      "question": "In hotels, what percentage of total energy is typically consumed by HVAC systems?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "30-40%" },
+        { "id": "b", "text": "40-55%" },
+        { "id": "c", "text": "55-65%" },
+        { "id": "d", "text": "65-75%" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "HVAC systems typically consume 40-55% of total energy in hotels. This includes guest room HVAC (PTAC units), common area HVAC, and kitchen ventilation.",
+      "points": 5,
+      "category": "hvac",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "hosp-002",
+      "question": "A hotel has 200 guest rooms with PTAC units. The units run continuously. What efficiency opportunity exists?",
+      "questionType": "scenario",
+      "scenario": "A hotel has 200 guest rooms, each with a PTAC (Packaged Terminal Air Conditioner) unit. The units run continuously, even when rooms are unoccupied. Guests often leave windows open while units run.",
+      "options": [
+        { "id": "a", "text": "Replace all PTAC units" },
+        { "id": "b", "text": "Install occupancy-based controls and guest education on proper operation" },
+        { "id": "c", "text": "Install central HVAC system" },
+        { "id": "d", "text": "No opportunities" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Installing occupancy-based controls (sensors, keycard switches) can reduce guest room HVAC energy by 20-40%. Guest education on proper operation (closing windows, using controls) can provide additional savings. This is typically more cost-effective than replacing all units or installing central systems.",
+      "points": 10,
+      "category": "hvac",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "hosp-003",
+      "question": "A hotel has a pool that operates year-round. The pool pump runs 24/7. What energy efficiency opportunity exists?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Replace the pump" },
+        { "id": "b", "text": "Install a VFD and scheduling controls to reduce runtime" },
+        { "id": "c", "text": "Install pool covers" },
+        { "id": "d", "text": "All of the above" }
+      ],
+      "correctAnswer": "d",
+      "explanation": "All measures are valuable. Installing a VFD and scheduling controls can reduce pump energy by 50-70%. Pool covers can reduce heating energy by 20-40%. A combination of measures provides the best results.",
+      "points": 8,
+      "category": "process-equipment",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "hosp-004",
+      "question": "What is the typical priority order for energy efficiency measures in hotels?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Guest Room HVAC, Common Area HVAC, Kitchen/Laundry, Lighting, Pools/Spas" },
+        { "id": "b", "text": "Lighting, HVAC, Building Envelope, Plug Loads" },
+        { "id": "c", "text": "Building Envelope, HVAC, Lighting, Plug Loads" },
+        { "id": "d", "text": "Plug Loads, Lighting, HVAC, Building Envelope" }
+      ],
+      "correctAnswer": "a",
+      "explanation": "For hotels, Guest Room HVAC is typically Very High priority (largest single end use). Common Area HVAC is High priority. Kitchen/Laundry is High priority. Lighting is High priority. Pools/Spas are Medium-High priority.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    }
+  ]
+}
+

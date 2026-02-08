@@ -1,0 +1,118 @@
+{
+  "id": "office-cert",
+  "industry": "office",
+  "title": "EverWatt Energy Efficiency Certification - For Office Building Engineers",
+  "subtitle": "Certification for energy efficiency in commercial office buildings",
+  "description": "Validate your expertise in identifying and implementing energy efficiency measures for commercial office buildings. This certification covers HVAC, lighting, plug loads, building envelope, and tenant space considerations.",
+  "icon": "🏢",
+  "passingScore": 80,
+  "timeLimit": 75,
+  "prerequisites": ["industry-specific"],
+  "metadata": {
+    "estimatedTime": 75,
+    "difficulty": "intermediate",
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-02"
+  },
+  "questions": [
+    {
+      "id": "off-001",
+      "question": "In commercial office buildings, what percentage of total energy is typically consumed by HVAC systems?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "30-40%" },
+        { "id": "b", "text": "40-55%" },
+        { "id": "c", "text": "55-65%" },
+        { "id": "d", "text": "65-75%" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "HVAC systems typically consume 40-55% of total energy in commercial office buildings. This is the largest single end use, making HVAC optimization the highest priority.",
+      "points": 5,
+      "category": "hvac",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "off-002",
+      "question": "An office building has a chiller that runs 24/7, but the building is only occupied 10 hours/day, 5 days/week. What is the most impactful measure?",
+      "questionType": "scenario",
+      "scenario": "An office building's chiller runs continuously, but the building is only occupied Monday-Friday, 7 AM - 5 PM (10 hours/day). The chiller runs at full capacity even during unoccupied periods, weekends, and holidays.",
+      "options": [
+        { "id": "a", "text": "Replace the chiller" },
+        { "id": "b", "text": "Install scheduling controls and implement night/weekend setback" },
+        { "id": "c", "text": "Install LED lighting" },
+        { "id": "d", "text": "Upgrade building envelope" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Installing scheduling controls and implementing night/weekend setback can reduce HVAC energy by 20-40%. This addresses the specific issue of 24/7 operation when the building is only occupied 10 hours/day. Scheduling is typically the fastest payback measure for office buildings.",
+      "points": 10,
+      "category": "hvac",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "off-003",
+      "question": "An office building has 500 computers that run 24/7. Each computer uses 100W. What is the annual energy use if computers are turned off during non-business hours (reducing runtime from 168 to 50 hours/week)?",
+      "questionType": "calculation",
+      "options": [
+        { "id": "a", "text": "218,400 kWh/year (50 hrs/week operation)" },
+        { "id": "b", "text": "438,000 kWh/year (current 24/7)" },
+        { "id": "c", "text": "109,200 kWh/year" },
+        { "id": "d", "text": "327,600 kWh/year" }
+      ],
+      "correctAnswer": "a",
+      "explanation": "Current: 500 × 100W = 50,000W = 50 kW × 168 hrs/week × 52 weeks = 436,800 kWh/year. With controls: 50 kW × 50 hrs/week × 52 weeks = 130,000 kWh/year. Savings: 306,800 kWh/year. At $0.12/kWh = $36,816/year savings.",
+      "points": 10,
+      "category": "plug-loads",
+      "difficulty": "intermediate",
+      "estimatedTime": 120
+    },
+    {
+      "id": "off-004",
+      "question": "What is the typical energy savings potential for plug load controls in office buildings?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "5-10% of plug load energy" },
+        { "id": "b", "text": "15-30% of plug load energy" },
+        { "id": "c", "text": "30-50% of plug load energy" },
+        { "id": "d", "text": "50-70% of plug load energy" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Plug load controls (scheduling, occupancy-based, smart power strips) typically yield 15-30% savings of plug load energy in office buildings. This addresses the issue of computers, monitors, and other equipment running during unoccupied periods.",
+      "points": 5,
+      "category": "plug-loads",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "off-005",
+      "question": "An office building has single-pane windows. What is the typical energy savings potential from upgrading to double-pane low-E windows?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "2-5% overall energy reduction" },
+        { "id": "b", "text": "5-10% overall energy reduction" },
+        { "id": "c", "text": "10-20% overall energy reduction" },
+        { "id": "d", "text": "20-30% overall energy reduction" }
+      ],
+      "correctAnswer": "c",
+      "explanation": "Upgrading single-pane windows to double-pane low-E windows can reduce overall building energy by 10-20%. This addresses both heating and cooling loads and improves comfort. However, window replacement is capital-intensive, so it's often combined with other envelope improvements.",
+      "points": 8,
+      "category": "building-envelope",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "off-006",
+      "question": "What is the typical priority order for energy efficiency measures in office buildings?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "HVAC Systems, Lighting, Building Envelope, Plug Loads" },
+        { "id": "b", "text": "Lighting, HVAC, Plug Loads, Building Envelope" },
+        { "id": "c", "text": "Building Envelope, HVAC, Lighting, Plug Loads" },
+        { "id": "d", "text": "Plug Loads, Lighting, HVAC, Building Envelope" }
+      ],
+      "correctAnswer": "a",
+      "explanation": "HVAC systems are typically the highest priority (Very High) due to their large energy share (40-55%). Lighting is High priority. Building Envelope is High priority. Plug Loads are Medium-High priority.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    }
+  ]
+}
+

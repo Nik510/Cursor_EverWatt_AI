@@ -1,0 +1,444 @@
+Comprehensive Analysis of PG&E Non-Residential Tariff Structures for Distributed Energy Resource Optimization
+
+1. Introduction: The Evolving Landscape of California Utility Ratemaking
+
+The regulatory and operational framework governing the Pacific Gas and Electric Company (PG&E) service territory has undergone a paradigm shift over the last decade, driven fundamentally by the rapid proliferation of distributed energy resources (DERs) and the resultant changing load shape of the California grid. For commercial, industrial, and agricultural stakeholders, the era of static, consumption-based billing has largely evaporated, replaced by a highly dynamic ecosystem of Time-of-Use (TOU) arbitrage, coincident peak demand management, and subscription-based capacity reservation.
+
+This transformation was codified primarily through the California Public Utilities Commission (CPUC) Decision 18-08-013, which mandated the transition of non-residential customers from legacy "A" and "E" rate schedules to the modernized "B" series tariffs. This transition was not merely administrative; it represented a fundamental realignment of price signals to match the "duck curve" phenomenon-where midday solar saturation depresses net load, pushing the grid's critical stress periods into the late evening ramp hours. Consequently, the definition of "Peak" shifted from the traditional mid-afternoon windows (e.g., 12:00 p.m. to 6:00 p.m.) to the late evening window of 4:00 p.m. to 9:00 p.m.
+
+For developers of battery energy storage systems (BESS), facility managers, and architects of AI-driven energy management calculators, understanding the granular mechanics of these tariffs is no longer optional-it is the primary determinant of project economic viability. The optimization logic for a battery system must now navigate a complex matrix of voltage-differentiated rates, seasonal variations, and specific rate riders like Option R and Option S that fundamentally alter the incentives for peak shaving versus energy arbitrage.
+
+This report provides an exhaustive, expert-level deconstruction of PG&E's non-residential electric and gas tariffs effective through 2025. It dissects the structural mechanics of general service rates, agricultural power, electric vehicle subscriptions, and standby service, with a targeted deep dive into the eligibility, constraints, and algorithmic implications of the storage-specific Option S and renewable-specific Option R riders.1
+
+2. Foundational Mechanisms of Non-Residential Electric Tariffs
+
+Before examining specific rate schedules, it is imperative to establish the universal definitions and mechanisms that govern billing across PG&E's commercial portfolio. These foundational elements dictate how an AI calculator must ingest customer data to determine the applicable baseline tariff before optimizing for DER assets.
+
+2.1 Service Voltage Classifications and Rate Implications
+
+PG&E tariffs are strictly segmented by the voltage level at which the customer interconnects to the grid. This segmentation reflects the physical reality of grid infrastructure: customers taking service at higher voltages bypass layers of distribution transformers and lines, thereby avoiding the associated line losses and infrastructure amortization costs. Consequently, higher voltage connections generally incur lower per-unit energy ($/kWh) and demand ($/kW) charges but often face higher fixed customer charges.
+
+An AI sizing calculator must first accurately classify the customer's voltage level, as this determines the specific rate table look-up.
+
+Secondary Voltage: This applies to service delivered at less than 2,400 volts. It is the standard service level for most small-to-medium commercial enterprises, retail outlets, and light industrial facilities that do not own their own transformation equipment. Secondary rates are the highest due to the full burden of distribution costs.1
+
+Primary Voltage: This applies to service delivered at 2,400 volts or greater, but less than 50,000 volts. This classification typically encompasses large university campuses, hospitals, heavy manufacturing plants, and large shopping centers that own and maintain their own step-down transformers. The rates here reflect a discount for the customer absorbing the transformation losses.1
+
+Transmission Voltage: This applies to service delivered at 50,000 volts or greater. These are rare, massive industrial loads connecting directly to the sub-transmission or transmission grid. The rates for transmission voltage are the lowest, reflecting minimal use of the distribution network, but the interconnection requirements are technically rigorous.1
+
+2.2 The Modernized Time-of-Use (TOU) Framework
+
+The transition to "B" rates standardized the TOU windows across the non-residential portfolio. Unlike legacy rates, which often had disparate peak windows depending on the specific tariff vintage, the modern framework aligns price signals with system-wide generation capacity constraints.
+
+The Seasonal Divide:
+
+PG&E tariffs delineate the year into two primary seasons, driven by cooling degree days and system capacity needs:
+
+Summer Season: June 1 through September 30. This period carries the highest demand charges and peak energy rates due to air conditioning load and fire-risk mitigation constraints.
+
+Winter Season: October 1 through May 31. While generally lower in cost, the winter season introduces the "Super Off-Peak" concept in the spring months to encourage consumption during high solar production.
+
+Standard TOU Definitions (B-1, B-6, B-10, B-19, B-20):
+
+The following table outlines the temporal windows that an AI optimization engine must utilize for load shifting and arbitrage logic.
+
+Critical Insight: The inclusion of weekends and holidays in the Peak window (4-9 p.m.) for commercial rates is a significant departure from legacy rates, where weekends were often Off-Peak. This implies that battery cycling strategies cannot "take the weekend off"; the algorithm must manage state-of-charge (SoC) 365 days a year.6
+
+3. Detailed Analysis of General Service "B" Rate Schedules
+
+The "B" series tariffs form the backbone of the commercial sector. Eligibility flows in a cascade based on the maximum demand recorded over a rolling 12-month period.
+
+3.1 Schedule B-1: Small General Service (Low Usage)
+
+Applicability: Schedule B-1 is the default rate for small commercial customers whose maximum billing demand is consistently less than 75 kW.
+
+Rate Structure: B-1 is distinct because it is primarily an energy-only rate. It typically does not include a separate demand charge ($/kW), meaning the bill is determined almost entirely by total consumption (kWh) and TOU variations.
+
+Eligibility Constraints: If a customer's demand exceeds 75 kW, they are ineligible for B-1 and must migrate to B-10 or B-6.
+
+Optimization Relevance: For battery storage, B-1 offers limited value because there are no demand charges to shave. The only value stream is energy arbitrage (shifting consumption from Peak to Off-Peak). However, because the spread between peak and off-peak energy rates on B-1 is often smaller than the demand savings on larger tariffs, the ROI for batteries here is typically lower.2
+
+3.2 Schedule B-6: Small General Time-of-Use (The "Flexible" Option)
+
+Applicability: Like B-1, this applies to customers under 75 kW.
+
+Strategic Difference: B-6 is designed for small customers who have operational flexibility. It acts as the successor to the legacy A-6 rate, which was popular among small solar customers.
+
+Structure: While still focused on energy charges, B-6 often has more aggressive TOU differentials than B-1.
+
+Transition Note: Solar customers on legacy A-1 or A-6 rates were transitioned to B-6 as the mandatory TOU rollout concluded in March 2021, unless they qualified for a 10-year grandfathering period.10
+
+3.3 Schedule B-10: Medium General Demand-Metered Service
+
+Schedule B-10 represents the threshold where energy management becomes complex. It introduces demand charges, fundamentally changing the economic calculus for BESS.
+
+Eligibility Thresholds:
+
+Standard Range: Applicable to customers with a maximum demand consistently under 500 kW.
+
+Mandatory Entry: New customers expected to fall between 75 kW and 499 kW are automatically assigned to B-10.
+
+Exit Trigger: If a B-10 customer's demand exceeds 499 kW for three consecutive months, they are mandatorily migrated to Schedule B-19. This "three-month latch" is a critical parameter for AI forecasting-a single month spike won't force a tariff switch, but a sustained operational change will.6
+
+Demand Charge Mechanics (Maximum Demand):
+
+The primary demand charge in B-10 is based on Maximum Demand.
+
+Definition: The single highest 15-minute average kW load recorded at any time during the billing month, regardless of TOU period.
+
+Implication: A facility that peaks at 11:00 a.m. (Off-Peak) pays the same demand charge as one that peaks at 6:00 p.m. (Peak).
+
+AI Strategy: For B-10, the battery must perform "broad peak shaving." It cannot simply discharge during the 4-9 p.m. window; it must predict the facility's absolute highest load of the month, which might be driven by mid-day HVAC, and flatten that specific spike.6
+
+3.4 Schedule B-19: Medium-High General Service
+
+B-19 is the most common tariff for commercial battery storage retrofits, covering medium-to-large facilities like supermarkets, office towers, and light manufacturing.
+
+Eligibility:
+
+Mandatory: Customers whose maximum billing demand falls between 500 kW and 999 kW (triggered by exceeding 499 kW for 3 consecutive months).
+
+Voluntary: Customers under 500 kW can opt-in to B-19. This is often advantageous for customers with high load factors (flat usage) because B-19 typically has lower volumetric energy rates ($/kWh) in exchange for higher fixed demand charges. An AI calculator should simulate both B-10 and B-19 Voluntary for customers in the 200-499 kW range to determine the optimal path.1
+
+Complex Demand Charge Structure:
+B-19 introduces a multi-layered demand charge structure that requires sophisticated BESS dispatch logic. The bill includes three separate demand components:
+
+Maximum Demand ($/kW): Charge for the highest 15-minute peak at any time (24/7).
+
+Maximum Peak Demand ($/kW): Charge for the highest 15-minute peak specifically during the Summer Peak window (4:00 p.m. - 9:00 p.m.).
+
+Maximum Part-Peak Demand ($/kW): Charge for the highest 15-minute peak during Summer Partial-Peak windows.
+
+Winter Season Note: In winter, B-19 typically only assesses the "Maximum Demand" charge and potentially a "Maximum Peak Demand" charge (at a much lower rate), but lacks the complex Part-Peak layers found in summer.1
+
+3.5 Schedule B-20: Large General Service
+
+Applicability: The industrial heavyweight class. Applies to customers with demand exceeding 999 kW (1,000 kW+) for at least three consecutive months.5
+
+Retention Requirement: Once on B-20, a customer does not immediately drop to B-19 if their load falls below 1,000 kW. They typically must demonstrate reduced load for a sustained period (e.g., 12 months) to downgrade.
+
+Rate Design: Structurally identical to B-19 (Max, Peak, Part-Peak demand charges) but with rate values tuned for transmission/primary voltage efficiencies-lower energy rates, higher reliance on demand charges to recover revenue.5
+
+3.6 Peak Day Pricing (PDP) Overlay
+
+Both B-19 and B-20 tariffs often include (or default to) a Peak Day Pricing (PDP) overlay.
+
+Mechanism: PDP offers a discount on regular summer demand/energy rates in exchange for punitive pricing during specific "Event Days" (9 to 15 days per year), triggered by high grid temperatures or system stress.
+
+Event Window: Typically 4:00 p.m. to 9:00 p.m. on the event day.
+
+AI Logic: A battery calculator must account for PDP events as "critical dispatch" days. The value of discharging during a PDP event is roughly an order of magnitude higher than a standard day. However, PDP creates risk; if the battery is empty during a PDP event, the financial penalty is severe. Many risk-averse commercial customers opt-out of PDP, but BESS assets make PDP highly lucrative.9
+
+4. Deep Dive: Option R (Renewable Distributed Generation)
+
+Option R is a critical rider designed to mitigate the adverse economic impact of high demand charges for customers who install on-site renewable generation. Standard demand charges penalize solar customers because solar generation disappears in the late afternoon/evening peak, leaving the facility's full load exposed to the "Maximum Peak Demand" charge. Option R restructures the bill to be "solar friendly."
+
+4.1 Structural Philosophy: Energy over Demand
+
+The fundamental mechanism of Option R is a revenue shift. It drastically reduces (or eliminates) the Maximum Demand and Peak Demand charges ($/kW) and recovers that revenue through significantly higher volumetric **Energy Rates** ($/kWh) during Peak and Part-Peak periods.
+
+Result: The bill becomes more volatile based on consumption (kWh) rather than capacity (kW).
+
+4.2 Eligibility Requirements
+
+To qualify for Option R, a customer must be on a B-19 or B-20 tariff (mandatory or voluntary) and meet specific capacity thresholds relative to their load.
+
+Renewable Generation (Solar/Wind/Fuel Cell): The net renewable generating capacity must be $\ge$ 15% of the customer's annual peak demand (recorded over the previous 12 months).1
+
+Standalone Storage: The energy storage system (ESS) must have a minimum discharge capacity equal to or greater than 20% of the customer's annual peak demand.1
+
+Paired Storage: If storage is paired with renewables, the qualifying capacity is the larger of the two (solar capacity or storage discharge capacity), but not additive.1
+
+4.3 Capacity Limits and Enrollment
+
+Option R is a "limited availability" tariff. Participation is capped across the PG&E territory (historically around 400 MW to 600 MW, varying by decisions). When the cap is reached, new projects are placed on a waitlist. This scarcity makes Option R highly valuable real estate for developers; securing a spot is often a critical project milestone.14
+
+4.4 Rate Analysis (2025 Values)
+
+The table below illustrates the dramatic shift in cost components for Option R compared to standard rates (values derived from Schedule B-19 Option R snippets).1
+
+Table 1: Schedule B-19 Option R Rates (Secondary Voltage)
+
+Note on Values: The "Max Demand Summer" for Option R at $38.56 appears high in the snippet 1, but crucial context is that Option R typically removes the "Peak Demand" volatility. The snippet explicitly shows a $6.64 Peak Demand charge, which is low compared to typical commercial peak demand charges that can exceed $20-$25 in standard tariffs.
+
+4.5 AI Optimization Strategy for Option R
+
+When modeling a battery for Option R:
+
+Primary Value Stream: Energy Arbitrage. Because the Peak Demand charge is low ($6.64/kW) but Peak Energy is extremely expensive ($0.46/kWh), the algorithm should prioritize discharging energy to offset expensive consumption rather than holding capacity solely for peak shaving.
+
+Solar Synergy: Option R is ideal for solar+storage. The solar offsets day usage, and the battery discharges during the 4-9 p.m. window to kill the high $/kWh charges.
+
+Constraint: The battery does not need to be sized aggressively for demand shaving (kW power), but rather for energy shifting (kWh duration).
+
+5. Deep Dive: Option S (Storage-Specific Daily Demand Charge)
+
+Option S represents the frontier of rate design. Launched following the 2017-2019 General Rate Case and championed by the Solar Energy Industries Association (SEIA), it addresses the "utilization risk" of storage. On a standard rate, if a battery fails to discharge during the single highest 15-minute load spike of the month, the customer pays the full demand charge for the month. Option S mitigates this by converting the demand charge into a Daily accumulation.16
+
+5.1 Structural Philosophy: Daily Coincident Peak
+
+Option S fundamentally changes the demand charge math from Max(Month)  Rate to Sum(Daily_Peaks)  Daily_Rate.
+
+Daily Demand Charge: Assessed on the customer's highest demand during Peak and Part-Peak hours for each day.
+
+Reduced Monthly Charge: The standard monthly "non-coincident" demand charge is significantly reduced or applied only to specific hours (e.g., outside 9 a.m. - 2 p.m.), lowering the penalty for facilities with "needle peaks" (infrequent high usage).1
+
+5.2 Eligibility Requirements
+
+Tariff Association: Available to customers on B-19 or B-20 (Bundled, Direct Access, or CCA).
+
+Storage Capacity: The BESS rated capacity (Watts) must be at least 10% of the customer's peak demand over the previous 12 months.
+
+New Service: New accounts require a minimum of 30 days of usage history to establish a peak baseline before they can apply for Option S.16
+
+Enrollment Cap: Strictly capped at 150 MW total service territory-wide. This is sub-allocated into buckets:
+
+50 MW for B-19 Voluntary.
+
+50 MW for B-19 Mandatory.
+
+50 MW for B-20.
+
+Reservation System: Due to high demand, PG&E operates a reservation system. Projects must secure a spot in the queue, often requiring a signed interconnection agreement or Proof of Project Development.16
+
+5.3 Rate Analysis (2025 Values)
+
+The snippets provide specific 2025 values for Option S daily rates, which are critical for AI modeling.1
+
+Table 2: Schedule B-19 Option S Daily Demand Rates
+
+Comparison Logic: A standard B-19 monthly peak demand charge might be roughly $20/kW.
+
+Option S Daily: $1.61 $\times$ 30 days = $48.30/kW potential total if the customer peaks every day.
+
+Insight: Option S is more expensive for customers with "flat" load profiles (manufacturing plants that run 24/7). It is highly advantageous for customers with "needle" loads (e.g., a stadium hosting 4 games a month, or a church with Sunday services). The battery only needs to work on the few days where demand spikes, avoiding the full monthly penalty.17
+
+5.4 AI Optimization Strategy for Option S
+
+Load Profile Analysis: The AI must analyze the load factor.
+
+High Load Factor (>60%) $\rightarrow$ Avoid Option S.
+
+Low Load Factor / Sporadic Peaks $\rightarrow$ Select Option S.
+
+Dispatch Logic: The battery must be available for dispatch every single day during the peak window because the cost accumulates daily. Missing a dispatch on Tuesday doesn't ruin the month (like standard rates), it only ruins Tuesday. This makes Option S more forgiving of forecast errors.
+
+Cycling Frequency: Expect higher cycling. The battery is incentivized to clip the daily peak every evening, rather than just waiting for the "monthly max" event.
+
+6. Agricultural Power (Schedule AG)
+
+Agricultural tariffs are tailored to the unique operational profiles of irrigation pumps, hullers, and wind machines. They differ significantly from commercial rates in their seasonality and "connected load" billing mechanics.
+
+6.1 Tariff Classifications
+
+AG-A1 (Low Use): Single motor or aggregate load < 35 kW. Designed for pumps used infrequently (low load factor). Rates emphasize energy ($/kWh) over demand.
+
+AG-A2 (High Use): Loads < 35 kW but with high operating hours. Higher demand charges, lower energy rates.
+
+AG-B (Medium): Loads > 35 kW. Low load factor.
+
+AG-C (High): Loads > 35 kW. High load factor. This is the industrial farming rate.8
+
+6.2 The Connected Load Nuance
+
+Unlike commercial rates which always meter "demand" based on actual draw, some smaller AG rates utilize "Connected Load" billing, where the demand charge is based on the nameplate horsepower of the pump, regardless of whether it ran at full capacity. However, large rates (AG-C) use metered demand.
+
+6.3 Agricultural TOU Windows
+
+The "Duck Curve" shift affects AG rates, but the windows are often tighter than commercial rates to accommodate irrigation schedules.
+
+Summer Peak: Typically 5:00 p.m. - 8:00 p.m. (shorter than the commercial 4-9 p.m.).
+
+Winter Peak: 5:00 p.m. - 8:00 p.m.
+
+Flex Options (Schedule AG-F): PG&E offers "Flexible" rate options that allow farmers to select specific days (e.g., Wednesday/Thursday) as "Off-Peak" days for 24 hours, in exchange for higher rates on other days. This allows for massive irrigation runs on designated days.19
+
+6.4 Demand Charge Limiters
+
+Schedule AG-C includes a specific protection mechanism called the Demand Charge Rate Limiter. This caps the average cost per kWh during the summer season to prevent runaway bills for pumps that run intensely for short periods.
+
+Limiter Value: Approximately $0.50/kWh cap on the demand component average.20
+
+AI Implication: The calculator must check if the forecasted bill hits this cap. If the limiter is active, further peak shaving yields $0 savings because the bill is capped by the limiter, not the raw demand charge.
+
+7. Business Electric Vehicle (BEV) Rates
+
+To support the electrification of transport, PG&E introduced the BEV rate class, which decouples cost from the traditional "demand charge" model that penalizes high-power, low-duration charging (e.g., DC fast chargers).
+
+7.1 Subscription Model Mechanics
+
+Instead of a $/kW demand charge, BEV customers purchase a "subscription" for a specific block of capacity, similar to a cellular data plan.
+
+BEV-1 (Low Power):
+
+Designed for Level 2 charging and smaller fleets.
+
+Available for loads up to 100 kW.
+
+Block Size: 10 kW blocks.
+
+Cost: ~$12.41 per 10 kW block (Secondary Voltage).4
+
+BEV-2 (High Power):
+
+Designed for DC Fast Charging plazas and transit depots.
+
+Available for loads > 100 kW.
+
+Block Size: 50 kW blocks.
+
+Cost: ~$95.56 per 50 kW block (Secondary Voltage).4
+
+7.2 Overage Fees
+
+The AI calculator must strictly model the risk of "Overage." If a customer subscribes to 100 kW but draws 101 kW, they incur a punitive overage fee on the excess.
+
+Overage Rate: ~$2.48/kW (BEV-1) or ~$3.82/kW (BEV-2).4
+
+Strategy: The battery's primary role on a BEV rate is Buffer Management. It should discharge to keep the grid draw strictly within the subscribed block (e.g., keep draw at 99 kW to avoid jumping to the next subscription tier or paying overages).
+
+7.3 Ineligibility for Option S/R
+
+Crucially, BEV rates are incompatible with Option S and Option R. A customer cannot stack the daily demand charge benefit of Option S with the subscription model of BEV. The AI calculator must treat these as mutually exclusive pathways.21
+
+8. Standby Service (Schedule S and SB)
+
+For customers generating their own power (e.g., a natural gas cogen plant or a large fuel cell), PG&E charges for the "Standby" capacity-the obligation to provide backup power if the customer's generator trips offline.
+
+8.1 Schedule S vs. SB
+
+Schedule S: The general standby tariff.
+
+Schedule SB: Targeted at Distributed Generation (DG) customers. It often has slightly more favorable terms for clean tech.
+
+8.2 The Reservation Charge
+
+Standby customers do not pay standard demand charges on the portion of load served by their generator. Instead, they pay a Reservation Charge.
+
+Calculation: The charge applies to 85% of the Reservation Capacity (the contracted kW amount).
+
+Rate (2025): Approximately $17.48/kW for Secondary/Primary voltage.22
+
+AI Logic: When modeling a microgrid with a prime-mover generator, the cost of grid connection is not zero; it is 0.85 * Generator_Capacity * $17.48. This fixed opex is a high barrier for non-renewable microgrids.
+
+9. Non-Residential Gas Tariffs
+
+While electric rates dominate storage economics, gas tariffs are vital for hybrid systems (cogen) or industrial heat calculations.
+
+9.1 G-NR1 vs. G-NR2
+
+G-NR1 (Small Commercial): Usage < 20,800 therms/month (cumulative). The customer charge is tiered based on Average Daily Usage (ADU) in therms.
+
+G-NR2 (Large Commercial): Usage > 20,800 therms/month. High fixed customer charge (~$4.95/day), lower variable transportation rates.23
+
+9.2 Seasonal Transportation Charges
+
+Gas transport is more expensive in winter due to heating demand constraints on the pipeline system.
+
+Winter (Nov-Mar): Higher transport rates ($/therm).
+
+Summer (Apr-Oct): Lower transport rates.
+
+Procurement Cost: The commodity cost of gas (PG&E Citygate price) floats monthly and is additive to the transport rates described above.
+
+10. Synthesis: AI Algorithm Design for Battery Sizing
+
+To synthesize this data into an actionable algorithm for optimal battery sizing, the logic flow must proceed as follows:
+
+Data Ingestion & Voltage Classification:
+
+Input: 15-minute interval load data (8760 hours).
+
+Input: Interconnection Voltage (Secondary/Primary/Transmission).
+
+Action: Assign base tariff (B-10 if <500 kW, B-19 if 500-999 kW, B-20 if >1000 kW).
+
+Eligibility Check (The "Rider" Decision Tree):
+
+Step A: Check Option R.
+
+Does the site have Solar $\ge$ 15% Peak OR Storage $\ge$ 20% Peak?
+
+If YES: Simulate Bill using Option R Table (Low Demand / High Energy). Prioritize Energy Arbitrage logic.
+
+Step B: Check Option S.
+
+Does the site have Storage $\ge$ 10% Peak?
+
+If YES: Simulate Bill using Option S Daily Rates ($1.61/kW/day).
+
+Logic Test: Is the load "Peaky" (Needle peaks) or "Flat"?
+
+If Peaky $\rightarrow$ Option S likely wins.
+
+If Flat $\rightarrow$ Standard B-19 likely wins.
+
+Step C: Check BEV.
+
+Is the load purely EV charging?
+
+If YES: Simulate BEV-1 vs BEV-2 subscription blocks. Maximize "Block Utilization" (filling the block without overflowing).
+
+Optimization Loop:
+
+Run the battery dispatch simulation against the Base Tariff, Option R (if eligible), and Option S (if eligible).
+
+Constraint 1: For Option S, dispatch MUST occur daily during 4-9 p.m. to mitigate daily charges.
+
+Constraint 2: For Option R, dispatch should target the price spread between Peak Energy ($0.45/kWh) and Off-Peak ($0.21/kWh).
+
+Constraint 3: For Standard Rates, dispatch targets the single highest 15-minute interval of the month (Max Demand Shaving).
+
+Final Selection:
+
+Select the tariff/rider combination that yields the lowest Net Present Cost (NPC) considering the battery capex required to meet the specific eligibility thresholds (e.g., sizing the battery up to 20% of peak just to trigger Option R eligibility might be worth the extra capex due to the massive demand charge reduction).
+
+By codifying these tariff structures, riders, and eligibility triggers, an AI model can move beyond simple peak shaving to perform sophisticated regulatory arbitrage, unlocking maximum value for commercial energy storage projects in PG&E territory.
+
+Works cited
+
+U 39 San Francisco, California Revised Cal. P.U.C. Sheet No ... - PGE, accessed December 11, 2025, https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-19.pdf
+
+Electric Rates - PGE, accessed December 11, 2025, https://www.pge.com/tariffs/en/rate-information/electric-rates.html
+
+U 39 Oakland, California Revised Cal. P.U.C. Sheet No. 59573-E ..., accessed December 11, 2025, https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-1.pdf
+
+U 39 San Francisco, California Revised Cal. P.U.C. Sheet No ... - PGE, accessed December 11, 2025, https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_BEV.pdf
+
+U 39 Oakland, California Revised Cal. P.U.C. Sheet No. 57687-E Cancelling Revised Cal. P.U.C. Sheet No. 50604-E ELECTRIC SCHEDUL - PGE, accessed December 11, 2025, https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-20.pdf
+
+U 39 Oakland, California Revised Cal. P.U.C. Sheet No ... - PGE, accessed December 11, 2025, https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-10.pdf
+
+Industrial_B-20_240101-240229 - PGE, accessed December 11, 2025, https://www.pge.com/assets/rates/tariffs/Industrial_B-20_240101-240229.xlsx
+
+U 39 San Francisco, California Revised Cal. P.U.C. Sheet No. 48519-E Cancelling Revised Cal. P.U.C. Sheet No. 46220-E ELECTRIC S - PGE, accessed December 11, 2025, https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_AG.pdf
+
+Business Customers Know Your Rate Plan Options - PGE, accessed December 11, 2025, https://www.pge.com/assets/pge/docs/account/billing-and-assistance/bill-inserts/0323-BizRateOptions.pdf
+
+U 39 Oakland, California Revised Cal. P.U.C. Sheet No. 59575-E ..., accessed December 11, 2025, https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-6.pdf
+
+U 39 San Francisco, California Revised Cal. P.U.C. Sheet No. 50591-E Cancelling Revised Cal. P.U.C. Sheet No. 48905-E ELECTRIC S - PGE, accessed December 11, 2025, https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_A-6.pdf
+
+U 39 San Francisco, California Revised Cal. P.U.C. Sheet No. 50606-E Cancelling Revised Cal. P.U.C. Sheet No. 49072-E ELECTRIC S - PGE, accessed December 11, 2025, https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-19.pdf
+
+Peak Day Pricing | PG&E, accessed December 11, 2025, https://www.pge.com/en/account/rate-plans/peak-day-pricing.html
+
+U 39 San Francisco, California Revised Cal. P.U.C. Sheet No. 50607-E Cancelling Revised Cal. P.U.C. Sheet No. 49086-E ELECTRIC S - PGE, accessed December 11, 2025, https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-20.pdf
+
+Battery Storage | PG&E, accessed December 11, 2025, https://www.pge.com/en/clean-energy/battery-storage.html
+
+PG&E's Option S (for Storage) Daily Demand Charge Rate - Energy Toolbase, accessed December 11, 2025, https://www.energytoolbase.com/blog/resourceguide/pges-option-s-daily-demand-charge-rate/
+
+PG&E Option S Daily Demand Charge for solar and energy storage, accessed December 11, 2025, https://www.energytoolbase.com/blog/resourceguide/pges-storage-options-daily-demand-charge-rate/
+
+Energy Storage and PG&E's Option S Tariff, accessed December 11, 2025, https://www.stem.com/wp-content/uploads/2021/06/Option-S_One-Pager_June2021_Final.pdf
+
+CleanStart Rate Schedule Agricultural Rates - Sonoma Clean Power, accessed December 11, 2025, https://sonomacleanpower.org/uploads/documents/Agricultural-Rates_Effective-2.1.25.pdf
+
+Time-of-Use Rate Plans | PG&E, accessed December 11, 2025, https://www.pge.com/en/account/rate-plans/time-of-use-rate-plans.html
+
+Electric Vehicles (EV) Rate Plans | PG&E, accessed December 11, 2025, https://www.pge.com/en/account/rate-plans/electric-vehicles.html
+
+U 39 San Francisco, California Original Cal. P.U.C. Sheet No ... - PGE, accessed December 11, 2025, https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_SB.pdf
+
+U 39 San Francisco, California Revised Cal. P.U.C. Sheet No. 40435-G Cancelling Revised Cal. P.U.C. Sheet No. 40378-G GAS PRELIM - PGE, accessed December 11, 2025, https://www.pge.com/tariffs/assets/pdf/tariffbook/GAS_PRELIM_B.pdf

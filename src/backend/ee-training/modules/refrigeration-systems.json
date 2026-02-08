@@ -1,0 +1,581 @@
+{
+  "id": "refrigeration-systems",
+  "title": "Refrigeration Systems",
+  "subtitle": "Complete Guide to Walk-ins, Display Cases, Controls & Refrigerants",
+  "description": "Comprehensive training on commercial refrigeration: walk-in coolers/freezers, display cases, compressors and condensers, refrigerants, floating head pressure, defrost strategies, and monitoring. Includes sales strategies, field identification, and OBF-eligible measures.",
+  "icon": "🧊",
+  "category": "refrigeration",
+  "order": 12,
+  "status": "published",
+  "metadata": {
+    "author": "EverWatt Engineering Team",
+    "lastUpdated": "2025-12-29",
+    "version": "1.0.0",
+    "estimatedTime": 200,
+    "difficulty": "advanced",
+    "tags": ["refrigeration", "walk-in", "display-cases", "defrost", "floating-head", "refrigerants"]
+  },
+  "sections": [
+    {
+      "id": "quick-overview",
+      "title": "Quick Overview",
+      "subtitle": "90-second skim + jump points",
+      "icon": "⚡",
+      "order": 0,
+      "metadata": {
+        "estimatedTime": 8,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "navigation", "sales", "field"]
+      },
+      "content": [
+        {
+          "id": "overview-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 3,
+          "cards": [
+            {
+              "title": "Fastest Win: Floating Head",
+              "description": "Lower condensing pressure when ambient is cool. Often a top savings lever with controls changes.",
+              "metadata": { "icon": "📉", "jumpTo": "floating-head-pressure", "roles": ["sales", "engineer"] }
+            },
+            {
+              "title": "Doors = Energy Leak",
+              "description": "Gaskets, strip curtains, and behavior reduce infiltration and frost load—simple, high ROI.",
+              "metadata": { "icon": "🚪", "jumpTo": "doors-gaskets", "roles": ["field", "sales"] }
+            },
+            {
+              "title": "Defrost Optimization",
+              "description": "Too much defrost wastes energy and adds load. Demand defrost can save significantly.",
+              "metadata": { "icon": "🧠", "jumpTo": "defrost-optimization", "roles": ["engineer", "sales"] }
+            },
+            {
+              "title": "Case Covers + Doors",
+              "description": "Adding doors to open cases can dramatically cut refrigeration load and improve comfort.",
+              "metadata": { "icon": "🛒", "jumpTo": "display-cases", "roles": ["sales", "engineer"] }
+            },
+            {
+              "title": "Field Signals",
+              "description": "Ice buildup, warm product temps, noisy compressors, constant fan operation, and poor door seals.",
+              "metadata": { "icon": "🔎", "jumpTo": "field-guide", "roles": ["field", "sales"] }
+            },
+            {
+              "title": "How to Sell It",
+              "description": "Lead with reliability + product protection and utility bill savings; bundle controls + maintenance fixes.",
+              "metadata": { "icon": "💰", "jumpTo": "sales-strategies", "roles": ["sales"] }
+            }
+          ]
+        },
+        {
+          "id": "overview-kpis",
+          "type": "table",
+          "order": 2,
+          "headers": ["KPI", "What it means", "Rule-of-thumb"],
+          "rows": [
+            ["Suction temp/pressure", "Evaporating condition", "Warmer suction can save energy if product temps allow"],
+            ["Head pressure", "Condensing condition", "Lower head in cool ambient saves compressor kW"],
+            ["Superheat", "Evap control and protection", "Too high wastes capacity; too low risks liquid floodback"],
+            ["Defrost frequency", "How often defrost runs", "Use demand defrost where feasible; avoid over-defrosting"],
+            ["Case infiltration", "Air leakage into refrigerated space", "Doors/gaskets/covers reduce infiltration and frosting"],
+            ["Refrigerant type", "GWP/regulatory exposure", "Plan for low-GWP compliance and lifecycle serviceability"]
+          ],
+          "caption": "Refrigeration KPI Cheat Sheet"
+        },
+        {
+          "id": "overview-personas",
+          "type": "tabs",
+          "order": 3,
+          "tabs": [
+            {
+              "label": "💰 Sales",
+              "content": [
+                {
+                  "id": "overview-sales",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["sales"] },
+                  "content": "## Talk track (fast)\n\n- Lead with **reliability** and **product protection** (downtime costs money)\n- Controls-first: floating head, suction optimization, demand defrost\n- Hardware quick wins: door gaskets, strip curtains, ECM fan motors, anti-sweat controls\n- Big levers: case doors for open cases, system upgrades when refrigerant/regulation drives replacement\n\n**One-liner:** \"We lower energy cost and reduce risk of spoilage—often starting with controls and simple field fixes.\""
+                }
+              ]
+            },
+            {
+              "label": "🔧 Engineer",
+              "content": [
+                {
+                  "id": "overview-engineer",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["engineer"] },
+                  "content": "## What to verify (fast)\n\n- Baseline head pressure control strategy (fixed vs floating)\n- Suction setpoints and stability\n- Defrost: schedule vs demand, termination controls\n- Anti-sweat controls and fan motor types\n- Monitoring/trending available (temps, pressures, alarms)\n\n**Rule:** validate product temp requirements first, then optimize head/suction and defrost to reduce compressor work."
+                }
+              ]
+            },
+            {
+              "label": "🧰 Field",
+              "content": [
+                {
+                  "id": "overview-field",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["field"] },
+                  "content": "## What to capture on-site\n\n- Equipment nameplates: compressors, condensers, evaporators\n- Refrigerant type and charge notes (if known)\n- Door condition: gaskets, closers, strip curtains\n- Frost/ice evidence and drain condition\n- Controller screenshots: head pressure, suction, defrost schedule\n- Fan motors: PSC vs ECM and anti-sweat heater controls"
+                }
+              ]
+            }
+          ]
+        }
+        ,
+        {
+          "id": "refrigeration-controls-diagram",
+          "type": "interactive",
+          "order": 3.5,
+          "component": "refrigeration-controls",
+          "config": {
+            "title": "Refrigeration Controls & Setpoints",
+            "subtitle": "Floating head, suction optimization, defrost, anti-sweat, and case doors"
+          }
+        }
+      ]
+    },
+    {
+      "id": "introduction",
+      "title": "Introduction & Fundamentals",
+      "subtitle": "Commercial refrigeration is a controls + maintenance game",
+      "icon": "📚",
+      "order": 1,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "fundamentals", "sales"]
+      },
+      "content": [
+        {
+          "id": "intro-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Why Refrigeration Matters\n\nRefrigeration is a critical end-use for grocery, restaurants, cold storage, and some process facilities. Savings levers are often **controls and operational tuning** plus targeted hardware upgrades.\n\nKey idea: refrigeration energy is driven by **temperature lift** and by **infiltration/defrost** that adds load.\n\n- Reduce compressor work by lowering head pressure and optimizing suction\n- Reduce load by improving doors, gaskets, and defrost control\n- Improve persistence with monitoring and alarms"
+        },
+        {
+          "id": "intro-quote",
+          "type": "quote",
+          "order": 2,
+          "quote": "The cheapest ton is the one you don’t create—every door leak becomes frost, and frost becomes compressor kWh.",
+          "author": "Refrigeration Tech",
+          "role": "Grocery and cold storage specialist"
+        },
+        {
+          "id": "intro-where-seen",
+          "type": "accordion",
+          "order": 3,
+          "metadata": { "title": "Where refrigeration shows up" },
+          "items": [
+            {
+              "title": "Grocery & Supermarkets",
+              "content": [
+                {
+                  "id": "where-grocery",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Display cases (medium temp) and freezers (low temp)\n- Large rack systems and controls\n- High savings from case doors, anti-sweat control, floating head"
+                }
+              ]
+            },
+            {
+              "title": "Restaurants & Foodservice",
+              "content": [
+                {
+                  "id": "where-restaurant",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Walk-ins and reach-ins\n- Often poor maintenance and infiltration\n- Big wins from door/gasket fixes and controls tuning"
+                }
+              ]
+            },
+            {
+              "title": "Cold Storage / Warehousing",
+              "content": [
+                {
+                  "id": "where-coldstorage",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Large infiltration loads from openings\n- Defrost and door management are key\n- Monitoring and alarms protect product"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "walk-ins",
+      "title": "Walk-in Coolers & Freezers",
+      "subtitle": "Loads, components, and common efficiency issues",
+      "icon": "🚪",
+      "order": 2,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field"],
+        "tags": ["technology"]
+      },
+      "content": [
+        {
+          "id": "walkins-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Walk-in energy drivers\n\n- Infiltration through doors and openings\n- Heat gain through walls/ceilings/floor (insulation condition)\n- Evaporator fan energy\n- Defrost energy (especially low-temp)\n\nCommon issues:\n- Damaged door gaskets and misaligned doors\n- Missing strip curtains\n- Ice buildup from warm air infiltration\n- Poor drain management\n\n**Field tip:** a warm door frame or heavy frost is usually a leak or control issue."
+        }
+      ]
+    },
+    {
+      "id": "display-cases",
+      "title": "Display Cases",
+      "subtitle": "Open vs door cases, anti-sweat, and airflow",
+      "icon": "🛒",
+      "order": 3,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales", "field"],
+        "tags": ["selection", "sales"]
+      },
+      "content": [
+        {
+          "id": "cases-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Display case basics\n\nOpen cases increase infiltration and refrigeration load. Adding doors or covers can dramatically reduce load and improve aisle comfort.\n\nOther levers:\n- **Anti-sweat heater control** (based on humidity)\n- ECM fan motors\n- Night curtains (where acceptable)\n\n**Sales translation:** case doors are a high-visibility upgrade that saves energy and improves comfort."
+        },
+        {
+          "id": "cases-table",
+          "type": "table",
+          "order": 2,
+          "headers": ["Lever", "Impact", "Notes"],
+          "rows": [
+            ["Doors/covers", "High", "Reduces infiltration and defrost load"],
+            ["Anti-sweat control", "Medium-High", "Use humidity-based control to avoid over-heating"],
+            ["ECM fans", "Medium", "Cuts fan kWh and improves part-load performance"],
+            ["Night curtains", "Medium", "Operational behavior dependent"]
+          ],
+          "caption": "Common display case measures"
+        }
+      ]
+    },
+    {
+      "id": "refrigerants",
+      "title": "Refrigerants & Compliance",
+      "subtitle": "GWP, regulations, and retrofit implications",
+      "icon": "🧪",
+      "order": 4,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales", "field"],
+        "tags": ["selection", "sales"]
+      },
+      "content": [
+        {
+          "id": "refrig-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Refrigerants: why it matters\n\n- High-GWP refrigerants face regulatory pressure and higher lifecycle cost risk\n- Refrigerant leaks create large climate impact and can be costly\n\n### Practical guidance\n- Track refrigerant type, charge size, and leak history\n- Consider compliance timelines and serviceability\n- Evaluate retrofit vs replacement based on system age and risk\n\n**Sales translation:** refrigerant compliance is a forcing function—combine compliance projects with efficiency upgrades."
+        }
+      ]
+    },
+    {
+      "id": "compressors-condensers",
+      "title": "Compressors & Condensers",
+      "subtitle": "Where the kW lives",
+      "icon": "⚙️",
+      "order": 5,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field"],
+        "tags": ["technology"]
+      },
+      "content": [
+        {
+          "id": "compressor-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Compressor power basics\n\nCompressor power rises with:\n- Higher lift (higher head pressure or lower suction)\n- Higher mass flow (higher load)\n\nCondenser performance matters:\n- Clean coils\n- Proper fan staging/VFD\n- Correct head pressure controls\n\n**Field tip:** dirty condensers and failed fans force high head pressure and spike kW."
+        }
+      ]
+    },
+    {
+      "id": "floating-head-pressure",
+      "title": "Floating Head Pressure",
+      "subtitle": "A top control lever for refrigeration energy",
+      "icon": "📉",
+      "order": 6,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales"],
+        "tags": ["selection", "optimization", "sales"]
+      },
+      "content": [
+        {
+          "id": "floating-head-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## What floating head does\n\nFloating head pressure reduces condensing pressure when outdoor ambient allows.\n\nBenefits:\n- Lower compressor lift → lower kW\n- Often easy to implement if controls support it\n\nWatch-outs:\n- Too-low head can impact expansion valve behavior and oil return if not designed\n- Must coordinate with condenser fan control\n\n**Sales translation:** it’s a “controls-first” measure with big savings potential."
+        },
+        {
+          "id": "floating-head-accordion",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "Implementation checklist",
+              "content": [
+                {
+                  "id": "floating-checklist",
+                  "type": "list",
+                  "order": 1,
+                  "items": [
+                    "Confirm controller supports floating head strategy",
+                    "Verify condenser fan staging/VFD control",
+                    "Set minimum head pressure limits by manufacturer guidance",
+                    "Trend product temperatures during changes",
+                    "Confirm alarms and safety interlocks"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "defrost-optimization",
+      "title": "Defrost Optimization",
+      "subtitle": "Stop over-defrosting and reduce load",
+      "icon": "❄️",
+      "order": 7,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["field", "sales", "optimization"]
+      },
+      "content": [
+        {
+          "id": "defrost-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Why defrost is a hidden load\n\nDefrost energy is paid twice:\n- Direct defrost energy (electric or hot gas)\n- Extra refrigeration to remove the added heat after defrost\n\n### Better approaches\n- Demand defrost (terminate based on coil condition)\n- Proper termination and fan delay\n- Reduce infiltration so frost accumulates slower\n\n**Field tip:** if coils are defrosting when not frosted, there’s a control opportunity."
+        }
+      ]
+    },
+    {
+      "id": "doors-gaskets",
+      "title": "Doors, Gaskets & Strip Curtains",
+      "subtitle": "Behavior and maintenance that saves energy",
+      "icon": "🚪",
+      "order": 8,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["field", "sales", "engineer"],
+        "tags": ["field", "sales"]
+      },
+      "content": [
+        {
+          "id": "doors-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Door-related measures\n\n- Replace worn gaskets\n- Fix door alignment and closers\n- Add/repair strip curtains\n- Reduce door-open time (training + signage)\n\nBenefits:\n- Lower infiltration → lower compressor load\n- Reduced frost → less defrost energy\n- Improved temperature stability\n\n**Sales translation:** low-cost maintenance fixes can yield surprising savings and improve reliability."
+        }
+      ]
+    },
+    {
+      "id": "controls-monitoring",
+      "title": "Controls & Monitoring",
+      "subtitle": "Persistence through alarms and trending",
+      "icon": "📈",
+      "order": 9,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales"],
+        "tags": ["roi", "sales"]
+      },
+      "content": [
+        {
+          "id": "monitoring-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Why monitoring matters\n\nRefrigeration savings and reliability persist when you can detect:\n- Drifting setpoints\n- Door failures and infiltration events\n- Defrost issues\n- Compressor/condenser faults\n\nEven basic monitoring (temps + alarms) protects product and reduces emergency calls.\n\n**Sales translation:** monitoring is a risk-reduction product as much as an energy saver."
+        }
+      ]
+    },
+    {
+      "id": "sales-strategies",
+      "title": "Sales Strategies & ROI",
+      "subtitle": "Selling refrigeration upgrades effectively",
+      "icon": "💰",
+      "order": 10,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["sales"],
+        "tags": ["sales", "roi"]
+      },
+      "content": [
+        {
+          "id": "sales-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Selling Refrigeration Projects\n\n## The framing\n\n- **Reliability and product protection** first\n- Then energy savings (often large and persistent)\n\n### Discovery questions\n- Any recent spoilage incidents or warm temperature alarms?\n- Do you have monitoring today? Who responds to alarms?\n- How often do you see frost/ice buildup?\n- Are case doors/covers feasible operationally?\n- What refrigerant is in use and what is the leak history?\n\n### Objection handling\n| Objection | Response |\n|---|---|\n| \"We can’t change operations\" | \"Start with controls (floating head, defrost) and maintenance fixes—minimal behavior change.\" |\n| \"We’re worried about product temps\" | \"We trend temps during adjustments and keep conservative limits—product protection is the priority.\" |\n| \"We’ll replace later\" | \"Controls and low-cost fixes reduce energy and risk now—and can improve performance until replacement.\" |"
+        }
+      ]
+    },
+    {
+      "id": "field-guide",
+      "title": "Field Identification Guide",
+      "subtitle": "What to capture in a refrigeration walkdown",
+      "icon": "🔍",
+      "order": 11,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["field", "sales", "engineer"],
+        "tags": ["field", "selection"]
+      },
+      "content": [
+        {
+          "id": "field-checklist",
+          "type": "list",
+          "order": 1,
+          "items": [
+            "Photograph controllers and setpoints (suction, head, defrost schedule)",
+            "Record refrigerant type if visible on labels/service docs",
+            "Document door condition (gaskets, closers, strip curtains) and any infiltration signs",
+            "Note frost/ice on coils and drain condition",
+            "Capture condenser coil condition and fan operation",
+            "List case types (open vs doors) and anti-sweat heater control method",
+            "Ask about alarm response process and service history"
+          ]
+        },
+        {
+          "id": "field-signals",
+          "type": "table",
+          "order": 2,
+          "headers": ["Signal", "Likely cause", "Opportunity"],
+          "rows": [
+            ["High head pressure year-round", "Fixed head pressure control", "Implement floating head with safeguards"],
+            ["Frequent defrost with little frost", "Schedule-based defrost", "Demand defrost / better termination"],
+            ["Heavy frost near doors", "Infiltration", "Gaskets/curtains/behavior fixes"],
+            ["Hot aisles near cases", "Open cases and anti-sweat", "Doors/covers and anti-sweat optimization"]
+          ],
+          "caption": "Fast diagnostic signals"
+        }
+      ]
+    },
+    {
+      "id": "obf-measures",
+      "title": "OBF-Eligible Measures",
+      "subtitle": "Common refrigeration measures that qualify",
+      "icon": "💵",
+      "order": 12,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "roi", "financing"]
+      },
+      "content": [
+        {
+          "id": "obf-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# OBF Eligibility for Refrigeration\n\nRefrigeration programs vary widely. Hardware measures with clear savings and incentive support are commonly eligible."
+        },
+        {
+          "id": "obf-table",
+          "type": "table",
+          "order": 2,
+          "headers": ["Measure", "OBF Eligible?", "Notes"],
+          "rows": [
+            ["Case doors / covers", "✅ Yes", "Often strong incentives; large load reduction"],
+            ["ECM evaporator fans", "✅ Yes", "Common measure with measurable savings"],
+            ["Floating head pressure controls (hardware/controls)", "✅/⚠️ Sometimes", "Eligibility depends on program; better bundled"],
+            ["Anti-sweat heater controls", "✅ Yes", "Humidity-based control is a common eligible measure"],
+            ["Door gaskets/curtains", "⚠️ Maybe", "Sometimes treated as maintenance; best bundled with larger project"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "subtitle": "Test your refrigeration knowledge",
+      "icon": "📝",
+      "order": 13,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["quiz"]
+      },
+      "content": [
+        {
+          "id": "refrigeration-quiz",
+          "type": "interactive",
+          "order": 1,
+          "component": "quiz-widget",
+          "config": {
+            "title": "Refrigeration Systems Quiz",
+            "questions": [
+              {
+                "id": "q1",
+                "question": "What is the primary benefit of floating head pressure control?",
+                "options": ["Increase head pressure in summer", "Lower compressor lift and kW when ambient allows", "Raise suction pressure to unsafe levels", "Eliminate defrost"],
+                "correctAnswer": 1,
+                "explanation": "Floating head reduces condensing pressure in cool ambient conditions, lowering compressor lift and energy.",
+                "points": 10
+              },
+              {
+                "id": "q2",
+                "question": "Why do door gaskets and strip curtains save energy in walk-ins?",
+                "options": ["They increase infiltration", "They reduce warm air infiltration and frost load", "They increase defrost frequency", "They raise head pressure"],
+                "correctAnswer": 1,
+                "explanation": "Reducing infiltration lowers refrigeration load and reduces frost accumulation and defrost energy.",
+                "points": 10
+              },
+              {
+                "id": "q3",
+                "question": "Why can over-defrosting increase energy use?",
+                "options": ["It removes too much refrigerant", "It adds heat that must be removed afterward", "It lowers head pressure", "It reduces infiltration"],
+                "correctAnswer": 1,
+                "explanation": "Defrost adds heat directly and then the refrigeration system must remove that added heat.",
+                "points": 10
+              },
+              {
+                "id": "q4",
+                "question": "Which upgrade often provides a major load reduction for open refrigerated display cases?",
+                "options": ["Raising head pressure", "Adding doors/covers", "Disabling alarms", "Increasing anti-sweat heater runtime"],
+                "correctAnswer": 1,
+                "explanation": "Doors/covers reduce infiltration and refrigeration load significantly.",
+                "points": 10
+              },
+              {
+                "id": "q5",
+                "question": "What is a key non-energy driver for refrigeration projects?",
+                "options": ["Product protection and reliability", "Lighting color quality", "Power factor penalties only", "Window SHGC"],
+                "correctAnswer": 0,
+                "explanation": "Reliability and protecting product from temperature excursions is often the primary business driver.",
+                "points": 10
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+

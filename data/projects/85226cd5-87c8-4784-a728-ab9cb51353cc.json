@@ -1,0 +1,91 @@
+{
+  "id": "85226cd5-87c8-4784-a728-ab9cb51353cc",
+  "driveFolderLink": "local",
+  "customer": {
+    "projectNumber": "TMP-656307866",
+    "companyName": "EverWatt Test"
+  },
+  "createdAt": "2026-01-19T18:46:47.885Z",
+  "updatedAt": "2026-01-19T18:46:48.395Z",
+  "userId": "default-user",
+  "proposalPacks": [
+    {
+      "proposalPackId": "7a263ff2-2b71-4be3-b573-940a8bb64116",
+      "createdAt": "2026-01-19T18:46:47.944Z",
+      "createdBy": "battery_calculator",
+      "title": "Battery Option A (stub)",
+      "summary": "Stub proposal pack to prove end-to-end contract wiring (run → import → view).",
+      "basedOnSnapshotId": "620f4c72-e3a5-457f-a4fa-5fba791eac19",
+      "storageKey": "default-user/projects/85226cd5-87c8-4784-a728-ab9cb51353cc/proposals/7a263ff2-2b71-4be3-b573-940a8bb64116/proposal_pack.json"
+    }
+  ],
+  "graph": {
+    "assets": [],
+    "measures": [],
+    "inbox": [
+      {
+        "id": "87c4a3b0-b0b4-4084-a56d-132dd928b36e",
+        "status": "inferred",
+        "sourceKey": "7a263ff2-2b71-4be3-b573-940a8bb64116:ae5670bc-f949-4fc3-b493-2548ff84d40c:0",
+        "provenance": {
+          "fileId": "7a263ff2-2b71-4be3-b573-940a8bb64116",
+          "source": "proposalPack",
+          "proposalPackId": "7a263ff2-2b71-4be3-b573-940a8bb64116",
+          "scenarioId": "ae5670bc-f949-4fc3-b493-2548ff84d40c",
+          "deltaId": "5cb0ee20-0641-4db1-8b09-5d52fc58267c",
+          "sourceKey": "7a263ff2-2b71-4be3-b573-940a8bb64116:ae5670bc-f949-4fc3-b493-2548ff84d40c:0",
+          "storageKey": "default-user/projects/85226cd5-87c8-4784-a728-ab9cb51353cc/proposals/7a263ff2-2b71-4be3-b573-940a8bb64116/proposal_pack.json",
+          "extractedAt": "2026-01-19T18:46:48.367Z"
+        },
+        "confidence": 0.75,
+        "needsConfirmation": true,
+        "createdAt": "2026-01-19T18:46:48.367Z",
+        "kind": "suggestedMeasure",
+        "suggestedMeasure": {
+          "id": "795ffdcf-a885-4548-a851-65d80d6c17d4",
+          "name": "Install BESS (Option A)",
+          "category": "battery",
+          "notes": "Stub measure; does not mutate project until reviewed and committed."
+        }
+      },
+      {
+        "id": "cc0c5fae-80d4-4af8-ab23-d6e936869240",
+        "status": "inferred",
+        "sourceKey": "7a263ff2-2b71-4be3-b573-940a8bb64116:ae5670bc-f949-4fc3-b493-2548ff84d40c:1",
+        "provenance": {
+          "fileId": "7a263ff2-2b71-4be3-b573-940a8bb64116",
+          "source": "proposalPack",
+          "proposalPackId": "7a263ff2-2b71-4be3-b573-940a8bb64116",
+          "scenarioId": "ae5670bc-f949-4fc3-b493-2548ff84d40c",
+          "deltaId": "8afc5ef6-23aa-4b66-a321-b9609ad070ed",
+          "sourceKey": "7a263ff2-2b71-4be3-b573-940a8bb64116:ae5670bc-f949-4fc3-b493-2548ff84d40c:1",
+          "storageKey": "default-user/projects/85226cd5-87c8-4784-a728-ab9cb51353cc/proposals/7a263ff2-2b71-4be3-b573-940a8bb64116/proposal_pack.json",
+          "extractedAt": "2026-01-19T18:46:48.367Z"
+        },
+        "confidence": 0.7,
+        "needsConfirmation": true,
+        "createdAt": "2026-01-19T18:46:48.367Z",
+        "kind": "suggestedBomItems",
+        "suggestedBomItems": {
+          "measureId": "795ffdcf-a885-4548-a851-65d80d6c17d4",
+          "items": [
+            {
+              "sku": "BESS-OPTION-A",
+              "description": "Battery energy storage system (material only)",
+              "qty": 1,
+              "uom": "ea"
+            },
+            {
+              "sku": "EMS",
+              "description": "Energy management system",
+              "qty": 1,
+              "uom": "ea"
+            }
+          ]
+        }
+      }
+    ],
+    "inboxHistory": [],
+    "decisions": []
+  }
+}

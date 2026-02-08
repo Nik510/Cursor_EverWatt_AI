@@ -1,0 +1,424 @@
+{
+  "id": "electrification",
+  "title": "Electrification Measures",
+  "subtitle": "Heat Pumps, Electric Equipment, and Decarbonization",
+  "description": "Guide to electrifying buildings including heat pump technologies, electric water heating, and EV infrastructure. Covers technical considerations, economics, and policy drivers.",
+  "icon": "⚡",
+  "category": "electrification",
+  "order": 5,
+  "status": "published",
+  "metadata": {
+    "author": "EverWatt Engineering Team",
+    "lastUpdated": "2025-12-13",
+    "version": "1.0.0",
+    "estimatedTime": 150,
+    "difficulty": "intermediate",
+    "tags": ["heat-pumps", "vrf", "electrification", "decarbonization", "ev", "electric"]
+  },
+  "sections": [
+    {
+      "id": "quick-overview",
+      "title": "Quick Overview",
+      "subtitle": "90-second skim + jump points",
+      "icon": "⚡",
+      "order": 0,
+      "metadata": {
+        "estimatedTime": 8,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "sales", "selection"]
+      },
+      "content": [
+        {
+          "id": "qv-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 3,
+          "cards": [
+            {
+              "title": "Core Idea",
+              "description": "Replace combustion with efficient electric tech (heat pumps, HPWH) while managing demand + infrastructure.",
+              "metadata": { "icon": "⚡" }
+            },
+            {
+              "title": "Heat Pump Reality",
+              "description": "COP 2–4 means 2–4× more heat per kWh. Cold weather reduces capacity and COP—plan for it.",
+              "metadata": { "icon": "♻️" }
+            },
+            {
+              "title": "Utility Bill Trap",
+              "description": "Electrification can increase demand charges—rate analysis + load management matters.",
+              "metadata": { "icon": "📈" }
+            },
+            {
+              "title": "DHW is Often a Win",
+              "description": "HPWH + recirc control can be strong ROI and big Scope 1 reduction in hotels/healthcare.",
+              "metadata": { "icon": "💧" }
+            },
+            {
+              "title": "EV Load Needs Controls",
+              "description": "Managed charging prevents demand spikes. Design for future capacity and control from day one.",
+              "metadata": { "icon": "🚗" }
+            },
+            {
+              "title": "What to Collect",
+              "description": "Gas/electric rates, interval demand peaks, winter design temps, equipment ages, panel capacity, space constraints.",
+              "metadata": { "icon": "📋" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "introduction",
+      "title": "Introduction to Electrification",
+      "subtitle": "Why Electrify Buildings?",
+      "icon": "📚",
+      "order": 1,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["fundamentals", "overview", "sales"]
+      },
+      "content": [
+        {
+          "id": "intro-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# The Electrification Imperative\n\n## What is Building Electrification?\n\nBuilding electrification means replacing fossil fuel-powered equipment (gas boilers, furnaces, water heaters) with efficient electric alternatives (heat pumps, electric water heaters). The goal: eliminate on-site combustion.\n\n## Why Now?\n\n### 1. Climate Mandates\n- California: All-electric new construction codes (Title 24)\n- NYC: Local Law 97 requires 40% emissions reduction by 2030\n- Many cities banning gas in new buildings\n\n### 2. Grid Decarbonization\n- Electric grid is getting cleaner every year\n- California: 60%+ renewable by 2030\n- Electric heat pumps: 2-4x more efficient than resistance\n\n### 3. Technology Advancement\n- Cold-climate heat pumps work to -15°F\n- VRF systems offer precise zone control\n- Heat pump water heaters are mainstream"
+        },
+        {
+          "id": "intro-quote",
+          "type": "quote",
+          "order": 2,
+          "quote": "Electrification isn't just about the environment - it's about operating cost. A heat pump uses 50-70% less energy than a gas boiler for the same heating output.",
+          "author": "Sustainability Director",
+          "role": "Fortune 500 Company"
+        },
+        {
+          "id": "intro-scope1",
+          "type": "markdown",
+          "order": 3,
+          "content": "## Scope 1 Emissions\n\n**Scope 1 = Direct emissions from on-site combustion**\n\n- Gas boilers and furnaces\n- Gas water heaters\n- Gas cooking equipment\n- Emergency generators\n\n**Why It Matters**: ESG reporting, carbon regulations, and investor pressure all target Scope 1 reductions. Electrification is the primary path to eliminate Scope 1 from buildings."
+        }
+      ]
+    },
+    {
+      "id": "heat-pumps",
+      "title": "Heat Pump Technologies",
+      "subtitle": "ASHP, WSHP, VRF Systems",
+      "icon": "♻️",
+      "order": 2,
+      "metadata": {
+        "estimatedTime": 30,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales", "field"],
+        "tags": ["heat-pumps", "selection", "electrification"]
+      },
+      "content": [
+        {
+          "id": "hp-types",
+          "type": "tabs",
+          "order": 1,
+          "tabs": [
+            {
+              "label": "Air-Source (ASHP)",
+              "content": [
+                {
+                  "id": "ashp",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Air-Source Heat Pumps\n\n**Most common type** - extracts heat from outdoor air.\n\n### Types:\n- **Ducted split systems**: Like traditional AC but reversible\n- **Ductless mini-splits**: Wall-mounted indoor units\n- **Packaged rooftop units**: Self-contained RTU form factor\n\n### Performance:\n- COP: 3.0-4.5 at 47°F\n- COP: 2.0-3.0 at 17°F\n- Cold-climate models: Maintain capacity to -15°F\n\n### Best Applications:\n- Smaller buildings\n- Zone-by-zone conditioning\n- Retrofit where ductwork exists"
+                }
+              ]
+            },
+            {
+              "label": "VRF Systems",
+              "content": [
+                {
+                  "id": "vrf",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Variable Refrigerant Flow (VRF)\n\n**Multi-zone system** with one outdoor unit serving many indoor units.\n\n### Key Features:\n- **Heat recovery**: Move heat between zones simultaneously\n- **Modulating compressors**: Match capacity to load precisely\n- **Individual zone control**: Each space independently controlled\n\n### Types:\n- **2-pipe**: Heating OR cooling (not simultaneous)\n- **3-pipe/heat recovery**: Heating AND cooling simultaneously\n\n### Best Applications:\n- Hotels, offices, multifamily\n- Buildings with diverse simultaneous loads\n- Retrofit where no ductwork exists\n\n### Leading Brands:\n- Daikin, Mitsubishi, LG, Fujitsu, Samsung"
+                }
+              ]
+            },
+            {
+              "label": "Water-Source (WSHP)",
+              "content": [
+                {
+                  "id": "wshp",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Water-Source Heat Pumps\n\n**Zone-level heat pumps** connected to a common water loop.\n\n### How It Works:\n- Each zone has a small WSHP (ceiling or closet)\n- All units connected to building water loop\n- Loop maintained at 60-90°F by cooling tower + boiler\n\n### Advantages:\n- Heat recovery between zones\n- Consistent efficiency (water temp stable)\n- Easy to add/remove zones\n- Quiet (compressor in conditioned space)\n\n### Considerations:\n- Requires water loop infrastructure\n- Distributed maintenance (many small units)\n- Still need supplemental heating/cooling for loop"
+                }
+              ]
+            },
+            {
+              "label": "Ground-Source (GSHP)",
+              "content": [
+                {
+                  "id": "gshp",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Ground-Source Heat Pumps\n\n**Highest efficiency** - uses stable ground temperature as source/sink.\n\n### Ground Loop Types:\n- **Horizontal**: Trenched 4-6 ft deep (needs land area)\n- **Vertical**: Bored 150-400 ft deep (smaller footprint)\n- **Open loop**: Pumps groundwater directly (aquifer required)\n\n### Performance:\n- COP: 4.0-5.5 (highest of any heat pump)\n- Consistent year-round (ground temp = 50-60°F)\n- Very low operating cost\n\n### Considerations:\n- High first cost ($15,000-30,000/ton)\n- Requires drilling/trenching\n- Site geology matters\n- Best for new construction or major renovation"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hp-sizing",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "📐 Heat Pump Sizing Considerations",
+              "content": [
+                {
+                  "id": "sizing",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Key Difference from Gas Equipment\n\n**Heat pump capacity drops as outdoor temp drops**, unlike gas equipment which maintains full output.\n\n### Balance Point Concept:\n- Temperature where HP capacity = building load\n- Below balance point: need supplemental heat\n- Cold-climate HP pushes balance point lower\n\n### Sizing Options:\n\n**Option 1: Size for Design Load**\n- HP handles 100% of design day\n- Higher first cost\n- May be oversized most of year\n\n**Option 2: Size for 80% of Design**\n- HP handles most hours\n- Electric backup for extreme cold\n- Lower first cost, slightly higher operating cost\n\n**Option 3: Hybrid System**\n- HP handles base load\n- Gas backup for peaks\n- Best for very cold climates"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hp-sales",
+          "type": "markdown",
+          "order": 3,
+          "content": "## 💼 Sales Approach: Heat Pump Conversion\n\n### Entry Points\n- End of life boiler/furnace replacement\n- Carbon/emissions mandates\n- ESG reporting requirements\n- New construction\n\n### Opening Hook\n*\"Heat pumps deliver 3-4 units of heat for every unit of electricity. That's 300-400% efficient compared to your 80% gas boiler.\"*\n\n### Key Value Props\n1. **50-70% operating cost reduction** (climate dependent)\n2. **Scope 1 elimination** for ESG reporting\n3. **Future-proofed** against gas bans\n4. **Dual-use** - same equipment for heating AND cooling\n\n### Qualifying Questions\n- What are your carbon reduction goals/mandates?\n- What's the age/condition of current heating equipment?\n- What are your gas and electric rates?\n- Is ductwork or water loop infrastructure in place?"
+        }
+      ]
+    },
+    {
+      "id": "water-heating",
+      "title": "Electric Water Heating",
+      "subtitle": "Heat Pump Water Heaters and Electric Boilers",
+      "icon": "💧",
+      "order": 3,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales", "field"],
+        "tags": ["dhw", "hpwh", "electrification", "roi"]
+      },
+      "content": [
+        {
+          "id": "dhw-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Electric Water Heating Options\n\n## Heat Pump Water Heaters (HPWH)\n\n**Most efficient option** - uses heat pump technology for DHW.\n\n### Residential/Small Commercial:\n- Integrated tank units (50-80 gal)\n- COP: 2.5-3.5\n- Requires space for air circulation\n\n### Commercial Scale:\n- Central HPWH with storage tank\n- CO2 refrigerant systems (high temp output)\n- COP: 3.0-4.5 depending on entering water temp\n\n### Brands:\n- Rheem, A.O. Smith, Sanden, Mitsubishi\n\n## Electric Resistance\n\n- 100% efficient (all electricity becomes heat)\n- Lower first cost than HPWH\n- Higher operating cost (no COP benefit)\n- Best for small loads or backup"
+        },
+        {
+          "id": "dhw-comparison",
+          "type": "table",
+          "order": 2,
+          "metadata": { "title": "Water Heating Comparison" },
+          "headers": ["Technology", "Efficiency", "First Cost", "Operating Cost", "Best For"],
+          "rows": [
+            ["Gas water heater", "60-80%", "$", "$$$", "Existing gas infrastructure"],
+            ["Condensing gas", "90-96%", "$$", "$$", "High volume, gas available"],
+            ["Electric resistance", "100%", "$", "$$$$", "Small loads, backup"],
+            ["Heat pump (integrated)", "250-350%", "$$", "$$", "Residential, small commercial"],
+            ["Heat pump (central)", "300-450%", "$$$", "$", "Large commercial, new construction"]
+          ]
+        },
+        {
+          "id": "dhw-sales",
+          "type": "markdown",
+          "order": 3,
+          "content": "## 💼 Sales Approach: HPWH\n\n### Opening Hook\n*\"A heat pump water heater uses the same technology as your refrigerator, but in reverse. It pulls heat from the air to heat your water - that's why it's 3x more efficient than a regular water heater.\"*\n\n### Best Targets\n- Hotels (high DHW load, image-conscious)\n- Hospitals (24/7 load, sustainability goals)\n- Multifamily (incentives available)\n- Food service (high hot water use)\n\n### Considerations\n- Space requirements (air source)\n- First cost premium\n- Noise (compressor)\n- May cool surrounding space (benefit or issue?)"
+        }
+      ]
+    },
+    {
+      "id": "ev-infrastructure",
+      "title": "EV Charging Infrastructure",
+      "subtitle": "EVSE Planning and Installation",
+      "icon": "🚗",
+      "order": 4,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales"],
+        "tags": ["ev", "load-flex", "selection"]
+      },
+      "content": [
+        {
+          "id": "ev-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# EV Charging (EVSE)\n\n## Charging Levels\n\n### Level 1 (120V)\n- Standard outlet, ~4 miles/hour\n- No infrastructure needed\n- Good for overnight/long-term parking\n\n### Level 2 (208/240V)\n- ~25-30 miles/hour\n- Most common for buildings\n- Requires dedicated circuit\n\n### Level 3 (DC Fast)\n- ~200+ miles/hour\n- Significant infrastructure\n- Fleet, retail, highway applications"
+        },
+        {
+          "id": "ev-planning",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "📊 Planning for EV Load",
+              "content": [
+                {
+                  "id": "ev-load",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Load Management Strategies\n\n### The Challenge\n- Each L2 charger: 7-19 kW\n- 100 parking spaces → potentially 1+ MW\n- Electrical service may not support\n\n### Solutions:\n\n**1. Load Management**\n- Smart chargers that share capacity\n- Reduce per-charger power during peaks\n- Example: 10 chargers sharing 50 kW\n\n**2. Demand Response**\n- Reduce charging during building peaks\n- Integrate with BMS or utility DR\n\n**3. On-site Solar + Storage**\n- Generate during day, charge during day\n- Storage buffers peak demand\n\n**4. Phased Infrastructure**\n- Install conduit now, add chargers later\n- \"EV Ready\" vs. \"EV Installed\""
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "economics",
+      "title": "Electrification Economics",
+      "subtitle": "Making the Business Case",
+      "icon": "💰",
+      "order": 5,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer"],
+        "tags": ["sales", "roi", "rates"]
+      },
+      "content": [
+        {
+          "id": "econ-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Electrification Economics\n\n## Operating Cost Comparison\n\n### Key Variables:\n- Gas rate ($/therm)\n- Electric rate ($/kWh)\n- Electric demand charges ($/kW)\n- Heat pump COP\n- Equipment efficiency\n\n### Example Calculation:\n**100,000 BTU heating output needed**\n\n**Gas Boiler (80% efficient)**:\n- Input: 100,000 / 0.80 = 125,000 BTU = 1.25 therms\n- Cost: 1.25 × $1.50 = $1.88\n\n**Heat Pump (COP 3.0)**:\n- Input: 100,000 / 3.0 / 3,412 = 9.8 kWh\n- Cost: 9.8 × $0.20 = $1.96\n\n**At these rates: Nearly equal!** But if electric rate drops or COP is higher, HP wins."
+        },
+        {
+          "id": "econ-incentives",
+          "type": "cards",
+          "order": 2,
+          "columns": 2,
+          "cards": [
+            {
+              "title": "Utility Rebates",
+              "description": "Many utilities offer $500-$5,000+ for heat pump installations. Check local programs.",
+              "metadata": { "icon": "💵" }
+            },
+            {
+              "title": "Federal Tax Credits",
+              "description": "IRA provides up to 30% tax credit for commercial heat pump installations.",
+              "metadata": { "icon": "🏛️" }
+            },
+            {
+              "title": "State Programs",
+              "description": "California TECH Clean, NY Clean Heat, and others offer additional incentives.",
+              "metadata": { "icon": "🗺️" }
+            },
+            {
+              "title": "Carbon Credits",
+              "description": "Some markets allow Scope 1 reduction credits to be monetized.",
+              "metadata": { "icon": "🌱" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "obf-measures",
+      "title": "OBF-Eligible Measures",
+      "subtitle": "What Electrification Qualifies",
+      "icon": "💵",
+      "order": 6,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "roi", "financing"]
+      },
+      "content": [
+        {
+          "id": "obf-table",
+          "type": "table",
+          "order": 1,
+          "metadata": { "title": "Electrification OBF Eligibility" },
+          "headers": ["Measure", "OBF Eligible?", "Notes"],
+          "rows": [
+            ["Heat Pump (ASHP/WSHP/GSHP)", "✅ Yes", "Prime electrification measure"],
+            ["VRF System", "✅ Yes", "Multi-zone heat pump qualifies"],
+            ["Heat Pump Water Heater", "✅ Yes", "Equipment-based with savings"],
+            ["Electric Boiler", "✅ Yes", "But verify payback < 10 years"],
+            ["EV Charging Infrastructure", "⚠️ Varies", "Some utilities have separate programs"],
+            ["Induction Cooking Equipment", "✅ Yes", "Commercial kitchen electrification"],
+            ["Electric Panel Upgrade", "⚠️ Maybe", "Enabling infrastructure, depends on utility"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "subtitle": "Test Your Electrification Knowledge",
+      "icon": "📝",
+      "order": 7,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["quiz"]
+      },
+      "content": [
+        {
+          "id": "elec-quiz",
+          "type": "interactive",
+          "order": 1,
+          "component": "quiz-widget",
+          "config": {
+            "title": "Electrification Quiz",
+            "questions": [
+              {
+                "id": "q1",
+                "question": "A heat pump with COP of 3.0 is equivalent to what percentage efficiency?",
+                "options": ["30%", "100%", "300%", "3%"],
+                "correctAnswer": 2,
+                "explanation": "COP of 3.0 means 3 units of heat output for 1 unit of electricity input = 300% efficiency.",
+                "points": 10
+              },
+              {
+                "id": "q2",
+                "question": "What is 'Scope 1' emissions in building carbon accounting?",
+                "options": ["Electricity use", "Tenant emissions", "Direct on-site combustion", "Embodied carbon"],
+                "correctAnswer": 2,
+                "explanation": "Scope 1 refers to direct emissions from on-site fuel combustion (gas boilers, etc.).",
+                "points": 10
+              },
+              {
+                "id": "q3",
+                "question": "VRF 'heat recovery' systems can:",
+                "options": ["Only heat", "Only cool", "Heat and cool different zones simultaneously", "Recover heat from wastewater"],
+                "correctAnswer": 2,
+                "explanation": "Heat recovery VRF systems can provide heating to some zones while providing cooling to others at the same time.",
+                "points": 10
+              },
+              {
+                "id": "q4",
+                "question": "Which heat pump type has the highest COP?",
+                "options": ["Air-source", "Water-source", "Ground-source", "They're all the same"],
+                "correctAnswer": 2,
+                "explanation": "Ground-source heat pumps achieve the highest COP (4.0-5.5) because ground temperature is stable year-round.",
+                "points": 10
+              },
+              {
+                "id": "q5",
+                "question": "A Level 2 EV charger typically provides approximately how many miles of range per hour?",
+                "options": ["4 miles", "25-30 miles", "100 miles", "200+ miles"],
+                "correctAnswer": 1,
+                "explanation": "Level 2 chargers (208/240V) typically provide 25-30 miles of range per hour of charging.",
+                "points": 10
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

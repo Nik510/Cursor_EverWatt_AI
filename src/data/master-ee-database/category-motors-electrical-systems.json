@@ -1,0 +1,275 @@
+{
+  "id": "motors-electrical-systems",
+  "name": "MOTORS & ELECTRICAL SYSTEMS",
+  "subcategories": [
+    {
+      "id": "motors",
+      "name": "Motors",
+      "measures": [
+        {
+          "id": "measure-190",
+          "name": "NEMA Premium motors",
+          "keywords": []
+        },
+        {
+          "id": "measure-191",
+          "name": "ECM motors",
+          "keywords": [
+            "ecm"
+          ]
+        },
+        {
+          "id": "measure-192",
+          "name": "Right-sizing motors",
+          "keywords": []
+        },
+        {
+          "id": "measure-193",
+          "name": "Soft starters",
+          "keywords": []
+        },
+        {
+          "id": "measure-194",
+          "name": "Motor VFDs",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "electrical-infrastructure",
+      "name": "Electrical Infrastructure",
+      "measures": [
+        {
+          "id": "measure-195",
+          "name": "High-efficiency transformers",
+          "keywords": []
+        },
+        {
+          "id": "measure-196",
+          "name": "Load balancing",
+          "keywords": []
+        },
+        {
+          "id": "measure-197",
+          "name": "Power factor correction",
+          "keywords": []
+        },
+        {
+          "id": "measure-198",
+          "name": "Harmonic filtering",
+          "keywords": []
+        },
+        {
+          "id": "measure-199",
+          "name": "Smart panels",
+          "keywords": []
+        },
+        {
+          "id": "measure-200",
+          "name": "Submetering",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "storage",
+      "name": "Storage",
+      "measures": [
+        {
+          "id": "measure-201",
+          "name": "Battery energy storage systems (BESS)",
+          "keywords": [
+            "battery",
+            "bess"
+          ]
+        },
+        {
+          "id": "measure-202",
+          "name": "Peak shaving batteries",
+          "keywords": []
+        },
+        {
+          "id": "measure-203",
+          "name": "Load shifting batteries",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "renewables",
+      "name": "Renewables",
+      "measures": [
+        {
+          "id": "measure-204",
+          "name": "Solar PV",
+          "keywords": [
+            "solar"
+          ]
+        },
+        {
+          "id": "measure-205",
+          "name": "Solar thermal",
+          "keywords": [
+            "solar"
+          ]
+        },
+        {
+          "id": "measure-206",
+          "name": "Microgrid controls",
+          "keywords": [
+            "controls"
+          ]
+        },
+        {
+          "id": "measure-207",
+          "name": "Hybrid inverter systems",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "thermal-storage",
+      "name": "Thermal Storage",
+      "measures": [
+        {
+          "id": "measure-208",
+          "name": "Ice storage",
+          "keywords": []
+        },
+        {
+          "id": "measure-209",
+          "name": "Chilled water storage",
+          "keywords": []
+        },
+        {
+          "id": "measure-210",
+          "name": "PCM thermal storage",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "compressed-air",
+      "name": "Compressed Air",
+      "measures": [
+        {
+          "id": "measure-211",
+          "name": "Leak detection",
+          "keywords": []
+        },
+        {
+          "id": "measure-212",
+          "name": "Compressor replacement (VFD/two-stage)",
+          "keywords": [
+            "replacement"
+          ]
+        },
+        {
+          "id": "measure-213",
+          "name": "Zero-loss drains",
+          "keywords": []
+        },
+        {
+          "id": "measure-214",
+          "name": "Heat recovery",
+          "keywords": []
+        },
+        {
+          "id": "measure-215",
+          "name": "Setpoint optimization",
+          "keywords": [
+            "optimization"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "process-loads",
+      "name": "Process Loads",
+      "measures": [
+        {
+          "id": "measure-216",
+          "name": "Oven upgrades",
+          "keywords": []
+        },
+        {
+          "id": "measure-217",
+          "name": "Process chiller optimization",
+          "keywords": [
+            "chiller",
+            "optimization"
+          ]
+        },
+        {
+          "id": "measure-218",
+          "name": "Industrial refrigeration",
+          "keywords": [
+            "refrigeration"
+          ]
+        },
+        {
+          "id": "measure-219",
+          "name": "Pump VFDs",
+          "keywords": []
+        },
+        {
+          "id": "measure-220",
+          "name": "Industrial fans (ECM/VFD)",
+          "keywords": []
+        },
+        {
+          "id": "measure-221",
+          "name": "OR setback controls",
+          "keywords": [
+            "controls"
+          ]
+        },
+        {
+          "id": "measure-222",
+          "name": "OR ACH reduction",
+          "keywords": []
+        },
+        {
+          "id": "measure-223",
+          "name": "Lab VAV hood control",
+          "keywords": []
+        },
+        {
+          "id": "measure-224",
+          "name": "Lab exhaust VFDs",
+          "keywords": []
+        },
+        {
+          "id": "measure-225",
+          "name": "Isolation room pressurization",
+          "keywords": []
+        },
+        {
+          "id": "measure-226",
+          "name": "Heat recovery chillers for reheat loops",
+          "keywords": []
+        },
+        {
+          "id": "measure-227",
+          "name": "MRI chiller optimization",
+          "keywords": [
+            "chiller",
+            "optimization"
+          ]
+        },
+        {
+          "id": "measure-228",
+          "name": "Sterilizer reclaim systems",
+          "keywords": []
+        },
+        {
+          "id": "measure-229",
+          "name": "Medical air/vacuum optimization",
+          "keywords": [
+            "optimization"
+          ]
+        }
+      ]
+    }
+  ]
+}

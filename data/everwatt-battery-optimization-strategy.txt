@@ -1,0 +1,730 @@
+--- page 1 ---
+1/25EverWatt Business dev elopment - Batt ery
+Optimization S trategy
+Battery optimizer 
+Ok, I've built the foundation of my app in cursor but I'm  
+having a hard time with the battery logic wondering if I'm  
+doing something wrong I get to a point where the interval  
+data and the usage data don't upload, but that is a small  
+matter.
+The bigger issue is the AI is supposed to pick the battery  
+and it supposed to come up with the best solution  
+possible. This could be a combination of batteries from the  
+library, mixing and matching various quantities. It's  
+supposed to identify the baseline most average usage and  
+identify the peaks beyond that and start seeing if it's  
+possible to shave those peaks, if not, then it progressively  
+adjusts until it finds the correct peak. It is supposed to  
+identify the customer utility rate, what their peak demand  
+charges are, if it's tiered and possible to get them into a  
+lower tier. Look at their rate and even if the batteries aren't  
+used, see if installing them gets them on a special S rate  
+which results in a lower bill. There are some cases where  
+even if sma customer wouldn't benefit from leak demand  
+shaving, the installation of batteries would allow them on  
+ab S rate making their $ spent on demand much cheaper.  
+The system is supposed to identify all potential  
+opportunities and make the best possible selections.  
+Keeping the customer away from a higher tier identifying  
+how long the leaks are, and looking at how to reduce  
+them all in a monthly billing cycle since the way demand  
+works is you are charged for the highest peak demand  
+within any billing cycle. The S rate has something to do  
+with some 10% rule, but it isn't the deciding factor, the  
+deciding factor is what saved the customer the most  
+money because ultimately that is what matters to us and  
+the client. It needs to understand how aggressive it would  1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 2 ---
+2/25need to get to shave a spike for let's say 8 hours when a  
+typical battery would last for 3, is it worth it to install 2  
+more batteries? What's the long term effect. It's supposed  
+to think about any and everything I might be missing it's  
+supposed to be the most advanced battery calculating tool  
+In the world. Should I use another software, what can I do?  
+Another AI besides cursor and Gemini, I really need help.
+You’re not doing anything “wrong” by struggling here — this is a classic case where an
+LLM (Cursor/Gemini) is the wrong brain for the core math , and you want a deterministic
+optimizer + simulat or that the AI orchestr ates, not invents.
+Below is the architecture I’d use to make your “best solution possible” battery-picker real,
+including mixing/matching batteries, tiered demand charges, monthly billing-cycle max
+demand, and PG&E’s Option S “10% rule”.
+1) Key corr ection: sep arate AI from optimization
+Use AI for:
+reading/parsing rate tariff text + mapping customer to candidate rates
+generating a narrative + sensitivity analysis + explaining “why this battery”
+spotting missing inputs (“we don’t have 12 months demand history so Option S
+eligibility is uncertain”)
+Use a solver/simulator for:
+dispatch (interval-by-interval charge/discharge)
+cap discovery (monthly peak shaving feasibility)
+tariff comparison (including “install battery → qualify for Option S”)
+battery selection (integer quantities from library)
+If the math is inside the LLM, it will always be inconsist ent.
+2) What “S rat e / 10% rule” actually is (P G&E)1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 3 ---
+3/25PG&E’s “Option S” is a rate modifier for st orage  (commonly referenced as “Option S for
+Storage”) and the key eligibility requirement is:
+customer must be on specific non-residential “B” rates (e.g., B19/B20 families), and
+storage rated capacity must be at least 10% o f the cust omer ’s peak demand ov er the
+previous 12 months  
+So your engine should treat Option S as:
+a candidate tariff scenario that becomes available if the chosen battery power (kW
+rating) meets that 10% threshold (and other eligibility constraints).
+This aligns exactly with what you described (“even if batteries aren’t used much, getting on
+S rate can lower demand $”).
+3) The corr ect computational flow (what y our app should do)
+Step A — Normalize int erval data (this pr events 80% o f “uplo ad” failur es)
+Before any optimization:
+enforce one timezone
+enforce exact interval length (15-min vs 60-min)
+fill missing intervals (explicitly)
+clamp negatives / handle net export rules
+align billing cycle boundaries (calendar month vs utility billing month if you have it)
+Common r eason uplo ads “w ork” but lat er logic br eaks:  your downstream assumes 15-
+min and you got 5-min or 60-min, or DST creates missing/duplicate timestamps.
+Step B — Identif y candidat e tariffs (not one tariff )
+Your system should evaluate a set:
+the customer’s current tariff (baseline)
+plausible alternates (e.g., same class T OU variant, demand tiers, etc.)
+“battery-installed variants” like Option S if eligible 
+Step C — For each tariff , solv e: min bill  subject t o battery physics
+This is the heart.PG&E +2
+PG&E +21/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 4 ---
+4/25You need two layers:
+Layer 1: Disp atch optimization (giv en a specific b attery set)
+Given:
+load[t] (kW)
+tariff demand/energy prices
+battery constraints (kW power, kWh energy, efficiency, SOC bounds, export limit)
+Decide:
+charge[t], discharge[t], SOC[t]
+Objective:
+minimize total bill = energy charges + demand charges (+ any daily demand if
+applicable) − exports credits (if allowed)
+This is typically a linear or mix ed-int eger linear pr ogram (LP/MILP) .
+Layer 2: Batt ery selection optimization (choose quantities fr om librar y)
+Decision variables:
+qty[i] ∈  integers for each battery SKU i
+These determine:
+total_power = Σ qty[i]*kW_i
+total_energy = Σ qty[i]*kWh_i
+capex = Σ qty[i]*cost_i
+constraints: max units, footprint, interconnection limit, etc.
+Objective options:
+maximize NPV, or maximize annual savings − amortized cost, or best simple payback,
+etc.
+This becomes a MILP  (integer quantities) with the dispatch embedded (or approximated
+then refined).
+4) How t o implement “b aseline + peaks + pr ogressiv e shaving”
+correctly1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 5 ---
+5/25Your “baseline then shave peaks” idea is good as an intuition, but implement it as cap-
+discov ery + feasibility  (deterministic), not as a narrative heuristic.
+For each month:
+1. Choose a demand cap C (kW).
+2. Run a simulation/optimization to see if battery can keep net demand ≤ C in that
+month.
+3. Binary search C downward until infeasible.
+That gives you the lowest achiev able monthly peak  for that battery configuration.
+You already described this in your earlier spec (cap discovery). It’s the right approach.
+Where “8-hour spike vs 3-hour battery” falls out naturally:
+required energy roughly equals ∑(load[t] − C)+ over the spike duration (adjusted for
+efficiency)
+if the spike is long, the solver will show you need more kWh (and/or more kW), and
+you can quantify whether buying more batteries is worth it.
+5) How t o handle tier ed demand char ges + “av oid higher tier ”
+Model demand charges as:
+monthly max demand (or T OU max demand if applicable)
+tier blocks: demand in kW mapped to $/kW tiers
+In MILP terms, tiered pricing is piecewise linear and solvable with standard formulations.
+Then your optimizer automatically  prefers solutions that keep the billing determinant
+under a tier boundary if it’s cost-effective.
+6) Option S logic in the optimizer
+Treat Option S as a tariff candidate with an eligibility constraint:
+If total_power_kW >= 0.10 * peak_demand_12mo_kW , then Option S scenario is
+allowed; else it’s disallowed. PG&E +21/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 6 ---
+6/25Then run the same battery-selection optimization across:
+Current tariff
+Current tariff + Option S (if eligible)
+Other plausible tariffs
+Pick the global best result (highest savings / best NPV / whatever you choose).
+7) What so ftware stack t o use (this is the “ should I use another
+software” answ er)
+Keep Cur sor if y ou lik e it — but change the engine
+Use:
+Python + OR-T ools (CP-SA T) for MILP-like integer selection (great reliability)
+Pyomo  (or PuLP) for MILP if you want classic linear modeling
+If you need maximum speed/scale: Gurobi (paid) is the gold standard
+Use AI only to:
+generate candidate tariff list
+parse and structure tariff definitions into a machine format
+produce readable output + recommended design
+If you want “best in the world,” the backbone is operations r esear ch, not another chatbot.
+8) Minimal “w orking v ersion” plan (so y ou can ship)
+If you want the fastest path to a real optimizer:
+v1 (2–3 big wins, stable)
+Assume one tariff (current)
+Optimize dispatch for a given battery set
+Evaluate 20–200 candidate battery sets generated by heuristics:
+pick top 10–20 power sizes
+pick top 10–20 energy sizes
+map to library with a knapsack-ish matcher
+Return top 5 solutions + sensitivity chart1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 7 ---
+7/25v2 (tariff comp arison + Option S)
+Add tariff candidates
+Add Option S eligibility + scenario
+Return “best tariff + battery” combination
+v3 (true mix ed librar y selection)
+MILP for integer qty selection across the whole library
+9) If y ou tell me 6 specifics, I can giv e you the exact formulation y ou
+should code
+No back-and-forth required — just paste these when you’re ready and I’ll respond with
+the concrete solver structure and variable set:
+1. Interval length (15m/60m) and whether you have 12 months or 1–3 months
+2. Battery library fields you have (kW, kWh, roundtrip eff, cost, max cycles/day, etc.)
+3. Your target utility area (sounds like PG&E) + which “B” rate family you’re focusing on
+4. Whether export is allowed (and at what credit), or strictly no export
+5. Interconnection limit (max kW discharge) if any
+6. Your optimization goal: max annual savings, max NPV, min payback, or “best bill
+reduction regardless of capex”
+If you do one thing immediately: stop tr ying t o mak e the LLM “pick the best b attery”
+directly . Make it call a solver that proves what’s best under the rules. That’s how you get
+from “cool idea” to “most advanced calculator.”
+Sour ces
+Sour ces
+See my answers below:
+Interval length (15m/60m) and whether you have 12  
+months or 1–3 months
+We have 15-minute interval, but I want the system to be  
+smart enough to know whatever we upload since each  1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 8 ---
+8/25interval has a time stamp.
+Battery library fields you have (kW, kWh, roundtrip eff,  
+cost, max cycles/day, etc.)
+We have kW, kWh, C rates, cost and max cycles. 
+Your target utility area (sounds like PG&E) + which “B” rate  
+family you’re focusing on
+PG&E, but we will be going to other utilities in the future.  
+And this specific customer is a B19, but we need it to work  
+for everyone. 
+Whether export is allowed (and at what credit), or strictly  
+no export
+Interconnection limit (max kW discharge) if any
+The temperature or weather data is in the interval  
+spreadsheet directly from the utility.
+Your optimization goal: max annual savings, max NPV, min  
+payback, or “best bill reduction regardless of capex”
+This is what I need help with, we are a business and need  
+to make money off of this. The payback can't be more  
+than 10 years. And we want the most $ saved vs money  
+spent, with caveats of huge savings potential. Put your  
+sales engineer hat on and help figure out this math. 
+I also included a recent company meeting where we went  
+over our economic engine which should help steer you in  
+the right direction. 
+Got it. Here’s how I’d wire this so it (a) works for any uploaded interval cadence, (b)
+properly evaluates B-19 + Option S , (c) supports mix/mat ch batteries fr om a librar y, and
+(d) optimizes for “we mak e money + cust omer p ayback ≤ 10 y ears + don’t miss huge-
+savings plays. ”
+Also: I can’t see the “recent company meeting” you referenced (it’s not attached here). If
+you paste the key bullets or the economic-engine formula you discussed, I’ll snap the1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 9 ---
+9/25scoring weights to match it exactly.
+1) Int erval “smar t enough t o know what ever we uplo ad”
+Do this befor e any math:
+Parse timestamps → sort → compute dt = median(diff(timestamps))
+Set steps_per_hour = round(3600 / dt_seconds)
+Validate: 15-min = 4, 60-min = 1, 5-min = 12, etc.
+If gaps exist, insert missing rows with load=None  and decide a fill policy:
+safest: fail + r epor t missing int ervals
+or: fill with linear interpolation (only if gaps are small)
+This way the engine doesn’t care what cadence the utility exports.
+2) PG&E B-19 + Option S rules (what y our optimizer must model)
+For B-19 customers, Option S eligibility requires storage inverter capacity ≥ 10% o f the
+customer ’s peak demand ov er the pr evious 12 months , and enrollment is subject to caps.
+Option S is widely described as “storage-friendly” because it reduces exposure to big,
+infrequent monthly peaks by using a different demand charge structure (commonly
+discussed as daily demand charges). 
+Implementation implication:  treat Option S as a separate tariff scenario your optimizer can
+choose only if  the selected battery kW meets that 10% rule. 
+3) The cor e engine y ou need: “tariff scenarios” × “b attery sets”
+Your “AI picks the best solution” should actually mean:
+For each tariff scenario (curr ent B-19, B-19 + Option S, other P G&E B rat es
+later)
+1. For each candidate battery bundle (mix/match quantities from library)PG&E +1
+Energy T oolbase
+PG&E1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 10 ---
+10/252. Run deterministic dispatch optimization (charge/discharge/SOC) over the year
+3. Compute:
+annual bill under that tariff (energy + demand components)
+annual savings vs baseline
+peak reductions (monthly billing determinant)
+Option S eligibility (if relevant)
+battery utilization and “how aggressive” it had to be
+Then pick the best bundle under a business objective (below).
+4) Batt ery librar y fields y ou hav e → constraints y ou must enfor ce
+You said you have: kW, kWh, C-rates, cost, max cycles.
+For each SKU i with quantity q_i:
+P_total = Σ q_i * kW_i
+E_total = Σ q_i * kWh_i
+C-rate constraint (critical): P_total ≤ Σ q_i * (C_i * kWh_i)
+(This prevents impossible “3C batteries delivering 10C behavior”)
+Daily/annual cycle constraint (soft or hard):
+hard: equivalent_full_cycles ≤ max_cycles_per_day * days
+better: add a degradation cost penalty  if you exceed preferred cycling
+You did not mention r oundtrip efficiency . If you don’t have it, set a conservative default
+per SKU class (or require it). Not modeling efficiency will overstate savings.
+5) Disp atch math: don’t “b aseline + peaks” as a heuristic — do it as a
+proven cap solv er
+You can still keep your mental model (“baseline then shave peaks”), but compute it
+deterministically:
+Monthly cap discov ery (for r epor ting + sanity checks)
+For a given battery bundle and month:1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 11 ---
+11/25binary search a cap C (kW)
+test feasibility: can dispatch keep net demand ≤ C for all intervals that month?
+lowest feasible C = “best achievable billing determinant for that month”
+This produces exactly what you want: “8-hour spike vs 3-hour battery” becomes obvious in
+the infeasibility boundary.
+6) Now the big question: business objectiv e (“w e need t o mak e
+money; p ayback ≤ 10 y ears”)
+Here’s the sales-engineer way to do it without getting cute:
+Define thr ee prices
+CapEx : your cost for equipment + install + soft costs (permits, eng, interconnect, PM)
+Price_to_customer : what you charge
+Gross_margin_$ = Price_to_customer - CapEx
+Hard constraints (filt ers)
+1. Customer p ayback constraint
+Price_to_customer / Annual_savings ≤ 10
+(You said payback can’t be more than 10 years.)
+2. Minimum savings floor (prevents tiny deals that barely move the needle)
+e.g., Annual_savings ≥ $X  or Annual_savings ≥ Y% of bill
+3. Optional: max complexity (e.g., max battery count) if field realities matter
+Ranking scor e (this is the “best $ sav ed vs money spent, with cav eats for huge
+savings”)
+Use a blended score that rewards R OI and scale:
+Score = (Annual_savings / Price_t o_cust omer) + λ * log(Annual_savings)
+First term = R OI (customer value per dollar)
+Second term = “don’t ignore whales” (big absolute savings)
+λ is a tuning knob (start around 0.05–0.20 depending on typical savings scale)
+Then among the top few by Score, break ties by:1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 12 ---
+12/25higher Gross_margin_$
+lower operational risk (fewer cycles, fewer batteries, less aggressive dispatch)
+This is simple, explainable, and it naturally surfaces:
+high-R OI moderat e savings  projects
+giant savings  projects even if R OI is only “good”
+Pricing (how y ou ensur e mar gin)
+You can let the optimizer choose a recommended pr ice within a payback-safe band:
+Max_price_allowed_by_payback = 10 * Annual_savings
+You set:
+Target_margin_%  (say 25–40% depending on deal size/risk)
+Price_to_customer = max(CapEx * (1 + Target_margin_% ),  Min_price_floor)
+But clamp it: Price_to_customer ≤ Max_price_allowed_by_payback
+If clamp forces price below your minimum acceptable margin, that battery bundle is not
+sellable .
+This converts “battery optimization” into “battery solution we can actually sell.”
+7) Wher e weather data fits (and wher e it doesn’t)
+Weather from the utility sheet is great for:
+explaining drivers (“peak coincides with heat wave”)
+future forecasting / M&V narratives
+It is not r equir ed for the core bill optimizer unless you’re building a predictive model for
+next year’s load. For now, treat weather as explanatory metadata.
+8) What I need fr om y ou (one p aste) to lock the math t o EverWatt’s
+economic engine
+Since the meeting file isn’t present here, paste either:
+the “economic engine” formula you discussed, or1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 13 ---
+13/255 bullets: what metric you’re using internally (gross margin vs revenue, how you value
+sales time, typical target margin bands, minimum deal size, and how you treat whales)
+Then I’ll return:
+the exact objective function + constraints in solver-ready terms
+the shortlist-generation strategy (so you don’t MILP the entire library at once)
+the output schema your app should produce (top 5 solutions + “why” + tariff
+comparison + Option S trigger)
+If you want, I can also give you a “v1 shippable” approach that avoids a heavy MILP
+(generate ~500 smart candidate bundles → run deterministic dispatch → pick best).
+Sour ces
+Sour ces
+annual t eam meeting 2026.pdf
+PDF
+The economic engine formula is in this PDF 
+According to your 2026 annual team meeting deck, EverW att’s economic engine is “Total
+System V alue per Qualified Lead” , where Total S ystem V alue = Annual Electricity $
+Savings × Gr oss Mar gin % , and the denominator is Qualified Leads  (close the “right”
+leads, not chase volume). 
+So for your battery optimizer, the “sales engineer” answer is:
+The optimizer should not simply maximize cust omer savings.
+It should maximize EverWatt Total S ystem V alue, subject to customer p ayback ≤ 10
+years and “sellability” constraints.
+Below is the exact math + how to implement it.
+1) Objectiv e function that mat ches y our economic engine
+Per-solution outputs (what y our simulat or must pr oduce)
+For each candidate battery bundle + tariff scenario:1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 14 ---
+14/25S = Annual electricity bill savings  ($/yr) vs baseline (no battery) 
+CapEx  = your installed cost basis (battery + BOS + labor + soft costs)
+Price  = what you charge customer (you can let the engine propose this)
+GM% = (Price - CapEx) / Price
+Hard constraint
+Payback ≤ 10 y ears
+Price / S ≤ 10  ⇒ Price ≤ 10 * S
+Economic-engine scor e (per pr oject)
+From the slide:
+Total S ystem V alue = S × GM%  
+So define:
+TSV = S * GM%
+This is your optimizer’s primary ranking metric.
+2) Pricing logic (so the optimizer can “ choose” price, not just
+hardwar e)
+If you let the optimizer pick Price  freely, the math will always push it to the maximum
+allowed by payback (10× savings). That’s not always market-realistic.
+So implement pricing b ands  and let the tool output 2–3 options:
+Define p ayback tar gets (configurable)
+PB_aggressive = 4–6 years
+PB_standard   = 6–8 years
+PB_max        = 10 years  (hard ceiling)
+Then:
+Price_target = S * PB_targetWhy this works: it rewards big savings  and healthy mar gin, exactly as the slide implies
+(“better execution increases both savings and margin”). 1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 15 ---
+15/25Price_floor = CapEx / (1 - GM_floor)  (ex: GM_floor=25% ⇒
+Price_floor=CapEx/0.75)
+Price = clamp(Price_target, Price_floor, 10*S)
+Now compute:
+GM% and TSV = S * GM%  for each band
+Best practice:  rank solutions by TSV_standard  but show all three price points so sales can
+choose how aggressive to be while staying under the 10-year ceiling.
+3) “P er qualified lead” int egration (optional now , but aligns with the
+deck)
+Your hedgehog slide explicitly ties the engine to qualified leads . 
+When you’re ready, add:
+p_close  = probability this lead closes (based on segment + payback + complexity)
+C_qual  = internal cost per qualified lead (sales time + engineering time)
+Then:
+Expect ed value per qualified lead
+EVQL = p_close * TSV - C_qual
+This makes the optimizer prefer “right leads” automatically—solutions with better close
+likelihood and execution simplicity.
+4) Missing inputs y ou must  model (or y ou’ll get wr ong answ ers)
+You didn’t specify export and interconnection. If you leave these undefined, your optimizer
+will silently overestimate savings.
+Defaults I r ecommend (until user explicitly inputs other wise)
+No expor t: discharge[t] ≤ load[t]  (battery can’t push net negative)
+Interconnection limit : if unknown, set P_total ≤ service_limit_kW  or use a
+conservative cap (you can expose it as a UI field)1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 16 ---
+16/25Battery efficiency : if not in library, set a conservative default (e.g., roundtrip 85–90%)
+and mark r esults as “assumed”
+5) Implementation structur e (what t o code next)
+A) Tariff scenarios (P G&E B-19 + “b attery-installed” options)
+For each customer, evaluate:
+1. Current B-19 (baseline)
+2. B-19 + storage modifier / Option S scenario if eligible
+(Your tool should treat it as a scenario switch that becomes available when the
+selected system meets eligibility requirements.)
+B) Batt ery bundle sear ch (mix/mat ch from y our librar y)
+Start v1 with a smart candidate generator (fast, reliable):
+generate 200–2,000 candidate bundles by:
+choosing a target P_total  grid (kW) and E_total  grid (kWh)
+mapping to integer quantities from your library (knapsack-ish)
+enforcing C-rate and max cycles constraints
+Then for each bundle:
+run deterministic dispatch optimization over the interval series
+compute S, then pricing bands, then TSV
+Pick top N.
+C) Lat er: full MILP selection
+Once v1 works, upgrade to MILP for exact selection across the whole library.
+6) The single best “nor th star ” metric for the optimizer (b ased on y our
+deck)
+Optimize:
+Maximize TSV_standard = Annual $ Savings × Gross Margin %
+Subject t o:1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 17 ---
+17/25Payback ≤ 10 years
+Operational constraints (no export unless allowed, interconnect cap, cycles, C-rate,
+etc.)
+And optionally rank by EVQL once you plug in close probability and qualification cost.
+What I need fr om y ou to finalize the exact scoring + constraints in
+your codeb ase (no extra fluff )
+Paste these 6 values and I’ll give you the literal equations + recommended defaults:
+1. GM_floor (minimum acceptable margin %, e.g. 25% / 30% / 35%)
+2. Typical “standard” customer payback target you actually win with (6? 7? 8?)
+3. Do you ever allow export on PG&E behind-the-meter storage in your use cases?
+(yes/no)
+4. Typical installed adder vs battery equipment cost (e.g., +35%, +60% etc.)
+5. Any max battery count / footprint / interconnection ceiling you assume by default
+6. Do you want to prefer “whales” explicitly (big savings) beyond T SV? (I can add a mild
+bonus term if yes)
+If you answer those, I’ll respond with an exact scoring function and the dispatch
+constraints written in solver-ready form.
+I am using cursor, so what can you provide me to write the  
+battery logic?
+You can absolutely keep Cursor. What you need is a deterministic “b attery optimization
+engine”  that Cursor can generate/maintain, with a clean interface your app calls.
+Below is a concrete, copy/pasteable blueprint: data contracts + algorithm + solv er
+formulation + implementation sk eleton (Python-first). If your app is T S/Node, tell me and
+I’ll mirror this in T S with a Python microservice or with OR-T ools in Node.1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 18 ---
+18/250) What y ou should build (one module)
+Create a module like:
+engine/intervals.py  (ingest + normalize)
+engine/tariffs/pge_b19.py  (bill calculator)
+engine/dispatch.py  (battery dispatch optimization)
+engine/bundles.py  (generate mix/match candidate bundles)
+engine/objective.py  (EverW att economic engine scoring: TSV = savings * GM% )
+engine/optimize.py  (orchestrates scenarios and returns top solutions)
+Cursor will be great at filling in the code once the math and boundaries  are locked.
+1) Data contracts (don’t skip this)
+Interval record
+Each row must contain at minimum:
+ts (timestamp)
+kw (site demand kW, import positive)
+Optional:
+temp_f  or weather columns (metadata only)
+Battery SKU
+For each battery in your library:
+id
+p_kw  (rated discharge/charge power kW)
+e_kwh  (usable energy kWh)
+c_rate  (max power per kWh, or validate with p/e)
+cost  (your internal installed or equipment cost — decide)
+max_cycles_per_day
+(recommended) eta_rt  (roundtrip efficiency). If missing, default.
+Tariff scenario int erface
+Must provide:1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 19 ---
+19/25calc_bill(intervals_kw, billing_calendar) -> annual_cost
+calc_demand_components(intervals_kw) -> details  (monthly max, etc.)
+2) The optimization loop (this is the “ AI picks best b attery” part)
+High lev el
+1. Load + normalize intervals (auto-detect cadence).
+2. Compute baseline annual bill for each tariff scenario.
+3. Generate candidate battery bundles (mix/match quantities from library).
+4. For each bundle + tariff scenario:
+run dispatch optimization → net load profile
+compute new annual bill → savings
+price + margin logic → GM%
+score = TSV = savings * GM%  with payback constraint
+5. Return top 5–10 solutions.
+This is deterministic and “best in the world” because it actually solves the problem.
+3) Candidat e bundle generation (fast v1 that w orks)
+You do not start with a huge MILP across the full library. Y ou start with smart enumeration:
+Comput e targets fr om int erval data
+P_peak = max(kw)
+P_base = percentile(kw, 50)  (or 60)
+P_shave_targets = linspace(P_peak, P_base, 15)  (caps you’ll attempt)
+For each cap C:
+required discharge “shape” is roughly max(0, kw - C)
+compute energy needed over worst day or worst streak:
+E_need = max_over_days(sum(max(0, kw-C)*dt_hours))
+Then propose bundles near:
+P_total ≈ (P_peak - C)  (kW)
+E_total ≈ E_need  (kWh)1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 20 ---
+20/25Map tar gets t o librar y (mix/mat ch)
+Use a knapsack-ish greedy + local search:
+pick SKUs that match power first (kW)
+then add energy (kWh) as needed
+try 5–20 variations per target (different SKUs)
+This yields ~300–2000 candidate bundles, which is manageable.
+4) Disp atch optimization (the cor e battery logic)
+This is the part you’re asking for.
+Decision v ariables per int erval t
+ch[t] ≥ 0  charge power (kW)
+dis[t] ≥ 0  discharge power (kW)
+soc[t]  state of charge (kWh)
+Constraints
+Let dt = interval_hours , P = P_total , E = E_total , ηc, ηd:
+0 ≤ ch[t] ≤ P
+0 ≤ dis[t] ≤ P
+0 ≤ soc[t] ≤ E
+SOC dynamics:
+soc[t+1] = soc[t] + (ηc*ch[t] - dis[t]/ηd) * dt
+No export (default):
+dis[t] ≤ load[t]  (so net load ≥ 0)
+Optional interconnection cap:
+dis[t] ≤ interconnect_kw
+Net lo ad
+net[t] = load[t] + ch[t] - dis[t]
+Objectiv e (v1)
+Minimize:1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 21 ---
+21/25energy cost: Σ net[t] * dt * energy_price[t]
+plus demand cost: demand_rate * max(net[t])  (or monthly max)
+Demand is the tricky part because of max() . Handle it with an auxiliary variable.
+Monthly demand max linearization
+For each month m:
+add variable D[m] ≥ 0
+for all t in month m: net[t] ≤ D[m]
+demand charge term includes D[m] * demand_rate(m)
+This works for standard “monthly billing determinant” demand.
+This is all linear (LP), so it’s fast.
+5) “Economic engine” scoring + pricing (Ev erWatt)
+Once you have savings S :
+Enfor ce payback
+Price ≤ 10*S
+Choose a standar d payback b and (e.g., 7 y ears)
+Price_target = S * PB_standard
+Price_floor = CapEx / (1 - GM_floor)
+Price = clamp(Price_target, Price_floor, 10*S)
+Compute:
+GM% = (Price - CapEx)/Price
+TSV = S * GM%
+Then rank by TSV (and optionally add a mild whale bonus term later).
+6) Copy/p aste: Py thon sk eleton you can hand t o Cur sorFor T OU demand (peak-period demand charges), you do the same but only constrain
+over intervals in that T OU window.1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 22 ---
+22/25python
+# engine/dispatch.py
+from dataclasses import dataclass
+from typing import Dict, List, Tuple
+import pandas as pd
+@dataclass
+class Bundle:
+    sku_qty: Dict[str, int]
+    p_kw: float
+    e_kwh: float
+    capex: float
+    eta_c: float = 0.95
+    eta_d: float = 0.95
+@dataclass
+class DispatchResult :
+    net_kw: pd.Series
+    ch_kw: pd.Series
+    dis_kw: pd.Series
+    soc_kwh: pd.Series
+def detect_interval_hours (ts: pd.Series ) -> float:
+    ts = pd.to_datetime(ts).sort_values()
+    dt = ts.diff().dropna().median()
+    return dt.total_seconds() / 3600.0
+def optimize_dispatch_lp (
+    df: pd.DataFrame,
+    bundle: Bundle,
+    month_index: pd.Series,
+    energy_price: pd.Series,
+    demand_rate: pd.Series,
+    no_export: bool = True,
+    interconnect_kw: float | None = None,
+) -> DispatchResult:
+    """
+    df must include columns: ts, load_kw
+    month_index: same length as df, values like '2026-01'1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 23 ---
+23/25    energy_price: $/kWh per interval
+    demand_rate: $/kW per month, indexed by month string
+    """
+    import ortools.linear_solver.pywraplp as pywraplp
+    load = df[ "load_kw" ].astype( float).to_list()
+    n = len(load)
+    dt = detect_interval_hours(df[ "ts"])
+    P = float(bundle.p_kw)
+    E = float(bundle.e_kwh)
+    eta_c = float(bundle.eta_c)
+    eta_d = float(bundle.eta_d)
+    solver = pywraplp.Solver.CreateSolver( "GLOP")  # LP
+    if solver is None:
+        raise RuntimeError( "OR-Tools GLOP solver not available" )
+    ch = [solver.NumVar( 0.0, P, f"ch_{t}") for t in range(n)]
+    dis_ub = P if interconnect_kw is None else min(P, float(interconnect_kw))
+    dis = [solver.NumVar( 0.0, dis_ub, f"dis_{t}") for t in range(n)]
+    soc = [solver.NumVar( 0.0, E, f"soc_{t}") for t in range(n)]
+    # SOC dynamics (soc[0] free or fixed; here we fix to 50% for stability)
+    solver.Add(soc[ 0] == 0.5 * E)
+    for t in range(n - 1):
+        solver.Add(
+            soc[t + 1]
+            == soc[t] + (eta_c * ch[t] - (dis[t] / eta_d)) * dt
+        )
+    # No export constraint
+    if no_export:
+        for t in range(n):
+            solver.Add(dis[t] <= load[t])
+    # Monthly demand max variables
+    months = month_index.astype( str).to_list()
+    unique_months = sorted(set(months))
+    D = {m: solver.NumVar( 0.0, solver.infinity(), f"D_{m}") for m in 
+unique_months}1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 24 ---
+24/25This gives you real battery logic:
+interval-aware
+SOC correct
+no-export safe by default
+monthly peak demand minimized    # Net load expression helper
+    # net[t] = load[t] + ch[t] - dis[t]
+    for t in range(n):
+        m = months[t]
+        solver.Add(load[t] + ch[t] - dis[t] <= D[m])
+    # Objective: energy + demand
+    obj = solver.Objective()
+    for t in range(n):
+        # energy cost: net[kW] * dt[h] = kWh
+        obj.SetCoefficient(ch[t], float(energy_price.iloc[t]) * dt)      # 
+adds energy
+        obj.SetCoefficient(dis[t], - float(energy_price.iloc[t]) * dt)    # 
+subtracts energy
+        # load term is constant and can be ignored in objective
+    for m in unique_months:
+        obj.SetCoefficient(D[m], float(demand_rate.loc[m]))
+    obj.SetMinimization()
+    status = solver.Solve()
+    if status != pywraplp.Solver.OPTIMAL:
+        raise RuntimeError( f"Dispatch LP failed: status= {status} ")
+    ch_s = pd.Series([v.solution_value() for v in ch], index=df.index)
+    dis_s = pd.Series([v.solution_value() for v in dis], index=df.index)
+    soc_s = pd.Series([v.solution_value() for v in soc], index=df.index)
+    net_s = df[ "load_kw" ] + ch_s - dis_s
+    return DispatchResult(net_kw=net_s, ch_kw=ch_s, dis_kw=dis_s,  
+soc_kwh=soc_s)1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy
+
+--- page 25 ---
+25/25energy prices included
+Then you plug in your B-19 tariff calculator to compute the bill.
+7) Next module: P G&E B-19 bill calculat or
+To do B-19 correctly, you’ll want a Tariff  object that returns:
+energy price per interval (T OU)
+demand charge rate(s) per month and per T OU window
+If you paste (or upload) one month of the rate table you’re using in the app (even a
+screenshot), I’ll give you the exact pge_b19.py  structure and how to represent:
+monthly max demand
+peak-period max demand
+tiered demand blocks (if applicable)
+Option S scenario gating (10% rule)
+8) What Cur sor should generat e next (y our exact pr ompt)
+Paste this into Cursor as a task:
+If you tell me what language your app backend is (Python vs Node), and how you currently
+represent the B-19 tariff (hardcoded vs parsed), I’ll tailor this into the exact file structure +
+a working optimize.py  that returns results your UI can display.“Implement a battery optimization engine using OR-T ools LP. Create modules: intervals
+normalization (auto-detect cadence), bundle generator (candidate bundles from
+battery library), dispatch optimizer (LP with SOC, no-export, monthly demand max),
+tariff billing (PG&E B-19 baseline + scenario for Option S eligibility), and economic
+scoring T SV = annual_savings * GM% with payback ≤ 10 years. R eturn top 10 solutions
+with bundle composition, predicted savings, payback, GM%, T SV, and peak reduction
+metrics.”1/12/26, 8:02 PM EverWatt Business development - Battery Optimization Strategy

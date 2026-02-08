@@ -1,0 +1,393 @@
+{
+  "id": "plug-load",
+  "title": "Plug Load Management",
+  "subtitle": "Equipment Efficiency, Power Management, and Behavior",
+  "description": "Training on managing miscellaneous electrical loads including office equipment, smart power strips, and behavioral programs. Often overlooked but growing in significance.",
+  "icon": "🔌",
+  "category": "plugload",
+  "order": 8,
+  "status": "published",
+  "metadata": {
+    "author": "EverWatt Engineering Team",
+    "lastUpdated": "2025-12-13",
+    "version": "1.0.0",
+    "estimatedTime": 90,
+    "difficulty": "beginner",
+    "tags": ["plug-load", "office-equipment", "energy-star", "power-management", "behavior"]
+  },
+  "sections": [
+    {
+      "id": "quick-overview",
+      "title": "Quick Overview",
+      "subtitle": "90-second skim + jump points",
+      "icon": "⚡",
+      "order": 0,
+      "metadata": {
+        "estimatedTime": 6,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "sales"]
+      },
+      "content": [
+        {
+          "id": "qv-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 3,
+          "cards": [
+            {
+              "title": "Why It Matters",
+              "description": "In efficient buildings, plug loads can be 25–35% of total energy (what’s left after HVAC/lighting).",
+              "metadata": { "icon": "🔌" }
+            },
+            {
+              "title": "Fastest Wins",
+              "description": "Smart strips + PC power management + vending controls deliver quick savings with low disruption.",
+              "metadata": { "icon": "⚡" }
+            },
+            {
+              "title": "Policy + Behavior",
+              "description": "Procurement standards (ENERGY STAR) and behavior programs make savings stick long-term.",
+              "metadata": { "icon": "📜" }
+            },
+            {
+              "title": "Field Signals",
+              "description": "Always-on devices, personal heaters, unmanaged break rooms, vending machines running 24/7.",
+              "metadata": { "icon": "🔍" }
+            },
+            {
+              "title": "What to Measure",
+              "description": "After-hours baseload, sample plug strips, and schedules (before you buy anything).",
+              "metadata": { "icon": "📈" }
+            },
+            {
+              "title": "Sales Hook",
+              "description": "These projects are “low drama”: small installs, fast payback, great bundle candidates.",
+              "metadata": { "icon": "💰" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "introduction",
+      "title": "Understanding Plug Loads",
+      "subtitle": "The Growing Energy Category",
+      "icon": "📚",
+      "order": 1,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["fundamentals", "overview"]
+      },
+      "content": [
+        {
+          "id": "intro-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# What Are Plug Loads?\n\n## Definition\n\n**Plug loads** (also called miscellaneous electric loads or MELs) are electrical devices plugged into outlets that are not part of HVAC, lighting, or major building systems.\n\n## Examples:\n- Computers, monitors, printers\n- Kitchen appliances (coffee makers, refrigerators, microwaves)\n- Charging devices (phones, laptops)\n- Vending machines\n- Office equipment (copiers, shredders)\n- Personal devices (fans, heaters, lamps)\n\n## Why Plug Loads Matter\n\n**Plug loads now represent 25-35% of commercial building energy** in efficient buildings. As HVAC and lighting have become more efficient, plug loads are a larger share of what remains."
+        },
+        {
+          "id": "intro-breakdown",
+          "type": "cards",
+          "order": 2,
+          "columns": 2,
+          "cards": [
+            {
+              "title": "Office Buildings",
+              "description": "Computers and monitors: 40-50%. Copiers/printers: 15-20%. Kitchen/break room: 10-15%. Other: 20-30%.",
+              "metadata": { "icon": "🏢" }
+            },
+            {
+              "title": "Retail",
+              "description": "POS systems: 20-30%. Refrigeration: 30-40%. Display: 10-15%. Security: 10-15%.",
+              "metadata": { "icon": "🛒" }
+            },
+            {
+              "title": "Healthcare",
+              "description": "Medical equipment: 40-50%. Computers: 20-30%. Kitchen: 10-15%. Other: 10-20%.",
+              "metadata": { "icon": "🏥" }
+            },
+            {
+              "title": "Education",
+              "description": "Computers/labs: 50-60%. Vending: 5-10%. Kitchen: 15-20%. AV equipment: 10-15%.",
+              "metadata": { "icon": "🎓" }
+            }
+          ]
+        },
+        {
+          "id": "intro-challenge",
+          "type": "markdown",
+          "order": 3,
+          "content": "## The Plug Load Challenge\n\n**Unlike HVAC and lighting, plug loads are:**\n- Owned/controlled by occupants, not facilities\n- Highly distributed (every outlet)\n- Diverse (thousands of device types)\n- Growing (more personal electronics)\n- Often on 24/7 (phantom loads)\n\n**This makes them difficult to manage but also full of opportunity.**"
+        }
+      ]
+    },
+    {
+      "id": "equipment-efficiency",
+      "title": "Equipment Efficiency",
+      "subtitle": "ENERGY STAR and Procurement",
+      "icon": "⭐",
+      "order": 2,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer"],
+        "tags": ["selection", "sales"]
+      },
+      "content": [
+        {
+          "id": "energystar-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# ENERGY STAR Equipment\n\n## What is ENERGY STAR?\n\nENERGY STAR is a voluntary EPA program that certifies products meeting energy efficiency criteria. ENERGY STAR products are typically **10-50% more efficient** than standard models.\n\n## Key Product Categories\n\n### Computers & Displays\n- Laptops more efficient than desktops\n- ENERGY STAR computers have better power management\n- Monitors: LED > LCD > older technologies\n- All-in-one often more efficient than tower + monitor\n\n### Imaging Equipment\n- ENERGY STAR copiers/printers have better sleep modes\n- Multifunction devices reduce total equipment count\n- Managed print services can reduce print volume\n\n### Commercial Kitchen\n- ENERGY STAR refrigerators, ice machines, fryers\n- Often 10-30% more efficient\n- Significant lifetime savings for 24/7 equipment"
+        },
+        {
+          "id": "procurement",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "📋 Procurement Best Practices",
+              "content": [
+                {
+                  "id": "procurement-tips",
+                  "type": "list",
+                  "order": 1,
+                  "items": [
+                    "Require ENERGY STAR for all applicable equipment purchases",
+                    "Include energy criteria in RFPs and vendor contracts",
+                    "Consider total cost of ownership (purchase + energy + disposal)",
+                    "Centralize procurement to enforce standards",
+                    "Track equipment inventory and energy use",
+                    "Plan for end-of-life: efficient replacements",
+                    "Consider leasing with efficiency requirements"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "power-management",
+      "title": "Power Management",
+      "subtitle": "Smart Strips and Scheduling",
+      "icon": "🔋",
+      "order": 3,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "beginner",
+        "roles": ["sales", "field", "engineer"],
+        "tags": ["controls", "roi", "sales"]
+      },
+      "content": [
+        {
+          "id": "pm-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Power Management Strategies\n\n## Computer Power Management\n\n**Sleep settings on computers can save 60-70% of idle energy.**\n\n### Recommended Settings:\n- Display sleep: 5-15 minutes\n- Computer sleep: 15-30 minutes\n- Hibernate: After 1-2 hours\n\n### Implementation:\n- Group Policy (Windows) or Profile Manager (Mac)\n- Network-based management tools\n- User education and buy-in\n\n## Smart Power Strips\n\n**Cut phantom/standby power by turning off peripherals when main device is off.**\n\n### Types:\n- **Master/controlled**: Peripherals off when master sleeps\n- **Occupancy sensing**: All outlets off when no motion\n- **Timer-based**: Schedule on/off times\n- **Remote/networked**: Central management\n\n### Typical Savings:\n- 5-15% of workstation energy\n- $20-50 per workstation per year"
+        },
+        {
+          "id": "pm-vending",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "🥤 Vending Machine Controls",
+              "content": [
+                {
+                  "id": "vending",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Vending Machine Energy\n\nA typical refrigerated vending machine uses **2,500-4,000 kWh/year** ($400-600 at $0.15/kWh).\n\n### Efficiency Options:\n\n**1. VendingMiser/Occupancy Control**\n- Turns off lights and compressor when area unoccupied\n- Maintains safe temperature, reduces cycling\n- Savings: 30-50% = $150-250/year\n- Payback: 1-2 years\n\n**2. ENERGY STAR Vending Machines**\n- LED lighting, efficient compressor\n- Savings: 30-40% vs. standard\n\n**3. Delamping**\n- Remove internal lights (no efficiency impact on product)\n- Free savings on lighting energy"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "behavioral",
+      "title": "Behavioral Programs",
+      "subtitle": "Engaging Occupants in Energy Savings",
+      "icon": "👥",
+      "order": 4,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales"]
+      },
+      "content": [
+        {
+          "id": "behavior-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Behavioral Energy Programs\n\n## Why Behavior Matters\n\n**Technology alone isn't enough.** Even the most efficient equipment wastes energy if left on unnecessarily.\n\n## Program Elements\n\n### 1. Awareness\n- Energy dashboards in common areas\n- Regular communication (newsletters, emails)\n- Signage near equipment and switches\n\n### 2. Motivation\n- Department competitions\n- Recognition programs\n- Link to sustainability goals\n- Share impact metrics\n\n### 3. Enablement\n- Easy-to-use controls\n- Clear instructions\n- Remove barriers to energy-saving actions\n\n### 4. Feedback\n- Real-time or near-real-time data\n- Comparisons (vs. baseline, vs. peers)\n- Celebrate successes"
+        },
+        {
+          "id": "behavior-tactics",
+          "type": "cards",
+          "order": 2,
+          "columns": 2,
+          "cards": [
+            {
+              "title": "Shut the Sash",
+              "description": "Lab programs to keep fume hood sashes closed. Can save $1,000+/year per hood.",
+              "metadata": { "icon": "🧪" }
+            },
+            {
+              "title": "Power Down Fridays",
+              "description": "Remind employees to fully shut down computers and equipment before weekends.",
+              "metadata": { "icon": "💻" }
+            },
+            {
+              "title": "Unplugged Challenge",
+              "description": "Competition to reduce phantom loads. Measure before/after.",
+              "metadata": { "icon": "🏆" }
+            },
+            {
+              "title": "Energy Captain Program",
+              "description": "Volunteers on each floor promote and monitor energy behaviors.",
+              "metadata": { "icon": "👤" }
+            }
+          ]
+        },
+        {
+          "id": "behavior-results",
+          "type": "markdown",
+          "order": 3,
+          "content": "## Typical Results\n\n- Well-designed behavioral programs: **5-15% energy savings**\n- Sustained over time with ongoing engagement\n- Often the **lowest-cost** efficiency measure\n- Bonus: Improves culture and engagement"
+        }
+      ]
+    },
+    {
+      "id": "mv",
+      "title": "Measurement & Verification",
+      "subtitle": "Tracking Plug Load Energy",
+      "icon": "📊",
+      "order": 5,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales"],
+        "tags": ["m&v", "sales"]
+      },
+      "content": [
+        {
+          "id": "mv-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Measuring Plug Loads\n\n## Why Measure?\n\n**You can't manage what you don't measure.** Plug loads are often invisible in utility bills because they're mixed with everything else.\n\n## Measurement Options\n\n### Circuit-Level Metering\n- Submeters on plug load circuits\n- Separates plug loads from other end uses\n- Enables trending and comparison\n\n### Outlet-Level Monitoring\n- Individual outlet monitors (Kill-A-Watt, etc.)\n- Great for audits and identifying big users\n- Tedious for ongoing monitoring\n\n### Smart Power Strips with Monitoring\n- Measure while controlling\n- Per-outlet data in some models\n- Networked options for central reporting\n\n### Estimation\n- Equipment inventory × rated power × hours\n- Less accurate but better than nothing"
+        }
+      ]
+    },
+    {
+      "id": "obf-measures",
+      "title": "OBF-Eligible Measures",
+      "subtitle": "What Qualifies for Financing",
+      "icon": "💵",
+      "order": 6,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "roi", "financing"]
+      },
+      "content": [
+        {
+          "id": "obf-table",
+          "type": "table",
+          "order": 1,
+          "metadata": { "title": "Plug Load OBF Eligibility" },
+          "headers": ["Measure", "OBF Eligible?", "Notes"],
+          "rows": [
+            ["ENERGY STAR Equipment Purchase", "⚠️ Maybe", "May need minimum project size"],
+            ["Smart Power Strips", "⚠️ Maybe", "Often below minimum project threshold"],
+            ["Vending Misers/Controls", "✅ Yes", "Equipment-based with savings"],
+            ["Computer Power Management SW", "❌ No", "Software-only typically not eligible"],
+            ["Behavioral Programs", "❌ No", "No hardware component"],
+            ["Plug Load Monitoring System", "⚠️ Maybe", "Hardware-based but savings indirect"],
+            ["Commercial Kitchen Equipment", "✅ Yes", "Standard equipment replacement"]
+          ]
+        },
+        {
+          "id": "obf-tips",
+          "type": "markdown",
+          "order": 2,
+          "content": "## Bundling for OBF\n\nPlug load measures are often too small individually for OBF. Consider bundling:\n- Multiple vending machines with misers\n- Smart strips as part of workstation upgrade\n- Commercial kitchen equipment as package\n- Combine with lighting or HVAC project"
+        }
+      ]
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "subtitle": "Test Your Plug Load Knowledge",
+      "icon": "📝",
+      "order": 7,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["quiz"]
+      },
+      "content": [
+        {
+          "id": "plug-quiz",
+          "type": "interactive",
+          "order": 1,
+          "component": "quiz-widget",
+          "config": {
+            "title": "Plug Load Quiz",
+            "questions": [
+              {
+                "id": "q1",
+                "question": "In efficient commercial buildings, plug loads typically represent what percentage of total energy use?",
+                "options": ["5-10%", "15-20%", "25-35%", "50-60%"],
+                "correctAnswer": 2,
+                "explanation": "As HVAC and lighting have become more efficient, plug loads now represent 25-35% of energy in efficient buildings.",
+                "points": 10
+              },
+              {
+                "id": "q2",
+                "question": "ENERGY STAR products are typically how much more efficient than standard models?",
+                "options": ["5%", "10-50%", "75%", "100%"],
+                "correctAnswer": 1,
+                "explanation": "ENERGY STAR products are typically 10-50% more efficient than standard non-certified products.",
+                "points": 10
+              },
+              {
+                "id": "q3",
+                "question": "A VendingMiser on a refrigerated vending machine typically saves:",
+                "options": ["5-10%", "15-25%", "30-50%", "75%+"],
+                "correctAnswer": 2,
+                "explanation": "VendingMisers typically save 30-50% of vending machine energy by controlling the compressor and lights based on occupancy.",
+                "points": 10
+              },
+              {
+                "id": "q4",
+                "question": "Behavioral energy programs typically achieve savings of:",
+                "options": ["1-2%", "5-15%", "25-30%", "50%+"],
+                "correctAnswer": 1,
+                "explanation": "Well-designed behavioral programs typically achieve 5-15% energy savings.",
+                "points": 10
+              },
+              {
+                "id": "q5",
+                "question": "Smart power strips save energy primarily by:",
+                "options": ["Converting AC to DC more efficiently", "Cutting phantom/standby power when equipment is off", "Reducing voltage to equipment", "Storing energy in batteries"],
+                "correctAnswer": 1,
+                "explanation": "Smart power strips cut phantom/standby power by turning off outlets when the main device is sleeping or off.",
+                "points": 10
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

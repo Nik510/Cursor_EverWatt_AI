@@ -1,0 +1,48 @@
+{
+  "id": "efe17ae8-9678-4668-bd69-40115d4a5ad9",
+  "driveFolderLink": "local",
+  "customer": {
+    "projectNumber": "TMP-efe17ae8",
+    "projectName": "Fixture Peaky Office",
+    "companyName": "Fixture Peaky Office",
+    "siteLocation": "123 Main St, Oakland, CA",
+    "utilityCompany": "PGE"
+  },
+  "createdAt": "2026-01-01T00:00:00.000Z",
+  "updatedAt": "2026-02-05T21:23:38.290Z",
+  "graph": {
+    "assets": [],
+    "measures": [],
+    "inbox": [],
+    "inboxHistory": [],
+    "bomItems": [],
+    "decisions": []
+  },
+  "vault": {
+    "files": [
+      {
+        "id": "0e019fda-95e2-423c-a447-eb32dbdda52a",
+        "filename": "interval_peaky_office.json",
+        "contentType": "application/json",
+        "sizeBytes": 4421,
+        "kind": "unknown",
+        "tags": [
+          "interval",
+          "resolution:hourly",
+          "territory:PGE"
+        ],
+        "storageKey": "default-user/projects/efe17ae8-9678-4668-bd69-40115d4a5ad9/telemetry/interval_1770326618284_interval_peaky_office.json",
+        "uploadedAt": "2026-01-01T00:00:00.000Z"
+      }
+    ]
+  },
+  "userId": "default-user",
+  "telemetry": {
+    "kind": "interval_electricity",
+    "intervalFilePath": "C:\\everwatt-engine\\data\\uploads\\default-user\\projects\\efe17ae8-9678-4668-bd69-40115d4a5ad9\\telemetry\\interval_1770326618284_interval_peaky_office.json",
+    "intervalStorageKey": "default-user/projects/efe17ae8-9678-4668-bd69-40115d4a5ad9/telemetry/interval_1770326618284_interval_peaky_office.json",
+    "intervalResolution": "hourly",
+    "telemetrySeriesId": "storage:default-user/projects/efe17ae8-9678-4668-bd69-40115d4a5ad9/telemetry/interval_1770326618284_interval_peaky_office.json",
+    "notes": "Uploaded via CLI interval intake; vaultFileId=0e019fda-95e2-423c-a447-eb32dbdda52a"
+  }
+}

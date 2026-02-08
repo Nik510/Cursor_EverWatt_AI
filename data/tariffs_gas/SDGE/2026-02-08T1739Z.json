@@ -1,0 +1,67 @@
+{
+  "utility": "SDGE",
+  "capturedAt": "2026-02-08T17:39:14.253Z",
+  "versionTag": "2026-02-08T1739Z",
+  "rates": [
+    {
+      "utility": "SDGE",
+      "rateCode": "GR",
+      "sourceUrl": "https://www.sdge.com/rates-and-regulations/current-and-effective-tariffs",
+      "sourceTitle": "Residential Natural Gas Service",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "evidence": [
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.sdge.com/rates-and-regulations/current-and-effective-tariffs",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "effectiveStatus": "UNKNOWN"
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "GNR",
+      "sourceUrl": "https://www.sdge.com/rates-and-regulations/current-and-effective-tariffs",
+      "sourceTitle": "General Service (Non-Residential)",
+      "lastVerifiedAt": "2026-02-08T17:39:14.253Z",
+      "customerSegment": "unknown",
+      "customerSegmentSource": "unknown",
+      "segmentSource": "unknown",
+      "sectorGroup": "unknown",
+      "isResidential": false,
+      "isNonResidential": false,
+      "evidence": [
+        {
+          "kind": "meta",
+          "sourceUrl": "https://www.sdge.com/rates-and-regulations/current-and-effective-tariffs",
+          "fieldName": "effectiveStatus",
+          "inferenceRuleId": "derive.effectiveStatus.v1",
+          "matchedText": "effectiveSource:unknown",
+          "value": "UNKNOWN"
+        }
+      ],
+      "effectiveStatus": "UNKNOWN"
+    }
+  ],
+  "metadataCompleteness": {
+    "customerClassPct": 0,
+    "voltagePct": 0,
+    "effectiveDatePct": 0,
+    "eligibilityNotesPct": 0
+  },
+  "sourceFingerprints": [
+    {
+      "url": "https://tariffsprd.sdge.com/sdge/tariffs/content/?utilId=SDGE&bookId=GAS&sectId=G-SCHEDS",
+      "contentHash": "FETCH_FAILED:bca019639038d5a78e9e95af6a365ac197054c96f4d427cf8a2c219d5cfeaffe"
+    }
+  ]
+}

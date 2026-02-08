@@ -1,0 +1,21 @@
+---
+description: Default no-touch paths to protect deterministic engines
+alwaysApply: true
+---
+
+# Default no-touch paths
+
+When asked for "no-touch paths", use these defaults (unless the user explicitly overrides them):
+
+- `src/modules/tariffEngine/**`
+- `src/modules/battery/**`
+- `src/app/**`
+
+## Intent
+
+- Keep the recommendation system **additive** by default.
+- Protect deterministic engines and application core from incidental edits.
+
+## Exceptions
+
+Only touch these paths if the user explicitly requests changes in them.

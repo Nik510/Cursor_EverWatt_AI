@@ -1,0 +1,102 @@
+{
+  "id": "data-center-cert",
+  "industry": "data-center",
+  "title": "EverWatt Energy Efficiency Certification - For Data Center Engineers",
+  "subtitle": "Certification for energy efficiency in data centers and IT facilities",
+  "description": "Validate your expertise in identifying and implementing energy efficiency measures for data centers and IT facilities. This certification covers cooling efficiency, PUE optimization, UPS systems, and airflow management.",
+  "icon": "💻",
+  "passingScore": 80,
+  "timeLimit": 90,
+  "prerequisites": ["industry-specific"],
+  "metadata": {
+    "estimatedTime": 90,
+    "difficulty": "advanced",
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-02"
+  },
+  "questions": [
+    {
+      "id": "dc-001",
+      "question": "What is PUE (Power Usage Effectiveness) and what is considered good?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "PUE = Total Facility Power / IT Equipment Power; Good: < 1.5, Best: < 1.2" },
+        { "id": "b", "text": "PUE = IT Equipment Power / Total Facility Power; Good: > 0.8" },
+        { "id": "c", "text": "PUE measures server efficiency only" },
+        { "id": "d", "text": "PUE is not relevant to data centers" }
+      ],
+      "correctAnswer": "a",
+      "explanation": "PUE (Power Usage Effectiveness) = Total Facility Power / IT Equipment Power. Lower is better. Typical data centers: 1.8-2.5. Good: < 1.5. Best-in-class: < 1.2. PUE optimization is a key energy efficiency opportunity for data centers.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "dc-002",
+      "question": "A data center has a PUE of 2.0. If IT equipment uses 500 kW, what is the total facility power?",
+      "questionType": "calculation",
+      "options": [
+        { "id": "a", "text": "500 kW" },
+        { "id": "b", "text": "750 kW" },
+        { "id": "c", "text": "1,000 kW" },
+        { "id": "d", "text": "1,500 kW" }
+      ],
+      "correctAnswer": "c",
+      "explanation": "PUE = Total Facility Power / IT Equipment Power. 2.0 = Total / 500 kW. Total = 2.0 × 500 = 1,000 kW. This means 500 kW goes to IT equipment and 500 kW goes to cooling, UPS, lighting, etc. Reducing PUE to 1.5 would reduce total power to 750 kW (saving 250 kW).",
+      "points": 10,
+      "category": "general",
+      "difficulty": "intermediate",
+      "estimatedTime": 120
+    },
+    {
+      "id": "dc-003",
+      "question": "A data center's cooling system uses 40% of total facility power. What efficiency opportunity should you prioritize?",
+      "questionType": "scenario",
+      "scenario": "A data center has a PUE of 2.0. Cooling systems consume 40% of total facility power. The facility uses traditional CRAC units with constant-speed fans and compressors.",
+      "options": [
+        { "id": "a", "text": "Replace all servers" },
+        { "id": "b", "text": "Optimize cooling: variable-speed fans, economization, hot/cold aisle containment, raise setpoints" },
+        { "id": "c", "text": "Install LED lighting" },
+        { "id": "d", "text": "Upgrade building envelope" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Cooling optimization typically provides the highest impact for data center efficiency. Variable-speed fans, economization (using outside air when possible), hot/cold aisle containment, and raising cooling setpoints can reduce cooling energy by 20-40%. This directly improves PUE.",
+      "points": 10,
+      "category": "cooling",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "dc-004",
+      "question": "What is the typical energy savings potential for data center cooling optimization?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "5-15% of cooling energy" },
+        { "id": "b", "text": "15-40% of cooling energy" },
+        { "id": "c", "text": "40-60% of cooling energy" },
+        { "id": "d", "text": "60-80% of cooling energy" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Data center cooling optimization (variable-speed fans, economization, containment, setpoint optimization) typically yields 15-40% savings of cooling energy. This can improve PUE by 0.1-0.3 points.",
+      "points": 5,
+      "category": "cooling",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "dc-005",
+      "question": "What is hot/cold aisle containment and why is it important?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Separating hot exhaust air from cold supply air to improve cooling efficiency" },
+        { "id": "b", "text": "A security measure" },
+        { "id": "c", "text": "A fire suppression system" },
+        { "id": "d", "text": "Not relevant to data centers" }
+      ],
+      "correctAnswer": "a",
+      "explanation": "Hot/cold aisle containment separates hot exhaust air from cold supply air, preventing mixing and improving cooling efficiency. This can reduce cooling energy by 10-30% and is a key best practice for data center efficiency.",
+      "points": 8,
+      "category": "cooling",
+      "difficulty": "intermediate"
+    }
+  ]
+}
+

@@ -1,0 +1,7 @@
+Final savings (annual):
+- kWh: 180000
+- therms: 9000
+- kW: 150
+- USD: 28000
+Confidence: 0.65
+

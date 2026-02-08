@@ -1,0 +1,641 @@
+{
+  "id": "domestic-hot-water",
+  "title": "Domestic Hot Water (DHW)",
+  "subtitle": "Complete Guide to Water Heaters, HPWH, Recirculation & Heat Recovery",
+  "description": "Comprehensive training on domestic hot water systems: conventional gas/electric water heating, heat pump water heaters, recirculation optimization, heat recovery, and electrification pathways. Includes engineering fundamentals, sales strategies, and field identification tips.",
+  "icon": "🚿",
+  "category": "dhw",
+  "order": 10,
+  "status": "published",
+  "metadata": {
+    "author": "EverWatt Engineering Team",
+    "lastUpdated": "2025-12-29",
+    "version": "1.0.0",
+    "estimatedTime": 190,
+    "difficulty": "intermediate",
+    "tags": ["dhw", "water-heating", "hpwh", "recirculation", "heat-recovery", "electrification"]
+  },
+  "sections": [
+    {
+      "id": "quick-overview",
+      "title": "Quick Overview",
+      "subtitle": "90-second skim + jump points",
+      "icon": "⚡",
+      "order": 0,
+      "metadata": {
+        "estimatedTime": 7,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "navigation", "sales", "field"]
+      },
+      "content": [
+        {
+          "id": "overview-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 3,
+          "cards": [
+            {
+              "title": "Fastest Win: Recirc Controls",
+              "description": "Recirculation pumps often run 24/7. Timers + demand control can cut DHW energy 10–30% with low cost.",
+              "metadata": { "icon": "⏱️", "jumpTo": "recirculation", "roles": ["sales", "engineer", "field"] }
+            },
+            {
+              "title": "HPWH = 2–4× Efficiency",
+              "description": "Heat Pump Water Heaters move heat instead of making it. COP 2–4 is common—big electrification lever.",
+              "metadata": { "icon": "♻️", "jumpTo": "heat-pump-water-heaters", "roles": ["sales", "engineer"] }
+            },
+            {
+              "title": "Right-Size Before Replace",
+              "description": "Oversized tanks and high setpoints waste standby losses. Start with load + schedule and then select equipment.",
+              "metadata": { "icon": "📏", "jumpTo": "conventional-water-heaters", "roles": ["engineer", "sales"] }
+            },
+            {
+              "title": "Hotels + Healthcare = Big Loads",
+              "description": "DHW can be 10–30%+ of site energy in hospitality and healthcare. Great for portfolio rollouts.",
+              "metadata": { "icon": "🏨", "jumpTo": "introduction", "roles": ["sales"] }
+            },
+            {
+              "title": "Field ID: What to Photograph",
+              "description": "Tank size, fuel type, venting, setpoints, recirc piping, pump nameplate, and any mixing valve/tempering setup.",
+              "metadata": { "icon": "📸", "jumpTo": "field-guide", "roles": ["field", "sales"] }
+            },
+            {
+              "title": "How to Sell It",
+              "description": "Lead with avoided maintenance + reliability + carbon reduction. Bundle recirc controls with equipment upgrades.",
+              "metadata": { "icon": "💰", "jumpTo": "sales-strategies", "roles": ["sales"] }
+            }
+          ]
+        },
+        {
+          "id": "overview-kpis",
+          "type": "table",
+          "order": 2,
+          "headers": ["KPI", "What it means", "Rule-of-thumb"],
+          "rows": [
+            ["Setpoint (°F)", "Stored hot water temp", "Higher increases standby and distribution losses; use code-safe minimums"],
+            ["Recirc runtime", "Pump run hours and control", "24/7 recirc is common waste; target schedule/demand control"],
+            ["ΔT (supply-return)", "Distribution losses proxy", "High return temp often means excess recirc or poor balancing"],
+            ["COP (HPWH)", "Heat delivered per kWh", "COP 2–4 typical; drops in cold mechanical rooms"],
+            ["Standby loss", "Heat lost from storage", "Older tanks and long piping runs increase losses"],
+            ["Peak demand", "Highest short-term flow needs", "Size for peak while managing storage and recovery"]
+          ],
+          "caption": "DHW KPI Cheat Sheet"
+        },
+        {
+          "id": "overview-personas",
+          "type": "tabs",
+          "order": 3,
+          "tabs": [
+            {
+              "label": "💰 Sales",
+              "content": [
+                {
+                  "id": "overview-sales",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["sales"] },
+                  "content": "## Talk track (fast)\n\n- Start with **where DHW is big**: hotels, multifamily, healthcare, gyms, kitchens\n- Quick wins: **recirc scheduling** + setpoint tune + insulation\n- Upgrade path: **HPWH** (or centralized HPWH plants) + smart controls\n- Bundle: DHW + HVAC electrification story (Scope 1 reduction)\n\n**One-liner:** \"We cut DHW costs with controls now—and electrify with 2–4× efficiency when you’re ready.\""
+                }
+              ]
+            },
+            {
+              "label": "🔧 Engineer",
+              "content": [
+                {
+                  "id": "overview-engineer",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["engineer"] },
+                  "content": "## What to verify (fast)\n\n- Load profile: peak flow + daily gallons + occupancy\n- Storage temperature, mixing valve strategy, and code constraints\n- Recirc piping: balancing, return temp, pump control\n- Space/air source for HPWH (mechanical room temp, ventilation)\n- Electrical capacity and demand implications\n\n**Rule:** quantify load + distribution losses; fix recirc controls before resizing equipment."
+                }
+              ]
+            },
+            {
+              "label": "🧰 Field",
+              "content": [
+                {
+                  "id": "overview-field",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["field"] },
+                  "content": "## What to look for on-site\n\n- Water heater type: tank, tankless, boiler + HX, HPWH\n- Venting: metal flue vs PVC (condensing), combustion air\n- Setpoint on controller and presence of mixing/tempering valve\n- Recirc pump: always-on? timer? aquastat? VFD?\n- Any heat recovery: drainwater, condenser heat, laundry/process ties"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "introduction",
+      "title": "Introduction & Fundamentals",
+      "subtitle": "How DHW systems work and where savings live",
+      "icon": "📚",
+      "order": 1,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "fundamentals", "sales"]
+      },
+      "content": [
+        {
+          "id": "intro-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Why Domestic Hot Water Matters\n\nDomestic hot water (DHW) is the energy used to heat water for sinks, showers, kitchens, laundry, and sanitation.\n\nDHW savings come from three levers:\n\n1) **Reduce energy per gallon** (higher equipment efficiency)\n2) **Reduce gallons used** (fixtures and behavior)\n3) **Reduce distribution losses** (recirculation controls, pipe losses, and setpoints)\n\nIn many buildings, DHW is a quiet “base load” that runs year-round—making it a strong efficiency and electrification target."
+        },
+        {
+          "id": "intro-quote",
+          "type": "quote",
+          "order": 2,
+          "quote": "If your recirculation pump is running 24/7, you’re paying to heat the building’s plumbing. Fix controls and balancing before you buy new equipment.",
+          "author": "Commissioning Agent",
+          "role": "Hospitality + healthcare specialist"
+        },
+        {
+          "id": "intro-where-seen",
+          "type": "accordion",
+          "order": 3,
+          "metadata": { "title": "Where is DHW biggest?" },
+          "items": [
+            {
+              "title": "Hotels & Hospitality",
+              "content": [
+                {
+                  "id": "where-hotels",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Peaks in morning/evening\n- Recirc losses can be large due to long piping runs\n- Great candidate for **HPWH + recirc optimization**"
+                }
+              ]
+            },
+            {
+              "title": "Healthcare",
+              "content": [
+                {
+                  "id": "where-healthcare",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- 24/7 loads, sanitation requirements\n- Often high setpoints + mixing valves\n- Good for **controls + heat recovery** opportunities"
+                }
+              ]
+            },
+            {
+              "title": "Multifamily",
+              "content": [
+                {
+                  "id": "where-multifamily",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Central plants or distributed tanks\n- Tenant comfort complaints often drive setpoints up\n- Strong opportunity: **distribution tuning + HPWH**"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "intro-key-concepts",
+          "type": "cards",
+          "order": 4,
+          "columns": 2,
+          "cards": [
+            {
+              "title": "Standby Loss",
+              "description": "Heat lost from storage tanks and piping even when no one is using hot water.",
+              "metadata": { "icon": "🌡️" }
+            },
+            {
+              "title": "Recirculation Loss",
+              "description": "Heat lost continuously when hot water loops run to keep fixtures “instant hot.”",
+              "metadata": { "icon": "🔁" }
+            },
+            {
+              "title": "Recovery Rate",
+              "description": "How quickly a heater can reheat storage after a peak draw; important for right-sizing.",
+              "metadata": { "icon": "⚙️" }
+            },
+            {
+              "title": "Tempering / Mixing",
+              "description": "Mixing valves allow higher storage temps for safety/legionella control while delivering safe fixture temps.",
+              "metadata": { "icon": "🧯" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conventional-water-heaters",
+      "title": "Conventional Water Heaters",
+      "subtitle": "Gas and electric storage systems",
+      "icon": "🔥",
+      "order": 2,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["selection", "sales"]
+      },
+      "content": [
+        {
+          "id": "conv-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Common DHW plant types\n\n- **Storage tank water heaters** (gas or electric)\n- **Boiler + indirect tank** (heat exchanger to storage)\n- **Instantaneous / tankless** (gas or electric)\n\n### Efficiency notes\n- Standard gas storage is often ~0.60–0.70 UEF\n- Condensing gas water heaters can reach ~0.90+ UEF (when return temps enable condensing)\n- Electric resistance is ~1.0 COP but can be costly to operate\n\n**Field tip:** venting tells a lot—PVC venting typically indicates condensing equipment."
+        },
+        {
+          "id": "conv-sizing",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "Right-sizing fundamentals",
+              "content": [
+                {
+                  "id": "sizing-markdown",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "Sizing is about **peak** + **recovery**:\n\n- Storage handles short peaks\n- Recovery handles sustained loads\n\n**Practical approach:** use meter/occupancy proxies (rooms, beds, units) to estimate daily gallons, then validate against bills where possible."
+                }
+              ]
+            },
+            {
+              "title": "Simple heating energy math",
+              "content": [
+                {
+                  "id": "energy-math",
+                  "type": "formula",
+                  "order": 1,
+                  "formula": "Energy to heat water ≈ 8.34 × gallons × ΔT (°F) / 3412  (kWh)",
+                  "explanation": "8.34 is lb/gal; this converts water heating into kWh. Use efficiency/COP to translate to fuel input.",
+                  "variables": [
+                    { "name": "gallons", "description": "Hot water volume heated" },
+                    { "name": "ΔT", "description": "Temperature rise from incoming to delivered hot water" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heat-pump-water-heaters",
+      "title": "Heat Pump Water Heaters (HPWH)",
+      "subtitle": "High-efficiency electrified hot water",
+      "icon": "♻️",
+      "order": 3,
+      "metadata": {
+        "estimatedTime": 25,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales", "field"],
+        "tags": ["selection", "electrification", "sales"]
+      },
+      "content": [
+        {
+          "id": "hpwh-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## HPWH basics\n\nA heat pump water heater uses a refrigeration cycle to move heat into the water.\n\n- COP 2–4 typical (2–4× more heat per kWh than resistance)\n- Best when the heat pump has a warm air source (mechanical room, outdoors, or a dedicated air path)\n\n### Design considerations\n- Space and airflow for heat pump units\n- Condensate drain\n- Noise and temperature impacts on mechanical rooms\n- Electrical capacity and demand\n\n**Sales translation:** HPWH delivers major operating savings and Scope 1 reductions, but needs a basic site viability check."
+        },
+        {
+          "id": "hpwh-viability",
+          "type": "table",
+          "order": 2,
+          "headers": ["Check", "Good sign", "Watch-out"],
+          "rows": [
+            ["Air source", "Warm room or outdoor air", "Cold room reduces COP and capacity"],
+            ["Peak demand", "Storage can buffer peaks", "High peak with small storage can require backup"],
+            ["Electrical", "Spare capacity or planned upgrades", "Demand charges can erode savings"],
+            ["Space", "Room for tanks and airflow", "Tight rooms complicate ducting/maintenance"],
+            ["Temperature", "Moderate setpoints + mixing", "Very high setpoints reduce performance"]
+          ],
+          "caption": "HPWH viability checklist"
+        }
+      ]
+    },
+    {
+      "id": "tankless-systems",
+      "title": "Tankless / Instantaneous Systems",
+      "subtitle": "When they work and when they don’t",
+      "icon": "🚰",
+      "order": 4,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field"],
+        "tags": ["technology"]
+      },
+      "content": [
+        {
+          "id": "tankless-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Tankless basics\n\n- Heats water on demand; minimal storage losses\n- Requires enough input power to meet peak flow\n\n### Practical notes\n- **Gas tankless** can work well where venting and gas capacity are available\n- **Electric tankless** often has very high electrical demand and can be challenging for commercial retrofits\n\n**Rule:** tankless is a fit for predictable, moderate peaks; for high peaks, storage + recovery is often simpler."
+        }
+      ]
+    },
+    {
+      "id": "solar-thermal",
+      "title": "Solar Thermal (Hot Water)",
+      "subtitle": "When solar hot water makes sense",
+      "icon": "☀️",
+      "order": 5,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["engineer", "sales"],
+        "tags": ["roi"]
+      },
+      "content": [
+        {
+          "id": "solar-thermal-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Solar thermal overview\n\nSolar thermal can preheat water before it enters the main plant.\n\nBest fit:\n- High, year-round DHW loads (hotels, laundries, pools)\n- Adequate roof area and good solar resource\n\nWatch-outs:\n- Maintenance and controls complexity\n- Integration and stagnation protection\n\n**Sales translation:** solar thermal is niche but can be a strong story in the right load profile."
+        }
+      ]
+    },
+    {
+      "id": "recirculation",
+      "title": "Recirculation Systems",
+      "subtitle": "The hidden DHW energy sink",
+      "icon": "🔁",
+      "order": 6,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["selection", "optimization", "field", "sales"]
+      },
+      "content": [
+        {
+          "id": "recirc-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Why recirc is often the biggest lever\n\nRecirc keeps hot water near fixtures to reduce wait time. But if it runs continuously, it turns your piping into a radiator.\n\n### Control strategies\n- **Time schedules** (turn off at night/weekends)\n- **Temperature (aquastat) control** (maintain a return temp band)\n- **Demand control** (button/sensor triggers pump for short bursts)\n\n### Field symptoms of waste\n- Warm/hot return piping everywhere\n- Pump running 24/7\n- High return temperatures even during unoccupied hours\n\n**Sales translation:** controls are low disruption and often pay back quickly."
+        },
+        {
+          "id": "recirc-quick-wins",
+          "type": "cards",
+          "order": 2,
+          "columns": 2,
+          "cards": [
+            {
+              "title": "Schedule the pump",
+              "description": "Match occupancy. Many sites can reduce run hours 30–60% immediately.",
+              "metadata": { "icon": "📅" }
+            },
+            {
+              "title": "Reduce setpoint (safely)",
+              "description": "Higher temps increase losses. Use mixing valves if high storage temp is needed for safety.",
+              "metadata": { "icon": "🌡️" }
+            },
+            {
+              "title": "Balance the loop",
+              "description": "Poor balancing can force high pump flow and high return temps.",
+              "metadata": { "icon": "⚖️" }
+            },
+            {
+              "title": "Insulate piping",
+              "description": "Uninsulated hot piping is pure loss. Prioritize long runs and mechanical rooms.",
+              "metadata": { "icon": "🧤" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heat-recovery",
+      "title": "Heat Recovery Opportunities",
+      "subtitle": "Recovering “free” heat into DHW",
+      "icon": "🔄",
+      "order": 7,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales"],
+        "tags": ["optimization", "roi", "sales"]
+      },
+      "content": [
+        {
+          "id": "heat-recovery-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Common DHW heat recovery sources\n\n- **HVAC condenser heat recovery** (chillers/VRF/heat pumps)\n- **Refrigeration heat recovery** (grocery/process)\n- **Laundry/process heat** (where applicable)\n- **Drainwater heat recovery** (select facilities)\n\n**Rule:** recovery works best when there is a steady heat source and steady DHW demand."
+        },
+        {
+          "id": "heat-recovery-table",
+          "type": "table",
+          "order": 2,
+          "headers": ["Source", "Best fit", "Notes"],
+          "rows": [
+            ["Chiller/heat pump heat recovery", "Hotels, hospitals", "Can provide preheat or full DHW in some seasons"],
+            ["Refrigeration condenser heat", "Grocery, cold storage", "Often strong match: refrigeration runs when DHW needed"],
+            ["Drainwater heat recovery", "Gyms, dorms", "Most effective with continuous showers and centralized drains"]
+          ],
+          "caption": "Heat recovery fit guide"
+        }
+      ]
+    },
+    {
+      "id": "controls-optimization",
+      "title": "Controls & Optimization",
+      "subtitle": "Setpoints, schedules, and persistence",
+      "icon": "🎛️",
+      "order": 8,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field"],
+        "tags": ["controls", "optimization"]
+      },
+      "content": [
+        {
+          "id": "controls-content",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Control strategies that drive savings\n\n- Align DHW setpoints to actual needs and code requirements\n- Schedule recirc pumps and enable temperature bands\n- Trend supply/return temperatures to detect drift\n- Use alarms for stuck pumps/valves and abnormal temperatures\n\n**Field tip:** if you can trend return temp overnight, you can often see wasted recirc instantly."
+        }
+      ]
+    },
+    {
+      "id": "sales-strategies",
+      "title": "Sales Strategies & ROI",
+      "subtitle": "Selling DHW upgrades effectively",
+      "icon": "💰",
+      "order": 9,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["sales"],
+        "tags": ["sales", "roi"]
+      },
+      "content": [
+        {
+          "id": "sales-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Selling DHW Projects\n\n## Positioning\n\n- **Reliability**: hot water complaints are urgent; upgrades reduce risk\n- **Controls-first**: immediate savings without customer disruption\n- **Electrification**: HPWH reduces Scope 1 emissions and future-proofs\n\n### Discovery questions\n- What building type and occupancy patterns drive DHW?\n- Any hot water complaints or long wait times?\n- Is recirculation running continuously?\n- What are gas and electric rates (and demand charges)?\n- Any mandates for electrification / ESG reporting?\n\n### Objection handling\n| Objection | Response |\n|---|---|\n| \"We can’t risk running out of hot water\" | \"We start with recirc tuning and add storage buffer—then validate with a pilot.\" |\n| \"Electric is too expensive\" | \"HPWH is 2–4× efficient; we also check demand charges and load shifting.\" |\n| \"It’s a plumbing headache\" | \"We target high-value changes first: controls, insulation, balancing—minimal invasiveness.\" |"
+        },
+        {
+          "id": "sales-bundles",
+          "type": "cards",
+          "order": 2,
+          "columns": 2,
+          "cards": [
+            { "title": "Bronze: Controls-first", "description": "Recirc schedule + setpoint tune + insulation. Immediate savings.", "metadata": { "icon": "🥉" } },
+            { "title": "Silver: HPWH-ready", "description": "Add metering/trending and right-size plan for future electrification.", "metadata": { "icon": "🥈" } },
+            { "title": "Gold: Electrification", "description": "HPWH plant + storage + controls + demand strategy.", "metadata": { "icon": "🥇" } },
+            { "title": "Add-on: Heat recovery", "description": "Use available waste heat to preheat DHW and improve COP outcomes.", "metadata": { "icon": "🔄" } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "field-guide",
+      "title": "Field Identification Guide",
+      "subtitle": "Identifying DHW equipment in the field",
+      "icon": "🔍",
+      "order": 10,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["field", "sales", "engineer"],
+        "tags": ["field", "selection"]
+      },
+      "content": [
+        {
+          "id": "field-checklist",
+          "type": "list",
+          "order": 1,
+          "items": [
+            "Photograph water heater(s): nameplate, model, year, input/output capacity",
+            "Note fuel type and venting (PVC vs metal, atmospheric vs power vent)",
+            "Capture controller setpoint and any mixing/tempering valve configuration",
+            "Trace recirc loop: pump location, control type (timer/aquastat/demand), and insulation",
+            "Record incoming cold water temperature proxy (climate/season) and any preheat source",
+            "Identify heat recovery connections (if any) and storage tank volumes",
+            "Ask about complaints: long waits, temperature swings, or outages"
+          ]
+        },
+        {
+          "id": "field-clues",
+          "type": "table",
+          "order": 2,
+          "headers": ["Clue", "Likely issue/opportunity", "Next step"],
+          "rows": [
+            ["Pump always on", "High distribution losses", "Add schedule or demand control"],
+            ["Very high setpoint", "High standby/distribution losses", "Tune setpoint + verify code/safety"],
+            ["No pipe insulation", "Continuous losses", "Insulate long runs and mechanical rooms"],
+            ["PVC venting", "Condensing equipment", "Verify proper condensate drainage/neutralization"],
+            ["Large tank but low occupancy", "Oversized standby losses", "Right-size and tune operation"]
+          ],
+          "caption": "Fast field clues"
+        }
+      ]
+    },
+    {
+      "id": "obf-measures",
+      "title": "OBF-Eligible Measures",
+      "subtitle": "What DHW upgrades commonly qualify",
+      "icon": "💵",
+      "order": 11,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "roi", "financing"]
+      },
+      "content": [
+        {
+          "id": "obf-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# OBF Eligibility for DHW\n\nOn-Bill Financing typically supports DHW measures with hardware and measurable savings. Program rules vary by utility and segment."
+        },
+        {
+          "id": "obf-table",
+          "type": "table",
+          "order": 2,
+          "headers": ["Measure", "OBF Eligible?", "Notes"],
+          "rows": [
+            ["Heat Pump Water Heater (HPWH)", "✅ Yes", "Strong electrification measure; incentives often available"],
+            ["High-efficiency condensing gas water heater", "✅ Yes", "Program dependent; verify efficiency thresholds"],
+            ["Recirc pump retrofit (pump + controls)", "✅ Yes", "Hardware + verified savings is typically eligible"],
+            ["Pipe insulation (when bundled)", "✅/⚠️ Sometimes", "Often best as part of larger DHW project"],
+            ["Controls-only tuning", "⚠️ Maybe", "Usually better bundled with equipment"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "subtitle": "Test your DHW knowledge",
+      "icon": "📝",
+      "order": 12,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["quiz"]
+      },
+      "content": [
+        {
+          "id": "dhw-quiz",
+          "type": "interactive",
+          "order": 1,
+          "component": "quiz-widget",
+          "config": {
+            "title": "Domestic Hot Water Quiz",
+            "questions": [
+              {
+                "id": "q1",
+                "question": "A heat pump water heater (HPWH) with COP 3.0 delivers how much heat per unit electricity compared to resistance heat?",
+                "options": ["Same", "About 2×", "About 3×", "About 10×"],
+                "correctAnswer": 2,
+                "explanation": "COP 3.0 means ~3 units of heat delivered per 1 unit electric input.",
+                "points": 10
+              },
+              {
+                "id": "q2",
+                "question": "What is a common major DHW energy loss in buildings with long piping runs?",
+                "options": ["Lighting loads", "Recirculation distribution losses", "Transformer losses", "Cooling tower drift"],
+                "correctAnswer": 1,
+                "explanation": "Recirculation loops can continuously lose heat through piping, especially when run 24/7.",
+                "points": 10
+              },
+              {
+                "id": "q3",
+                "question": "Which is typically the lowest-disruption “quick win” for DHW energy savings?",
+                "options": ["Replace all fixtures", "Install solar thermal", "Add recirc scheduling/demand control", "Replace all tanks immediately"],
+                "correctAnswer": 2,
+                "explanation": "Recirc control changes can often cut losses quickly with minimal customer disruption.",
+                "points": 10
+              },
+              {
+                "id": "q4",
+                "question": "Why is a mixing (tempering) valve used in many DHW systems?",
+                "options": ["To increase pump power", "To allow higher storage temp while delivering safe fixture temp", "To reduce cold water supply", "To eliminate recirculation"],
+                "correctAnswer": 1,
+                "explanation": "Mixing valves support safety and pathogen control while keeping delivered water at safe temperatures.",
+                "points": 10
+              },
+              {
+                "id": "q5",
+                "question": "Which factor most affects the simple energy math for water heating?",
+                "options": ["Color temperature", "Temperature rise (ΔT) and gallons", "Static pressure", "Power factor"],
+                "correctAnswer": 1,
+                "explanation": "Water heating energy depends on gallons heated and temperature rise; efficiency/COP converts to fuel input.",
+                "points": 10
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+

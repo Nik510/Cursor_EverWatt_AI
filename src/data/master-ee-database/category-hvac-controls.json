@@ -1,0 +1,142 @@
+{
+  "id": "hvac-controls",
+  "name": "HVAC CONTROLS",
+  "subcategories": [
+    {
+      "id": "bms-ems-platforms",
+      "name": "BMS/EMS Platforms",
+      "measures": [
+        {
+          "id": "measure-107",
+          "name": "KMC Controls",
+          "keywords": [
+            "controls"
+          ]
+        },
+        {
+          "id": "measure-108",
+          "name": "Siemens",
+          "keywords": []
+        },
+        {
+          "id": "measure-109",
+          "name": "Honeywell",
+          "keywords": []
+        },
+        {
+          "id": "measure-110",
+          "name": "Johnson Controls",
+          "keywords": [
+            "controls"
+          ]
+        },
+        {
+          "id": "measure-111",
+          "name": "Tridium Niagara",
+          "keywords": []
+        },
+        {
+          "id": "measure-112",
+          "name": "Ignition SCADA",
+          "keywords": []
+        },
+        {
+          "id": "measure-113",
+          "name": "Distech",
+          "keywords": []
+        },
+        {
+          "id": "measure-114",
+          "name": "Automated Logic",
+          "keywords": []
+        },
+        {
+          "id": "measure-115",
+          "name": "Schneider EcoStruxure",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "control-strategies",
+      "name": "Control Strategies",
+      "measures": [
+        {
+          "id": "measure-116",
+          "name": "SAT reset",
+          "keywords": []
+        },
+        {
+          "id": "measure-117",
+          "name": "CHW reset",
+          "keywords": []
+        },
+        {
+          "id": "measure-118",
+          "name": "HW reset",
+          "keywords": []
+        },
+        {
+          "id": "measure-119",
+          "name": "Outside air reset",
+          "keywords": []
+        },
+        {
+          "id": "measure-120",
+          "name": "Static pressure reset",
+          "keywords": []
+        },
+        {
+          "id": "measure-121",
+          "name": "Optimal start/stop",
+          "keywords": []
+        },
+        {
+          "id": "measure-122",
+          "name": "Equipment scheduling optimization",
+          "keywords": [
+            "optimization"
+          ]
+        },
+        {
+          "id": "measure-123",
+          "name": "Load shedding",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "advanced-controls",
+      "name": "Advanced Controls",
+      "measures": [
+        {
+          "id": "measure-124",
+          "name": "Fault detection and diagnostics (FDD)",
+          "keywords": []
+        },
+        {
+          "id": "measure-125",
+          "name": "AI-based optimization (EverWatt.AI)",
+          "keywords": [
+            "optimization"
+          ]
+        },
+        {
+          "id": "measure-126",
+          "name": "DR automation",
+          "keywords": []
+        },
+        {
+          "id": "measure-127",
+          "name": "Weather-integrated predictive logic",
+          "keywords": []
+        },
+        {
+          "id": "measure-128",
+          "name": "Circuit-level metering",
+          "keywords": []
+        }
+      ]
+    }
+  ]
+}

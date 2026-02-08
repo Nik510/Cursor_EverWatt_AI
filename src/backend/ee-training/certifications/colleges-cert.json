@@ -1,0 +1,101 @@
+{
+  "id": "colleges-cert",
+  "industry": "colleges",
+  "title": "EverWatt Energy Efficiency Certification - For College Engineers",
+  "subtitle": "Certification for energy efficiency in community colleges and vocational schools",
+  "description": "Validate your expertise in identifying and implementing energy efficiency measures for community colleges and vocational schools. This certification covers HVAC, lighting, vocational equipment, and commuter-based operations.",
+  "icon": "📚",
+  "passingScore": 80,
+  "timeLimit": 75,
+  "prerequisites": ["industry-specific"],
+  "metadata": {
+    "estimatedTime": 75,
+    "difficulty": "intermediate",
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-02"
+  },
+  "questions": [
+    {
+      "id": "col-001",
+      "question": "What is a key characteristic of community colleges that affects energy efficiency?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "Large central plants like universities" },
+        { "id": "b", "text": "Smaller campuses than universities, often commuter-based with variable occupancy" },
+        { "id": "c", "text": "24/7 operations in all areas" },
+        { "id": "d", "text": "No specialized facilities" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Community colleges are typically smaller campuses than universities, often commuter-based with variable occupancy patterns. They may have specialized vocational facilities (auto shops, welding, culinary) that create unique energy efficiency opportunities.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "col-002",
+      "question": "A community college has a welding program with 10 welding stations. The exhaust system runs continuously. What efficiency opportunity exists?",
+      "questionType": "scenario",
+      "scenario": "A community college welding lab has 10 welding stations. Each station has local exhaust ventilation (1,000 CFM). The exhaust system runs continuously, even when classes are not in session (approximately 20 hours/week of actual use).",
+      "options": [
+        { "id": "a", "text": "Replace all exhaust equipment" },
+        { "id": "b", "text": "Install scheduling controls to reduce exhaust during non-class hours" },
+        { "id": "c", "text": "Reduce exhaust to minimum" },
+        { "id": "d", "text": "No changes - safety requires constant exhaust" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Installing scheduling controls to reduce exhaust during non-class hours can reduce ventilation energy by 50-70% (from 168 hours/week to 20 hours/week). This maintains safety during class hours while eliminating waste during unoccupied periods. This is typically the highest-impact measure for vocational facilities.",
+      "points": 10,
+      "category": "vocational-equipment",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "col-003",
+      "question": "What is the typical energy split for community colleges?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "HVAC: 30-40%, Lighting: 20-30%, Vocational: 5-15%" },
+        { "id": "b", "text": "HVAC: 40-55%, Lighting: 20-30%, Vocational: 5-15%" },
+        { "id": "c", "text": "HVAC: 55-65%, Lighting: 30-40%, Vocational: 15-25%" },
+        { "id": "d", "text": "HVAC: 65-75%, Lighting: 10-15%, Vocational: 5-10%" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Community colleges typically have: HVAC: 40-55%, Lighting: 20-30%, Plug loads: 10-20%, Vocational equipment: 5-15% (if applicable), Other: 5-10%. The exact split depends on programs offered and building types.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "col-004",
+      "question": "A community college has evening and weekend programs. What HVAC scheduling consideration is important?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "HVAC should run 24/7 regardless of schedule" },
+        { "id": "b", "text": "HVAC scheduling must account for variable class schedules including evenings and weekends" },
+        { "id": "c", "text": "Scheduling is not applicable" },
+        { "id": "d", "text": "Only daytime scheduling matters" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Community colleges often have variable schedules including evenings and weekends. HVAC scheduling controls must account for these variable occupancy patterns to maximize savings while maintaining comfort. Advanced scheduling systems can handle complex schedules.",
+      "points": 8,
+      "category": "hvac",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "col-005",
+      "question": "What is the typical priority order for energy efficiency measures in community colleges?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "HVAC Systems, Lighting, Vocational Equipment, Building Envelope" },
+        { "id": "b", "text": "Lighting, HVAC, Building Envelope, Vocational Equipment" },
+        { "id": "c", "text": "Building Envelope, HVAC, Lighting, Vocational Equipment" },
+        { "id": "d", "text": "Vocational Equipment, Lighting, HVAC, Building Envelope" }
+      ],
+      "correctAnswer": "a",
+      "explanation": "HVAC systems are typically the highest priority (Very High) due to their large energy share (40-55%). Lighting is High priority. Vocational equipment is Medium-High if applicable. Building Envelope is Medium-High.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    }
+  ]
+}
+

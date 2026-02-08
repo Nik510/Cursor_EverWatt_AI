@@ -1,0 +1,792 @@
+everwatt-engine\
+
+Depth: 4
+Excluded directories: .git, .next, build, coverage, dist, node_modules
+
+├── data\
+│   ├── analyses\
+│   │   ├── 6afeae74-07b2-4970-b3b0-5de3171a6317\
+│   │   │   ├── runs\
+│   │   │   ├── analysis_inputs.json
+│   │   │   ├── analysis_manifest.json
+│   │   │   └── analysis_result.json
+│   │   ├── 974022c7-62ca-4a35-9cc1-d5f66dd5d51f\
+│   │   │   ├── runs\
+│   │   │   ├── analysis_inputs.json
+│   │   │   ├── analysis_inputs.prev.json
+│   │   │   ├── analysis_manifest.json
+│   │   │   ├── analysis_manifest.prev.json
+│   │   │   ├── analysis_result.json
+│   │   │   └── analysis_result.prev.json
+│   │   ├── demo-bca\
+│   │   │   ├── runs\
+│   │   │   ├── analysis_inputs.json
+│   │   │   ├── analysis_manifest.json
+│   │   │   └── analysis_result.json
+│   │   ├── demo-tariff\
+│   │   │   ├── runs\
+│   │   │   ├── analysis_inputs.json
+│   │   │   ├── analysis_manifest.json
+│   │   │   └── analysis_result.json
+│   │   ├── 017ed9ff-4938-4187-b59b-423ee56c848e.json
+│   │   ├── 0262cfb7-838d-459c-af17-cb879121bd64.json
+│   │   ├── 03b5584b-a782-4118-8e61-2b38b0376a05.json
+│   │   ├── 084d00be-343e-4e6e-8842-8f562b9b39a6.json
+│   │   ├── 08d5b04b-fab3-4cdb-a789-37009cb58372.json
+│   │   ├── 09b9de8d-ec6c-49c8-b170-51ed14fc7b70.json
+│   │   ├── 0acdcc30-590e-4e13-a26b-f747e72ed194.json
+│   │   ├── 117a85c3-6d8b-4174-8c94-a7a61b85e4d1.json
+│   │   ├── 123d3e0b-174e-4d9c-907e-80dd02a668f1.json
+│   │   ├── 1322a9b8-02c9-45d8-917c-c2e1064905f7.json
+│   │   ├── 13e87545-c5d4-46a7-aa2b-0bbc55fe6c72.json
+│   │   ├── 1526b90a-6ad2-4caa-b26d-0f44fb59ab0c.json
+│   │   ├── 16158c18-1c3d-48f7-bd35-e198a937f797.json
+│   │   ├── 16ca6e79-e9dd-407b-96e0-ba3f87dfb72d.json
+│   │   ├── 2311a23a-0eac-4ea4-ab42-c2a1eea63975.json
+│   │   ├── 245321c9-4d57-4476-b74b-9248f0af15fa.json
+│   │   ├── 285823a4-2c5a-4e6f-870e-21f7c6697df8.json
+│   │   ├── 286838e9-fe89-4206-8871-657207b2c7ad.json
+│   │   ├── 2fff4e7d-96c8-4dc2-aad2-ecebf2179f0d.json
+│   │   ├── 30c1aa54-91bf-47b2-b33b-7ff452bf705a.json
+│   │   └── 30c3fe59-0989-4c59-9e7d-a780d5c99c3d.json
+│   │   └── … (80 more entries; truncated)
+│   ├── audits\
+│   ├── change-orders\
+│   ├── extracted-all-docx\
+│   │   ├── all-extracted.json
+│   │   ├── battery.json
+│   │   ├── demand-response.json
+│   │   ├── ev-charging.json
+│   │   ├── hvac.json
+│   │   ├── lighting.json
+│   │   └── measures.json
+│   ├── extracted-all-ee-measures-2\
+│   │   ├── full-extraction.json
+│   │   ├── full-text.txt
+│   │   └── summary.txt
+│   ├── extracted-all-pdfs-final\
+│   │   └── all-pdfs-extracted.json
+│   ├── extracted-all-remaining\
+│   │   ├── all-remaining-content.json
+│   │   ├── all-remaining-files.json
+│   │   └── summary.txt
+│   ├── extracted-ashrae-guidelines\
+│   │   ├── ashrae-full-text.txt
+│   │   ├── ashrae-knowledge-architecture.json
+│   │   └── summary.txt
+│   ├── extracted-battery-training\
+│   │   └── battery-training-content.json
+│   ├── extracted-bulb-types\
+│   │   ├── bulb-types.json
+│   │   ├── raw-html.html
+│   │   └── raw-text.txt
+│   ├── extracted-excel-schemas\
+│   │   ├── all-schemas.json
+│   │   └── schema-documentation.md
+│   ├── extracted-hvac-training\
+│   │   └── hvac-training-content.json
+│   ├── extracted-pdfs-comprehensive\
+│   │   └── all-pdfs.json
+│   ├── extracted-pdfs-v2\
+│   │   ├── all-pdfs-extracted.json
+│   │   └── battery.json
+│   ├── historical-project-templates\
+│   │   ├── schema-documentation.md
+│   │   └── template-schemas.json
+│   ├── hvac\
+│   │   └── demo_trends.csv
+│   ├── library\
+│   │   ├── batteries.json
+│   │   └── rates.json
+│   ├── projects\
+│   │   ├── 1720b14f-af70-47e4-9b52-4074d60fc654.json
+│   │   ├── 55b10c5e-29f1-4d58-94a7-8fb33e44e369.json
+│   │   ├── 73dbde2b-1cac-454c-9d3e-461f6175b032.json
+│   │   ├── 77d01d5c-a9f5-40a1-b07a-722d97645b68.json
+│   │   ├── 82737510-ba96-45a9-baca-20fd8d0d9a54.json
+│   │   ├── 85226cd5-87c8-4784-a728-ab9cb51353cc.json
+│   │   ├── f9694bd2-7138-4e97-812a-c4a8ed08c28b.json
+│   │   └── f9d38c08-7adf-4a18-9b97-45bc5d7e99aa.json
+│   ├── structured-training-content\
+│   │   ├── battery.json
+│   │   ├── demand-response.json
+│   │   ├── ev-charging.json
+│   │   ├── hvac.json
+│   │   ├── lighting.json
+│   │   └── measures.json
+│   ├── uploads\
+│   │   └── default-user\
+│   │       └── projects\
+│   ├── all-extracted-content.json
+│   ├── battery-catalog.csv
+│   ├── everwatt-battery-optimization-strategy.txt
+│   ├── extracted-measures.json
+│   └── integration-report.json
+│   └── … (5 more entries; truncated)
+├── docs\
+│   ├── academy\
+│   │   ├── engineering\
+│   │   │   ├── playbooks\
+│   │   │   ├── CHEAT_SHEET_TEMPLATE.md
+│   │   │   ├── CURRICULUM_OVERVIEW.md
+│   │   │   ├── LEVEL_1_CURRICULUM.md
+│   │   │   ├── VOLUME_1_EQUIPMENT.md
+│   │   │   ├── VOLUME_2_CONTROLS_AND_SEQUENCES.md
+│   │   │   └── VOLUME_3_TROUBLESHOOTING.md
+│   │   ├── INVITE_WORKFLOW.md
+│   │   ├── LMS_SETUP.md
+│   │   ├── PILOT_RUNBOOK.md
+│   │   └── README.md
+│   ├── bug_notes\
+│   │   └── battery_calculator_issues.md
+│   ├── modules\
+│   │   └── MODULE_CONTRACTS.md
+│   ├── project-builder\
+│   │   ├── PHASE1_FOUNDATION.md
+│   │   └── SHIP_SLICE_RUNBOOK.md
+│   ├── specs\
+│   │   ├── PHASE1_BATTERY_TARIFF_INTELLIGENCE_SPEC.md
+│   │   └── PHASE1_CUTOVER_PLAN.md
+│   ├── ASHRAE_INTEGRATION.md
+│   ├── BATTERY_CALCULATOR_BUG_NOTES.md
+│   ├── DATA_ACCESS_GUIDE.md
+│   ├── DEMAND_RESPONSE_ASSUMPTIONS.md
+│   ├── LIGHTING_MASTER_COMPENDIUM.md
+│   └── WORKFLOW_GUIDE.md
+├── everwatt-project-library\
+│   ├── normalized\
+│   │   ├── .gitkeep
+│   │   ├── pl_22995f305aa1.json
+│   │   ├── pl_cb47d81cab3c.json
+│   │   └── pl_eda579a100b3.json
+│   ├── raw\
+│   │   ├── campus-central-plant-optimization\
+│   │   │   ├── best-notes.md
+│   │   │   ├── ems-summary.md
+│   │   │   ├── final-savings-calc.txt
+│   │   │   └── manifest.yaml
+│   │   ├── hospital-metro-chiller-opt\
+│   │   │   ├── ems-summary.md
+│   │   │   ├── final-savings-calc.txt
+│   │   │   ├── implementation-notes.md
+│   │   │   └── manifest.yaml
+│   │   ├── office-acme-controls\
+│   │   │   ├── best-notes.md
+│   │   │   ├── ems-summary.md
+│   │   │   ├── final-savings-calc.txt
+│   │   │   └── manifest.yaml
+│   │   └── .gitkeep
+│   └── README.md
+├── nifs_solar_analysis\
+│   ├── __pycache__\
+│   │   └── nifs_engine.cpython-313.pyc
+│   ├── .gitignore
+│   ├── ai_extractor.py
+│   ├── app.py
+│   ├── env_example.txt
+│   ├── example_usage_data.csv
+│   ├── excel_generator.py
+│   ├── FRAMEWORK_SUMMARY.md
+│   ├── inspect_template.py
+│   ├── nifs_engine.py
+│   ├── PROJECT_OVERVIEW.md
+│   ├── QUICK_START.md
+│   ├── README.md
+│   ├── requirements.txt
+│   ├── run_app.bat
+│   ├── run_app.sh
+│   └── test_calculations.py
+├── public\
+│   ├── data\
+│   │   ├── all-extracted-content.json
+│   │   ├── all-pdfs-extracted.json
+│   │   ├── all-remaining-content.json
+│   │   ├── ashrae-knowledge-architecture.json
+│   │   ├── extracted-measures.json
+│   │   ├── integration-report.json
+│   │   ├── INTERVAL.csv
+│   │   ├── measure-training-links.json
+│   │   ├── merged-all-content.json
+│   │   └── structured-training-content.json
+│   ├── images\
+│   │   └── bulb-types\
+│   │       ├── bulb-types-1.png
+│   │       ├── bulb-types-2.png
+│   │       └── bulb-types-reference.html
+│   └── battery-catalog.csv
+├── python\
+│   ├── everwatt_battery_engine\
+│   │   ├── __pycache__\
+│   │   │   ├── __init__.cpython-313.pyc
+│   │   │   ├── battery_catalog.cpython-313.pyc
+│   │   │   ├── bundles.cpython-313.pyc
+│   │   │   ├── dispatch_lp.cpython-313.pyc
+│   │   │   ├── dr_deliverable.cpython-313.pyc
+│   │   │   ├── intervals.cpython-313.pyc
+│   │   │   ├── optimize.cpython-313.pyc
+│   │   │   ├── pricing.cpython-313.pyc
+│   │   │   └── types.cpython-313.pyc
+│   │   ├── tariffs\
+│   │   │   ├── __pycache__\
+│   │   │   ├── base.py
+│   │   │   ├── bill.py
+│   │   │   ├── option_s.py
+│   │   │   └── pge_b19.py
+│   │   ├── __init__.py
+│   │   ├── battery_catalog.py
+│   │   ├── bundles.py
+│   │   ├── dispatch_lp.py
+│   │   ├── dr_deliverable.py
+│   │   ├── intervals.py
+│   │   ├── optimize.py
+│   │   ├── pricing.py
+│   │   └── types.py
+│   ├── requirements.txt
+│   ├── run_battery_optimizer.py
+│   └── run_dr_deliverable.py
+├── review_pack\
+│   ├── tools\
+│   │   └── generate_repo_tree.mjs
+│   └── repo_tree.txt
+├── scripts\
+│   ├── __pycache__\
+│   │   └── generate_hvac_trend_csv.cpython-313.pyc
+│   ├── extract_3p_programs.py
+│   ├── extract_pge_docx_notes.py
+│   ├── extract-battery-catalog.ts
+│   ├── generate_hvac_trend_csv.py
+│   ├── parse_pge_xlsx.py
+│   └── rebuild-battery-catalog.ts
+├── services\
+│   ├── __pycache__\
+│   │   └── __init__.cpython-313.pyc
+│   ├── hvac_compute\
+│   │   ├── __pycache__\
+│   │   │   └── __init__.cpython-313.pyc
+│   │   ├── app\
+│   │   │   ├── __pycache__\
+│   │   │   ├── __init__.py
+│   │   │   └── main.py
+│   │   ├── tests\
+│   │   │   ├── __pycache__\
+│   │   │   ├── __init__.py
+│   │   │   └── test_demo_fdd_unittest.py
+│   │   ├── __init__.py
+│   │   ├── README.md
+│   │   └── requirements.txt
+│   └── __init__.py
+├── src\
+│   ├── api\
+│   │   ├── ee-training\
+│   │   │   └── index.ts
+│   │   └── data-api.ts
+│   ├── backend\
+│   │   ├── admin\
+│   │   │   ├── auth.ts
+│   │   │   ├── README.md
+│   │   │   └── types.ts
+│   │   └── ee-training\
+│   │       ├── certifications\
+│   │       ├── modules\
+│   │       ├── index.ts
+│   │       ├── README.md
+│   │       └── types.ts
+│   ├── components\
+│   │   ├── admin\
+│   │   │   ├── AdminControls.tsx
+│   │   │   └── AdminLogin.tsx
+│   │   ├── ai\
+│   │   │   └── AiChat.tsx
+│   │   ├── audit\
+│   │   │   └── AuditList.tsx
+│   │   ├── battery\
+│   │   │   └── MultiTierComparison.tsx
+│   │   ├── charts\
+│   │   │   ├── BatteryPerformanceHeatmap.tsx
+│   │   │   ├── BatteryUtilizationGauges.tsx
+│   │   │   ├── ChartViewToggle.tsx
+│   │   │   ├── ConstraintWaterfallChart.tsx
+│   │   │   ├── DemandProfileChart.tsx
+│   │   │   ├── EnergyBreakdownChart.tsx
+│   │   │   ├── PeakEventScatterPlot.tsx
+│   │   │   ├── PeakEventTimeline.tsx
+│   │   │   ├── SavingsTrendChart.tsx
+│   │   │   ├── ScenarioMatrix.tsx
+│   │   │   ├── SRateDailyBreakdown.tsx
+│   │   │   ├── SRateSavingsWaterfall.tsx
+│   │   │   └── SRateWindowHeatmap.tsx
+│   │   ├── ee-training\
+│   │   │   ├── calculators\
+│   │   │   ├── certification\
+│   │   │   ├── interactive\
+│   │   │   ├── obf\
+│   │   │   ├── progress\
+│   │   │   ├── widgets\
+│   │   │   ├── AnimatedSchematic.tsx
+│   │   │   ├── ContentBlockRenderer.tsx
+│   │   │   ├── CoolingTowerAnimation.tsx
+│   │   │   ├── IndustrySidebar.tsx
+│   │   │   ├── InteractiveChillerDiagram.tsx
+│   │   │   ├── MeasureExplorer.tsx
+│   │   │   ├── ModuleDashboard.tsx
+│   │   │   ├── ModuleExplorerView.tsx
+│   │   │   ├── ModuleList.tsx
+│   │   │   ├── ModuleViewer.tsx
+│   │   │   ├── RefrigerationCycleAnimation.tsx
+│   │   │   └── theme.ts
+│   │   ├── obf\
+│   │   │   ├── DocumentTemplateManager.tsx
+│   │   │   ├── OBFCalculator.tsx
+│   │   │   ├── PathwayComparison.tsx
+│   │   │   ├── SubmissionChecklist.tsx
+│   │   │   └── TimelineVisualization.tsx
+│   │   ├── projectBuilder\
+│   │   │   ├── AssetRegistry.tsx
+│   │   │   ├── EvidenceViewer.tsx
+│   │   │   ├── InboxReviewPanel.tsx
+│   │   │   ├── Phase1FoundationPanel.tsx
+│   │   │   ├── ProjectAiChat.tsx
+│   │   │   ├── ProposalReviewPanel.tsx
+│   │   │   └── WorkbookIngestionPanel.tsx
+│   │   ├── qa\
+│   │   │   ├── BillingCycleQaViewer.tsx
+│   │   │   └── index.ts
+│   │   ├── training\
+│   │   │   ├── BatterySchematic.tsx
+│   │   │   ├── BoilerSchematic.tsx
+│   │   │   ├── ChillerSchematic.tsx
+│   │   │   ├── CoolingSystemMap.tsx
+│   │   │   ├── CoolingTowerSchematic.tsx
+│   │   │   ├── EnhancedContentDisplay.tsx
+│   │   │   ├── InteractiveBatterySchematic.tsx
+│   │   │   ├── InteractiveChillerSchematic.tsx
+│   │   │   ├── LightingMasterCompendium.tsx
+│   │   │   ├── LightingSchematic.tsx
+│   │   │   ├── MasterEquipmentExplorer.tsx
+│   │   │   ├── PerspectiveBadge.tsx
+│   │   │   ├── TechPageLayout.tsx
+│   │   │   ├── TrainingSectionAccordion.tsx
+│   │   │   ├── VFDSchematic.tsx
+│   │   │   └── VRFSchematic.tsx
+│   │   ├── ui\
+│   │   │   └── InfoModal.tsx
+│   │   ├── AIInsightPanel.tsx
+│   │   ├── AnalysisQABot.tsx
+│   │   ├── BatteryCard.tsx
+│   │   ├── BatteryDiagnosticPanel.tsx
+│   │   ├── BatteryReasonBadges.tsx
+│   │   ├── BatteryRecommendationCard.tsx
+│   │   ├── CategoryFilter.tsx
+│   │   ├── CustomerInformationForm.tsx
+│   │   ├── DataSearch.tsx
+│   │   ├── DocumentCard.tsx
+│   │   ├── ErrorBoundary.tsx
+│   │   ├── FileUpload.tsx
+│   │   ├── KnowledgeBaseSearch.tsx
+│   │   └── Phase2AnalysisDashboard.tsx
+│   │   └── … (9 more entries; truncated)
+│   ├── config\
+│   │   ├── academy-config.ts
+│   │   ├── ai-config.ts
+│   │   └── index.ts
+│   ├── contexts\
+│   │   ├── AdminContext.tsx
+│   │   └── ToastContext.tsx
+│   ├── core\
+│   │   ├── data-processing.ts
+│   │   ├── index.ts
+│   │   ├── types.ts
+│   │   └── vision.ts
+│   ├── data\
+│   │   ├── academy\
+│   │   │   ├── role-paths.ts
+│   │   │   └── troubleshooting-playbooks.ts
+│   │   ├── dr-programs\
+│   │   │   ├── pge.ts
+│   │   │   └── types.ts
+│   │   ├── equipment\
+│   │   │   ├── all-technology-compendiums.ts
+│   │   │   └── comprehensive-equipment-database.ts
+│   │   ├── hvac\
+│   │   │   ├── comprehensive-hvac-database.ts
+│   │   │   ├── equipment-categories.ts
+│   │   │   ├── index.ts
+│   │   │   └── master-hvac-database.ts
+│   │   ├── knowledge-base\
+│   │   │   ├── equipment-library.ts
+│   │   │   ├── extracted-measures-integration.ts
+│   │   │   ├── index.ts
+│   │   │   ├── master-measures.ts
+│   │   │   ├── structured-training-content.ts
+│   │   │   ├── training-content-db.ts
+│   │   │   ├── types.ts
+│   │   │   └── verticals.ts
+│   │   ├── lighting\
+│   │   │   ├── best-practices.ts
+│   │   │   ├── bulb-types.ts
+│   │   │   ├── index.ts
+│   │   │   └── replacement-logic.ts
+│   │   ├── master-ee-database\
+│   │   │   ├── category-cooling-systems.json
+│   │   │   ├── category-data-center-measures.json
+│   │   │   ├── category-electrification-measures.json
+│   │   │   ├── category-heating-systems.json
+│   │   │   ├── category-hvac-controls.json
+│   │   │   ├── category-motors-electrical-systems.json
+│   │   │   ├── category-plug-load.json
+│   │   │   ├── index.ts
+│   │   │   └── master-measures-database.json
+│   │   ├── obf\
+│   │   │   └── obf-eligibility.ts
+│   │   ├── pge\
+│   │   │   ├── energy-insight-workflow.ts
+│   │   │   ├── index.ts
+│   │   │   ├── pge-obf-pathways.ts
+│   │   │   ├── prescriptive-measures.ts
+│   │   │   └── README.md
+│   │   ├── training\
+│   │   │   ├── battery-content.ts
+│   │   │   ├── boiler-content.ts
+│   │   │   ├── chiller-content.ts
+│   │   │   ├── cooling-systems-content.ts
+│   │   │   ├── cooling-tower-content.ts
+│   │   │   ├── ee-measures.ts
+│   │   │   ├── index.ts
+│   │   │   ├── lighting-content.ts
+│   │   │   ├── vfd-content.ts
+│   │   │   └── vrf-content.ts
+│   │   ├── utility-programs\
+│   │   │   ├── index.ts
+│   │   │   ├── pge-programs.ts
+│   │   │   ├── sce-programs.ts
+│   │   │   ├── sdge-programs.ts
+│   │   │   └── types.ts
+│   │   └── pge-nmec-requirements.json
+│   ├── db\
+│   │   ├── client.ts
+│   │   └── schema.ts
+│   ├── hooks\
+│   │   └── useDataService.ts
+│   ├── middleware\
+│   │   ├── auth.ts
+│   │   ├── error-handler.ts
+│   │   ├── rate-limit.ts
+│   │   └── security.ts
+│   ├── modules\
+│   │   ├── academy\
+│   │   │   └── pages\
+│   │   ├── admin\
+│   │   │   └── pages\
+│   │   ├── audit\
+│   │   │   └── pages\
+│   │   ├── battery\
+│   │   │   ├── battery-library.ts
+│   │   │   ├── buildDrRows.ts
+│   │   │   ├── computeDrFitScore.ts
+│   │   │   ├── degradation.ts
+│   │   │   ├── dispatch.ts
+│   │   │   ├── dr-fit-score.ts
+│   │   │   ├── dr-panel-adapter.ts
+│   │   │   ├── dr-panel.ts
+│   │   │   ├── efficiency-diagnostics.ts
+│   │   │   ├── index.ts
+│   │   │   ├── INTELLIGENT_ANALYSIS_REVIEW.md
+│   │   │   ├── intelligent-peak-analysis.ts
+│   │   │   ├── library.ts
+│   │   │   ├── logic.ts
+│   │   │   ├── multi-tier-analysis.ts
+│   │   │   ├── optimal-selection.ts
+│   │   │   ├── optimal-sizing.ts
+│   │   │   ├── option-s-optimizer.ts
+│   │   │   ├── peak-characteristics.ts
+│   │   │   ├── peak-pattern-analysis.ts
+│   │   │   ├── peak-shaving.ts
+│   │   │   ├── test-run.ts
+│   │   │   ├── types.ts
+│   │   │   └── usage-optimization.ts
+│   │   ├── calculator\
+│   │   │   └── pages\
+│   │   ├── ee_training\
+│   │   │   └── pages\
+│   │   ├── financials\
+│   │   │   ├── calculations.ts
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
+│   │   ├── hvac\
+│   │   │   ├── calculations.ts
+│   │   │   ├── equipment-library.ts
+│   │   │   ├── hvac-compute-client.ts
+│   │   │   ├── index.ts
+│   │   │   ├── optimizer-contract.ts
+│   │   │   ├── orchestrator.ts
+│   │   │   ├── project-graph-snapshot.ts
+│   │   │   ├── run-queue.ts
+│   │   │   ├── run-storage.ts
+│   │   │   └── types.ts
+│   │   ├── hvac_optimizer\
+│   │   │   └── pages\
+│   │   ├── integration\
+│   │   │   ├── protocols\
+│   │   │   ├── safety\
+│   │   │   ├── index.ts
+│   │   │   ├── README.md
+│   │   │   ├── types.ts
+│   │   │   └── unified-interface.ts
+│   │   ├── lighting\
+│   │   │   └── calculations.ts
+│   │   ├── monitoring\
+│   │   │   └── pages\
+│   │   ├── nifs\
+│   │   │   ├── calculations.ts
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
+│   │   ├── phase1_tariff\
+│   │   │   ├── billing\
+│   │   │   ├── discovery\
+│   │   │   ├── engine\
+│   │   │   ├── evaluator\
+│   │   │   ├── inference\
+│   │   │   ├── optimizer\
+│   │   │   ├── options\
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
+│   │   ├── project_builder\
+│   │   │   └── pages\
+│   │   ├── projectLibrary\
+│   │   │   ├── ingest.ts
+│   │   │   ├── manifest.ts
+│   │   │   ├── projectRecord.ts
+│   │   │   ├── search.ts
+│   │   │   └── summarizeForHVAC.ts
+│   │   ├── reports\
+│   │   │   └── pages\
+│   │   ├── tariffEngine\
+│   │   │   ├── __tests__\
+│   │   │   ├── library\
+│   │   │   ├── billing.ts
+│   │   │   ├── cycle-analysis.ts
+│   │   │   ├── identify.ts
+│   │   │   ├── index.ts
+│   │   │   ├── join.ts
+│   │   │   ├── scenarios.ts
+│   │   │   └── schema.ts
+│   │   ├── utilities\
+│   │   │   └── pages\
+│   │   └── registry.ts
+│   ├── pages\
+│   │   ├── admin\
+│   │   │   └── AdminDashboard.tsx
+│   │   ├── modules\
+│   │   │   ├── audit\
+│   │   │   ├── calculators\
+│   │   │   ├── monitoring\
+│   │   │   ├── reports\
+│   │   │   ├── Academy.tsx
+│   │   │   ├── AcademyStandards.tsx
+│   │   │   ├── AcademyTroubleshooting.tsx
+│   │   │   ├── AIEngineer.tsx
+│   │   │   ├── Audit.tsx
+│   │   │   ├── Calculator.tsx
+│   │   │   ├── CertificationPage.tsx
+│   │   │   ├── EETraining.tsx
+│   │   │   ├── HVACOptimizer.tsx
+│   │   │   ├── Monitoring.tsx
+│   │   │   ├── Reports.tsx
+│   │   │   └── TrainingDashboard.tsx
+│   │   ├── projectBuilder\
+│   │   │   ├── ProjectBuilderHome.tsx
+│   │   │   └── ProjectBuilderProject.tsx
+│   │   ├── AnalysisReportPage.tsx
+│   │   ├── BatteryLibrary.tsx
+│   │   ├── Dashboard.tsx
+│   │   ├── EnergyIntelligence.tsx
+│   │   ├── EquipmentLibrary.tsx
+│   │   ├── HistoricalProjectLibrary.tsx
+│   │   ├── MeasuresLibrary.tsx
+│   │   ├── ModuleHub.tsx
+│   │   ├── NewAnalysis.tsx
+│   │   ├── OBFMeasureChecker.tsx
+│   │   ├── OBFPathwaySelector.tsx
+│   │   ├── OBFSubmissionWorkflow.tsx
+│   │   ├── PGEOBFPathwayDetail.tsx
+│   │   ├── Phase1Tariff.tsx
+│   │   ├── Phase2ResultsPage.tsx
+│   │   ├── Projects.tsx
+│   │   ├── RateLibrary.tsx
+│   │   ├── TechnicalLibrary.tsx
+│   │   ├── TechnologyExplorer.tsx
+│   │   ├── ThreePPrograms.tsx
+│   │   ├── UnifiedLibrary.tsx
+│   │   └── UtilitiesAndPrograms.tsx
+│   │   └── … (2 more entries; truncated)
+│   ├── scripts\
+│   │   ├── add-new-measures-to-kb.ts
+│   │   ├── add-remaining-measures.ts
+│   │   ├── check-module-boundaries.ts
+│   │   ├── create-ingestion-summary.ts
+│   │   ├── debug-battery-selection.ts
+│   │   ├── extract-all-ee-measures-2.ts
+│   │   ├── extract-all-pdfs-comprehensive.ts
+│   │   ├── extract-all-pdfs-remaining.ts
+│   │   ├── extract-all-remaining-content.ts
+│   │   ├── extract-all-remaining-docx.ts
+│   │   ├── extract-all-remaining-files.ts
+│   │   ├── extract-ashrae-guidelines.ts
+│   │   ├── extract-battery-training-content.ts
+│   │   ├── extract-bulb-images.ts
+│   │   ├── extract-bulb-types.ts
+│   │   ├── extract-excel-templates.ts
+│   │   ├── extract-historical-templates.ts
+│   │   ├── extract-hvac-training-content.ts
+│   │   ├── extract-pdfs-v2.ts
+│   │   ├── generate-all-compendiums.ts
+│   │   ├── generate-comprehensive-hvac-database.ts
+│   │   ├── import-all-training-data.ts
+│   │   ├── import-measures-docx.ts
+│   │   ├── import-pdf-training-manuals.ts
+│   │   └── ingest-mills-workbook.ts
+│   │   └── … (21 more entries; truncated)
+│   ├── services\
+│   │   ├── ai-rag-service.ts
+│   │   ├── ai-service.ts
+│   │   ├── auth-service.ts
+│   │   ├── change-order-ai-service.ts
+│   │   ├── data-service.ts
+│   │   ├── db-service.ts
+│   │   ├── inbox-decisions.ts
+│   │   ├── llm-insights.ts
+│   │   ├── logger.ts
+│   │   ├── monitoring-service.ts
+│   │   ├── project-vault-extract.ts
+│   │   ├── project-vault-retrieval.ts
+│   │   ├── proposal-commit.ts
+│   │   ├── storage-service.ts
+│   │   ├── workbook-index.ts
+│   │   └── workbook-mills-ingest.ts
+│   ├── shared\
+│   │   ├── api\
+│   │   │   ├── calculators.ts
+│   │   │   ├── client.ts
+│   │   │   ├── projectBuilder.ts
+│   │   │   └── vault.ts
+│   │   └── types\
+│   │       └── docs.ts
+│   ├── storage\
+│   │   ├── index.ts
+│   │   ├── local-adapter.ts
+│   │   ├── r2-adapter.ts
+│   │   ├── s3-adapter.ts
+│   │   └── types.ts
+│   ├── tools\
+│   │   └── projectLibrary\
+│   │       └── ingest.ts
+│   ├── types\
+│   │   ├── analysis.ts
+│   │   ├── api-responses.ts
+│   │   ├── change-order.ts
+│   │   ├── data-service.ts
+│   │   ├── dr.ts
+│   │   ├── energy-intelligence.ts
+│   │   ├── project-graph.ts
+│   │   └── proposal-contract.ts
+│   ├── ui\
+│   │   ├── drRows.ts
+│   │   └── format.ts
+│   ├── utils\
+│   │   ├── battery\
+│   │   │   ├── cap-event-stats.ts
+│   │   │   ├── report-pdf.ts
+│   │   │   ├── report-vm.ts
+│   │   │   ├── s-rate-calculations.ts
+│   │   │   └── scenario-comparison.ts
+│   │   ├── carbon\
+│   │   │   ├── carbon-report-pdf.ts
+│   │   │   └── epa-equivalencies.ts
+│   │   ├── economics\
+│   │   │   └── battery-economics.ts
+│   │   ├── obf\
+│   │   │   ├── eligibility-checker.ts
+│   │   │   ├── financing-calculator.ts
+│   │   │   └── pathway-selector.ts
+│   │   ├── programs\
+│   │   │   ├── data\
+│   │   │   └── types\
+│   │   ├── rates\
+│   │   │   ├── data\
+│   │   │   ├── calculations.ts
+│   │   │   ├── demand-rate-lookup.ts
+│   │   │   ├── helpers.ts
+│   │   │   ├── index.ts
+│   │   │   ├── PG_E_RATES_SUMMARY.md
+│   │   │   ├── pge-rates-comprehensive.ts
+│   │   │   ├── rate-data.ts
+│   │   │   ├── rate-explanations.ts
+│   │   │   ├── README.md
+│   │   │   ├── research-notes.ts
+│   │   │   ├── s-rate-eligibility.ts
+│   │   │   ├── storage.ts
+│   │   │   ├── tariff-tables.ts
+│   │   │   └── types.ts
+│   │   ├── schemas\
+│   │   │   └── battery-catalog-schema.ts
+│   │   ├── academy-storage.ts
+│   │   ├── ai-insights.ts
+│   │   ├── array.ts
+│   │   ├── audit-storage.ts
+│   │   ├── battery-catalog-loader.ts
+│   │   ├── calculation-storage.ts
+│   │   ├── certification-storage.ts
+│   │   ├── change-order-generator.ts
+│   │   ├── chart-aggregation.ts
+│   │   ├── csv-parser.ts
+│   │   ├── data-column-detector.ts
+│   │   ├── date.ts
+│   │   ├── docx-parser.ts
+│   │   ├── energy.ts
+│   │   ├── equipment-fit-assessment.ts
+│   │   ├── excel-reader.ts
+│   │   ├── facility-analyzer.ts
+│   │   └── format.ts
+│   │   └── … (24 more entries; truncated)
+│   ├── validation\
+│   │   └── schemas\
+│   │       ├── audit-schema.ts
+│   │       ├── battery-library-schema.ts
+│   │       ├── project-graph-phase1-schema.ts
+│   │       └── proposal-contract-schema.ts
+│   ├── App.tsx
+│   ├── index.css
+│   ├── main.tsx
+│   └── project-manifesto.md
+│   └── … (3 more entries; truncated)
+├── tests\
+│   ├── inboxDecision.endpoint.test.ts
+│   ├── inboxDecision.test.ts
+│   ├── phase1.billingOracle.knownAnswer.test.ts
+│   ├── phase1.dispatch.seriesAlignment.test.ts
+│   ├── phase1.engineContract.smoke.test.ts
+│   ├── phase1.incompleteData.missingInfo.test.ts
+│   ├── phase1.noBetterOption.test.ts
+│   ├── phase1.optionSUnlock.noDispatch.test.ts
+│   ├── projectLibrary.ingest.test.ts
+│   ├── projectLibrary.schema.test.ts
+│   ├── projectLibrary.search.test.ts
+│   ├── projectLibrary.summarizeForHVAC.test.ts
+│   ├── proposalCommit.test.ts
+│   ├── tariffEngine.fixtures.test.ts
+│   └── tariffEngine.join.mismatchedDateRanges.fixture.test.ts
+├── .env.example
+├── .gitignore
+├── ARCHITECTURE_ROADMAP.md
+├── BACKEND_DATA_COMPLETE.md
+├── BMS_INTEGRATION_ARCHITECTURE.md
+├── CHILLER_CONTENT_ENHANCEMENT_COMPLETE.md
+├── CHILLER_ENHANCEMENT_SUMMARY.md
+├── COMPENDIUMS_COMPLETE.md
+├── COMPLETE_ABSORPTION_REPORT.md
+├── COMPLETE_BACKEND_INTEGRATION.md
+├── COMPLETE_EXTRACTION_REPORT.md
+├── COMPLETION_SUMMARY.md
+├── COMPREHENSIVE_APP_REVIEW.md
+└── CONTRIBUTING.md
+└── … (63 more entries; truncated)

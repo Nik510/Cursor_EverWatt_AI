@@ -1,0 +1,44 @@
+{
+  "id": "plug-load",
+  "name": "PLUG LOAD",
+  "subcategories": [
+    {
+      "id": "general",
+      "name": "General",
+      "measures": [
+        {
+          "id": "measure-239",
+          "name": "Smart plugs",
+          "keywords": []
+        },
+        {
+          "id": "measure-240",
+          "name": "PC power management",
+          "keywords": []
+        },
+        {
+          "id": "measure-241",
+          "name": "Vending machine controllers",
+          "keywords": []
+        },
+        {
+          "id": "measure-242",
+          "name": "Lab freezer replacements",
+          "keywords": []
+        },
+        {
+          "id": "measure-243",
+          "name": "Appliance replacement",
+          "keywords": [
+            "replacement"
+          ]
+        },
+        {
+          "id": "measure-244",
+          "name": "Copier/printer consolidation",
+          "keywords": []
+        }
+      ]
+    }
+  ]
+}

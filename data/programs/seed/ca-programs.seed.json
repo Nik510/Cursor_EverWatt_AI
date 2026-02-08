@@ -1,0 +1,62 @@
+{
+  "retrievedAtIso": "2026-02-07T00:00:00.000Z",
+  "provider": "seed",
+  "programs": [
+    {
+      "programId": "SCE-CLEARRESULT-TOU-DR-001",
+      "utilityKey": "SCE",
+      "programName": "SCE Business Demand Response (Implementer: ClearResult)",
+      "implementer": "ClearResult",
+      "status": "active",
+      "customerClassTags": ["nonresidential"],
+      "measureCategories": ["demand_response", "controls"],
+      "eligibilityText": "Available to eligible nonresidential customers; enrollment subject to program rules and capacity.",
+      "eligibilityCallouts": [
+        { "title": "Customer type", "value": "Nonresidential", "severity": "info" },
+        { "title": "Metering", "value": "Interval data required", "severity": "warn" }
+      ],
+      "customerSizeGuidelines": [
+        { "min": 50, "units": "kW", "notes": "Typically requires meaningful curtailable load." }
+      ],
+      "prominentCallouts": ["ClearResult implementer typically requires meaningful curtailable load (≥50 kW) to be worth pursuing (seed)."],
+      "worthItThresholds": { "minCustomerKw": 50, "notes": "Seeded operator guidance only; confirm in program handbook." },
+      "effectiveStartIso": "2025-01-01",
+      "source": { "url": "https://example.com/sce/clearresult/dr", "provider": "seed" },
+      "because": ["Seeded dataset for deterministic ingestion (v0)."],
+      "evidence": [{ "kind": "seed", "value": "ca-programs.seed.json" }],
+      "missingInfo": []
+    },
+    {
+      "programId": "PGE-NR-EE-REBATE-001",
+      "utilityKey": "PGE",
+      "programName": "PG&E Nonresidential Energy Efficiency Rebates (seed)",
+      "status": "active",
+      "customerClassTags": ["nonresidential"],
+      "measureCategories": ["hvac", "lighting", "process_loads"],
+      "eligibilityText": "Rebates vary by measure; pre-approval may be required.",
+      "customerSizeGuidelines": [{ "units": "accounts", "notes": "Program rules apply by account and measure." }],
+      "relatedTariffFamilies": ["PGE_B19_FAMILY", "PGE_B20_FAMILY", "PGE_E19_FAMILY", "PGE_E20_FAMILY"],
+      "participatedBefore": true,
+      "internalRating": 4,
+      "prominentCallouts": ["EverWatt participated in this program before (seed example)."],
+      "source": { "url": "https://example.com/pge/ee/rebates", "provider": "seed" },
+      "because": ["Seeded dataset for deterministic ingestion (v0)."],
+      "evidence": [{ "kind": "seed", "value": "ca-programs.seed.json" }],
+      "missingInfo": []
+    },
+    {
+      "programId": "SDGE-RES-HP-001",
+      "utilityKey": "SDGE",
+      "programName": "SDG&E Residential Heat Pump Incentives (seed)",
+      "status": "active",
+      "customerClassTags": ["residential"],
+      "measureCategories": ["hvac"],
+      "eligibilityText": "Residential customers only (seed example).",
+      "source": { "url": "https://example.com/sdge/res/hp", "provider": "seed" },
+      "because": ["Seeded dataset includes a residential-only example to validate default exclusion policy."],
+      "evidence": [{ "kind": "seed", "value": "ca-programs.seed.json" }],
+      "missingInfo": []
+    }
+  ]
+}
+

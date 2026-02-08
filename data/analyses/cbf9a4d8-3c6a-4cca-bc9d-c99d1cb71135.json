@@ -1,0 +1,15 @@
+{
+  "id": "cbf9a4d8-3c6a-4cca-bc9d-c99d1cb71135",
+  "userId": "default-user",
+  "createdAt": "2026-01-09T19:18:01.994Z",
+  "updatedAt": "2026-01-09T19:18:01.994Z",
+  "customerInfo": {
+    "companyName": "AMERICAN BAPTIST HOMES OF THE WEST",
+    "siteLocation": "800 BLOSSOM HILL RD BLDG A, LOS GATOS 95032",
+    "serviceAgreementId": "5663820753",
+    "facilityType": "",
+    "climateZone": "",
+    "rateSchedule": ""
+  },
+  "status": "partial"
+}

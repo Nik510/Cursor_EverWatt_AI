@@ -1,0 +1,18 @@
+{
+  "utility": "PGE",
+  "capturedAt": "2026-02-06T18:53:02.770Z",
+  "versionTag": "2026-02-06T1853Z",
+  "rates": [],
+  "sourceFingerprints": [
+    {
+      "url": "https://www.pge.com/en/account/rate-plans.html",
+      "contentHash": "d9c8484945d700777624a0d54b8f038f989726a80f9e9645dab2c408e73038ca"
+    }
+  ],
+  "raw": [
+    {
+      "url": "https://www.pge.com/en/account/rate-plans.html",
+      "contentHash": "d9c8484945d700777624a0d54b8f038f989726a80f9e9645dab2c408e73038ca"
+    }
+  ]
+}

@@ -1,0 +1,265 @@
+{
+  "id": "healthcare-cert",
+  "industry": "healthcare",
+  "title": "EverWatt Energy Efficiency Certification - For Healthcare Engineers",
+  "subtitle": "Certification for energy efficiency in hospitals, clinics, and medical facilities",
+  "description": "Validate your expertise in identifying and implementing energy efficiency measures for healthcare facilities. This certification covers HVAC optimization, lighting, sterilization equipment, 24/7 operations, and healthcare-specific considerations.",
+  "icon": "🏥",
+  "passingScore": 80,
+  "timeLimit": 90,
+  "prerequisites": ["industry-specific"],
+  "metadata": {
+    "estimatedTime": 90,
+    "difficulty": "intermediate",
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-02"
+  },
+  "questions": [
+    {
+      "id": "hc-001",
+      "question": "In a typical hospital, what percentage of total energy use is typically consumed by HVAC systems?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "30-40%" },
+        { "id": "b", "text": "40-50%" },
+        { "id": "c", "text": "50-65%" },
+        { "id": "d", "text": "65-75%" }
+      ],
+      "correctAnswer": "c",
+      "explanation": "HVAC systems typically consume 50-65% of total energy in healthcare facilities due to 24/7 operation, strict environmental controls, and high outside air requirements for infection control.",
+      "points": 5,
+      "category": "hvac",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "hc-002",
+      "question": "A hospital's chiller is running 24/7 at full capacity, but the building load varies significantly throughout the day. What is the most impactful energy efficiency measure?",
+      "questionType": "scenario",
+      "scenario": "A 200-bed hospital has a 500-ton chiller that runs continuously. During night hours (10 PM - 6 AM), the building load drops to 30% of peak, but the chiller continues to run at full capacity.",
+      "options": [
+        { "id": "a", "text": "Replace the chiller with a more efficient model" },
+        { "id": "b", "text": "Install VFDs on chiller pumps and implement variable flow" },
+        { "id": "c", "text": "Add economizers to use outside air for cooling" },
+        { "id": "d", "text": "Install LED lighting throughout the facility" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Installing VFDs on chiller pumps and implementing variable flow can reduce pump energy by 50-70% during low-load periods. This addresses the specific issue of the chiller running at full capacity when load is low. While replacing the chiller or adding economizers are good measures, VFDs provide the most immediate impact for this scenario.",
+      "points": 10,
+      "category": "hvac",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "hc-003",
+      "question": "A hospital operating room requires 20 air changes per hour (ACH) for infection control. The OR is 500 sq ft with 10 ft ceilings. What is the required CFM for the OR?",
+      "questionType": "calculation",
+      "options": [
+        { "id": "a", "text": "1,000 CFM" },
+        { "id": "b", "text": "1,667 CFM" },
+        { "id": "c", "text": "2,000 CFM" },
+        { "id": "d", "text": "2,500 CFM" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "CFM = (Volume × ACH) / 60 minutes. Volume = 500 sq ft × 10 ft = 5,000 cubic feet. CFM = (5,000 × 20) / 60 = 100,000 / 60 = 1,667 CFM.",
+      "points": 10,
+      "category": "hvac",
+      "difficulty": "advanced",
+      "estimatedTime": 120
+    },
+    {
+      "id": "hc-004",
+      "question": "During a site visit at a hospital, you notice that patient room lighting uses T12 fluorescent fixtures and operates 24/7. What is the best approach?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Immediately recommend full LED replacement" },
+        { "id": "b", "text": "Recommend LED replacement with occupancy-based controls, prioritizing patient comfort" },
+        { "id": "c", "text": "Recommend only controls, no lighting replacement" },
+        { "id": "d", "text": "Recommend waiting until fixtures fail before replacing" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "LED replacement with occupancy-based controls provides the best combination of energy savings (40-65% reduction) and patient comfort. Controls can reduce lighting during unoccupied periods while maintaining quality light when needed. Patient comfort is paramount in healthcare, so the solution must not compromise care.",
+      "points": 10,
+      "category": "lighting",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "hc-005",
+      "question": "What is the typical energy savings potential for HVAC optimization in healthcare facilities?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "5-15%" },
+        { "id": "b", "text": "15-35%" },
+        { "id": "c", "text": "35-50%" },
+        { "id": "d", "text": "50-70%" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "HVAC optimization in healthcare facilities typically yields 15-35% energy savings through measures like VFDs, economizers, scheduling, and controls optimization. Higher savings are possible but must not compromise patient safety or environmental requirements.",
+      "points": 5,
+      "category": "hvac",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "hc-006",
+      "question": "A hospital's sterilization equipment (autoclaves) uses significant steam. What energy efficiency opportunity should you prioritize?",
+      "questionType": "scenario",
+      "scenario": "A hospital has three autoclaves that operate continuously. Steam is generated by a natural gas boiler. The autoclaves vent steam to the atmosphere after use.",
+      "options": [
+        { "id": "a", "text": "Replace autoclaves with more efficient models" },
+        { "id": "b", "text": "Install heat recovery to preheat boiler feedwater" },
+        { "id": "c", "text": "Reduce autoclave operating hours" },
+        { "id": "d", "text": "Switch to electric autoclaves" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Installing heat recovery to capture waste heat from autoclave exhaust and preheat boiler feedwater can reduce boiler energy by 10-25%. This is typically the highest-impact measure for sterilization equipment. Reducing operating hours may not be feasible due to infection control requirements.",
+      "points": 10,
+      "category": "process-equipment",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "hc-007",
+      "question": "What is a key consideration when recommending energy efficiency measures in healthcare facilities?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "Quick payback is always the priority" },
+        { "id": "b", "text": "Patient safety and comfort cannot be compromised" },
+        { "id": "c", "text": "All measures must have 2-year payback" },
+        { "id": "d", "text": "HVAC can be turned off during unoccupied periods" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Patient safety and comfort are paramount in healthcare facilities. Energy efficiency measures must not compromise infection control, environmental requirements, or patient care. ROI requirements may be longer (5-10 years) due to operational priorities.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "hc-008",
+      "question": "A hospital laundry facility processes 5,000 pounds of linens per day. The washers use 3 gallons of hot water per pound at 140°F. If hot water costs $0.05 per therm, what is the daily hot water cost? (1 therm = 100,000 BTU; 1 gallon water = 8.33 lbs; heating from 60°F to 140°F requires 80°F × 8.33 = 666 BTU per gallon)",
+      "questionType": "calculation",
+      "options": [
+        { "id": "a", "text": "$50/day" },
+        { "id": "b", "text": "$100/day" },
+        { "id": "c", "text": "$150/day" },
+        { "id": "d", "text": "$200/day" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Daily water: 5,000 lbs × 3 gal/lb = 15,000 gallons. BTU needed: 15,000 gal × 666 BTU/gal = 9,990,000 BTU. Therms: 9,990,000 / 100,000 = 99.9 therms. Cost: 99.9 × $0.05 = ~$100/day.",
+      "points": 10,
+      "category": "process-equipment",
+      "difficulty": "advanced",
+      "estimatedTime": 180
+    },
+    {
+      "id": "hc-009",
+      "question": "What is the typical priority order for energy efficiency measures in healthcare facilities?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Lighting, HVAC, Building Envelope, Plug Loads" },
+        { "id": "b", "text": "HVAC, Lighting, Building Envelope, Sterilization Equipment" },
+        { "id": "c", "text": "Plug Loads, Lighting, HVAC, Building Envelope" },
+        { "id": "d", "text": "Building Envelope, HVAC, Lighting, Plug Loads" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "HVAC is typically the highest priority (Very High) due to its large energy share (50-65%) and optimization opportunities. Lighting is High priority. Building Envelope is Medium-High. Sterilization equipment and other process loads are Medium priority.",
+      "points": 8,
+      "category": "general",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "hc-010",
+      "question": "During a field visit, you notice that a hospital's air handlers have economizers, but they appear to be disabled. What should you ask?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Why are the economizers disabled?" },
+        { "id": "b", "text": "When were the economizers last tested?" },
+        { "id": "c", "text": "Can the economizers be recommissioned and optimized?" },
+        { "id": "d", "text": "All of the above" }
+      ],
+      "correctAnswer": "d",
+      "explanation": "All questions are relevant. Understanding why economizers were disabled (often due to comfort complaints or maintenance issues) helps identify the root cause. Testing and recommissioning can restore significant energy savings (15-30% of cooling energy) while ensuring proper operation.",
+      "points": 8,
+      "category": "hvac",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "hc-011",
+      "question": "What percentage of healthcare facility energy is typically consumed by lighting?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "5-10%" },
+        { "id": "b", "text": "10-20%" },
+        { "id": "c", "text": "20-30%" },
+        { "id": "d", "text": "30-40%" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Lighting typically consumes 10-20% of total energy in healthcare facilities. While significant, it's less than HVAC due to 24/7 HVAC operation requirements.",
+      "points": 5,
+      "category": "lighting",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "hc-012",
+      "question": "A hospital wants to reduce energy costs but has limited capital budget. What measure should you recommend first?",
+      "questionType": "scenario",
+      "scenario": "A 150-bed hospital has a tight capital budget but wants to reduce operating costs. The facility has older HVAC systems, T12 lighting, and no energy management system.",
+      "options": [
+        { "id": "a", "text": "Replace all HVAC systems" },
+        { "id": "b", "text": "Install an energy management system with scheduling and controls" },
+        { "id": "c", "text": "Replace all lighting with LED" },
+        { "id": "d", "text": "Upgrade building envelope" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "An energy management system with scheduling and controls provides significant savings (15-35% HVAC, 10-40% lighting) with relatively low capital cost and can be implemented incrementally. It also enables better monitoring and identifies additional opportunities. While LED replacement is valuable, controls often provide faster payback.",
+      "points": 10,
+      "category": "controls",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "hc-013",
+      "question": "What is the typical energy savings potential for LED lighting retrofits in healthcare facilities?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "20-30%" },
+        { "id": "b", "text": "30-45%" },
+        { "id": "c", "text": "40-65%" },
+        { "id": "d", "text": "65-80%" }
+      ],
+      "correctAnswer": "c",
+      "explanation": "LED lighting retrofits in healthcare facilities typically yield 40-65% energy savings, especially when replacing T12/T8 fluorescents. Additional savings (10-40%) can be achieved with controls.",
+      "points": 5,
+      "category": "lighting",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "hc-014",
+      "question": "A hospital's domestic hot water system serves patient rooms, kitchens, and laundry. The system runs 24/7 with constant recirculation. What efficiency measure should you prioritize?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Replace the entire system" },
+        { "id": "b", "text": "Install recirculation controls to reduce pump runtime" },
+        { "id": "c", "text": "Insulate hot water pipes" },
+        { "id": "d", "text": "Reduce hot water temperature" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Installing recirculation controls to reduce pump runtime during low-demand periods can save 10-25% of DHW energy with low capital cost. While pipe insulation and temperature optimization are good measures, recirculation controls typically provide the best ROI.",
+      "points": 8,
+      "category": "domestic-hot-water",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "hc-015",
+      "question": "What is a key difference between healthcare facilities and other commercial buildings regarding energy efficiency?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "Healthcare facilities can shut down systems during unoccupied periods" },
+        { "id": "b", "text": "Healthcare facilities have 24/7 operations and strict environmental requirements" },
+        { "id": "c", "text": "Healthcare facilities have lower energy intensity" },
+        { "id": "d", "text": "Healthcare facilities don't need HVAC" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Healthcare facilities operate 24/7 with strict temperature, humidity, and air quality requirements for infection control. This means HVAC systems run continuously, creating different optimization opportunities than typical commercial buildings.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    }
+  ]
+}
+

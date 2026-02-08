@@ -1,0 +1,58 @@
+{
+  "utility": "SCE",
+  "capturedAt": "2026-02-08T00:23:58.084Z",
+  "versionTag": "2026-02-08T0023Z",
+  "rates": [
+    {
+      "utility": "SCE",
+      "rateCode": "M-438",
+      "sourceUrl": "https://www.sce.com/regulatory/tariff-books",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "",
+      "eligibilitySource": "unknown",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.sce.com/regulatory/tariff-books"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:M-438"
+        }
+      ]
+    }
+  ],
+  "metadataCompleteness": {
+    "customerClassPct": 0,
+    "voltagePct": 0,
+    "effectiveDatePct": 0,
+    "eligibilityNotesPct": 0
+  },
+  "sourceFingerprints": [
+    {
+      "url": "https://www.sce.com/regulatory/tariff-books",
+      "contentHash": "173516b04b418d5f2fcd3a83578863256170744f8687bfb3e9649106dbfe271d"
+    }
+  ],
+  "diffFromPrevious": {
+    "previousVersionTag": "2026-02-07T2117Z",
+    "addedRateCodes": [],
+    "removedRateCodes": [],
+    "unchangedRateCodes": [
+      "M-438"
+    ]
+  },
+  "raw": [
+    {
+      "url": "https://www.sce.com/regulatory/tariff-books",
+      "contentHash": "173516b04b418d5f2fcd3a83578863256170744f8687bfb3e9649106dbfe271d"
+    }
+  ]
+}

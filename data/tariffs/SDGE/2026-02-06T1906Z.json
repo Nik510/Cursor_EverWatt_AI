@@ -1,0 +1,1924 @@
+{
+  "utility": "SDGE",
+  "capturedAt": "2026-02-06T19:06:35.784Z",
+  "versionTag": "2026-02-06T1906Z",
+  "rates": [
+    {
+      "utility": "SDGE",
+      "rateCode": "A-2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:A-2"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "A-3",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:A-3"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "A-6",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:A-6"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "A-TC",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Traffic Control Service — Commercial/Industrial Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:A-TC"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "A6-TOU",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "General Service - Time Metered - Optional — Commercial/Industrial Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:A6-TOU"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "AFP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Armed Forces Pilot Program — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:AFP"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "AL-TOU",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "General Service - Time Metered — Commercial/Industrial Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:AL-TOU"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "AL-TOU2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "General Service - Time Metered — Commercial/Industrial Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:AL-TOU2"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "BIOMAT",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Bioenergy Market Adjusting Tariff — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:BIOMAT"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "BTMM",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Behind the Meter Microgrids (BTMM) — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:BTMM"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "CBP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Capacity Bidding Program — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:CBP"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "CCA",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Transportation of Electric Power for Community Choice Aggregation Customers — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:CCA"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "CCA-CRS",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Community Choice Aggregation Cost Responsibility Surcharge — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:CCA-CRS"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "CCA-INFO",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Information Release to Community Choice Aggregators — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:CCA-INFO"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "CGDL-CRS",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Customer Generation Departing Load Cost Responsibility Surcharge  — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:CGDL-CRS"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "CHP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Combined Heat & Power Tariff — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:CHP"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "CRE",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Customer Renewable Energy (closed after 7/24/13) — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:CRE"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DA",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Transportation of Electric Power for Direct Access Customers — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DA"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DA-CRS",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Direct Access Cost Responsibility Surcharge — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DA-CRS"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DE",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Domestic Service to Utility Employees — Residential Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DE"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DERPP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Dynamic Export Rate Pilot Program — Commodity Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DERPP"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DG-R",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Distributed Generation Renewable - Time Metered — Commercial/Industrial Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DG-R"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DM",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Multi-Family Service — Residential Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DM"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DR",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Domestic Service — Residential Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DR"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DR-1",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:DR-1"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DR-2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:DR-2"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DR-SES",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Domestic Time-of-Use for Households with a Solar Energy System — Residential Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DR-SES"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DS,DT,DT-RV",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "SUBMETERED MULTI-FAMILY SERVICE — Residential Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DS, DT, DT-RV"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DWL",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Residential Walkway Lighting — Lighting Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DWL"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DWR-BC",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Department of Water Resources Bond Charge — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DWR-BC"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "E-CARE",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "California Alternate Rates for Energy Program — Residential Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:E-CARE"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "E-DEPART",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Departing Load - Nonbypassable Charges — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:E-DEPART"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "E-DRP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Demand Response Provider Services — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:E-DRP"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "E-PIPP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Percentage Of Income Payment Plan(E-PIPP) — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:E-PIPP"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "E-PUC",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Surcharge to Fund Public Utilities Commission Reimbursement Fee — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:E-PUC"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "E-SMOP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Electric Residential Smart Meter Opt-Out Program — Residential Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:E-SMOP"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "ECR-PDT",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Enhanced Community Renewables Project Development Tariff — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:ECR-PDT"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EDR",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Economic Development Rate — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EDR"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EECC",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Electric Energy Commodity Cost — Commodity Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EECC"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EECC-CPP-D",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Electric Energy Commodity Cost Critical Peak Pricing Default — Commodity Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EECC-CPP-D"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EECC-CPP-D-AG",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Electric Energy Commodity Cost Critical Peak Pricing Default Agricultural — Commodity Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EECC-CPP-D-AG"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EECC-EV-TOU-5-P",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Electric Commodity Cost Time of Use Plus — Commodity Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EECC-EV-TOU-5-P"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EECC-TBS",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Electric Energy Commodity Cost - Transitional Bundled Service — Commodity Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EECC-TBS"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EECC-TOU-A-P",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "ELECTRIC COMMODITY COST TIME OF USE PLUS\r\n — Commodity Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EECC-TOU-A-P"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EECC-TOU-DR-P",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "ELECTRIC COMMODITY COST TIME OF USE PLUS\r\n — Commodity Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EECC-TOU-DR-P"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EECC-TOU-PA-P",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "ELECTRIC COMMODITY COST AGRICULTURAL TIME OF USE PLUS\r\n — Commodity Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EECC-TOU-PA-P"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EV-HP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Electric Vehicle High Power Rate  — Commercial/Industrial Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EV-HP"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EV-TOU",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Domestic Time-of-Use for Electric Vehicle Charging — Residential Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EV-TOU"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EV-TOU-2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Domestic Time-of-Use for Households with Electric Vehicles — Residential Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EV-TOU-2"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EV-TOU-5",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Cost-Based Domestic Time-of-Use for Households with Electric Vehicles — Residential Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EV-TOU-5"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "FBD",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Food Bank Discount — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:FBD"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "FERA",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Family Electric Rate Assistance Program — Residential Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:FERA"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "GHG-ARR",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Greenhouse Gas Allowance Revenue Return — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:GHG-ARR"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "GT",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Shared Renewables Green Tariff  — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:GT"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "LS-1",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Lighting - Street and Highway - Utility-Owned Installations — Lighting Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:LS-1"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "LS-2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Lighting - Street and Highway - Customer-Owned Installations — Lighting Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:LS-2"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "LS-2AD",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Lighting - Street and Highway - Customer-Owned Ancillary Device Installations — Lighting Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:LS-2 AD"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "LS-2DS",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Lighting - Street and Highway - Customer-Owned Dimmable Installations — Lighting Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:LS-2 DS"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "LS-3",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Lighting - Street and Highway - Customer-Owned Installations\r\n(closed after 6/10/79) — Lighting Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:LS-3"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "MPMET",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Multi-Premise Microgrid  Enablement Tariff  — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:MPMET"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "NBT",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Net Billing Tariff — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:NBT"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "NBT-V",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Virtual Net Billing Tariff   — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:NBT-V"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "NDA",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "UDC Meter Services for Non-Direct Access Customers — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:NDA"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "NEM",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Net Energy Metering — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:NEM"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "NEM-FC",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Net Energy Metering for Fuel Cell Customer-Generators — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:NEM-FC"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "NEM-ST",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Net Energy Metering - Successor Tariff — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:NEM-ST"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "NEM-V",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Virtual Net Energy Metering for Multi-Tenant and Multi-Meter Properties — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:NEM-V"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "NEM-V-ST",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Virtual Net Energy Metering for Multi-Tenant and Multi-Meter Properties - Successor Tariff — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:NEM-V-ST"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "OL-1",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Outdoor Area Lighting Service — Lighting Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:OL-1"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "OL-2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Outdoor Area Lighting Service Metered - Customer-Owned Installations — Lighting Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:OL-2"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "OL-TOU",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Outdoor Lighting - Time Metered — Commercial/Industrial Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:OL-TOU"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "PA-2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:PA-2"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "PA-3",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:PA-3"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "PA-T-1",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Experimental Power - Agricultural - Optional Time-of-Use — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:PA-T-1"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "PUBLICGIR",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "GRID INTEGRATED RATE — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:PUBLIC GIR"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "PURPA",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Public Utility Regulatory Policies Act — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:PURPA"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "RBRP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Rolling Blackout Reduction Program — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:RBRP"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "REMAT",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Renewable Market Adjusting Tariff — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:ReMAT"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "RES-BCT",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Local Government Renewable Energy Self-Generation Bill Credit Transfer — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:RES-BCT"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "S",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Standby Service — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:S"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "S-I",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Standby Service - Interruptible (closed after February 1, 2005) — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:S-I"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "SE",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Service Establishment Charge — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:SE"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "SLRP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Scheduled Load Reduction Program — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:SLRP"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "SPES",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Station Power - Energy Storage  — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:SPES"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "SPSS",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Station Power Self-Supply — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:SPSS"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "T-1",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:T-1"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:TOU-2"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-5",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:TOU-5"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-A",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "GENERAL SERVICE – TIME OF USE SERVICE — Commercial/Industrial Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-A"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-A2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "General Service - Time of Use Service - Three Period — Commercial/Industrial Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-A2"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-A3",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "General Service - Time of Use Service Three Period Rate — Commercial/Industrial Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-A3"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-DR",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "RESIDENTIAL -- TIME OF USE SERVICE — Residential Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-DR"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-DR1",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Residential Time-of-Use  — Residential Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-DR1"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-DR2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Residential Time-of-Use  — Residential Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-DR2"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-ELEC",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "DOMESTIC TIME-OF-USE FOR HOUSEHOLDS WITH ELECTRIC VEHICLES, ENERGY STORAGE, OR HEAT PUMPS  — Residential Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-ELEC"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-M",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "General Service - Small-Time Metered  — Commercial/Industrial Rates",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-M"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-PA",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Power - Agricultural Time-of-Use Service — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-PA"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-PA2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Power - Agricultural Time-Of-Use Service - Three Period — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-PA2"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-PA3",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Power Agricultural Time-of-Use Service - Three Period — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-PA3"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "UM",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Unmetered Electric Service — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:UM"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "VGI",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Electric Vehicle Grid Integration Pilot Program — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:VGI"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "VNEM-SOMAH",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Virtual Net Energy Metering - Solar on Multifamily Affordable Housing (VNEM-SOMAH) — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:VNEM-SOMAH"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "VNM-A",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Virtual Net Energy Metering for Multifamily Affordable Housing — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:VNM-A"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "VNM-A-ST",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Virtual Net Energy Metering for Multifamily Affordable Housing — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:VNM-A-ST"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "WATER",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Water Agency Tariff for Eligible Renewables (closed after 7/24/13) — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:WATER"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "WF-NBC",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Wildfire Fund Non-Bypassable Charge — Miscellaneous",
+      "lastVerifiedAt": "2026-02-06T19:06:35.784Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:WF-NBC"
+        }
+      ]
+    }
+  ],
+  "sourceFingerprints": [
+    {
+      "url": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "contentHash": "4117395c4256dcf2ecce29da12b00ea344074dc6bea9fa352bbfa43fc1041eb8"
+    }
+  ],
+  "diffFromPrevious": {
+    "previousVersionTag": "2026-02-06T1900Z",
+    "addedRateCodes": [
+      "A-2",
+      "A-3",
+      "A-6",
+      "A-TC",
+      "A6-TOU",
+      "AFP",
+      "AL-TOU",
+      "AL-TOU2",
+      "BIOMAT",
+      "BTMM",
+      "CBP",
+      "CCA",
+      "CCA-CRS",
+      "CCA-INFO",
+      "CGDL-CRS",
+      "CHP",
+      "CRE",
+      "DA",
+      "DA-CRS",
+      "DE",
+      "DERPP",
+      "DG-R",
+      "DM",
+      "DR",
+      "DR-1",
+      "DR-2",
+      "DR-SES",
+      "DS,DT,DT-RV",
+      "DWL",
+      "DWR-BC",
+      "E-CARE",
+      "E-DEPART",
+      "E-DRP",
+      "E-PIPP",
+      "E-PUC",
+      "E-SMOP",
+      "ECR-PDT",
+      "EDR",
+      "EECC",
+      "EECC-CPP-D",
+      "EECC-CPP-D-AG",
+      "EECC-EV-TOU-5-P",
+      "EECC-TBS",
+      "EECC-TOU-A-P",
+      "EECC-TOU-DR-P",
+      "EECC-TOU-PA-P",
+      "EV-HP",
+      "EV-TOU",
+      "EV-TOU-2",
+      "EV-TOU-5",
+      "FBD",
+      "FERA",
+      "GHG-ARR",
+      "GT",
+      "LS-1",
+      "LS-2",
+      "LS-2AD",
+      "LS-2DS",
+      "LS-3",
+      "MPMET",
+      "NBT",
+      "NBT-V",
+      "NDA",
+      "NEM",
+      "NEM-FC",
+      "NEM-ST",
+      "NEM-V",
+      "NEM-V-ST",
+      "OL-1",
+      "OL-2",
+      "OL-TOU",
+      "PA-2",
+      "PA-3",
+      "PA-T-1",
+      "PUBLICGIR",
+      "PURPA",
+      "RBRP",
+      "REMAT",
+      "RES-BCT",
+      "S",
+      "S-I",
+      "SE",
+      "SLRP",
+      "SPES",
+      "SPSS",
+      "T-1",
+      "TOU-2",
+      "TOU-5",
+      "TOU-A",
+      "TOU-A2",
+      "TOU-A3",
+      "TOU-DR",
+      "TOU-DR1",
+      "TOU-DR2",
+      "TOU-ELEC",
+      "TOU-M",
+      "TOU-PA",
+      "TOU-PA2",
+      "TOU-PA3",
+      "UM",
+      "VGI",
+      "VNEM-SOMAH",
+      "VNM-A",
+      "VNM-A-ST",
+      "WATER",
+      "WF-NBC"
+    ],
+    "removedRateCodes": [],
+    "unchangedRateCodes": []
+  },
+  "raw": [
+    {
+      "url": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "contentHash": "4117395c4256dcf2ecce29da12b00ea344074dc6bea9fa352bbfa43fc1041eb8"
+    }
+  ]
+}

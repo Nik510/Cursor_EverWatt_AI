@@ -1,0 +1,51 @@
+schema_version: project_manifest/v1
+project_slug: office-acme-controls
+
+manual:
+  title: "ACME Office - VAV / AHU Controls Tune-up"
+  client:
+    name: "ACME Corp"
+    industry: "office"
+  site:
+    name: "ACME Office"
+    city: "Austin"
+    state: "TX"
+  building_type: "office"
+  project_year: 2022
+  tags: ["ahu", "vav", "controls", "sat-reset", "static-pressure"]
+  systems:
+    - system_type: "AHU"
+      description: "VAV AHU supply fan + SAT control"
+    - system_type: "VAV"
+      description: "VAV terminal boxes"
+  measures:
+    - name: "Static pressure reset"
+      status: implemented
+      description: "Reset duct static to reduce fan power while maintaining comfort"
+    - name: "Supply air temperature reset"
+      status: implemented
+      description: "Enable SAT reset with conservative bounds to reduce reheat and overcooling"
+  assumptions:
+    notes: "Weekday schedule dominant; verify occupancy schedules before resets."
+    kv:
+      baseline_year: 2021
+      sat_min_f: 52
+      sat_max_f: 58
+  calc_outputs:
+    annual_kwh_savings: 45000
+    kw_reduction: 35
+    annual_cost_savings_usd: 6000
+  confidence_overall: 0.7
+  implementation_notes: "Schedule fixes were prerequisite; resets tuned after VAV mins verified."
+
+source_files:
+  - path: "ems-summary.md"
+    role: summary
+    description: "Human summary of scope and control changes"
+  - path: "final-savings-calc.txt"
+    role: calc
+    description: "Final annual savings numbers used for audit reference"
+  - path: "best-notes.md"
+    role: other
+    description: "Best notes / pitfalls"
+

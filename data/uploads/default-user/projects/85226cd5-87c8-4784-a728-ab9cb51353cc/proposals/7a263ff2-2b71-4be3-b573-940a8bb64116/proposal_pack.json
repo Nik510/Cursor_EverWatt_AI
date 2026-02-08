@@ -1,0 +1,75 @@
+{
+  "proposalPackId": "7a263ff2-2b71-4be3-b573-940a8bb64116",
+  "projectId": "85226cd5-87c8-4784-a728-ab9cb51353cc",
+  "basedOnSnapshotId": "620f4c72-e3a5-457f-a4fa-5fba791eac19",
+  "createdAt": "2026-01-19T18:46:47.944Z",
+  "createdBy": "battery_calculator",
+  "title": "Battery Option A (stub)",
+  "summary": "Stub proposal pack to prove end-to-end contract wiring (run → import → view).",
+  "scenarios": [
+    {
+      "scenarioId": "ae5670bc-f949-4fc3-b493-2548ff84d40c",
+      "name": "Battery Option A",
+      "objective": "max_npv",
+      "constraints": {
+        "maxPaybackYears": 10,
+        "noExport": true
+      },
+      "deltas": [
+        {
+          "id": "5cb0ee20-0641-4db1-8b09-5d52fc58267c",
+          "kind": "ADD_MEASURE",
+          "measure": {
+            "id": "795ffdcf-a885-4548-a851-65d80d6c17d4",
+            "name": "Install BESS (Option A)",
+            "category": "battery",
+            "notes": "Stub measure; does not mutate project until reviewed and committed."
+          }
+        },
+        {
+          "id": "8afc5ef6-23aa-4b66-a321-b9609ad070ed",
+          "kind": "ADD_BOM_ITEMS",
+          "measureId": "795ffdcf-a885-4548-a851-65d80d6c17d4",
+          "items": [
+            {
+              "sku": "BESS-OPTION-A",
+              "description": "Battery energy storage system (material only)",
+              "qty": 1,
+              "uom": "ea"
+            },
+            {
+              "sku": "EMS",
+              "description": "Energy management system",
+              "qty": 1,
+              "uom": "ea"
+            }
+          ]
+        }
+      ],
+      "economics": {
+        "annualSavingsUsd": null,
+        "capexUsd": null,
+        "paybackYears": null,
+        "npvUsd": null,
+        "irr": null
+      },
+      "performance": {
+        "peakKwBefore": null,
+        "peakKwAfter": null,
+        "kwShaved": null,
+        "kwhShifted": null
+      },
+      "confidence": 0.3,
+      "notes": [
+        "Stub economics/performance; next step is wiring to real interval+billing datasources."
+      ]
+    }
+  ],
+  "recommendedScenarioId": "ae5670bc-f949-4fc3-b493-2548ff84d40c",
+  "assumptionsUsed": [],
+  "missingInfo": [],
+  "riskFlags": [
+    "TEMP_MISSING"
+  ],
+  "evidenceRefs": []
+}

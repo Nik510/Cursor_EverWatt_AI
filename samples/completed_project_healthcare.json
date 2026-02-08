@@ -1,0 +1,58 @@
+{
+  "completedProjectId": "cp_healthcare_001",
+  "orgId": "demo-org",
+  "createdAt": "2025-05-10T00:00:00.000Z",
+  "building": {
+    "buildingType": "healthcare",
+    "sqft": 325000,
+    "climateZone": "CA-10",
+    "territory": "SCE",
+    "operatingSchedule": { "bucket": "24_7", "notes": "Hospital campus; continuous operation" }
+  },
+  "assetsBefore": {
+    "ahuCount": 8,
+    "vavCount": 160,
+    "fanCount": 40,
+    "pumpCount": 22,
+    "chillerCount": 3,
+    "boilerCount": 3,
+    "coolingTowerCount": 3,
+    "lightingFixtureCount": 12000,
+    "lightingControlCount": 900
+  },
+  "measures": [
+    {
+      "measureId": "m_pvfd_1",
+      "type": "Pump VFD install (CHW pumps)",
+      "tags": ["pump", "vfd", "chw"],
+      "parameters": { "loops": "chilled_water", "motorHpMin": 15 }
+    },
+    {
+      "measureId": "m_pvfd_2",
+      "type": "Variable Frequency Drive retrofit on pumps",
+      "tags": ["variable frequency drive", "pumps"],
+      "parameters": { "notes": "primary and secondary CHW pumps" }
+    },
+    {
+      "measureId": "m_pvfd_3",
+      "type": "VFD on pump skids",
+      "tags": ["vfd", "pump"],
+      "parameters": { "count": 10 }
+    },
+    {
+      "measureId": "m_ems_1",
+      "type": "BMS tuning / retro-commissioning",
+      "tags": ["controls", "ems", "rcx"],
+      "parameters": { "focus": "schedules + setpoints + alarms" }
+    }
+  ],
+  "rationale": {
+    "summary": "Prioritized pump VFDs and controls tuning due to high 24/7 pumping runtime and observed schedule drift.",
+    "decisionTags": ["24_7", "part_load", "schedule_drift"]
+  },
+  "evidenceRefs": [
+    { "refId": "hc_drive_folder", "label": "Healthcare project closeout", "url": "https://example.com/healthcare/closeout" }
+  ],
+  "source": { "kind": "json_template", "sourceKey": "samples/completed_project_healthcare.json" }
+}
+

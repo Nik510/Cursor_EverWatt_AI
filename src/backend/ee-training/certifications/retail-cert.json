@@ -1,0 +1,119 @@
+{
+  "id": "retail-cert",
+  "industry": "retail",
+  "title": "EverWatt Energy Efficiency Certification - For Retail Engineers",
+  "subtitle": "Certification for energy efficiency in retail facilities",
+  "description": "Validate your expertise in identifying and implementing energy efficiency measures for retail facilities. This certification covers lighting, HVAC, refrigeration, plug loads, and long operating hours typical of retail operations.",
+  "icon": "🛍️",
+  "passingScore": 80,
+  "timeLimit": 75,
+  "prerequisites": ["industry-specific"],
+  "metadata": {
+    "estimatedTime": 75,
+    "difficulty": "intermediate",
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-02"
+  },
+  "questions": [
+    {
+      "id": "ret-001",
+      "question": "In non-food retail facilities, what percentage of total energy is typically consumed by lighting?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "20-30%" },
+        { "id": "b", "text": "30-40%" },
+        { "id": "c", "text": "35-50%" },
+        { "id": "d", "text": "50-60%" }
+      ],
+      "correctAnswer": "c",
+      "explanation": "Lighting typically consumes 35-50% of total energy in non-food retail facilities. This is the largest single end use, making lighting optimization the highest priority for retail facilities.",
+      "points": 5,
+      "category": "lighting",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "ret-002",
+      "question": "A retail store has T12 fluorescent fixtures that operate 14 hours/day. The store is considering LED replacement. What is the typical payback period?",
+      "questionType": "scenario",
+      "scenario": "A retail store has 200 T12 fluorescent fixtures (32W each) operating 14 hours/day, 365 days/year. LED replacement fixtures (15W each) cost $50 per fixture installed. Electricity costs $0.12/kWh.",
+      "options": [
+        { "id": "a", "text": "1-2 years" },
+        { "id": "b", "text": "2-4 years" },
+        { "id": "c", "text": "4-6 years" },
+        { "id": "d", "text": "6-8 years" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Original: 200 × 32W = 6,400W = 6.4 kW × 14 hrs × 365 days = 32,704 kWh/year × $0.12 = $3,924/year. New: 200 × 15W = 3,000W = 3 kW × 14 hrs × 365 days = 15,330 kWh/year × $0.12 = $1,840/year. Savings: $2,084/year. Cost: 200 × $50 = $10,000. Payback: $10,000 / $2,084 = ~4.8 years. With utility rebates (typically $20-40/fixture), payback can be 2-3 years.",
+      "points": 10,
+      "category": "lighting",
+      "difficulty": "advanced",
+      "estimatedTime": 180
+    },
+    {
+      "id": "ret-003",
+      "question": "A grocery store has open refrigerated cases (no doors). What is the energy impact of adding doors?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Minimal impact" },
+        { "id": "b", "text": "15-35% reduction in refrigeration energy" },
+        { "id": "c", "text": "50-70% reduction" },
+        { "id": "d", "text": "No impact" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Adding doors to open refrigerated cases can reduce refrigeration energy by 15-35%. Open cases lose significant cold air to the store, requiring constant cooling. Doors reduce this loss while maintaining product visibility with glass doors.",
+      "points": 8,
+      "category": "refrigeration",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "ret-004",
+      "question": "What is the typical energy savings potential for LED lighting retrofits in retail facilities?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "20-35%" },
+        { "id": "b", "text": "30-50%" },
+        { "id": "c", "text": "40-70%" },
+        { "id": "d", "text": "70-90%" }
+      ],
+      "correctAnswer": "c",
+      "explanation": "LED lighting retrofits in retail facilities typically yield 40-70% energy savings, especially when replacing T12/T8 fluorescents or halogen fixtures. Additional savings (10-40%) can be achieved with controls (scheduling, occupancy, dimming).",
+      "points": 5,
+      "category": "lighting",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "ret-005",
+      "question": "A retail store operates 14 hours/day. What HVAC scheduling opportunity exists?",
+      "questionType": "scenario",
+      "scenario": "A retail store operates 8 AM - 10 PM (14 hours/day). The HVAC system runs continuously, including during closed hours for 'pre-cooling' or 'pre-heating'.",
+      "options": [
+        { "id": "a", "text": "No opportunity - HVAC must run continuously" },
+        { "id": "b", "text": "Optimize start/stop times to minimize runtime while maintaining comfort" },
+        { "id": "c", "text": "Turn HVAC off completely when closed" },
+        { "id": "d", "text": "Only reduce during closed hours" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Optimizing HVAC start/stop times (optimal start/stop) can reduce HVAC energy by 10-20% by minimizing runtime while maintaining comfort. This balances energy savings with customer comfort. Complete shutdown may cause comfort issues, but reducing operation during closed hours is typically feasible.",
+      "points": 8,
+      "category": "hvac",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "ret-006",
+      "question": "What is the typical priority order for energy efficiency measures in retail facilities?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Interior Lighting, Exterior Lighting, HVAC, Refrigeration (if food retail)" },
+        { "id": "b", "text": "HVAC, Lighting, Building Envelope, Plug Loads" },
+        { "id": "c", "text": "Building Envelope, HVAC, Lighting, Plug Loads" },
+        { "id": "d", "text": "Plug Loads, Lighting, HVAC, Building Envelope" }
+      ],
+      "correctAnswer": "a",
+      "explanation": "For retail facilities, Interior Lighting is typically Very High priority (35-50% of energy). Exterior Lighting is High priority. HVAC is High priority. Refrigeration is Very High priority for food retail. Retailers often prioritize quick payback (2-4 years).",
+      "points": 8,
+      "category": "general",
+      "difficulty": "intermediate"
+    }
+  ]
+}
+

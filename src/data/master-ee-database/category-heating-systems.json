@@ -1,0 +1,296 @@
+{
+  "id": "heating-systems",
+  "name": "HEATING SYSTEMS",
+  "subcategories": [
+    {
+      "id": "boilers",
+      "name": "Boilers",
+      "measures": [
+        {
+          "id": "measure-64",
+          "name": "Condensing boilers (high-efficiency)",
+          "keywords": []
+        },
+        {
+          "id": "measure-65",
+          "name": "High-turndown burner retrofits",
+          "keywords": []
+        },
+        {
+          "id": "measure-66",
+          "name": "Steam boilers",
+          "keywords": []
+        },
+        {
+          "id": "measure-67",
+          "name": "Boiler economizers",
+          "keywords": [
+            "boiler"
+          ]
+        },
+        {
+          "id": "measure-68",
+          "name": "Blowdown heat recovery",
+          "keywords": []
+        },
+        {
+          "id": "measure-69",
+          "name": "Boiler sequencing optimization",
+          "keywords": [
+            "boiler",
+            "optimization"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heat-pumps-heating-category-",
+      "name": "Heat Pumps (HEATING CATEGORY)",
+      "measures": [
+        {
+          "id": "measure-70",
+          "name": "Packaged heat pumps (RTU heat pumps)",
+          "keywords": []
+        },
+        {
+          "id": "measure-71",
+          "name": "Split-system heat pumps",
+          "keywords": []
+        },
+        {
+          "id": "measure-72",
+          "name": "VRF/VRV heat pump systems",
+          "keywords": []
+        },
+        {
+          "id": "measure-73",
+          "name": "Water-source heat pumps",
+          "keywords": []
+        },
+        {
+          "id": "measure-74",
+          "name": "Air-to-water heat pumps",
+          "keywords": []
+        },
+        {
+          "id": "measure-75",
+          "name": "Ground-source heat pumps",
+          "keywords": []
+        },
+        {
+          "id": "measure-76",
+          "name": "Heat pump water heaters (HPWH)",
+          "keywords": [
+            "hpwh"
+          ]
+        },
+        {
+          "id": "measure-77",
+          "name": "High-temp industrial heat pumps",
+          "keywords": []
+        },
+        {
+          "id": "measure-78",
+          "name": "Heat pump make-up air units",
+          "keywords": []
+        },
+        {
+          "id": "measure-79",
+          "name": "Heat pump boiler replacements",
+          "keywords": [
+            "boiler"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heating-distribution",
+      "name": "Heating Distribution",
+      "measures": [
+        {
+          "id": "measure-80",
+          "name": "HW pumps (primary/secondary)",
+          "keywords": []
+        },
+        {
+          "id": "measure-81",
+          "name": "Pump VFDs",
+          "keywords": []
+        },
+        {
+          "id": "measure-82",
+          "name": "Hydronic loop balancing",
+          "keywords": []
+        },
+        {
+          "id": "measure-83",
+          "name": "Reheat coil optimization",
+          "keywords": [
+            "optimization"
+          ]
+        },
+        {
+          "id": "measure-84",
+          "name": "Pipe insulation",
+          "keywords": [
+            "insulation"
+          ]
+        },
+        {
+          "id": "measure-85",
+          "name": "Steam-to-hot-water conversion",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "air-handling-units-ahus-",
+      "name": "Air Handling Units (AHUs)",
+      "measures": [
+        {
+          "id": "measure-86",
+          "name": "AHU replacements",
+          "keywords": [
+            "ahu"
+          ]
+        },
+        {
+          "id": "measure-87",
+          "name": "Fan wall retrofits",
+          "keywords": []
+        },
+        {
+          "id": "measure-88",
+          "name": "ECM supply/return fans",
+          "keywords": [
+            "ecm"
+          ]
+        },
+        {
+          "id": "measure-89",
+          "name": "VFD upgrades",
+          "keywords": [
+            "vfd"
+          ]
+        },
+        {
+          "id": "measure-90",
+          "name": "Coil cleaning / replacement",
+          "keywords": [
+            "replacement"
+          ]
+        },
+        {
+          "id": "measure-91",
+          "name": "Filter upgrades (MERV 13–16)",
+          "keywords": []
+        },
+        {
+          "id": "measure-92",
+          "name": "Humidification upgrades",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "ventilation-systems",
+      "name": "Ventilation Systems",
+      "measures": [
+        {
+          "id": "measure-93",
+          "name": "DOAS systems",
+          "keywords": [
+            "doas"
+          ]
+        },
+        {
+          "id": "measure-94",
+          "name": "ERV (energy recovery ventilator)",
+          "keywords": [
+            "erv"
+          ]
+        },
+        {
+          "id": "measure-95",
+          "name": "HRV (heat recovery ventilator)",
+          "keywords": [
+            "hrv"
+          ]
+        },
+        {
+          "id": "measure-96",
+          "name": "Enthalpy wheels",
+          "keywords": []
+        },
+        {
+          "id": "measure-97",
+          "name": "Heat pipes",
+          "keywords": []
+        },
+        {
+          "id": "measure-98",
+          "name": "Runaround heat recovery loops",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "ventilation-controls",
+      "name": "Ventilation Controls",
+      "measures": [
+        {
+          "id": "measure-99",
+          "name": "CO₂ demand-controlled ventilation (DCV)",
+          "keywords": []
+        },
+        {
+          "id": "measure-100",
+          "name": "Occupancy-based ventilation",
+          "keywords": []
+        },
+        {
+          "id": "measure-101",
+          "name": "Outdoor air reset",
+          "keywords": []
+        },
+        {
+          "id": "measure-102",
+          "name": "VAV calibration",
+          "keywords": []
+        },
+        {
+          "id": "measure-103",
+          "name": "Night setback modes",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "exhaust-systems",
+      "name": "Exhaust Systems",
+      "measures": [
+        {
+          "id": "measure-104",
+          "name": "Lab fume hood VAV controls",
+          "keywords": [
+            "controls"
+          ]
+        },
+        {
+          "id": "measure-105",
+          "name": "Lab exhaust VFD systems",
+          "keywords": [
+            "vfd"
+          ]
+        },
+        {
+          "id": "measure-106",
+          "name": "Kitchen hood VFD systems",
+          "keywords": [
+            "vfd"
+          ]
+        }
+      ]
+    }
+  ]
+}

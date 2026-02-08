@@ -1,0 +1,6 @@
+Final savings (annual):
+- kWh: 100000
+- kW: 120
+- USD: 12000
+Confidence: 0.80
+

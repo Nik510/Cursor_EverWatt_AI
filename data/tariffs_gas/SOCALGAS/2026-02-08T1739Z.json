@@ -1,0 +1,18 @@
+{
+  "utility": "SOCALGAS",
+  "capturedAt": "2026-02-08T17:39:14.253Z",
+  "versionTag": "2026-02-08T1739Z",
+  "rates": [],
+  "metadataCompleteness": {
+    "customerClassPct": 0,
+    "voltagePct": 0,
+    "effectiveDatePct": 0,
+    "eligibilityNotesPct": 0
+  },
+  "sourceFingerprints": [
+    {
+      "url": "https://tariffsprd.socalgas.com/scg/tariffs/content/?utilId=SCG&bookId=GAS&sectId=G-SCHEDS",
+      "contentHash": "bcb16f4839b35fc5db5c18521f55fca552b5636bc18ffc66adaca392c5f09096"
+    }
+  ]
+}

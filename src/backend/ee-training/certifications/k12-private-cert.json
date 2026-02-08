@@ -1,0 +1,101 @@
+{
+  "id": "k12-private-cert",
+  "industry": "k12-private",
+  "title": "EverWatt Energy Efficiency Certification - For K-12 Private School Engineers",
+  "subtitle": "Certification for energy efficiency in private elementary, middle, and high schools",
+  "description": "Validate your expertise in identifying and implementing energy efficiency measures for K-12 private schools. This certification covers HVAC, lighting, building envelope, and private school-specific considerations like tuition-based funding and operational flexibility.",
+  "icon": "🎓",
+  "passingScore": 80,
+  "timeLimit": 75,
+  "prerequisites": ["industry-specific"],
+  "metadata": {
+    "estimatedTime": 75,
+    "difficulty": "intermediate",
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-02"
+  },
+  "questions": [
+    {
+      "id": "k12pr-001",
+      "question": "What is a key difference between K-12 private schools and public schools regarding energy efficiency?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "Private schools have no budget constraints" },
+        { "id": "b", "text": "Private schools often have more flexibility in decision-making and different funding sources" },
+        { "id": "c", "text": "Private schools don't need energy efficiency" },
+        { "id": "d", "text": "Private schools always have newer facilities" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Private schools often have more flexibility in decision-making due to tuition-based funding and may have different budget priorities than public schools. They may also have access to different utility programs. However, they still face budget constraints and benefit from energy efficiency.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "k12pr-002",
+      "question": "A private school has similar energy patterns to public schools but wants to prioritize improvements that enhance student experience. What should you emphasize?",
+      "questionType": "scenario",
+      "scenario": "A private school is interested in energy efficiency but wants to ensure improvements enhance the learning environment and student experience, not just reduce costs.",
+      "options": [
+        { "id": "a", "text": "Focus only on cost savings" },
+      { "id": "b", "text": "Emphasize improvements that improve comfort, lighting quality, and learning environment while reducing costs" },
+        { "id": "c", "text": "Recommend only low-cost measures" },
+        { "id": "d", "text": "Avoid any changes that might affect operations" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Private schools often prioritize student experience. LED lighting improvements enhance light quality and reduce maintenance. HVAC optimization improves comfort. Building envelope upgrades reduce drafts and temperature variations. Emphasizing both energy savings and improved learning environment aligns with private school priorities.",
+      "points": 8,
+      "category": "general",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "k12pr-003",
+      "question": "What is the typical energy split for K-12 private schools?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "HVAC: 30-40%, Lighting: 15-20%, Plug Loads: 10-15%" },
+        { "id": "b", "text": "HVAC: 40-55%, Lighting: 20-30%, Plug Loads: 10-20%" },
+        { "id": "c", "text": "HVAC: 55-65%, Lighting: 30-40%, Plug Loads: 20-30%" },
+        { "id": "d", "text": "HVAC: 65-75%, Lighting: 10-15%, Plug Loads: 5-10%" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "K-12 private schools typically have similar energy splits to public schools: HVAC: 40-55%, Lighting: 20-30%, Plug Loads: 10-20%, Other: 10-15%. The exact split depends on building age, equipment, and operational patterns.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "k12pr-004",
+      "question": "A private school has a chapel with high ceilings and decorative lighting. What energy efficiency approach should you recommend?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Replace all lighting immediately without considering aesthetics" },
+        { "id": "b", "text": "Recommend LED replacements that maintain the aesthetic quality while reducing energy" },
+        { "id": "c", "text": "Avoid any changes to preserve the original design" },
+        { "id": "d", "text": "Only install controls, no lighting changes" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Private schools often have specialized spaces (chapels, auditoriums) where aesthetics are important. LED replacements that maintain or enhance the aesthetic quality while reducing energy (40-65% savings) are the best approach. Modern LEDs can replicate warm, decorative lighting while providing significant energy savings.",
+      "points": 8,
+      "category": "lighting",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "k12pr-005",
+      "question": "What is the typical priority order for energy efficiency measures in K-12 private schools?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "HVAC Systems, Lighting, Building Envelope, Plug Loads" },
+        { "id": "b", "text": "Lighting, HVAC, Plug Loads, Building Envelope" },
+        { "id": "c", "text": "Building Envelope, HVAC, Lighting, Plug Loads" },
+        { "id": "d", "text": "Plug Loads, Lighting, HVAC, Building Envelope" }
+      ],
+      "correctAnswer": "a",
+      "explanation": "Similar to public schools, HVAC systems are typically the highest priority (Very High) due to their large energy share. Lighting is High priority. Building Envelope is Medium-High. Plug Loads are Medium priority.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    }
+  ]
+}
+

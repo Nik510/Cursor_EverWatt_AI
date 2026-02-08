@@ -1,0 +1,538 @@
+{
+  "id": "building-envelope",
+  "title": "Building Envelope",
+  "subtitle": "Complete Guide to Windows, Insulation, Air Sealing & Thermal Bridging",
+  "description": "Comprehensive training on building envelope performance: glazing and solar gain, insulation strategies, air sealing and infiltration, thermal bridging, and practical field identification. Includes sales strategies and ROI framing tied to HVAC load reduction.",
+  "icon": "🏢",
+  "category": "envelope",
+  "order": 11,
+  "status": "published",
+  "metadata": {
+    "author": "EverWatt Engineering Team",
+    "lastUpdated": "2025-12-29",
+    "version": "1.0.0",
+    "estimatedTime": 175,
+    "difficulty": "intermediate",
+    "tags": ["envelope", "windows", "insulation", "air-sealing", "thermal-bridging", "loads"]
+  },
+  "sections": [
+    {
+      "id": "quick-overview",
+      "title": "Quick Overview",
+      "subtitle": "90-second skim + jump points",
+      "icon": "⚡",
+      "order": 0,
+      "metadata": {
+        "estimatedTime": 8,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "navigation", "sales", "field"]
+      },
+      "content": [
+        {
+          "id": "overview-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 3,
+          "cards": [
+            {
+              "title": "Envelope = HVAC Load",
+              "description": "Reducing heat gain/loss lowers HVAC size and run hours. Envelope upgrades also improve comfort and reduce complaints.",
+              "metadata": { "icon": "📉", "jumpTo": "introduction", "roles": ["sales", "engineer"] }
+            },
+            {
+              "title": "Air Sealing is Often #1 ROI",
+              "description": "Infiltration is invisible but expensive. Air sealing can cut heating/cooling 5–20% in leaky buildings.",
+              "metadata": { "icon": "🧰", "jumpTo": "air-sealing", "roles": ["sales", "engineer", "field"] }
+            },
+            {
+              "title": "Windows Drive Solar Gain",
+              "description": "SHGC and glazing choices can dramatically change cooling loads. Target the worst facades first.",
+              "metadata": { "icon": "🪟", "jumpTo": "windows-glazing", "roles": ["engineer", "sales"] }
+            },
+            {
+              "title": "Roof is the Big Surface",
+              "description": "Cool roofs and added roof insulation often deliver strong cooling and comfort benefits with simple logistics.",
+              "metadata": { "icon": "🧊", "jumpTo": "roof-insulation", "roles": ["engineer"] }
+            },
+            {
+              "title": "Fast Field ID",
+              "description": "Look for single-pane glazing, missing insulation, air leaks, and thermal bridges at slab edges and metal framing.",
+              "metadata": { "icon": "🔎", "jumpTo": "field-guide", "roles": ["field", "sales"] }
+            },
+            {
+              "title": "How to Sell It",
+              "description": "Lead with comfort, reduced complaints, and HVAC downsizing—then quantify bill savings and incentives.",
+              "metadata": { "icon": "💰", "jumpTo": "sales-strategies", "roles": ["sales"] }
+            }
+          ]
+        },
+        {
+          "id": "overview-kpis",
+          "type": "table",
+          "order": 2,
+          "headers": ["KPI", "What it means", "Rule-of-thumb"],
+          "rows": [
+            ["U-factor", "Heat transfer through assembly", "Lower is better; windows are usually a major driver"],
+            ["R-value", "Thermal resistance", "Higher is better; continuous insulation reduces thermal bridging"],
+            ["SHGC", "Solar heat gain coefficient", "Lower reduces cooling loads; balance daylight and heating needs"],
+            ["ACH / infiltration", "Air leakage rate", "Lower is better; leaks often dominate in older buildings"],
+            ["Thermal bridging", "Conductive heat bypasses insulation", "Address slab edges, metal studs, and penetrations"],
+            ["Comfort complaints", "Occupant experience proxy", "Drafts and hot/cold zones are envelope signals"]
+          ],
+          "caption": "Envelope KPI Cheat Sheet"
+        },
+        {
+          "id": "overview-personas",
+          "type": "tabs",
+          "order": 3,
+          "tabs": [
+            {
+              "label": "💰 Sales",
+              "content": [
+                {
+                  "id": "overview-sales",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["sales"] },
+                  "content": "## Talk track (fast)\n\n- Envelope upgrades solve **comfort** problems (drafts, hot/cold zones)\n- Position as **HVAC load reduction** and **risk reduction** (equipment strain)\n- Start with **air sealing** and **targeted window treatments** (films/shading)\n- Larger capex (windows/insulation) follows after quick wins and incentive validation\n\n**One-liner:** \"We reduce the load your HVAC fights every day—comfort improves and bills drop.\""
+                }
+              ]
+            },
+            {
+              "label": "🔧 Engineer",
+              "content": [
+                {
+                  "id": "overview-engineer",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["engineer"] },
+                  "content": "## What to verify (fast)\n\n- Dominant load: heating vs cooling vs mixed\n- Glazing: U-factor and SHGC drivers by facade\n- Air leakage evidence: drafts, door issues, stack effect\n- Roof and wall assembly types (continuous vs cavity insulation)\n- Thermal bridges at slab edges and metal framing\n\n**Rule:** prioritize air sealing + roof first for many buildings; then target facades/windows with the worst solar or conductive losses."
+                }
+              ]
+            },
+            {
+              "label": "🧰 Field",
+              "content": [
+                {
+                  "id": "overview-field",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["field"] },
+                  "content": "## What to capture on-site\n\n- Window type: single/double pane, frame type, tint/film present\n- Obvious air leaks: doors, penetrations, roof hatches\n- Roof condition and insulation evidence (drawings or access points)\n- Thermal bridges: exposed slab edges, metal studs, canopy connections\n- Comfort signals: drafts, condensation, hot/cold complaints"
+                }
+              ]
+            }
+          ]
+        }
+        ,
+        {
+          "id": "heat-loss-paths-diagram",
+          "type": "interactive",
+          "order": 3.5,
+          "component": "heat-loss-paths",
+          "config": {
+            "title": "Heat Loss & Gain Paths",
+            "subtitle": "Roof, walls, windows, infiltration, thermal bridges, and solar gain (plus IR cues)"
+          }
+        }
+      ]
+    },
+    {
+      "id": "introduction",
+      "title": "Introduction & Fundamentals",
+      "subtitle": "The envelope sets the baseline load",
+      "icon": "📚",
+      "order": 1,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "fundamentals", "sales"]
+      },
+      "content": [
+        {
+          "id": "intro-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Why Building Envelope Matters\n\nThe building envelope (roof, walls, windows, doors, and air barrier) determines:\n\n- **Heat loss** (winter) and **heat gain** (summer)\n- Solar gains through glazing\n- Infiltration and exfiltration (air leakage)\n- Comfort and moisture/condensation risk\n\nEnvelope upgrades can reduce HVAC energy and can also reduce required HVAC capacity—often enabling smaller equipment at replacement."
+        },
+        {
+          "id": "intro-quote",
+          "type": "quote",
+          "order": 2,
+          "quote": "If you don’t control air, you don’t control energy. In older buildings, air leakage can beat insulation on ROI every time.",
+          "author": "Building Scientist",
+          "role": "Envelope commissioning lead"
+        },
+        {
+          "id": "intro-where-seen",
+          "type": "accordion",
+          "order": 3,
+          "metadata": { "title": "Where envelope improvements pay the most" },
+          "items": [
+            {
+              "title": "Older low-rise offices and retail",
+              "content": [
+                {
+                  "id": "where-old",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Leaky doors and penetrations\n- Single-pane glazing\n- Under-insulated roofs\n\nStart with air sealing and roof improvements."
+                }
+              ]
+            },
+            {
+              "title": "Schools and municipal buildings",
+              "content": [
+                {
+                  "id": "where-schools",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Comfort and IAQ complaints are common\n- Daylight and glare matter\n- Shading and glazing upgrades can reduce peak cooling"
+                }
+              ]
+            },
+            {
+              "title": "Hot climates with high solar",
+              "content": [
+                {
+                  "id": "where-hot",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- SHGC and shading can be huge\n- Cool roofs often deliver strong, predictable savings\n- Prioritize west-facing glazing and roof assemblies"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "intro-key-concepts",
+          "type": "cards",
+          "order": 4,
+          "columns": 2,
+          "cards": [
+            { "title": "Conduction", "description": "Heat flow through materials (U/R values).", "metadata": { "icon": "🧱" } },
+            { "title": "Solar Gain", "description": "Sunlight adds cooling load through windows (SHGC).", "metadata": { "icon": "☀️" } },
+            { "title": "Infiltration", "description": "Air leakage drives sensible and latent loads.", "metadata": { "icon": "💨" } },
+            { "title": "Thermal Bridging", "description": "Conductive paths bypass insulation (metal studs, slab edges).", "metadata": { "icon": "🧊" } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "windows-glazing",
+      "title": "Windows & Glazing",
+      "subtitle": "U-factor, SHGC, and practical retrofit paths",
+      "icon": "🪟",
+      "order": 2,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field"],
+        "tags": ["design"]
+      },
+      "content": [
+        {
+          "id": "windows-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Key window metrics\n\n- **U-factor**: conduction through the window (lower = better)\n- **SHGC**: solar heat gain (lower reduces cooling)\n- **VLT**: visible light transmission (daylight and glare)\n\n### Retrofit options\n- Window replacement (highest cost, highest impact)\n- **Films** / coatings (target solar gain; faster payback)\n- Exterior shading (awnings, fins) or interior shades (less effective for heat)\n\n**Field tip:** document facades (north/south/east/west). West is often the worst for peak cooling."
+        },
+        {
+          "id": "windows-table",
+          "type": "table",
+          "order": 2,
+          "headers": ["Option", "Pros", "Watch-outs"],
+          "rows": [
+            ["Replacement glazing", "Big conduction + solar improvement", "High capex; occupant disruption"],
+            ["Solar control film", "Fast, targeted SHGC reduction", "Ensure glare/daylight acceptable; warranty"],
+            ["Exterior shading", "Reduces peak solar before glass", "Architecture constraints; maintenance"],
+            ["Interior shades", "Improves glare comfort", "Less effective at reducing heat gain than exterior shading"]
+          ],
+          "caption": "Window upgrade paths"
+        }
+      ]
+    },
+    {
+      "id": "wall-insulation",
+      "title": "Wall Insulation",
+      "subtitle": "Cavity vs continuous insulation and moisture considerations",
+      "icon": "🧱",
+      "order": 3,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer"],
+        "tags": ["design"]
+      },
+      "content": [
+        {
+          "id": "wall-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Insulation basics\n\n- **Cavity insulation** improves R-value between studs\n- **Continuous insulation** reduces thermal bridging and often performs better than cavity-only\n\n### Moisture/condensation\nEnvelope work must consider dew point and vapor control. Poor detailing can create condensation and mold risk.\n\n**Rule:** continuous insulation plus a good air barrier often delivers the best real-world performance."
+        }
+      ]
+    },
+    {
+      "id": "roof-insulation",
+      "title": "Roof Insulation & Cool Roofs",
+      "subtitle": "Roof is the largest surface area in many buildings",
+      "icon": "🧊",
+      "order": 4,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field"],
+        "tags": ["design"]
+      },
+      "content": [
+        {
+          "id": "roof-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Roof levers\n\n- Add insulation (increase R-value)\n- Improve air barrier and seal penetrations\n- Use **cool roof** materials (high reflectance) to reduce solar heat gain\n\nBest fit:\n- Low-slope roofs with large area\n- Hot climates and high cooling loads\n\n**Field tip:** roof penetrations, HVAC curbs, and hatches are common air leakage points."
+        }
+      ]
+    },
+    {
+      "id": "air-sealing",
+      "title": "Air Sealing & Infiltration",
+      "subtitle": "Stopping invisible load and comfort issues",
+      "icon": "💨",
+      "order": 5,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["field", "sales", "optimization"]
+      },
+      "content": [
+        {
+          "id": "air-seal-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Why air sealing is such a strong lever\n\nAir leakage drives:\n- Heating and cooling energy\n- Humidity issues (latent load)\n- Draft complaints and comfort problems\n\n### Common leakage sites\n- Door frames and loading docks\n- Roof penetrations and hatches\n- Utility penetrations (pipes, conduits)\n- Curtain wall interfaces\n- Stairwells/elevator shafts (stack effect)\n\n### Verification\n- Blower door testing (where feasible)\n- Pressure diagnostics and smoke\n- Infrared imaging (best with ΔT)\n\n**Sales translation:** air sealing reduces complaints and improves comfort with quick payback in leaky buildings."
+        },
+        {
+          "id": "air-seal-quick-wins",
+          "type": "cards",
+          "order": 2,
+          "columns": 2,
+          "cards": [
+            { "title": "Weatherstripping", "description": "Doors and dock seals are often low cost and high comfort impact.", "metadata": { "icon": "🚪" } },
+            { "title": "Penetration sealing", "description": "Seal obvious pipe/conduit penetrations at roof and walls.", "metadata": { "icon": "🧱" } },
+            { "title": "Roof hatch sealing", "description": "Hatches and access panels are frequent “big leaks.”", "metadata": { "icon": "🪜" } },
+            { "title": "Stack effect mitigation", "description": "Stairwell and shaft leakage can dominate in taller buildings.", "metadata": { "icon": "🏙️" } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "thermal-bridging",
+      "title": "Thermal Bridging",
+      "subtitle": "Why insulation sometimes disappoints",
+      "icon": "🧊",
+      "order": 6,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer"],
+        "tags": ["design"]
+      },
+      "content": [
+        {
+          "id": "bridging-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## What thermal bridging is\n\nThermal bridges are conductive paths that bypass insulation:\n\n- Metal studs\n- Slab edges and balconies/canopies\n- Steel penetrations and attachments\n\nThermal bridging can:\n- Increase heating/cooling loads\n- Create cold surfaces → condensation risk\n- Cause uneven comfort\n\n**Rule:** continuous insulation and good detailing reduce bridging effects dramatically."
+        }
+      ]
+    },
+    {
+      "id": "shading-daylighting",
+      "title": "Shading & Daylighting",
+      "subtitle": "Reducing peak load without losing daylight",
+      "icon": "☀️",
+      "order": 7,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["engineer", "sales"],
+        "tags": ["roi"]
+      },
+      "content": [
+        {
+          "id": "shading-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Shading strategies\n\n- Exterior shading: best for reducing heat gain\n- Films: reduce SHGC while preserving daylight\n- Daylight management: reduce glare while keeping useful light\n\n**Sales translation:** shading and films can reduce peak cooling and improve comfort with less disruption than window replacement."
+        }
+      ]
+    },
+    {
+      "id": "sales-strategies",
+      "title": "Sales Strategies & ROI",
+      "subtitle": "Selling envelope upgrades effectively",
+      "icon": "💰",
+      "order": 8,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["sales"],
+        "tags": ["sales", "roi"]
+      },
+      "content": [
+        {
+          "id": "sales-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Selling Envelope Projects\n\n## Positioning that works\n\n- **Comfort and complaints**: drafts, hot/cold zones, condensation\n- **HVAC load reduction**: less run time now and downsizing later\n- **Peak reduction**: solar control reduces peak cooling demand\n\n### Discovery questions\n- Where are hot/cold complaints? Which facades?\n- Any condensation or moisture issues?\n- Are doors/hatches hard to close (pressure/stack effect)?\n- Are you planning HVAC replacement soon (downsizing opportunity)?\n\n### Objection handling\n| Objection | Response |\n|---|---|\n| \"Savings are hard to prove\" | \"We start with air sealing and targeted measures, and we use before/after comfort + runtime + utility data.\" |\n| \"Too disruptive\" | \"We begin with low-disruption: air sealing, films, roof improvements—then phase larger work.\" |\n| \"We want HVAC first\" | \"Envelope reduces load so HVAC can be smaller and cheaper. Doing envelope first protects the HVAC investment.\" |"
+        }
+      ]
+    },
+    {
+      "id": "field-guide",
+      "title": "Field Identification Guide",
+      "subtitle": "Identifying envelope opportunities quickly",
+      "icon": "🔍",
+      "order": 9,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["field", "sales", "engineer"],
+        "tags": ["field", "selection"]
+      },
+      "content": [
+        {
+          "id": "field-checklist",
+          "type": "list",
+          "order": 1,
+          "items": [
+            "Photograph representative windows (frame, glazing, seals) on each facade",
+            "Identify obvious single-pane glazing and failed seals/condensation",
+            "Check doors, loading docks, roof hatches for air leaks and damaged weatherstripping",
+            "Note roof type and any insulation evidence (drawings, access points, IR scan)",
+            "Look for thermal bridges (slab edges, metal framing, canopy connections)",
+            "Ask occupants about comfort complaints and draft locations"
+          ]
+        },
+        {
+          "id": "field-clues",
+          "type": "table",
+          "order": 2,
+          "headers": ["Clue", "Likely opportunity", "Next step"],
+          "rows": [
+            ["Drafts near entrances", "Door seals + vestibules", "Weatherstrip and adjust; consider vestibule"],
+            ["Hot west-facing zones", "Solar gain through glazing", "Film/shading; evaluate glazing upgrades"],
+            ["Condensation on frames", "Cold surface + moisture", "Check thermal bridges and air leakage; consider glazing/insulation"],
+            ["Very hot roof deck", "Low reflectance / low insulation", "Cool roof and/or add insulation at re-roof"]
+          ],
+          "caption": "Fast envelope clues"
+        }
+      ]
+    },
+    {
+      "id": "obf-measures",
+      "title": "OBF-Eligible Measures",
+      "subtitle": "What envelope upgrades commonly qualify",
+      "icon": "💵",
+      "order": 10,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "roi", "financing"]
+      },
+      "content": [
+        {
+          "id": "obf-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# OBF Eligibility for Envelope\n\nEnvelope eligibility varies by program. Many utilities support insulation and window measures when savings can be quantified and the measure meets program specs."
+        },
+        {
+          "id": "obf-table",
+          "type": "table",
+          "order": 2,
+          "headers": ["Measure", "OBF Eligible?", "Notes"],
+          "rows": [
+            ["Roof insulation / re-roof with insulation", "✅ Yes", "Often eligible when tied to energy savings"],
+            ["Cool roof", "✅/⚠️ Sometimes", "Program dependent; climate and baseline matter"],
+            ["Window replacement", "✅/⚠️ Sometimes", "Often needs specific performance (U/SHGC) thresholds"],
+            ["Window film", "✅/⚠️ Sometimes", "Program dependent; may be treated as glazing upgrade"],
+            ["Air sealing (hardware + labor)", "⚠️ Maybe", "Eligibility varies; often better bundled with measurable improvements"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "subtitle": "Test your envelope knowledge",
+      "icon": "📝",
+      "order": 11,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["quiz"]
+      },
+      "content": [
+        {
+          "id": "envelope-quiz",
+          "type": "interactive",
+          "order": 1,
+          "component": "quiz-widget",
+          "config": {
+            "title": "Building Envelope Quiz",
+            "questions": [
+              {
+                "id": "q1",
+                "question": "Which window metric is most directly tied to solar heat gains that drive cooling load?",
+                "options": ["U-factor", "SHGC", "R-value", "CRI"],
+                "correctAnswer": 1,
+                "explanation": "SHGC indicates how much solar heat enters through the window; lower SHGC reduces cooling load.",
+                "points": 10
+              },
+              {
+                "id": "q2",
+                "question": "Why is air sealing often a strong ROI measure in older buildings?",
+                "options": ["It increases infiltration", "It reduces invisible air leakage that drives loads and complaints", "It replaces all windows", "It increases LPD"],
+                "correctAnswer": 1,
+                "explanation": "Air leakage can be a large, hidden driver of heating/cooling energy and comfort complaints.",
+                "points": 10
+              },
+              {
+                "id": "q3",
+                "question": "What is a thermal bridge?",
+                "options": ["A control sequence", "A conductive path that bypasses insulation", "A shading device", "A type of boiler"],
+                "correctAnswer": 1,
+                "explanation": "Thermal bridges are conductive paths (often metal or structural elements) that reduce effective insulation.",
+                "points": 10
+              },
+              {
+                "id": "q4",
+                "question": "Why are cool roofs most valuable in many hot climates?",
+                "options": ["They increase solar gain", "They reduce roof solar heat gain and cooling loads", "They eliminate infiltration", "They increase U-factor"],
+                "correctAnswer": 1,
+                "explanation": "Cool roofs reflect more sunlight, reducing heat gain and cooling energy.",
+                "points": 10
+              },
+              {
+                "id": "q5",
+                "question": "Which measure often has the least disruption compared to full window replacement?",
+                "options": ["Window film or shading", "Replacing all curtain wall framing", "Full glazing replacement", "Demolishing walls"],
+                "correctAnswer": 0,
+                "explanation": "Films and shading can reduce solar gain with significantly less disruption than replacement.",
+                "points": 10
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+

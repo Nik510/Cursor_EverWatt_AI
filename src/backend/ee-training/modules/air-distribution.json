@@ -1,0 +1,650 @@
+{
+  "id": "air-distribution",
+  "title": "Air Distribution & Ventilation",
+  "subtitle": "Complete Guide to AHUs, Fans, ERVs, and VAV Systems",
+  "description": "Comprehensive training on air handling systems, fan energy optimization, energy recovery, and demand-controlled ventilation. Includes engineering calculations, sales strategies, and field identification tips.",
+  "icon": "💨",
+  "category": "ventilation",
+  "order": 3,
+  "status": "published",
+  "metadata": {
+    "author": "EverWatt Engineering Team",
+    "lastUpdated": "2025-12-13",
+    "version": "1.0.0",
+    "estimatedTime": 180,
+    "difficulty": "intermediate",
+    "tags": ["ahu", "rtu", "fans", "erv", "hrv", "dcv", "vav", "ventilation"]
+  },
+  "sections": [
+    {
+      "id": "quick-overview",
+      "title": "Quick Overview",
+      "subtitle": "90-second skim + jump points",
+      "icon": "⚡",
+      "order": 0,
+      "metadata": {
+        "estimatedTime": 8,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "sales", "selection"]
+      },
+      "content": [
+        {
+          "id": "qv-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 3,
+          "cards": [
+            {
+              "title": "Big Lever: Fan Laws",
+              "description": "Cut speed by 20% → cut power by ~50% (cube law). VFD + reset is the fastest win.",
+              "metadata": { "icon": "💨" }
+            },
+            {
+              "title": "Static Pressure Reset",
+              "description": "Reset duct static to the ‘most-open damper’ strategy. Often 10–30% fan savings with no hardware.",
+              "metadata": { "icon": "📉" }
+            },
+            {
+              "title": "DCV (CO₂) ROI",
+              "description": "If OA is over-ventilating, DCV saves heating + cooling (10–30% is common).",
+              "metadata": { "icon": "🎯" }
+            },
+            {
+              "title": "ERV/HRV Payback",
+              "description": "High OA buildings (labs, schools) can cut OA conditioning by 20–40% with energy recovery.",
+              "metadata": { "icon": "♻️" }
+            },
+            {
+              "title": "Field Signals",
+              "description": "Full-speed fans, fixed SAT/static, economizers disabled, CO2 sensors missing/flatlined, overrides stuck.",
+              "metadata": { "icon": "🔍" }
+            },
+            {
+              "title": "What to Photograph",
+              "description": "Fan nameplates + VFDs, static sensors, damper positions, CO2 sensors, economizer actuators, trend screenshots.",
+              "metadata": { "icon": "📸" }
+            }
+          ]
+        },
+        {
+          "id": "qv-kpi-table",
+          "type": "table",
+          "order": 2,
+          "metadata": { "title": "Airside KPI Cheat Sheet" },
+          "headers": ["KPI", "What it means", "Rule-of-thumb"],
+          "rows": [
+            ["W/CFM", "Fan efficiency proxy", "Lower is better; track before/after VFD + reset"],
+            ["Static pressure", "Duct resistance & control target", "Reset to lowest value that still satisfies zones"],
+            ["Most-open damper", "Reset control signal", "Target ~85–95% open for one critical zone"],
+            ["CO2 ppm", "Ventilation proxy", "Use to avoid over-ventilation; watch sensor drift"],
+            ["Economizer enable", "Free cooling availability", "Often broken/disabled—high ROI fix"],
+            ["SAT reset", "Supply temp optimization", "Reset when humidity allows; don’t fight reheat"]
+          ]
+        }
+        ,
+        {
+          "id": "airside-system-map",
+          "type": "interactive",
+          "order": 2.5,
+          "component": "airside-system-map",
+          "config": {
+            "title": "Airside System Map",
+            "subtitle": "AHU/RTU → economizer → coils → fan/VFD → static reset → VAV/reheat → zones"
+          }
+        }
+      ]
+    },
+    {
+      "id": "introduction",
+      "title": "Introduction & Fundamentals",
+      "subtitle": "Understanding Air Distribution Systems",
+      "icon": "📚",
+      "order": 1,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["fundamentals", "overview"]
+      },
+      "content": [
+        {
+          "id": "intro-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Why Air Distribution Matters\n\nAir handling systems move conditioned air throughout buildings, managing temperature, humidity, and air quality. These systems include air handling units (AHUs), rooftop units (RTUs), fans, ductwork, and terminal units.\n\n## Energy Impact\n\n**Fan energy typically accounts for 15-25% of HVAC energy consumption.** Supply and return fans run nearly continuously during occupied hours, making them prime targets for VFD retrofits.\n\n## The Business Case\n\n- VFD on supply fan: 30-50% fan energy savings\n- Demand-controlled ventilation: 10-30% heating/cooling savings\n- Energy recovery ventilator: 20-40% OA conditioning savings\n- VAV conversion from CAV: 25-40% total HVAC savings"
+        },
+        {
+          "id": "intro-quote",
+          "type": "quote",
+          "order": 2,
+          "quote": "The fan laws are your friend. Cut speed by 20%, cut power by 50%. That's the most reliable efficiency gain in the building.",
+          "author": "HVAC Controls Specialist",
+          "role": "20+ years in building automation"
+        },
+        {
+          "id": "intro-types",
+          "type": "tabs",
+          "order": 3,
+          "tabs": [
+            {
+              "label": "Air Handling Units",
+              "content": [
+                {
+                  "id": "ahu-content",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Central Air Handling Units (AHUs)\n\n**Definition**: Large, custom-built units that condition and circulate air throughout a building via ductwork.\n\n**Components**:\n- Mixing box (outdoor air + return air)\n- Filters (pre-filter + final filter)\n- Heating coil (hot water or steam)\n- Cooling coil (chilled water)\n- Supply fan (draw-through or blow-through)\n- Humidifier (optional)\n\n**Typical Sizes**: 5,000 - 100,000+ CFM\n\n**Applications**: Office buildings, hospitals, universities, laboratories"
+                }
+              ]
+            },
+            {
+              "label": "Rooftop Units",
+              "content": [
+                {
+                  "id": "rtu-content",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Rooftop Units (RTUs)\n\n**Definition**: Packaged, factory-built units that provide heating, cooling, and ventilation. Self-contained with DX cooling and gas heat.\n\n**Typical Sizes**: 2-150 tons\n\n**Advantages**:\n- Lower first cost vs. central plant\n- Easy replacement (crane on, crane off)\n- No mechanical room space required\n- Simple controls\n\n**Challenges**:\n- Lower efficiency than central chillers\n- Maintenance access (roof)\n- Shorter lifespan (15-20 years)\n- Duct distribution can be expensive"
+                }
+              ]
+            },
+            {
+              "label": "Fan Coil Units",
+              "content": [
+                {
+                  "id": "fcu-content",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Fan Coil Units (FCUs)\n\n**Definition**: Small, distributed units with a fan, filter, and heating/cooling coil. Located in each zone.\n\n**Types**:\n- 2-pipe (heating OR cooling)\n- 4-pipe (heating AND cooling simultaneously)\n- Vertical (floor-mounted)\n- Horizontal (ceiling-mounted)\n\n**Advantages**:\n- Individual zone control\n- No ductwork (or minimal)\n- Simple, inexpensive\n\n**Challenges**:\n- Distributed maintenance\n- Fan noise in occupied space\n- Limited ventilation capability"
+                }
+              ]
+            },
+            {
+              "label": "Dedicated OA Systems",
+              "content": [
+                {
+                  "id": "doas-content",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Dedicated Outdoor Air Systems (DOAS)\n\n**Definition**: Separate system that handles 100% outdoor air, decoupled from space conditioning.\n\n**Why DOAS?**:\n- Better humidity control (especially in humid climates)\n- Energy recovery is very effective\n- Can use lower CFM for conditioning\n- Meets ASHRAE 62.1 requirements easily\n\n**Often paired with**:\n- Chilled beams\n- VRF systems\n- Radiant panels\n- Fan coil units"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "intro-metrics",
+          "type": "cards",
+          "order": 4,
+          "columns": 2,
+          "cards": [
+            {
+              "title": "CFM (Cubic Feet per Minute)",
+              "description": "Volumetric airflow rate. Rule of thumb: 1 CFM per sq ft for offices, 400 CFM per ton cooling.",
+              "metadata": { "icon": "💨" }
+            },
+            {
+              "title": "Static Pressure",
+              "description": "Resistance to airflow in ductwork, measured in inches water column (in. w.c.). Typical: 1-4 in. w.c.",
+              "metadata": { "icon": "📊" }
+            },
+            {
+              "title": "Brake Horsepower (BHP)",
+              "description": "Power required to move air. BHP = (CFM × Static Pressure) / (6356 × Fan Efficiency).",
+              "metadata": { "icon": "⚡" }
+            },
+            {
+              "title": "Minimum Outdoor Air",
+              "description": "Required fresh air per ASHRAE 62.1. Typically 15-20 CFM per person plus 0.06-0.12 CFM/sq ft.",
+              "metadata": { "icon": "🌬️" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fan-systems",
+      "title": "Fan Systems & VFDs",
+      "subtitle": "Fan Types, Affinity Laws, and Variable Speed",
+      "icon": "🌀",
+      "order": 2,
+      "metadata": {
+        "estimatedTime": 25,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["fans", "vfd", "selection", "roi"]
+      },
+      "content": [
+        {
+          "id": "fan-types",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Fan Types\n\n## Centrifugal Fans\nMost common in HVAC. Air enters axially, exits radially.\n\n**Types**:\n- **Forward-curved**: High CFM at low pressure. Quiet. Most common in AHUs.\n- **Backward-curved/inclined**: Higher efficiency, higher pressure capability. Common in large systems.\n- **Airfoil**: Highest efficiency. Premium, used where energy matters.\n\n## Axial Fans\nAir moves straight through. Used for high volume, low pressure.\n\n**Types**:\n- **Propeller**: Exhaust fans, cooling towers\n- **Tube-axial**: Inline duct fans\n- **Vane-axial**: Higher pressure capability with guide vanes\n\n## Plug Fans (Plenum Fans)\nNo housing - fan sits in plenum. Quieter, more efficient, easier to array."
+        },
+        {
+          "id": "affinity-laws",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "⚡ Fan Affinity Laws - The Key to VFD Savings",
+              "content": [
+                {
+                  "id": "affinity-content",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## The Magic of Variable Speed\n\n**Flow ∝ Speed**: CFM changes linearly with RPM\n\n**Pressure ∝ Speed²**: Static pressure changes with the square of speed\n\n**Power ∝ Speed³**: **Power changes with the CUBE of speed**\n\n### Example: Reducing Speed to 80%\n- Flow: 80% of design\n- Pressure: 64% of design (0.8²)\n- Power: **51% of design (0.8³)**\n\n### Real-World Savings Table\n| Speed | Flow | Power | Savings |\n|-------|------|-------|--------|\n| 100% | 100% | 100% | 0% |\n| 90% | 90% | 73% | 27% |\n| 80% | 80% | 51% | 49% |\n| 70% | 70% | 34% | 66% |\n| 60% | 60% | 22% | 78% |\n| 50% | 50% | 13% | 87% |\n\n**Why This Matters**: Most systems are sized for peak load but operate at 60-80% most of the time. VFDs capture this savings opportunity automatically."
+                }
+              ]
+            },
+            {
+              "title": "💰 VFD Payback Calculator",
+              "content": [
+                {
+                  "id": "vfd-calc",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## VFD Investment Analysis\n\n**Assumptions**:\n- 50 HP supply fan\n- 4,000 operating hours/year\n- Electric rate: $0.15/kWh\n- Current average load: 70% (inlet vane dampers)\n- VFD allows motor to run at 70% speed\n\n**Current Annual Cost**:\n50 HP × 0.746 kW/HP × 4,000 hrs × 70% load × $0.15 = **$15,700/year**\n\n**With VFD (70% speed = 34% power)**:\n50 HP × 0.746 kW/HP × 4,000 hrs × 34% power × $0.15 = **$7,600/year**\n\n**Annual Savings**: $8,100/year\n\n**VFD Cost**: ~$150-200/HP × 50 HP = $7,500-10,000 installed\n\n**Simple Payback**: ~1 year\n\n**Plus**: Utility rebates often cover 30-50% of VFD cost!"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "vfd-sales",
+          "type": "markdown",
+          "order": 3,
+          "content": "## 💼 Sales Approach: Fan VFDs\n\n### Opening Hook\n*\"Your supply fan is running at full speed 24/7, then throwing away half the air through a damper. That's like driving with your foot on the gas and the brake at the same time.\"*\n\n### Key Value Props\n1. **1-2 year payback** - one of the fastest ROI projects available\n2. **OBF eligible** at 0% interest\n3. **Utility rebates** of $50-100 per HP\n4. **Soft start** extends motor and belt life\n5. **Quieter operation** - tenants notice\n\n### Qualifying Questions\n- \"Do you have inlet vane dampers or outlet dampers on your fans?\"\n- \"What size are your main supply fans? (HP or CFM)\"\n- \"How many hours per day do they run?\"\n- \"Have you noticed excessive noise or vibration?\""
+        }
+      ]
+    },
+    {
+      "id": "energy-recovery",
+      "title": "Energy Recovery",
+      "subtitle": "ERVs, HRVs, and Heat Wheels",
+      "icon": "♻️",
+      "order": 3,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales", "field"],
+        "tags": ["erv", "hrv", "selection", "roi"]
+      },
+      "content": [
+        {
+          "id": "erv-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Energy Recovery Ventilators\n\n## What is Energy Recovery?\n\nEnergy recovery transfers heat (and sometimes moisture) between exhaust air and incoming outdoor air. Instead of throwing away 72°F exhaust air and conditioning 95°F outdoor air, we pre-condition the OA using the exhaust.\n\n## Types of Energy Recovery\n\n### Heat Recovery Ventilators (HRV)\n- Transfers **sensible heat only** (temperature)\n- Best for: Cold climates, low humidity\n- Technology: Plate heat exchangers, heat pipes\n- Effectiveness: 65-80%\n\n### Energy Recovery Ventilators (ERV)\n- Transfers **sensible AND latent heat** (temperature + moisture)\n- Best for: Hot-humid climates, where dehumidification matters\n- Technology: Enthalpy wheels, membrane plates\n- Effectiveness: 50-70% (total enthalpy)"
+        },
+        {
+          "id": "erv-technologies",
+          "type": "table",
+          "order": 2,
+          "metadata": { "title": "Energy Recovery Technology Comparison" },
+          "headers": ["Technology", "Sensible Eff.", "Latent Eff.", "Cross-Contamination", "Maintenance"],
+          "rows": [
+            ["Enthalpy Wheel", "70-85%", "50-75%", "Low risk (purge section)", "Medium (wheel drive)"],
+            ["Plate HX (sensible)", "70-80%", "0%", "None", "Low (no moving parts)"],
+            ["Membrane Plate (enthalpy)", "65-75%", "50-65%", "None", "Low (no moving parts)"],
+            ["Heat Pipe", "55-65%", "0%", "None", "Very low"],
+            ["Run-around Coil", "45-65%", "0%", "None", "Medium (pump)"]
+          ]
+        },
+        {
+          "id": "erv-savings",
+          "type": "accordion",
+          "order": 3,
+          "items": [
+            {
+              "title": "💰 Energy Recovery ROI",
+              "content": [
+                {
+                  "id": "erv-roi",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Sample Calculation: 10,000 CFM OA System\n\n**Climate**: San Francisco (mild) vs. Houston (hot-humid)\n\n### San Francisco:\n- Cooling: Minimal OA savings (economizer works most of year)\n- Heating: ~$3,000/year savings\n- **Total**: ~$3,500/year\n- ERV cost: $30,000 installed\n- Payback: **8.5 years** (marginal)\n\n### Houston:\n- Cooling: Major savings (dehumidification is expensive)\n- Heating: Minimal\n- **Total**: ~$12,000/year\n- ERV cost: $30,000 installed\n- Payback: **2.5 years** (excellent)\n\n**Rule of Thumb**: ERVs pay back best in extreme climates (very hot/humid or very cold). Mild climates may not justify the cost."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "erv-sales",
+          "type": "markdown",
+          "order": 4,
+          "content": "## 💼 Sales Approach: Energy Recovery\n\n### When to Pitch ERVs\n- New construction or major renovation\n- High outdoor air requirements (labs, hospitals, restaurants)\n- Hot-humid or very cold climates\n- LEED or green building certification\n\n### Opening Hook (for high-OA applications)\n*\"You're bringing in 20,000 CFM of outdoor air and throwing away 20,000 CFM of exhaust. An energy recovery wheel can transfer 70% of that energy between streams - that's like getting free pre-conditioning.\"*\n\n### When NOT to Pitch ERVs\n- Mild climates with heavy economizer use\n- Low outdoor air fractions\n- Retrofit with no adjacent ductwork\n- Buildings with exhaust contamination (industrial)"
+        }
+      ]
+    },
+    {
+      "id": "dcv",
+      "title": "Demand Controlled Ventilation",
+      "subtitle": "CO2-Based Outdoor Air Optimization",
+      "icon": "🎯",
+      "order": 4,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales", "field"],
+        "tags": ["dcv", "controls", "roi", "sales"]
+      },
+      "content": [
+        {
+          "id": "dcv-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Demand Controlled Ventilation (DCV)\n\n## The Problem\n\nASHRAE 62.1 requires minimum outdoor air based on **design occupancy**. But actual occupancy is usually 30-70% of design. Constant ventilation at design rates:\n- Wastes energy conditioning unused OA\n- Overcools/overheats during low occupancy\n- Increases peak demand\n\n## The Solution: CO2-Based DCV\n\nCO2 is a proxy for occupancy (people generate ~0.01 CFM CO2). By monitoring CO2, we can modulate OA to actual need.\n\n**Target CO2 Levels**:\n- Outdoor: ~400 ppm\n- Good indoor: 600-800 ppm\n- ASHRAE acceptable: < 1,000 ppm above outdoor\n- Stuffy/complaint level: > 1,200 ppm"
+        },
+        {
+          "id": "dcv-savings",
+          "type": "cards",
+          "order": 2,
+          "columns": 2,
+          "cards": [
+            {
+              "title": "10-30% HVAC Savings",
+              "description": "Reduced outdoor air = less heating/cooling load. Savings depend on climate and occupancy patterns.",
+              "metadata": { "icon": "💰" }
+            },
+            {
+              "title": "Improved Comfort",
+              "description": "Better control of CO2 and humidity. Responsive to actual conditions, not fixed schedules.",
+              "metadata": { "icon": "😊" }
+            },
+            {
+              "title": "Code Compliance",
+              "description": "DCV is required by ASHRAE 90.1 and Title 24 for high-occupancy spaces (>40 people/1000 sq ft).",
+              "metadata": { "icon": "📋" }
+            },
+            {
+              "title": "IAQ Documentation",
+              "description": "CO2 trending provides proof of ventilation for LEED IEQ credits and tenant assurance.",
+              "metadata": { "icon": "📊" }
+            }
+          ]
+        },
+        {
+          "id": "dcv-applications",
+          "type": "accordion",
+          "order": 3,
+          "items": [
+            {
+              "title": "🎯 Best Applications for DCV",
+              "content": [
+                {
+                  "id": "dcv-apps",
+                  "type": "list",
+                  "order": 1,
+                  "items": [
+                    "Conference rooms: Highly variable occupancy (0 to 20+ people)",
+                    "Classrooms: Known schedule but variable attendance",
+                    "Auditoriums/theaters: Peak occupancy is rare",
+                    "Retail spaces: Varies with traffic patterns",
+                    "Gymnasiums/fitness: High but variable activity",
+                    "Restaurants: Lunch vs. dinner, weekday vs. weekend"
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "⚠️ Where DCV Doesn't Work Well",
+              "content": [
+                {
+                  "id": "dcv-limits",
+                  "type": "list",
+                  "order": 1,
+                  "items": [
+                    "Laboratories: Ventilation based on containment, not occupancy",
+                    "Hospitals: Infection control requirements",
+                    "Industrial: Process-based ventilation",
+                    "Parking garages: CO not CO2 (different sensor)",
+                    "Spaces with constant high occupancy (already at design)"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "dcv-sales",
+          "type": "markdown",
+          "order": 4,
+          "content": "## 💼 Sales Approach: DCV\n\n### Opening Hook\n*\"Your AHU is bringing in the same amount of outdoor air whether you have 100 people in the conference room or zero. A CO2 sensor can tell the system when the room is actually occupied.\"*\n\n### Key Value Props\n1. **Energy savings**: 10-30% on OA conditioning\n2. **Code compliance**: Required in many jurisdictions\n3. **Comfort improvement**: Responsive to actual occupancy\n4. **Documentation**: Proof of good IAQ for tenants\n\n### Implementation Options\n- **Zone-level**: CO2 sensor in each zone, modulates OA damper\n- **System-level**: CO2 sensor in return air, modulates main OA damper\n- **Networked**: Multiple sensors feeding central algorithm"
+        }
+      ]
+    },
+    {
+      "id": "vav-systems",
+      "title": "VAV Systems",
+      "subtitle": "Variable Air Volume Boxes and Optimization",
+      "icon": "📦",
+      "order": 5,
+      "metadata": {
+        "estimatedTime": 25,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["vav", "controls", "optimization"]
+      },
+      "content": [
+        {
+          "id": "vav-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Variable Air Volume (VAV) Systems\n\n## What is VAV?\n\nVAV systems vary the airflow to each zone based on load, rather than varying supply air temperature (CAV). The AHU supplies cool air (typically 55°F), and each zone modulates its VAV box damper to get more or less air.\n\n## Why VAV?\n\n**Energy Savings**: When zone load drops, airflow drops. Fan energy savings via affinity laws.\n\n**Individual Control**: Each zone can call for its own amount of cooling.\n\n**Reheat Reduction**: Only zones that need it get reheat (vs. terminal reheat in CAV).\n\n## VAV Box Types\n\n### Cooling-Only VAV\nSimplest type. Damper modulates from minimum to maximum. No reheat.\n\n### VAV with Reheat\nDamper modulates + hot water or electric reheat coil. For interior and perimeter zones.\n\n### Fan-Powered VAV (Parallel)\nLocal fan draws return air plenum into box. Reduces primary air at part load. Good for perimeter zones.\n\n### Fan-Powered VAV (Series)\nLocal fan in series with primary air. Constant airflow to zone, variable primary air. Used for tight control."
+        },
+        {
+          "id": "vav-optimization",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "🔧 VAV Optimization Strategies",
+              "content": [
+                {
+                  "id": "vav-opt",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Key Optimization Opportunities\n\n### 1. Static Pressure Reset\nReduce duct static setpoint when VAV dampers are less than 90% open.\n- **Savings**: 10-30% fan energy\n- **Implementation**: BMS logic, sensor at duct end\n\n### 2. Supply Air Temperature Reset\nRaise SAT when cooling load is low (e.g., 55°F → 60°F).\n- **Savings**: 10-20% cooling + reheat\n- **Caution**: Must maintain dehumidification\n\n### 3. Minimum Airflow Reduction\nMany VAV boxes have minimums set too high. Review ASHRAE 62.1 for actual requirements.\n- **Savings**: 10-20% reheat\n- **Common issue**: 50% minimum was historical standard; 20-30% is often acceptable\n\n### 4. Occupancy-Based Setback\nUse occupancy sensors to reduce minimums in unoccupied zones.\n- **Savings**: Variable, but significant in conference rooms"
+                }
+              ]
+            },
+            {
+              "title": "💰 Static Pressure Reset Savings",
+              "content": [
+                {
+                  "id": "sp-reset",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Static Pressure Reset Example\n\n**System**: 50 HP supply fan, 3.0 in. w.c. design static\n\n**Without Reset**:\n- Fan runs at constant speed to maintain 3.0 in. w.c.\n- Power: 100% design HP\n\n**With Reset (average setpoint 2.0 in. w.c.)**:\n- Lower static = lower speed via VFD\n- Speed reduction: √(2.0/3.0) = 82%\n- Power reduction: (0.82)³ = 55%\n\n**Savings**: 45% fan energy!\n\n**Implementation Cost**: Controls programming only (if VFD exists)\n\n**Payback**: Immediate to 6 months"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "vav-sales",
+          "type": "markdown",
+          "order": 3,
+          "content": "## 💼 Sales Approach: VAV Optimization\n\n### Opening Hook\n*\"Your fan is working harder than it needs to. The duct pressure is locked at design condition even when most zones are at minimum flow. Static pressure reset can cut fan energy by 30-40%.\"*\n\n### Key Value Props\n1. **Low/no-cost savings**: Often just controls changes\n2. **Quick implementation**: 1-2 weeks programming\n3. **Proven technology**: Recommended by ASHRAE, Title 24 required\n4. **Non-invasive**: No construction, no disruption\n\n### Discovery Questions\n- \"Do you have a BMS? What platform?\"\n- \"What is your duct static pressure setpoint?\"\n- \"Do you have VFDs on supply and return fans?\"\n- \"What are your VAV box minimums set to?\""
+        }
+      ]
+    },
+    {
+      "id": "sales-strategies",
+      "title": "Sales Strategies & ROI",
+      "subtitle": "Selling Air Distribution Projects",
+      "icon": "💰",
+      "order": 6,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["sales"],
+        "tags": ["sales", "roi"]
+      },
+      "content": [
+        {
+          "id": "sales-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Selling Air Distribution Upgrades\n\n## Project Priority Matrix\n\n| Project | Typical Savings | Payback | OBF Eligible? |\n|---------|-----------------|---------|---------------|\n| Fan VFD | 30-50% fan kWh | 1-2 years | ✅ Yes |\n| Static pressure reset | 20-40% fan kWh | 0-6 months | ⚠️ Maybe |\n| DCV (CO2 sensors) | 10-30% OA load | 2-4 years | ✅ Yes (hardware) |\n| ERV/HRV | 20-40% OA load | 3-7 years | ✅ Yes |\n| VAV conversion | 25-40% total | 3-5 years | ✅ Yes |\n| SAT reset | 10-20% cooling | 0-6 months | ❌ No (controls) |"
+        },
+        {
+          "id": "sales-bundles",
+          "type": "cards",
+          "order": 2,
+          "columns": 2,
+          "cards": [
+            {
+              "title": "Quick Wins Bundle",
+              "description": "VFDs + pressure reset + SAT reset. Fast payback, minimal disruption. Perfect for initial engagement.",
+              "metadata": { "icon": "🚀", "payback": "1-2 years" }
+            },
+            {
+              "title": "IAQ Bundle",
+              "description": "DCV + ERV + filter upgrade. For buildings focused on indoor air quality, LEED, or wellness certification.",
+              "metadata": { "icon": "🌬️", "payback": "3-5 years" }
+            },
+            {
+              "title": "Full AHU Upgrade",
+              "description": "New AHU with EC fans, integrated ERV, DCV-ready controls. Major renovation or end-of-life replacement.",
+              "metadata": { "icon": "🔧", "payback": "5-8 years" }
+            },
+            {
+              "title": "Controls Optimization",
+              "description": "Reset strategies + scheduling + fault detection. Low cost, high impact for buildings with capable BMS.",
+              "metadata": { "icon": "🎛️", "payback": "< 1 year" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "field-guide",
+      "title": "Field Identification Guide",
+      "subtitle": "Identifying Air Handling Equipment",
+      "icon": "🔍",
+      "order": 7,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["field", "sales", "engineer"],
+        "tags": ["field", "selection"]
+      },
+      "content": [
+        {
+          "id": "field-ahu",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Field Identification\n\n## AHU Identification\n\n### Visual Clues\n- Large sheet metal enclosure in mechanical room\n- Supply and return ductwork connections\n- Access doors for filter, coil, fan sections\n- Control panel nearby\n\n### Nameplate Data to Capture\n- Manufacturer and model\n- Design CFM\n- Fan HP and RPM\n- Coil configuration (rows, FPI)\n- Year of manufacture\n\n### Signs of Efficiency Opportunities\n- Inlet vane dampers on fan (→ VFD candidate)\n- No VFD present on motors > 5 HP\n- Dirty coils/filters (→ maintenance)\n- No OA damper modulation (→ DCV candidate)"
+        },
+        {
+          "id": "field-vav",
+          "type": "markdown",
+          "order": 2,
+          "content": "## VAV Box Identification\n\n### Location\n- Above ceiling tiles\n- One per zone (usually)\n- Ductwork supply connection + diffuser(s)\n\n### Types to Recognize\n- **Cooling-only**: Damper + actuator, no coil\n- **With reheat**: Damper + hot water coil or electric heater\n- **Fan-powered**: Has small fan (listen for it)\n\n### Nameplate Data\n- Maximum CFM\n- Minimum CFM setting (often adjustable)\n- Coil size (if reheat)\n- Controller type"
+        }
+      ]
+    },
+    {
+      "id": "obf-measures",
+      "title": "OBF-Eligible Measures",
+      "subtitle": "What Qualifies for On-Bill Financing",
+      "icon": "💵",
+      "order": 8,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "roi", "financing"]
+      },
+      "content": [
+        {
+          "id": "obf-table",
+          "type": "table",
+          "order": 1,
+          "metadata": { "title": "Air Distribution OBF Eligibility" },
+          "headers": ["Measure", "OBF Eligible?", "Notes"],
+          "rows": [
+            ["Fan VFD Installation", "✅ Yes", "Prime OBF candidate - hardware with clear savings"],
+            ["ERV/HRV Installation", "✅ Yes", "Equipment-based, measurable savings"],
+            ["DCV (CO2 sensors + controls)", "✅ Yes", "Includes hardware component"],
+            ["Premium Efficiency Fan Motor", "✅ Yes", "Motor replacement qualifies"],
+            ["VAV Box Replacement", "✅ Yes", "Equipment upgrade"],
+            ["Static Pressure Reset", "⚠️ Maybe", "Controls-only may not qualify"],
+            ["SAT Reset", "❌ No", "Programming change only"],
+            ["Economizer Repair", "⚠️ Maybe", "Depends on scope"],
+            ["Filter Upgrade", "❌ No", "Consumable/maintenance"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "subtitle": "Test Your Air Distribution Knowledge",
+      "icon": "📝",
+      "order": 9,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["quiz"]
+      },
+      "content": [
+        {
+          "id": "vent-quiz",
+          "type": "interactive",
+          "order": 1,
+          "component": "quiz-widget",
+          "config": {
+            "title": "Air Distribution Quiz",
+            "questions": [
+              {
+                "id": "q1",
+                "question": "According to the fan affinity laws, reducing fan speed to 80% reduces power consumption to approximately:",
+                "options": ["80%", "64%", "51%", "20%"],
+                "correctAnswer": 2,
+                "explanation": "Power varies with the cube of speed. 0.8³ = 0.51, or 51% of original power.",
+                "points": 10
+              },
+              {
+                "id": "q2",
+                "question": "What type of energy recovery transfers both sensible heat and moisture?",
+                "options": ["HRV", "ERV", "Heat pipe", "Run-around coil"],
+                "correctAnswer": 1,
+                "explanation": "Energy Recovery Ventilators (ERVs) with enthalpy wheels or membrane plates transfer both temperature and humidity.",
+                "points": 10
+              },
+              {
+                "id": "q3",
+                "question": "What is the typical CO2 concentration considered acceptable by ASHRAE?",
+                "options": ["400 ppm", "600 ppm", "< 1,000 ppm above outdoor", "1,500 ppm"],
+                "correctAnswer": 2,
+                "explanation": "ASHRAE 62.1 recommends maintaining CO2 less than 1,000 ppm above outdoor levels (typically ~1,400 ppm total).",
+                "points": 10
+              },
+              {
+                "id": "q4",
+                "question": "Static pressure reset is implemented by:",
+                "options": ["Replacing the fan motor", "Adding VFD to the fan", "Adjusting BMS programming to lower SP setpoint when dampers are open", "Installing a larger fan"],
+                "correctAnswer": 2,
+                "explanation": "Static pressure reset is a controls strategy that lowers the duct pressure setpoint when VAV dampers are not fully open.",
+                "points": 10
+              },
+              {
+                "id": "q5",
+                "question": "A fan-powered VAV box with a parallel fan configuration:",
+                "options": ["Always runs the fan at full speed", "Draws plenum air to supplement primary air at part load", "Is the same as a cooling-only VAV", "Cannot provide reheat"],
+                "correctAnswer": 1,
+                "explanation": "Parallel fan-powered boxes use a fan to draw return plenum air into the box, supplementing the primary air at part load.",
+                "points": 10
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

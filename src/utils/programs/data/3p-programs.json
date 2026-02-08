@@ -1,0 +1,1093 @@
+{
+  "source_file": "C:\\Users\\nikjo\\OneDrive\\Desktop\\EverWatt_Engine\\3P_PROGRAMS\\California Energy Efficiency Programs Research.docx",
+  "total_paragraphs": 253,
+  "programs": [
+    {
+      "name": "California Energy Efficiency Market Report: 2024-2025 Comprehensive Analysis",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Executive Summary",
+      "section": null,
+      "description": "The California energy efficiency (EE) sector is currently navigating a period of profound structural transformation, driven by aggressive decarbonization goals, grid reliability imperatives, and a regulatory shift toward third-party program implementation. This report provides an exhaustive analysis of the Energy Efficiency portfolios for the state's Investor-Owned Utilities (IOUs): Pacific Gas and Electric (PG&E), Southern California Edison (SCE), San Diego Gas & Electric (SDG&E), and Southern California Gas Company (SoCalGas). The analysis encompasses both the burgeoning ecosystem of third-party implemented programs-mandated to comprise at least 60% of the portfolio-and the enduring utility-administered \"core\" programs that provide foundational support to the market.",
+      "details": [
+        "The 2024-2025 program cycle represents a departure from traditional \"widget-based\" rebate programs toward sophisticated, performance-based interventions. The market is increasingly characterized by the adoption of Normalized Metered Energy Consumption (NMEC) methodologies, which tie financial incentives to verified energy savings at the meter rather than engineering estimates. Furthermore, the regulatory metric of \"Total System Benefit\" (TSB) has redefined value, prioritizing energy savings that occur during peak grid stress intervals and contribute to greenhouse gas (GHG) reductions. This report details the specific programs, incentive structures, rebate catalogs, and financing mechanisms available to California ratepayers, offering a nuanced evaluation of the current landscape."
+      ],
+      "utility": "PG&E",
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "1.1 The Third-Party Implementation Mandate",
+      "section": null,
+      "description": "The fundamental architecture of California's energy efficiency market has been reshaped by the California Public Utilities Commission (CPUC) Decisions 15-10-028 and 16-08-019. These rulings mandated a transition from utility-run programs to a model where independent third parties propose, design, and implement the majority of the portfolio. By 2022, the IOUs were required to outsource at least 60% of their energy efficiency budgets to these third-party entities.1",
+      "details": [
+        "This policy aims to spur innovation by allowing specialized firms-ranging from engineering consultancies to software-as-a-service providers-to design programs tailored to specific market niches, such as healthcare facilities, wastewater treatment plants, or high-tech campuses. Under this model, the utilities function as Program Administrators (PAs), overseeing contracts and high-level strategy, but are prohibited from managing day-to-day delivery or interfering with the program design once solicited.1 This separation of roles creates a competitive marketplace where implementers are held accountable for performance, often through pay-for-performance contract structures."
+      ],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "1.2 The Shift to Meter-Based Savings (NMEC)",
+      "section": null,
+      "description": "A critical technical evolution in the current portfolio is the widespread adoption of Normalized Metered Energy Consumption (NMEC). Unlike \"deemed\" savings, which rely on pre-calculated average savings values for specific equipment (e.g., a standard LED light bulb saves $X$ kWh/year), NMEC measures savings at the customer's meter. This approach accounts for the complex interactions between building systems and behavioral changes, providing a truer picture of grid impact.",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "There are two primary forms of NMEC currently deployed:",
+      "section": null,
+      "description": "Site-Level NMEC: utilized primarily for custom commercial and industrial projects. Savings are calculated by comparing pre- and post-installation meter data, adjusted for variables such as weather, occupancy, and production levels. This method is crucial for the industrial sector, where energy intensity varies wildly with production output.2",
+      "details": [
+        "Population-Level NMEC: utilized in \"Market Access Programs\" (MAP). This method aggregates savings across a large portfolio of similar customers (e.g., residential homes or small businesses). It allows aggregators to manage performance risk across a pool of projects, smoothing out the variability of individual sites.3"
+      ],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "1.3 Total System Benefit (TSB)",
+      "section": null,
+      "description": "The CPUC has transitioned the primary performance metric from gross energy savings (kWh and therms) to Total System Benefit (TSB). TSB is a monetary value that reflects the lifecycle benefits of an energy efficiency measure, incorporating:",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Avoided Energy Costs: The value of electricity and gas not consumed.",
+      "section": null,
+      "description": "Avoided Capacity Costs: The value of reducing demand during peak intervals, deferring the need for new power plants or transmission upgrades.",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Environmental Benefits: The monetary value of reduced GHG emissions.",
+      "section": null,
+      "description": "This shift incentivizes programs that deliver savings during high-value times-specifically the net peak hours of 4:00 PM to 9:00 PM in summer months-rather than programs that simply save energy at night or during low-demand periods.4 Consequently, program implementers are designing interventions that target load flexibility and peak demand reduction, aligning energy efficiency with grid reliability.",
+      "details": [
+        "Statewide programs provide a unified interface for market actors that operate across multiple utility territories, such as manufacturers, distributors, and large retail chains. These programs are administered by a single \"Lead\" utility on behalf of the statewide consortium, ensuring consistent incentive levels and eligibility requirements."
+      ],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "2.1 Upstream and Midstream Initiatives",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Comfortably California (Statewide Upstream HVAC)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Lead Administrator: San Diego Gas & Electric (SDG&E) 5",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Implementer: CLEAResult 6",
+      "section": null,
+      "description": "The \"Comfortably California\" program represents the primary vehicle for high-efficiency HVAC incentives in the state. Operating as an \"upstream\" program, it engages directly with HVAC distributors rather than end-use customers or contractors. The program logic posits that by incentivizing distributors to stock and sell high-efficiency units, the market share of these units will increase naturally without requiring complex rebate applications from consumers.",
+      "details": [
+        "Distributors receive financial incentives for every qualifying high-efficiency unit they sell to contractors. These incentives are intended to buy down the wholesale cost of the equipment, reducing the price premium associated with higher efficiency. This \"upsell\" strategy encourages contractors to offer better equipment to homeowners and businesses during emergency replacements, a critical decision point where efficiency is often sacrificed for speed and availability.6",
+        "The program covers both residential and commercial HVAC technologies, including unitary air conditioners, heat pumps, and variable refrigerant flow (VRF) systems. It serves the territories of PG&E, SCE, SDG&E, and SoCalGas, providing a uniform engagement platform for the HVAC supply chain.6"
+      ],
+      "utility": "PG&E",
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Golden State Rebates (Statewide Plug Load & Appliances)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Lead Administrator: SDG&E 7",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Implementer: CLEAResult 6",
+      "section": null,
+      "description": "\"Golden State Rebates\" serves as the statewide midstream and retail partnership program. It is designed to capture savings from plug loads and appliances, which constitute a significant and growing portion of residential energy use.",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Program Mechanics:",
+      "section": null,
+      "description": "The program utilizes an online portal where customers of any participating IOU can verify eligibility and download instant rebate coupons. These coupons can be redeemed at participating brick-and-mortar retailers (e.g., Home Depot, Lowe's, Best Buy) or applied during checkout at online marketplaces. This mechanism eliminates the friction of post-purchase mail-in rebates, significantly increasing participation rates.7",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Eligible Measures:",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "The program focuses on high-volume consumer products. Current eligible measures include:",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Smart Thermostats: Incentivizing devices that can participate in demand response events.",
+      "section": null,
+      "description": "Heat Pump Water Heaters (HPWH): A key decarbonization technology, with significant incentives to encourage fuel switching from gas.",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Gas Storage Water Heaters: High-efficiency units for customers unable to electrify.",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Room Air Conditioners: Promoting high-efficiency window units.",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Clothes Washers: Incentivizing energy and water-efficient models.9",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "California Foodservice Instant Rebates (Statewide Point-of-Sale)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Lead Administrator: Southern California Gas Company (SoCalGas) 10",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Implementer: Energy Solutions 10",
+      "section": null,
+      "description": "This program targets the commercial foodservice sector, which is notoriously energy-intensive due to cooking, refrigeration, and sanitation loads. The \"California Foodservice Instant Rebates\" program provides Point-of-Sale (POS) rebates to commercial customers purchasing qualifying equipment.",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Market Strategy:",
+      "section": null,
+      "description": "By providing the rebate instantly at the dealer invoice level, the program addresses the capital constraints often faced by restaurants and foodservice operators. It mitigates the \"sticker shock\" of high-efficiency equipment, making the return on investment (ROI) immediately attractive. The program engages a network of equipment dealers and manufacturers to promote eligible products.10",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Eligible Equipment:",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "The portfolio includes natural gas and electric commercial kitchen equipment such as:",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Commercial Ovens (Convection, Combi, Conveyor)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Commercial Fryers and Griddles",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Steam Cookers",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Commercial Dishwashers",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Ice Machines",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Refrigerators and Freezers.10",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Statewide Midstream Water Heating Program",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Lead Administrator: SoCalGas 11",
+      "section": null,
+      "description": "This program targets commercial water heating, a major load for sectors like hospitality, healthcare, and multifamily housing. Similar to the HVAC program, it engages expert distributors to offer incentives at the point of sale. By working with the supply chain, the program ensures that high-efficiency water heaters are available and competitively priced when facility managers face urgent replacement scenarios.11",
+      "details": [
+        "Implementer: Not explicitly stated (likely Energy Solutions or CLEAResult based on similar midstream structures)"
+      ],
+      "utility": null,
+      "implementer": "CLEAResult",
+      "category": null
+    },
+    {
+      "name": "2.2 Statewide Market Transformation & Technical Assistance",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "California Energy Design Assistance (CEDA)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Implementer: Willdan 11",
+      "section": null,
+      "description": "CEDA is a technical assistance program serving the new construction and major renovation market. It replaces the legacy \"Savings By Design\" program. CEDA offers complimentary, comprehensive energy modeling and analysis to design teams during the early schematic and design development phases.",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Program Logic:",
+      "section": null,
+      "description": "The most cost-effective time to influence a building's energy performance is during the design phase. CEDA encourages \"Whole Building\" optimization rather than piecemeal efficiency. By modeling various design iterations, the program helps owners visualize the long-term operational savings of investing in high-performance envelopes, HVAC systems, and lighting.",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Target Sectors:",
+      "section": null,
+      "description": "The program is available for Commercial, Public, Industrial, Agricultural, and High-Rise Multifamily (4 stories and higher) projects across all IOU territories.12",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "CalNEXT (Electric Emerging Technologies)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Description:",
+      "section": null,
+      "description": "CalNEXT is the statewide electric emerging technologies program. Its mandate is to identify, test, and validate new technologies that are not yet widely adopted or ready for full-scale incentive programs. It focuses on decarbonization, load flexibility, and grid priorities. The program funds technology assessments and pilot projects to build the evidence base required for new measures to be included in the California Electronic Technical Reference Manual (eTRM).11",
+      "details": [
+        "3. Pacific Gas & Electric (PG&E) Portfolio Analysis",
+        "PG&E serves a vast and diverse territory in Northern and Central California. Its 2024-2025 portfolio reflects a mature transition to the third-party model, with highly specialized implementers assigned to distinct industry verticals."
+      ],
+      "utility": "PG&E",
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "3.1 Third-Party Commercial & Industrial Programs",
+      "section": null,
+      "description": "PG&E has segmented its commercial and industrial market into specific verticals, assigning a dedicated third-party implementer to each. This strategy allows for deep technical specialization and relationship-based sales.",
+      "details": [],
+      "utility": "PG&E",
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Deep Dive: Healthcare Energy Fitness Initiative (HEFI)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Implementer: Resource Innovations 13",
+      "section": null,
+      "description": "Incentive Structure: HEFI employs a hybrid incentive structure combining deemed rebates for standard equipment with calculated incentives for custom projects.",
+      "details": [
+        "Peak Demand Incentives: The program places a premium on peak demand reduction, offering up to $150 per peak kW reduced."
+      ],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Energy Incentives: Usage reduction is incentivized at rates around $0.12 per kWh.",
+      "section": null,
+      "description": "Measure Scope: The program covers HVAC retrofits, chiller replacements, cooling tower optimization, pump/motor upgrades (VFDs), and medical-specific equipment like MRI cooling systems.13",
+      "details": [
+        "Project Support: HEFI provides end-to-end support, from the initial no-cost energy audit to the final verification report. This is critical for healthcare facilities where facility managers are often resource-constrained.14"
+      ],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Deep Dive: Industrial Systems Optimization Program (ISOP)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Implementer: Cascade Energy 16",
+      "section": null,
+      "description": "Methodology: ISOP utilizes the Strategic Energy Management (SEM) framework. Rather than viewing energy efficiency as a series of isolated projects, SEM treats energy management as a continuous improvement process similar to quality or safety management.",
+      "details": [
+        "Incentives: ISOP offers performance-based incentives up to $0.20/kWh and $2.50/therm, capped at 50% of project costs or $500,000 per project.",
+        "Service Delivery: The program includes \"Treasure Hunts\" where Cascade engineers work alongside facility staff to identify low-cost/no-cost operational changes (e.g., turning off idling equipment, fixing compressed air leaks, optimizing refrigeration setpoints).17"
+      ],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "3.2 Market Access and Demand Response",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Measured Savings Program for Summer Reliability (MSSR)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Implementer: AESC (with Resource Innovations and Earth Advantage) 18",
+      "section": null,
+      "description": "This is PG&E's implementation of the Market Access Program (MAP). It is designed specifically to address grid reliability during the critical summer months.",
+      "details": [
+        "Aggregator Model: PG&E does not recruit customers directly for this. Instead, it contracts with a network of \"Aggregators\" (energy service companies, contractors, tech platforms).",
+        "Payment Mechanism: Aggregators are paid based on the Total System Benefit (TSB) of the savings they deliver, measured at the meter using Population-NMEC.",
+        "Grid Targeting: The program pays significantly higher rates for savings achieved during the \"Peak\" (4 PM - 7 PM) and \"Net Peak\" (7 PM - 9 PM) windows from June to October. This sends a price signal to the market to find and implement projects that reduce load during these specific times (e.g., automated demand response, precooling, HVAC efficiency).20",
+        "Eligibility: Commercial customers are eligible. Sites with solar PV are generally excluded to isolate the efficiency signal. Projects must target at least 10% energy savings to be viable.20"
+      ],
+      "utility": "PG&E",
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "3.3 Residential Sector Programs",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Home Energy Reports (HER)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Implementer: Oracle 21",
+      "section": null,
+      "description": "This behavioral program uses data analytics to send residential customers personalized reports comparing their energy usage to \"similar neighbors.\" The psychological nudge of social comparison has been proven to drive modest but consistent energy conservation (typically 1-2%). The program has evolved to include digital alerts and high-usage notifications.",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Multifamily Energy Savings Program (MESP)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Implementer: TRC Companies 22",
+      "section": null,
+      "description": "This third-party program replaces previous utility-run multifamily offerings. It serves properties with 5 or more units.",
+      "details": [
+        "Scope: MESP provides incentives for both in-unit measures (lighting, low-flow fixtures) and common area upgrades (central boilers, hallway lighting, circulation pumps).",
+        "Coordination: It explicitly coordinates with the Bay Area Regional Energy Network (BayREN) \"BAMBE\" program to prevent double-dipping while allowing stacking of complementary incentives where regulatory rules permit.23"
+      ],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "3.4 Public Sector Programs",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Government and K-12 (GK12) Program",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Implementer: Willdan 24",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "This program targets public schools and local government facilities.",
+      "section": null,
+      "description": "Integration with OBF: A key feature is the tight integration with On-Bill Financing. Since schools often lack capital budgets but have operational funds, the program structures projects so that the energy savings cover the OBF loan payments, resulting in a budget-neutral upgrade.",
+      "details": [
+        "Technical Assistance: Willdan acts as an extension of the district's facilities staff, providing engineering analysis and procurement support.24"
+      ],
+      "utility": null,
+      "implementer": "Willdan",
+      "category": null
+    },
+    {
+      "name": "3.5 PG&E Core Programs",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Despite the third-party mandate, PG&E retains administration of key core functions:",
+      "section": null,
+      "description": "Emerging Technologies (ET): PG&E continues to manage the assessment of new technologies to feed the portfolio pipeline.25",
+      "details": [
+        "Codes and Standards (C&S): PG&E leads the statewide advocacy for stricter Title 24 building codes and Title 20 appliance standards. This \"advocacy\" program claims savings based on the increased stringency of the codes they help enact.26",
+        "Energy Savings Assistance (ESA): (Detailed in Section 7.1) A massive, statutorily mandated program for low-income customers, managed internally but delivered through a network of contractors.27",
+        "4. Southern California Edison (SCE) Portfolio Analysis",
+        "SCE's portfolio serves a heavily populated and industrial region. Its third-party transition has resulted in a mix of broad sector-based programs and highly targeted niche offerings."
+      ],
+      "utility": "SCE",
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "4.1 Third-Party Commercial & Industrial Programs",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Deep Dive: Commercial Energy Efficiency Program (CEEP)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Implementer: Willdan 11",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Target: Commercial customers with >20 kW demand.",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Incentive Strategy: CEEP is designed to be flexible, offering three pathways:",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Deemed: Standard rebates for simple widgets (e.g., lighting, simple HVAC).",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Custom Calculated: For complex projects where savings must be modeled.",
+      "section": null,
+      "description": "NMEC: For whole-building retrofits where savings are verified at the meter.\nScope: The program explicitly targets diverse segments including Lodging, Restaurants, Retail, and Offices, acting as a \"catch-all\" for the general commercial sector.11",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Deep Dive: Public Energy Performance (PEP)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Implementer: CLEAResult 11",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Target: Schools, Universities, Local Governments, and Special Districts.",
+      "section": null,
+      "description": "Service Model: PEP combines technical assistance with financial incentives. Recognizing that public agencies often face complex procurement rules and long approval cycles, the program offers long-term engagement and planning support. It emphasizes \"holistic solutions,\" likely integrating efficiency with demand response and potential electrification opportunities.11",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "4.2 Residential Programs",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Residential Energy Solutions",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Implementer: Synergy Companies 11",
+      "section": null,
+      "description": "This program focuses on direct installation of measures. Synergy Companies often employs a \"neighborhood sweep\" or direct marketing approach to enroll customers for no-cost assessments.",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Measures: Smart thermostats, A/C tune-ups, duct sealing, and fan motor replacements.",
+      "section": null,
+      "description": "Target: General residential market, with potential overlaps or coordination with ESA for low-income households.",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "4.3 SCE Core Programs",
+      "section": null,
+      "description": "Local Government Partnerships: SCE maintains a network of partnerships with cities and counties to drive uptake of its third-party programs and support local Climate Action Plans.",
+      "details": [
+        "Building Electrification Pilots: SCE has been active in piloting solicitations specifically for building electrification (heat pumps), separate from the general efficiency portfolio, to test market readiness and workforce capabilities.28",
+        "5. San Diego Gas & Electric (SDG&E) Portfolio Analysis",
+        "SDG&E has adopted a unique naming convention, grouping its third-party programs under descriptive \"Service\" titles (e.g., \"Business Energy Solutions\")."
+      ],
+      "utility": "SDG&E",
+      "implementer": "Energy Solutions",
+      "category": null
+    },
+    {
+      "name": "5.1 Third-Party Commercial & Industrial Programs",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Deep Dive: GRID-MAP (Market Access Program)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Implementer: Mendota Group 2",
+      "section": null,
+      "description": "Concept: GRID-MAP is purely performance-based. It does not offer a fixed rebate list to customers. Instead, it pays \"Aggregators\" (contractors) for the value of the savings they generate.",
+      "details": [
+        "Incentive Tiers: The program pays significantly higher rates for savings that occur during grid-critical windows."
+      ],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Peak (4 PM - 7 PM June-Sept): Highest value.",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Net Peak (7 PM - 9 PM June-Sept): High value.",
+      "section": null,
+      "description": "Off-Peak: Lower value.\nThis structure drives aggregators to install measures that reduce air conditioning load or shift usage away from the evening ramp.29",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Deep Dive: Business Energy Solutions (BES)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Implementer: Willdan 30",
+      "section": null,
+      "description": "Rebate Structure: This program essentially functions as a \"free\" or \"low cost\" equipment upgrade service for small businesses.",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Measures: The catalog includes \"No Co-pay\" items such as:",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Refrigeration: Anti-sweat heater controls, suction pipe insulation, auto-closers for cooler doors.",
+      "section": null,
+      "description": "HVAC: Variable Frequency Drives (VFDs) for HVAC fans, software-controlled ventilation fans, and occupancy fan controllers.",
+      "details": [
+        "Water Saving: Pre-rinse spray valves.31\nThe \"No Co-pay\" model is critical for the small business sector, where capital for efficiency is virtually non-existent."
+      ],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "5.2 Equity and Hard-to-Reach Programs",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Small Business Saver (SBS)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Implementer: Resource Innovations 5",
+      "section": null,
+      "description": "This program is specifically carved out to serve \"Equity\" customers-businesses located in Disadvantaged Communities (DACs) or designated as Hard-to-Reach (HTR).",
+      "details": [
+        "Offerings: It provides no-cost assessments and installations, similar to BES but with enhanced eligibility and outreach focused on underserved neighborhoods.",
+        "Partnerships: It leverages local partnerships with subcontractor Environmental Innovations and the California Green Business Network to build trust in these communities.5",
+        "Financial barriers-specifically the lack of upfront capital-remain the single largest impediment to energy efficiency. California utilities deploy three primary mechanisms to bridge this gap."
+      ],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "6.1 On-Bill Financing (OBF)",
+      "section": null,
+      "description": "OBF is a utility-administered loan program that is arguably the most attractive financing option for business customers.",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Lender: The Utility (PG&E, SCE, or SDG&E) acts as the lender, using ratepayer funds.",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Interest Rate: 0% (Interest-Free).33",
+      "section": null,
+      "description": "Repayment Mechanism: The loan is repaid through a line item on the customer's monthly utility bill. Crucially, the program is designed to be \"Bill Neutral\"-the monthly loan payment is calculated to be less than or equal to the estimated monthly energy savings from the project.",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Loan Terms:",
+      "section": null,
+      "description": "Maximums: Varies by utility but typically up to $100,000 or $250,000 for standard businesses, and up to $1,000,000 or more for government agencies.34",
+      "details": [
+        "Term Length: Linked to the payback period of the project, typically capped at 5-10 years (longer for government).",
+        "Eligibility: Available to Commercial, Industrial, Agricultural, and Government customers. It requires the installation of qualified energy efficiency measures. Residential customers are generally not eligible for OBF.35"
+      ],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "6.2 On-Bill Repayment (OBR)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Often confused with OBF, OBR is fundamentally different.",
+      "section": null,
+      "description": "Lender: Private third-party lenders (banks, credit unions). The utility only acts as the billing agent.",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Interest Rate: Set by the lender based on the borrower's creditworthiness (market rates).",
+      "section": null,
+      "description": "Advantage: While it carries interest, OBR can fund a broader range of projects (including non-energy measures in some cases) and has higher lending limits than OBF.36",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "6.3 GoGreen Financing",
+      "section": null,
+      "description": "Administered by the California Alternative Energy and Advanced Transportation Financing Authority (CAEATFA), GoGreen is a state-backed platform.",
+      "details": [
+        "GoGreen Business: offers loans up to $5 million for small businesses. It uses a credit enhancement (loss reserve) to encourage private lenders to offer better terms to borrowers who might otherwise not qualify.37",
+        "GoGreen Home: The primary financing vehicle for residential customers. It allows homeowners to finance upgrades like HVAC, windows, and water heaters with extended terms, keeping monthly payments low.38"
+      ],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "7.1 Residential Sector",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "The residential sector is served primarily through a bifurcated approach:",
+      "section": null,
+      "description": "Statewide Midstream (Golden State Rebates): Captures the \"market rate\" customers buying appliances at retail.",
+      "details": [
+        "Equity/Direct Install: Programs like Home Performance Plus (SCE) and ESA (Statewide) target low-income and DAC households."
+      ],
+      "utility": "SCE",
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Core Program Deep Dive: Energy Savings Assistance (ESA)",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "ESA is a statutory \"Core\" program available across all IOUs.",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Eligibility: Household income must be at or below 200% of the Federal Poverty Guidelines.",
+      "section": null,
+      "description": "Measures: It provides no-cost weatherization (insulation, caulking), appliance replacement (refrigerators, washing machines), and health/safety measures.",
+      "details": [
+        "Implementation: While utility-administered, the actual work is performed by a vast network of local contractors and community-based organizations (CBOs).",
+        "Scale: This is one of the largest efficiency programs in the country, treating hundreds of thousands of homes annually.27"
+      ],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "7.2 Commercial Sector",
+      "section": null,
+      "description": "The commercial sector has seen the most dramatic shift to third-party specialization. The days of a generic \"Commercial Rebate Application\" from the utility are fading. Instead, a hospital is directed to HEFI, a school to PEP, and a grocery store to CoolSave.",
+      "details": [
+        "Trend: The integration of NMEC is strongest here. For large commercial buildings, \"Whole Building\" pay-for-performance is replacing measure-level rebates. This accounts for the interactive effects of systems (e.g., how efficient lighting reduces cooling load)."
+      ],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "7.3 Industrial & Agricultural Sector",
+      "section": null,
+      "description": "",
+      "details": [],
+      "utility": null,
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "This sector is characterized by high energy intensity and process-specific loads.",
+      "section": null,
+      "description": "Strategic Energy Management (SEM): Programs like ISOP (PG&E) and SPARKe (SCE) are dominant. Industrial facilities often have complex systems where capital retrofits are expensive and disruptive. SEM provides a non-intrusive way to save energy through operational tuning (e.g., fixing compressed air leaks, optimizing refrigeration sequencing).",
+      "details": [
+        "Custom Projects: For major capital upgrades (e.g., replacing a large boiler or chiller), Site-Level NMEC is the preferred measurement tool, as it allows for adjustments based on production volume-critical for factories where energy use tracks with output.17",
+        "The transition to the third-party model has elevated a group of specialized firms into critical roles within California's energy grid.",
+        "Resource Innovations: A dominant player in the \"high complexity\" commercial space (Healthcare, High-Tech) and Equity programs. Their portfolio suggests a strong capability in engineering-intensive program delivery.",
+        "Willdan: Holds a massive footprint in the Public Sector (Schools/Gov) and small business Direct Install (BES). Their vertical integration (engineering + implementation) fits well with the \"turnkey\" needs of these sectors.",
+        "TRC Companies: Strong presence in the Industrial and Agricultural sectors, as well as specialized retail (Grocery). Their programs often involve deep technical engagement.",
+        "Cascade Energy: The clear leader in Industrial SEM and Refrigeration. Their \"Treasure Hunt\" methodology is a branded staple of their industrial programs.",
+        "CLEAResult: The behemoth of \"broad reach\" programs. They run the massive Statewide Upstream HVAC and Plug Load programs, leveraging their national supply chain relationships.",
+        "AESC: Occupies a technical niche in \"Meter-Based\" programs (Market Access) and highly technical sectors like Wastewater.",
+        "Mendota Group: Specifically notable for pioneering the \"Market Access\" aggregator model in SDG&E territory.",
+        "The 2024-2025 California energy efficiency landscape is a sophisticated, segmented marketplace. The \"one-size-fits-all\" utility rebate has been largely replaced by a diverse ecosystem of third-party implementers, each targeting specific customer verticals with tailored engineering and financial solutions.",
+        "The regulatory pivot to Total System Benefit (TSB) and NMEC has fundamentally changed the incentives. The market is now driven to find not just any energy savings, but valuable energy savings-those that occur during summer peaks and contribute to grid reliability. For customers, this means access to more specialized expertise (e.g., a hospital talking to a healthcare energy expert rather than a general utility rep) and more flexible performance-based incentives. For the grid, it promises a more reliable, responsive demand side resource that can be verified at the meter.",
+        "The success of this portfolio relies on the effective coordination between these diverse third parties and the core utility functions. With financing mechanisms like On-Bill Financing serving as the lubricant for capital projects, and Statewide Upstream programs handling the volume of equipment sales, the structure is designed to attack barriers to efficiency from multiple angles simultaneously."
+      ],
+      "utility": "SDG&E",
+      "implementer": "CLEAResult",
+      "category": null
+    },
+    {
+      "name": "Works cited",
+      "section": null,
+      "description": "Energy Efficiency Third-Party Solicitations | San Diego Gas & Electric, accessed December 11, 2025, https://www.sdge.com/more-information/doing-business-with-us/energy-efficiency-third-party-solicitations",
+      "details": [
+        "SDG&E GRID-Lodging Home - Mendota Group, LLC, accessed December 11, 2025, https://mendotagroup.com/sdge-grid-lodging/",
+        "SDG&E SRMAP - California Public Utilities Commission, accessed December 11, 2025, https://www.cpuc.ca.gov/-/media/cpuc-website/divisions/energy-division/documents/energy-efficiency/market-access-program/implementation-plan/sdge-implementation_plan_v1.pdf",
+        "pacific gas and electric company energy efficiency 2024 business-portfolio plan pg&e energy efficiency - California Public Utilities Commission Online Documents, accessed December 11, 2025, https://docs.cpuc.ca.gov/PublishedDocs/SupDoc/A2202005/4533/452751516.pdf",
+        "SDGE - R.25-04-010 EE Annual Report 2024 Final, accessed December 11, 2025, https://www.sdge.com/sites/default/files/documents/2025-06/R.25-04-010%20EE%20Annual%20Report%202024%20Final.pdf",
+        "SDGE 2023 EE Programs Annual Report - California Energy Commission : e-filing, accessed December 11, 2025, https://efiling.energy.ca.gov/GetDocument.aspx?tn=263288&DocumentContentId=99898"
+      ],
+      "utility": "SDG&E",
+      "implementer": null,
+      "category": null
+    },
+    {
+      "name": "Rebates | San Diego Gas & Electric, accessed December 11, 2025, https://www.sdge.com/rebates",
+      "section": null,
+      "description": "Golden State Rebates | Home - CLEAResult, accessed December 11, 2025, https://goldenstaterebates.clearesult.com/",
+      "details": [
+        "Residential Energy Programs and Rebates for Bay Area Residents, accessed December 11, 2025, https://www.bayren.org/find-incentives",
+        "BEFORE THE PUBLIC UTILITIES COMMISSION OF THE STATE OF CALIFORNIA Order Instituting Rulemaking for Oversight of Energy Efficienc - Socalgas, accessed December 11, 2025, https://www.socalgas.com/sites/default/files/2025-06/2025_SoCalGas-2024_EE-Annual-Report_New.pdf",
+        "Third-Party Energy Efficiency (EE) Programs in SCE's Service Territory, accessed December 11, 2025, https://www.sce.com/partners/3rd-party-energy-providers",
+        "California Energy Design Assistance Program - Willdan, accessed December 11, 2025, https://www.willdan.com/programs/ceda",
+        "PG&E TERRITORY - Willdan, accessed December 11, 2025, https://willdan.com/programs/heep%20pge%20insert.pdf",
+        "Healthcare Energy Fitness - EEprograms, accessed December 11, 2025, https://eeprograms.com/healthcare-energy-fitness/",
+        "PG&E Health Care Energy Efficiency Program - Willdan, accessed December 11, 2025, https://willdan.com/programs/heep-pge",
+        "Business Energy Efficiency Rebates and Incentives | PG&E, accessed December 11, 2025, https://www.pge.com/en/save-energy-and-money/rebates-and-incentives/business-energy-efficiency-rebates.html",
+        "Industrial Systems Optimization Program - PGE, accessed December 11, 2025, https://www.pge.com/assets/pge/docs/save-energy-and-money/rebate-and-incentives/PGE-ISOP-Overview-Cascade.pdf",
+        "RI Joins Forces with Energy Firms for PG&E Measured Savings - Resource Innovations, accessed December 11, 2025, https://www.resource-innovations.com/resource/resource-innovations-joins-forces-with-leading-energy-firms-to-launch-pg-es-measured-savings-program",
+        "Measured Savings Program for Summer Reliability - AESC Inc, accessed December 11, 2025, https://aesc-inc.com/measured-savings-program-for-summer-reliability/",
+        "Measured Savings Program for Summer Reliability (MSSR) Available Now for Commercial and Public Agency PG&E Customers! - Sierra Business Council, accessed December 11, 2025, https://www.sierrabusiness.org/archives/measured-savings-program-for-summer-reliability-mssr-available-now-for-commercial-and-public-agency-pge-customers/",
+        "2020 Energy Efficiency Annual Report of Pacific Gas and Electric Company (U 39 M) - California Public Utilities Commission Online Documents, accessed December 11, 2025, https://docs.cpuc.ca.gov/PublishedDocs/Efile/G000/M382/K617/382617858.PDF",
+        "2023 JOINT COOPERATION MEMO PACIFIC GAS AND ELECTRIC COMPANY BAY AREA REGIONAL ENERGY NETWORK, accessed December 11, 2025, https://www.bayren.org/sites/default/files/2022-05/2023%20BayREN%20PGE%20JCM%20Final_0.pdf",
+        "MCE and PG&E Joint Cooperation Memo, accessed December 11, 2025, https://www.pge.com/assets/pge/docs/about/doing-business-with-pge/MCE_Joint_Cooperation_Memo.pdf",
+        "PG&E Government and K-12 Energy Efficiency Program - Willdan, accessed December 11, 2025, https://www.willdan.com/programs/pge-gk12",
+        "Emerging Electric Technology Programs | PG&E, accessed December 11, 2025, https://www.pge.com/en/about/corporate-responsibility-and-sustainability/taking-responsibility/emerging-electric-technology-programs.html",
+        "Pacific Gas & Electric Company ELC (Corp ID 39) Status of Advice Letter 4259G/5850E Disposition: Effective Date: Accepted 07, accessed December 11, 2025, https://www.pge.com/tariffs/assets/pdf/adviceletter/GAS_4259-G.pdf",
+        "BEFORE THE PUBLIC UTILITIES COMMISSION OF THE STATE OF CALIFORNIA Application of Pacific Gas and Electric Company for Approval o, accessed December 11, 2025, https://liob.cpuc.ca.gov/wp-content/uploads/sites/14/2024/06/A.19-11-003_PGE-ESA-CARE-2023-Annual-Report_5-1-2024.pdf",
+        "Energy Savings Assistance Program Solicitations - SCE, accessed December 11, 2025, https://www.sce.com/partners/ESA-solicitations",
+        "Market Access Program (MAP) Aggregators | San Diego Gas & Electric, accessed December 11, 2025, https://www.sdge.com/residential/savings-center/energy-saving-programs/market-access-program-aggregators",
+        "SDG&E Business Energy Solutions Program - Willdan, accessed December 11, 2025, https://www.willdan.com/programs/bes-sdge",
+        "SDG&E's Business Energy Solutions Program 2025 Product ... - SDGE, accessed December 11, 2025, https://www.sdge.com/sites/default/files/documents/2025-03/Final%202025%20BES%20Catalog_v1_03102025.pdf?nid=?13611",
+        "Small Business Saver | Reduce your SDG&E energy bill, accessed December 11, 2025, https://smallbusinesssaver.net/",
+        "On-Bill Financing Terms and Conditions - SCE, accessed December 11, 2025, https://www.sce.com/terms-conditions/on-bill-financing-terms-conditions",
+        "Guide to On-Bill Financing option - SDGE, accessed December 11, 2025, https://www.sdge.com/sites/default/files/documents/Guide-to-On-Bill-Financing%20.pdf",
+        "Two programs that can help your business customers finance their energy efficiency retrofits, accessed December 11, 2025, https://www.treasurer.ca.gov/caeatfa/cheef/sblp/resources/sbf-obf-flyer.pdf",
+        "On-Bill Loan Programs | US EPA, accessed December 11, 2025, https://www.epa.gov/statelocalenergy/bill-loan-programs",
+        "Energy Efficiency Financing (EEF) | PG&E, accessed December 11, 2025, https://www.pge.com/en/save-energy-and-money/energy-saving-programs/energy-efficiency-programs-for-businesses/energy-efficiency-financing.html",
+        "Financing Options | San Diego Gas & Electric, accessed December 11, 2025, https://www.sdge.com/residential/savings-center/rebates/financing-options",
+        "ESA Program (Single Family Mobile Home) Implementer and Contractor List | PGE, accessed December 11, 2025, https://www.pge.com/assets/pge/docs/save-energy-and-money/energy-savings-programs/esa-contractor-implementer-list.pdf"
+      ],
+      "utility": "PG&E",
+      "implementer": "Energy Solutions",
+      "category": null
+    }
+  ],
+  "full_text": "California Energy Efficiency Market Report: 2024-2025 Comprehensive Analysis\n\nExecutive Summary\n\nThe California energy efficiency (EE) sector is currently navigating a period of profound structural transformation, driven by aggressive decarbonization goals, grid reliability imperatives, and a regulatory shift toward third-party program implementation. This report provides an exhaustive analysis of the Energy Efficiency portfolios for the state's Investor-Owned Utilities (IOUs): Pacific Gas and Electric (PG&E), Southern California Edison (SCE), San Diego Gas & Electric (SDG&E), and Southern California Gas Company (SoCalGas). The analysis encompasses both the burgeoning ecosystem of third-party implemented programs-mandated to comprise at least 60% of the portfolio-and the enduring utility-administered \"core\" programs that provide foundational support to the market.\n\nThe 2024-2025 program cycle represents a departure from traditional \"widget-based\" rebate programs toward sophisticated, performance-based interventions. The market is increasingly characterized by the adoption of Normalized Metered Energy Consumption (NMEC) methodologies, which tie financial incentives to verified energy savings at the meter rather than engineering estimates. Furthermore, the regulatory metric of \"Total System Benefit\" (TSB) has redefined value, prioritizing energy savings that occur during peak grid stress intervals and contribute to greenhouse gas (GHG) reductions. This report details the specific programs, incentive structures, rebate catalogs, and financing mechanisms available to California ratepayers, offering a nuanced evaluation of the current landscape.\n\n1. Regulatory Framework and Market Transformation\n\n1.1 The Third-Party Implementation Mandate\n\nThe fundamental architecture of California's energy efficiency market has been reshaped by the California Public Utilities Commission (CPUC) Decisions 15-10-028 and 16-08-019. These rulings mandated a transition from utility-run programs to a model where independent third parties propose, design, and implement the majority of the portfolio. By 2022, the IOUs were required to outsource at least 60% of their energy efficiency budgets to these third-party entities.1\n\nThis policy aims to spur innovation by allowing specialized firms-ranging from engineering consultancies to software-as-a-service providers-to design programs tailored to specific market niches, such as healthcare facilities, wastewater treatment plants, or high-tech campuses. Under this model, the utilities function as Program Administrators (PAs), overseeing contracts and high-level strategy, but are prohibited from managing day-to-day delivery or interfering with the program design once solicited.1 This separation of roles creates a competitive marketplace where implementers are held accountable for performance, often through pay-for-performance contract structures.\n\n1.2 The Shift to Meter-Based Savings (NMEC)\n\nA critical technical evolution in the current portfolio is the widespread adoption of Normalized Metered Energy Consumption (NMEC). Unlike \"deemed\" savings, which rely on pre-calculated average savings values for specific equipment (e.g., a standard LED light bulb saves $X$ kWh/year), NMEC measures savings at the customer's meter. This approach accounts for the complex interactions between building systems and behavioral changes, providing a truer picture of grid impact.\n\nThere are two primary forms of NMEC currently deployed:\n\nSite-Level NMEC: utilized primarily for custom commercial and industrial projects. Savings are calculated by comparing pre- and post-installation meter data, adjusted for variables such as weather, occupancy, and production levels. This method is crucial for the industrial sector, where energy intensity varies wildly with production output.2\n\nPopulation-Level NMEC: utilized in \"Market Access Programs\" (MAP). This method aggregates savings across a large portfolio of similar customers (e.g., residential homes or small businesses). It allows aggregators to manage performance risk across a pool of projects, smoothing out the variability of individual sites.3\n\n1.3 Total System Benefit (TSB)\n\nThe CPUC has transitioned the primary performance metric from gross energy savings (kWh and therms) to Total System Benefit (TSB). TSB is a monetary value that reflects the lifecycle benefits of an energy efficiency measure, incorporating:\n\nAvoided Energy Costs: The value of electricity and gas not consumed.\n\nAvoided Capacity Costs: The value of reducing demand during peak intervals, deferring the need for new power plants or transmission upgrades.\n\nEnvironmental Benefits: The monetary value of reduced GHG emissions.\n\nThis shift incentivizes programs that deliver savings during high-value times-specifically the net peak hours of 4:00 PM to 9:00 PM in summer months-rather than programs that simply save energy at night or during low-demand periods.4 Consequently, program implementers are designing interventions that target load flexibility and peak demand reduction, aligning energy efficiency with grid reliability.\n\n2. Statewide Energy Efficiency Programs\n\nStatewide programs provide a unified interface for market actors that operate across multiple utility territories, such as manufacturers, distributors, and large retail chains. These programs are administered by a single \"Lead\" utility on behalf of the statewide consortium, ensuring consistent incentive levels and eligibility requirements.\n\n2.1 Upstream and Midstream Initiatives\n\nComfortably California (Statewide Upstream HVAC)\n\nLead Administrator: San Diego Gas & Electric (SDG&E) 5\n\nImplementer: CLEAResult 6\n\nThe \"Comfortably California\" program represents the primary vehicle for high-efficiency HVAC incentives in the state. Operating as an \"upstream\" program, it engages directly with HVAC distributors rather than end-use customers or contractors. The program logic posits that by incentivizing distributors to stock and sell high-efficiency units, the market share of these units will increase naturally without requiring complex rebate applications from consumers.\n\nMechanism:\n\nDistributors receive financial incentives for every qualifying high-efficiency unit they sell to contractors. These incentives are intended to buy down the wholesale cost of the equipment, reducing the price premium associated with higher efficiency. This \"upsell\" strategy encourages contractors to offer better equipment to homeowners and businesses during emergency replacements, a critical decision point where efficiency is often sacrificed for speed and availability.6\n\nScope:\n\nThe program covers both residential and commercial HVAC technologies, including unitary air conditioners, heat pumps, and variable refrigerant flow (VRF) systems. It serves the territories of PG&E, SCE, SDG&E, and SoCalGas, providing a uniform engagement platform for the HVAC supply chain.6\n\nGolden State Rebates (Statewide Plug Load & Appliances)\n\nLead Administrator: SDG&E 7\n\nImplementer: CLEAResult 6\n\n\"Golden State Rebates\" serves as the statewide midstream and retail partnership program. It is designed to capture savings from plug loads and appliances, which constitute a significant and growing portion of residential energy use.\n\nProgram Mechanics:\n\nThe program utilizes an online portal where customers of any participating IOU can verify eligibility and download instant rebate coupons. These coupons can be redeemed at participating brick-and-mortar retailers (e.g., Home Depot, Lowe's, Best Buy) or applied during checkout at online marketplaces. This mechanism eliminates the friction of post-purchase mail-in rebates, significantly increasing participation rates.7\n\nEligible Measures:\n\nThe program focuses on high-volume consumer products. Current eligible measures include:\n\nSmart Thermostats: Incentivizing devices that can participate in demand response events.\n\nHeat Pump Water Heaters (HPWH): A key decarbonization technology, with significant incentives to encourage fuel switching from gas.\n\nGas Storage Water Heaters: High-efficiency units for customers unable to electrify.\n\nRoom Air Conditioners: Promoting high-efficiency window units.\n\nClothes Washers: Incentivizing energy and water-efficient models.9\n\nCalifornia Foodservice Instant Rebates (Statewide Point-of-Sale)\n\nLead Administrator: Southern California Gas Company (SoCalGas) 10\n\nImplementer: Energy Solutions 10\n\nThis program targets the commercial foodservice sector, which is notoriously energy-intensive due to cooking, refrigeration, and sanitation loads. The \"California Foodservice Instant Rebates\" program provides Point-of-Sale (POS) rebates to commercial customers purchasing qualifying equipment.\n\nMarket Strategy:\n\nBy providing the rebate instantly at the dealer invoice level, the program addresses the capital constraints often faced by restaurants and foodservice operators. It mitigates the \"sticker shock\" of high-efficiency equipment, making the return on investment (ROI) immediately attractive. The program engages a network of equipment dealers and manufacturers to promote eligible products.10\n\nEligible Equipment:\n\nThe portfolio includes natural gas and electric commercial kitchen equipment such as:\n\nCommercial Ovens (Convection, Combi, Conveyor)\n\nCommercial Fryers and Griddles\n\nSteam Cookers\n\nCommercial Dishwashers\n\nIce Machines\n\nRefrigerators and Freezers.10\n\nStatewide Midstream Water Heating Program\n\nLead Administrator: SoCalGas 11\n\nImplementer: Not explicitly stated (likely Energy Solutions or CLEAResult based on similar midstream structures)\n\nThis program targets commercial water heating, a major load for sectors like hospitality, healthcare, and multifamily housing. Similar to the HVAC program, it engages expert distributors to offer incentives at the point of sale. By working with the supply chain, the program ensures that high-efficiency water heaters are available and competitively priced when facility managers face urgent replacement scenarios.11\n\n2.2 Statewide Market Transformation & Technical Assistance\n\nCalifornia Energy Design Assistance (CEDA)\n\nImplementer: Willdan 11\n\nCEDA is a technical assistance program serving the new construction and major renovation market. It replaces the legacy \"Savings By Design\" program. CEDA offers complimentary, comprehensive energy modeling and analysis to design teams during the early schematic and design development phases.\n\nProgram Logic:\n\nThe most cost-effective time to influence a building's energy performance is during the design phase. CEDA encourages \"Whole Building\" optimization rather than piecemeal efficiency. By modeling various design iterations, the program helps owners visualize the long-term operational savings of investing in high-performance envelopes, HVAC systems, and lighting.\n\nTarget Sectors:\n\nThe program is available for Commercial, Public, Industrial, Agricultural, and High-Rise Multifamily (4 stories and higher) projects across all IOU territories.12\n\nCalNEXT (Electric Emerging Technologies)\n\nDescription:\n\nCalNEXT is the statewide electric emerging technologies program. Its mandate is to identify, test, and validate new technologies that are not yet widely adopted or ready for full-scale incentive programs. It focuses on decarbonization, load flexibility, and grid priorities. The program funds technology assessments and pilot projects to build the evidence base required for new measures to be included in the California Electronic Technical Reference Manual (eTRM).11\n\n3. Pacific Gas & Electric (PG&E) Portfolio Analysis\n\nPG&E serves a vast and diverse territory in Northern and Central California. Its 2024-2025 portfolio reflects a mature transition to the third-party model, with highly specialized implementers assigned to distinct industry verticals.\n\n3.1 Third-Party Commercial & Industrial Programs\n\nPG&E has segmented its commercial and industrial market into specific verticals, assigning a dedicated third-party implementer to each. This strategy allows for deep technical specialization and relationship-based sales.\n\nDeep Dive: Healthcare Energy Fitness Initiative (HEFI)\n\nImplementer: Resource Innovations 13\n\nIncentive Structure: HEFI employs a hybrid incentive structure combining deemed rebates for standard equipment with calculated incentives for custom projects.\n\nPeak Demand Incentives: The program places a premium on peak demand reduction, offering up to $150 per peak kW reduced.\n\nEnergy Incentives: Usage reduction is incentivized at rates around $0.12 per kWh.\n\nMeasure Scope: The program covers HVAC retrofits, chiller replacements, cooling tower optimization, pump/motor upgrades (VFDs), and medical-specific equipment like MRI cooling systems.13\n\nProject Support: HEFI provides end-to-end support, from the initial no-cost energy audit to the final verification report. This is critical for healthcare facilities where facility managers are often resource-constrained.14\n\nDeep Dive: Industrial Systems Optimization Program (ISOP)\n\nImplementer: Cascade Energy 16\n\nMethodology: ISOP utilizes the Strategic Energy Management (SEM) framework. Rather than viewing energy efficiency as a series of isolated projects, SEM treats energy management as a continuous improvement process similar to quality or safety management.\n\nIncentives: ISOP offers performance-based incentives up to $0.20/kWh and $2.50/therm, capped at 50% of project costs or $500,000 per project.\n\nService Delivery: The program includes \"Treasure Hunts\" where Cascade engineers work alongside facility staff to identify low-cost/no-cost operational changes (e.g., turning off idling equipment, fixing compressed air leaks, optimizing refrigeration setpoints).17\n\n3.2 Market Access and Demand Response\n\nMeasured Savings Program for Summer Reliability (MSSR)\n\nImplementer: AESC (with Resource Innovations and Earth Advantage) 18\n\nThis is PG&E's implementation of the Market Access Program (MAP). It is designed specifically to address grid reliability during the critical summer months.\n\nAggregator Model: PG&E does not recruit customers directly for this. Instead, it contracts with a network of \"Aggregators\" (energy service companies, contractors, tech platforms).\n\nPayment Mechanism: Aggregators are paid based on the Total System Benefit (TSB) of the savings they deliver, measured at the meter using Population-NMEC.\n\nGrid Targeting: The program pays significantly higher rates for savings achieved during the \"Peak\" (4 PM - 7 PM) and \"Net Peak\" (7 PM - 9 PM) windows from June to October. This sends a price signal to the market to find and implement projects that reduce load during these specific times (e.g., automated demand response, precooling, HVAC efficiency).20\n\nEligibility: Commercial customers are eligible. Sites with solar PV are generally excluded to isolate the efficiency signal. Projects must target at least 10% energy savings to be viable.20\n\n3.3 Residential Sector Programs\n\nHome Energy Reports (HER)\n\nImplementer: Oracle 21\n\nThis behavioral program uses data analytics to send residential customers personalized reports comparing their energy usage to \"similar neighbors.\" The psychological nudge of social comparison has been proven to drive modest but consistent energy conservation (typically 1-2%). The program has evolved to include digital alerts and high-usage notifications.\n\nMultifamily Energy Savings Program (MESP)\n\nImplementer: TRC Companies 22\n\nThis third-party program replaces previous utility-run multifamily offerings. It serves properties with 5 or more units.\n\nScope: MESP provides incentives for both in-unit measures (lighting, low-flow fixtures) and common area upgrades (central boilers, hallway lighting, circulation pumps).\n\nCoordination: It explicitly coordinates with the Bay Area Regional Energy Network (BayREN) \"BAMBE\" program to prevent double-dipping while allowing stacking of complementary incentives where regulatory rules permit.23\n\n3.4 Public Sector Programs\n\nGovernment and K-12 (GK12) Program\n\nImplementer: Willdan 24\n\nThis program targets public schools and local government facilities.\n\nIntegration with OBF: A key feature is the tight integration with On-Bill Financing. Since schools often lack capital budgets but have operational funds, the program structures projects so that the energy savings cover the OBF loan payments, resulting in a budget-neutral upgrade.\n\nTechnical Assistance: Willdan acts as an extension of the district's facilities staff, providing engineering analysis and procurement support.24\n\n3.5 PG&E Core Programs\n\nDespite the third-party mandate, PG&E retains administration of key core functions:\n\nEmerging Technologies (ET): PG&E continues to manage the assessment of new technologies to feed the portfolio pipeline.25\n\nCodes and Standards (C&S): PG&E leads the statewide advocacy for stricter Title 24 building codes and Title 20 appliance standards. This \"advocacy\" program claims savings based on the increased stringency of the codes they help enact.26\n\nEnergy Savings Assistance (ESA): (Detailed in Section 7.1) A massive, statutorily mandated program for low-income customers, managed internally but delivered through a network of contractors.27\n\n4. Southern California Edison (SCE) Portfolio Analysis\n\nSCE's portfolio serves a heavily populated and industrial region. Its third-party transition has resulted in a mix of broad sector-based programs and highly targeted niche offerings.\n\n4.1 Third-Party Commercial & Industrial Programs\n\nDeep Dive: Commercial Energy Efficiency Program (CEEP)\n\nImplementer: Willdan 11\n\nTarget: Commercial customers with >20 kW demand.\n\nIncentive Strategy: CEEP is designed to be flexible, offering three pathways:\n\nDeemed: Standard rebates for simple widgets (e.g., lighting, simple HVAC).\n\nCustom Calculated: For complex projects where savings must be modeled.\n\nNMEC: For whole-building retrofits where savings are verified at the meter.\nScope: The program explicitly targets diverse segments including Lodging, Restaurants, Retail, and Offices, acting as a \"catch-all\" for the general commercial sector.11\n\nDeep Dive: Public Energy Performance (PEP)\n\nImplementer: CLEAResult 11\n\nTarget: Schools, Universities, Local Governments, and Special Districts.\n\nService Model: PEP combines technical assistance with financial incentives. Recognizing that public agencies often face complex procurement rules and long approval cycles, the program offers long-term engagement and planning support. It emphasizes \"holistic solutions,\" likely integrating efficiency with demand response and potential electrification opportunities.11\n\n4.2 Residential Programs\n\nResidential Energy Solutions\n\nImplementer: Synergy Companies 11\n\nThis program focuses on direct installation of measures. Synergy Companies often employs a \"neighborhood sweep\" or direct marketing approach to enroll customers for no-cost assessments.\n\nMeasures: Smart thermostats, A/C tune-ups, duct sealing, and fan motor replacements.\n\nTarget: General residential market, with potential overlaps or coordination with ESA for low-income households.\n\n4.3 SCE Core Programs\n\nLocal Government Partnerships: SCE maintains a network of partnerships with cities and counties to drive uptake of its third-party programs and support local Climate Action Plans.\n\nBuilding Electrification Pilots: SCE has been active in piloting solicitations specifically for building electrification (heat pumps), separate from the general efficiency portfolio, to test market readiness and workforce capabilities.28\n\n5. San Diego Gas & Electric (SDG&E) Portfolio Analysis\n\nSDG&E has adopted a unique naming convention, grouping its third-party programs under descriptive \"Service\" titles (e.g., \"Business Energy Solutions\").\n\n5.1 Third-Party Commercial & Industrial Programs\n\nDeep Dive: GRID-MAP (Market Access Program)\n\nImplementer: Mendota Group 2\n\nConcept: GRID-MAP is purely performance-based. It does not offer a fixed rebate list to customers. Instead, it pays \"Aggregators\" (contractors) for the value of the savings they generate.\n\nIncentive Tiers: The program pays significantly higher rates for savings that occur during grid-critical windows.\n\nPeak (4 PM - 7 PM June-Sept): Highest value.\n\nNet Peak (7 PM - 9 PM June-Sept): High value.\n\nOff-Peak: Lower value.\nThis structure drives aggregators to install measures that reduce air conditioning load or shift usage away from the evening ramp.29\n\nDeep Dive: Business Energy Solutions (BES)\n\nImplementer: Willdan 30\n\nRebate Structure: This program essentially functions as a \"free\" or \"low cost\" equipment upgrade service for small businesses.\n\nMeasures: The catalog includes \"No Co-pay\" items such as:\n\nRefrigeration: Anti-sweat heater controls, suction pipe insulation, auto-closers for cooler doors.\n\nHVAC: Variable Frequency Drives (VFDs) for HVAC fans, software-controlled ventilation fans, and occupancy fan controllers.\n\nWater Saving: Pre-rinse spray valves.31\nThe \"No Co-pay\" model is critical for the small business sector, where capital for efficiency is virtually non-existent.\n\n5.2 Equity and Hard-to-Reach Programs\n\nSmall Business Saver (SBS)\n\nImplementer: Resource Innovations 5\n\nThis program is specifically carved out to serve \"Equity\" customers-businesses located in Disadvantaged Communities (DACs) or designated as Hard-to-Reach (HTR).\n\nOfferings: It provides no-cost assessments and installations, similar to BES but with enhanced eligibility and outreach focused on underserved neighborhoods.\n\nPartnerships: It leverages local partnerships with subcontractor Environmental Innovations and the California Green Business Network to build trust in these communities.5\n\n6. Financing and Market Support Mechanisms\n\nFinancial barriers-specifically the lack of upfront capital-remain the single largest impediment to energy efficiency. California utilities deploy three primary mechanisms to bridge this gap.\n\n6.1 On-Bill Financing (OBF)\n\nOBF is a utility-administered loan program that is arguably the most attractive financing option for business customers.\n\nLender: The Utility (PG&E, SCE, or SDG&E) acts as the lender, using ratepayer funds.\n\nInterest Rate: 0% (Interest-Free).33\n\nRepayment Mechanism: The loan is repaid through a line item on the customer's monthly utility bill. Crucially, the program is designed to be \"Bill Neutral\"-the monthly loan payment is calculated to be less than or equal to the estimated monthly energy savings from the project.\n\nLoan Terms:\n\nMaximums: Varies by utility but typically up to $100,000 or $250,000 for standard businesses, and up to $1,000,000 or more for government agencies.34\n\nTerm Length: Linked to the payback period of the project, typically capped at 5-10 years (longer for government).\n\nEligibility: Available to Commercial, Industrial, Agricultural, and Government customers. It requires the installation of qualified energy efficiency measures. Residential customers are generally not eligible for OBF.35\n\n6.2 On-Bill Repayment (OBR)\n\nOften confused with OBF, OBR is fundamentally different.\n\nLender: Private third-party lenders (banks, credit unions). The utility only acts as the billing agent.\n\nInterest Rate: Set by the lender based on the borrower's creditworthiness (market rates).\n\nAdvantage: While it carries interest, OBR can fund a broader range of projects (including non-energy measures in some cases) and has higher lending limits than OBF.36\n\n6.3 GoGreen Financing\n\nAdministered by the California Alternative Energy and Advanced Transportation Financing Authority (CAEATFA), GoGreen is a state-backed platform.\n\nGoGreen Business: offers loans up to $5 million for small businesses. It uses a credit enhancement (loss reserve) to encourage private lenders to offer better terms to borrowers who might otherwise not qualify.37\n\nGoGreen Home: The primary financing vehicle for residential customers. It allows homeowners to finance upgrades like HVAC, windows, and water heaters with extended terms, keeping monthly payments low.38\n\n7. Sector-Specific Analysis\n\n7.1 Residential Sector\n\nThe residential sector is served primarily through a bifurcated approach:\n\nStatewide Midstream (Golden State Rebates): Captures the \"market rate\" customers buying appliances at retail.\n\nEquity/Direct Install: Programs like Home Performance Plus (SCE) and ESA (Statewide) target low-income and DAC households.\n\nCore Program Deep Dive: Energy Savings Assistance (ESA)\n\nESA is a statutory \"Core\" program available across all IOUs.\n\nEligibility: Household income must be at or below 200% of the Federal Poverty Guidelines.\n\nMeasures: It provides no-cost weatherization (insulation, caulking), appliance replacement (refrigerators, washing machines), and health/safety measures.\n\nImplementation: While utility-administered, the actual work is performed by a vast network of local contractors and community-based organizations (CBOs).\n\nScale: This is one of the largest efficiency programs in the country, treating hundreds of thousands of homes annually.27\n\n7.2 Commercial Sector\n\nThe commercial sector has seen the most dramatic shift to third-party specialization. The days of a generic \"Commercial Rebate Application\" from the utility are fading. Instead, a hospital is directed to HEFI, a school to PEP, and a grocery store to CoolSave.\n\nTrend: The integration of NMEC is strongest here. For large commercial buildings, \"Whole Building\" pay-for-performance is replacing measure-level rebates. This accounts for the interactive effects of systems (e.g., how efficient lighting reduces cooling load).\n\n7.3 Industrial & Agricultural Sector\n\nThis sector is characterized by high energy intensity and process-specific loads.\n\nStrategic Energy Management (SEM): Programs like ISOP (PG&E) and SPARKe (SCE) are dominant. Industrial facilities often have complex systems where capital retrofits are expensive and disruptive. SEM provides a non-intrusive way to save energy through operational tuning (e.g., fixing compressed air leaks, optimizing refrigeration sequencing).\n\nCustom Projects: For major capital upgrades (e.g., replacing a large boiler or chiller), Site-Level NMEC is the preferred measurement tool, as it allows for adjustments based on production volume-critical for factories where energy use tracks with output.17\n\n8. Implementer Landscape Analysis\n\nThe transition to the third-party model has elevated a group of specialized firms into critical roles within California's energy grid.\n\nResource Innovations: A dominant player in the \"high complexity\" commercial space (Healthcare, High-Tech) and Equity programs. Their portfolio suggests a strong capability in engineering-intensive program delivery.\n\nWilldan: Holds a massive footprint in the Public Sector (Schools/Gov) and small business Direct Install (BES). Their vertical integration (engineering + implementation) fits well with the \"turnkey\" needs of these sectors.\n\nTRC Companies: Strong presence in the Industrial and Agricultural sectors, as well as specialized retail (Grocery). Their programs often involve deep technical engagement.\n\nCascade Energy: The clear leader in Industrial SEM and Refrigeration. Their \"Treasure Hunt\" methodology is a branded staple of their industrial programs.\n\nCLEAResult: The behemoth of \"broad reach\" programs. They run the massive Statewide Upstream HVAC and Plug Load programs, leveraging their national supply chain relationships.\n\nAESC: Occupies a technical niche in \"Meter-Based\" programs (Market Access) and highly technical sectors like Wastewater.\n\nMendota Group: Specifically notable for pioneering the \"Market Access\" aggregator model in SDG&E territory.\n\n9. Conclusion\n\nThe 2024-2025 California energy efficiency landscape is a sophisticated, segmented marketplace. The \"one-size-fits-all\" utility rebate has been largely replaced by a diverse ecosystem of third-party implementers, each targeting specific customer verticals with tailored engineering and financial solutions.\n\nThe regulatory pivot to Total System Benefit (TSB) and NMEC has fundamentally changed the incentives. The market is now driven to find not just any energy savings, but valuable energy savings-those that occur during summer peaks and contribute to grid reliability. For customers, this means access to more specialized expertise (e.g., a hospital talking to a healthcare energy expert rather than a general utility rep) and more flexible performance-based incentives. For the grid, it promises a more reliable, responsive demand side resource that can be verified at the meter.\n\nThe success of this portfolio relies on the effective coordination between these diverse third parties and the core utility functions. With financing mechanisms like On-Bill Financing serving as the lubricant for capital projects, and Statewide Upstream programs handling the volume of equipment sales, the structure is designed to attack barriers to efficiency from multiple angles simultaneously.\n\nWorks cited\n\nEnergy Efficiency Third-Party Solicitations | San Diego Gas & Electric, accessed December 11, 2025, https://www.sdge.com/more-information/doing-business-with-us/energy-efficiency-third-party-solicitations\n\nSDG&E GRID-Lodging Home - Mendota Group, LLC, accessed December 11, 2025, https://mendotagroup.com/sdge-grid-lodging/\n\nSDG&E SRMAP - California Public Utilities Commission, accessed December 11, 2025, https://www.cpuc.ca.gov/-/media/cpuc-website/divisions/energy-division/documents/energy-efficiency/market-access-program/implementation-plan/sdge-implementation_plan_v1.pdf\n\npacific gas and electric company energy efficiency 2024 business-portfolio plan pg&e energy efficiency - California Public Utilities Commission Online Documents, accessed December 11, 2025, https://docs.cpuc.ca.gov/PublishedDocs/SupDoc/A2202005/4533/452751516.pdf\n\nSDGE - R.25-04-010 EE Annual Report 2024 Final, accessed December 11, 2025, https://www.sdge.com/sites/default/files/documents/2025-06/R.25-04-010%20EE%20Annual%20Report%202024%20Final.pdf\n\nSDGE 2023 EE Programs Annual Report - California Energy Commission : e-filing, accessed December 11, 2025, https://efiling.energy.ca.gov/GetDocument.aspx?tn=263288&DocumentContentId=99898\n\nRebates | San Diego Gas & Electric, accessed December 11, 2025, https://www.sdge.com/rebates\n\nGolden State Rebates | Home - CLEAResult, accessed December 11, 2025, https://goldenstaterebates.clearesult.com/\n\nResidential Energy Programs and Rebates for Bay Area Residents, accessed December 11, 2025, https://www.bayren.org/find-incentives\n\nBEFORE THE PUBLIC UTILITIES COMMISSION OF THE STATE OF CALIFORNIA Order Instituting Rulemaking for Oversight of Energy Efficienc - Socalgas, accessed December 11, 2025, https://www.socalgas.com/sites/default/files/2025-06/2025_SoCalGas-2024_EE-Annual-Report_New.pdf\n\nThird-Party Energy Efficiency (EE) Programs in SCE's Service Territory, accessed December 11, 2025, https://www.sce.com/partners/3rd-party-energy-providers\n\nCalifornia Energy Design Assistance Program - Willdan, accessed December 11, 2025, https://www.willdan.com/programs/ceda\n\nPG&E TERRITORY - Willdan, accessed December 11, 2025, https://willdan.com/programs/heep%20pge%20insert.pdf\n\nHealthcare Energy Fitness - EEprograms, accessed December 11, 2025, https://eeprograms.com/healthcare-energy-fitness/\n\nPG&E Health Care Energy Efficiency Program - Willdan, accessed December 11, 2025, https://willdan.com/programs/heep-pge\n\nBusiness Energy Efficiency Rebates and Incentives | PG&E, accessed December 11, 2025, https://www.pge.com/en/save-energy-and-money/rebates-and-incentives/business-energy-efficiency-rebates.html\n\nIndustrial Systems Optimization Program - PGE, accessed December 11, 2025, https://www.pge.com/assets/pge/docs/save-energy-and-money/rebate-and-incentives/PGE-ISOP-Overview-Cascade.pdf\n\nRI Joins Forces with Energy Firms for PG&E Measured Savings - Resource Innovations, accessed December 11, 2025, https://www.resource-innovations.com/resource/resource-innovations-joins-forces-with-leading-energy-firms-to-launch-pg-es-measured-savings-program\n\nMeasured Savings Program for Summer Reliability - AESC Inc, accessed December 11, 2025, https://aesc-inc.com/measured-savings-program-for-summer-reliability/\n\nMeasured Savings Program for Summer Reliability (MSSR) Available Now for Commercial and Public Agency PG&E Customers! - Sierra Business Council, accessed December 11, 2025, https://www.sierrabusiness.org/archives/measured-savings-program-for-summer-reliability-mssr-available-now-for-commercial-and-public-agency-pge-customers/\n\n2020 Energy Efficiency Annual Report of Pacific Gas and Electric Company (U 39 M) - California Public Utilities Commission Online Documents, accessed December 11, 2025, https://docs.cpuc.ca.gov/PublishedDocs/Efile/G000/M382/K617/382617858.PDF\n\n2023 JOINT COOPERATION MEMO PACIFIC GAS AND ELECTRIC COMPANY BAY AREA REGIONAL ENERGY NETWORK, accessed December 11, 2025, https://www.bayren.org/sites/default/files/2022-05/2023%20BayREN%20PGE%20JCM%20Final_0.pdf\n\nMCE and PG&E Joint Cooperation Memo, accessed December 11, 2025, https://www.pge.com/assets/pge/docs/about/doing-business-with-pge/MCE_Joint_Cooperation_Memo.pdf\n\nPG&E Government and K-12 Energy Efficiency Program - Willdan, accessed December 11, 2025, https://www.willdan.com/programs/pge-gk12\n\nEmerging Electric Technology Programs | PG&E, accessed December 11, 2025, https://www.pge.com/en/about/corporate-responsibility-and-sustainability/taking-responsibility/emerging-electric-technology-programs.html\n\nPacific Gas & Electric Company ELC (Corp ID 39) Status of Advice Letter 4259G/5850E Disposition: Effective Date: Accepted 07, accessed December 11, 2025, https://www.pge.com/tariffs/assets/pdf/adviceletter/GAS_4259-G.pdf\n\nBEFORE THE PUBLIC UTILITIES COMMISSION OF THE STATE OF CALIFORNIA Application of Pacific Gas and Electric Company for Approval o, accessed December 11, 2025, https://liob.cpuc.ca.gov/wp-content/uploads/sites/14/2024/06/A.19-11-003_PGE-ESA-CARE-2023-Annual-Report_5-1-2024.pdf\n\nEnergy Savings Assistance Program Solicitations - SCE, accessed December 11, 2025, https://www.sce.com/partners/ESA-solicitations\n\nMarket Access Program (MAP) Aggregators | San Diego Gas & Electric, accessed December 11, 2025, https://www.sdge.com/residential/savings-center/energy-saving-programs/market-access-program-aggregators\n\nSDG&E Business Energy Solutions Program - Willdan, accessed December 11, 2025, https://www.willdan.com/programs/bes-sdge\n\nSDG&E's Business Energy Solutions Program 2025 Product ... - SDGE, accessed December 11, 2025, https://www.sdge.com/sites/default/files/documents/2025-03/Final%202025%20BES%20Catalog_v1_03102025.pdf?nid=?13611\n\nSmall Business Saver | Reduce your SDG&E energy bill, accessed December 11, 2025, https://smallbusinesssaver.net/\n\nOn-Bill Financing Terms and Conditions - SCE, accessed December 11, 2025, https://www.sce.com/terms-conditions/on-bill-financing-terms-conditions\n\nGuide to On-Bill Financing option - SDGE, accessed December 11, 2025, https://www.sdge.com/sites/default/files/documents/Guide-to-On-Bill-Financing%20.pdf\n\nTwo programs that can help your business customers finance their energy efficiency retrofits, accessed December 11, 2025, https://www.treasurer.ca.gov/caeatfa/cheef/sblp/resources/sbf-obf-flyer.pdf\n\nOn-Bill Loan Programs | US EPA, accessed December 11, 2025, https://www.epa.gov/statelocalenergy/bill-loan-programs\n\nEnergy Efficiency Financing (EEF) | PG&E, accessed December 11, 2025, https://www.pge.com/en/save-energy-and-money/energy-saving-programs/energy-efficiency-programs-for-businesses/energy-efficiency-financing.html\n\nFinancing Options | San Diego Gas & Electric, accessed December 11, 2025, https://www.sdge.com/residential/savings-center/rebates/financing-options\n\nESA Program (Single Family Mobile Home) Implementer and Contractor List | PGE, accessed December 11, 2025, https://www.pge.com/assets/pge/docs/save-energy-and-money/energy-savings-programs/esa-contractor-implementer-list.pdf"
+}

@@ -1,0 +1,46 @@
+schema_version: project_manifest/v1
+project_slug: hospital-metro-chiller-opt
+
+manual:
+  title: "Metro Hospital - Chiller Plant Optimization"
+  client:
+    name: "Metro Health"
+    industry: "healthcare"
+  site:
+    name: "Metro Hospital"
+    city: "Dallas"
+    state: "TX"
+  building_type: "hospital"
+  project_year: 2023
+  tags: ["chiller", "central-plant", "controls", "chw", "dp-reset"]
+  systems:
+    - system_type: "CHW"
+      description: "Central chiller plant (chillers, CHW pumps)"
+  measures:
+    - name: "Chiller plant optimization"
+      status: implemented
+      description: "CHWST reset + improved staging + DP reset"
+  assumptions:
+    notes: "24/7 operation; reset curves tuned to avoid comfort complaints."
+    kv:
+      chwst_min_f: 40
+      chwst_max_f: 48
+      baseline_year: 2022
+  calc_outputs:
+    annual_kwh_savings: 100000
+    kw_reduction: 120
+    annual_cost_savings_usd: 12000
+  confidence_overall: 0.8
+  implementation_notes: "Implemented in phases; required follow-up tuning."
+
+source_files:
+  - path: "ems-summary.md"
+    role: summary
+    description: "Human summary of EMS scope and control changes"
+  - path: "final-savings-calc.txt"
+    role: calc
+    description: "Final annual savings numbers used for audit reference"
+  - path: "implementation-notes.md"
+    role: other
+    description: "Best implementation notes and gotchas"
+

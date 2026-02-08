@@ -1,0 +1,518 @@
+{
+  "id": "compressed-air",
+  "title": "Compressed Air Systems",
+  "subtitle": "Complete Guide to Compressors, Leaks, Sequencing & Heat Recovery",
+  "description": "Comprehensive training on industrial/commercial compressed air systems: compressor types, VFD compressors, leak detection and repair, pressure optimization, air treatment, sequencing controls, and heat recovery. Includes sales strategies, field identification, and OBF-eligible measures.",
+  "icon": "🗜️",
+  "category": "compressed-air",
+  "order": 13,
+  "status": "published",
+  "metadata": {
+    "author": "EverWatt Engineering Team",
+    "lastUpdated": "2025-12-29",
+    "version": "1.0.0",
+    "estimatedTime": 195,
+    "difficulty": "intermediate",
+    "tags": ["compressed-air", "compressors", "leaks", "vfd", "sequencing", "heat-recovery"]
+  },
+  "sections": [
+    {
+      "id": "quick-overview",
+      "title": "Quick Overview",
+      "subtitle": "90-second skim + jump points",
+      "icon": "⚡",
+      "order": 0,
+      "metadata": {
+        "estimatedTime": 8,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "navigation", "sales", "field"]
+      },
+      "content": [
+        {
+          "id": "overview-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 3,
+          "cards": [
+            {
+              "title": "Fastest Win: Leak Repair",
+              "description": "Leaks are often 10–30% of compressed air production. Fixing them is usually the #1 ROI lever.",
+              "metadata": { "icon": "🕳️", "jumpTo": "leak-detection", "roles": ["sales", "engineer", "field"] }
+            },
+            {
+              "title": "Lower Pressure Saves",
+              "description": "Every 2 psi reduction often saves ~1% compressor energy (site-specific). Reduce setpoints safely.",
+              "metadata": { "icon": "📉", "jumpTo": "pressure-optimization", "roles": ["sales", "engineer"] }
+            },
+            {
+              "title": "Sequencing Matters",
+              "description": "Bad staging creates unloaded run time. Proper sequencing can cut energy 10–20%+.",
+              "metadata": { "icon": "🧠", "jumpTo": "controls-sequencing", "roles": ["engineer", "sales"] }
+            },
+            {
+              "title": "Heat Recovery is Real",
+              "description": "Most compressor input power becomes heat. Recover it for space/process water heating where feasible.",
+              "metadata": { "icon": "🔥", "jumpTo": "heat-recovery", "roles": ["engineer", "sales"] }
+            },
+            {
+              "title": "Field Signals",
+              "description": "Hissing sounds, high pressure setpoints, frequent cycling, always-on compressors, and wet air problems.",
+              "metadata": { "icon": "🔎", "jumpTo": "field-guide", "roles": ["field", "sales"] }
+            },
+            {
+              "title": "How to Sell It",
+              "description": "Lead with waste elimination (leaks + pressure) and reliability. Bundle controls and maintenance for persistence.",
+              "metadata": { "icon": "💰", "jumpTo": "sales-strategies", "roles": ["sales"] }
+            }
+          ]
+        },
+        {
+          "id": "overview-kpis",
+          "type": "table",
+          "order": 2,
+          "headers": ["KPI", "What it means", "Rule-of-thumb"],
+          "rows": [
+            ["kW/100 cfm", "Efficiency proxy", "Lower is better; compare before/after controls and pressure changes"],
+            ["System pressure (psi)", "Distribution setpoint", "Lower saves energy; maintain only what tools require"],
+            ["Unload time (%)", "Wasted compressor run time", "High unload time signals bad sequencing or oversizing"],
+            ["Leak rate (%)", "Air wasted via leaks", "10–30% common without a program; best practice < 10%"],
+            ["Dew point", "Dryness of air", "Match dryer type to requirements; avoid over-drying"],
+            ["ΔP across filters", "Restriction and energy loss", "High ΔP means clogged filters and higher compressor power"]
+          ],
+          "caption": "Compressed Air KPI Cheat Sheet"
+        },
+        {
+          "id": "overview-personas",
+          "type": "tabs",
+          "order": 3,
+          "tabs": [
+            {
+              "label": "💰 Sales",
+              "content": [
+                {
+                  "id": "overview-sales",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["sales"] },
+                  "content": "## Talk track (fast)\n\n- Compressed air is **expensive electricity** in disguise\n- Start with **leaks + pressure** (waste elimination)\n- Next: **sequencing** and reducing unloaded run time\n- Add heat recovery where there’s a good sink (space heat, process water)\n\n**One-liner:** \"We stop paying to compress air you never use—then optimize controls to keep savings permanent.\""
+                }
+              ]
+            },
+            {
+              "label": "🔧 Engineer",
+              "content": [
+                {
+                  "id": "overview-engineer",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["engineer"] },
+                  "content": "## What to verify (fast)\n\n- Compressor types and controls (load/unload, VFD)\n- Pressure setpoints and where pressure drops occur\n- Dryer type and dew point requirements\n- Unloaded run time and staging logic\n- End uses: which tools/processes truly need high pressure\n\n**Rule:** quantify baseload and leakage first; then redesign control/sequencing around true demand."
+                }
+              ]
+            },
+            {
+              "label": "🧰 Field",
+              "content": [
+                {
+                  "id": "overview-field",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["field"] },
+                  "content": "## What to capture on-site\n\n- Compressor nameplates, control panels, and setpoints\n- Pressure at compressor discharge and at farthest critical loads\n- Dryer type (refrigerated, desiccant) and condition\n- Evidence of leaks (audible), condensate drains, and filter ΔP\n- Run hours/cycling behavior if visible on controller"
+                }
+              ]
+            }
+          ]
+        }
+        ,
+        {
+          "id": "compressed-air-system-map",
+          "type": "interactive",
+          "order": 3.5,
+          "component": "compressed-air-system-map",
+          "config": {
+            "title": "Compressed Air System Map",
+            "subtitle": "Click each stage: what to look for, why it matters, and next actions"
+          }
+        }
+      ]
+    },
+    {
+      "id": "introduction",
+      "title": "Introduction & Fundamentals",
+      "subtitle": "Compressed air is one of the most expensive utilities",
+      "icon": "📚",
+      "order": 1,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "fundamentals", "sales"]
+      },
+      "content": [
+        {
+          "id": "intro-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Why Compressed Air Matters\n\nCompressed air is often called the **fourth utility** and is typically one of the **least efficient** ways to deliver energy.\n\nSavings levers fall into two buckets:\n\n1) **Reduce demand** (leaks, pressure, eliminate inappropriate uses)\n2) **Reduce supply energy** (sequencing, VFDs, better compressor selection, heat recovery)\n\nOperationally, compressed air is also a reliability system—bad moisture control and pressure instability cause downtime."
+        },
+        {
+          "id": "intro-quote",
+          "type": "quote",
+          "order": 2,
+          "quote": "The best compressor is the one that doesn’t run. Fix leaks and pressure first—then you’ll know what you actually need.",
+          "author": "Industrial Energy Engineer",
+          "role": "Compressed air assessment lead"
+        }
+      ]
+    },
+    {
+      "id": "compressor-types",
+      "title": "Compressor Types",
+      "subtitle": "Reciprocating, rotary screw, and centrifugal",
+      "icon": "⚙️",
+      "order": 2,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field"],
+        "tags": ["technology"]
+      },
+      "content": [
+        {
+          "id": "types-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Common compressor types\n\n- **Reciprocating**: good for intermittent loads, smaller systems\n- **Rotary screw**: common for continuous industrial loads\n- **Centrifugal**: large systems, steady loads\n\nKey concept: part-load behavior matters. Poor part-load efficiency or frequent unloading is a major waste signal."
+        },
+        {
+          "id": "types-table",
+          "type": "table",
+          "order": 2,
+          "headers": ["Type", "Best fit", "Watch-outs"],
+          "rows": [
+            ["Reciprocating", "Intermittent demand", "Maintenance and noise; less ideal for continuous baseload"],
+            ["Rotary screw", "Continuous/variable demand", "Unloaded operation wastes energy; controls matter"],
+            ["Centrifugal", "Large steady demand", "Surge control; sensitive to operating conditions"]
+          ],
+          "caption": "Compressor type fit guide"
+        }
+      ]
+    },
+    {
+      "id": "vfd-compressors",
+      "title": "VFD Compressors",
+      "subtitle": "Matching output to demand efficiently",
+      "icon": "🎚️",
+      "order": 3,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales"],
+        "tags": ["selection", "sales"]
+      },
+      "content": [
+        {
+          "id": "vfd-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Why VFD can help\n\nIf demand varies, a VFD compressor can reduce unloaded operation by modulating output.\n\nWatch-outs:\n- Still need good sequencing (often one trim VFD + base units)\n- VFD doesn’t fix leaks or poor pressure practices\n\n**Sales translation:** VFD is powerful after you address leaks and pressure; otherwise you may just run an oversized system more smoothly."
+        }
+      ]
+    },
+    {
+      "id": "leak-detection",
+      "title": "Leak Detection & Repair",
+      "subtitle": "The highest ROI measure in many plants",
+      "icon": "🕳️",
+      "order": 4,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["field", "sales", "optimization"]
+      },
+      "content": [
+        {
+          "id": "leaks-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Why leaks are so costly\n\nLeaks run 24/7 and drive baseload compressor power.\n\nCommon leak sites:\n- Quick connects and hoses\n- Regulators and FRLs\n- Open blow-offs\n- Fittings and valves\n\nBest practice:\n- Use ultrasonic leak detection\n- Tag leaks, estimate cost, and repair\n- Create an ongoing leak program (savings persist)"
+        },
+        {
+          "id": "leaks-cards",
+          "type": "cards",
+          "order": 2,
+          "columns": 2,
+          "cards": [
+            { "title": "Night/weekend leak test", "description": "Trend kW when production is off. High baseload = leaks or inappropriate uses.", "metadata": { "icon": "🌙" } },
+            { "title": "Fix the big ones first", "description": "A few large leaks often dominate. Prioritize by measured flow or sound intensity.", "metadata": { "icon": "🎯" } },
+            { "title": "Stop open blowing", "description": "Replace blow-offs with engineered nozzles or alternatives.", "metadata": { "icon": "🛑" } },
+            { "title": "Make it a program", "description": "Quarterly/biannual surveys keep savings from drifting.", "metadata": { "icon": "📋" } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pressure-optimization",
+      "title": "Pressure Optimization",
+      "subtitle": "Reduce setpoints safely and eliminate artificial demand",
+      "icon": "📉",
+      "order": 5,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales", "field"],
+        "tags": ["selection", "sales"]
+      },
+      "content": [
+        {
+          "id": "pressure-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Why pressure costs energy\n\nHigher pressure increases compressor power and can increase leak flow.\n\nSteps:\n1) Identify true critical pressure requirements (tools/process)\n2) Fix pressure drops (filters, undersized piping, bad regulators)\n3) Lower the header setpoint gradually and verify performance\n\n**Rule-of-thumb:** every ~2 psi reduction often yields ~1% energy savings (site-specific)."
+        },
+        {
+          "id": "pressure-table",
+          "type": "table",
+          "order": 2,
+          "headers": ["Problem", "Symptom", "Fix"],
+          "rows": [
+            ["High filter ΔP", "Low pressure at end use", "Replace/resize filters; add ΔP gauges"],
+            ["Undersized piping", "Big pressure drop during peak", "Re-pipe or add parallel runs in critical areas"],
+            ["Bad regulators", "Operators crank header pressure", "Fix regulators and setpoint strategy"],
+            ["Inappropriate uses", "Air used for cooling or sweeping", "Replace with blowers or engineered nozzles"]
+          ],
+          "caption": "Pressure optimization diagnosis"
+        }
+      ]
+    },
+    {
+      "id": "heat-recovery",
+      "title": "Heat Recovery",
+      "subtitle": "Capture compressor heat for useful loads",
+      "icon": "🔥",
+      "order": 6,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["engineer", "sales"],
+        "tags": ["roi", "sales"]
+      },
+      "content": [
+        {
+          "id": "heat-recovery-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Heat recovery concept\n\nMost compressor input power becomes heat.\n\nCommon recovery sinks:\n- Space heating (warehouse/plant)\n- Process water preheat\n- Domestic hot water preheat\n\n**Rule:** heat recovery works best with steady compressor operation and a steady heat demand."
+        }
+      ]
+    },
+    {
+      "id": "air-treatment",
+      "title": "Air Treatment",
+      "subtitle": "Dryers, filters, and condensate management",
+      "icon": "💧",
+      "order": 7,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field"],
+        "tags": ["technology"]
+      },
+      "content": [
+        {
+          "id": "treatment-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Treatment basics\n\n- **Filters** protect equipment but add pressure drop (energy cost)\n- **Dryers** remove moisture; choose dew point appropriate for the process\n- **Condensate drains** must work; failed open drains waste air\n\n**Field tip:** listen for leaking drains; they can be continuous “hidden leaks.”"
+        }
+      ]
+    },
+    {
+      "id": "controls-sequencing",
+      "title": "Controls & Sequencing",
+      "subtitle": "Reduce unloaded run time and stabilize pressure",
+      "icon": "🧠",
+      "order": 8,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales"],
+        "tags": ["selection", "optimization", "sales"]
+      },
+      "content": [
+        {
+          "id": "sequencing-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Sequencing goal\n\n- Run the most efficient units at optimal load\n- Use one trim unit (often VFD) to handle variability\n- Avoid multiple compressors unloading simultaneously\n\nCommon issues:\n- Setpoints too close causing fighting\n- No central controller\n- Oversized capacity relative to demand\n\n**Sales translation:** sequencing is a controls project with strong ROI when unload time is high."
+        }
+      ]
+    },
+    {
+      "id": "sales-strategies",
+      "title": "Sales Strategies & ROI",
+      "subtitle": "Selling compressed air upgrades effectively",
+      "icon": "💰",
+      "order": 9,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["sales"],
+        "tags": ["sales", "roi"]
+      },
+      "content": [
+        {
+          "id": "sales-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Selling Compressed Air Projects\n\n## Sales framing\n\n- Compressed air is **expensive** and often unmanaged\n- Start with waste elimination (leaks/pressure)\n- Then tune controls for persistence\n\n### Discovery questions\n- What processes use air? Any “always-on” loads?\n- What is header pressure set to and why?\n- Do compressors run nights/weekends?\n- Any moisture or quality issues causing downtime?\n- Do you have metering or trending?\n\n### Objection handling\n| Objection | Response |\n|---|---|\n| \"We need high pressure\" | \"We can provide high pressure locally while lowering header pressure globally.\" |\n| \"Leaks are maintenance\" | \"They’re also a continuous energy cost—fixing them pays back quickly and improves reliability.\" |\n| \"Controls are risky\" | \"We implement with trending and safeguards, and we can pilot sequencing on one system first.\" |"
+        }
+      ]
+    },
+    {
+      "id": "field-guide",
+      "title": "Field Identification Guide",
+      "subtitle": "What to capture in a compressed air walkdown",
+      "icon": "🔍",
+      "order": 10,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["field", "sales", "engineer"],
+        "tags": ["field", "selection"]
+      },
+      "content": [
+        {
+          "id": "field-checklist",
+          "type": "list",
+          "order": 1,
+          "items": [
+            "Photograph compressor nameplates and control screens (setpoints, alarms, run hours)",
+            "Record header pressure and pressure at farthest critical loads",
+            "Identify dryer type and dew point requirement",
+            "Check filter condition and any ΔP indicators",
+            "Listen for leaks and note obvious open blowing uses",
+            "Document condensate drain condition (open leaks waste air)"
+          ]
+        },
+        {
+          "id": "field-signals",
+          "type": "table",
+          "order": 2,
+          "headers": ["Signal", "Likely cause", "Opportunity"],
+          "rows": [
+            ["Compressor runs off-shift", "Leaks or inappropriate uses", "Leak program + eliminate uses"],
+            ["High unload time", "Bad sequencing or oversizing", "Central sequencing + trim strategy"],
+            ["Operators raise header pressure", "Pressure drops at point of use", "Fix distribution and regulators"],
+            ["Wet air complaints", "Dryer/drain issues", "Repair drains and right-size dryer"]
+          ],
+          "caption": "Fast diagnostic signals"
+        }
+      ]
+    },
+    {
+      "id": "obf-measures",
+      "title": "OBF-Eligible Measures",
+      "subtitle": "Common compressed air measures that qualify",
+      "icon": "💵",
+      "order": 11,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "roi", "financing"]
+      },
+      "content": [
+        {
+          "id": "obf-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# OBF Eligibility for Compressed Air\n\nCompressed air projects often qualify when they include equipment/control upgrades with measurable savings."
+        },
+        {
+          "id": "obf-table",
+          "type": "table",
+          "order": 2,
+          "headers": ["Measure", "OBF Eligible?", "Notes"],
+          "rows": [
+            ["VFD compressor retrofit/replacement", "✅ Yes", "Strong measure for variable demand systems"],
+            ["Central sequencing controller", "✅ Yes", "Common eligible controls hardware"],
+            ["Leak repair program", "⚠️ Maybe", "Often treated as O&M; best bundled with metering or hardware"],
+            ["Heat recovery kit", "✅/⚠️ Sometimes", "Program-dependent; savings must be documented"],
+            ["High-efficiency dryers", "✅/⚠️ Sometimes", "Depends on baseline and dew point requirements"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "subtitle": "Test your compressed air knowledge",
+      "icon": "📝",
+      "order": 12,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["quiz"]
+      },
+      "content": [
+        {
+          "id": "compressed-air-quiz",
+          "type": "interactive",
+          "order": 1,
+          "component": "quiz-widget",
+          "config": {
+            "title": "Compressed Air Systems Quiz",
+            "questions": [
+              {
+                "id": "q1",
+                "question": "In many facilities, what is the most common highest-ROI compressed air measure?",
+                "options": ["New paint", "Leak detection and repair", "Raising header pressure", "Disabling filters"],
+                "correctAnswer": 1,
+                "explanation": "Leaks often represent 10–30% of production and run continuously, making repairs high ROI.",
+                "points": 10
+              },
+              {
+                "id": "q2",
+                "question": "Why does lowering system pressure typically save compressor energy?",
+                "options": ["It increases leak flow", "It reduces compressor work and can reduce leak flow", "It increases unload time", "It eliminates dryers"],
+                "correctAnswer": 1,
+                "explanation": "Lower pressure reduces compressor work and often reduces leakage, improving efficiency.",
+                "points": 10
+              },
+              {
+                "id": "q3",
+                "question": "What does high unloaded run time usually indicate?",
+                "options": ["Perfect sequencing", "Bad sequencing or oversizing", "No leaks", "Too much insulation"],
+                "correctAnswer": 1,
+                "explanation": "High unload time means compressors are running without producing useful air, often due to poor control strategy.",
+                "points": 10
+              },
+              {
+                "id": "q4",
+                "question": "Why is heat recovery from compressors often feasible?",
+                "options": ["Compressors produce cold air", "Most input power becomes heat", "Filters create heat", "Leaks create heat"],
+                "correctAnswer": 1,
+                "explanation": "Most electrical input to compressors ends up as heat that can sometimes be captured for useful loads.",
+                "points": 10
+              },
+              {
+                "id": "q5",
+                "question": "What is a common hidden “leak” in compressed air treatment systems?",
+                "options": ["LED lights", "Open condensate drains", "Cool roofs", "VAV boxes"],
+                "correctAnswer": 1,
+                "explanation": "Failed-open condensate drains can continuously waste compressed air.",
+                "points": 10
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+

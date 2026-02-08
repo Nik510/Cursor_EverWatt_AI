@@ -1,0 +1,666 @@
+{
+  "id": "lighting-systems",
+  "title": "Lighting Systems",
+  "subtitle": "Complete Guide to LEDs, Controls, Networked Lighting & Incentives",
+  "description": "Comprehensive training on commercial lighting systems: LED retrofit strategy, controls and sensors, networked lighting controls (NLC), exterior lighting, and incentive qualification. Includes engineering basics, sales talk tracks, and field identification tips.",
+  "icon": "💡",
+  "category": "lighting",
+  "order": 9,
+  "status": "published",
+  "metadata": {
+    "author": "EverWatt Engineering Team",
+    "lastUpdated": "2025-12-29",
+    "version": "1.0.0",
+    "estimatedTime": 185,
+    "difficulty": "intermediate",
+    "tags": ["lighting", "led", "controls", "nlc", "dlc", "energy-star"]
+  },
+  "sections": [
+    {
+      "id": "quick-overview",
+      "title": "Quick Overview",
+      "subtitle": "90-second skim + jump points",
+      "icon": "⚡",
+      "order": 0,
+      "metadata": {
+        "estimatedTime": 8,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "navigation", "sales", "field"]
+      },
+      "content": [
+        {
+          "id": "overview-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 3,
+          "cards": [
+            {
+              "title": "The Big Lever: kWh + Maintenance",
+              "description": "LED retrofits usually cut lighting kWh 40–70% and slash maintenance (ladders, lamps, ballasts).",
+              "metadata": { "icon": "📉", "jumpTo": "led-technology", "roles": ["sales", "engineer"] }
+            },
+            {
+              "title": "Controls Add 10–40%",
+              "description": "Occupancy + daylight + scheduling stack savings on top of LEDs, often with faster payback than fixtures.",
+              "metadata": { "icon": "🎛️", "jumpTo": "controls-sensors", "roles": ["sales", "engineer"] }
+            },
+            {
+              "title": "NLC = Incentive Magnet",
+              "description": "Networked Lighting Controls enable granular scheduling, demand response, and measurement—often required for top rebates.",
+              "metadata": { "icon": "🧠", "jumpTo": "networked-lighting-controls", "roles": ["sales", "engineer"] }
+            },
+            {
+              "title": "DLC Premium Matters",
+              "description": "Utilities often require DLC Standard/Premium for fixtures and controls—qualify early to avoid redesign.",
+              "metadata": { "icon": "✅", "jumpTo": "dlc-energy-star", "roles": ["sales"] }
+            },
+            {
+              "title": "Fast Field ID",
+              "description": "Count fixture types, note ballast/driver, take ceiling height, and record hours of operation.",
+              "metadata": { "icon": "🔎", "jumpTo": "field-guide", "roles": ["field", "sales"] }
+            },
+            {
+              "title": "How to Sell It",
+              "description": "Lead with total cost of ownership: kWh + maintenance + improved lighting quality and safety.",
+              "metadata": { "icon": "💰", "jumpTo": "sales-strategies", "roles": ["sales"] }
+            }
+          ]
+        },
+        {
+          "id": "overview-kpis",
+          "type": "table",
+          "order": 2,
+          "headers": ["KPI", "What it means", "Rule-of-thumb"],
+          "rows": [
+            ["W/ft² (LPD)", "Lighting power density", "Lower is better; compare to code and baseline"],
+            ["Lumens/W", "Efficacy", "Higher is better; modern LED fixtures often 110–160+ lm/W"],
+            ["CCT (K)", "Color temperature", "Offices often 3500–4000K; retail varies by brand"],
+            ["CRI", "Color rendering", "Target 80+ for general; 90+ for retail/critical areas"],
+            ["Controls coverage", "Portion of space controlled", "Aim for occupancy + scheduling everywhere; add daylight where applicable"],
+            ["Run hours", "Annual operating hours", "Savings scale linearly with hours; warehouses and retail are prime"]
+          ],
+          "caption": "Lighting KPI Cheat Sheet"
+        },
+        {
+          "id": "lighting-retrofit-quick-calculator",
+          "type": "calculator",
+          "order": 2.5,
+          "calculatorType": "lighting-retrofit",
+          "title": "Lighting Retrofit Quick Calculator",
+          "subtitle": "Fast screening: kWh + $ savings and simple payback",
+          "config": {
+            "fixtureCount": 200,
+            "existingWatts": 100,
+            "newWatts": 45,
+            "hoursPerYear": 4000,
+            "ratePerKwh": 0.12,
+            "installCostPerFixture": 80,
+            "rebatePerFixture": 20
+          }
+        },
+        {
+          "id": "overview-personas",
+          "type": "tabs",
+          "order": 3,
+          "tabs": [
+            {
+              "label": "💰 Sales",
+              "content": [
+                {
+                  "id": "overview-sales",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["sales"] },
+                  "content": "## Talk track (fast)\n\n- Anchor on **total cost of ownership**: energy + maintenance + safety\n- Start with **hours** (long run hours = quick payback)\n- Bundle **controls**: occupancy + scheduling + daylight\n- Verify **incentives early** (DLC/NLC requirements) to protect ROI\n\n**One-liner:** \"We cut lighting costs 50%+ and reduce maintenance calls—often with rebates covering a big chunk.\""
+                }
+              ]
+            },
+            {
+              "label": "🔧 Engineer",
+              "content": [
+                {
+                  "id": "overview-engineer",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["engineer"] },
+                  "content": "## What to verify (fast)\n\n- Existing fixture types, wattages, and counts (baseline)\n- Controls present? (timeclock, occupancy, daylight)\n- Space requirements: illuminance targets, glare control, uniformity\n- Driver dimming compatibility (0–10V, DALI, wireless)\n- Emergency/egress and code constraints\n\n**Rule:** quantify baseline watts + hours first; then select fixtures/controls to meet photometrics and incentives."
+                }
+              ]
+            },
+            {
+              "label": "🧰 Field",
+              "content": [
+                {
+                  "id": "overview-field",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["field"] },
+                  "content": "## What to capture on-site\n\n- Fixture photos (lens, housing, mounting), **ceiling height**, and **space use**\n- Lamp/ballast type (T12/T8/CFL/HID) or driver label (LED)\n- Control devices: sensors, wall switches, panels, gateways\n- Exterior: pole height, fixture type, and hours (photocell/timeclock)\n- Any problem areas: glare, dark spots, flicker, safety concerns"
+                }
+              ]
+            }
+          ]
+        }
+        ,
+        {
+          "id": "lighting-controls-stack-diagram",
+          "type": "interactive",
+          "order": 3.5,
+          "component": "lighting-controls-stack",
+          "config": {
+            "title": "Lighting Controls Stack",
+            "subtitle": "Scheduling + occupancy + daylight + NLC (how savings stack)"
+          }
+        },
+        {
+          "id": "fixture-id-audit-guide",
+          "type": "interactive",
+          "order": 3.6,
+          "component": "fixture-id-audit",
+          "config": {
+            "title": "Fixture ID Audit Guide",
+            "subtitle": "What to photograph, baseline clues, and common gotchas by fixture family"
+          }
+        }
+      ]
+    },
+    {
+      "id": "introduction",
+      "title": "Introduction & Fundamentals",
+      "subtitle": "Why lighting is still the easiest energy win",
+      "icon": "📚",
+      "order": 1,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "fundamentals", "sales"]
+      },
+      "content": [
+        {
+          "id": "intro-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Why Lighting Systems Matter\n\nLighting is often the **fastest and most reliable** efficiency measure because:\n\n- Savings are easy to quantify (watts × hours)\n- Retrofits are modular and low disruption\n- Maintenance savings are tangible (lamp/ballast replacement avoided)\n- Incentives are common and well-defined\n\n**Typical outcomes**:\n- LED retrofit: **40–70%** lighting kWh reduction\n- Controls layer (occupancy/daylight/scheduling): **10–40%** additional savings\n\nLighting quality also improves comfort, productivity, and safety."
+        },
+        {
+          "id": "intro-quote",
+          "type": "quote",
+          "order": 2,
+          "quote": "If you want a project that performs exactly as modeled, start with lighting. Watts and hours are honest—and controls keep savings from drifting.",
+          "author": "Program Implementer",
+          "role": "Utility lighting incentives lead"
+        },
+        {
+          "id": "intro-where-seen",
+          "type": "accordion",
+          "order": 3,
+          "metadata": { "title": "Where are lighting opportunities biggest?" },
+          "items": [
+            {
+              "title": "Warehouses & Distribution",
+              "content": [
+                {
+                  "id": "where-warehouse",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- High-bay fixtures with long run hours\n- Great candidates for **occupancy + daylight**\n- Often oversized lighting levels after layout changes"
+                }
+              ]
+            },
+            {
+              "title": "Retail & Grocery",
+              "content": [
+                {
+                  "id": "where-retail",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Long hours + strong brand requirements\n- **Accent lighting** and color quality matter (CRI/CCT)\n- Exterior signage and parking lots add easy savings"
+                }
+              ]
+            },
+            {
+              "title": "Offices & Education",
+              "content": [
+                {
+                  "id": "where-office",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Controls-first opportunities: schedules, occupancy, daylight\n- Tenant spaces often have stale schedules and overrides\n- Good for **networked controls** and measurement"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "intro-key-concepts",
+          "type": "cards",
+          "order": 4,
+          "columns": 2,
+          "cards": [
+            {
+              "title": "Efficacy (lm/W)",
+              "description": "How much light you get per watt. Higher efficacy usually means lower energy for the same light level.",
+              "metadata": { "icon": "📈" }
+            },
+            {
+              "title": "LPD (W/ft²)",
+              "description": "Lighting power density. Compare existing LPD to code and to post-retrofit targets.",
+              "metadata": { "icon": "🧾" }
+            },
+            {
+              "title": "Controls Stack",
+              "description": "Scheduling + occupancy + daylight harvesting. Controls keep savings from eroding.",
+              "metadata": { "icon": "🎛️" }
+            },
+            {
+              "title": "Quality Metrics",
+              "description": "CCT and CRI affect comfort, appearance, and acceptance—avoid “cheap LED” outcomes.",
+              "metadata": { "icon": "🎨" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "led-technology",
+      "title": "LED Technology",
+      "subtitle": "Fixtures, drivers, and quality tradeoffs",
+      "icon": "🔦",
+      "order": 2,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field"],
+        "tags": ["technology", "design"]
+      },
+      "content": [
+        {
+          "id": "led-basics",
+          "type": "markdown",
+          "order": 1,
+          "content": "## LED building blocks\n\n### Fixture vs lamp vs retrofit kit\n- **Fixture replacement**: highest performance, best optics, often best incentives\n- **Lamp replacement**: fastest installation; watch compatibility (ballasts, dimming)\n- **Retrofit kit**: good middle ground for troffers/high-bays\n\n### Driver considerations\n- **Dimming**: 0–10V, DALI, phase dimming, or wireless\n- **Flicker**: avoid poor drivers; specify low flicker for offices/healthcare\n- **Lumen maintenance**: L70/L80 ratings indicate long-term output\n\n### Color\n- **CCT**: 3000K (warm) to 5000K (cool)\n- **CRI**: 80+ general; 90+ for retail/critical color work\n\n**Field tip:** photograph driver labels and fixture model numbers—this simplifies matching replacements and verifying incentives."
+        },
+        {
+          "id": "led-common-baselines",
+          "type": "table",
+          "order": 2,
+          "headers": ["Existing", "Typical retrofit", "Notes"],
+          "rows": [
+            ["T12 fluorescent", "LED fixture/kit", "Often huge savings; ballast issues common"],
+            ["T8 fluorescent", "LED kit + controls", "Controls often deliver more incremental value than fixture delta"],
+            ["HID (metal halide/HPS)", "LED high-bay or area light", "Big quality improvement; faster payback with long hours"],
+            ["CFL", "LED lamp/fixture", "Watch dimmers and enclosed fixtures"],
+            ["Incandescent/halogen", "LED lamp", "Largest % savings; verify color/beam"]
+          ],
+          "caption": "Common baseline-to-retrofit paths"
+        }
+      ]
+    },
+    {
+      "id": "controls-sensors",
+      "title": "Controls & Sensors",
+      "subtitle": "Occupancy, daylight, and scheduling",
+      "icon": "🎛️",
+      "order": 3,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales", "field"],
+        "tags": ["selection", "controls", "sales"]
+      },
+      "content": [
+        {
+          "id": "controls-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Controls stack (how savings happens)\n\n1) **Scheduling** (time-of-day)\n- Turns lights off outside occupied hours\n- Biggest opportunity when buildings drift to “always on”\n\n2) **Occupancy sensors**\n- PIR, ultrasonic, dual-tech\n- Great in restrooms, offices, storage, intermittently used spaces\n\n3) **Daylight harvesting**\n- Dims lights near windows/skylights\n- High savings in perimeter zones with good daylight\n\n4) **Task tuning**\n- Reduces over-lighting by setting appropriate light levels\n\n### Common failure mode\nControls installed but **disabled** due to complaints. The fix is commissioning: sensor placement, time delays, sensitivity, and setpoint tuning.\n\n**Sales translation:** controls are often the fastest payback because they reduce wasted run hours without changing light quality."
+        },
+        {
+          "id": "controls-recommendations",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "Quick spec guidance (what to choose)",
+              "content": [
+                {
+                  "id": "controls-spec",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Offices/classrooms: **dual-tech occupancy** + scheduling\n- Warehouses: high-bay occupancy + **daylight** (if skylights)\n- Retail: scheduling + **task tuning** + selective occupancy\n- Parking lots: LED + photocell/timeclock + bi-level (if allowed)\n\n**Field tip:** if the facility has a BMS, decide early: do you want lighting to remain standalone or integrate for scheduling/demand response?"
+                }
+              ]
+            },
+            {
+              "title": "Savings math (simple)",
+              "content": [
+                {
+                  "id": "controls-math",
+                  "type": "formula",
+                  "order": 1,
+                  "formula": "Annual kWh savings ≈ (Baseline W − New W) × Annual hours / 1000",
+                  "explanation": "For controls, treat New W as the same fixture wattage but with fewer effective hours (or reduced average dim level).",
+                  "variables": [
+                    { "name": "Baseline W", "description": "Total connected lighting watts before project" },
+                    { "name": "New W", "description": "Total connected lighting watts after retrofit (or effective watts with controls)" },
+                    { "name": "Annual hours", "description": "Annual operating hours (can be reduced by scheduling/occupancy/daylight)" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "networked-lighting-controls",
+      "title": "Networked Lighting Controls (NLC)",
+      "subtitle": "Systems, gateways, and what “networked” enables",
+      "icon": "🧠",
+      "order": 4,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales"],
+        "tags": ["selection", "controls", "roi", "sales"]
+      },
+      "content": [
+        {
+          "id": "nlc-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## What NLC adds beyond basic controls\n\n- Zone-level scheduling and tuning without rewiring\n- Analytics: run-hours, occupancy patterns, fault alerts\n- Demand response / load shedding (where supported)\n- Central management across multiple sites\n\n### Key questions\n- Is the system **wired** (DALI) or **wireless**?\n- Does it support **open protocols** or is it vendor-locked?\n- How does it handle cybersecurity and commissioning?\n\n**Sales translation:** NLC turns lighting into a managed system—often unlocking better incentives and creating long-term persistence."
+        },
+        {
+          "id": "nlc-pros-cons",
+          "type": "comparison",
+          "order": 2,
+          "title": "Standalone controls vs Networked controls",
+          "before": {
+            "label": "Standalone",
+            "content": [
+              { "id": "standalone-text", "type": "markdown", "order": 1, "content": "- Lower cost\n- Simpler commissioning\n- Limited analytics\n- Harder multi-site management" }
+            ]
+          },
+          "after": {
+            "label": "Networked (NLC)",
+            "content": [
+              { "id": "nlc-text", "type": "markdown", "order": 1, "content": "- Better tuning and persistence\n- Supports DR + advanced sequences\n- Faster troubleshooting\n- Higher incentive potential" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "high-bay-industrial",
+      "title": "High-Bay & Industrial Lighting",
+      "subtitle": "Warehouses, manufacturing, cold storage",
+      "icon": "🏭",
+      "order": 5,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field"],
+        "tags": ["design", "field"]
+      },
+      "content": [
+        {
+          "id": "highbay-notes",
+          "type": "markdown",
+          "order": 1,
+          "content": "## High-bay retrofit notes\n\n- Verify **mounting height** and fixture distribution\n- Consider **glare** and uniformity (especially for forklifts)\n- Use occupancy controls to avoid “always on” aisles\n- Cold storage: ensure LED and controls are rated for low temperatures\n\n**Field tip:** map zones by activity (shipping, storage, picking) and tailor controls to each pattern."
+        }
+      ]
+    },
+    {
+      "id": "exterior-parking",
+      "title": "Exterior & Parking Lot Lighting",
+      "subtitle": "Area lights, wall packs, and controls",
+      "icon": "🅿️",
+      "order": 6,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["selection", "field", "sales"]
+      },
+      "content": [
+        {
+          "id": "exterior-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Exterior lighting levers\n\n- Convert HID (HPS/MH) to LED\n- Add **photocell + timeclock** (or astronomical scheduling)\n- Use **bi-level dimming** in low-traffic hours (where allowed)\n\n### Practical constraints\n- Local lighting ordinances (dark-sky rules)\n- Safety/security expectations\n- Pole condition and wiring\n\n**Sales translation:** exterior projects are easy to verify (run hours are known) and are great for portfolio-wide rollouts."
+        }
+      ]
+    },
+    {
+      "id": "emergency-egress",
+      "title": "Emergency & Egress Lighting",
+      "subtitle": "Code requirements and retrofit strategy",
+      "icon": "🚪",
+      "order": 7,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["engineer", "field"],
+        "tags": ["compliance", "field"]
+      },
+      "content": [
+        {
+          "id": "egress-content",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Emergency lighting basics\n\n- Must meet code requirements for illumination during power loss\n- Many fixtures use batteries or emergency circuits\n- LED conversions are common but must maintain required performance\n\n**Field tip:** identify which fixtures are on emergency circuits and verify test procedures—don’t assume all lamps can be swapped 1:1."
+        }
+      ]
+    },
+    {
+      "id": "dlc-energy-star",
+      "title": "DLC & ENERGY STAR Specifications",
+      "subtitle": "How to qualify for rebates",
+      "icon": "🏷️",
+      "order": 8,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer"],
+        "tags": ["sales", "roi", "selection"]
+      },
+      "content": [
+        {
+          "id": "dlc-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Incentive qualification (what trips projects up)\n\n- Utilities often require:\n  - Fixtures listed on **DLC** (Standard or Premium)\n  - Controls meeting **NLC** requirements (where applicable)\n  - Documentation: spec sheets, cut sheets, and sometimes commissioning forms\n\n### Recommended workflow\n1) Confirm utility program requirements (DLC category, minimum efficacy, dimming)\n2) Select fixtures/controls that **pre-qualify**\n3) Lock SKU lists before procurement\n4) Capture install photos + counts for closeout\n\n**Sales translation:** incentives are a big part of ROI—qualification is part of the solution, not a paperwork afterthought."
+        }
+      ]
+    },
+    {
+      "id": "sales-strategies",
+      "title": "Sales Strategies & ROI",
+      "subtitle": "Selling lighting upgrades effectively",
+      "icon": "💰",
+      "order": 9,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["sales"],
+        "tags": ["sales", "roi"]
+      },
+      "content": [
+        {
+          "id": "sales-opening",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Selling Lighting Projects\n\n## The simple story\n\n1) **Energy**: fewer watts and fewer wasted hours\n2) **Maintenance**: less relamping and fewer lifts\n3) **Quality**: better visual comfort and safety\n4) **Incentives**: rebates reduce net cost\n\n### High-signal discovery questions\n- What are your operating hours and peak seasons?\n- How often do you replace lamps/ballasts? Any areas hard to access?\n- Any complaints: glare, flicker, dark spots?\n- Do you have controls today (schedules, sensors)? Are they trusted?\n- Are incentives required to make projects pencil?\n\n### Objection handling\n| Objection | Response |\n|---|---|\n| \"We already did LED\" | \"Great—controls often deliver the next 10–30% with low disruption.\" |\n| \"Too expensive\" | \"Let’s compare to maintenance + rebates; lighting is usually cash-flow positive.\" |\n| \"Worried about light quality\" | \"We specify CCT/CRI and do a mockup to confirm acceptance.\" |"
+        },
+        {
+          "id": "sales-roi-example",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "ROI quick example (warehouse)",
+              "content": [
+                {
+                  "id": "roi-warehouse",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "- Baseline: 200 HID fixtures @ 400W = 80 kW\n- Retrofit: 200 LED fixtures @ 180W = 36 kW\n- Savings: 44 kW\n- Hours: 4,000 hrs/year\n\nAnnual kWh savings ≈ 44 kW × 4,000 = **176,000 kWh/year**\n\nAt $0.18/kWh: **$31,680/year** (plus maintenance savings)\n\n**Sales translation:** this is why high-bay + long hours is usually a slam dunk."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "field-guide",
+      "title": "Field Identification Guide",
+      "subtitle": "How to audit lighting quickly",
+      "icon": "🔍",
+      "order": 10,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["field", "sales", "engineer"],
+        "tags": ["field", "selection"]
+      },
+      "content": [
+        {
+          "id": "field-checklist",
+          "type": "list",
+          "order": 1,
+          "ordered": false,
+          "items": [
+            "Create a fixture schedule: type, count, watts, location",
+            "Photograph representative fixtures and nameplates/labels",
+            "Record ceiling/mounting height and any obstructions",
+            "Identify controls: sensors, panels, gateways, timeclocks",
+            "Note run hours by space type (and weekend/holiday operation)",
+            "Capture problem areas: glare, flicker, shadows, safety concerns",
+            "For exterior: pole height, spacing, and control method (photocell/timeclock)"
+          ]
+        },
+        {
+          "id": "field-ballast-driver",
+          "type": "table",
+          "order": 2,
+          "headers": ["Clue", "Likely tech", "What it means"],
+          "rows": [
+            ["Large metal box + humming", "HID ballast", "Great LED candidate; verify voltage"],
+            ["Troffer with ballast label", "Fluorescent", "Kit vs fixture decision; check ballast bypass"],
+            ["Small driver label with dimming wires", "LED", "Controls may be the next best lever"],
+            ["Flicker complaints", "Driver/ballast issue", "Specify low-flicker products; verify dimming compatibility"]
+          ],
+          "caption": "Quick identification clues"
+        }
+      ]
+    },
+    {
+      "id": "obf-measures",
+      "title": "OBF-Eligible Measures",
+      "subtitle": "What lighting upgrades commonly qualify",
+      "icon": "💵",
+      "order": 11,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "roi", "financing"]
+      },
+      "content": [
+        {
+          "id": "obf-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# OBF Eligibility for Lighting\n\nOn-Bill Financing (OBF) typically supports **equipment-based** measures with verifiable savings.\n\n**Note:** exact eligibility depends on utility program rules and project specifics."
+        },
+        {
+          "id": "obf-table",
+          "type": "table",
+          "order": 2,
+          "metadata": { "title": "Lighting measure OBF eligibility" },
+          "headers": ["Measure", "OBF Eligible?", "Typical Notes"],
+          "rows": [
+            ["LED fixture retrofit", "✅ Yes", "Often strong incentives; verify DLC listing"],
+            ["LED lamps (screw-in)", "✅/⚠️ Sometimes", "May require minimum project size or fixture replacement"],
+            ["Occupancy sensors", "✅ Yes", "Best when bundled with retrofit"],
+            ["Daylight controls", "✅ Yes", "Validate daylight availability"],
+            ["Networked lighting controls (NLC)", "✅ Yes", "Often encouraged; commissioning documentation may be required"],
+            ["Controls-only software changes", "⚠️ Maybe", "Program-dependent; better bundled with hardware"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "subtitle": "Test your lighting systems knowledge",
+      "icon": "📝",
+      "order": 12,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["quiz"]
+      },
+      "content": [
+        {
+          "id": "lighting-quiz",
+          "type": "interactive",
+          "order": 1,
+          "component": "quiz-widget",
+          "config": {
+            "title": "Lighting Systems Quiz",
+            "questions": [
+              {
+                "id": "q1",
+                "question": "What is the typical energy savings range from a well-executed LED retrofit (lighting kWh only)?",
+                "options": ["5–15%", "15–30%", "40–70%", "80–95%"],
+                "correctAnswer": 2,
+                "explanation": "Most LED retrofits reduce lighting kWh by roughly 40–70%, depending on baseline technology and hours.",
+                "points": 10
+              },
+              {
+                "id": "q2",
+                "question": "Which control strategy primarily reduces wasted run hours in unoccupied periods?",
+                "options": ["Scheduling", "CRI selection", "CCT tuning", "Fixture optics"],
+                "correctAnswer": 0,
+                "explanation": "Scheduling aligns operation with occupancy and is often the fastest controls win.",
+                "points": 10
+              },
+              {
+                "id": "q3",
+                "question": "What does CRI measure?",
+                "options": ["Brightness per watt", "Color rendering quality", "Fixture lifetime", "Dimming compatibility"],
+                "correctAnswer": 1,
+                "explanation": "CRI indicates how accurately colors appear under the light source compared to a reference.",
+                "points": 10
+              },
+              {
+                "id": "q4",
+                "question": "Why are Networked Lighting Controls (NLC) valuable beyond basic occupancy sensors?",
+                "options": ["They increase wattage", "They eliminate the need for fixtures", "They enable centralized tuning, analytics, and persistence", "They only work outdoors"],
+                "correctAnswer": 2,
+                "explanation": "NLC systems allow centralized scheduling, tuning, analytics, and often better incentive eligibility.",
+                "points": 10
+              },
+              {
+                "id": "q5",
+                "question": "Which KPI best represents how efficiently a fixture produces light?",
+                "options": ["LPD (W/ft²)", "Lumens/W", "CCT (K)", "Run hours"],
+                "correctAnswer": 1,
+                "explanation": "Lumens per watt is efficacy: the amount of light output per unit power.",
+                "points": 10
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+

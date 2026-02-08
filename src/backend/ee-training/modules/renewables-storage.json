@@ -1,0 +1,486 @@
+{
+  "id": "renewables-storage",
+  "title": "Renewables & Storage",
+  "subtitle": "Complete Guide to Solar PV, Batteries, Rates & Project Development",
+  "description": "Comprehensive training on renewable energy and storage: rooftop and ground-mount solar PV, battery energy storage systems (BESS), rate structures and net metering, EV charging integration, and incentives. Includes sales strategies, project development steps, and knowledge check.",
+  "icon": "☀️",
+  "category": "renewables",
+  "order": 14,
+  "status": "published",
+  "metadata": {
+    "author": "EverWatt Engineering Team",
+    "lastUpdated": "2025-12-29",
+    "version": "1.0.0",
+    "estimatedTime": 210,
+    "difficulty": "intermediate",
+    "tags": ["solar", "pv", "battery", "storage", "net-metering", "rates", "ev"]
+  },
+  "sections": [
+    {
+      "id": "quick-overview",
+      "title": "Quick Overview",
+      "subtitle": "90-second skim + jump points",
+      "icon": "⚡",
+      "order": 0,
+      "metadata": {
+        "estimatedTime": 8,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "navigation", "sales", "field"]
+      },
+      "content": [
+        {
+          "id": "overview-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 3,
+          "cards": [
+            {
+              "title": "Solar is a Rate Play",
+              "description": "Solar value depends on when energy is produced vs priced. Tariffs and NEM rules drive economics.",
+              "metadata": { "icon": "📈", "jumpTo": "net-metering-rates", "roles": ["sales", "engineer"] }
+            },
+            {
+              "title": "Storage = Demand + TOU",
+              "description": "Batteries shine when there are demand charges and time-of-use peaks. Dispatch strategy matters.",
+              "metadata": { "icon": "🔋", "jumpTo": "battery-storage", "roles": ["sales", "engineer"] }
+            },
+            {
+              "title": "Interconnection is the Gate",
+              "description": "Utility interconnection timelines and constraints can dominate the schedule—plan early.",
+              "metadata": { "icon": "🧩", "jumpTo": "project-development", "roles": ["sales", "engineer"] }
+            },
+            {
+              "title": "Best Bundle: EE + Solar + Storage",
+              "description": "Efficiency reduces load; solar offsets energy; storage handles peaks. Bundling often improves ROI.",
+              "metadata": { "icon": "📦", "jumpTo": "behind-the-meter", "roles": ["sales"] }
+            },
+            {
+              "title": "Field Signals",
+              "description": "Large roof area, daytime loads, high demand charges, parking lots, and EV growth plans.",
+              "metadata": { "icon": "🔎", "jumpTo": "field-guide", "roles": ["field", "sales"] }
+            },
+            {
+              "title": "How to Sell It",
+              "description": "Lead with bill reduction (energy + demand), incentive stacking, and resiliency where valued.",
+              "metadata": { "icon": "💰", "jumpTo": "sales-strategies", "roles": ["sales"] }
+            }
+          ]
+        },
+        {
+          "id": "overview-kpis",
+          "type": "table",
+          "order": 2,
+          "headers": ["KPI", "What it means", "Rule-of-thumb"],
+          "rows": [
+            ["kWh offset", "Annual energy produced/used", "Solar offsets kWh; value depends on tariff"],
+            ["Demand (kW)", "Peak demand charges driver", "Storage can reduce peaks; target billing demand window"],
+            ["TOU peak price", "High-cost hours", "Dispatch batteries during peak price/demand windows"],
+            ["PV capacity factor", "Energy output per kW", "Depends on climate/tilt/shading; use modeled value"],
+            ["Round-trip efficiency", "Battery losses", "Often ~85–92% depending on system"],
+            ["Interconnection limit", "Utility constraints", "Can cap export or system size; plan early"]
+          ],
+          "caption": "Renewables & Storage KPI Cheat Sheet"
+        },
+        {
+          "id": "overview-personas",
+          "type": "tabs",
+          "order": 3,
+          "tabs": [
+            {
+              "label": "💰 Sales",
+              "content": [
+                {
+                  "id": "overview-sales",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["sales"] },
+                  "content": "## Talk track (fast)\n\n- Start with the bill: **energy charges + demand charges + TOU**\n- Solar offsets kWh; storage reduces peaks and shifts energy\n- Bundle with EE first to reduce required system size\n- Incentives and tax credits often drive ROI—lock eligibility early\n\n**One-liner:** \"We design around your tariff: solar reduces energy cost, storage reduces peaks, and incentives improve payback.\""
+                }
+              ]
+            },
+            {
+              "label": "🔧 Engineer",
+              "content": [
+                {
+                  "id": "overview-engineer",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["engineer"] },
+                  "content": "## What to verify (fast)\n\n- Interval data: load shape and demand windows\n- Roof and electrical constraints (service size, spare capacity)\n- PV shading and structural constraints\n- Storage dispatch objectives (demand, TOU, backup)\n- Interconnection rules and export limits\n\n**Rule:** economics are tariff-driven; get interval data and tariff early."
+                }
+              ]
+            },
+            {
+              "label": "🧰 Field",
+              "content": [
+                {
+                  "id": "overview-field",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["field"] },
+                  "content": "## What to capture on-site\n\n- Roof type, age, and obstructions (HVAC, skylights)\n- Electrical room photos: main service, panel space, transformer\n- Parking lot layout (for carports/EV)\n- Any generator/backup needs and critical loads\n- Space for batteries (clearances, ventilation, fire code constraints)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "introduction",
+      "title": "Introduction & Fundamentals",
+      "subtitle": "Renewables are financial + operational projects",
+      "icon": "📚",
+      "order": 1,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "fundamentals", "sales"]
+      },
+      "content": [
+        {
+          "id": "intro-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Why Renewables & Storage Matter\n\nRenewables and storage can reduce operating costs and emissions, but the value depends on:\n\n- **Tariffs** (energy vs demand charges, TOU)\n- **Interconnection** (export limits and timelines)\n- **Load shape** (when the building uses power)\n- **Incentives** (tax credits, rebates, state programs)\n\nStorage adds flexibility: it can reduce peaks, shift energy, and provide resiliency if designed for backup."
+        },
+        {
+          "id": "intro-quote",
+          "type": "quote",
+          "order": 2,
+          "quote": "The meter is the product. Solar and storage aren’t just hardware—they’re a dispatch strategy that matches the tariff.",
+          "author": "Energy Finance Lead",
+          "role": "Solar + storage developer"
+        }
+      ]
+    },
+    {
+      "id": "rooftop-solar-pv",
+      "title": "Rooftop Solar PV",
+      "subtitle": "Basics of PV systems on commercial roofs",
+      "icon": "🏠",
+      "order": 2,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field"],
+        "tags": ["technology"]
+      },
+      "content": [
+        {
+          "id": "rooftop-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Rooftop PV basics\n\nKey constraints:\n- Roof age and remaining life (avoid installing on a roof that needs replacement)\n- Structural capacity\n- Shading from rooftop equipment\n- Electrical interconnection point and available capacity\n\n**Field tip:** if the roof is within ~5 years of replacement, plan a coordinated re-roof + PV project."
+        }
+      ]
+    },
+    {
+      "id": "carport-groundmount",
+      "title": "Carport & Ground-Mount Solar",
+      "subtitle": "When roof isn’t enough",
+      "icon": "🅿️",
+      "order": 3,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["engineer", "sales", "field"],
+        "tags": ["roi"]
+      },
+      "content": [
+        {
+          "id": "carport-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Carport and ground-mount\n\nCarports add value beyond energy:\n- Shade and weather protection\n- EV-ready infrastructure\n\nGround-mount is rare in dense commercial but can work for campuses and industrial sites with land."
+        }
+      ]
+    },
+    {
+      "id": "battery-storage",
+      "title": "Battery Energy Storage Systems (BESS)",
+      "subtitle": "Demand shaving, TOU shifting, and backup",
+      "icon": "🔋",
+      "order": 4,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales"],
+        "tags": ["selection", "sales"]
+      },
+      "content": [
+        {
+          "id": "bess-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## What batteries do\n\n- **Demand charge reduction**: discharge during peak demand\n- **TOU arbitrage**: charge off-peak, discharge on-peak\n- **Backup**: support critical loads during outages (requires design)\n\nKey specs:\n- Power (kW) and energy (kWh)\n- Round-trip efficiency\n- Warranty and cycling limits\n\n**Sales translation:** batteries pay when the tariff has demand or high TOU peaks—or when resiliency has value."
+        },
+        {
+          "id": "bess-table",
+          "type": "table",
+          "order": 2,
+          "headers": ["Use case", "Best fit", "Watch-out"],
+          "rows": [
+            ["Demand shaving", "High demand charges", "Need correct dispatch strategy and metering"],
+            ["TOU shifting", "High TOU spreads", "Export limits and NEM rules matter"],
+            ["Backup power", "Critical operations", "Requires transfer gear, controls, and code compliance"]
+          ],
+          "caption": "BESS use case fit"
+        }
+      ]
+    },
+    {
+      "id": "solar-storage-economics",
+      "title": "Solar + Storage Economics",
+      "subtitle": "What drives ROI",
+      "icon": "💸",
+      "order": 5,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer"],
+        "tags": ["sales", "roi"]
+      },
+      "content": [
+        {
+          "id": "econ-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Drivers of ROI\n\n- Energy offset value (kWh × $/kWh) based on tariff/NEM\n- Demand charge reduction (kW shaved × $/kW)\n- Incentives (tax credits, rebates)\n- Project cost (EPC, interconnection, soft costs)\n\n**Rule:** solar ROI is often energy-based; storage ROI is often demand/TOU-based."
+        }
+      ]
+    },
+    {
+      "id": "net-metering-rates",
+      "title": "Net Metering & Rate Structures",
+      "subtitle": "Why tariffs dominate value",
+      "icon": "📈",
+      "order": 6,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales"],
+        "tags": ["sales", "roi"]
+      },
+      "content": [
+        {
+          "id": "rates-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Tariff basics\n\nCommercial bills commonly include:\n- **Energy charges** ($/kWh)\n- **Demand charges** ($/kW) based on peak demand\n- **Time-of-use** (TOU) pricing\n\nNet metering/export rules determine how exported solar is compensated.\n\n**Sales translation:** a good design starts with the tariff and interval data—not panel count."
+        }
+      ]
+    },
+    {
+      "id": "ev-integration",
+      "title": "EV Charging Integration",
+      "subtitle": "Avoiding demand charge traps",
+      "icon": "🚗",
+      "order": 7,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["engineer", "sales", "field"],
+        "tags": ["roi"]
+      },
+      "content": [
+        {
+          "id": "ev-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## EV + solar/storage\n\nEV charging can add large coincident load and increase demand charges.\n\nBest practices:\n- Managed charging (load sharing)\n- Off-peak scheduling\n- Storage to cap peaks (site-specific)\n\n**Rule:** design EV as a managed load, not a passive plug."
+        }
+      ]
+    },
+    {
+      "id": "behind-the-meter",
+      "title": "Behind-the-Meter Strategy",
+      "subtitle": "Designing for the meter, not the brochure",
+      "icon": "🧾",
+      "order": 8,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer"],
+        "tags": ["sales"]
+      },
+      "content": [
+        {
+          "id": "btm-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Behind-the-meter (BTM) concept\n\nBTM projects are optimized to reduce the customer’s bill. The best portfolio strategy often is:\n\n1) Efficiency (reduce baseline)\n2) Solar (offset energy)\n3) Storage (reduce demand/shift TOU)\n4) Managed EV (prevent new peaks)\n\n**Sales translation:** bundling improves ROI and avoids oversizing."
+        }
+      ]
+    },
+    {
+      "id": "sales-strategies",
+      "title": "Sales Strategies & ROI",
+      "subtitle": "Selling solar + storage effectively",
+      "icon": "💰",
+      "order": 9,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["sales"],
+        "tags": ["sales", "roi"]
+      },
+      "content": [
+        {
+          "id": "sales-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Selling Renewables & Storage\n\n## Positioning\n\n- Bill reduction: energy + demand\n- Incentive stacking: tax credits and local programs\n- Resiliency: if the customer values backup\n\n### Discovery questions\n- What tariff are you on and how large are demand charges?\n- Do you have interval data available?\n- Are there upcoming roof replacements or site constraints?\n- Any EV expansion plans?\n- Is backup/resiliency a priority?\n\n### Objection handling\n| Objection | Response |\n|---|---|\n| \"Solar ROI isn’t what it used to be\" | \"It depends on your tariff and export rules—we model your actual bill.\" |\n| \"Batteries are expensive\" | \"They pay when demand charges and TOU peaks are high; we target the peak windows.\" |\n| \"Interconnection takes too long\" | \"That’s why we start interconnection early and phase the project with EE and controls in parallel.\" |"
+        }
+      ]
+    },
+    {
+      "id": "project-development",
+      "title": "Project Development Guide",
+      "subtitle": "From site to commissioning",
+      "icon": "🧭",
+      "order": 10,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales", "field"],
+        "tags": ["selection", "field"]
+      },
+      "content": [
+        {
+          "id": "pd-steps",
+          "type": "list",
+          "order": 1,
+          "ordered": true,
+          "items": [
+            "Collect bills + interval data + tariff",
+            "Site walk: roof/parking/electrical constraints",
+            "Preliminary modeling (PV + storage dispatch scenarios)",
+            "Interconnection application and feasibility",
+            "Engineering design (single line, structural, fire code)",
+            "Procurement and construction",
+            "Commissioning, monitoring setup, and operator training",
+            "Measurement and performance verification"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "incentives",
+      "title": "Incentive Programs",
+      "subtitle": "Tax credits and state/local programs",
+      "icon": "🏷️",
+      "order": 11,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "roi"]
+      },
+      "content": [
+        {
+          "id": "incentives-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Incentives overview\n\nCommon incentive categories:\n- Federal tax credits (ITC) and adders (project-dependent)\n- State programs (e.g., storage incentives)\n- Utility programs (site-specific)\n\n**Rule:** eligibility and documentation requirements should be checked early—before equipment selection is finalized."
+        }
+      ]
+    },
+    {
+      "id": "field-guide",
+      "title": "Field Identification Guide",
+      "subtitle": "What to capture in a renewables walkdown",
+      "icon": "🔍",
+      "order": 12,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["field", "sales", "engineer"],
+        "tags": ["field"]
+      },
+      "content": [
+        {
+          "id": "field-checklist",
+          "type": "list",
+          "order": 1,
+          "items": [
+            "Roof photos (obstructions, condition, access) and parking lot layout",
+            "Electrical room photos (main service, available breaker space, transformer nameplate)",
+            "Note any existing solar, generator, or critical load panels",
+            "Document shaded areas and potential PV exclusion zones",
+            "Identify potential battery locations and clearance/code constraints"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "subtitle": "Test your solar + storage knowledge",
+      "icon": "📝",
+      "order": 13,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["quiz"]
+      },
+      "content": [
+        {
+          "id": "renewables-quiz",
+          "type": "interactive",
+          "order": 1,
+          "component": "quiz-widget",
+          "config": {
+            "title": "Renewables & Storage Quiz",
+            "questions": [
+              {
+                "id": "q1",
+                "question": "For many commercial customers, what bill component often makes batteries valuable?",
+                "options": ["Color temperature", "Demand charges and TOU peaks", "Window U-factor", "Boiler turndown"],
+                "correctAnswer": 1,
+                "explanation": "Batteries often pay by reducing demand charges and shifting energy away from high TOU periods.",
+                "points": 10
+              },
+              {
+                "id": "q2",
+                "question": "Why is interval data important for solar + storage modeling?",
+                "options": ["It shows roof age", "It reveals load shape and peak timing", "It measures CRI", "It replaces commissioning"],
+                "correctAnswer": 1,
+                "explanation": "Interval data shows when the building uses power and when peaks occur—critical for dispatch economics.",
+                "points": 10
+              },
+              {
+                "id": "q3",
+                "question": "What is a common project schedule risk for solar projects?",
+                "options": ["Window shading", "Utility interconnection timeline", "Lamp replacements", "Steam traps"],
+                "correctAnswer": 1,
+                "explanation": "Interconnection approvals and constraints can dominate schedule and scope.",
+                "points": 10
+              },
+              {
+                "id": "q4",
+                "question": "What is a typical battery round-trip efficiency range?",
+                "options": ["10–20%", "40–50%", "85–92%", "99.9%"],
+                "correctAnswer": 2,
+                "explanation": "Many commercial battery systems are roughly ~85–92% round-trip efficient depending on equipment and operating range.",
+                "points": 10
+              },
+              {
+                "id": "q5",
+                "question": "Why is a bundled EE + solar + storage approach often recommended?",
+                "options": ["It increases loads", "It reduces required system size and improves ROI", "It eliminates tariffs", "It guarantees interconnection"],
+                "correctAnswer": 1,
+                "explanation": "Efficiency reduces baseline usage and peaks, allowing smaller PV/storage and better economics.",
+                "points": 10
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+

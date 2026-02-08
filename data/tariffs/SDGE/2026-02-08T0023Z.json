@@ -1,0 +1,4732 @@
+{
+  "utility": "SDGE",
+  "capturedAt": "2026-02-08T00:23:58.084Z",
+  "versionTag": "2026-02-08T0023Z",
+  "rates": [
+    {
+      "utility": "SDGE",
+      "rateCode": "A-2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "customerClass": "residential",
+      "customerClassSource": "inferred",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "",
+      "eligibilitySource": "unknown",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:A-2"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "customerClass",
+          "value": "inferred",
+          "inferenceRuleId": "infer.customerClass.residential",
+          "matchedText": "A-2"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "A-3",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "customerClass": "residential",
+      "customerClassSource": "inferred",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "",
+      "eligibilitySource": "unknown",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:A-3"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "customerClass",
+          "value": "inferred",
+          "inferenceRuleId": "infer.customerClass.residential",
+          "matchedText": "A-3"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "A-6",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "customerClass": "residential",
+      "customerClassSource": "inferred",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "",
+      "eligibilitySource": "unknown",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:A-6"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "customerClass",
+          "value": "inferred",
+          "inferenceRuleId": "infer.customerClass.residential",
+          "matchedText": "A-6"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "A-TC",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Traffic Control Service — Commercial/Industrial Rates",
+      "name": "Traffic Control Service",
+      "customerClass": "industrial",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commercial/Industrial Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:A-TC"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "66aac124c47bc2b0c7dfe22ef0063242f4566cb7",
+          "matchedText": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "A6-TOU",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "General Service - Time Metered - Optional — Commercial/Industrial Rates",
+      "name": "General Service - Time Metered - Optional",
+      "customerClass": "industrial",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commercial/Industrial Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:A6-TOU"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "66aac124c47bc2b0c7dfe22ef0063242f4566cb7",
+          "matchedText": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "AFP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Armed Forces Pilot Program — Miscellaneous",
+      "name": "Armed Forces Pilot Program",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:AFP"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "AL-TOU",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "General Service - Time Metered — Commercial/Industrial Rates",
+      "name": "General Service - Time Metered",
+      "customerClass": "industrial",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commercial/Industrial Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:AL-TOU"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "66aac124c47bc2b0c7dfe22ef0063242f4566cb7",
+          "matchedText": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "AL-TOU2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "General Service - Time Metered — Commercial/Industrial Rates",
+      "name": "General Service - Time Metered",
+      "customerClass": "industrial",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commercial/Industrial Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:AL-TOU2"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "66aac124c47bc2b0c7dfe22ef0063242f4566cb7",
+          "matchedText": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "BIOMAT",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Bioenergy Market Adjusting Tariff — Miscellaneous",
+      "name": "Bioenergy Market Adjusting Tariff",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:BIOMAT"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "BTMM",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Behind the Meter Microgrids (BTMM) — Miscellaneous",
+      "name": "Behind the Meter Microgrids (BTMM)",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:BTMM"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "CBP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Capacity Bidding Program — Miscellaneous",
+      "name": "Capacity Bidding Program",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:CBP"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "CCA",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Transportation of Electric Power for Community Choice Aggregation Customers — Miscellaneous",
+      "name": "Transportation of Electric Power for Community Choice Aggregation Customers",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:CCA"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "CCA-CRS",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Community Choice Aggregation Cost Responsibility Surcharge — Miscellaneous",
+      "name": "Community Choice Aggregation Cost Responsibility Surcharge",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:CCA-CRS"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "CCA-INFO",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Information Release to Community Choice Aggregators — Miscellaneous",
+      "name": "Information Release to Community Choice Aggregators",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:CCA-INFO"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "CGDL-CRS",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Customer Generation Departing Load Cost Responsibility Surcharge  — Miscellaneous",
+      "name": "Customer Generation Departing Load Cost Responsibility Surcharge",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:CGDL-CRS"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "CHP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Combined Heat & Power Tariff — Miscellaneous",
+      "name": "Combined Heat & Power Tariff",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:CHP"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "CRE",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Customer Renewable Energy (closed after 7/24/13) — Miscellaneous",
+      "name": "Customer Renewable Energy (closed after 7/24/13)",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:CRE"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DA",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Transportation of Electric Power for Direct Access Customers — Miscellaneous",
+      "name": "Transportation of Electric Power for Direct Access Customers",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DA"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DA-CRS",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Direct Access Cost Responsibility Surcharge — Miscellaneous",
+      "name": "Direct Access Cost Responsibility Surcharge",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DA-CRS"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DE",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Domestic Service to Utility Employees — Residential Rates",
+      "name": "Domestic Service to Utility Employees",
+      "customerClass": "residential",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Residential Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DE"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "b73cb6fa8e4c28f70e1ae03b2922d771d00fe0d4",
+          "matchedText": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DERPP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Dynamic Export Rate Pilot Program — Commodity Rates",
+      "name": "Dynamic Export Rate Pilot Program",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commodity Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DERPP"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DG-R",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Distributed Generation Renewable - Time Metered — Commercial/Industrial Rates",
+      "name": "Distributed Generation Renewable - Time Metered",
+      "customerClass": "industrial",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commercial/Industrial Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DG-R"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "66aac124c47bc2b0c7dfe22ef0063242f4566cb7",
+          "matchedText": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DM",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Multi-Family Service — Residential Rates",
+      "name": "Multi-Family Service",
+      "customerClass": "residential",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Residential Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DM"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "b73cb6fa8e4c28f70e1ae03b2922d771d00fe0d4",
+          "matchedText": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DR",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Domestic Service — Residential Rates",
+      "name": "Domestic Service",
+      "customerClass": "residential",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Residential Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DR"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "b73cb6fa8e4c28f70e1ae03b2922d771d00fe0d4",
+          "matchedText": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DR-1",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "",
+      "eligibilitySource": "unknown",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:DR-1"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DR-2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "",
+      "eligibilitySource": "unknown",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:DR-2"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DR-SES",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Domestic Time-of-Use for Households with a Solar Energy System — Residential Rates",
+      "name": "Domestic Time-of-Use for Households with a Solar Energy System",
+      "customerClass": "residential",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Residential Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DR-SES"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "b73cb6fa8e4c28f70e1ae03b2922d771d00fe0d4",
+          "matchedText": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DS,DT,DT-RV",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "SUBMETERED MULTI-FAMILY SERVICE — Residential Rates",
+      "name": "SUBMETERED MULTI-FAMILY SERVICE",
+      "customerClass": "residential",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Residential Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DS, DT, DT-RV"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "b73cb6fa8e4c28f70e1ae03b2922d771d00fe0d4",
+          "matchedText": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DWL",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Residential Walkway Lighting — Lighting Rates",
+      "name": "Residential Walkway Lighting",
+      "customerClass": "residential",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Lighting Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DWL"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "b73cb6fa8e4c28f70e1ae03b2922d771d00fe0d4",
+          "matchedText": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "DWR-BC",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Department of Water Resources Bond Charge — Miscellaneous",
+      "name": "Department of Water Resources Bond Charge",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:DWR-BC"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "E-CARE",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "California Alternate Rates for Energy Program — Residential Rates",
+      "name": "California Alternate Rates for Energy Program",
+      "customerClass": "residential",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Residential Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:E-CARE"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "b73cb6fa8e4c28f70e1ae03b2922d771d00fe0d4",
+          "matchedText": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "E-DEPART",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Departing Load - Nonbypassable Charges — Miscellaneous",
+      "name": "Departing Load - Nonbypassable Charges",
+      "customerClass": "commercial",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:E-DEPART"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:commercial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "8460a8fdedf3d2e14ddd71d3ba8001f608e864ac",
+          "matchedText": "customerClass:commercial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "E-DRP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Demand Response Provider Services — Miscellaneous",
+      "name": "Demand Response Provider Services",
+      "customerClass": "commercial",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:E-DRP"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:commercial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "8460a8fdedf3d2e14ddd71d3ba8001f608e864ac",
+          "matchedText": "customerClass:commercial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "E-PIPP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Percentage Of Income Payment Plan(E-PIPP) — Miscellaneous",
+      "name": "Percentage Of Income Payment Plan(E-PIPP)",
+      "customerClass": "commercial",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:E-PIPP"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:commercial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "8460a8fdedf3d2e14ddd71d3ba8001f608e864ac",
+          "matchedText": "customerClass:commercial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "E-PUC",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Surcharge to Fund Public Utilities Commission Reimbursement Fee — Miscellaneous",
+      "name": "Surcharge to Fund Public Utilities Commission Reimbursement Fee",
+      "customerClass": "public_sector",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:E-PUC"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:public_sector (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "54f0528b0f8c2fb875835906d8c43eba4b0b4236",
+          "matchedText": "customerClass:public_sector (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "E-SMOP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Electric Residential Smart Meter Opt-Out Program — Residential Rates",
+      "name": "Electric Residential Smart Meter Opt-Out Program",
+      "customerClass": "residential",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Residential Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:E-SMOP"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "b73cb6fa8e4c28f70e1ae03b2922d771d00fe0d4",
+          "matchedText": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "ECR-PDT",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Enhanced Community Renewables Project Development Tariff — Miscellaneous",
+      "name": "Enhanced Community Renewables Project Development Tariff",
+      "customerClass": "ev",
+      "customerClassSource": "inferred",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:ECR-PDT"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "customerClass",
+          "value": "inferred",
+          "inferenceRuleId": "infer.customerClass.ev",
+          "matchedText": "ECR-PDT"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EDR",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Economic Development Rate — Miscellaneous",
+      "name": "Economic Development Rate",
+      "customerClass": "ev",
+      "customerClassSource": "inferred",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EDR"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "customerClass",
+          "value": "inferred",
+          "inferenceRuleId": "infer.customerClass.ev",
+          "matchedText": "EDR"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EECC",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Electric Energy Commodity Cost — Commodity Rates",
+      "name": "Electric Energy Commodity Cost",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commodity Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EECC"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EECC-CPP-D",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Electric Energy Commodity Cost Critical Peak Pricing Default — Commodity Rates",
+      "name": "Electric Energy Commodity Cost Critical Peak Pricing Default",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commodity Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EECC-CPP-D"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EECC-CPP-D-AG",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Electric Energy Commodity Cost Critical Peak Pricing Default Agricultural — Commodity Rates",
+      "name": "Electric Energy Commodity Cost Critical Peak Pricing Default Agricultural",
+      "customerClass": "agricultural",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commodity Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EECC-CPP-D-AG"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:agricultural (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "7302473399ed3990fd0f15831dfb2c021a93bc29",
+          "matchedText": "customerClass:agricultural (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EECC-EV-TOU-5-P",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Electric Commodity Cost Time of Use Plus — Commodity Rates",
+      "name": "Electric Commodity Cost Time of Use Plus",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commodity Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EECC-EV-TOU-5-P"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EECC-TBS",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Electric Energy Commodity Cost - Transitional Bundled Service — Commodity Rates",
+      "name": "Electric Energy Commodity Cost - Transitional Bundled Service",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commodity Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EECC-TBS"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EECC-TOU-A-P",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "ELECTRIC COMMODITY COST TIME OF USE PLUS\r\n — Commodity Rates",
+      "name": "ELECTRIC COMMODITY COST TIME OF USE PLUS",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commodity Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EECC-TOU-A-P"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EECC-TOU-DR-P",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "ELECTRIC COMMODITY COST TIME OF USE PLUS\r\n — Commodity Rates",
+      "name": "ELECTRIC COMMODITY COST TIME OF USE PLUS",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commodity Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EECC-TOU-DR-P"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EECC-TOU-PA-P",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "ELECTRIC COMMODITY COST AGRICULTURAL TIME OF USE PLUS\r\n — Commodity Rates",
+      "name": "ELECTRIC COMMODITY COST AGRICULTURAL TIME OF USE PLUS",
+      "customerClass": "agricultural",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commodity Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EECC-TOU-PA-P"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:agricultural (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "7302473399ed3990fd0f15831dfb2c021a93bc29",
+          "matchedText": "customerClass:agricultural (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EV-HP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Electric Vehicle High Power Rate  — Commercial/Industrial Rates",
+      "name": "Electric Vehicle High Power Rate",
+      "customerClass": "industrial",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commercial/Industrial Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EV-HP"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "66aac124c47bc2b0c7dfe22ef0063242f4566cb7",
+          "matchedText": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EV-TOU",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Domestic Time-of-Use for Electric Vehicle Charging — Residential Rates",
+      "name": "Domestic Time-of-Use for Electric Vehicle Charging",
+      "customerClass": "residential",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Residential Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EV-TOU"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "b73cb6fa8e4c28f70e1ae03b2922d771d00fe0d4",
+          "matchedText": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EV-TOU-2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Domestic Time-of-Use for Households with Electric Vehicles — Residential Rates",
+      "name": "Domestic Time-of-Use for Households with Electric Vehicles",
+      "customerClass": "residential",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Residential Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EV-TOU-2"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "b73cb6fa8e4c28f70e1ae03b2922d771d00fe0d4",
+          "matchedText": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "EV-TOU-5",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Cost-Based Domestic Time-of-Use for Households with Electric Vehicles — Residential Rates",
+      "name": "Cost-Based Domestic Time-of-Use for Households with Electric Vehicles",
+      "customerClass": "residential",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Residential Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:EV-TOU-5"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "b73cb6fa8e4c28f70e1ae03b2922d771d00fe0d4",
+          "matchedText": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "FBD",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Food Bank Discount — Miscellaneous",
+      "name": "Food Bank Discount",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:FBD"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "FERA",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Family Electric Rate Assistance Program — Residential Rates",
+      "name": "Family Electric Rate Assistance Program",
+      "customerClass": "residential",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Residential Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:FERA"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "b73cb6fa8e4c28f70e1ae03b2922d771d00fe0d4",
+          "matchedText": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "GHG-ARR",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Greenhouse Gas Allowance Revenue Return — Miscellaneous",
+      "name": "Greenhouse Gas Allowance Revenue Return",
+      "customerClass": "ev",
+      "customerClassSource": "inferred",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:GHG-ARR"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "customerClass",
+          "value": "inferred",
+          "inferenceRuleId": "infer.customerClass.ev",
+          "matchedText": "GHG-ARR"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "GT",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Shared Renewables Green Tariff  — Miscellaneous",
+      "name": "Shared Renewables Green Tariff",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:GT"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "LS-1",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Lighting - Street and Highway - Utility-Owned Installations — Lighting Rates",
+      "name": "Lighting - Street and Highway - Utility-Owned Installations",
+      "customerClass": "public_sector",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Lighting Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:LS-1"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:public_sector (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "54f0528b0f8c2fb875835906d8c43eba4b0b4236",
+          "matchedText": "customerClass:public_sector (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "LS-2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Lighting - Street and Highway - Customer-Owned Installations — Lighting Rates",
+      "name": "Lighting - Street and Highway - Customer-Owned Installations",
+      "customerClass": "public_sector",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Lighting Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:LS-2"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:public_sector (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "54f0528b0f8c2fb875835906d8c43eba4b0b4236",
+          "matchedText": "customerClass:public_sector (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "LS-2AD",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Lighting - Street and Highway - Customer-Owned Ancillary Device Installations — Lighting Rates",
+      "name": "Lighting - Street and Highway - Customer-Owned Ancillary Device Installations",
+      "customerClass": "public_sector",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Lighting Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:LS-2 AD"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:public_sector (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "54f0528b0f8c2fb875835906d8c43eba4b0b4236",
+          "matchedText": "customerClass:public_sector (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "LS-2DS",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Lighting - Street and Highway - Customer-Owned Dimmable Installations — Lighting Rates",
+      "name": "Lighting - Street and Highway - Customer-Owned Dimmable Installations",
+      "customerClass": "public_sector",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Lighting Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:LS-2 DS"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:public_sector (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "54f0528b0f8c2fb875835906d8c43eba4b0b4236",
+          "matchedText": "customerClass:public_sector (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "LS-3",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Lighting - Street and Highway - Customer-Owned Installations\r\n(closed after 6/10/79) — Lighting Rates",
+      "name": "Lighting - Street and Highway - Customer-Owned Installations (closed after 6/10/79)",
+      "customerClass": "public_sector",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Lighting Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:LS-3"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:public_sector (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "54f0528b0f8c2fb875835906d8c43eba4b0b4236",
+          "matchedText": "customerClass:public_sector (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "MPMET",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Multi-Premise Microgrid  Enablement Tariff  — Miscellaneous",
+      "name": "Multi-Premise Microgrid Enablement Tariff",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:MPMET"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "NBT",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Net Billing Tariff — Miscellaneous",
+      "name": "Net Billing Tariff",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:NBT"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "NBT-V",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Virtual Net Billing Tariff   — Miscellaneous",
+      "name": "Virtual Net Billing Tariff",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:NBT-V"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "NDA",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "UDC Meter Services for Non-Direct Access Customers — Miscellaneous",
+      "name": "UDC Meter Services for Non-Direct Access Customers",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:NDA"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "NEM",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Net Energy Metering — Miscellaneous",
+      "name": "Net Energy Metering",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:NEM"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "NEM-FC",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Net Energy Metering for Fuel Cell Customer-Generators — Miscellaneous",
+      "name": "Net Energy Metering for Fuel Cell Customer-Generators",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:NEM-FC"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "NEM-ST",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Net Energy Metering - Successor Tariff — Miscellaneous",
+      "name": "Net Energy Metering - Successor Tariff",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:NEM-ST"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "NEM-V",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Virtual Net Energy Metering for Multi-Tenant and Multi-Meter Properties — Miscellaneous",
+      "name": "Virtual Net Energy Metering for Multi-Tenant and Multi-Meter Properties",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:NEM-V"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "NEM-V-ST",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Virtual Net Energy Metering for Multi-Tenant and Multi-Meter Properties - Successor Tariff — Miscellaneous",
+      "name": "Virtual Net Energy Metering for Multi-Tenant and Multi-Meter Properties - Successor Tariff",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:NEM-V-ST"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "OL-1",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Outdoor Area Lighting Service — Lighting Rates",
+      "name": "Outdoor Area Lighting Service",
+      "customerClass": "street_lighting",
+      "customerClassSource": "inferred",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Lighting Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:OL-1"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "customerClass",
+          "value": "inferred",
+          "inferenceRuleId": "infer.customerClass.streetLighting",
+          "matchedText": "OL-1"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "OL-2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Outdoor Area Lighting Service Metered - Customer-Owned Installations — Lighting Rates",
+      "name": "Outdoor Area Lighting Service Metered - Customer-Owned Installations",
+      "customerClass": "street_lighting",
+      "customerClassSource": "inferred",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Lighting Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:OL-2"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "customerClass",
+          "value": "inferred",
+          "inferenceRuleId": "infer.customerClass.streetLighting",
+          "matchedText": "OL-2"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "OL-TOU",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Outdoor Lighting - Time Metered — Commercial/Industrial Rates",
+      "name": "Outdoor Lighting - Time Metered",
+      "customerClass": "industrial",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commercial/Industrial Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:OL-TOU"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "66aac124c47bc2b0c7dfe22ef0063242f4566cb7",
+          "matchedText": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "PA-2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "",
+      "eligibilitySource": "unknown",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:PA-2"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "PA-3",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "",
+      "eligibilitySource": "unknown",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:PA-3"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "PA-T-1",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Experimental Power - Agricultural - Optional Time-of-Use — Miscellaneous",
+      "name": "Experimental Power - Agricultural - Optional Time-of-Use",
+      "customerClass": "agricultural",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:PA-T-1"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:agricultural (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "7302473399ed3990fd0f15831dfb2c021a93bc29",
+          "matchedText": "customerClass:agricultural (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "PUBLICGIR",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "GRID INTEGRATED RATE — Miscellaneous",
+      "name": "GRID INTEGRATED RATE",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:PUBLIC GIR"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "PURPA",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Public Utility Regulatory Policies Act — Miscellaneous",
+      "name": "Public Utility Regulatory Policies Act",
+      "customerClass": "public_sector",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:PURPA"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:public_sector (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "54f0528b0f8c2fb875835906d8c43eba4b0b4236",
+          "matchedText": "customerClass:public_sector (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "RBRP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Rolling Blackout Reduction Program — Miscellaneous",
+      "name": "Rolling Blackout Reduction Program",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:RBRP"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "REMAT",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Renewable Market Adjusting Tariff — Miscellaneous",
+      "name": "Renewable Market Adjusting Tariff",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:ReMAT"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "RES-BCT",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Local Government Renewable Energy Self-Generation Bill Credit Transfer — Miscellaneous",
+      "name": "Local Government Renewable Energy Self-Generation Bill Credit Transfer",
+      "customerClass": "public_sector",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:RES-BCT"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:public_sector (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "54f0528b0f8c2fb875835906d8c43eba4b0b4236",
+          "matchedText": "customerClass:public_sector (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "S",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Standby Service — Miscellaneous",
+      "name": "Standby Service",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:S"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "S-I",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Standby Service - Interruptible (closed after February 1, 2005) — Miscellaneous",
+      "name": "Standby Service - Interruptible (closed after February 1, 2005)",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:S-I"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "SE",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Service Establishment Charge — Miscellaneous",
+      "name": "Service Establishment Charge",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:SE"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "SLRP",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Scheduled Load Reduction Program — Miscellaneous",
+      "name": "Scheduled Load Reduction Program",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:SLRP"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "SPES",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Station Power - Energy Storage  — Miscellaneous",
+      "name": "Station Power - Energy Storage",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:SPES"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "SPSS",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Station Power Self-Supply — Miscellaneous",
+      "name": "Station Power Self-Supply",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:SPSS"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "T-1",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "",
+      "eligibilitySource": "unknown",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:T-1"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "",
+      "eligibilitySource": "unknown",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:TOU-2"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-5",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "",
+      "eligibilitySource": "unknown",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:TOU-5"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-A",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "GENERAL SERVICE – TIME OF USE SERVICE — Commercial/Industrial Rates",
+      "name": "GENERAL SERVICE – TIME OF USE SERVICE",
+      "customerClass": "industrial",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commercial/Industrial Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-A"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "66aac124c47bc2b0c7dfe22ef0063242f4566cb7",
+          "matchedText": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-A2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "General Service - Time of Use Service - Three Period — Commercial/Industrial Rates",
+      "name": "General Service - Time of Use Service - Three Period",
+      "customerClass": "industrial",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commercial/Industrial Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-A2"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "66aac124c47bc2b0c7dfe22ef0063242f4566cb7",
+          "matchedText": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-A3",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "General Service - Time of Use Service Three Period Rate — Commercial/Industrial Rates",
+      "name": "General Service - Time of Use Service Three Period Rate",
+      "customerClass": "industrial",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commercial/Industrial Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-A3"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "66aac124c47bc2b0c7dfe22ef0063242f4566cb7",
+          "matchedText": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-DR",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "RESIDENTIAL -- TIME OF USE SERVICE — Residential Rates",
+      "name": "RESIDENTIAL -- TIME OF USE SERVICE",
+      "customerClass": "residential",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Residential Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-DR"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "b73cb6fa8e4c28f70e1ae03b2922d771d00fe0d4",
+          "matchedText": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-DR1",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Residential Time-of-Use  — Residential Rates",
+      "name": "Residential Time-of-Use",
+      "customerClass": "residential",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Residential Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-DR1"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "b73cb6fa8e4c28f70e1ae03b2922d771d00fe0d4",
+          "matchedText": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-DR2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Residential Time-of-Use  — Residential Rates",
+      "name": "Residential Time-of-Use",
+      "customerClass": "residential",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Residential Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-DR2"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "b73cb6fa8e4c28f70e1ae03b2922d771d00fe0d4",
+          "matchedText": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-ELEC",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "DOMESTIC TIME-OF-USE FOR HOUSEHOLDS WITH ELECTRIC VEHICLES, ENERGY STORAGE, OR HEAT PUMPS  — Residential Rates",
+      "name": "DOMESTIC TIME-OF-USE FOR HOUSEHOLDS WITH ELECTRIC VEHICLES, ENERGY STORAGE, OR HEAT PUMPS",
+      "customerClass": "residential",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Residential Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-ELEC"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "b73cb6fa8e4c28f70e1ae03b2922d771d00fe0d4",
+          "matchedText": "customerClass:residential (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-M",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "General Service - Small-Time Metered  — Commercial/Industrial Rates",
+      "name": "General Service - Small-Time Metered",
+      "customerClass": "industrial",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Commercial/Industrial Rates",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-M"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "66aac124c47bc2b0c7dfe22ef0063242f4566cb7",
+          "matchedText": "customerClass:industrial (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-PA",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Power - Agricultural Time-of-Use Service — Miscellaneous",
+      "name": "Power - Agricultural Time-of-Use Service",
+      "customerClass": "agricultural",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-PA"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:agricultural (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "7302473399ed3990fd0f15831dfb2c021a93bc29",
+          "matchedText": "customerClass:agricultural (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-PA2",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Power - Agricultural Time-Of-Use Service - Three Period — Miscellaneous",
+      "name": "Power - Agricultural Time-Of-Use Service - Three Period",
+      "customerClass": "agricultural",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-PA2"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:agricultural (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "7302473399ed3990fd0f15831dfb2c021a93bc29",
+          "matchedText": "customerClass:agricultural (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "TOU-PA3",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Power Agricultural Time-of-Use Service - Three Period — Miscellaneous",
+      "name": "Power Agricultural Time-of-Use Service - Three Period",
+      "customerClass": "agricultural",
+      "customerClassSource": "parsed",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:TOU-PA3"
+        },
+        {
+          "kind": "meta",
+          "value": "customerClass:agricultural (json.title)"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "7302473399ed3990fd0f15831dfb2c021a93bc29",
+          "matchedText": "customerClass:agricultural (json.title)"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "UM",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Unmetered Electric Service — Miscellaneous",
+      "name": "Unmetered Electric Service",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:UM"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "VGI",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Electric Vehicle Grid Integration Pilot Program — Miscellaneous",
+      "name": "Electric Vehicle Grid Integration Pilot Program",
+      "customerClass": "ev",
+      "customerClassSource": "inferred",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:VGI"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "customerClass",
+          "value": "inferred",
+          "inferenceRuleId": "infer.customerClass.ev",
+          "matchedText": "VGI"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "VNEM-SOMAH",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Virtual Net Energy Metering - Solar on Multifamily Affordable Housing (VNEM-SOMAH) — Miscellaneous",
+      "name": "Virtual Net Energy Metering - Solar on Multifamily Affordable Housing (VNEM-SOMAH)",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:VNEM-SOMAH"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "VNM-A",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Virtual Net Energy Metering for Multifamily Affordable Housing — Miscellaneous",
+      "name": "Virtual Net Energy Metering for Multifamily Affordable Housing",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:VNM-A"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "VNM-A-ST",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Virtual Net Energy Metering for Multifamily Affordable Housing — Miscellaneous",
+      "name": "Virtual Net Energy Metering for Multifamily Affordable Housing",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:VNM-A-ST"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "WATER",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Water Agency Tariff for Eligible Renewables (closed after 7/24/13) — Miscellaneous",
+      "name": "Water Agency Tariff for Eligible Renewables (closed after 7/24/13)",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:WATER"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    },
+    {
+      "utility": "SDGE",
+      "rateCode": "WF-NBC",
+      "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "sourceTitle": "Wildfire Fund Non-Bypassable Charge — Miscellaneous",
+      "name": "Wildfire Fund Non-Bypassable Charge",
+      "customerClass": "unknown",
+      "customerClassSource": "unknown",
+      "voltage": "unknown",
+      "voltageSource": "unknown",
+      "eligibilityNotes": "Miscellaneous",
+      "eligibilitySource": "parsed",
+      "effectiveStart": null,
+      "effectiveEnd": null,
+      "effectiveSource": "unknown",
+      "lastVerifiedAt": "2026-02-08T00:23:58.084Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE"
+        },
+        {
+          "kind": "text",
+          "value": "json:WF-NBC"
+        },
+        {
+          "kind": "meta",
+          "value": "eligibilityNotes:json.group"
+        },
+        {
+          "kind": "meta",
+          "sourceUrl": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+          "fieldName": "parsed",
+          "value": "parsed",
+          "snippetHash": "3548726dfca6791e1afb78dc8ee18f36f8a1f3da",
+          "matchedText": "eligibilityNotes:json.group"
+        }
+      ]
+    }
+  ],
+  "metadataCompleteness": {
+    "customerClassPct": 0.4160377358490563,
+    "voltagePct": 0,
+    "effectiveDatePct": 0,
+    "eligibilityNotesPct": 0.8150943396226421
+  },
+  "sourceFingerprints": [
+    {
+      "url": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "contentHash": "4117395c4256dcf2ecce29da12b00ea344074dc6bea9fa352bbfa43fc1041eb8"
+    }
+  ],
+  "diffFromPrevious": {
+    "previousVersionTag": "2026-02-06T1906Z",
+    "addedRateCodes": [],
+    "removedRateCodes": [],
+    "unchangedRateCodes": [
+      "A-2",
+      "A-3",
+      "A-6",
+      "A-TC",
+      "A6-TOU",
+      "AFP",
+      "AL-TOU",
+      "AL-TOU2",
+      "BIOMAT",
+      "BTMM",
+      "CBP",
+      "CCA",
+      "CCA-CRS",
+      "CCA-INFO",
+      "CGDL-CRS",
+      "CHP",
+      "CRE",
+      "DA",
+      "DA-CRS",
+      "DE",
+      "DERPP",
+      "DG-R",
+      "DM",
+      "DR",
+      "DR-1",
+      "DR-2",
+      "DR-SES",
+      "DS,DT,DT-RV",
+      "DWL",
+      "DWR-BC",
+      "E-CARE",
+      "E-DEPART",
+      "E-DRP",
+      "E-PIPP",
+      "E-PUC",
+      "E-SMOP",
+      "ECR-PDT",
+      "EDR",
+      "EECC",
+      "EECC-CPP-D",
+      "EECC-CPP-D-AG",
+      "EECC-EV-TOU-5-P",
+      "EECC-TBS",
+      "EECC-TOU-A-P",
+      "EECC-TOU-DR-P",
+      "EECC-TOU-PA-P",
+      "EV-HP",
+      "EV-TOU",
+      "EV-TOU-2",
+      "EV-TOU-5",
+      "FBD",
+      "FERA",
+      "GHG-ARR",
+      "GT",
+      "LS-1",
+      "LS-2",
+      "LS-2AD",
+      "LS-2DS",
+      "LS-3",
+      "MPMET",
+      "NBT",
+      "NBT-V",
+      "NDA",
+      "NEM",
+      "NEM-FC",
+      "NEM-ST",
+      "NEM-V",
+      "NEM-V-ST",
+      "OL-1",
+      "OL-2",
+      "OL-TOU",
+      "PA-2",
+      "PA-3",
+      "PA-T-1",
+      "PUBLICGIR",
+      "PURPA",
+      "RBRP",
+      "REMAT",
+      "RES-BCT",
+      "S",
+      "S-I",
+      "SE",
+      "SLRP",
+      "SPES",
+      "SPSS",
+      "T-1",
+      "TOU-2",
+      "TOU-5",
+      "TOU-A",
+      "TOU-A2",
+      "TOU-A3",
+      "TOU-DR",
+      "TOU-DR1",
+      "TOU-DR2",
+      "TOU-ELEC",
+      "TOU-M",
+      "TOU-PA",
+      "TOU-PA2",
+      "TOU-PA3",
+      "UM",
+      "VGI",
+      "VNEM-SOMAH",
+      "VNM-A",
+      "VNM-A-ST",
+      "WATER",
+      "WF-NBC"
+    ]
+  },
+  "raw": [
+    {
+      "url": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariffs?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "contentHash": "4117395c4256dcf2ecce29da12b00ea344074dc6bea9fa352bbfa43fc1041eb8"
+    }
+  ]
+}

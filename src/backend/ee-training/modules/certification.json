@@ -1,0 +1,133 @@
+{
+  "id": "certification",
+  "title": "EverWatt Energy Efficiency Certification",
+  "subtitle": "Industry-specific certification tests",
+  "description": "Earn your EverWatt Energy Efficiency Certification by passing industry-specific tests. Each certification validates your expertise in energy efficiency for specific facility types.",
+  "icon": "🎓",
+  "category": "certification",
+  "order": 100,
+  "status": "published",
+  "metadata": {
+    "author": "EverWatt Training",
+    "lastUpdated": "2025-01-02",
+    "version": "1.0.0",
+    "estimatedTime": 60,
+    "difficulty": "intermediate",
+    "tags": ["certification", "test", "exam", "industry-specific"]
+  },
+  "sections": [
+    {
+      "id": "certification-overview",
+      "title": "Certification Overview",
+      "subtitle": "What is the EverWatt Certification?",
+      "icon": "📜",
+      "order": 0,
+      "metadata": {
+        "estimatedTime": 5,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview"]
+      },
+      "content": [
+        {
+          "id": "overview-intro",
+          "type": "markdown",
+          "order": 1,
+          "metadata": { "tags": ["overview"] },
+          "content": "## EverWatt Energy Efficiency Certification\n\n**What is it?**\n\nThe EverWatt Energy Efficiency Certification is an industry-specific credential that validates your expertise in identifying and implementing energy efficiency measures for specific facility types.\n\n**Why get certified?**\n\n- **Credibility**: Demonstrate your expertise to clients and employers\n- **Competitive Advantage**: Stand out in the energy efficiency industry\n- **Knowledge Validation**: Prove you understand industry-specific opportunities\n- **Professional Development**: Advance your career in energy efficiency\n\n**How it works:**\n\n1. **Choose Your Industry**: Select the certification track for your target industry (Healthcare, Manufacturing, K-12 Schools, etc.)\n2. **Study the Materials**: Review the relevant training modules for your chosen industry\n3. **Take the Test**: Complete the industry-specific certification exam\n4. **Earn Your Certificate**: Pass with 80% or higher to receive your digital certificate\n\n**Certification Requirements:**\n\n- Passing score: **80% or higher**\n- Test format: Multiple choice, scenario-based, and application questions\n- Time limit: Varies by test (typically 60-90 minutes)\n- Prerequisites: Recommended to complete relevant training modules first\n\n**Certification Validity:**\n\n- Certificates are valid indefinitely (unless industry standards change significantly)\n- You can retake tests to improve your score\n- Multiple industry certifications can be earned"
+        },
+        {
+          "id": "certification-cards",
+          "type": "cards",
+          "order": 2,
+          "columns": 3,
+          "cards": [
+            {
+              "title": "Healthcare Engineers",
+              "description": "Certification for energy efficiency in hospitals, clinics, and medical facilities. Covers HVAC optimization, lighting, sterilization equipment, and 24/7 operations.",
+              "metadata": { "icon": "🏥", "jumpTo": "healthcare-cert", "industry": "healthcare" }
+            },
+            {
+              "title": "Manufacturing Engineers",
+              "description": "Certification for industrial facilities. Covers compressed air, process heating, motors, steam systems, and high-energy-intensity operations.",
+              "metadata": { "icon": "⚙️", "jumpTo": "manufacturing-cert", "industry": "manufacturing" }
+            },
+            {
+              "title": "K-12 Public School Engineers",
+              "description": "Certification for public school facilities. Covers HVAC scheduling, lighting, gymnasiums, cafeterias, and variable occupancy patterns.",
+              "metadata": { "icon": "🏫", "jumpTo": "k12-public-cert", "industry": "k12-public" }
+            },
+            {
+              "title": "K-12 Private School Engineers",
+              "description": "Certification for private school facilities. Similar to public schools but with different funding and operational considerations.",
+              "metadata": { "icon": "🎓", "jumpTo": "k12-private-cert", "industry": "k12-private" }
+            },
+            {
+              "title": "University Engineers",
+              "description": "Certification for large university campuses. Covers central plants, research labs, dormitories, dining halls, and complex campus operations.",
+              "metadata": { "icon": "🏛️", "jumpTo": "universities-cert", "industry": "universities" }
+            },
+            {
+              "title": "College Engineers",
+              "description": "Certification for community colleges and vocational schools. Covers HVAC, lighting, vocational equipment, and commuter-based operations.",
+              "metadata": { "icon": "📚", "jumpTo": "colleges-cert", "industry": "colleges" }
+            },
+            {
+              "title": "Retail Engineers",
+              "description": "Certification for retail facilities. Covers lighting, HVAC, refrigeration, plug loads, and long operating hours.",
+              "metadata": { "icon": "🛍️", "jumpTo": "retail-cert", "industry": "retail" }
+            },
+            {
+              "title": "Office Building Engineers",
+              "description": "Certification for commercial office buildings. Covers HVAC, lighting, plug loads, building envelope, and tenant spaces.",
+              "metadata": { "icon": "🏢", "jumpTo": "office-cert", "industry": "office" }
+            },
+            {
+              "title": "Warehouse Engineers",
+              "description": "Certification for warehouses and distribution centers. Covers high-bay lighting, minimal HVAC, dock doors, and material handling.",
+              "metadata": { "icon": "📦", "jumpTo": "warehouse-cert", "industry": "warehouse" }
+            },
+            {
+              "title": "Data Center Engineers",
+              "description": "Certification for data centers and IT facilities. Covers cooling efficiency, PUE optimization, UPS systems, and airflow management.",
+              "metadata": { "icon": "💻", "jumpTo": "data-center-cert", "industry": "data-center" }
+            },
+            {
+              "title": "Hospitality Engineers",
+              "description": "Certification for hotels and resorts. Covers guest room HVAC, kitchens, laundry, pools/spas, and 24/7 operations.",
+              "metadata": { "icon": "🏨", "jumpTo": "hospitality-cert", "industry": "hospitality" }
+            },
+            {
+              "title": "Food Service Engineers",
+              "description": "Certification for restaurants and commercial kitchens. Covers kitchen equipment, ventilation, refrigeration, and high heat loads.",
+              "metadata": { "icon": "🍽️", "jumpTo": "food-service-cert", "industry": "food-service" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "how-to-certify",
+      "title": "How to Get Certified",
+      "subtitle": "Step-by-step guide",
+      "icon": "📋",
+      "order": 1,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["guide"]
+      },
+      "content": [
+        {
+          "id": "certification-steps",
+          "type": "markdown",
+          "order": 1,
+          "metadata": { "tags": ["guide"] },
+          "content": "## Steps to Certification\n\n### Step 1: Choose Your Industry\n\nSelect the industry certification that matches your work or career goals. Each certification is tailored to specific facility types and their unique energy efficiency challenges.\n\n### Step 2: Study the Training Materials\n\n**Recommended modules to review:**\n\n- **Industry-Specific Guide**: Review the section for your chosen industry\n- **Technology Modules**: Study relevant modules (HVAC, Lighting, Compressed Air, etc.)\n- **Sales Tips & Tricks**: Understand how to identify and sell opportunities\n\n**Study Tips:**\n\n- Take notes on key opportunities and typical savings\n- Review equipment tables and field checklists\n- Practice with knowledge check quizzes in each module\n- Focus on industry-specific questions and scenarios\n\n### Step 3: Take the Certification Test\n\n**Test Format:**\n\n- **Multiple Choice**: Standard knowledge questions\n- **Scenario-Based**: Real-world situations requiring analysis\n- **Application Questions**: Practical application of concepts\n- **Calculation Questions**: Energy savings and financial calculations\n\n**Test Rules:**\n\n- Time limit varies by test (typically 60-90 minutes)\n- No hints or external resources during the test\n- Questions are randomized for each attempt\n- Immediate feedback after completion\n\n### Step 4: Review Your Results\n\nAfter completing the test:\n\n- **Score Breakdown**: See your performance by category\n- **Question Review**: Review correct answers and explanations\n- **Weak Areas**: Identify topics to study further\n- **Retake Option**: Retake the test to improve your score\n\n### Step 5: Earn Your Certificate\n\n**Passing Requirements:**\n\n- Score 80% or higher\n- Complete all required questions\n- Stay within time limit (if applicable)\n\n**Upon Passing:**\n\n- Receive digital certificate with unique certificate number\n- Download PDF certificate\n- Share on LinkedIn or professional profiles\n- Add to resume or email signature\n\n**Certificate Includes:**\n\n- Your name (if provided)\n- Industry specialization\n- Issue date\n- Certificate number for verification\n- EverWatt logo and branding"
+        }
+      ]
+    }
+  ]
+}
+

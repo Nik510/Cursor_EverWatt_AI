@@ -1,0 +1,15 @@
+{
+  "id": "81ddf8e2-d4b9-4651-bd19-62aad83c1a33",
+  "userId": "default-user",
+  "createdAt": "2026-01-20T18:53:14.848Z",
+  "updatedAt": "2026-01-20T18:53:14.848Z",
+  "customerInfo": {
+    "companyName": "Untitled Project",
+    "siteLocation": "",
+    "serviceAgreementId": "",
+    "facilityType": "",
+    "climateZone": "",
+    "rateSchedule": ""
+  },
+  "status": "draft"
+}

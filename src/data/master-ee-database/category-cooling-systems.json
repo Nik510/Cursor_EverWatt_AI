@@ -1,0 +1,277 @@
+{
+  "id": "cooling-systems",
+  "name": "COOLING SYSTEMS",
+  "subcategories": [
+    {
+      "id": "electric-chillers",
+      "name": "Electric Chillers",
+      "measures": [
+        {
+          "id": "measure-23",
+          "name": "Centrifugal chiller",
+          "keywords": [
+            "chiller"
+          ]
+        },
+        {
+          "id": "measure-24",
+          "name": "Standard",
+          "keywords": []
+        },
+        {
+          "id": "measure-25",
+          "name": "Two-stage",
+          "keywords": []
+        },
+        {
+          "id": "measure-26",
+          "name": "VFD centrifugal",
+          "keywords": [
+            "vfd"
+          ]
+        },
+        {
+          "id": "measure-27",
+          "name": "Magnetic-bearing centrifugal",
+          "keywords": []
+        },
+        {
+          "id": "measure-28",
+          "name": "Screw chiller",
+          "keywords": [
+            "chiller"
+          ]
+        },
+        {
+          "id": "measure-29",
+          "name": "Air-cooled screw",
+          "keywords": []
+        },
+        {
+          "id": "measure-30",
+          "name": "Water-cooled screw",
+          "keywords": []
+        },
+        {
+          "id": "measure-31",
+          "name": "VFD screw",
+          "keywords": [
+            "vfd"
+          ]
+        },
+        {
+          "id": "measure-32",
+          "name": "Scroll chiller",
+          "keywords": [
+            "chiller"
+          ]
+        },
+        {
+          "id": "measure-33",
+          "name": "Modular multi-scroll",
+          "keywords": []
+        },
+        {
+          "id": "measure-34",
+          "name": "Packaged air-cooled scroll",
+          "keywords": []
+        },
+        {
+          "id": "measure-35",
+          "name": "Reciprocating chiller (legacy)",
+          "keywords": [
+            "chiller"
+          ]
+        },
+        {
+          "id": "measure-36",
+          "name": "Free-cooling / economizer chillers",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "absorption-gas-engine-chillers",
+      "name": "Absorption / Gas / Engine Chillers",
+      "measures": [
+        {
+          "id": "measure-37",
+          "name": "Direct-fired absorption (LiBr)",
+          "keywords": []
+        },
+        {
+          "id": "measure-38",
+          "name": "Double-effect absorption",
+          "keywords": []
+        },
+        {
+          "id": "measure-39",
+          "name": "Steam absorption",
+          "keywords": []
+        },
+        {
+          "id": "measure-40",
+          "name": "Natural gas engine-driven chiller",
+          "keywords": [
+            "chiller"
+          ]
+        },
+        {
+          "id": "measure-41",
+          "name": "CHP integrated chiller",
+          "keywords": [
+            "chiller"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heat-pump-chillers-belong-under-cooling-",
+      "name": "Heat Pump Chillers (Belong under COOLING)",
+      "measures": [
+        {
+          "id": "measure-42",
+          "name": "Air-source heat pump chiller",
+          "keywords": [
+            "chiller"
+          ]
+        },
+        {
+          "id": "measure-43",
+          "name": "Water-source heat pump chiller",
+          "keywords": [
+            "chiller"
+          ]
+        },
+        {
+          "id": "measure-44",
+          "name": "Reversible heat pump chiller (4-pipe)",
+          "keywords": [
+            "chiller"
+          ]
+        },
+        {
+          "id": "measure-45",
+          "name": "Heat-recovery chiller (simultaneous heat + cooling)",
+          "keywords": [
+            "chiller"
+          ]
+        },
+        {
+          "id": "measure-46",
+          "name": "High-temp heat pump chiller-boiler (130–180°F)",
+          "keywords": []
+        },
+        {
+          "id": "measure-47",
+          "name": "CO₂ transcritical heat pump chiller",
+          "keywords": [
+            "chiller"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cooling-towers",
+      "name": "Cooling Towers",
+      "measures": [
+        {
+          "id": "measure-48",
+          "name": "VFD tower fans",
+          "keywords": [
+            "vfd"
+          ]
+        },
+        {
+          "id": "measure-49",
+          "name": "EC fan motors",
+          "keywords": [
+            "ec"
+          ]
+        },
+        {
+          "id": "measure-50",
+          "name": "Drift eliminators",
+          "keywords": []
+        },
+        {
+          "id": "measure-51",
+          "name": "Fill media upgrades",
+          "keywords": []
+        },
+        {
+          "id": "measure-52",
+          "name": "Nozzle upgrades",
+          "keywords": []
+        },
+        {
+          "id": "measure-53",
+          "name": "Basin heaters optimization",
+          "keywords": [
+            "optimization"
+          ]
+        },
+        {
+          "id": "measure-54",
+          "name": "Side-stream filtration",
+          "keywords": []
+        },
+        {
+          "id": "measure-55",
+          "name": "Water treatment optimization",
+          "keywords": [
+            "optimization"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cooling-distribution",
+      "name": "Cooling Distribution",
+      "measures": [
+        {
+          "id": "measure-56",
+          "name": "CHW pumps (primary)",
+          "keywords": []
+        },
+        {
+          "id": "measure-57",
+          "name": "CHW pumps (secondary)",
+          "keywords": []
+        },
+        {
+          "id": "measure-58",
+          "name": "Pump VFDs",
+          "keywords": []
+        },
+        {
+          "id": "measure-59",
+          "name": "Pump impeller trimming",
+          "keywords": []
+        },
+        {
+          "id": "measure-60",
+          "name": "Variable primary flow conversion",
+          "keywords": []
+        },
+        {
+          "id": "measure-61",
+          "name": "PICVs (pressure independent control valves)",
+          "keywords": []
+        },
+        {
+          "id": "measure-62",
+          "name": "Hydronic balancing",
+          "keywords": []
+        },
+        {
+          "id": "measure-63",
+          "name": "CHW ΔT optimization",
+          "keywords": [
+            "optimization"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "utility": "SCE",
+  "capturedAt": "2026-02-07T21:17:46.812Z",
+  "versionTag": "2026-02-07T2117Z",
+  "rates": [
+    {
+      "utility": "SCE",
+      "rateCode": "M-438",
+      "sourceUrl": "https://www.sce.com/regulatory/tariff-books",
+      "lastVerifiedAt": "2026-02-07T21:17:46.812Z",
+      "evidence": [
+        {
+          "kind": "url",
+          "value": "https://www.sce.com/regulatory/tariff-books"
+        },
+        {
+          "kind": "text",
+          "value": "text-scan:M-438"
+        }
+      ]
+    }
+  ],
+  "sourceFingerprints": [
+    {
+      "url": "https://www.sce.com/regulatory/tariff-books",
+      "contentHash": "173516b04b418d5f2fcd3a83578863256170744f8687bfb3e9649106dbfe271d"
+    }
+  ],
+  "diffFromPrevious": {
+    "previousVersionTag": "2026-02-06T1853Z",
+    "addedRateCodes": [],
+    "removedRateCodes": [],
+    "unchangedRateCodes": [
+      "M-438"
+    ]
+  },
+  "raw": [
+    {
+      "url": "https://www.sce.com/regulatory/tariff-books",
+      "contentHash": "173516b04b418d5f2fcd3a83578863256170744f8687bfb3e9649106dbfe271d"
+    }
+  ]
+}

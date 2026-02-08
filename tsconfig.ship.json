@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/pages/ModuleHub.tsx",
+    "src/pages/projectBuilder/**/*.tsx",
+    "src/components/projectBuilder/**/*.tsx",
+    "src/types/project-graph.ts",
+    "src/validation/schemas/project-graph-phase1-schema.ts",
+    "src/services/inbox-decisions.ts"
+  ]
+}
+

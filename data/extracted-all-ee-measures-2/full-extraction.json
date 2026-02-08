@@ -1,0 +1,1962 @@
+{
+  "extractedAt": "2025-12-11T17:43:00.949Z",
+  "sourceFile": "C:\\Users\\nikjo\\OneDrive\\Desktop\\EverWatt_Engine\\EVERWATT AI\\TRAINING DATA\\ALL EE MEASURES 2.0.docx",
+  "title": "Understood.",
+  "fullText": "\n\nUnderstood.\n\nBelow is the fully organized, hierarchical, no-gaps MASTER LIST of ALL energy-efficiency measures, technologies, components, and electrification options for commercial buildings.\n\n\n\nThis is the clean, database-ready version, structured exactly how a professional ESCO would build an internal catalog.\n\n\n\nIt contains:\n\n\n\nEvery cooling system\n\n\n\nEvery heating system\n\n\n\nEvery heat pump\n\n\n\nEvery chiller type\n\n\n\nEvery HVAC distribution component\n\n\n\nEvery central plant component\n\n\n\nEvery control measure\n\n\n\nEvery electrification pathway\n\n\n\nEvery envelope upgrade\n\n\n\nEvery water/plumbing measure\n\n\n\nEvery refrigeration upgrade\n\n\n\nEvery industrial/process optimization\n\n\n\nEvery healthcare-specific measure\n\n\n\nEvery data center-specific measure\n\n\n\nEvery plug load measure\n\n\n\nEvery renewable/storage solution\n\n\n\nEvery electrical improvement\n\n\n\nEvery item that makes any piece of equipment more efficient\n\n\n\n\n\nThis is the entire industry in one structured list.\n\n\n\n\n\n---\n\n\n\n✅ EVERWATT MASTER ENERGY EFFICIENCY DATABASE (FULLY ORGANIZED)\n\n\n\nCategory → Subcategory → Equipment Type → Measures\n\n\n\n\n\n---\n\n\n\n🟦 1. COOLING SYSTEMS (CHILLERS + DISTRIBUTION)\n\n\n\n1.1 Electric Chillers\n\n\n\nCentrifugal chiller\n\n\n\nStandard\n\n\n\nTwo-stage\n\n\n\nVFD centrifugal\n\n\n\nMagnetic-bearing centrifugal\n\n\n\n\n\nScrew chiller\n\n\n\nAir-cooled screw\n\n\n\nWater-cooled screw\n\n\n\nVFD screw\n\n\n\n\n\nScroll chiller\n\n\n\nModular multi-scroll\n\n\n\nPackaged air-cooled scroll\n\n\n\n\n\nReciprocating chiller (legacy)\n\n\n\nFree-cooling / economizer chillers\n\n\n\n\n\n1.2 Absorption / Gas / Engine Chillers\n\n\n\nDirect-fired absorption (LiBr)\n\n\n\nDouble-effect absorption\n\n\n\nSteam absorption\n\n\n\nNatural gas engine-driven chiller\n\n\n\nCHP integrated chiller\n\n\n\n\n\n1.3 Heat Pump Chillers (Belong under COOLING)\n\n\n\nAir-source heat pump chiller\n\n\n\nWater-source heat pump chiller\n\n\n\nReversible heat pump chiller (4-pipe)\n\n\n\nHeat-recovery chiller (simultaneous heat + cooling)\n\n\n\nHigh-temp heat pump chiller-boiler (130–180°F)\n\n\n\nCO₂ transcritical heat pump chiller\n\n\n\n\n\n1.4 Cooling Towers\n\n\n\nCooling tower replacements\n\n\n\nVFD tower fans\n\n\n\nEC fan motors\n\n\n\nDrift eliminators\n\n\n\nFill media upgrades\n\n\n\nNozzle upgrades\n\n\n\nBasin heaters optimization\n\n\n\nSide-stream filtration\n\n\n\nWater treatment optimization\n\n\n\n\n\n1.5 Cooling Distribution\n\n\n\nCHW pumps (primary)\n\n\n\nCHW pumps (secondary)\n\n\n\nPump VFDs\n\n\n\nPump impeller trimming\n\n\n\nVariable primary flow conversion\n\n\n\nPICVs (pressure independent control valves)\n\n\n\nHydronic balancing\n\n\n\nCHW ΔT optimization\n\n\n\n\n\n\n\n---\n\n\n\n🔥 2. HEATING SYSTEMS (BOILERS + HEAT PUMPS + DISTRIBUTION)\n\n\n\n2.1 Boilers\n\n\n\nCondensing boilers (high-efficiency)\n\n\n\nHigh-turndown burner retrofits\n\n\n\nSteam boilers\n\n\n\nBoiler economizers\n\n\n\nBlowdown heat recovery\n\n\n\nBoiler sequencing optimization\n\n\n\n\n\n2.2 Heat Pumps (HEATING CATEGORY)\n\n\n\nPackaged heat pumps (RTU heat pumps)\n\n\n\nSplit-system heat pumps\n\n\n\nVRF/VRV heat pump systems\n\n\n\nWater-source heat pumps\n\n\n\nAir-to-water heat pumps\n\n\n\nGround-source heat pumps\n\n\n\nHeat pump water heaters (HPWH)\n\n\n\nHigh-temp industrial heat pumps\n\n\n\nHeat pump make-up air units\n\n\n\nHeat pump boiler replacements\n\n\n\n\n\n2.3 Heating Distribution\n\n\n\nHW pumps (primary/secondary)\n\n\n\nPump VFDs\n\n\n\nHydronic loop balancing\n\n\n\nReheat coil optimization\n\n\n\nPipe insulation\n\n\n\nSteam-to-hot-water conversion\n\n\n\n\n\n\n\n---\n\n\n\n🟩 3. VENTILATION + AIR DISTRIBUTION\n\n\n\n3.1 Air Handling Units (AHUs)\n\n\n\nAHU replacements\n\n\n\nFan wall retrofits\n\n\n\nECM supply/return fans\n\n\n\nVFD upgrades\n\n\n\nCoil cleaning / replacement\n\n\n\nFilter upgrades (MERV 13–16)\n\n\n\nHumidification upgrades\n\n\n\n\n\n3.2 Ventilation Systems\n\n\n\nDOAS systems\n\n\n\nERV (energy recovery ventilator)\n\n\n\nHRV (heat recovery ventilator)\n\n\n\nEnthalpy wheels\n\n\n\nHeat pipes\n\n\n\nRunaround heat recovery loops\n\n\n\n\n\n3.3 Ventilation Controls\n\n\n\nCO₂ demand-controlled ventilation (DCV)\n\n\n\nOccupancy-based ventilation\n\n\n\nOutdoor air reset\n\n\n\nVAV calibration\n\n\n\nNight setback modes\n\n\n\n\n\n3.4 Exhaust Systems\n\n\n\nLab fume hood VAV controls\n\n\n\nLab exhaust VFD systems\n\n\n\nKitchen hood VFD systems\n\n\n\n\n\n\n\n---\n\n\n\n🟥 4. HVAC CONTROLS & ENERGY MANAGEMENT\n\n\n\n4.1 BMS/EMS Platforms\n\n\n\nKMC Controls\n\n\n\nSiemens\n\n\n\nHoneywell\n\n\n\nJohnson Controls\n\n\n\nTridium Niagara\n\n\n\nIgnition SCADA\n\n\n\nDistech\n\n\n\nAutomated Logic\n\n\n\nSchneider EcoStruxure\n\n\n\n\n\n4.2 Control Strategies\n\n\n\nSAT reset\n\n\n\nCHW reset\n\n\n\nHW reset\n\n\n\nOutside air reset\n\n\n\nStatic pressure reset\n\n\n\nOptimal start/stop\n\n\n\nEquipment scheduling optimization\n\n\n\nLoad shedding\n\n\n\n\n\n4.3 Advanced Controls\n\n\n\nFault detection and diagnostics (FDD)\n\n\n\nAI-based optimization (EverWatt.AI)\n\n\n\nDR automation\n\n\n\nWeather-integrated predictive logic\n\n\n\nCircuit-level metering\n\n\n\n\n\n\n\n---\n\n\n\n⚡ 5. ELECTRIFICATION MEASURES (FULL)\n\n\n\n5.1 Heating Electrification\n\n\n\nGas boiler → heat pump chiller\n\n\n\nGas boiler → electric boiler\n\n\n\nGas furnace → heat pump\n\n\n\nGas RTU → electric heat pump RTU\n\n\n\nGas MAU → electric MAU\n\n\n\nSteam heating → high-temp heat pump\n\n\n\n\n\n5.2 Cooling Electrification\n\n\n\nAbsorption chiller → electric chiller\n\n\n\nEngine-driven chiller → electric chiller\n\n\n\n\n\n5.3 Domestic Hot Water Electrification\n\n\n\nGas water heater → HPWH\n\n\n\nGas booster → electric booster\n\n\n\nSteam → heat pump DHW system\n\n\n\n\n\n5.4 Cooking Electrification\n\n\n\nGas range → induction\n\n\n\nGas fryer → electric fryer\n\n\n\nGas oven → electric convection oven\n\n\n\nGas broiler → electric salamander\n\n\n\n\n\n5.5 Infrastructure Upgrades for Electrification\n\n\n\nPanelboard replacement\n\n\n\nService upgrade\n\n\n\nTransformer replacement\n\n\n\nElectrified reheat systems\n\n\n\nDistribution redesign (4-pipe to 2-pipe HP system)\n\n\n\n\n\n\n\n---\n\n\n\n🟫 6. ENVELOPE & INSULATION\n\n\n\n6.1 Insulation\n\n\n\nRoof insulation\n\n\n\nWall insulation\n\n\n\nPipe insulation\n\n\n\nDuct insulation\n\n\n\n\n\n6.2 Windows\n\n\n\nDouble-pane windows\n\n\n\nTriple-pane windows\n\n\n\nLow-E film\n\n\n\nSecurity tint film\n\n\n\nWindow replacement\n\n\n\nSkylights / solar tubes\n\n\n\n\n\n6.3 Air Sealing\n\n\n\nDoor sweeps\n\n\n\nWeather stripping\n\n\n\nEnvelope leak sealing\n\n\n\nVestibule addition\n\n\n\n\n\n6.4 Roofing\n\n\n\nCool roof coating\n\n\n\nReflective membranes\n\n\n\nGreen roof\n\n\n\n\n\n\n\n---\n\n\n\n❄️ 7. REFRIGERATION\n\n\n\n7.1 Display / Case Refrigeration\n\n\n\nEC evaporator fan motors\n\n\n\nLED case lighting\n\n\n\nAnti-sweat heater controls\n\n\n\nNight curtains\n\n\n\nDoor gasket upgrades\n\n\n\n\n\n7.2 Rack Systems\n\n\n\nFloating head pressure controls\n\n\n\nFloating suction pressure\n\n\n\nVFD compressors\n\n\n\nHeat reclaim\n\n\n\nDefrost optimization\n\n\n\nRefrigeration controls upgrade\n\n\n\n\n\n7.3 Walk-in Coolers / Freezers\n\n\n\nStrip curtains\n\n\n\nECM fans\n\n\n\nHigh-efficiency doors\n\n\n\nInsulation upgrades\n\n\n\n\n\n\n\n---\n\n\n\n🚰 8. HOT WATER & PLUMBING\n\n\n\nLow-flow fixtures\n\n\n\nAuto-faucets\n\n\n\nAuto-flush valves\n\n\n\nHPWH systems\n\n\n\nHot-water recirculation optimization\n\n\n\nSteam-to-DHW conversion\n\n\n\nIrrigation controllers\n\n\n\nLeak detection systems\n\n\n\nWater-cooled to air-cooled conversions\n\n\n\n\n\n\n\n---\n\n\n\n⚙️ 9. MOTORS & ELECTRICAL SYSTEMS\n\n\n\n9.1 Motors\n\n\n\nNEMA Premium motors\n\n\n\nECM motors\n\n\n\nRight-sizing motors\n\n\n\nSoft starters\n\n\n\nMotor VFDs\n\n\n\n\n\n9.2 Electrical Infrastructure\n\n\n\nHigh-efficiency transformers\n\n\n\nLoad balancing\n\n\n\nPower factor correction\n\n\n\nHarmonic filtering\n\n\n\nSmart panels\n\n\n\nSubmetering\n\n\n\n\n\n\n\n---\n\n\n\n🔋 10. RENEWABLES & STORAGE\n\n\n\n10.1 Storage\n\n\n\nBattery energy storage systems (BESS)\n\n\n\nPeak shaving batteries\n\n\n\nLoad shifting batteries\n\n\n\n\n\n10.2 Renewables\n\n\n\nSolar PV\n\n\n\nSolar thermal\n\n\n\nMicrogrid controls\n\n\n\nHybrid inverter systems\n\n\n\n\n\n10.3 Thermal Storage\n\n\n\nIce storage\n\n\n\nChilled water storage\n\n\n\nPCM thermal storage\n\n\n\n\n\n\n\n---\n\n\n\n🏭 11. INDUSTRIAL / PROCESS LOADS\n\n\n\n11.1 Compressed Air\n\n\n\nLeak detection\n\n\n\nCompressor replacement (VFD/two-stage)\n\n\n\nZero-loss drains\n\n\n\nHeat recovery\n\n\n\nSetpoint optimization\n\n\n\n\n\n11.2 Process Loads\n\n\n\nOven upgrades\n\n\n\nProcess chiller optimization\n\n\n\nIndustrial refrigeration\n\n\n\nPump VFDs\n\n\n\nIndustrial fans (ECM/VFD)\n\n\n\n\n\n\n\n---\n\n\n\n🏥 12. HEALTHCARE-SPECIFIC MEASURES\n\n\n\nOR setback controls\n\n\n\nOR ACH reduction\n\n\n\nLab VAV hood control\n\n\n\nLab exhaust VFDs\n\n\n\nIsolation room pressurization\n\n\n\nHeat recovery chillers for reheat loops\n\n\n\nMRI chiller optimization\n\n\n\nSterilizer reclaim systems\n\n\n\nMedical air/vacuum optimization\n\n\n\n\n\n\n\n---\n\n\n\n🖥️ 13. DATA CENTER MEASURES\n\n\n\nCooling\n\n\n\nHot aisle containment\n\n\n\nCold aisle containment\n\n\n\nCRAH/CRAC VFD retrofits\n\n\n\nFree cooling\n\n\n\nLiquid cooling\n\n\n\n\n\nIT Efficiency\n\n\n\nServer virtualization\n\n\n\nServer consolidation\n\n\n\nHigh-efficiency UPS\n\n\n\n\n\n\n\n---\n\n\n\n🔌 14. PLUG LOAD MANAGEMENT\n\n\n\nSmart plugs\n\n\n\nPC power management\n\n\n\nVending machine controllers\n\n\n\nLab freezer replacements\n\n\n\nAppliance replacement\n\n\n\nCopier/printer consolidation\n\n\n\n\n\n\n\n---\n\n\n\n🎯 Ready for database export\n\n\n\nIf you want, I can convert this into:\n\n\n\n✅ Excel / CSV with categories & subcategories\n\n✅ Google Sheet with filters & data validation\n\n✅ A hierarchical tree for EverWatt.AI\n\n✅ A CRM or Energy Insight-ready import file\n\n✅ A printable PDF catalog for your sales team\n\n\n\nJust tell me the format and I’ll generate it.\n\n\n\n",
+  "textLength": 8842,
+  "measures": [
+    {
+      "id": "measure-1",
+      "name": "Understood.",
+      "keywords": []
+    },
+    {
+      "id": "measure-2",
+      "name": "This is the clean, database-ready version, structured exactly how a professional ESCO would build an internal catalog.",
+      "keywords": []
+    },
+    {
+      "id": "measure-3",
+      "name": "It contains:",
+      "keywords": []
+    },
+    {
+      "id": "measure-4",
+      "name": "Every cooling system",
+      "keywords": []
+    },
+    {
+      "id": "measure-5",
+      "name": "Every heating system",
+      "keywords": []
+    },
+    {
+      "id": "measure-6",
+      "name": "Every heat pump",
+      "keywords": []
+    },
+    {
+      "id": "measure-7",
+      "name": "Every chiller type",
+      "keywords": [
+        "chiller"
+      ]
+    },
+    {
+      "id": "measure-8",
+      "name": "Every HVAC distribution component",
+      "keywords": []
+    },
+    {
+      "id": "measure-9",
+      "name": "Every central plant component",
+      "keywords": []
+    },
+    {
+      "id": "measure-10",
+      "name": "Every control measure",
+      "keywords": []
+    },
+    {
+      "id": "measure-11",
+      "name": "Every electrification pathway",
+      "keywords": [
+        "electrification"
+      ]
+    },
+    {
+      "id": "measure-12",
+      "name": "Every envelope upgrade",
+      "keywords": [
+        "upgrade"
+      ]
+    },
+    {
+      "id": "measure-13",
+      "name": "Every water/plumbing measure",
+      "keywords": []
+    },
+    {
+      "id": "measure-14",
+      "name": "Every refrigeration upgrade",
+      "keywords": [
+        "refrigeration",
+        "upgrade"
+      ]
+    },
+    {
+      "id": "measure-15",
+      "name": "Every industrial/process optimization",
+      "keywords": [
+        "optimization"
+      ]
+    },
+    {
+      "id": "measure-16",
+      "name": "Every healthcare-specific measure",
+      "keywords": []
+    },
+    {
+      "id": "measure-17",
+      "name": "Every data center-specific measure",
+      "keywords": []
+    },
+    {
+      "id": "measure-18",
+      "name": "Every plug load measure",
+      "keywords": []
+    },
+    {
+      "id": "measure-19",
+      "name": "Every renewable/storage solution",
+      "keywords": []
+    },
+    {
+      "id": "measure-20",
+      "name": "Every electrical improvement",
+      "keywords": []
+    },
+    {
+      "id": "measure-21",
+      "name": "Every item that makes any piece of equipment more efficient",
+      "keywords": []
+    },
+    {
+      "id": "measure-22",
+      "name": "This is the entire industry in one structured list.",
+      "keywords": []
+    },
+    {
+      "id": "measure-23",
+      "name": "Centrifugal chiller",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Electric Chillers",
+      "keywords": [
+        "chiller"
+      ]
+    },
+    {
+      "id": "measure-24",
+      "name": "Standard",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Electric Chillers",
+      "keywords": []
+    },
+    {
+      "id": "measure-25",
+      "name": "Two-stage",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Electric Chillers",
+      "keywords": []
+    },
+    {
+      "id": "measure-26",
+      "name": "VFD centrifugal",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Electric Chillers",
+      "keywords": [
+        "vfd"
+      ]
+    },
+    {
+      "id": "measure-27",
+      "name": "Magnetic-bearing centrifugal",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Electric Chillers",
+      "keywords": []
+    },
+    {
+      "id": "measure-28",
+      "name": "Screw chiller",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Electric Chillers",
+      "keywords": [
+        "chiller"
+      ]
+    },
+    {
+      "id": "measure-29",
+      "name": "Air-cooled screw",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Electric Chillers",
+      "keywords": []
+    },
+    {
+      "id": "measure-30",
+      "name": "Water-cooled screw",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Electric Chillers",
+      "keywords": []
+    },
+    {
+      "id": "measure-31",
+      "name": "VFD screw",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Electric Chillers",
+      "keywords": [
+        "vfd"
+      ]
+    },
+    {
+      "id": "measure-32",
+      "name": "Scroll chiller",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Electric Chillers",
+      "keywords": [
+        "chiller"
+      ]
+    },
+    {
+      "id": "measure-33",
+      "name": "Modular multi-scroll",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Electric Chillers",
+      "keywords": []
+    },
+    {
+      "id": "measure-34",
+      "name": "Packaged air-cooled scroll",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Electric Chillers",
+      "keywords": []
+    },
+    {
+      "id": "measure-35",
+      "name": "Reciprocating chiller (legacy)",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Electric Chillers",
+      "keywords": [
+        "chiller"
+      ]
+    },
+    {
+      "id": "measure-36",
+      "name": "Free-cooling / economizer chillers",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Electric Chillers",
+      "keywords": []
+    },
+    {
+      "id": "measure-37",
+      "name": "Direct-fired absorption (LiBr)",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Absorption / Gas / Engine Chillers",
+      "keywords": []
+    },
+    {
+      "id": "measure-38",
+      "name": "Double-effect absorption",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Absorption / Gas / Engine Chillers",
+      "keywords": []
+    },
+    {
+      "id": "measure-39",
+      "name": "Steam absorption",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Absorption / Gas / Engine Chillers",
+      "keywords": []
+    },
+    {
+      "id": "measure-40",
+      "name": "Natural gas engine-driven chiller",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Absorption / Gas / Engine Chillers",
+      "keywords": [
+        "chiller"
+      ]
+    },
+    {
+      "id": "measure-41",
+      "name": "CHP integrated chiller",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Absorption / Gas / Engine Chillers",
+      "keywords": [
+        "chiller"
+      ]
+    },
+    {
+      "id": "measure-42",
+      "name": "Air-source heat pump chiller",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Heat Pump Chillers (Belong under COOLING)",
+      "keywords": [
+        "chiller"
+      ]
+    },
+    {
+      "id": "measure-43",
+      "name": "Water-source heat pump chiller",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Heat Pump Chillers (Belong under COOLING)",
+      "keywords": [
+        "chiller"
+      ]
+    },
+    {
+      "id": "measure-44",
+      "name": "Reversible heat pump chiller (4-pipe)",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Heat Pump Chillers (Belong under COOLING)",
+      "keywords": [
+        "chiller"
+      ]
+    },
+    {
+      "id": "measure-45",
+      "name": "Heat-recovery chiller (simultaneous heat + cooling)",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Heat Pump Chillers (Belong under COOLING)",
+      "keywords": [
+        "chiller"
+      ]
+    },
+    {
+      "id": "measure-46",
+      "name": "High-temp heat pump chiller-boiler (130–180°F)",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Heat Pump Chillers (Belong under COOLING)",
+      "keywords": []
+    },
+    {
+      "id": "measure-47",
+      "name": "CO₂ transcritical heat pump chiller",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Heat Pump Chillers (Belong under COOLING)",
+      "keywords": [
+        "chiller"
+      ]
+    },
+    {
+      "id": "measure-48",
+      "name": "VFD tower fans",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Cooling Towers",
+      "keywords": [
+        "vfd"
+      ]
+    },
+    {
+      "id": "measure-49",
+      "name": "EC fan motors",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Cooling Towers",
+      "keywords": [
+        "ec"
+      ]
+    },
+    {
+      "id": "measure-50",
+      "name": "Drift eliminators",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Cooling Towers",
+      "keywords": []
+    },
+    {
+      "id": "measure-51",
+      "name": "Fill media upgrades",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Cooling Towers",
+      "keywords": []
+    },
+    {
+      "id": "measure-52",
+      "name": "Nozzle upgrades",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Cooling Towers",
+      "keywords": []
+    },
+    {
+      "id": "measure-53",
+      "name": "Basin heaters optimization",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Cooling Towers",
+      "keywords": [
+        "optimization"
+      ]
+    },
+    {
+      "id": "measure-54",
+      "name": "Side-stream filtration",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Cooling Towers",
+      "keywords": []
+    },
+    {
+      "id": "measure-55",
+      "name": "Water treatment optimization",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Cooling Towers",
+      "keywords": [
+        "optimization"
+      ]
+    },
+    {
+      "id": "measure-56",
+      "name": "CHW pumps (primary)",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Cooling Distribution",
+      "keywords": []
+    },
+    {
+      "id": "measure-57",
+      "name": "CHW pumps (secondary)",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Cooling Distribution",
+      "keywords": []
+    },
+    {
+      "id": "measure-58",
+      "name": "Pump VFDs",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Cooling Distribution",
+      "keywords": []
+    },
+    {
+      "id": "measure-59",
+      "name": "Pump impeller trimming",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Cooling Distribution",
+      "keywords": []
+    },
+    {
+      "id": "measure-60",
+      "name": "Variable primary flow conversion",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Cooling Distribution",
+      "keywords": []
+    },
+    {
+      "id": "measure-61",
+      "name": "PICVs (pressure independent control valves)",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Cooling Distribution",
+      "keywords": []
+    },
+    {
+      "id": "measure-62",
+      "name": "Hydronic balancing",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Cooling Distribution",
+      "keywords": []
+    },
+    {
+      "id": "measure-63",
+      "name": "CHW ΔT optimization",
+      "category": "COOLING SYSTEMS",
+      "subcategory": "Cooling Distribution",
+      "keywords": [
+        "optimization"
+      ]
+    },
+    {
+      "id": "measure-64",
+      "name": "Condensing boilers (high-efficiency)",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Boilers",
+      "keywords": []
+    },
+    {
+      "id": "measure-65",
+      "name": "High-turndown burner retrofits",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Boilers",
+      "keywords": []
+    },
+    {
+      "id": "measure-66",
+      "name": "Steam boilers",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Boilers",
+      "keywords": []
+    },
+    {
+      "id": "measure-67",
+      "name": "Boiler economizers",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Boilers",
+      "keywords": [
+        "boiler"
+      ]
+    },
+    {
+      "id": "measure-68",
+      "name": "Blowdown heat recovery",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Boilers",
+      "keywords": []
+    },
+    {
+      "id": "measure-69",
+      "name": "Boiler sequencing optimization",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Boilers",
+      "keywords": [
+        "boiler",
+        "optimization"
+      ]
+    },
+    {
+      "id": "measure-70",
+      "name": "Packaged heat pumps (RTU heat pumps)",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Heat Pumps (HEATING CATEGORY)",
+      "keywords": []
+    },
+    {
+      "id": "measure-71",
+      "name": "Split-system heat pumps",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Heat Pumps (HEATING CATEGORY)",
+      "keywords": []
+    },
+    {
+      "id": "measure-72",
+      "name": "VRF/VRV heat pump systems",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Heat Pumps (HEATING CATEGORY)",
+      "keywords": []
+    },
+    {
+      "id": "measure-73",
+      "name": "Water-source heat pumps",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Heat Pumps (HEATING CATEGORY)",
+      "keywords": []
+    },
+    {
+      "id": "measure-74",
+      "name": "Air-to-water heat pumps",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Heat Pumps (HEATING CATEGORY)",
+      "keywords": []
+    },
+    {
+      "id": "measure-75",
+      "name": "Ground-source heat pumps",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Heat Pumps (HEATING CATEGORY)",
+      "keywords": []
+    },
+    {
+      "id": "measure-76",
+      "name": "Heat pump water heaters (HPWH)",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Heat Pumps (HEATING CATEGORY)",
+      "keywords": [
+        "hpwh"
+      ]
+    },
+    {
+      "id": "measure-77",
+      "name": "High-temp industrial heat pumps",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Heat Pumps (HEATING CATEGORY)",
+      "keywords": []
+    },
+    {
+      "id": "measure-78",
+      "name": "Heat pump make-up air units",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Heat Pumps (HEATING CATEGORY)",
+      "keywords": []
+    },
+    {
+      "id": "measure-79",
+      "name": "Heat pump boiler replacements",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Heat Pumps (HEATING CATEGORY)",
+      "keywords": [
+        "boiler"
+      ]
+    },
+    {
+      "id": "measure-80",
+      "name": "HW pumps (primary/secondary)",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Heating Distribution",
+      "keywords": []
+    },
+    {
+      "id": "measure-81",
+      "name": "Pump VFDs",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Heating Distribution",
+      "keywords": []
+    },
+    {
+      "id": "measure-82",
+      "name": "Hydronic loop balancing",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Heating Distribution",
+      "keywords": []
+    },
+    {
+      "id": "measure-83",
+      "name": "Reheat coil optimization",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Heating Distribution",
+      "keywords": [
+        "optimization"
+      ]
+    },
+    {
+      "id": "measure-84",
+      "name": "Pipe insulation",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Heating Distribution",
+      "keywords": [
+        "insulation"
+      ]
+    },
+    {
+      "id": "measure-85",
+      "name": "Steam-to-hot-water conversion",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Heating Distribution",
+      "keywords": []
+    },
+    {
+      "id": "measure-86",
+      "name": "AHU replacements",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Air Handling Units (AHUs)",
+      "keywords": [
+        "ahu"
+      ]
+    },
+    {
+      "id": "measure-87",
+      "name": "Fan wall retrofits",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Air Handling Units (AHUs)",
+      "keywords": []
+    },
+    {
+      "id": "measure-88",
+      "name": "ECM supply/return fans",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Air Handling Units (AHUs)",
+      "keywords": [
+        "ecm"
+      ]
+    },
+    {
+      "id": "measure-89",
+      "name": "VFD upgrades",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Air Handling Units (AHUs)",
+      "keywords": [
+        "vfd"
+      ]
+    },
+    {
+      "id": "measure-90",
+      "name": "Coil cleaning / replacement",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Air Handling Units (AHUs)",
+      "keywords": [
+        "replacement"
+      ]
+    },
+    {
+      "id": "measure-91",
+      "name": "Filter upgrades (MERV 13–16)",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Air Handling Units (AHUs)",
+      "keywords": []
+    },
+    {
+      "id": "measure-92",
+      "name": "Humidification upgrades",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Air Handling Units (AHUs)",
+      "keywords": []
+    },
+    {
+      "id": "measure-93",
+      "name": "DOAS systems",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Ventilation Systems",
+      "keywords": [
+        "doas"
+      ]
+    },
+    {
+      "id": "measure-94",
+      "name": "ERV (energy recovery ventilator)",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Ventilation Systems",
+      "keywords": [
+        "erv"
+      ]
+    },
+    {
+      "id": "measure-95",
+      "name": "HRV (heat recovery ventilator)",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Ventilation Systems",
+      "keywords": [
+        "hrv"
+      ]
+    },
+    {
+      "id": "measure-96",
+      "name": "Enthalpy wheels",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Ventilation Systems",
+      "keywords": []
+    },
+    {
+      "id": "measure-97",
+      "name": "Heat pipes",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Ventilation Systems",
+      "keywords": []
+    },
+    {
+      "id": "measure-98",
+      "name": "Runaround heat recovery loops",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Ventilation Systems",
+      "keywords": []
+    },
+    {
+      "id": "measure-99",
+      "name": "CO₂ demand-controlled ventilation (DCV)",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Ventilation Controls",
+      "keywords": []
+    },
+    {
+      "id": "measure-100",
+      "name": "Occupancy-based ventilation",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Ventilation Controls",
+      "keywords": []
+    },
+    {
+      "id": "measure-101",
+      "name": "Outdoor air reset",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Ventilation Controls",
+      "keywords": []
+    },
+    {
+      "id": "measure-102",
+      "name": "VAV calibration",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Ventilation Controls",
+      "keywords": []
+    },
+    {
+      "id": "measure-103",
+      "name": "Night setback modes",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Ventilation Controls",
+      "keywords": []
+    },
+    {
+      "id": "measure-104",
+      "name": "Lab fume hood VAV controls",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Exhaust Systems",
+      "keywords": [
+        "controls"
+      ]
+    },
+    {
+      "id": "measure-105",
+      "name": "Lab exhaust VFD systems",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Exhaust Systems",
+      "keywords": [
+        "vfd"
+      ]
+    },
+    {
+      "id": "measure-106",
+      "name": "Kitchen hood VFD systems",
+      "category": "HEATING SYSTEMS",
+      "subcategory": "Exhaust Systems",
+      "keywords": [
+        "vfd"
+      ]
+    },
+    {
+      "id": "measure-107",
+      "name": "KMC Controls",
+      "category": "HVAC CONTROLS",
+      "subcategory": "BMS/EMS Platforms",
+      "keywords": [
+        "controls"
+      ]
+    },
+    {
+      "id": "measure-108",
+      "name": "Siemens",
+      "category": "HVAC CONTROLS",
+      "subcategory": "BMS/EMS Platforms",
+      "keywords": []
+    },
+    {
+      "id": "measure-109",
+      "name": "Honeywell",
+      "category": "HVAC CONTROLS",
+      "subcategory": "BMS/EMS Platforms",
+      "keywords": []
+    },
+    {
+      "id": "measure-110",
+      "name": "Johnson Controls",
+      "category": "HVAC CONTROLS",
+      "subcategory": "BMS/EMS Platforms",
+      "keywords": [
+        "controls"
+      ]
+    },
+    {
+      "id": "measure-111",
+      "name": "Tridium Niagara",
+      "category": "HVAC CONTROLS",
+      "subcategory": "BMS/EMS Platforms",
+      "keywords": []
+    },
+    {
+      "id": "measure-112",
+      "name": "Ignition SCADA",
+      "category": "HVAC CONTROLS",
+      "subcategory": "BMS/EMS Platforms",
+      "keywords": []
+    },
+    {
+      "id": "measure-113",
+      "name": "Distech",
+      "category": "HVAC CONTROLS",
+      "subcategory": "BMS/EMS Platforms",
+      "keywords": []
+    },
+    {
+      "id": "measure-114",
+      "name": "Automated Logic",
+      "category": "HVAC CONTROLS",
+      "subcategory": "BMS/EMS Platforms",
+      "keywords": []
+    },
+    {
+      "id": "measure-115",
+      "name": "Schneider EcoStruxure",
+      "category": "HVAC CONTROLS",
+      "subcategory": "BMS/EMS Platforms",
+      "keywords": []
+    },
+    {
+      "id": "measure-116",
+      "name": "SAT reset",
+      "category": "HVAC CONTROLS",
+      "subcategory": "Control Strategies",
+      "keywords": []
+    },
+    {
+      "id": "measure-117",
+      "name": "CHW reset",
+      "category": "HVAC CONTROLS",
+      "subcategory": "Control Strategies",
+      "keywords": []
+    },
+    {
+      "id": "measure-118",
+      "name": "HW reset",
+      "category": "HVAC CONTROLS",
+      "subcategory": "Control Strategies",
+      "keywords": []
+    },
+    {
+      "id": "measure-119",
+      "name": "Outside air reset",
+      "category": "HVAC CONTROLS",
+      "subcategory": "Control Strategies",
+      "keywords": []
+    },
+    {
+      "id": "measure-120",
+      "name": "Static pressure reset",
+      "category": "HVAC CONTROLS",
+      "subcategory": "Control Strategies",
+      "keywords": []
+    },
+    {
+      "id": "measure-121",
+      "name": "Optimal start/stop",
+      "category": "HVAC CONTROLS",
+      "subcategory": "Control Strategies",
+      "keywords": []
+    },
+    {
+      "id": "measure-122",
+      "name": "Equipment scheduling optimization",
+      "category": "HVAC CONTROLS",
+      "subcategory": "Control Strategies",
+      "keywords": [
+        "optimization"
+      ]
+    },
+    {
+      "id": "measure-123",
+      "name": "Load shedding",
+      "category": "HVAC CONTROLS",
+      "subcategory": "Control Strategies",
+      "keywords": []
+    },
+    {
+      "id": "measure-124",
+      "name": "Fault detection and diagnostics (FDD)",
+      "category": "HVAC CONTROLS",
+      "subcategory": "Advanced Controls",
+      "keywords": []
+    },
+    {
+      "id": "measure-125",
+      "name": "AI-based optimization (EverWatt.AI)",
+      "category": "HVAC CONTROLS",
+      "subcategory": "Advanced Controls",
+      "keywords": [
+        "optimization"
+      ]
+    },
+    {
+      "id": "measure-126",
+      "name": "DR automation",
+      "category": "HVAC CONTROLS",
+      "subcategory": "Advanced Controls",
+      "keywords": []
+    },
+    {
+      "id": "measure-127",
+      "name": "Weather-integrated predictive logic",
+      "category": "HVAC CONTROLS",
+      "subcategory": "Advanced Controls",
+      "keywords": []
+    },
+    {
+      "id": "measure-128",
+      "name": "Circuit-level metering",
+      "category": "HVAC CONTROLS",
+      "subcategory": "Advanced Controls",
+      "keywords": []
+    },
+    {
+      "id": "measure-129",
+      "name": "Gas boiler → heat pump chiller",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Heating Electrification",
+      "keywords": [
+        "boiler",
+        "chiller"
+      ]
+    },
+    {
+      "id": "measure-130",
+      "name": "Gas boiler → electric boiler",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Heating Electrification",
+      "keywords": [
+        "boiler"
+      ]
+    },
+    {
+      "id": "measure-131",
+      "name": "Gas furnace → heat pump",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Heating Electrification",
+      "keywords": []
+    },
+    {
+      "id": "measure-132",
+      "name": "Gas RTU → electric heat pump RTU",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Heating Electrification",
+      "keywords": []
+    },
+    {
+      "id": "measure-133",
+      "name": "Gas MAU → electric MAU",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Heating Electrification",
+      "keywords": []
+    },
+    {
+      "id": "measure-134",
+      "name": "Steam heating → high-temp heat pump",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Heating Electrification",
+      "keywords": []
+    },
+    {
+      "id": "measure-135",
+      "name": "Absorption chiller → electric chiller",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Cooling Electrification",
+      "keywords": [
+        "chiller"
+      ]
+    },
+    {
+      "id": "measure-136",
+      "name": "Engine-driven chiller → electric chiller",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Cooling Electrification",
+      "keywords": [
+        "chiller"
+      ]
+    },
+    {
+      "id": "measure-137",
+      "name": "Gas water heater → HPWH",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Domestic Hot Water Electrification",
+      "keywords": [
+        "hpwh"
+      ]
+    },
+    {
+      "id": "measure-138",
+      "name": "Gas booster → electric booster",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Domestic Hot Water Electrification",
+      "keywords": []
+    },
+    {
+      "id": "measure-139",
+      "name": "Steam → heat pump DHW system",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Domestic Hot Water Electrification",
+      "keywords": []
+    },
+    {
+      "id": "measure-140",
+      "name": "Gas range → induction",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Cooking Electrification",
+      "keywords": []
+    },
+    {
+      "id": "measure-141",
+      "name": "Gas fryer → electric fryer",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Cooking Electrification",
+      "keywords": []
+    },
+    {
+      "id": "measure-142",
+      "name": "Gas oven → electric convection oven",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Cooking Electrification",
+      "keywords": []
+    },
+    {
+      "id": "measure-143",
+      "name": "Gas broiler → electric salamander",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Cooking Electrification",
+      "keywords": []
+    },
+    {
+      "id": "measure-144",
+      "name": "Panelboard replacement",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Infrastructure Upgrades for Electrification",
+      "keywords": [
+        "replacement"
+      ]
+    },
+    {
+      "id": "measure-145",
+      "name": "Service upgrade",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Infrastructure Upgrades for Electrification",
+      "keywords": [
+        "upgrade"
+      ]
+    },
+    {
+      "id": "measure-146",
+      "name": "Transformer replacement",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Infrastructure Upgrades for Electrification",
+      "keywords": [
+        "replacement"
+      ]
+    },
+    {
+      "id": "measure-147",
+      "name": "Electrified reheat systems",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Infrastructure Upgrades for Electrification",
+      "keywords": []
+    },
+    {
+      "id": "measure-148",
+      "name": "Distribution redesign (4-pipe to 2-pipe HP system)",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Infrastructure Upgrades for Electrification",
+      "keywords": []
+    },
+    {
+      "id": "measure-149",
+      "name": "Roof insulation",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Insulation",
+      "keywords": [
+        "insulation"
+      ]
+    },
+    {
+      "id": "measure-150",
+      "name": "Wall insulation",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Insulation",
+      "keywords": [
+        "insulation"
+      ]
+    },
+    {
+      "id": "measure-151",
+      "name": "Pipe insulation",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Insulation",
+      "keywords": [
+        "insulation"
+      ]
+    },
+    {
+      "id": "measure-152",
+      "name": "Duct insulation",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Insulation",
+      "keywords": [
+        "insulation"
+      ]
+    },
+    {
+      "id": "measure-153",
+      "name": "Double-pane windows",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Windows",
+      "keywords": []
+    },
+    {
+      "id": "measure-154",
+      "name": "Triple-pane windows",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Windows",
+      "keywords": []
+    },
+    {
+      "id": "measure-155",
+      "name": "Low-E film",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Windows",
+      "keywords": []
+    },
+    {
+      "id": "measure-156",
+      "name": "Security tint film",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Windows",
+      "keywords": []
+    },
+    {
+      "id": "measure-157",
+      "name": "Window replacement",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Windows",
+      "keywords": [
+        "replacement"
+      ]
+    },
+    {
+      "id": "measure-158",
+      "name": "Skylights / solar tubes",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Windows",
+      "keywords": [
+        "solar"
+      ]
+    },
+    {
+      "id": "measure-159",
+      "name": "Door sweeps",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Air Sealing",
+      "keywords": []
+    },
+    {
+      "id": "measure-160",
+      "name": "Weather stripping",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Air Sealing",
+      "keywords": []
+    },
+    {
+      "id": "measure-161",
+      "name": "Envelope leak sealing",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Air Sealing",
+      "keywords": []
+    },
+    {
+      "id": "measure-162",
+      "name": "Vestibule addition",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Air Sealing",
+      "keywords": []
+    },
+    {
+      "id": "measure-163",
+      "name": "Cool roof coating",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Roofing",
+      "keywords": []
+    },
+    {
+      "id": "measure-164",
+      "name": "Reflective membranes",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Roofing",
+      "keywords": []
+    },
+    {
+      "id": "measure-165",
+      "name": "Green roof",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Roofing",
+      "keywords": []
+    },
+    {
+      "id": "measure-166",
+      "name": "EC evaporator fan motors",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Display / Case Refrigeration",
+      "keywords": [
+        "ec"
+      ]
+    },
+    {
+      "id": "measure-167",
+      "name": "LED case lighting",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Display / Case Refrigeration",
+      "keywords": [
+        "led"
+      ]
+    },
+    {
+      "id": "measure-168",
+      "name": "Anti-sweat heater controls",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Display / Case Refrigeration",
+      "keywords": [
+        "controls"
+      ]
+    },
+    {
+      "id": "measure-169",
+      "name": "Night curtains",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Display / Case Refrigeration",
+      "keywords": []
+    },
+    {
+      "id": "measure-170",
+      "name": "Door gasket upgrades",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Display / Case Refrigeration",
+      "keywords": []
+    },
+    {
+      "id": "measure-171",
+      "name": "Floating head pressure controls",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Rack Systems",
+      "keywords": [
+        "controls"
+      ]
+    },
+    {
+      "id": "measure-172",
+      "name": "Floating suction pressure",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Rack Systems",
+      "keywords": []
+    },
+    {
+      "id": "measure-173",
+      "name": "VFD compressors",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Rack Systems",
+      "keywords": [
+        "vfd"
+      ]
+    },
+    {
+      "id": "measure-174",
+      "name": "Heat reclaim",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Rack Systems",
+      "keywords": []
+    },
+    {
+      "id": "measure-175",
+      "name": "Defrost optimization",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Rack Systems",
+      "keywords": [
+        "optimization"
+      ]
+    },
+    {
+      "id": "measure-176",
+      "name": "Refrigeration controls upgrade",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Rack Systems",
+      "keywords": [
+        "refrigeration",
+        "controls",
+        "upgrade"
+      ]
+    },
+    {
+      "id": "measure-177",
+      "name": "Strip curtains",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Walk-in Coolers / Freezers",
+      "keywords": []
+    },
+    {
+      "id": "measure-178",
+      "name": "ECM fans",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Walk-in Coolers / Freezers",
+      "keywords": [
+        "ecm"
+      ]
+    },
+    {
+      "id": "measure-179",
+      "name": "High-efficiency doors",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Walk-in Coolers / Freezers",
+      "keywords": []
+    },
+    {
+      "id": "measure-180",
+      "name": "Insulation upgrades",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Walk-in Coolers / Freezers",
+      "keywords": [
+        "insulation"
+      ]
+    },
+    {
+      "id": "measure-181",
+      "name": "Low-flow fixtures",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Walk-in Coolers / Freezers",
+      "keywords": []
+    },
+    {
+      "id": "measure-182",
+      "name": "Auto-faucets",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Walk-in Coolers / Freezers",
+      "keywords": []
+    },
+    {
+      "id": "measure-183",
+      "name": "Auto-flush valves",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Walk-in Coolers / Freezers",
+      "keywords": []
+    },
+    {
+      "id": "measure-184",
+      "name": "HPWH systems",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Walk-in Coolers / Freezers",
+      "keywords": [
+        "hpwh"
+      ]
+    },
+    {
+      "id": "measure-185",
+      "name": "Hot-water recirculation optimization",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Walk-in Coolers / Freezers",
+      "keywords": [
+        "optimization"
+      ]
+    },
+    {
+      "id": "measure-186",
+      "name": "Steam-to-DHW conversion",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Walk-in Coolers / Freezers",
+      "keywords": []
+    },
+    {
+      "id": "measure-187",
+      "name": "Irrigation controllers",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Walk-in Coolers / Freezers",
+      "keywords": []
+    },
+    {
+      "id": "measure-188",
+      "name": "Leak detection systems",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Walk-in Coolers / Freezers",
+      "keywords": []
+    },
+    {
+      "id": "measure-189",
+      "name": "Water-cooled to air-cooled conversions",
+      "category": "ELECTRIFICATION MEASURES",
+      "subcategory": "Walk-in Coolers / Freezers",
+      "keywords": []
+    },
+    {
+      "id": "measure-190",
+      "name": "NEMA Premium motors",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Motors",
+      "keywords": []
+    },
+    {
+      "id": "measure-191",
+      "name": "ECM motors",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Motors",
+      "keywords": [
+        "ecm"
+      ]
+    },
+    {
+      "id": "measure-192",
+      "name": "Right-sizing motors",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Motors",
+      "keywords": []
+    },
+    {
+      "id": "measure-193",
+      "name": "Soft starters",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Motors",
+      "keywords": []
+    },
+    {
+      "id": "measure-194",
+      "name": "Motor VFDs",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Motors",
+      "keywords": []
+    },
+    {
+      "id": "measure-195",
+      "name": "High-efficiency transformers",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Electrical Infrastructure",
+      "keywords": []
+    },
+    {
+      "id": "measure-196",
+      "name": "Load balancing",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Electrical Infrastructure",
+      "keywords": []
+    },
+    {
+      "id": "measure-197",
+      "name": "Power factor correction",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Electrical Infrastructure",
+      "keywords": []
+    },
+    {
+      "id": "measure-198",
+      "name": "Harmonic filtering",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Electrical Infrastructure",
+      "keywords": []
+    },
+    {
+      "id": "measure-199",
+      "name": "Smart panels",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Electrical Infrastructure",
+      "keywords": []
+    },
+    {
+      "id": "measure-200",
+      "name": "Submetering",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Electrical Infrastructure",
+      "keywords": []
+    },
+    {
+      "id": "measure-201",
+      "name": "Battery energy storage systems (BESS)",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Storage",
+      "keywords": [
+        "battery",
+        "bess"
+      ]
+    },
+    {
+      "id": "measure-202",
+      "name": "Peak shaving batteries",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Storage",
+      "keywords": []
+    },
+    {
+      "id": "measure-203",
+      "name": "Load shifting batteries",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Storage",
+      "keywords": []
+    },
+    {
+      "id": "measure-204",
+      "name": "Solar PV",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Renewables",
+      "keywords": [
+        "solar"
+      ]
+    },
+    {
+      "id": "measure-205",
+      "name": "Solar thermal",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Renewables",
+      "keywords": [
+        "solar"
+      ]
+    },
+    {
+      "id": "measure-206",
+      "name": "Microgrid controls",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Renewables",
+      "keywords": [
+        "controls"
+      ]
+    },
+    {
+      "id": "measure-207",
+      "name": "Hybrid inverter systems",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Renewables",
+      "keywords": []
+    },
+    {
+      "id": "measure-208",
+      "name": "Ice storage",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Thermal Storage",
+      "keywords": []
+    },
+    {
+      "id": "measure-209",
+      "name": "Chilled water storage",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Thermal Storage",
+      "keywords": []
+    },
+    {
+      "id": "measure-210",
+      "name": "PCM thermal storage",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Thermal Storage",
+      "keywords": []
+    },
+    {
+      "id": "measure-211",
+      "name": "Leak detection",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Compressed Air",
+      "keywords": []
+    },
+    {
+      "id": "measure-212",
+      "name": "Compressor replacement (VFD/two-stage)",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Compressed Air",
+      "keywords": [
+        "replacement"
+      ]
+    },
+    {
+      "id": "measure-213",
+      "name": "Zero-loss drains",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Compressed Air",
+      "keywords": []
+    },
+    {
+      "id": "measure-214",
+      "name": "Heat recovery",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Compressed Air",
+      "keywords": []
+    },
+    {
+      "id": "measure-215",
+      "name": "Setpoint optimization",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Compressed Air",
+      "keywords": [
+        "optimization"
+      ]
+    },
+    {
+      "id": "measure-216",
+      "name": "Oven upgrades",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Process Loads",
+      "keywords": []
+    },
+    {
+      "id": "measure-217",
+      "name": "Process chiller optimization",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Process Loads",
+      "keywords": [
+        "chiller",
+        "optimization"
+      ]
+    },
+    {
+      "id": "measure-218",
+      "name": "Industrial refrigeration",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Process Loads",
+      "keywords": [
+        "refrigeration"
+      ]
+    },
+    {
+      "id": "measure-219",
+      "name": "Pump VFDs",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Process Loads",
+      "keywords": []
+    },
+    {
+      "id": "measure-220",
+      "name": "Industrial fans (ECM/VFD)",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Process Loads",
+      "keywords": []
+    },
+    {
+      "id": "measure-221",
+      "name": "OR setback controls",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Process Loads",
+      "keywords": [
+        "controls"
+      ]
+    },
+    {
+      "id": "measure-222",
+      "name": "OR ACH reduction",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Process Loads",
+      "keywords": []
+    },
+    {
+      "id": "measure-223",
+      "name": "Lab VAV hood control",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Process Loads",
+      "keywords": []
+    },
+    {
+      "id": "measure-224",
+      "name": "Lab exhaust VFDs",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Process Loads",
+      "keywords": []
+    },
+    {
+      "id": "measure-225",
+      "name": "Isolation room pressurization",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Process Loads",
+      "keywords": []
+    },
+    {
+      "id": "measure-226",
+      "name": "Heat recovery chillers for reheat loops",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Process Loads",
+      "keywords": []
+    },
+    {
+      "id": "measure-227",
+      "name": "MRI chiller optimization",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Process Loads",
+      "keywords": [
+        "chiller",
+        "optimization"
+      ]
+    },
+    {
+      "id": "measure-228",
+      "name": "Sterilizer reclaim systems",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Process Loads",
+      "keywords": []
+    },
+    {
+      "id": "measure-229",
+      "name": "Medical air/vacuum optimization",
+      "category": "MOTORS & ELECTRICAL SYSTEMS",
+      "subcategory": "Process Loads",
+      "keywords": [
+        "optimization"
+      ]
+    },
+    {
+      "id": "measure-230",
+      "name": "Hot aisle containment",
+      "category": "DATA CENTER MEASURES",
+      "keywords": []
+    },
+    {
+      "id": "measure-231",
+      "name": "Cold aisle containment",
+      "category": "DATA CENTER MEASURES",
+      "keywords": []
+    },
+    {
+      "id": "measure-232",
+      "name": "CRAH/CRAC VFD retrofits",
+      "category": "DATA CENTER MEASURES",
+      "keywords": [
+        "vfd"
+      ]
+    },
+    {
+      "id": "measure-233",
+      "name": "Free cooling",
+      "category": "DATA CENTER MEASURES",
+      "keywords": []
+    },
+    {
+      "id": "measure-234",
+      "name": "Liquid cooling",
+      "category": "DATA CENTER MEASURES",
+      "keywords": []
+    },
+    {
+      "id": "measure-235",
+      "name": "IT Efficiency",
+      "category": "DATA CENTER MEASURES",
+      "keywords": [
+        "efficiency"
+      ]
+    },
+    {
+      "id": "measure-236",
+      "name": "Server virtualization",
+      "category": "DATA CENTER MEASURES",
+      "keywords": []
+    },
+    {
+      "id": "measure-237",
+      "name": "Server consolidation",
+      "category": "DATA CENTER MEASURES",
+      "keywords": []
+    },
+    {
+      "id": "measure-238",
+      "name": "High-efficiency UPS",
+      "category": "DATA CENTER MEASURES",
+      "keywords": []
+    },
+    {
+      "id": "measure-239",
+      "name": "Smart plugs",
+      "category": "PLUG LOAD",
+      "keywords": []
+    },
+    {
+      "id": "measure-240",
+      "name": "PC power management",
+      "category": "PLUG LOAD",
+      "keywords": []
+    },
+    {
+      "id": "measure-241",
+      "name": "Vending machine controllers",
+      "category": "PLUG LOAD",
+      "keywords": []
+    },
+    {
+      "id": "measure-242",
+      "name": "Lab freezer replacements",
+      "category": "PLUG LOAD",
+      "keywords": []
+    },
+    {
+      "id": "measure-243",
+      "name": "Appliance replacement",
+      "category": "PLUG LOAD",
+      "keywords": [
+        "replacement"
+      ]
+    },
+    {
+      "id": "measure-244",
+      "name": "Copier/printer consolidation",
+      "category": "PLUG LOAD",
+      "keywords": []
+    },
+    {
+      "id": "measure-245",
+      "name": "If you want, I can convert this into:",
+      "category": "PLUG LOAD",
+      "keywords": []
+    },
+    {
+      "id": "measure-246",
+      "name": "Just tell me the format and I’ll generate it.",
+      "category": "PLUG LOAD",
+      "keywords": []
+    }
+  ],
+  "categories": [
+    "COOLING SYSTEMS",
+    "HEATING SYSTEMS",
+    "HVAC CONTROLS",
+    "ELECTRIFICATION MEASURES",
+    "MOTORS & ELECTRICAL SYSTEMS",
+    "DATA CENTER MEASURES",
+    "PLUG LOAD"
+  ],
+  "equipmentTypes": [
+    "AHU",
+    "Absorption chiller",
+    "BESS",
+    "BOILER",
+    "Battery",
+    "Boiler",
+    "CHILLER",
+    "Centrifugal chiller",
+    "Chiller",
+    "Condensing boiler",
+    "Cooling Tower",
+    "Cooling tower",
+    "DOAS",
+    "EC fan",
+    "ECM fan",
+    "ECM motor",
+    "ERV",
+    "HEAT PUMP",
+    "HRV",
+    "Heat Pump",
+    "Heat pump",
+    "NEMA Premium",
+    "RTU",
+    "Reciprocating chiller",
+    "STORAGE",
+    "Screw chiller",
+    "Scroll chiller",
+    "Smart panel",
+    "Soft starter",
+    "Solar PV",
+    "Steam boiler",
+    "Storage",
+    "VFD compressor",
+    "VRF",
+    "VRV",
+    "boiler",
+    "chiller",
+    "erv",
+    "heat pump",
+    "rtu",
+    "storage"
+  ],
+  "technologies": [
+    "AHU",
+    "BESS",
+    "BMS",
+    "Battery",
+    "Boiler",
+    "Chiller",
+    "Compressed Air",
+    "Controls",
+    "Cooling Tower",
+    "DOAS",
+    "ECM",
+    "EMS",
+    "Electrification",
+    "HPWH",
+    "Heat Pump",
+    "Ice Storage",
+    "Insulation",
+    "LED",
+    "Lighting",
+    "Microgrid",
+    "PCM",
+    "Refrigeration",
+    "Solar PV",
+    "Solar Thermal",
+    "VFD",
+    "VRF",
+    "VRV",
+    "Windows"
+  ],
+  "subcategories": [
+    "Electric Chillers",
+    "Absorption / Gas / Engine Chillers",
+    "Heat Pump Chillers (Belong under COOLING)",
+    "Cooling Towers",
+    "Cooling Distribution",
+    "Boilers",
+    "Heat Pumps (HEATING CATEGORY)",
+    "Heating Distribution",
+    "Air Handling Units (AHUs)",
+    "Ventilation Systems",
+    "Ventilation Controls",
+    "Exhaust Systems",
+    "BMS/EMS Platforms",
+    "Control Strategies",
+    "Advanced Controls",
+    "Heating Electrification",
+    "Cooling Electrification",
+    "Domestic Hot Water Electrification",
+    "Cooking Electrification",
+    "Infrastructure Upgrades for Electrification",
+    "Insulation",
+    "Windows",
+    "Air Sealing",
+    "Roofing",
+    "Display / Case Refrigeration",
+    "Rack Systems",
+    "Walk-in Coolers / Freezers",
+    "Motors",
+    "Electrical Infrastructure",
+    "Storage",
+    "Renewables",
+    "Thermal Storage",
+    "Compressed Air",
+    "Process Loads"
+  ]
+}

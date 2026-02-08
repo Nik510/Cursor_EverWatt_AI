@@ -1,0 +1,45 @@
+{
+  "kind": "battery-analysis",
+  "apiVersion": "battery-analysis-v1",
+  "analysisId": "974022c7-62ca-4a35-9cc1-d5f66dd5d51f",
+  "runId": "3392acbb-bd16-4cbe-b0b0-bc2695124a68",
+  "createdAt": "2026-01-20T18:52:25.298Z",
+  "userId": "default-user",
+  "mode": "single",
+  "intervalSha256": "37b0698daf65aa7edfe5397441e627ea41fd9524da973d96d7ed7684f7c759e5",
+  "usageSha256": "d36c57ca6accde48c56e0a1219a035e7c7c535cd55179fb710053241182815e9",
+  "rateCode": null,
+  "demandRatePerKwMonth": 15,
+  "thresholdKw": 296.4,
+  "batterySpec": {
+    "capacity_kwh": 320,
+    "max_power_kw": 180,
+    "round_trip_efficiency": 0.9,
+    "degradation_rate": 0.02,
+    "min_soc": 0.1,
+    "max_soc": 0.9,
+    "depth_of_discharge": 0.8
+  },
+  "batteryMeta": {
+    "label": "2×HBPES160",
+    "portfolio": [
+      {
+        "modelName": "HBPES160",
+        "manufacturer": "HBE",
+        "quantity": 2,
+        "unitPowerKw": 90,
+        "unitCapacityKwh": 160,
+        "unitEfficiency": 0.9,
+        "unitPrice": 32334,
+        "lineCost": 64668
+      }
+    ],
+    "pricingTier": "1-10",
+    "totalCapacityKwh": 320,
+    "totalPowerKw": 180,
+    "systemCost": 64668
+  },
+  "catalogSha256": "9b52fe0d51b6211d67dcfbc030d8ef2843e7294d45bac34336b6610f39632f7d",
+  "gitCommit": null,
+  "nodeVersion": "v24.11.1"
+}

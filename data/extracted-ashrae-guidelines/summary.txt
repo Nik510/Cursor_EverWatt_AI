@@ -1,0 +1,179 @@
+ASHRAE Knowledge Architecture - Extraction Summary
+Generated: 2025-12-13T17:04:20.811Z
+
+SOURCE FILE:
+C:\Users\nikjo\OneDrive\Desktop\EverWatt_Engine\ASHRAE_GUIDELINES\The ASHRAE Knowledge Architecture_ A Compendium for Artificial Intelligence Model Training.docx
+
+STATISTICS:
+- Title: The ASHRAE Knowledge Architecture: A Compendium for Artificial Intelligence Model Training
+- Text Length: 42,271 characters
+- Sections: 59
+- Categories: 31
+- Keywords: 25
+
+CATEGORIES (31):
+1. Chiller
+2. Codes
+3. ENERGY EFFICIENCY
+4. Energy Efficiency
+5. Energy efficiency
+6. Green Building
+7. HVAC
+8. Heat Pump
+9. Heating
+10. IAQ
+11. Indoor Air Quality
+12. LEED
+13. Refrigeration
+14. Standards
+15. Sustainability
+16. Thermal Comfort
+17. Ventilation
+18. air conditioning
+19. chiller
+20. codes
+21. commissioning
+22. controls
+23. energy efficiency
+24. guidelines
+25. heat pump
+26. heating
+27. hvac
+28. refrigeration
+29. standards
+30. thermal comfort
+31. ventilation
+
+KEYWORDS (25):
+1. ashrae
+2. bas
+3. boiler
+4. chiller
+5. commissioning
+6. cop
+7. economizer
+8. eer
+9. energy audit
+10. energy star
+11. green building
+12. heat pump
+13. hvac
+14. iaq
+15. leed
+16. pmv
+17. ppd
+18. psychrometric
+19. r-value
+20. seer
+21. sustainability
+22. thermal comfort
+23. ton
+24. ventilation
+25. vrf
+
+SECTIONS (first 20 of 59):
+1. (No heading) (Level 0, 90 chars)
+2. 1. The Institutional Framework of ASHRAE (Level 2, 2446 chars)
+3. Members Council: This body administers the activities of the chapters and membership regions. It ensures that the technical needs of the grassroots membership—the practicing engineers—are communicated to the leadership.2 (Level 2, 307 chars)
+4. Technology Council: This is the most critical body for AI training data. The Technology Council oversees the Technical Committees (TCs), Standing Standard Project Committees (SSPCs), and research projects. It approves the funding for research (e.g., finding the thermal comfort limits of humans) and monitors the standards development process.2 (Level 2, 1455 chars)
+5. Drafting: By subject matter experts. (Level 1, 0 chars)
+6. Public Review: Where any member of the public can submit comments. (Level 2, 0 chars)
+7. Resolution: Where the committee must formally respond to every comment. (Level 2, 0 chars)
+8. Publication: Only after ANSI approval. (Level 1, 1402 chars)
+9. 2. The Technical Repository: ASHRAE Handbooks (Level 2, 707 chars)
+10. Chapter 1 on Psychrometrics defines the properties of moist air. Recent updates have expanded the discussion of transport properties, which are critical for calculating heat transfer rates in coils and ducts.9 The Thermodynamics chapter (Chapter 2) details the thermodynamic cycles, including the reverse Brayton and Stirling cycles.9 An AI model must internalize these cycles to predict the energy consumption of chillers and heat pumps under varying load conditions. (Level 2, 700 chars)
+11. Chapter 9 (formerly scattered chapters) consolidates the science of the indoor environment, linking thermal comfort, air quality, and lighting.11 This chapter provides the physiological basis for Standards 55 and 62.1, explaining why humans react to thermal asymmetry or drafts. It also includes new modeling for indoor environmental quality, which allows AI to simulate contaminant dispersion within a room.9 (Level 2, 30 chars)
+12. Chapter 23 (Insulation) and Chapter 28 (Materials) provide the thermal properties (R-values, U-factors) of building components. A notable update is the inclusion of moisture resistance data for insulation systems.9 This is critical for "hygrothermal" modeling—predicting not just heat flow, but moisture accumulation and mold growth risk within walls. (Level 2, 931 chars)
+13. Steam Systems: Chapter 11 now includes safety factors for steam trap sizing.13 In older cities and hospital campuses, steam is a primary heating medium. Proper trap sizing is essential for energy efficiency and safety; failed traps are a massive source of wasted energy. (Level 2, 0 chars)
+14. Ultraviolet Lamp Systems: Chapter 17 has expanded to cover the safety and commissioning of UV-C lamps.13 With the post-pandemic focus on airborne pathogens, AI models designing for health must incorporate UV-C efficacy and energy penalties into their calculations. (Level 2, 656 chars)
+15. Health Care Facilities: This chapter aligns with Standard 170, detailing the pressure relationships required to contain infectious diseases.6 (Level 2, 1805 chars)
+16. 3. Regulatory Standards for Energy Performance (Level 2, 1062 chars)
+17. Prescriptive Path: This is the checklist approach. The standard lists specific criteria for every component (e.g., Chillers must have a COP of X, Windows must have a U-factor of Y). If a building meets every single line item, it complies. This is rigid but simple.19 (Level 2, 961 chars)
+18. Envelope Backstop: Previously, a designer could build a glass box with poor insulation and "trade it off" with a super-efficient chiller. The 2022 edition limits this. The proposed envelope performance factor cannot exceed the baseline by more than 15% (for residential/hotels) or 7% (for others).20 This forces a "fabric-first" approach. (Level 2, 0 chars)
+19. Thermal Bridging: The standard now explicitly requires accounting for thermal bridges (heat flow through studs and connections), which were previously often ignored, leading to performance gaps.22 (Level 2, 0 chars)
+20. Carbon Metrics: For the first time, the standard includes guidance on using carbon emissions as a metric, not just energy cost.18 This aligns with global decarbonization goals. (Level 2, 0 chars)
+
+
+... and 39 more sections
+
+
+COMPLETE SECTION LIST:
+1. (No heading) (Level 0, The ASHRAE Knowledge Architecture: A Compendium for Artificial Intelligence Model Training...)
+2. 1. The Institutional Framework of ASHRAE (Level 2, To effectively train an Artificial Intelligence (AI) model on the intricacies of the built environme...)
+3. Members Council: This body administers the activities of the chapters and membership regions. It ensures that the technical needs of the grassroots membership—the practicing engineers—are communicated to the leadership.2 (Level 2, Publishing and Education Council: This council oversees the dissemination of information. It manages...)
+4. Technology Council: This is the most critical body for AI training data. The Technology Council oversees the Technical Committees (TCs), Standing Standard Project Committees (SSPCs), and research projects. It approves the funding for research (e.g., finding the thermal comfort limits of humans) and monitors the standards development process.2 (Level 2, 1.2.2 The Committee Mechanism
+The "Committee Structure is the mechanism that makes the Society run"....)
+5. Drafting: By subject matter experts. (Level 1, ...)
+6. Public Review: Where any member of the public can submit comments. (Level 2, ...)
+7. Resolution: Where the committee must formally respond to every comment. (Level 2, ...)
+8. Publication: Only after ANSI approval. (Level 1, Many ASHRAE standards, such as 90.1 and 62.1, are under "Continuous Maintenance".4 This means they a...)
+9. 2. The Technical Repository: ASHRAE Handbooks (Level 2, While ASHRAE Standards represent the "law" of building design (what you must do), the ASHRAE Handboo...)
+10. Chapter 1 on Psychrometrics defines the properties of moist air. Recent updates have expanded the discussion of transport properties, which are critical for calculating heat transfer rates in coils and ducts.9 The Thermodynamics chapter (Chapter 2) details the thermodynamic cycles, including the reverse Brayton and Stirling cycles.9 An AI model must internalize these cycles to predict the energy consumption of chillers and heat pumps under varying load conditions. (Level 2, 2.1.2 Climatic Design Information
+Perhaps the most valuable dataset for AI in this volume is Chapter...)
+11. Chapter 9 (formerly scattered chapters) consolidates the science of the indoor environment, linking thermal comfort, air quality, and lighting.11 This chapter provides the physiological basis for Standards 55 and 62.1, explaining why humans react to thermal asymmetry or drafts. It also includes new modeling for indoor environmental quality, which allows AI to simulate contaminant dispersion within a room.9 (Level 2, 2.1.4 Materials and Insulation...)
+12. Chapter 23 (Insulation) and Chapter 28 (Materials) provide the thermal properties (R-values, U-factors) of building components. A notable update is the inclusion of moisture resistance data for insulation systems.9 This is critical for "hygrothermal" modeling—predicting not just heat flow, but moisture accumulation and mold growth risk within walls. (Level 2, 2.2 HVAC Systems and Equipment: Component Logic
+The HVAC Systems and Equipment volume moves from the...)
+13. Steam Systems: Chapter 11 now includes safety factors for steam trap sizing.13 In older cities and hospital campuses, steam is a primary heating medium. Proper trap sizing is essential for energy efficiency and safety; failed traps are a massive source of wasted energy. (Level 2, ...)
+14. Ultraviolet Lamp Systems: Chapter 17 has expanded to cover the safety and commissioning of UV-C lamps.13 With the post-pandemic focus on airborne pathogens, AI models designing for health must incorporate UV-C efficacy and energy penalties into their calculations. (Level 2, 2.3 HVAC Applications: System Integration
+The HVAC Applications volume explains how to apply systems...)
+15. Health Care Facilities: This chapter aligns with Standard 170, detailing the pressure relationships required to contain infectious diseases.6 (Level 2, Data Centers (Chapter 20): Updated to cover thermal envelopes and economizers.15 Data centers are un...)
+16. 3. Regulatory Standards for Energy Performance (Level 2, If the Handbooks are the physics, the Standards are the law. ASHRAE standards define the minimum acc...)
+17. Prescriptive Path: This is the checklist approach. The standard lists specific criteria for every component (e.g., Chillers must have a COP of X, Windows must have a U-factor of Y). If a building meets every single line item, it complies. This is rigid but simple.19 (Level 2, Energy Cost Budget (ECB) Method (Section 12): This is a performance-based trade-off method. It requi...)
+18. Envelope Backstop: Previously, a designer could build a glass box with poor insulation and "trade it off" with a super-efficient chiller. The 2022 edition limits this. The proposed envelope performance factor cannot exceed the baseline by more than 15% (for residential/hotels) or 7% (for others).20 This forces a "fabric-first" approach. (Level 2, ...)
+19. Thermal Bridging: The standard now explicitly requires accounting for thermal bridges (heat flow through studs and connections), which were previously often ignored, leading to performance gaps.22 (Level 2, ...)
+20. Carbon Metrics: For the first time, the standard includes guidance on using carbon emissions as a metric, not just energy cost.18 This aligns with global decarbonization goals. (Level 2, ...)
+21. Mechanical Efficiency: New metrics like SEER2 and HSPF2 for heat pumps and IEER for commercial rooftop units have been adopted to better reflect real-world part-load performance.18 (Level 2, 3.2 Standard 100: Retrofitting the Existing Stock
+While 90.1 applies to new buildings, Standard 100 ...)
+22. Site Sustainability: Reducing heat island effect, managing stormwater. (Level 2, ...)
+23. Water Efficiency: Mandating more efficient plumbing fixtures and irrigation than the base code. (Level 2, ...)
+24. Energy: Typically requires performance equivalent to a specific percentage better than 90.1 (e.g., 60% energy recovery effectiveness vs. 50%).26 (Level 2, IEQ: Stricter requirements, such as no smoking within 25 feet of entrances and mandatory entryway ma...)
+25. 4. Standards for Indoor Environmental Quality (IEQ) (Level 2, Energy efficiency cannot come at the cost of occupant health. ASHRAE’s IEQ standards define the cond...)
+26. Where: (Level 1, $V_{bz}$ = Breathing zone outdoor airflow.
+$R_p$ = Outdoor airflow rate per person (CFM/person).
+$P_...)
+27. Air Temperature: The dry-bulb temperature. (Level 1, ...)
+28. Radiant Temperature: The heat radiating from surfaces (e.g., a cold window or hot ceiling). (Level 2, ...)
+29. Air Speed: Moving air creates a cooling effect (draft). (Level 2, ...)
+30. Humidity: Affects the body's ability to cool via sweating. (Level 2, ...)
+31. Metabolic Rate: How much heat the body is generating (sitting vs. walking). (Level 2, ...)
+32. Clothing Insulation: Measured in "clo" (0.5 clo = summer clothes, 1.0 clo = winter suit).30 (Level 2, 4.2.2 PMV and PPD Models
+The standard uses the Predicted Mean Vote (PMV) and Predicted Percentage of...)
+33. 5. Commercial Building Energy Audits: Standard 211 (Level 2, Perhaps the most critical standard for an AI engaged in building retrofit analysis is Standard 211 (...)
+34. Deliverables: (Level 1, Preliminary Energy Use Analysis (PEA): Benchmarking the building’s Energy Use Intensity (EUI) agains...)
+35. Site Visit: A brief inspection to identify obvious "low-hanging fruit" (e.g., lights left on, broken dampers). (Level 2, Qualitative EEMs: A list of Energy Efficiency Measures (EEMs). Costs and savings are estimated quali...)
+36. Use Case: Prioritizing a portfolio. An owner with 100 buildings uses Level 1 audits to decide which 10 need a Level 2 audit. (Level 2, 5.3 Level 2: Survey and Analytic Rigor
+The Level 2 Audit is the industry standard for a "real" energ...)
+37. Deliverables: (Level 1, ...)
+38. Detailed Site Survey: A thorough inventory of energy-using equipment (lighting counts, motor nameplates). (Level 2, End-Use Breakdown: The auditor must reconcile the utility bills into categories (X% lighting, Y% coo...)
+39. Operational Review: Interviews with facility staff to uncover deviations from design intent.38 (Level 2, ...)
+40. Accuracy: Typically aims for savings and cost estimates within ±10-20% accuracy, though this is not strictly defined as a statistical bound in the standard, but rather an industry expectation.39 (Level 2, 5.4 Level 3: Investment Grade Analysis and Risk Assessment
+The Level 3 Audit (Investment Grade Audit...)
+41. Deliverables: (Level 1, ...)
+42. Data Logging: The auditor must measure key parameters (e.g., chiller amperage, supply air temperature) over a representative period (weeks or months) to capture actual operating profiles, rather than assuming a schedule.36 (Level 2, ...)
+43. Dynamic Modeling: Almost always involves an hourly simulation model (e.g., EnergyPlus) calibrated to the utility bills. (Level 2, ...)
+44. Vendor Bids: Costs should be based on actual vendor quotes, not just estimates. (Level 2, 5.4.1 Uncertainty Quantification
+A unique requirement of Level 3 in Standard 211 is the Risk Assessm...)
+45. Sensitivity Analysis: Identifying which input variables have the highest impact on the output. For example, does a 1°F change in thermostat setpoint change energy use by 1% or 10%?.40 (Level 2, ...)
+46. Monte Carlo Simulation: A computational technique where the energy model is run thousands of times. In each run, uncertain inputs (e.g., weather, occupancy, plug load density) are randomly sampled from probability distributions. The result is not a single number, but a probability curve of savings (e.g., "There is a 90% probability that savings will exceed $100,000").37 This allows investors to understand the "Value at Risk." (Level 2, 5.5 Normative Reporting and Data Standardization (Annex C)
+Standard 211 introduced Normative Annex C...)
+47. Purpose: To force consistency. Previously, audit reports were free-form narratives. Annex C requires specific data fields (e.g., Building Area, EUI, EEM Cost, EEM Savings) to be reported in a standard spreadsheet format.3 (Level 2, ...)
+48. Data Fields: The forms cover "Historical Utility Data," "Benchmarking," "EEM Cost Estimates," and "EEM Economic Analysis".45 (Level 2, ...)
+49. Digital Integration: These fields are mapped to BuildingSync, the XML schema for energy audit data. This means a Standard 211 report can be machine-read and ingested into databases like the DOE's Audit Template tool or the SEED Platform.46 This is the critical link for AI training—it turns unstructured PDFs into structured, labeled datasets. (Level 2, 5.6 Decarbonization Assessments
+Reflecting the industry's pivot to carbon, Addendum a to Standard 21...)
+50. New Scope: It explicitly includes the assessment of Scope 1 (direct emissions, e.g., burning gas) and Scope 2 (indirect emissions, e.g., electricity generation) greenhouse gas emissions.48 (Level 2, ...)
+51. Implication: Audits must now recommend measures not just to save money, but to reduce carbon (e.g., fuel switching from gas boilers to electric heat pumps), even if the payback is longer. (Level 2, ...)
+52. 6. Advanced Design and Digital Interoperability (Level 2, Beyond the minimums of standards, ASHRAE provides resources for high-performance and digital integra...)
+53. Bedes Alignment: BuildingSync uses the Building Energy Data Exchange Specification (BEDES) dictionary. This ensures that when an auditor says "Gross Floor Area," the AI knows exactly what that means, differentiating it from "Net Leasable Area".55 (Level 2, ...)
+54. Validation: BuildingSync uses "Schematron" logic to validate files. It can check if a file meets the specific data requirements of a Level 2 audit (e.g., "If Level 2, EEM Investment Cost must be present").56 (Level 2, ...)
+55. Use Cases: It is used by cities (SF, NYC) and utilities (BayREN) to aggregate data from thousands of buildings, creating the "Big Data" necessary for training robust AI models.55 (Level 2, 6.3 Building EQ: Operational Rating
+Building EQ (Energy Quotient) is ASHRAE’s rating system, providi...)
+56. As Designed: Evaluates the building's asset potential based on simulation. (Level 2, ...)
+57. In Operation: Evaluates actual metered performance. This assessment aligns with the Level 1 Audit requirements of Standard 211, meaning a Building EQ submission effectively generates a Level 1 audit report.57 (Level 2, ...)
+58. 7. Synthesis: Training the AI Model (Level 2, To train an AI model effectively on this vast ecosystem, one must structure the ingestion strategy t...)
+59. Table: Key ASHRAE Standards and Their Role in AI Training (Level 2, Standard
+Title
+Primary Function for AI
+Key Training Concepts
+90.1
+Energy Standard for Buildings...
+C...)

@@ -1,0 +1,436 @@
+{
+  "id": "electrification-measures",
+  "name": "ELECTRIFICATION MEASURES",
+  "subcategories": [
+    {
+      "id": "heating-electrification",
+      "name": "Heating Electrification",
+      "measures": [
+        {
+          "id": "measure-129",
+          "name": "Gas boiler → heat pump chiller",
+          "keywords": [
+            "boiler",
+            "chiller"
+          ]
+        },
+        {
+          "id": "measure-130",
+          "name": "Gas boiler → electric boiler",
+          "keywords": [
+            "boiler"
+          ]
+        },
+        {
+          "id": "measure-131",
+          "name": "Gas furnace → heat pump",
+          "keywords": []
+        },
+        {
+          "id": "measure-132",
+          "name": "Gas RTU → electric heat pump RTU",
+          "keywords": []
+        },
+        {
+          "id": "measure-133",
+          "name": "Gas MAU → electric MAU",
+          "keywords": []
+        },
+        {
+          "id": "measure-134",
+          "name": "Steam heating → high-temp heat pump",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "cooling-electrification",
+      "name": "Cooling Electrification",
+      "measures": [
+        {
+          "id": "measure-135",
+          "name": "Absorption chiller → electric chiller",
+          "keywords": [
+            "chiller"
+          ]
+        },
+        {
+          "id": "measure-136",
+          "name": "Engine-driven chiller → electric chiller",
+          "keywords": [
+            "chiller"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "domestic-hot-water-electrification",
+      "name": "Domestic Hot Water Electrification",
+      "measures": [
+        {
+          "id": "measure-137",
+          "name": "Gas water heater → HPWH",
+          "keywords": [
+            "hpwh"
+          ]
+        },
+        {
+          "id": "measure-138",
+          "name": "Gas booster → electric booster",
+          "keywords": []
+        },
+        {
+          "id": "measure-139",
+          "name": "Steam → heat pump DHW system",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "cooking-electrification",
+      "name": "Cooking Electrification",
+      "measures": [
+        {
+          "id": "measure-140",
+          "name": "Gas range → induction",
+          "keywords": []
+        },
+        {
+          "id": "measure-141",
+          "name": "Gas fryer → electric fryer",
+          "keywords": []
+        },
+        {
+          "id": "measure-142",
+          "name": "Gas oven → electric convection oven",
+          "keywords": []
+        },
+        {
+          "id": "measure-143",
+          "name": "Gas broiler → electric salamander",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "infrastructure-upgrades-for-electrification",
+      "name": "Infrastructure Upgrades for Electrification",
+      "measures": [
+        {
+          "id": "measure-144",
+          "name": "Panelboard replacement",
+          "keywords": [
+            "replacement"
+          ]
+        },
+        {
+          "id": "measure-145",
+          "name": "Service upgrade",
+          "keywords": [
+            "upgrade"
+          ]
+        },
+        {
+          "id": "measure-146",
+          "name": "Transformer replacement",
+          "keywords": [
+            "replacement"
+          ]
+        },
+        {
+          "id": "measure-147",
+          "name": "Electrified reheat systems",
+          "keywords": []
+        },
+        {
+          "id": "measure-148",
+          "name": "Distribution redesign (4-pipe to 2-pipe HP system)",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "insulation",
+      "name": "Insulation",
+      "measures": [
+        {
+          "id": "measure-149",
+          "name": "Roof insulation",
+          "keywords": [
+            "insulation"
+          ]
+        },
+        {
+          "id": "measure-150",
+          "name": "Wall insulation",
+          "keywords": [
+            "insulation"
+          ]
+        },
+        {
+          "id": "measure-151",
+          "name": "Pipe insulation",
+          "keywords": [
+            "insulation"
+          ]
+        },
+        {
+          "id": "measure-152",
+          "name": "Duct insulation",
+          "keywords": [
+            "insulation"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "windows",
+      "name": "Windows",
+      "measures": [
+        {
+          "id": "measure-153",
+          "name": "Double-pane windows",
+          "keywords": []
+        },
+        {
+          "id": "measure-154",
+          "name": "Triple-pane windows",
+          "keywords": []
+        },
+        {
+          "id": "measure-155",
+          "name": "Low-E film",
+          "keywords": []
+        },
+        {
+          "id": "measure-156",
+          "name": "Security tint film",
+          "keywords": []
+        },
+        {
+          "id": "measure-157",
+          "name": "Window replacement",
+          "keywords": [
+            "replacement"
+          ]
+        },
+        {
+          "id": "measure-158",
+          "name": "Skylights / solar tubes",
+          "keywords": [
+            "solar"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "air-sealing",
+      "name": "Air Sealing",
+      "measures": [
+        {
+          "id": "measure-159",
+          "name": "Door sweeps",
+          "keywords": []
+        },
+        {
+          "id": "measure-160",
+          "name": "Weather stripping",
+          "keywords": []
+        },
+        {
+          "id": "measure-161",
+          "name": "Envelope leak sealing",
+          "keywords": []
+        },
+        {
+          "id": "measure-162",
+          "name": "Vestibule addition",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "roofing",
+      "name": "Roofing",
+      "measures": [
+        {
+          "id": "measure-163",
+          "name": "Cool roof coating",
+          "keywords": []
+        },
+        {
+          "id": "measure-164",
+          "name": "Reflective membranes",
+          "keywords": []
+        },
+        {
+          "id": "measure-165",
+          "name": "Green roof",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "display-case-refrigeration",
+      "name": "Display / Case Refrigeration",
+      "measures": [
+        {
+          "id": "measure-166",
+          "name": "EC evaporator fan motors",
+          "keywords": [
+            "ec"
+          ]
+        },
+        {
+          "id": "measure-167",
+          "name": "LED case lighting",
+          "keywords": [
+            "led"
+          ]
+        },
+        {
+          "id": "measure-168",
+          "name": "Anti-sweat heater controls",
+          "keywords": [
+            "controls"
+          ]
+        },
+        {
+          "id": "measure-169",
+          "name": "Night curtains",
+          "keywords": []
+        },
+        {
+          "id": "measure-170",
+          "name": "Door gasket upgrades",
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "id": "rack-systems",
+      "name": "Rack Systems",
+      "measures": [
+        {
+          "id": "measure-171",
+          "name": "Floating head pressure controls",
+          "keywords": [
+            "controls"
+          ]
+        },
+        {
+          "id": "measure-172",
+          "name": "Floating suction pressure",
+          "keywords": []
+        },
+        {
+          "id": "measure-173",
+          "name": "VFD compressors",
+          "keywords": [
+            "vfd"
+          ]
+        },
+        {
+          "id": "measure-174",
+          "name": "Heat reclaim",
+          "keywords": []
+        },
+        {
+          "id": "measure-175",
+          "name": "Defrost optimization",
+          "keywords": [
+            "optimization"
+          ]
+        },
+        {
+          "id": "measure-176",
+          "name": "Refrigeration controls upgrade",
+          "keywords": [
+            "refrigeration",
+            "controls",
+            "upgrade"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "walk-in-coolers-freezers",
+      "name": "Walk-in Coolers / Freezers",
+      "measures": [
+        {
+          "id": "measure-177",
+          "name": "Strip curtains",
+          "keywords": []
+        },
+        {
+          "id": "measure-178",
+          "name": "ECM fans",
+          "keywords": [
+            "ecm"
+          ]
+        },
+        {
+          "id": "measure-179",
+          "name": "High-efficiency doors",
+          "keywords": []
+        },
+        {
+          "id": "measure-180",
+          "name": "Insulation upgrades",
+          "keywords": [
+            "insulation"
+          ]
+        },
+        {
+          "id": "measure-181",
+          "name": "Low-flow fixtures",
+          "keywords": []
+        },
+        {
+          "id": "measure-182",
+          "name": "Auto-faucets",
+          "keywords": []
+        },
+        {
+          "id": "measure-183",
+          "name": "Auto-flush valves",
+          "keywords": []
+        },
+        {
+          "id": "measure-184",
+          "name": "HPWH systems",
+          "keywords": [
+            "hpwh"
+          ]
+        },
+        {
+          "id": "measure-185",
+          "name": "Hot-water recirculation optimization",
+          "keywords": [
+            "optimization"
+          ]
+        },
+        {
+          "id": "measure-186",
+          "name": "Steam-to-DHW conversion",
+          "keywords": []
+        },
+        {
+          "id": "measure-187",
+          "name": "Irrigation controllers",
+          "keywords": []
+        },
+        {
+          "id": "measure-188",
+          "name": "Leak detection systems",
+          "keywords": []
+        },
+        {
+          "id": "measure-189",
+          "name": "Water-cooled to air-cooled conversions",
+          "keywords": []
+        }
+      ]
+    }
+  ]
+}

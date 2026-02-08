@@ -1,0 +1,62 @@
+{
+  "id": "55b10c5e-29f1-4d58-94a7-8fb33e44e369",
+  "driveFolderLink": "https://drive.google.com/drive/folders/16Aejh6KumnOQdv6EhJzcHtBZMT4xaMsw?usp=drive_link",
+  "customer": {
+    "projectNumber": "0000007",
+    "companyName": "AHS",
+    "obfNumber": "015553"
+  },
+  "createdAt": "2025-12-30T16:16:06.157Z",
+  "updatedAt": "2026-01-18T20:48:00.847Z",
+  "userId": "default-user",
+  "decisionMemory": [],
+  "eeScopeSummary": {
+    "status": "approved",
+    "draftText": "Scope (Draft):\n- Lighting: retrofit troffers to LED, confirm quantities from E2.1\n- HVAC: verify AHU list and control sequences\n\nNeeds confirmation:\n- Fixture count from schedule\n",
+    "approvedText": "Scope (Draft):\n- Lighting: retrofit troffers to LED, confirm quantities from E2.1\n- HVAC: verify AHU list and control sequences\n\nNeeds confirmation:\n- Fixture count from schedule\n",
+    "updatedAt": "2026-01-18T17:44:24.807Z"
+  },
+  "graph": {
+    "assets": [
+      {
+        "id": "68f63257-6f44-4b11-a982-dfef9f830b90",
+        "assetTag": "AHU-1",
+        "type": "ahu",
+        "name": "Main AHU",
+        "location": "Roof",
+        "evidenceRefs": [],
+        "kind": "asset",
+        "baseline": {
+          "description": "Pre-side: constant volume supply fan, no VFD, fixed schedules.",
+          "equipment": [
+            "No VFD"
+          ],
+          "frozenAt": "2026-01-18T20:47:52.988Z"
+        },
+        "measures": [
+          {
+            "id": "e33d12b2-37a1-4e02-9da0-2c9b7453be23",
+            "name": "VFD",
+            "measureType": "VFD",
+            "before": {
+              "description": "No VFD (baseline)",
+              "equipment": []
+            },
+            "after": {
+              "description": "Install VFD",
+              "equipmentAdded": [
+                "VFD"
+              ]
+            },
+            "createdAt": "2026-01-18T20:47:56.380Z",
+            "updatedAt": "2026-01-18T20:47:56.380Z"
+          }
+        ]
+      }
+    ],
+    "measures": [],
+    "inbox": [],
+    "inboxHistory": [],
+    "decisions": []
+  }
+}

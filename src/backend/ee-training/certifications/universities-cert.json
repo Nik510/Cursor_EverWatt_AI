@@ -1,0 +1,265 @@
+{
+  "id": "universities-cert",
+  "industry": "universities",
+  "title": "EverWatt Energy Efficiency Certification - For University Engineers",
+  "subtitle": "Certification for energy efficiency in large university campuses",
+  "description": "Validate your expertise in identifying and implementing energy efficiency measures for large university campuses. This certification covers central plants, research labs, dormitories, dining halls, and complex campus operations with 24/7 requirements.",
+  "icon": "🏛️",
+  "passingScore": 80,
+  "timeLimit": 90,
+  "prerequisites": ["industry-specific"],
+  "metadata": {
+    "estimatedTime": 90,
+    "difficulty": "advanced",
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-02"
+  },
+  "questions": [
+    {
+      "id": "uni-001",
+      "question": "What is a key characteristic of university campuses that affects energy efficiency opportunities?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "Small, single-building facilities" },
+        { "id": "b", "text": "Large campuses with multiple buildings, central plants, and diverse building types" },
+        { "id": "c", "text": "No research facilities" },
+        { "id": "d", "text": "Minimal HVAC requirements" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "University campuses are large, complex facilities with multiple buildings, central plants (chilled water, steam), diverse building types (classrooms, labs, dorms, dining halls), and 24/7 operations in some areas. This creates unique opportunities for central plant optimization and building-specific measures.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "uni-002",
+      "question": "A university has a central chilled water plant serving 20 buildings. The chillers run at full capacity year-round. What is the most impactful optimization?",
+      "questionType": "scenario",
+      "scenario": "A university central plant has three 1,000-ton chillers that run continuously. The plant serves 20 buildings across campus. Chilled water demand varies significantly by season and time of day, but the plant operates at full capacity regardless of load.",
+      "options": [
+        { "id": "a", "text": "Replace all chillers with more efficient models" },
+        { "id": "b", "text": "Implement chiller sequencing, variable flow, and load-based operation" },
+        { "id": "c", "text": "Install LED lighting in all buildings" },
+        { "id": "d", "text": "Upgrade building envelope" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Implementing chiller sequencing, variable flow, and load-based operation can reduce central plant energy by 20-40%. This addresses the specific issue of running at full capacity regardless of load. Central plant optimization typically provides the highest impact for large campuses.",
+      "points": 10,
+      "category": "central-plant",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "uni-003",
+      "question": "A university research lab has 10 fume hoods that operate 24/7 with constant exhaust. Each hood exhausts 1,000 CFM. What is the total exhaust CFM?",
+      "questionType": "calculation",
+      "options": [
+        { "id": "a", "text": "1,000 CFM" },
+        { "id": "b", "text": "5,000 CFM" },
+        { "id": "c", "text": "10,000 CFM" },
+        { "id": "d", "text": "20,000 CFM" }
+      ],
+      "correctAnswer": "c",
+      "explanation": "10 fume hoods × 1,000 CFM each = 10,000 CFM total exhaust. This requires 10,000 CFM of make-up air, which must be conditioned (heated/cooled). Reducing exhaust when hoods are not in use or implementing variable air volume (VAV) controls can significantly reduce HVAC energy.",
+      "points": 8,
+      "category": "research-labs",
+      "difficulty": "intermediate",
+      "estimatedTime": 60
+    },
+    {
+      "id": "uni-004",
+      "question": "What is the typical energy savings potential for central plant optimization in universities?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "5-15% of central plant energy" },
+        { "id": "b", "text": "15-35% of central plant energy" },
+        { "id": "c", "text": "35-50% of central plant energy" },
+        { "id": "d", "text": "50-70% of central plant energy" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Central plant optimization (chiller sequencing, variable flow, load-based operation, economization) typically yields 15-35% savings of central plant energy. This is one of the highest-impact opportunities for large university campuses.",
+      "points": 5,
+      "category": "central-plant",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "uni-005",
+      "question": "A university dormitory has PTAC units in 500 rooms. The units run continuously regardless of occupancy. What efficiency opportunity exists?",
+      "questionType": "scenario",
+      "scenario": "A university dormitory has 500 rooms, each with a PTAC (Packaged Terminal Air Conditioner) unit. The units run continuously, even when rooms are unoccupied. Students often leave windows open while units run.",
+      "options": [
+        { "id": "a", "text": "Replace all PTAC units" },
+        { "id": "b", "text": "Install occupancy-based controls and educate students on proper operation" },
+        { "id": "c", "text": "Install central HVAC system" },
+        { "id": "d", "text": "No opportunities - dormitories always use energy" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Installing occupancy-based controls (sensors, scheduling) can reduce dormitory HVAC energy by 20-40%. Student education on proper operation (closing windows, using controls) can provide additional savings. This is typically more cost-effective than replacing all units or installing central systems.",
+      "points": 10,
+      "category": "dormitories",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "uni-006",
+      "question": "What is PUE and why is it important for university data centers?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "PUE (Power Usage Effectiveness) measures data center efficiency; lower is better" },
+        { "id": "b", "text": "PUE measures building square footage" },
+        { "id": "c", "text": "PUE is not relevant to universities" },
+        { "id": "d", "text": "PUE measures student enrollment" }
+      ],
+      "correctAnswer": "a",
+      "explanation": "PUE (Power Usage Effectiveness) = Total Facility Power / IT Equipment Power. Lower PUE indicates better efficiency. Best-in-class data centers achieve PUE < 1.2. Universities often have data centers/server rooms, and PUE optimization is a key opportunity.",
+      "points": 5,
+      "category": "data-centers",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "uni-007",
+      "question": "A university has sustainability goals including carbon neutrality by 2030. How should you frame energy efficiency recommendations?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Focus only on cost savings" },
+        { "id": "b", "text": "Emphasize both cost savings and progress toward sustainability/carbon neutrality goals" },
+        { "id": "c", "text": "Avoid mentioning sustainability" },
+        { "id": "d", "text": "Recommend only renewable energy, no efficiency" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Many universities have sustainability goals (carbon neutrality, LEED certification). Energy efficiency improvements directly support these goals by reducing emissions. Framing recommendations in terms of both cost savings and sustainability progress aligns with university priorities and can help secure funding.",
+      "points": 8,
+      "category": "general",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "uni-008",
+      "question": "What is the typical energy savings potential for research lab HVAC optimization (fume hood controls, VAV)?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "5-15% of lab HVAC energy" },
+        { "id": "b", "text": "15-30% of lab HVAC energy" },
+        { "id": "c", "text": "30-50% of lab HVAC energy" },
+        { "id": "d", "text": "50-70% of lab HVAC energy" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Research lab HVAC optimization (fume hood VAV controls, reduced ventilation when unoccupied, heat recovery) typically yields 15-30% savings of lab HVAC energy. Labs have high ventilation requirements, so optimization must maintain safety while reducing waste.",
+      "points": 5,
+      "category": "research-labs",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "uni-009",
+      "question": "A university dining hall serves 5,000 meals per day. The kitchen has exhaust hoods that run continuously during operating hours. What efficiency opportunity exists?",
+      "questionType": "scenario",
+      "scenario": "A university dining hall kitchen has four exhaust hoods (Type I) that run at full speed continuously from 6 AM to 10 PM (16 hours/day). The hoods operate at full speed even during low-cooking periods.",
+      "options": [
+        { "id": "a", "text": "Replace hoods with more efficient models" },
+        { "id": "b", "text": "Install variable-speed controls to reduce fan speed during low-cooking periods" },
+        { "id": "c", "text": "Reduce hood operating hours" },
+        { "id": "d", "text": "Install heat recovery from exhaust" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Installing variable-speed controls (VFDs) on exhaust hood fans can reduce ventilation energy by 30-50% by reducing fan speed during low-cooking periods. This addresses the specific issue of continuous full-speed operation. Heat recovery is also valuable but requires more capital investment.",
+      "points": 8,
+      "category": "kitchen-equipment",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "uni-010",
+      "question": "What is a key question to ask when assessing university central plants?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "How old are chillers/boilers?" },
+        { "id": "b", "text": "Is there optimization/sequencing?" },
+        { "id": "c", "text": "What's the efficiency of the central plant?" },
+        { "id": "d", "text": "All of the above" }
+      ],
+      "correctAnswer": "d",
+      "explanation": "All questions are important for assessing central plants. Understanding equipment age, optimization/sequencing, and efficiency helps identify the highest-impact opportunities. Central plant optimization is typically the highest priority for large university campuses.",
+      "points": 5,
+      "category": "central-plant",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "uni-011",
+      "question": "A university has multiple buildings with different HVAC systems. What approach should you recommend?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Replace all systems immediately" },
+        { "id": "b", "text": "Prioritize buildings with highest energy use and oldest systems, implement measures incrementally" },
+        { "id": "c", "text": "Focus only on new buildings" },
+        { "id": "d", "text": "Avoid any changes" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "For large campuses, prioritizing buildings with highest energy use and oldest systems provides the best ROI. Implementing measures incrementally allows for learning and optimization. A phased approach is typically more manageable than attempting all buildings simultaneously.",
+      "points": 8,
+      "category": "general",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "uni-012",
+      "question": "What is the typical energy split for university campuses?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "HVAC: 30-40%, Lighting: 20-30%, Research/Plug: 15-25%" },
+        { "id": "b", "text": "HVAC: 40-50%, Lighting: 15-25%, Research/Plug: 15-25%" },
+        { "id": "c", "text": "HVAC: 50-60%, Lighting: 10-15%, Research/Plug: 10-15%" },
+        { "id": "d", "text": "HVAC: 60-70%, Lighting: 5-10%, Research/Plug: 5-10%" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "University campuses typically have: HVAC: 40-50%, Lighting: 15-25%, Research/Plug loads: 15-25%, Other: 10-15%. The exact split depends on building types (classrooms vs. labs vs. dorms) and central plant efficiency.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "uni-013",
+      "question": "A university research lab has fume hoods that operate with constant exhaust. What efficiency measure should you prioritize?",
+      "questionType": "scenario",
+      "scenario": "A research lab has 15 fume hoods that operate with constant exhaust (1,200 CFM each) 24/7. The hoods are used approximately 40 hours per week, but exhaust runs continuously.",
+      "options": [
+        { "id": "a", "text": "Replace all fume hoods" },
+        { "id": "b", "text": "Install VAV (Variable Air Volume) controls to reduce exhaust when hoods are not in use" },
+        { "id": "c", "text": "Reduce exhaust to minimum required" },
+        { "id": "d", "text": "No changes - safety requires constant exhaust" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Installing VAV controls to reduce exhaust when fume hoods are not in active use can reduce lab HVAC energy by 20-40% while maintaining safety. Modern VAV systems maintain minimum airflow for safety while reducing exhaust during unoccupied periods. This is typically the highest-impact measure for research labs.",
+      "points": 10,
+      "category": "research-labs",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "uni-014",
+      "question": "What funding mechanisms are often available for university energy efficiency projects?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "Green bonds, sustainability funds, utility programs" },
+        { "id": "b", "text": "Only tuition revenue" },
+        { "id": "c", "text": "No funding available" },
+        { "id": "d", "text": "Only federal grants" }
+      ],
+      "correctAnswer": "a",
+      "explanation": "Universities often have access to green bonds, sustainability funds, and utility programs that can help finance energy efficiency projects. These funding mechanisms align with university sustainability goals and can improve project ROI.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "uni-015",
+      "question": "A university wants to reduce energy costs while supporting sustainability goals. What approach should you recommend?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Focus only on quick payback measures" },
+        { "id": "b", "text": "Develop a comprehensive plan with both quick wins and longer-term measures that support sustainability goals" },
+        { "id": "c", "text": "Recommend only renewable energy" },
+        { "id": "d", "text": "Avoid any capital investments" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "A comprehensive plan with both quick wins (scheduling, controls) and longer-term measures (central plant optimization, building upgrades) provides the best approach. This balances immediate savings with progress toward sustainability goals. Universities often have longer planning horizons that support this approach.",
+      "points": 8,
+      "category": "general",
+      "difficulty": "intermediate"
+    }
+  ]
+}
+

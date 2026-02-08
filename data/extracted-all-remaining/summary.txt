@@ -1,0 +1,59 @@
+All Remaining Content Extraction Summary
+Generated: 2025-12-13T17:13:31.004Z
+
+STATISTICS:
+- Total Files: 40
+- Successfully Extracted: 40
+- Errors: 0
+- Total Text: 877,239 characters
+
+BY TYPE:
+  .docx: 7
+  .pdf: 18
+  .csv: 1
+  .xlsx: 14
+
+SUCCESSFUL EXTRACTIONS (40):
+1. California Energy Efficiency Programs Research.docx (.docx, 40,837 chars)
+2. California Energy Efficiency Programs Research.docx (.docx, 40,837 chars)
+3. NMEC Process & Tools_03.20.24.pdf (.pdf, 4,771 chars)
+4. PG&E Reporting Automation Research Plan.docx (.docx, 28,522 chars)
+5. PGE-Site-NMEC-MV-Requirements.pdf (.pdf, 131,055 chars)
+6. ALL EE MEASURES 1.0.docx (.docx, 15,834 chars)
+7. ALL EE MEASURES 2.0.docx (.docx, 9,515 chars)
+8. Untitled document.docx (.docx, 31,910 chars)
+9. BATTERY_CATALOG.csv (.csv, undefined chars)
+10. (GPT) PDF #1 — Battery Modeling & Sizing Manual.pdf (.pdf, 54,291 chars)
+11. (GPT) PDF #2 — Battery Technical Constraints Manual.pdf (.pdf, 36,374 chars)
+12. Advanced ML Math for Peak Shaving.pdf (.pdf, 41,046 chars)
+13. AI for Battery Peak Demand Shaving.pdf (.pdf, 28,927 chars)
+14. Extracting Battery and EE Logic from SAM.pdf (.pdf, 33,375 chars)
+15. PDF #3 — BATTERY FINANCIAL MODELING MANUAL.pdf (.pdf, 18,759 chars)
+16. A-1.pdf (.pdf, 25,677 chars)
+17. A-10.pdf (.pdf, 31,986 chars)
+18. A-6.pdf (.pdf, 23,728 chars)
+19. agricultural-tou-current.xlsx (.xlsx, undefined chars)
+20. B-1.pdf (.pdf, 35,167 chars)
+21. B-10.pdf (.pdf, 35,196 chars)
+22. B-19.pdf (.pdf, 72,311 chars)
+23. B-20.pdf (.pdf, 68,613 chars)
+24. BEV.pdf (.pdf, 18,871 chars)
+25. commercial-b-sch-current.xlsx (.xlsx, undefined chars)
+26. commercial-current.xlsx (.xlsx, undefined chars)
+27. CommlElecVehicle_Current.xlsx (.xlsx, undefined chars)
+28. CommlOnlyA-10Current.xlsx (.xlsx, undefined chars)
+29. CommlOnly_B-10_Current.xlsx (.xlsx, undefined chars)
+30. industrial-b-20-current.xlsx (.xlsx, undefined chars)
+31. IndustrialCurrent.xlsx (.xlsx, undefined chars)
+32. LgAgCurrent.xlsx (.xlsx, undefined chars)
+33. sm-ag-current.xlsx (.xlsx, undefined chars)
+34. Standby_Current.xlsx (.xlsx, undefined chars)
+35. Standby_SB_Current.xlsx (.xlsx, undefined chars)
+36. G-NR1.pdf (.pdf, 8,863 chars)
+37. G-NR2.pdf (.pdf, 8,464 chars)
+38. GNR1_Current.xlsx (.xlsx, undefined chars)
+39. GNR2_Current.xlsx (.xlsx, undefined chars)
+40. PG&E Rate Research for AI Calculator.docx (.docx, 32,310 chars)
+
+ERRORS (0):
+

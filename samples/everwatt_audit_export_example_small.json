@@ -1,0 +1,73 @@
+{
+  "apiVersion": "everwatt_audit_export/v1",
+  "provenance": {
+    "exportedAt": "2026-02-02T00:00:00.000Z",
+    "exportedBy": "field-tech@example.com",
+    "tool": "Spreadsheet",
+    "toolVersion": "v1",
+    "method": "manual_entry"
+  },
+  "building": {
+    "buildingType": "commercial",
+    "sqft": 140000,
+    "territory": "PG&E",
+    "climateZone": "CA-3",
+    "address": "200 Market St, San Francisco, CA"
+  },
+  "artifacts": [
+    { "artifactId": "photo_ahu", "kind": "photo", "filename": "ahu1_nameplate.jpg", "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg", "capturedAt": "2026-02-01T18:00:00.000Z" },
+    { "artifactId": "photo_panel", "kind": "photo", "filename": "panel_a_label.jpg", "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg", "capturedAt": "2026-02-01T18:10:00.000Z" },
+    { "artifactId": "photo_meter", "kind": "photo", "filename": "meter_1.jpg", "uriOrPath": "file:///C:/audit/photos/meter_1.jpg", "capturedAt": "2026-02-01T18:20:00.000Z" },
+    { "artifactId": "note_walkthrough", "kind": "note", "filename": "walkthrough.txt", "uriOrPath": "file:///C:/audit/notes/walkthrough.txt" }
+  ],
+  "assets": [
+    {
+      "auditAssetId": "AA_AHU_1",
+      "assetType": "AHU",
+      "label": "AHU-1",
+      "location": "Roof",
+      "fields": { "airflowCfm": 12000, "fanHp": 20, "hasVfd": true },
+      "relations": [
+        { "relationType": "SERVES", "toAssetId": "AA_VAV_ZONE_1", "note": "Serves VAV Zone 1", "confidence": 0.8 }
+      ],
+      "evidence": [
+        { "artifactId": "photo_ahu", "fieldKey": "airflowCfm", "note": "From TAB sticker", "confidence": 0.8 },
+        { "artifactId": "photo_ahu", "fieldKey": "fanHp", "note": "From nameplate", "confidence": 0.9 },
+        { "artifactId": "photo_ahu", "fieldKey": "hasVfd", "note": "VFD shown in MCC photo", "confidence": 0.75 }
+      ]
+    },
+    {
+      "auditAssetId": "AA_PANEL_A",
+      "assetType": "PANEL",
+      "label": "PANEL-A",
+      "location": "Electrical room",
+      "fields": { "voltage": 480, "phases": 3 },
+      "relations": [{ "relationType": "MEASURED_BY", "toAssetId": "AA_METER_1", "note": "Meter CTs on feeder", "confidence": 0.7 }],
+      "evidence": [
+        { "artifactId": "photo_panel", "fieldKey": "voltage", "note": "Panel label", "confidence": 0.85 },
+        { "artifactId": "photo_panel", "fieldKey": "phases", "note": "Panel label", "confidence": 0.85 }
+      ]
+    },
+    {
+      "auditAssetId": "AA_METER_1",
+      "assetType": "METER",
+      "label": "METER-1",
+      "location": "Electrical room",
+      "fields": { "meterType": "main", "protocol": "Modbus" },
+      "evidence": [
+        { "artifactId": "photo_meter", "fieldKey": "meterType", "note": "Meter faceplate", "confidence": 0.7 },
+        { "artifactId": "note_walkthrough", "fieldKey": "protocol", "note": "Tech note", "confidence": 0.6 }
+      ]
+    },
+    {
+      "auditAssetId": "AA_VAV_ZONE_1",
+      "assetType": "VAV",
+      "label": "VAV-ZONE-1",
+      "location": "Level 2 - open office",
+      "fields": { "zoneName": "Open office L2" },
+      "evidence": [{ "artifactId": "note_walkthrough", "fieldKey": "zoneName", "note": "Walkthrough notes", "confidence": 0.6 }]
+    }
+  ],
+  "notes": ["Small example fixture for Audit Import v1."]
+}
+

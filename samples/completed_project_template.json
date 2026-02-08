@@ -1,0 +1,85 @@
+{
+  "completedProjectId": "cp_demo_001",
+  "orgId": "demo-org",
+  "createdAt": "2025-06-15T00:00:00.000Z",
+  "building": {
+    "buildingType": "office",
+    "sqft": 120000,
+    "climateZone": "CA-3",
+    "territory": "PG&E",
+    "operatingSchedule": {
+      "bucket": "business_hours",
+      "notes": "Mon-Fri ~7am-7pm; weekends minimal"
+    }
+  },
+  "assetsBefore": {
+    "ahuCount": 3,
+    "vavCount": 40,
+    "rtuCount": 0,
+    "fanCount": 10,
+    "pumpCount": 6,
+    "chillerCount": 1,
+    "boilerCount": 1,
+    "coolingTowerCount": 1,
+    "panelCount": 12,
+    "lightingFixtureCount": 2500,
+    "lightingControlCount": 120,
+    "otherCount": 0
+  },
+  "measures": [
+    {
+      "measureId": "m_vfd_001",
+      "type": "VFD_RETROFIT",
+      "tags": ["vfd", "hvac", "fans", "pumps"],
+      "parameters": {
+        "targetSystems": "supply_fans + chilled_water_pumps",
+        "motorHpMin": 10
+      },
+      "notes": "Retrofit VFDs on constant-speed fans and pumps to reduce part-load energy."
+    },
+    {
+      "measureId": "m_ems_001",
+      "type": "EMS_TUNING",
+      "tags": ["controls", "ems", "scheduling", "setpoints"],
+      "parameters": {
+        "changes": "schedule + SAT reset + economizer enable"
+      },
+      "notes": "Tuned operating schedules and control sequences."
+    },
+    {
+      "measureId": "m_light_001",
+      "type": "LIGHTING_RETROFIT",
+      "tags": ["lighting", "led"],
+      "parameters": {
+        "existing": "T8 fluorescent",
+        "proposed": "LED"
+      },
+      "notes": "LED retrofit with occupancy sensors in common areas."
+    }
+  ],
+  "outcomes": {
+    "savingsKwh": 420000,
+    "savingsKw": 85,
+    "savingsUsd": 78000,
+    "costUsd": 210000,
+    "paybackYears": 2.7
+  },
+  "rationale": {
+    "summary": "Selected VFD + EMS tuning due to high part-load runtime and schedule drift; LED retrofit targeted long-hours zones.",
+    "decisionTags": ["part_load", "schedule_drift", "maintenance"],
+    "assumptions": [
+      { "key": "Baseline hours", "value": "Business hours with some after-hours cleaning loads", "tags": ["schedule"] },
+      { "key": "Chiller staging", "value": "Single chiller; limited turndown without flow control", "tags": ["hvac"] }
+    ]
+  },
+  "evidenceRefs": [
+    {
+      "refId": "evidence_demo_001",
+      "label": "Final proposal pack (export)",
+      "url": "https://example.com/drive/folder/proposal-pack",
+      "notes": "Replace with real Drive/SharePoint link if available."
+    }
+  ],
+  "source": { "kind": "json_template", "sourceKey": "samples/completed_project_template.json" }
+}
+

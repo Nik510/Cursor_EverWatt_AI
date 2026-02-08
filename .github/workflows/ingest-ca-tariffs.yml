@@ -1,0 +1,39 @@
+name: Ingest CA Tariffs (v0)
+
+on:
+  schedule:
+    # Daily at 6am PT (14:00 UTC)
+    - cron: "0 14 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run CA tariff ingestion
+        run: npm run tariffs:ingest:ca
+
+      - name: Upload tariff snapshots artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ca-tariff-snapshots
+          path: data/tariffs
+          if-no-files-found: warn
+
+      - name: Where to download
+        run: |
+          echo "Artifact uploaded: ca-tariff-snapshots"
+          echo "Download it from the workflow run's Artifacts section."
+

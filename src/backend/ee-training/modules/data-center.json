@@ -1,0 +1,376 @@
+{
+  "id": "data-center",
+  "title": "Data Center Efficiency",
+  "subtitle": "Cooling, Containment, Airflow, and PUE Optimization",
+  "description": "Specialized training on data center energy efficiency including cooling strategies, containment, airflow management, and PUE optimization. For the unique challenges of mission-critical facilities.",
+  "icon": "🖥️",
+  "category": "datacenter",
+  "order": 7,
+  "status": "published",
+  "metadata": {
+    "author": "EverWatt Engineering Team",
+    "lastUpdated": "2025-12-13",
+    "version": "1.0.0",
+    "estimatedTime": 120,
+    "difficulty": "advanced",
+    "tags": ["data-center", "pue", "containment", "cooling", "crac", "crah"]
+  },
+  "sections": [
+    {
+      "id": "quick-overview",
+      "title": "Quick Overview",
+      "subtitle": "90-second skim + jump points",
+      "icon": "⚡",
+      "order": 0,
+      "metadata": {
+        "estimatedTime": 8,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "sales", "selection"]
+      },
+      "content": [
+        {
+          "id": "qv-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 3,
+          "cards": [
+            {
+              "title": "PUE is the Scoreboard",
+              "description": "PUE = Total facility power / IT power. Moving from 1.8 → 1.4 is massive savings.",
+              "metadata": { "icon": "📊" }
+            },
+            {
+              "title": "Cooling is the Target",
+              "description": "Cooling is often 30–50% of data center energy. Airflow management is the first lever.",
+              "metadata": { "icon": "❄️" }
+            },
+            {
+              "title": "Containment Pays",
+              "description": "Containment reduces mixing and allows higher setpoints and lower fan power.",
+              "metadata": { "icon": "📦" }
+            },
+            {
+              "title": "Setpoints Matter",
+              "description": "Raising server inlet temps (within ASHRAE ranges) cuts cooling energy without new equipment.",
+              "metadata": { "icon": "🌡️" }
+            },
+            {
+              "title": "Free Cooling",
+              "description": "Economization can slash compressor hours in suitable climates and load profiles.",
+              "metadata": { "icon": "🌬️" }
+            },
+            {
+              "title": "What to Measure",
+              "description": "IT load (kW), fan kW, CHW temps, airflow/pressure, hot spots, and PUE trend.",
+              "metadata": { "icon": "📈" }
+            }
+          ]
+        }
+        ,
+        {
+          "id": "data-center-airflow-containment",
+          "type": "interactive",
+          "order": 2,
+          "component": "data-center-airflow",
+          "config": {
+            "title": "Airflow & Containment Map",
+            "subtitle": "Containment, bypass/recirc, setpoints, and fan energy (what to fix first)"
+          }
+        }
+      ]
+    },
+    {
+      "id": "introduction",
+      "title": "Data Center Energy Fundamentals",
+      "subtitle": "Understanding PUE and Energy Flow",
+      "icon": "📚",
+      "order": 1,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["fundamentals", "overview"]
+      },
+      "content": [
+        {
+          "id": "intro-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Data Center Energy Efficiency\n\n## The Scale of Data Center Energy\n\n- Data centers consume **2-3% of global electricity**\n- Growing 10-15% annually\n- A single hyperscale data center uses as much power as a small city\n- Cooling is typically **30-50% of total data center energy**\n\n## PUE: The Key Metric\n\n**Power Usage Effectiveness (PUE) = Total Facility Power / IT Equipment Power**\n\n| PUE | Rating | What It Means |\n|-----|--------|---------------|\n| 2.0+ | Poor | Half the power goes to overhead |\n| 1.8 | Average | 44% overhead |\n| 1.4 | Good | 29% overhead |\n| 1.2 | Excellent | 17% overhead |\n| 1.1 | World-class | 9% overhead (hyperscale) |"
+        },
+        {
+          "id": "intro-energy-flow",
+          "type": "markdown",
+          "order": 2,
+          "content": "## Where Does the Energy Go?\n\n**Typical Enterprise Data Center (PUE 1.8):**\n\n- IT equipment: 55%\n- Cooling: 30%\n- Power distribution losses: 10%\n- Lighting & misc: 5%\n\n**Hyperscale Data Center (PUE 1.1):**\n\n- IT equipment: 91%\n- Cooling: 6%\n- Power distribution: 2%\n- Other: 1%\n\n## The Goal\n\nEvery watt not used for cooling or losses is a watt available for computing."
+        }
+      ]
+    },
+    {
+      "id": "cooling",
+      "title": "Cooling Strategies",
+      "subtitle": "CRAC, CRAH, InRow, and Free Cooling",
+      "icon": "❄️",
+      "order": 2,
+      "metadata": {
+        "estimatedTime": 25,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["cooling", "selection", "optimization"]
+      },
+      "content": [
+        {
+          "id": "cooling-types",
+          "type": "tabs",
+          "order": 1,
+          "tabs": [
+            {
+              "label": "CRAC Units",
+              "content": [
+                {
+                  "id": "crac",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Computer Room Air Conditioners (CRAC)\n\n**Direct Expansion (DX) cooling** - compressor in the unit.\n\n### Characteristics:\n- Self-contained cooling\n- Typically 5-30 tons\n- Underfloor or overhead air distribution\n- Relatively inefficient (EER 10-14)\n\n### Best For:\n- Smaller data centers\n- Retrofit applications\n- Where chilled water not available\n\n### Efficiency Improvements:\n- VFD on compressors (if available)\n- VFD on fans\n- Raise supply air temperature\n- Economizer modes"
+                }
+              ]
+            },
+            {
+              "label": "CRAH Units",
+              "content": [
+                {
+                  "id": "crah",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Computer Room Air Handlers (CRAH)\n\n**Chilled water cooling** - connected to central plant.\n\n### Characteristics:\n- Uses building chilled water\n- More efficient than CRAC\n- Larger capacity (20-100+ tons)\n- Better for economizer operation\n\n### Advantages:\n- Higher efficiency via central plant\n- Easier capacity expansion\n- Better part-load performance\n- Integrates with free cooling\n\n### Efficiency Improvements:\n- VFD on fans\n- CHW supply temp reset\n- Waterside economizer\n- Raised floor optimization"
+                }
+              ]
+            },
+            {
+              "label": "InRow Cooling",
+              "content": [
+                {
+                  "id": "inrow",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## InRow/Close-Coupled Cooling\n\n**Cooling units placed within the row**, close to heat source.\n\n### Advantages:\n- Shorter air path = less mixing\n- Eliminates raised floor inefficiencies\n- Scales with IT load\n- Better for high-density racks\n\n### Types:\n- InRow (between racks)\n- Overhead (ducted to racks)\n- Rear-door heat exchangers\n\n### Best For:\n- High-density deployments (>10 kW/rack)\n- Retrofit where raised floor is problematic\n- Targeted cooling for hot spots"
+                }
+              ]
+            },
+            {
+              "label": "Free Cooling",
+              "content": [
+                {
+                  "id": "free-cooling",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Free Cooling / Economizer\n\n**Using outdoor air or water to cool without running compressors.**\n\n### Airside Economizer:\n- Direct outdoor air when temp/humidity allow\n- Most hours in cool climates\n- Requires filtration and humidity control\n\n### Waterside Economizer:\n- Cooling tower water to CHW HX when OAT low\n- Works when OAT < 55°F (wet bulb)\n- Keeps outdoor air out of data center\n\n### Savings Potential:\n- Cool climates: 50-80% of cooling hours\n- Moderate climates: 30-50%\n- Hot climates: 10-20%"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cooling-setpoints",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "🌡️ Raising Inlet Temperature",
+              "content": [
+                {
+                  "id": "inlet-temp",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## ASHRAE Thermal Guidelines\n\n**Recommended:** 64.4-80.6°F (18-27°C) inlet\n\n**Allowable:** 59-89.6°F (15-32°C) inlet\n\n### Why Raise Temperature?\n\nEach 1°F increase in server inlet temp:\n- Increases economizer hours\n- Raises CHW supply temp (higher chiller efficiency)\n- Reduces ΔT between room and outdoor (less cooling work)\n\n### Savings:\n- 1°F increase ≈ 2-4% cooling energy savings\n- Moving from 68°F to 80°F = **24-48% cooling savings**\n\n### Caution:\n- Check equipment warranties\n- Monitor server inlet temps, not room temps\n- Hot spots still need attention"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "containment",
+      "title": "Containment Strategies",
+      "subtitle": "Hot Aisle, Cold Aisle, and Chimney Systems",
+      "icon": "📦",
+      "order": 3,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["selection", "roi", "field"]
+      },
+      "content": [
+        {
+          "id": "containment-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Airflow Containment\n\n## The Problem: Mixing\n\nWithout containment, hot exhaust air mixes with cold supply air:\n- Reduces cooling effectiveness\n- Creates hot spots\n- Forces overcooling to compensate\n- Wastes 20-40% of cooling energy\n\n## Containment Solutions\n\n### Hot Aisle Containment (HAC)\n- Enclose the hot aisle\n- Direct hot air to return\n- Cold air delivered to room\n- **Preferred for retrofit**\n\n### Cold Aisle Containment (CAC)\n- Enclose the cold aisle\n- Cold air delivered directly to server inlets\n- Room becomes hot air plenum\n- **Better isolation of cold air**\n\n### Chimney/Cabinet Exhaust\n- Ducted exhaust from top of racks\n- Works with overhead cooling\n- Good for high-density racks"
+        },
+        {
+          "id": "containment-benefits",
+          "type": "cards",
+          "order": 2,
+          "columns": 2,
+          "cards": [
+            {
+              "title": "20-40% Cooling Savings",
+              "description": "Containment eliminates mixing, allowing higher supply temps and fewer cooling units.",
+              "metadata": { "icon": "💰" }
+            },
+            {
+              "title": "Eliminate Hot Spots",
+              "description": "Predictable airflow prevents localized overheating and equipment failures.",
+              "metadata": { "icon": "🌡️" }
+            },
+            {
+              "title": "Increase Density",
+              "description": "With efficient cooling, racks can support higher power densities.",
+              "metadata": { "icon": "⚡" }
+            },
+            {
+              "title": "Lower PUE",
+              "description": "Reduced cooling overhead directly improves Power Usage Effectiveness.",
+              "metadata": { "icon": "📊" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pue-optimization",
+      "title": "PUE Optimization",
+      "subtitle": "Achieving Lower PUE",
+      "icon": "📈",
+      "order": 4,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "advanced",
+        "roles": ["engineer", "sales"],
+        "tags": ["optimization", "sales", "roi"]
+      },
+      "content": [
+        {
+          "id": "pue-strategies",
+          "type": "markdown",
+          "order": 1,
+          "content": "# PUE Improvement Strategies\n\n## Cooling Optimization (Biggest Impact)\n\n1. **Raise server inlet temps** to 77-80°F\n2. **Implement containment** (HAC or CAC)\n3. **Enable economizer** (airside or waterside)\n4. **VFD on cooling equipment** (fans, pumps)\n5. **CHW temperature reset** based on load\n\n## Power Distribution\n\n1. **Higher voltage distribution** (480V to rack PDUs)\n2. **Efficient UPS systems** (>96% efficiency)\n3. **Right-size UPS capacity** (avoid running at 20%)\n4. **Eliminate unnecessary transformations**\n\n## IT Efficiency (Bonus)\n\n1. **Server virtualization** (fewer physical servers)\n2. **Decommission zombie servers** (powered but unused)\n3. **Modern efficient servers** (better compute per watt)\n4. **Power management settings** enabled"
+        },
+        {
+          "id": "pue-roadmap",
+          "type": "table",
+          "order": 2,
+          "metadata": { "title": "PUE Improvement Roadmap" },
+          "headers": ["Current PUE", "Target PUE", "Key Actions", "Investment"],
+          "rows": [
+            ["2.0+", "1.8", "Containment, VFDs, raise temps", "$"],
+            ["1.8", "1.5", "Economizer, CHW reset, UPS upgrade", "$$"],
+            ["1.5", "1.3", "Waterside economizer, high-V distribution", "$$$"],
+            ["1.3", "1.2", "Direct evaporative, liquid cooling, new plant", "$$$$"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "obf-measures",
+      "title": "OBF-Eligible Measures",
+      "subtitle": "Data Center Financing Options",
+      "icon": "💵",
+      "order": 5,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "roi", "financing"]
+      },
+      "content": [
+        {
+          "id": "obf-table",
+          "type": "table",
+          "order": 1,
+          "metadata": { "title": "Data Center OBF Eligibility" },
+          "headers": ["Measure", "OBF Eligible?", "Notes"],
+          "rows": [
+            ["CRAC/CRAH Replacement", "✅ Yes", "Equipment-based with savings"],
+            ["VFD on Cooling Equipment", "✅ Yes", "Prime efficiency measure"],
+            ["Containment Installation", "✅ Yes", "Physical improvement with measurable savings"],
+            ["Economizer Installation", "✅ Yes", "Hardware upgrade"],
+            ["Efficient UPS Replacement", "✅ Yes", "Equipment-based"],
+            ["LED Lighting in Data Center", "✅ Yes", "Standard lighting project"],
+            ["Server Consolidation", "❌ No", "IT equipment typically separate"],
+            ["Controls Optimization Only", "⚠️ Maybe", "May need hardware component"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "subtitle": "Test Your Data Center Knowledge",
+      "icon": "📝",
+      "order": 6,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["quiz"]
+      },
+      "content": [
+        {
+          "id": "dc-quiz",
+          "type": "interactive",
+          "order": 1,
+          "component": "quiz-widget",
+          "config": {
+            "title": "Data Center Quiz",
+            "questions": [
+              {
+                "id": "q1",
+                "question": "A PUE of 1.5 means that for every 100 watts of IT load, total facility power is:",
+                "options": ["100 watts", "150 watts", "50 watts", "200 watts"],
+                "correctAnswer": 1,
+                "explanation": "PUE = Total Power / IT Power. So Total = PUE × IT = 1.5 × 100 = 150 watts.",
+                "points": 10
+              },
+              {
+                "id": "q2",
+                "question": "ASHRAE's recommended server inlet temperature range is:",
+                "options": ["55-65°F", "64-81°F", "72-78°F", "80-90°F"],
+                "correctAnswer": 1,
+                "explanation": "ASHRAE recommends 64.4-80.6°F (18-27°C) for server inlet temperatures.",
+                "points": 10
+              },
+              {
+                "id": "q3",
+                "question": "Hot aisle containment works by:",
+                "options": ["Enclosing cold aisles", "Enclosing hot aisles and directing hot air to return", "Raising floor tiles", "Lowering ceiling"],
+                "correctAnswer": 1,
+                "explanation": "HAC encloses the hot aisle and directs hot exhaust air back to the cooling return.",
+                "points": 10
+              },
+              {
+                "id": "q4",
+                "question": "A CRAH differs from a CRAC in that it uses:",
+                "options": ["Direct expansion refrigerant", "Chilled water from a central plant", "Outdoor air only", "No cooling coil"],
+                "correctAnswer": 1,
+                "explanation": "CRAH (Computer Room Air Handler) uses chilled water from a central plant, while CRAC has its own compressor.",
+                "points": 10
+              },
+              {
+                "id": "q5",
+                "question": "Each 1°F increase in server inlet temperature saves approximately how much cooling energy?",
+                "options": ["0.5%", "2-4%", "10%", "20%"],
+                "correctAnswer": 1,
+                "explanation": "Each degree of raised inlet temperature saves approximately 2-4% in cooling energy.",
+                "points": 10
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

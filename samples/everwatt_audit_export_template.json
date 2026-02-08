@@ -1,0 +1,48 @@
+{
+  "apiVersion": "everwatt_audit_export/v1",
+  "provenance": {
+    "exportedAt": "2026-02-01T00:00:00.000Z",
+    "exportedBy": "auditor@example.com",
+    "tool": "AnyAuditTool",
+    "toolVersion": "1.0",
+    "method": "spreadsheet_export_to_json"
+  },
+  "building": {
+    "buildingType": "office",
+    "sqft": 120000,
+    "territory": "PG&E",
+    "climateZone": "CA-3",
+    "address": "123 Main St, City, ST"
+  },
+  "artifacts": [
+    {
+      "artifactId": "art_1",
+      "kind": "photo",
+      "filename": "ahu-1-nameplate.jpg",
+      "uriOrPath": "file:///C:/audits/site/photos/ahu-1-nameplate.jpg",
+      "capturedAt": "2026-01-20T18:30:00.000Z",
+      "metadata": { "camera": "phone", "note": "nameplate" }
+    }
+  ],
+  "assets": [
+    {
+      "auditAssetId": "AA_AHU_1",
+      "assetType": "AHU",
+      "label": "AHU-1",
+      "location": "Roof",
+      "fields": {
+        "airflowCfm": 12000,
+        "fanHp": 20,
+        "hasVfd": true
+      },
+      "relations": [
+        { "relationType": "SERVES", "toAssetId": "AA_VAV_1", "note": "Serves zone VAV-1", "confidence": 0.8 }
+      ],
+      "evidence": [
+        { "artifactId": "art_1", "fieldKey": "fanHp", "note": "From nameplate photo", "confidence": 0.9 }
+      ]
+    }
+  ],
+  "notes": ["Template only. Replace fields with your export."]
+}
+

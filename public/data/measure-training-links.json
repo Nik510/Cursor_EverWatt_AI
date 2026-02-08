@@ -1,0 +1,3186 @@
+[
+  {
+    "measureId": "led-fixture-replacement",
+    "measureName": "LED fixture replacement",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 15.8
+  },
+  {
+    "measureId": "led-retrofit-kits",
+    "measureName": "LED retrofit kits (LCM equivalents)",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "lighting-modeling-manual",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment"
+    ],
+    "relevanceScore": 13.8
+  },
+  {
+    "measureId": "led-lamps",
+    "measureName": "LED lamps (A19, PAR, MR16, tubes, HID replacement)",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 8
+  },
+  {
+    "measureId": "exterior-led",
+    "measureName": "Exterior LED site lighting upgrades",
+    "trainingContentIds": [
+      "lighting-modeling-manual",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 28.2
+  },
+  {
+    "measureId": "parking-lot-led",
+    "measureName": "Parking-lot and garage LED upgrades",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 13.6
+  },
+  {
+    "measureId": "occupancy-sensors",
+    "measureName": "Occupancy sensors",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 16
+  },
+  {
+    "measureId": "vacancy-sensors",
+    "measureName": "Vacancy sensors",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 10.4
+  },
+  {
+    "measureId": "bi-level-stairwell",
+    "measureName": "Bi-level stairwell lighting controls",
+    "trainingContentIds": [
+      "lighting-modeling-manual",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "this-is-where-everything-you-have-built-converges"
+    ],
+    "relevanceScore": 31.4
+  },
+  {
+    "measureId": "daylight-harvesting",
+    "measureName": "Daylight harvesting sensors",
+    "trainingContentIds": [
+      "lighting-modeling-manual",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 15.4
+  },
+  {
+    "measureId": "networked-lighting-controls",
+    "measureName": "Networked lighting controls (NLC)",
+    "trainingContentIds": [
+      "lighting-modeling-manual",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 27
+  },
+  {
+    "measureId": "wireless-lighting-controls",
+    "measureName": "Wireless lighting control systems (Autani, nLight, Enlighted, etc.)",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 39.6
+  },
+  {
+    "measureId": "scheduling-zoning",
+    "measureName": "Scheduling and zoning controls",
+    "trainingContentIds": [
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 17.6
+  },
+  {
+    "measureId": "high-bay-motion",
+    "measureName": "High-bay motion sensing and daylighting",
+    "trainingContentIds": [
+      "lighting-modeling-manual",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 15
+  },
+  {
+    "measureId": "photocells-astronomical",
+    "measureName": "Photocells and astronomical timers",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 6
+  },
+  {
+    "measureId": "emergency-lighting",
+    "measureName": "Emergency lighting upgrades and self-testing systems",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 38.8
+  },
+  {
+    "measureId": "dr-lighting",
+    "measureName": "Demand response capable lighting systems",
+    "trainingContentIds": [
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep",
+      "",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "starting-the-full-expanded-manual",
+      ""
+    ],
+    "relevanceScore": 32.8
+  },
+  {
+    "measureId": "rtu-replacement",
+    "measureName": "Rooftop unit (RTU) replacement (high-SEER, high-IEER)",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 40
+  },
+  {
+    "measureId": "vrf-vrv",
+    "measureName": "VRF/VRV heat-pump systems",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 32
+  },
+  {
+    "measureId": "chiller-plant-optimization",
+    "measureName": "Chiller plant optimization",
+    "trainingContentIds": [
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment"
+    ],
+    "relevanceScore": 30.2
+  },
+  {
+    "measureId": "chiller-replacements",
+    "measureName": "Chiller replacements (magnetic-bearing, centrifugal, screw)",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 18
+  },
+  {
+    "measureId": "chiller-conversion",
+    "measureName": "Chiller conversion (gas absorption → electric)",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 36.8
+  },
+  {
+    "measureId": "heat-pump-chillers",
+    "measureName": "Heat-pump chillers (HPCD)",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 34.6
+  },
+  {
+    "measureId": "economizer-repair",
+    "measureName": "Economizer repair/upgrade",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "step-1-the-engineer-to-sales-translation-text",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati"
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "demand-controlled-ventilation",
+    "measureName": "Demand-controlled ventilation (DCV)",
+    "trainingContentIds": [
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 23.4
+  },
+  {
+    "measureId": "co2-sensors",
+    "measureName": "CO₂ sensors for ventilation control",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 27.2
+  },
+  {
+    "measureId": "high-efficiency-dx-coils",
+    "measureName": "High-efficiency DX coils",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook"
+    ],
+    "relevanceScore": 30.4
+  },
+  {
+    "measureId": "vfd-fans-ahus-chillers",
+    "measureName": "VFDs on fans, AHUs, chillers, cooling towers",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 31.6
+  },
+  {
+    "measureId": "cooling-tower-upgrades",
+    "measureName": "Cooling tower upgrades (variable-speed fans, drift eliminators)",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 40.4
+  },
+  {
+    "measureId": "adiabatic-cooling",
+    "measureName": "Adiabatic cooling reuse systems",
+    "trainingContentIds": [
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 22.8
+  },
+  {
+    "measureId": "condenser-water-pump",
+    "measureName": "Condenser water pump upgrades",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 31.2
+  },
+  {
+    "measureId": "thermal-storage",
+    "measureName": "Thermal storage (ice bank, chilled water storage)",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 34.4
+  },
+  {
+    "measureId": "boiler-retrofits",
+    "measureName": "Boiler retrofits (high efficiency condensing boilers)",
+    "trainingContentIds": [
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 43.2
+  },
+  {
+    "measureId": "boiler-replacements",
+    "measureName": "Boiler replacements",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 15.8
+  },
+  {
+    "measureId": "heat-pump-water-heaters",
+    "measureName": "Heat-pump water heaters (HPWH)",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 39.2
+  },
+  {
+    "measureId": "heat-pumps-replace-furnaces",
+    "measureName": "Heat-pump systems replacing gas furnaces",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 34
+  },
+  {
+    "measureId": "heat-pump-chiller-boiler",
+    "measureName": "Heat-pump chiller/boiler combos",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 25.4
+  },
+  {
+    "measureId": "hot-water-reset",
+    "measureName": "Hot-water reset controls",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 28.4
+  },
+  {
+    "measureId": "hydronic-balancing",
+    "measureName": "Hydronic balancing",
+    "trainingContentIds": [
+      "starting-the-full-expanded-manual",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook"
+    ],
+    "relevanceScore": 8
+  },
+  {
+    "measureId": "low-loss-header",
+    "measureName": "Low-loss header optimization",
+    "trainingContentIds": [
+      "advanced-mathematical-architectures-for-stochastic-energy-storage-optimization-bridging-differentiab",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "starting-the-full-expanded-manual",
+      "",
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep"
+    ],
+    "relevanceScore": 23.2
+  },
+  {
+    "measureId": "infrared-heating",
+    "measureName": "Infrared heating (warehouse, manufacturing)",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 12.4
+  },
+  {
+    "measureId": "gas-to-electric-conversion",
+    "measureName": "Gas-to-electric conversion (full electrification)",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 21.6
+  },
+  {
+    "measureId": "radiant-heating",
+    "measureName": "Radiant heating upgrades",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      ""
+    ],
+    "relevanceScore": 20
+  },
+  {
+    "measureId": "steam-trap-replacement",
+    "measureName": "Steam trap replacement programs",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 29.2
+  },
+  {
+    "measureId": "steam-to-hot-water",
+    "measureName": "Steam-to-hot water conversion",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 28.4
+  },
+  {
+    "measureId": "thermal-decarbonization",
+    "measureName": "Thermal-decarbonization planning (roadmap)",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 12.4
+  },
+  {
+    "measureId": "ahu-replacement",
+    "measureName": "AHU replacement",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "ahu-vfds",
+    "measureName": "AHU VFDs",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 8.8
+  },
+  {
+    "measureId": "fan-upgrades",
+    "measureName": "Fan upgrades (ECM motors, high-efficiency fans)",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 39.2
+  },
+  {
+    "measureId": "ventilation-optimization",
+    "measureName": "Ventilation optimization (ASHRAE 62.1 compliant)",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 22.8
+  },
+  {
+    "measureId": "duct-sealing",
+    "measureName": "Duct sealing",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 12.4
+  },
+  {
+    "measureId": "oa-economizer",
+    "measureName": "Outside-air economizer optimization",
+    "trainingContentIds": [
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 26
+  },
+  {
+    "measureId": "airflow-recommissioning",
+    "measureName": "Airflow recommissioning",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 8.4
+  },
+  {
+    "measureId": "static-pressure-reset",
+    "measureName": "Static pressure reset",
+    "trainingContentIds": [
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati"
+    ],
+    "relevanceScore": 26.4
+  },
+  {
+    "measureId": "building-pressurization",
+    "measureName": "Building pressurization correction",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "this-one-defines",
+      "",
+      "this-is-where-everything-you-have-built-converges"
+    ],
+    "relevanceScore": 15.2
+  },
+  {
+    "measureId": "filtration-upgrades",
+    "measureName": "Filtration upgrades (MERV13+ with efficient fans)",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 30
+  },
+  {
+    "measureId": "bms-ems-installation",
+    "measureName": "BMS/EMS installation (BACnet, Niagara, Ignition, KMC, JCI, Siemens, Honeywell)",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "",
+      ""
+    ],
+    "relevanceScore": 10.8
+  },
+  {
+    "measureId": "retro-commissioning",
+    "measureName": "Retro-commissioning (RCx)",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "",
+      ""
+    ],
+    "relevanceScore": 17.2
+  },
+  {
+    "measureId": "automated-demand-response",
+    "measureName": "Automated demand response (ADR)",
+    "trainingContentIds": [
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep",
+      "starting-the-full-expanded-manual",
+      "",
+      "architectural-framework-for-automated-hvac-savings-estimation-a-hybrid-methodological-approach-utili",
+      ""
+    ],
+    "relevanceScore": 20.8
+  },
+  {
+    "measureId": "global-scheduling",
+    "measureName": "Global scheduling & occupancy alignment",
+    "trainingContentIds": [
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 15.2
+  },
+  {
+    "measureId": "fault-detection",
+    "measureName": "Fault detection & diagnostics (FDD)",
+    "trainingContentIds": [
+      "",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "starting-the-full-expanded-manual",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 16.4
+  },
+  {
+    "measureId": "energy-dashboards",
+    "measureName": "Energy dashboards & M&V systems",
+    "trainingContentIds": [
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 31.2
+  },
+  {
+    "measureId": "runtime-optimization",
+    "measureName": "Equipment runtime optimization",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "advanced-mathematical-architectures-for-stochastic-energy-storage-optimization-bridging-differentiab",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 19.6
+  },
+  {
+    "measureId": "reset-strategies",
+    "measureName": "Reset strategies: supply air temp, chilled-water temp, hot-water temp, static pressure",
+    "trainingContentIds": [
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 59
+  },
+  {
+    "measureId": "setpoint-optimization",
+    "measureName": "Setpoint optimization",
+    "trainingContentIds": [
+      "advanced-mathematical-architectures-for-stochastic-energy-storage-optimization-bridging-differentiab",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 18.4
+  },
+  {
+    "measureId": "smart-thermostats",
+    "measureName": "Smart thermostats for small facilities",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 11.6
+  },
+  {
+    "measureId": "smart-meters",
+    "measureName": "Smart meters & submeters (circuit-level)",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 12.8
+  },
+  {
+    "measureId": "ai-optimization",
+    "measureName": "AI-based optimization (EverWatt AI controls)",
+    "trainingContentIds": [
+      "advanced-mathematical-architectures-for-stochastic-energy-storage-optimization-bridging-differentiab",
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 27.6
+  },
+  {
+    "measureId": "roof-insulation",
+    "measureName": "Roof insulation upgrades",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 23.2
+  },
+  {
+    "measureId": "wall-insulation",
+    "measureName": "Wall insulation upgrades",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 23.2
+  },
+  {
+    "measureId": "window-tinting",
+    "measureName": "Window tinting",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "step-1-the-engineer-to-sales-translation-text",
+      "starting-the-full-expanded-manual"
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "high-performance-glazing",
+    "measureName": "High-performance glazing",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "starting-the-full-expanded-manual",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "architectural-framework-for-automated-hvac-savings-estimation-a-hybrid-methodological-approach-utili"
+    ],
+    "relevanceScore": 20.8
+  },
+  {
+    "measureId": "low-e-window-film",
+    "measureName": "Low-E window film",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "starting-the-full-expanded-manual"
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "cool-roof-coating",
+    "measureName": "Cool roof coating",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 20
+  },
+  {
+    "measureId": "vestibules",
+    "measureName": "Vestibules for main entrances",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "this-one-defines"
+    ],
+    "relevanceScore": 10.8
+  },
+  {
+    "measureId": "exterior-shading",
+    "measureName": "Exterior shading devices",
+    "trainingContentIds": [
+      "lighting-modeling-manual"
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "door-sweeps",
+    "measureName": "Door sweeps and weather stripping",
+    "trainingContentIds": [
+      "",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati"
+    ],
+    "relevanceScore": 17.6
+  },
+  {
+    "measureId": "skylight-upgrades",
+    "measureName": "Skylight upgrades (diffused daylight)",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 14
+  },
+  {
+    "measureId": "low-flow-faucets",
+    "measureName": "Low-flow faucets",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "step-1-the-engineer-to-sales-translation-text",
+      ""
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "low-flow-toilets",
+    "measureName": "Low-flow toilets",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "step-1-the-engineer-to-sales-translation-text",
+      ""
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "low-flow-urinals",
+    "measureName": "Low-flow urinals",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "step-1-the-engineer-to-sales-translation-text",
+      ""
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "showerhead-upgrades",
+    "measureName": "Showerhead upgrades (hospitality / gyms)",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 12
+  },
+  {
+    "measureId": "leak-detection",
+    "measureName": "Leak detection systems",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 23.2
+  },
+  {
+    "measureId": "hot-water-recirculation",
+    "measureName": "Hot-water recirculation optimization",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 21.2
+  },
+  {
+    "measureId": "hpwh-commercial",
+    "measureName": "Heat-pump water heaters (commercial grade)",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 38.8
+  },
+  {
+    "measureId": "boiler-to-hpwh",
+    "measureName": "Boiler-to-HPWH conversion",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 23.6
+  },
+  {
+    "measureId": "cooling-tower-water",
+    "measureName": "Cooling tower water efficiency",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 42.8
+  },
+  {
+    "measureId": "graywater-reuse",
+    "measureName": "Graywater reuse systems",
+    "trainingContentIds": [
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 11.2
+  },
+  {
+    "measureId": "dishwashing-upgrades",
+    "measureName": "Commercial dishwashing system upgrades",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 26
+  },
+  {
+    "measureId": "ecm-motors",
+    "measureName": "ECM motors for fans, pumps",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 23.2
+  },
+  {
+    "measureId": "vfd-retrofits",
+    "measureName": "VFD retrofits for pumps, fans, compressors",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 19.2
+  },
+  {
+    "measureId": "soft-start-controllers",
+    "measureName": "Soft-start motor controllers",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 21.6
+  },
+  {
+    "measureId": "premium-efficiency-motors",
+    "measureName": "Premium-efficiency motors",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 28
+  },
+  {
+    "measureId": "air-compressor-optimization",
+    "measureName": "Air-compressor optimization",
+    "trainingContentIds": [
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "advanced-mathematical-architectures-for-stochastic-energy-storage-optimization-bridging-differentiab",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 20
+  },
+  {
+    "measureId": "air-leak-reduction",
+    "measureName": "Air-leak reduction programs",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      ""
+    ],
+    "relevanceScore": 21.6
+  },
+  {
+    "measureId": "refrigeration-compressor",
+    "measureName": "Refrigeration compressor upgrades",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 24.8
+  },
+  {
+    "measureId": "refrigeration-gaskets",
+    "measureName": "Refrigeration door gaskets, curtains",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 16.4
+  },
+  {
+    "measureId": "compressor-heat-recovery",
+    "measureName": "Compressor heat recovery",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 27.2
+  },
+  {
+    "measureId": "elevator-modernization",
+    "measureName": "Elevator modernization (regen drives)",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 8
+  },
+  {
+    "measureId": "power-factor-correction",
+    "measureName": "Power factor correction",
+    "trainingContentIds": [
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "",
+      "",
+      "lighting-modeling-manual",
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep"
+    ],
+    "relevanceScore": 20.8
+  },
+  {
+    "measureId": "transformer-replacement",
+    "measureName": "Transformer replacement",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "this-is-where-everything-you-have-built-converges",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 13.2
+  },
+  {
+    "measureId": "ups-efficiency",
+    "measureName": "UPS efficiency upgrades",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 26
+  },
+  {
+    "measureId": "gas-absorption-to-electric",
+    "measureName": "Gas absorption chiller → electric chiller",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 39.4
+  },
+  {
+    "measureId": "steam-boiler-to-hp",
+    "measureName": "Steam boiler → heat-pump chiller/boiler",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 43.6
+  },
+  {
+    "measureId": "gas-water-heater-to-hpwh",
+    "measureName": "Gas water heater → HPWH",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 24
+  },
+  {
+    "measureId": "gas-rtu-to-heat-pump",
+    "measureName": "Gas rooftop units → heat pumps",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 33.6
+  },
+  {
+    "measureId": "gas-furnaces-to-vrf",
+    "measureName": "Gas furnaces → VRF",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 6
+  },
+  {
+    "measureId": "gas-kitchen-makeup-air",
+    "measureName": "Gas kitchen hood make-up air → electric w/ VFD",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 28.4
+  },
+  {
+    "measureId": "gas-appliances-to-electric",
+    "measureName": "Gas appliances → induction or electric",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 13.2
+  },
+  {
+    "measureId": "thermal-storage-heat-pumps",
+    "measureName": "Thermal storage + heat pumps",
+    "trainingContentIds": [
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 35.6
+  },
+  {
+    "measureId": "whole-building-electrification",
+    "measureName": "Whole-building electrification studies",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "lighting-modeling-manual"
+    ],
+    "relevanceScore": 20.4
+  },
+  {
+    "measureId": "central-plant-electrification",
+    "measureName": "Central plant electrification",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 23.6
+  },
+  {
+    "measureId": "reheat-electrification",
+    "measureName": "Reheat electrification",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 18.8
+  },
+  {
+    "measureId": "dhw-electrification",
+    "measureName": "Domestic hot water electrification",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 21.6
+  },
+  {
+    "measureId": "anti-sweat-heater-controls",
+    "measureName": "Anti-sweat heater controls",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 22.8
+  },
+  {
+    "measureId": "high-efficiency-evap-fans",
+    "measureName": "High-efficiency evaporator fans",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 39.6
+  },
+  {
+    "measureId": "night-curtains",
+    "measureName": "Night curtains",
+    "trainingContentIds": [
+      "",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "lighting-modeling-manual"
+    ],
+    "relevanceScore": 6.666666666666667
+  },
+  {
+    "measureId": "floating-head-pressure",
+    "measureName": "Floating head pressure controls",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 27.2
+  },
+  {
+    "measureId": "ec-fan-motors",
+    "measureName": "EC fan motors",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "led-case-lighting",
+    "measureName": "LED case lighting",
+    "trainingContentIds": [
+      "lighting-modeling-manual",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 19.4
+  },
+  {
+    "measureId": "smart-defrost-controls",
+    "measureName": "Smart defrost controls",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 21.6
+  },
+  {
+    "measureId": "chw-pump-vfds",
+    "measureName": "Chilled-water pump VFDs",
+    "trainingContentIds": [
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 36.2
+  },
+  {
+    "measureId": "hw-pump-vfds",
+    "measureName": "Hot-water pump VFDs",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 28.8
+  },
+  {
+    "measureId": "condenser-water-pump-opt",
+    "measureName": "Condenser water pump optimization",
+    "trainingContentIds": [
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 35.2
+  },
+  {
+    "measureId": "pump-replacements",
+    "measureName": "Pump replacements",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 15.6
+  },
+  {
+    "measureId": "loop-temp-reset",
+    "measureName": "Loop temperature reset",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "starting-the-full-expanded-manual",
+      "",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati"
+    ],
+    "relevanceScore": 23.2
+  },
+  {
+    "measureId": "variable-primary-flow",
+    "measureName": "Variable primary flow upgrades",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati"
+    ],
+    "relevanceScore": 22
+  },
+  {
+    "measureId": "hydronic-balancing-pumps",
+    "measureName": "Hydronic balancing",
+    "trainingContentIds": [
+      "starting-the-full-expanded-manual",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook"
+    ],
+    "relevanceScore": 8
+  },
+  {
+    "measureId": "picvs",
+    "measureName": "Pressure-independent control valves (PICVs)",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 24
+  },
+  {
+    "measureId": "solar-pv",
+    "measureName": "Solar PV",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "starting-the-full-expanded-manual",
+      "",
+      ""
+    ],
+    "relevanceScore": 8
+  },
+  {
+    "measureId": "solar-thermal",
+    "measureName": "Solar thermal (water, pool, process)",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "starting-the-full-expanded-manual",
+      "",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 18
+  },
+  {
+    "measureId": "battery-storage",
+    "measureName": "Battery storage (BESS)",
+    "trainingContentIds": [
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep",
+      "advanced-mathematical-architectures-for-stochastic-energy-storage-optimization-bridging-differentiab",
+      "",
+      ""
+    ],
+    "relevanceScore": 30
+  },
+  {
+    "measureId": "peak-shaving-batteries",
+    "measureName": "Peak shaving batteries",
+    "trainingContentIds": [
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep",
+      "starting-the-full-expanded-manual",
+      "",
+      "",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati"
+    ],
+    "relevanceScore": 28.8
+  },
+  {
+    "measureId": "microgrid-controls",
+    "measureName": "Microgrid controls",
+    "trainingContentIds": [
+      "",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      ""
+    ],
+    "relevanceScore": 12.4
+  },
+  {
+    "measureId": "chp-replacement",
+    "measureName": "CHP replacement with renewables",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 21.2
+  },
+  {
+    "measureId": "ev-charging-infrastructure",
+    "measureName": "EV charging infrastructure",
+    "trainingContentIds": [
+      "",
+      "",
+      "",
+      "",
+      "this-one-defines"
+    ],
+    "relevanceScore": 14
+  },
+  {
+    "measureId": "building-integrated-pv",
+    "measureName": "Building-integrated PV",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "this-one-defines",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 17.2
+  },
+  {
+    "measureId": "geb",
+    "measureName": "Grid-interactive efficient buildings (GEB)",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "architectural-framework-for-automated-hvac-savings-estimation-a-hybrid-methodological-approach-utili",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment"
+    ],
+    "relevanceScore": 21.2
+  },
+  {
+    "measureId": "ev-charging",
+    "measureName": "EV charging",
+    "trainingContentIds": [
+      "this-one-defines",
+      "starting-the-full-expanded-manual",
+      "",
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep",
+      ""
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "fleet-electrification",
+    "measureName": "Fleet electrification",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "smart-ev-charging",
+    "measureName": "Smart EV charging load management",
+    "trainingContentIds": [
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep",
+      "",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 32.4
+  },
+  {
+    "measureId": "parking-garage-ventilation",
+    "measureName": "Parking-garage ventilation controls",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 21.6
+  },
+  {
+    "measureId": "compressed-air-optimization",
+    "measureName": "Compressed air optimization",
+    "trainingContentIds": [
+      "advanced-mathematical-architectures-for-stochastic-energy-storage-optimization-bridging-differentiab",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 16
+  },
+  {
+    "measureId": "air-leak-audits",
+    "measureName": "Air leak audits",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 12.4
+  },
+  {
+    "measureId": "high-efficiency-industrial-motors",
+    "measureName": "High-efficiency industrial motors",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 42.4
+  },
+  {
+    "measureId": "heat-recovery-industrial",
+    "measureName": "Heat recovery",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 19.2
+  },
+  {
+    "measureId": "process-chiller-upgrades",
+    "measureName": "Process chiller upgrades",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 27.6
+  },
+  {
+    "measureId": "process-boiler-upgrades",
+    "measureName": "Process boiler upgrades",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 27.6
+  },
+  {
+    "measureId": "waste-heat-utilization",
+    "measureName": "Waste heat utilization",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "step-1-the-engineer-to-sales-translation-text",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 18.8
+  },
+  {
+    "measureId": "variable-load-process",
+    "measureName": "Variable-load process systems",
+    "trainingContentIds": [
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 37.6
+  },
+  {
+    "measureId": "industrial-refrigeration",
+    "measureName": "Industrial refrigeration optimization",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 24
+  },
+  {
+    "measureId": "conveyor-vfds",
+    "measureName": "Conveyor VFDs",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 8.8
+  },
+  {
+    "measureId": "industrial-oven",
+    "measureName": "Industrial oven improvements",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 12
+  },
+  {
+    "measureId": "makeup-air-control",
+    "measureName": "Make-up air system control",
+    "trainingContentIds": [
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 34.8
+  },
+  {
+    "measureId": "industrial-fans-pumps",
+    "measureName": "Industrial fans & pumps upgrades",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 35.6
+  },
+  {
+    "measureId": "or-ahu-setbacks",
+    "measureName": "Operating room AHU setbacks",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 18.8
+  },
+  {
+    "measureId": "or-air-change-reduction",
+    "measureName": "OR air-change-rate reduction strategies (code-compliant)",
+    "trainingContentIds": [
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 30.4
+  },
+  {
+    "measureId": "heat-recovery-chillers-reheat",
+    "measureName": "Heat-recovery chillers for reheat loops",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 42
+  },
+  {
+    "measureId": "isolation-room-pressurization",
+    "measureName": "Isolation room pressurization control",
+    "trainingContentIds": [
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep",
+      "",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 23.2
+  },
+  {
+    "measureId": "central-plant-optimization-hc",
+    "measureName": "Central plant optimization",
+    "trainingContentIds": [
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 25.6
+  },
+  {
+    "measureId": "high-efficiency-sterilizers",
+    "measureName": "High-efficiency sterilizers",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 28.4
+  },
+  {
+    "measureId": "lab-fume-hood-vav",
+    "measureName": "Lab fume hood VAV systems",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 17.2
+  },
+  {
+    "measureId": "lab-exhaust-vfds",
+    "measureName": "Lab exhaust VFDs",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 14.4
+  },
+  {
+    "measureId": "supply-return-tracking",
+    "measureName": "Supply/return tracking for 24/7 units",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 18.4
+  },
+  {
+    "measureId": "medical-equipment-plug-load",
+    "measureName": "Medical equipment plug-load management",
+    "trainingContentIds": [
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 32.8
+  },
+  {
+    "measureId": "data-center-cooling-hc",
+    "measureName": "Data center/surgical suite cooling optimization",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 38.4
+  },
+  {
+    "measureId": "real-time-monitoring",
+    "measureName": "Real-time energy monitoring",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "advanced-mathematical-architectures-for-stochastic-energy-storage-optimization-bridging-differentiab",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment"
+    ],
+    "relevanceScore": 36.8
+  },
+  {
+    "measureId": "interval-data-analysis",
+    "measureName": "Interval-data analysis",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "starting-the-full-expanded-manual",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep"
+    ],
+    "relevanceScore": 29.6
+  },
+  {
+    "measureId": "staff-training",
+    "measureName": "Staff training programs",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "",
+      ""
+    ],
+    "relevanceScore": 16
+  },
+  {
+    "measureId": "commissioning",
+    "measureName": "Commissioning (Cx)",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      ""
+    ],
+    "relevanceScore": 9
+  },
+  {
+    "measureId": "retro-commissioning",
+    "measureName": "Recommissioning (RCx)",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 6
+  },
+  {
+    "measureId": "continuous-commissioning",
+    "measureName": "Continuous commissioning",
+    "trainingContentIds": [
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep",
+      "",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "starting-the-full-expanded-manual"
+    ],
+    "relevanceScore": 8.8
+  },
+  {
+    "measureId": "lifecycle-cost-analysis",
+    "measureName": "Lifecycle cost analysis",
+    "trainingContentIds": [
+      "",
+      "starting-the-full-expanded-manual",
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 19.2
+  },
+  {
+    "measureId": "asset-level-benchmarking",
+    "measureName": "Asset-level benchmarking",
+    "trainingContentIds": [
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "starting-the-full-expanded-manual",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep",
+      ""
+    ],
+    "relevanceScore": 12.4
+  },
+  {
+    "measureId": "energy-audits",
+    "measureName": "Energy audits (ASHRAE Level 1, 2, 3)",
+    "trainingContentIds": [
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "advanced-mathematical-architectures-for-stochastic-energy-storage-optimization-bridging-differentiab"
+    ],
+    "relevanceScore": 34
+  },
+  {
+    "measureId": "electrification",
+    "measureName": "Electrification",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "financing-structures",
+    "measureName": "Financing structures",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "",
+      "",
+      "this-is-where-everything-you-have-built-converges"
+    ],
+    "relevanceScore": 14.4
+  },
+  {
+    "measureId": "induction-fixtures",
+    "measureName": "Induction fixtures",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 12
+  },
+  {
+    "measureId": "led-downlights-can-retrofits",
+    "measureName": "LED downlights & can retrofits",
+    "trainingContentIds": [
+      "lighting-modeling-manual",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 13
+  },
+  {
+    "measureId": "troffer-retrofit-kits",
+    "measureName": "Troffer retrofit kits",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "lighting-modeling-manual",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook"
+    ],
+    "relevanceScore": 16.8
+  },
+  {
+    "measureId": "downlight-retrofit-kits",
+    "measureName": "Downlight retrofit kits",
+    "trainingContentIds": [
+      "lighting-modeling-manual",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 15.8
+  },
+  {
+    "measureId": "emergency-conversion-kits",
+    "measureName": "Emergency conversion kits",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 12.8
+  },
+  {
+    "measureId": "zoning-scheduling",
+    "measureName": "Zoning & scheduling",
+    "trainingContentIds": [
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 7.6
+  },
+  {
+    "measureId": "cleaning-lenses-optics",
+    "measureName": "Cleaning lenses & optics",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "condenser-water-pumps",
+    "measureName": "Condenser water pumps",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 26.8
+  },
+  {
+    "measureId": "cooling-tower-fans",
+    "measureName": "Cooling tower fans",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 29.2
+  },
+  {
+    "measureId": "chiller-plant-optimization-sequences",
+    "measureName": "Chiller plant optimization sequences",
+    "trainingContentIds": [
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 31.8
+  },
+  {
+    "measureId": "filter-coil-maintenance-schedules",
+    "measureName": "Filter & coil maintenance schedules",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 28.8
+  },
+  {
+    "measureId": "steam-boilers",
+    "measureName": "Steam boilers",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 22
+  },
+  {
+    "measureId": "condensing-hot-water-boilers",
+    "measureName": "Condensing hot water boilers",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "architectural-framework-for-automated-hvac-savings-estimation-a-hybrid-methodological-approach-utili",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 33.6
+  },
+  {
+    "measureId": "blowdown-heat-recovery",
+    "measureName": "Blowdown heat recovery",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 19.2
+  },
+  {
+    "measureId": "boiler-economizers",
+    "measureName": "Boiler economizers",
+    "trainingContentIds": [
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "architectural-framework-for-automated-hvac-savings-estimation-a-hybrid-methodological-approach-utili",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 22.6
+  },
+  {
+    "measureId": "hot-water-reset",
+    "measureName": "Hot water reset",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 18.4
+  },
+  {
+    "measureId": "condensate-return-improvements",
+    "measureName": "Condensate return improvements",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "advanced-mathematical-architectures-for-stochastic-energy-storage-optimization-bridging-differentiab",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook"
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "pipe-insulation-upgrades",
+    "measureName": "Pipe insulation upgrades",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 24
+  },
+  {
+    "measureId": "seasonal-boiler-shutdown-where-possible",
+    "measureName": "Seasonal boiler shutdown where possible",
+    "trainingContentIds": [
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "",
+      "this-is-where-everything-you-have-built-converges",
+      "architectural-framework-for-automated-hvac-savings-estimation-a-hybrid-methodological-approach-utili"
+    ],
+    "relevanceScore": 28.2
+  },
+  {
+    "measureId": "boiler-tuning-and-combustion-checks",
+    "measureName": "Boiler tuning and combustion checks",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 22.4
+  },
+  {
+    "measureId": "temperature-setpoint-policies-in-winter",
+    "measureName": "Temperature setpoint policies in winter",
+    "trainingContentIds": [
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 24.4
+  },
+  {
+    "measureId": "pneumatic-vav-systems",
+    "measureName": "Pneumatic VAV systems",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 13.6
+  },
+  {
+    "measureId": "general-exhaust",
+    "measureName": "General exhaust",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      ""
+    ],
+    "relevanceScore": 7.6
+  },
+  {
+    "measureId": "kitchen-hoods",
+    "measureName": "Kitchen hoods",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 20
+  },
+  {
+    "measureId": "garage-exhaust",
+    "measureName": "Garage exhaust",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 9.2
+  },
+  {
+    "measureId": "lab-fume-hoods",
+    "measureName": "Lab fume hoods",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 12
+  },
+  {
+    "measureId": "industrial-process-exhaust",
+    "measureName": "Industrial process exhaust",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook"
+    ],
+    "relevanceScore": 21.2
+  },
+  {
+    "measureId": "doas-units",
+    "measureName": "DOAS units",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "architectural-framework-for-automated-hvac-savings-estimation-a-hybrid-methodological-approach-utili"
+    ],
+    "relevanceScore": 10.8
+  },
+  {
+    "measureId": "vav-fume-hood-systems",
+    "measureName": "VAV fume hood systems",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 17.2
+  },
+  {
+    "measureId": "dckv-retrofits-for-kitchens",
+    "measureName": "DCKV retrofits for kitchens",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "lighting-modeling-manual",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 11.6
+  },
+  {
+    "measureId": "lab-hood-sash-flow-controls",
+    "measureName": "Lab hood sash & flow controls",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook"
+    ],
+    "relevanceScore": 24.4
+  },
+  {
+    "measureId": "duct-sealing-insulation",
+    "measureName": "Duct sealing & insulation",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 20.4
+  },
+  {
+    "measureId": "vav-box-actuator-sensor-upgrades",
+    "measureName": "VAV box actuator & sensor upgrades",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 17.6
+  },
+  {
+    "measureId": "kitchen-staff-training-on-hood-operation",
+    "measureName": "Kitchen staff training on hood operation",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep"
+    ],
+    "relevanceScore": 28.8
+  },
+  {
+    "measureId": "pneumatic-control-systems",
+    "measureName": "Pneumatic control systems",
+    "trainingContentIds": [
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 27.2
+  },
+  {
+    "measureId": "standalone-stats",
+    "measureName": "Standalone stats",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      ""
+    ],
+    "relevanceScore": 6
+  },
+  {
+    "measureId": "room-controllers-smart-stats",
+    "measureName": "Room controllers & smart stats",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 15.6
+  },
+  {
+    "measureId": "control-reprogramming-sequence-optimization",
+    "measureName": "Control reprogramming & sequence optimization",
+    "trainingContentIds": [
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "advanced-mathematical-architectures-for-stochastic-energy-storage-optimization-bridging-differentiab",
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 33.2
+  },
+  {
+    "measureId": "sensor-actuator-replacements",
+    "measureName": "Sensor & actuator replacements",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 13.6
+  },
+  {
+    "measureId": "network-gateway-upgrades",
+    "measureName": "Network & gateway upgrades",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 14
+  },
+  {
+    "measureId": "equipment-sequencing",
+    "measureName": "Equipment sequencing",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 10.8
+  },
+  {
+    "measureId": "global-schedules-occupancy-modes",
+    "measureName": "Global schedules & occupancy modes",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 18.4
+  },
+  {
+    "measureId": "automated-dr-integration",
+    "measureName": "Automated DR integration",
+    "trainingContentIds": [
+      "architectural-framework-for-automated-hvac-savings-estimation-a-hybrid-methodological-approach-utili",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 8.4
+  },
+  {
+    "measureId": "gas-storage-water-heaters",
+    "measureName": "Gas storage water heaters",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 26.4
+  },
+  {
+    "measureId": "gas-tankless-heaters",
+    "measureName": "Gas tankless heaters",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "commercial-hpwh-systems",
+    "measureName": "Commercial HPWH systems",
+    "trainingContentIds": [
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 23.2
+  },
+  {
+    "measureId": "electric-dhw-boilers",
+    "measureName": "Electric DHW boilers",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "architectural-framework-for-automated-hvac-savings-estimation-a-hybrid-methodological-approach-utili",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 23.2
+  },
+  {
+    "measureId": "vfd-recirc-pumps",
+    "measureName": "VFD recirc pumps",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 13.6
+  },
+  {
+    "measureId": "recirc-loop-balancing",
+    "measureName": "Recirc loop balancing",
+    "trainingContentIds": [
+      "starting-the-full-expanded-manual",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 14.4
+  },
+  {
+    "measureId": "thermostatic-mixing-valve-optimization",
+    "measureName": "Thermostatic mixing valve optimization",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "advanced-mathematical-architectures-for-stochastic-energy-storage-optimization-bridging-differentiab",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 19.2
+  },
+  {
+    "measureId": "smart-leak-detection",
+    "measureName": "Smart leak detection",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 22.8
+  },
+  {
+    "measureId": "leak-repair-logging",
+    "measureName": "Leak repair & logging",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook"
+    ],
+    "relevanceScore": 16.4
+  },
+  {
+    "measureId": "hfc-rack-systems-with-fixed-head-pressure",
+    "measureName": "HFC rack systems with fixed head pressure",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep"
+    ],
+    "relevanceScore": 42.8
+  },
+  {
+    "measureId": "old-evaporator-fans",
+    "measureName": "Old evaporator fans",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 15.2
+  },
+  {
+    "measureId": "fluorescent-case-lighting",
+    "measureName": "Fluorescent case lighting",
+    "trainingContentIds": [
+      "lighting-modeling-manual",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 23.4
+  },
+  {
+    "measureId": "racks-with-floating-head-suction",
+    "measureName": "Racks with floating head & suction",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep"
+    ],
+    "relevanceScore": 27.2
+  },
+  {
+    "measureId": "vfd-compressors-condenser-fans",
+    "measureName": "VFD compressors & condenser fans",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook"
+    ],
+    "relevanceScore": 20.8
+  },
+  {
+    "measureId": "ec-evaporator-fans",
+    "measureName": "EC evaporator fans",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 15.2
+  },
+  {
+    "measureId": "case-door-retrofits",
+    "measureName": "Case door retrofits",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w"
+    ],
+    "relevanceScore": 20.4
+  },
+  {
+    "measureId": "heat-reclaim-for-dhw-or-reheat",
+    "measureName": "Heat reclaim for DHW or reheat",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook"
+    ],
+    "relevanceScore": 23.2
+  },
+  {
+    "measureId": "product-loading-practices",
+    "measureName": "Product loading practices",
+    "trainingContentIds": [
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "starting-the-full-expanded-manual",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 9.2
+  },
+  {
+    "measureId": "leaky-doors-envelopes",
+    "measureName": "Leaky doors & envelopes",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 12
+  },
+  {
+    "measureId": "regular-inspection-of-seals",
+    "measureName": "Regular inspection of seals",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 12
+  },
+  {
+    "measureId": "legacy-ups",
+    "measureName": "Legacy UPS",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "nema-premium-motors",
+    "measureName": "NEMA Premium motors",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 13.6
+  },
+  {
+    "measureId": "ec-motors",
+    "measureName": "EC motors",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "soft-starters",
+    "measureName": "Soft starters",
+    "trainingContentIds": [
+      "architectural-framework-for-automated-hvac-savings-estimation-a-hybrid-methodological-approach-utili"
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "harmonic-filters",
+    "measureName": "Harmonic filters",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "load-balancing-across-phases",
+    "measureName": "Load balancing across phases",
+    "trainingContentIds": [
+      "starting-the-full-expanded-manual",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 21.6
+  },
+  {
+    "measureId": "voltage-optimization",
+    "measureName": "Voltage optimization",
+    "trainingContentIds": [
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "starting-the-full-expanded-manual",
+      "advanced-mathematical-architectures-for-stochastic-energy-storage-optimization-bridging-differentiab",
+      "",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 20.4
+  },
+  {
+    "measureId": "motor-maintenance-lubrication",
+    "measureName": "Motor maintenance & lubrication",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 17.6
+  },
+  {
+    "measureId": "avoid-oversized-motor-selection-in-new-design",
+    "measureName": "Avoid oversized motor selection in new design",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook"
+    ],
+    "relevanceScore": 24
+  },
+  {
+    "measureId": "leaky-compressed-air-networks",
+    "measureName": "Leaky compressed air networks",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "advanced-mathematical-architectures-for-stochastic-energy-storage-optimization-bridging-differentiab",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 8
+  },
+  {
+    "measureId": "vfd-compressors",
+    "measureName": "VFD compressors",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "leak-detection-repair-programs",
+    "measureName": "Leak detection & repair programs",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 24.4
+  },
+  {
+    "measureId": "pressure-setpoint-optimization-narrowing-band",
+    "measureName": "Pressure setpoint optimization & narrowing band",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "df-4-must-be-vastly-more-detailed-similar-to-a-100-150-page-hvac-engineering-textbook",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 28
+  },
+  {
+    "measureId": "staged-compressor-sequencing",
+    "measureName": "Staged compressor sequencing",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 10.8
+  },
+  {
+    "measureId": "heat-recovery-from-compressors",
+    "measureName": "Heat recovery from compressors",
+    "trainingContentIds": [
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "starting-the-full-expanded-manual"
+    ],
+    "relevanceScore": 30
+  },
+  {
+    "measureId": "operator-training-on-compressed-air-abuse",
+    "measureName": "Operator training on compressed air abuse",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "optimal-control-architectures-for-battery-based-peak-demand-management-a-comprehensive-technical-rep",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 10.4
+  },
+  {
+    "measureId": "routine-leak-checks",
+    "measureName": "Routine leak checks",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment"
+    ],
+    "relevanceScore": 12.4
+  },
+  {
+    "measureId": "geared-traction-elevators",
+    "measureName": "Geared traction elevators",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 6
+  },
+  {
+    "measureId": "hydraulic-elevators",
+    "measureName": "Hydraulic elevators",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 6
+  },
+  {
+    "measureId": "gearless-traction-with-regen-drives",
+    "measureName": "Gearless traction with regen drives",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 16.4
+  },
+  {
+    "measureId": "led-cab-lighting-efficient-fans",
+    "measureName": "LED cab lighting & efficient fans",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "lighting-modeling-manual"
+    ],
+    "relevanceScore": 27.8
+  },
+  {
+    "measureId": "regenerative-drive-retrofits",
+    "measureName": "Regenerative drive retrofits",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "lighting-modeling-manual",
+      "integrated-techno-economic-architecture-for-ai-driven-energy-systems-battery-storage-hvac-optimizati"
+    ],
+    "relevanceScore": 19.2
+  },
+  {
+    "measureId": "lighting-fan-controls-in-cabs",
+    "measureName": "Lighting & fan controls in cabs",
+    "trainingContentIds": [
+      "lighting-modeling-manual",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 26.6
+  },
+  {
+    "measureId": "older-dish-machines",
+    "measureName": "Older dish machines",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 10
+  },
+  {
+    "measureId": "kitchen-refrigeration-led-ec-motor-retrofits",
+    "measureName": "Kitchen refrigeration LED & EC motor retrofits",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 30
+  },
+  {
+    "measureId": "staff-training-on-hood-equipment-shutoff-when-idle",
+    "measureName": "Staff training on hood & equipment shutoff when idle",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "technical-compendium-for-ai-driven-hvac-load-modeling-and-energy-efficiency-assessment",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text"
+    ],
+    "relevanceScore": 36
+  },
+  {
+    "measureId": "gas-pool-heaters",
+    "measureName": "Gas pool heaters",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "advanced-mathematical-architectures-for-stochastic-energy-storage-optimization-bridging-differentiab"
+    ],
+    "relevanceScore": 12.4
+  },
+  {
+    "measureId": "heat-pump-pool-heaters",
+    "measureName": "Heat pump pool heaters",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "step-1-the-engineer-to-sales-translation-text",
+      "step-1-the-engineer-to-sales-translation-text",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version"
+    ],
+    "relevanceScore": 32.4
+  },
+  {
+    "measureId": "vfd-pool-pumps",
+    "measureName": "VFD pool pumps",
+    "trainingContentIds": [
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+      "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt"
+    ],
+    "relevanceScore": 14.4
+  },
+  {
+    "measureId": "dc-fast-chargers",
+    "measureName": "DC fast chargers",
+    "trainingContentIds": [
+      "",
+      "starting-the-full-expanded-manual",
+      "",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+      "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including"
+    ],
+    "relevanceScore": 10.4
+  },
+  {
+    "measureId": "dr-participation",
+    "measureName": "DR participation",
+    "trainingContentIds": [
+      "starting-the-full-expanded-manual",
+      "",
+      ""
+    ],
+    "relevanceScore": 7.333333333333333
+  },
+  {
+    "measureId": "solar-thermal",
+    "measureName": "Solar thermal",
+    "trainingContentIds": [
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "comprehensive-hvac-energy-audit-framework-and-field-data-collection-standards-for-everwatt",
+      "starting-the-full-expanded-manual",
+      "",
+      ""
+    ],
+    "relevanceScore": 17.2
+  }
+]

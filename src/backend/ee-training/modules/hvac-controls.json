@@ -1,0 +1,483 @@
+{
+  "id": "hvac-controls",
+  "title": "HVAC Controls & Building Automation",
+  "subtitle": "BMS Platforms, Reset Strategies, and Optimization",
+  "description": "Comprehensive training on building management systems, control strategies, fault detection, and optimization. Includes practical implementation guidance for energy savings.",
+  "icon": "🎛️",
+  "category": "controls",
+  "order": 4,
+  "status": "published",
+  "metadata": {
+    "author": "EverWatt Engineering Team",
+    "lastUpdated": "2025-12-13",
+    "version": "1.0.0",
+    "estimatedTime": 160,
+    "difficulty": "advanced",
+    "tags": ["bms", "ems", "controls", "automation", "reset", "fdd", "optimization"]
+  },
+  "sections": [
+    {
+      "id": "quick-overview",
+      "title": "Quick Overview",
+      "subtitle": "90-second skim + jump points",
+      "icon": "⚡",
+      "order": 0,
+      "metadata": {
+        "estimatedTime": 8,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "sales", "selection"]
+      },
+      "content": [
+        {
+          "id": "qv-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 3,
+          "cards": [
+            {
+              "title": "Fastest Win: Scheduling",
+              "description": "Equipment running when unoccupied is the #1 controls waste. Align schedules first.",
+              "metadata": { "icon": "📅" }
+            },
+            {
+              "title": "Reset Strategies",
+              "description": "CHW/HW/SAT/static resets often yield 5–20% savings with little to no capex.",
+              "metadata": { "icon": "🌡️" }
+            },
+            {
+              "title": "Simultaneous Heat/Cool",
+              "description": "Bad deadbands and setpoints create reheat fights. Fixing this is pure margin.",
+              "metadata": { "icon": "↔️" }
+            },
+            {
+              "title": "Sequencing Matters",
+              "description": "Stage fewer machines at higher load. Wrong staging erases equipment efficiency.",
+              "metadata": { "icon": "📊" }
+            },
+            {
+              "title": "FDD = Continuous Savings",
+              "description": "Fault detection catches stuck dampers, drifting sensors, and overrides before bills spike.",
+              "metadata": { "icon": "🔍" }
+            },
+            {
+              "title": "What to Trend",
+              "description": "kW, flows, temps, valve/damper positions, setpoints, and occupancy signals.",
+              "metadata": { "icon": "📈" }
+            }
+          ]
+        },
+        {
+          "id": "qv-kpi-table",
+          "type": "table",
+          "order": 2,
+          "metadata": { "title": "Controls KPI Cheat Sheet" },
+          "headers": ["KPI", "What it means", "Rule-of-thumb"],
+          "rows": [
+            ["Schedules", "Run hours alignment", "Match occupancy; avoid early starts and weekend drift"],
+            ["Setpoint deadband", "Heat vs cool separation", "Target 4–6°F where possible"],
+            ["Reset behavior", "Dynamic setpoints working?", "Resets should move daily with conditions"],
+            ["Override rate", "Manual mode prevalence", "Overrides should expire or alert"],
+            ["Sensor health", "Drift and calibration", "Flatlined or noisy sensors break optimization"],
+            ["kW/ton (plant)", "Cooling objective", "Use as staging/reset KPI where available"]
+          ]
+        }
+        ,
+        {
+          "id": "hvac-control-loops-explainer",
+          "type": "interactive",
+          "order": 2.5,
+          "component": "hvac-control-loops",
+          "config": {
+            "title": "HVAC Control Loops (What to change + what breaks)",
+            "subtitle": "Scheduling, optimal start, economizers, SAT/static resets, overrides"
+          }
+        }
+      ]
+    },
+    {
+      "id": "introduction",
+      "title": "Introduction to Building Automation",
+      "subtitle": "BMS/EMS Fundamentals",
+      "icon": "📚",
+      "order": 1,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["fundamentals", "overview"]
+      },
+      "content": [
+        {
+          "id": "intro-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Building Management Systems\n\n## What is a BMS?\n\nA Building Management System (BMS), also called Building Automation System (BAS) or Energy Management System (EMS), is the central nervous system of a building's mechanical systems. It monitors, controls, and optimizes HVAC, lighting, and other systems.\n\n## Why Controls Matter\n\n**50% of building energy waste is due to controls issues:**\n- Equipment running when not needed\n- Simultaneous heating and cooling\n- Fixed setpoints that ignore conditions\n- Sensors out of calibration\n- Override buttons left in manual\n\n## The Opportunity\n\nControls optimization is often the **lowest-cost, highest-return** energy efficiency measure because:\n- No new equipment needed\n- Immediate implementation\n- Measurable, verifiable savings\n- Improves comfort alongside efficiency"
+        },
+        {
+          "id": "intro-platforms",
+          "type": "table",
+          "order": 2,
+          "metadata": { "title": "Major BMS Platforms" },
+          "headers": ["Vendor", "Platform", "Protocol", "Market Position"],
+          "rows": [
+            ["Johnson Controls", "Metasys", "BACnet", "Largest market share, strong integration"],
+            ["Honeywell", "Niagara/EBI", "Niagara/BACnet", "Strong in large buildings, IoT focus"],
+            ["Siemens", "Desigo CC", "BACnet", "Strong in Europe, sophisticated graphics"],
+            ["Trane", "Tracer", "BACnet", "Integrated with Trane equipment"],
+            ["Carrier", "i-Vu", "BACnet", "Integrated with Carrier equipment"],
+            ["Schneider Electric", "EcoStruxure", "BACnet/LON", "Data center, power monitoring strength"],
+            ["Automated Logic", "WebCTRL", "BACnet", "User-friendly, good analytics"]
+          ]
+        },
+        {
+          "id": "intro-protocols",
+          "type": "accordion",
+          "order": 3,
+          "items": [
+            {
+              "title": "🔌 Communication Protocols",
+              "content": [
+                {
+                  "id": "protocols",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Key Protocols\n\n### BACnet\n- **Industry standard** for building automation\n- Open protocol (not vendor-specific)\n- BACnet IP (Ethernet) and BACnet MS/TP (serial)\n- Best for new installations, interoperability\n\n### Modbus\n- Older but widely supported\n- Simple, reliable\n- Common for VFDs, meters, sensors\n- Modbus RTU (serial) and Modbus TCP (Ethernet)\n\n### LON (LonWorks)\n- Peer-to-peer networking\n- Common in older Honeywell/TAC systems\n- Less common in new construction\n\n### Proprietary Protocols\n- Many legacy systems use proprietary protocols\n- Requires vendor support for integration\n- Often a barrier to optimization"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reset-strategies",
+      "title": "Reset Strategies",
+      "subtitle": "Temperature and Pressure Reset for Savings",
+      "icon": "🌡️",
+      "order": 2,
+      "metadata": {
+        "estimatedTime": 30,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales", "field"],
+        "tags": ["controls", "optimization", "selection", "sales"]
+      },
+      "content": [
+        {
+          "id": "reset-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Reset Strategies\n\n## What is Reset?\n\nReset means adjusting setpoints based on actual conditions rather than holding them constant at design values. The principle: **supply only what is needed, when it is needed.**\n\n## Why Reset Saves Energy\n\n- Lower chilled water temp = more compressor work\n- Lower hot water temp = less distribution loss, condensing\n- Lower duct static = less fan power (cubed relationship)\n- Lower supply air temp = more dehumidification (sometimes good)\n\n**Rule of Thumb**: Each 1°F of reset ≈ 1-3% energy savings"
+        },
+        {
+          "id": "reset-types",
+          "type": "tabs",
+          "order": 2,
+          "tabs": [
+            {
+              "label": "Chilled Water Reset",
+              "content": [
+                {
+                  "id": "chw-reset",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Chilled Water Supply Temperature Reset\n\n**Concept**: Raise CHWST when cooling load is low.\n\n**Typical Schedule**:\n| Outdoor Temp | CHWST |\n|--------------|-------|\n| 95°F (design) | 44°F |\n| 80°F | 48°F |\n| 65°F | 52°F |\n\n**OR Valve-Based Reset**:\n- If no CHW valves > 90% open → raise CHWST\n- If any valve hits 100% → lower CHWST\n- More responsive to actual load\n\n**Savings**: 2-4% chiller energy per °F of reset"
+                }
+              ]
+            },
+            {
+              "label": "Hot Water Reset",
+              "content": [
+                {
+                  "id": "hw-reset",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Hot Water Supply Temperature Reset\n\n**Concept**: Lower HWST when heating load is low.\n\n**Critical for Condensing Boilers**: Must get return water < 130°F for condensing.\n\n**Typical Schedule**:\n| Outdoor Temp | HWST |\n|--------------|------|\n| 20°F (design) | 180°F |\n| 40°F | 160°F |\n| 60°F | 140°F |\n\n**Savings**:\n- 2-3% per 10°F reduction (distribution losses)\n- 10-15% additional if enables condensing mode"
+                }
+              ]
+            },
+            {
+              "label": "Static Pressure Reset",
+              "content": [
+                {
+                  "id": "sp-reset",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Duct Static Pressure Reset\n\n**Concept**: Lower SP setpoint when VAV dampers are not fully open.\n\n**Implementation**:\n1. Monitor VAV damper positions\n2. If no dampers > 90% open → lower SP by 0.1 in. w.c.\n3. If any damper hits 100% → raise SP\n4. Minimum SP = 0.5-1.0 in. w.c.\n\n**Savings**: 20-40% fan energy (via affinity laws)\n\n**Key Requirement**: VFD on supply fan (otherwise can't respond)"
+                }
+              ]
+            },
+            {
+              "label": "Supply Air Reset",
+              "content": [
+                {
+                  "id": "sat-reset",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Supply Air Temperature Reset\n\n**Concept**: Raise SAT when cooling load is low.\n\n**Typical Schedule**:\n| Outdoor Temp | SAT |\n|--------------|-----|\n| 80°F+ | 55°F |\n| 70°F | 58°F |\n| 60°F | 62°F |\n\n**OR Zone-Based Reset**:\n- Based on zone cooling calls\n- More responsive to actual load\n\n**Caution**: Must maintain dehumidification in humid climates. May need SAT limit or humidity override."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "reset-sales",
+          "type": "markdown",
+          "order": 3,
+          "content": "## 💼 Sales Approach: Reset Strategies\n\n### Opening Hook\n*\"Your chilled water is running at 44°F year-round, even when it's 65° outside. Every degree you can raise that saves 3% on cooling energy.\"*\n\n### Key Value Props\n1. **Low/no cost**: Programming changes only\n2. **Immediate savings**: See results in the next utility bill\n3. **Measurable**: Before/after comparison is clear\n4. **Reversible**: Easy to adjust if issues arise\n\n### OBF Eligibility\n⚠️ **Controls-only projects may not qualify for OBF.** However, bundling reset implementation with hardware (VFD, sensors, upgraded controller) often makes the package eligible."
+        }
+      ]
+    },
+    {
+      "id": "sequencing",
+      "title": "Sequencing & Staging",
+      "subtitle": "Efficient Equipment Sequencing",
+      "icon": "📊",
+      "order": 3,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["controls", "optimization"]
+      },
+      "content": [
+        {
+          "id": "sequencing-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Equipment Sequencing\n\n## Why Sequencing Matters\n\nMost buildings have multiple chillers, boilers, pumps, or cooling towers. How you stage (bring on/off) equipment significantly impacts efficiency.\n\n## Key Principles\n\n### 1. Run Fewer Units at Higher Load\n- Most equipment is more efficient at 70-90% load than 30% load\n- Two chillers at 40% < one chiller at 80%\n\n### 2. Stage Early, Unstage Late\n- Prevent cycling by adding hysteresis (dead band)\n- Stage up at 90% capacity, unstage at 60%\n\n### 3. Lead-Lag Rotation\n- Rotate lead equipment to equalize runtime\n- Prevents premature wear on one unit\n\n### 4. Consider Part-Load Efficiency\n- VFD-equipped units often have better part-load efficiency\n- May want to prioritize VFD units at low loads"
+        },
+        {
+          "id": "sequencing-chillers",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "❄️ Chiller Sequencing Best Practices",
+              "content": [
+                {
+                  "id": "chiller-seq",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Chiller Staging Strategies\n\n### Traditional Fixed Sequence\n- Chiller 1 always leads\n- Stage Chiller 2 at 80% load\n- Simple but uneven wear\n\n### Load-Based Staging\n- Calculate plant load vs. capacity\n- Stage up when running chiller(s) reach 90% capacity\n- Unstage when combined load drops below 60% of N-1 capacity\n\n### Efficiency-Based Staging\n- Monitor kW/ton of each chiller\n- Select most efficient combination for current load\n- Requires real-time power and load measurement\n\n### Common Mistakes\n- Staging on temperature alone (causes cycling)\n- No dead band between stage/unstage points\n- Ignoring auxiliary equipment (pumps, tower fans)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fdd",
+      "title": "Fault Detection & Diagnostics",
+      "subtitle": "Automated Fault Detection Systems",
+      "icon": "🔍",
+      "order": 4,
+      "metadata": {
+        "estimatedTime": 25,
+        "difficulty": "advanced",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["fdd", "controls", "field"]
+      },
+      "content": [
+        {
+          "id": "fdd-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Fault Detection & Diagnostics (FDD)\n\n## What is FDD?\n\nFDD systems analyze building data to automatically identify equipment faults, control issues, and optimization opportunities. Instead of waiting for complaints or failures, FDD proactively finds problems.\n\n## Common Fault Categories\n\n1. **Stuck valves/dampers**: Not modulating properly\n2. **Simultaneous heating and cooling**: Wasting energy\n3. **Sensor drift**: Readings don't match reality\n4. **Override abuse**: Equipment left in manual\n5. **Schedule violations**: Running when should be off\n6. **Short cycling**: Rapid on/off/on/off\n7. **Setpoint deviation**: Not reaching setpoint\n\n## FDD Platform Options\n\n- **Built into BMS**: Honeywell Outcome Based Service, JCI OpenBlue\n- **Third-party overlay**: SkySpark, Clockworks, ICONICS, BuildingIQ\n- **Utility programs**: Some utilities offer FDD as a service"
+        },
+        {
+          "id": "fdd-rules",
+          "type": "table",
+          "order": 2,
+          "metadata": { "title": "Common FDD Rules" },
+          "headers": ["Fault", "Detection Logic", "Typical Savings"],
+          "rows": [
+            ["Simultaneous heating/cooling", "HW valve open AND CHW valve open", "5-20% of zone energy"],
+            ["Stuck outdoor air damper", "OA damper command ≠ position", "10-30% OA conditioning"],
+            ["Economizer not working", "OA temp < RA temp AND economizer not active", "10-20% cooling"],
+            ["Schedule override", "Equipment running outside schedule", "Variable, often significant"],
+            ["Short cycling", "More than 4 starts per hour", "Equipment life, comfort"],
+            ["Sensor fault", "Reading out of expected range", "Control accuracy"]
+          ]
+        },
+        {
+          "id": "fdd-sales",
+          "type": "markdown",
+          "order": 3,
+          "content": "## 💼 Sales Approach: FDD\n\n### Opening Hook\n*\"There are probably faults in your building right now that you don't know about - stuck dampers, drifted sensors, overrides from last winter. FDD finds them automatically.\"*\n\n### Key Value Props\n1. **Proactive vs. reactive**: Find issues before complaints\n2. **Continuous commissioning**: Always monitoring\n3. **Prioritized list**: Focus on highest-impact faults first\n4. **Documentation**: Proof of performance for M&V\n\n### OBF Eligibility\n⚠️ FDD software alone may not qualify. **Bundle with:**\n- New sensors or meters (hardware)\n- Controls upgrade project\n- Ongoing monitoring service with guaranteed savings"
+        }
+      ]
+    },
+    {
+      "id": "ai-optimization",
+      "title": "AI/ML Optimization",
+      "subtitle": "Machine Learning for Building Efficiency",
+      "icon": "🤖",
+      "order": 5,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "advanced",
+        "roles": ["engineer", "sales"],
+        "tags": ["optimization", "controls", "sales"]
+      },
+      "content": [
+        {
+          "id": "ai-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# AI/ML in Building Optimization\n\n## Beyond Rules-Based Control\n\nTraditional BMS uses fixed rules: \"If OAT > 65°F, enable economizer.\" AI/ML can learn building behavior and optimize dynamically.\n\n## Applications\n\n### Predictive Control\n- Weather forecast → pre-cool/pre-heat\n- Occupancy prediction → anticipate loads\n- Learn thermal mass and response time\n\n### Optimal Setpoints\n- Learn which setpoints minimize energy while maintaining comfort\n- Adapt to seasonal changes automatically\n- Balance competing objectives (energy vs. comfort vs. demand)\n\n### Demand Response\n- Automatically shed load during peak events\n- Pre-condition to coast through high-price periods\n- Integrate with utility DR programs\n\n## Vendor Landscape\n\n| Company | Product | Approach |\n|---------|---------|----------|\n| Google | Nest/DeepMind | Reinforcement learning |\n| BuildingIQ | 5i Platform | Predictive optimization |\n| Verdigris | AI Analytics | Submetering + ML |\n| Turntide | Smart Motor | AI-driven motors |\n| BrainBox AI | HVAC Optimization | Autonomous AI |"
+        },
+        {
+          "id": "ai-sales",
+          "type": "markdown",
+          "order": 2,
+          "content": "## 💼 Sales Approach: AI Optimization\n\n### When to Pitch AI\n- Sophisticated building owner seeking cutting edge\n- Existing BMS with good data infrastructure\n- Budget for ongoing software subscription\n- Organization comfortable with AI/cloud\n\n### Opening Hook\n*\"Your BMS follows rules, but AI can learn your building's unique behavior and optimize in ways that are impossible to program manually.\"*\n\n### Cautions\n- Requires good underlying data (garbage in = garbage out)\n- Ongoing subscription cost\n- May require changes to existing control sequences\n- Results can take 3-6 months to fully materialize"
+        }
+      ]
+    },
+    {
+      "id": "sales-strategies",
+      "title": "Sales Strategies",
+      "subtitle": "Selling Controls Projects",
+      "icon": "💰",
+      "order": 6,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["sales"],
+        "tags": ["sales", "roi"]
+      },
+      "content": [
+        {
+          "id": "controls-sales",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Selling Controls Projects\n\n## The Challenge\n\nControls projects are often **invisible** to decision-makers. Unlike a shiny new chiller, optimized controls don't look different.\n\n## Keys to Success\n\n### 1. Quantify the Waste\n- Show the energy going to unnecessary heating/cooling\n- Calculate the cost of running full speed when part load would suffice\n- Use trend data or temporary logging if needed\n\n### 2. Bundle with Hardware\n- VFDs + reset programming\n- Sensors + DCV logic\n- Makes project more tangible and OBF-eligible\n\n### 3. Offer Guarantees\n- Performance-based contract: We guarantee X% savings\n- Builds confidence for skeptical owners\n\n### 4. Start Small\n- Pilot project on one AHU or zone\n- Prove value, then expand"
+        },
+        {
+          "id": "controls-objections",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "⚠️ Common Objections",
+              "content": [
+                {
+                  "id": "objections",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "### \"Our BMS contractor says we're already optimized\"\n*\"That may be true for hardware, but most buildings leave 10-20% on the table with controls. Let's do a quick trending analysis to see if there are opportunities.\"*\n\n### \"We tried controls optimization before and got complaints\"\n*\"That usually means the changes were too aggressive. We use a measured approach - small changes, verify comfort, then adjust. We can always roll back.\"*\n\n### \"It's not worth the hassle for just a few percent\"\n*\"Let me show you the numbers. On a building spending $500K/year on energy, 10% is $50K/year - every year. That adds up quickly.\"*\n\n### \"We don't have the staff to maintain it\"\n*\"That's a fair concern. We can include ongoing monitoring in the scope, so we catch any drift and keep the savings locked in.\"*"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "obf-measures",
+      "title": "OBF-Eligible Measures",
+      "subtitle": "What Qualifies for On-Bill Financing",
+      "icon": "💵",
+      "order": 7,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "roi", "financing"]
+      },
+      "content": [
+        {
+          "id": "obf-controls",
+          "type": "table",
+          "order": 1,
+          "metadata": { "title": "Controls OBF Eligibility" },
+          "headers": ["Measure", "OBF Eligible?", "Notes"],
+          "rows": [
+            ["BMS Controller Upgrade", "✅ Yes", "Hardware replacement qualifies"],
+            ["New Sensors (temp, CO2, pressure)", "✅ Yes", "Hardware with energy impact"],
+            ["VFD + Reset Programming", "✅ Yes", "Hardware + controls bundle"],
+            ["Reset Programming Only", "❌ Usually No", "Controls-only typically not eligible"],
+            ["FDD Software + Sensors", "⚠️ Maybe", "Depends on hardware component"],
+            ["AI Optimization Software", "❌ No", "Software subscription not eligible"],
+            ["Economizer Controls Repair", "✅ Yes", "If includes hardware"],
+            ["Scheduling Optimization", "❌ No", "Programming change only"]
+          ]
+        },
+        {
+          "id": "obf-tips",
+          "type": "markdown",
+          "order": 2,
+          "content": "## Tips for OBF Eligibility\n\n### Bundle Strategies\n- Combine reset programming with sensor upgrade\n- Add VFDs to make controls project eligible\n- Include new controller/panel if old one is end-of-life\n\n### Document Hardware\n- Even if controls-focused, document any hardware replaced\n- New wiring, sensors, actuators all count\n\n### Work with Utility Early\n- Get pre-approval before starting work\n- Some utilities have specific controls programs"
+        }
+      ]
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "subtitle": "Test Your Controls Knowledge",
+      "icon": "📝",
+      "order": 8,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["quiz"]
+      },
+      "content": [
+        {
+          "id": "controls-quiz",
+          "type": "interactive",
+          "order": 1,
+          "component": "quiz-widget",
+          "config": {
+            "title": "HVAC Controls Quiz",
+            "questions": [
+              {
+                "id": "q1",
+                "question": "Which protocol is the current industry standard for building automation?",
+                "options": ["Modbus", "BACnet", "LON", "Proprietary"],
+                "correctAnswer": 1,
+                "explanation": "BACnet is the ASHRAE standard for building automation and is most common in new installations.",
+                "points": 10
+              },
+              {
+                "id": "q2",
+                "question": "Approximately how much chiller energy is saved for each degree of chilled water setpoint increase?",
+                "options": ["0.5%", "1-2%", "2-4%", "5-10%"],
+                "correctAnswer": 2,
+                "explanation": "Each degree of CHW reset saves approximately 2-4% in chiller energy.",
+                "points": 10
+              },
+              {
+                "id": "q3",
+                "question": "What is the primary goal of static pressure reset in a VAV system?",
+                "options": ["Increase airflow to all zones", "Reduce fan energy consumption", "Improve air quality", "Lower supply air temperature"],
+                "correctAnswer": 1,
+                "explanation": "Static pressure reset reduces fan energy by lowering the pressure setpoint when VAV dampers don't need full pressure.",
+                "points": 10
+              },
+              {
+                "id": "q4",
+                "question": "A common FDD rule detects 'simultaneous heating and cooling' when:",
+                "options": ["OAT > 65°F", "Both HW and CHW valves are open", "Economizer is enabled", "Fan speed > 80%"],
+                "correctAnswer": 1,
+                "explanation": "Simultaneous heating and cooling waste is detected when both hot water and chilled water valves are open at the same time.",
+                "points": 10
+              },
+              {
+                "id": "q5",
+                "question": "Controls-only projects (like reset programming) are typically OBF eligible:",
+                "options": ["Always", "Never", "Usually not unless bundled with hardware", "Only for new construction"],
+                "correctAnswer": 2,
+                "explanation": "Pure controls/software projects usually don't qualify for OBF, but bundling with hardware (VFDs, sensors) often makes them eligible.",
+                "points": 10
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

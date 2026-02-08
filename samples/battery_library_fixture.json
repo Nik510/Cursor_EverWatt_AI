@@ -1,0 +1,72 @@
+{
+  "version": "v1",
+  "source": { "kind": "fixture", "sourceKey": "samples/battery_library_fixture.json" },
+  "items": [
+    {
+      "sku": "ACME-LFP-50-100",
+      "vendor": "ACME",
+      "kw": 50,
+      "kwh": 100,
+      "roundTripEfficiency": 0.9,
+      "maxC": 0.6,
+      "minSoc": 0.1,
+      "maxSoc": 0.9,
+      "chemistry": "LFP",
+      "useCaseTags": ["peak_shaving", "backup"],
+      "constraints": { "requiresUtilityReview": false },
+      "footprint": { "areaSqft": 30, "placement": "either" },
+      "interconnectionNotes": "Standard commercial interconnection; confirm service capacity."
+    },
+    {
+      "sku": "ACME-LFP-100-215",
+      "vendor": "ACME",
+      "kw": 100,
+      "kwh": 215,
+      "roundTripEfficiency": 0.9,
+      "maxC": 0.6,
+      "minSoc": 0.1,
+      "maxSoc": 0.9,
+      "chemistry": "LFP",
+      "useCaseTags": ["peak_shaving", "arbitrage", "demand_response"]
+    },
+    {
+      "sku": "ACME-LFP-200-430",
+      "vendor": "ACME",
+      "kw": 200,
+      "kwh": 430,
+      "roundTripEfficiency": 0.91,
+      "maxC": 0.6,
+      "minSoc": 0.1,
+      "maxSoc": 0.9,
+      "chemistry": "LFP",
+      "useCaseTags": ["peak_shaving"]
+    },
+    {
+      "sku": "BETA-NMC-60-120",
+      "vendor": "BetaStorage",
+      "kw": 60,
+      "kwh": 120,
+      "roundTripEfficiency": 0.88,
+      "maxC": 0.8,
+      "minSoc": 0.15,
+      "maxSoc": 0.95,
+      "chemistry": "NMC",
+      "useCaseTags": ["peak_shaving", "demand_response"],
+      "constraints": { "requiresUtilityReview": true },
+      "interconnectionNotes": "Utility review likely required for NMC container systems."
+    },
+    {
+      "sku": "GAMMA-LFP-30-60",
+      "vendor": "Gamma",
+      "kw": 30,
+      "kwh": 60,
+      "roundTripEfficiency": 0.9,
+      "maxC": 0.7,
+      "minSoc": 0.1,
+      "maxSoc": 0.9,
+      "chemistry": "LFP",
+      "useCaseTags": ["backup", "other"]
+    }
+  ]
+}
+

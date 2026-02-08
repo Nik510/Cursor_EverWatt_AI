@@ -1,0 +1,485 @@
+ALL EE MEASURES 2.0 - Extraction Summary
+Generated: 2025-12-11T17:43:00.991Z
+
+SOURCE FILE:
+C:\Users\nikjo\OneDrive\Desktop\EverWatt_Engine\EVERWATT AI\TRAINING DATA\ALL EE MEASURES 2.0.docx
+
+STATISTICS:
+- Full text length: 8,842 characters
+- Measures parsed: 246
+- Categories found: 7
+- Subcategories found: 34
+- Equipment types found: 41
+- Technologies identified: 28
+
+CATEGORIES (7):
+1. COOLING SYSTEMS
+2. HEATING SYSTEMS
+3. HVAC CONTROLS
+4. ELECTRIFICATION MEASURES
+5. MOTORS & ELECTRICAL SYSTEMS
+6. DATA CENTER MEASURES
+7. PLUG LOAD
+
+SUBCATEGORIES (34):
+1. Electric Chillers
+2. Absorption / Gas / Engine Chillers
+3. Heat Pump Chillers (Belong under COOLING)
+4. Cooling Towers
+5. Cooling Distribution
+6. Boilers
+7. Heat Pumps (HEATING CATEGORY)
+8. Heating Distribution
+9. Air Handling Units (AHUs)
+10. Ventilation Systems
+11. Ventilation Controls
+12. Exhaust Systems
+13. BMS/EMS Platforms
+14. Control Strategies
+15. Advanced Controls
+16. Heating Electrification
+17. Cooling Electrification
+18. Domestic Hot Water Electrification
+19. Cooking Electrification
+20. Infrastructure Upgrades for Electrification
+21. Insulation
+22. Windows
+23. Air Sealing
+24. Roofing
+25. Display / Case Refrigeration
+26. Rack Systems
+27. Walk-in Coolers / Freezers
+28. Motors
+29. Electrical Infrastructure
+30. Storage
+31. Renewables
+32. Thermal Storage
+33. Compressed Air
+34. Process Loads
+
+EQUIPMENT TYPES (41):
+1. AHU
+2. Absorption chiller
+3. BESS
+4. BOILER
+5. Battery
+6. Boiler
+7. CHILLER
+8. Centrifugal chiller
+9. Chiller
+10. Condensing boiler
+11. Cooling Tower
+12. Cooling tower
+13. DOAS
+14. EC fan
+15. ECM fan
+16. ECM motor
+17. ERV
+18. HEAT PUMP
+19. HRV
+20. Heat Pump
+21. Heat pump
+22. NEMA Premium
+23. RTU
+24. Reciprocating chiller
+25. STORAGE
+26. Screw chiller
+27. Scroll chiller
+28. Smart panel
+29. Soft starter
+30. Solar PV
+31. Steam boiler
+32. Storage
+33. VFD compressor
+34. VRF
+35. VRV
+36. boiler
+37. chiller
+38. erv
+39. heat pump
+40. rtu
+41. storage
+
+TECHNOLOGIES (28):
+1. AHU
+2. BESS
+3. BMS
+4. Battery
+5. Boiler
+6. Chiller
+7. Compressed Air
+8. Controls
+9. Cooling Tower
+10. DOAS
+11. ECM
+12. EMS
+13. Electrification
+14. HPWH
+15. Heat Pump
+16. Ice Storage
+17. Insulation
+18. LED
+19. Lighting
+20. Microgrid
+21. PCM
+22. Refrigeration
+23. Solar PV
+24. Solar Thermal
+25. VFD
+26. VRF
+27. VRV
+28. Windows
+
+MEASURES (first 100 of 246):
+1. Understood.
+2. This is the clean, database-ready version, structured exactly how a professional ESCO would build an internal catalog.
+3. It contains:
+4. Every cooling system
+5. Every heating system
+6. Every heat pump
+7. Every chiller type
+8. Every HVAC distribution component
+9. Every central plant component
+10. Every control measure
+11. Every electrification pathway
+12. Every envelope upgrade
+13. Every water/plumbing measure
+14. Every refrigeration upgrade
+15. Every industrial/process optimization
+16. Every healthcare-specific measure
+17. Every data center-specific measure
+18. Every plug load measure
+19. Every renewable/storage solution
+20. Every electrical improvement
+21. Every item that makes any piece of equipment more efficient
+22. This is the entire industry in one structured list.
+23. Centrifugal chiller [COOLING SYSTEMS] > Electric Chillers
+24. Standard [COOLING SYSTEMS] > Electric Chillers
+25. Two-stage [COOLING SYSTEMS] > Electric Chillers
+26. VFD centrifugal [COOLING SYSTEMS] > Electric Chillers
+27. Magnetic-bearing centrifugal [COOLING SYSTEMS] > Electric Chillers
+28. Screw chiller [COOLING SYSTEMS] > Electric Chillers
+29. Air-cooled screw [COOLING SYSTEMS] > Electric Chillers
+30. Water-cooled screw [COOLING SYSTEMS] > Electric Chillers
+31. VFD screw [COOLING SYSTEMS] > Electric Chillers
+32. Scroll chiller [COOLING SYSTEMS] > Electric Chillers
+33. Modular multi-scroll [COOLING SYSTEMS] > Electric Chillers
+34. Packaged air-cooled scroll [COOLING SYSTEMS] > Electric Chillers
+35. Reciprocating chiller (legacy) [COOLING SYSTEMS] > Electric Chillers
+36. Free-cooling / economizer chillers [COOLING SYSTEMS] > Electric Chillers
+37. Direct-fired absorption (LiBr) [COOLING SYSTEMS] > Absorption / Gas / Engine Chillers
+38. Double-effect absorption [COOLING SYSTEMS] > Absorption / Gas / Engine Chillers
+39. Steam absorption [COOLING SYSTEMS] > Absorption / Gas / Engine Chillers
+40. Natural gas engine-driven chiller [COOLING SYSTEMS] > Absorption / Gas / Engine Chillers
+41. CHP integrated chiller [COOLING SYSTEMS] > Absorption / Gas / Engine Chillers
+42. Air-source heat pump chiller [COOLING SYSTEMS] > Heat Pump Chillers (Belong under COOLING)
+43. Water-source heat pump chiller [COOLING SYSTEMS] > Heat Pump Chillers (Belong under COOLING)
+44. Reversible heat pump chiller (4-pipe) [COOLING SYSTEMS] > Heat Pump Chillers (Belong under COOLING)
+45. Heat-recovery chiller (simultaneous heat + cooling) [COOLING SYSTEMS] > Heat Pump Chillers (Belong under COOLING)
+46. High-temp heat pump chiller-boiler (130–180°F) [COOLING SYSTEMS] > Heat Pump Chillers (Belong under COOLING)
+47. CO₂ transcritical heat pump chiller [COOLING SYSTEMS] > Heat Pump Chillers (Belong under COOLING)
+48. VFD tower fans [COOLING SYSTEMS] > Cooling Towers
+49. EC fan motors [COOLING SYSTEMS] > Cooling Towers
+50. Drift eliminators [COOLING SYSTEMS] > Cooling Towers
+51. Fill media upgrades [COOLING SYSTEMS] > Cooling Towers
+52. Nozzle upgrades [COOLING SYSTEMS] > Cooling Towers
+53. Basin heaters optimization [COOLING SYSTEMS] > Cooling Towers
+54. Side-stream filtration [COOLING SYSTEMS] > Cooling Towers
+55. Water treatment optimization [COOLING SYSTEMS] > Cooling Towers
+56. CHW pumps (primary) [COOLING SYSTEMS] > Cooling Distribution
+57. CHW pumps (secondary) [COOLING SYSTEMS] > Cooling Distribution
+58. Pump VFDs [COOLING SYSTEMS] > Cooling Distribution
+59. Pump impeller trimming [COOLING SYSTEMS] > Cooling Distribution
+60. Variable primary flow conversion [COOLING SYSTEMS] > Cooling Distribution
+61. PICVs (pressure independent control valves) [COOLING SYSTEMS] > Cooling Distribution
+62. Hydronic balancing [COOLING SYSTEMS] > Cooling Distribution
+63. CHW ΔT optimization [COOLING SYSTEMS] > Cooling Distribution
+64. Condensing boilers (high-efficiency) [HEATING SYSTEMS] > Boilers
+65. High-turndown burner retrofits [HEATING SYSTEMS] > Boilers
+66. Steam boilers [HEATING SYSTEMS] > Boilers
+67. Boiler economizers [HEATING SYSTEMS] > Boilers
+68. Blowdown heat recovery [HEATING SYSTEMS] > Boilers
+69. Boiler sequencing optimization [HEATING SYSTEMS] > Boilers
+70. Packaged heat pumps (RTU heat pumps) [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+71. Split-system heat pumps [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+72. VRF/VRV heat pump systems [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+73. Water-source heat pumps [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+74. Air-to-water heat pumps [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+75. Ground-source heat pumps [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+76. Heat pump water heaters (HPWH) [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+77. High-temp industrial heat pumps [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+78. Heat pump make-up air units [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+79. Heat pump boiler replacements [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+80. HW pumps (primary/secondary) [HEATING SYSTEMS] > Heating Distribution
+81. Pump VFDs [HEATING SYSTEMS] > Heating Distribution
+82. Hydronic loop balancing [HEATING SYSTEMS] > Heating Distribution
+83. Reheat coil optimization [HEATING SYSTEMS] > Heating Distribution
+84. Pipe insulation [HEATING SYSTEMS] > Heating Distribution
+85. Steam-to-hot-water conversion [HEATING SYSTEMS] > Heating Distribution
+86. AHU replacements [HEATING SYSTEMS] > Air Handling Units (AHUs)
+87. Fan wall retrofits [HEATING SYSTEMS] > Air Handling Units (AHUs)
+88. ECM supply/return fans [HEATING SYSTEMS] > Air Handling Units (AHUs)
+89. VFD upgrades [HEATING SYSTEMS] > Air Handling Units (AHUs)
+90. Coil cleaning / replacement [HEATING SYSTEMS] > Air Handling Units (AHUs)
+91. Filter upgrades (MERV 13–16) [HEATING SYSTEMS] > Air Handling Units (AHUs)
+92. Humidification upgrades [HEATING SYSTEMS] > Air Handling Units (AHUs)
+93. DOAS systems [HEATING SYSTEMS] > Ventilation Systems
+94. ERV (energy recovery ventilator) [HEATING SYSTEMS] > Ventilation Systems
+95. HRV (heat recovery ventilator) [HEATING SYSTEMS] > Ventilation Systems
+96. Enthalpy wheels [HEATING SYSTEMS] > Ventilation Systems
+97. Heat pipes [HEATING SYSTEMS] > Ventilation Systems
+98. Runaround heat recovery loops [HEATING SYSTEMS] > Ventilation Systems
+99. CO₂ demand-controlled ventilation (DCV) [HEATING SYSTEMS] > Ventilation Controls
+100. Occupancy-based ventilation [HEATING SYSTEMS] > Ventilation Controls
+
+
+... and 146 more measures
+
+
+COMPLETE MEASURE LIST:
+1. Understood.
+2. This is the clean, database-ready version, structured exactly how a professional ESCO would build an internal catalog.
+3. It contains:
+4. Every cooling system
+5. Every heating system
+6. Every heat pump
+7. Every chiller type
+8. Every HVAC distribution component
+9. Every central plant component
+10. Every control measure
+11. Every electrification pathway
+12. Every envelope upgrade
+13. Every water/plumbing measure
+14. Every refrigeration upgrade
+15. Every industrial/process optimization
+16. Every healthcare-specific measure
+17. Every data center-specific measure
+18. Every plug load measure
+19. Every renewable/storage solution
+20. Every electrical improvement
+21. Every item that makes any piece of equipment more efficient
+22. This is the entire industry in one structured list.
+23. Centrifugal chiller [COOLING SYSTEMS] > Electric Chillers
+24. Standard [COOLING SYSTEMS] > Electric Chillers
+25. Two-stage [COOLING SYSTEMS] > Electric Chillers
+26. VFD centrifugal [COOLING SYSTEMS] > Electric Chillers
+27. Magnetic-bearing centrifugal [COOLING SYSTEMS] > Electric Chillers
+28. Screw chiller [COOLING SYSTEMS] > Electric Chillers
+29. Air-cooled screw [COOLING SYSTEMS] > Electric Chillers
+30. Water-cooled screw [COOLING SYSTEMS] > Electric Chillers
+31. VFD screw [COOLING SYSTEMS] > Electric Chillers
+32. Scroll chiller [COOLING SYSTEMS] > Electric Chillers
+33. Modular multi-scroll [COOLING SYSTEMS] > Electric Chillers
+34. Packaged air-cooled scroll [COOLING SYSTEMS] > Electric Chillers
+35. Reciprocating chiller (legacy) [COOLING SYSTEMS] > Electric Chillers
+36. Free-cooling / economizer chillers [COOLING SYSTEMS] > Electric Chillers
+37. Direct-fired absorption (LiBr) [COOLING SYSTEMS] > Absorption / Gas / Engine Chillers
+38. Double-effect absorption [COOLING SYSTEMS] > Absorption / Gas / Engine Chillers
+39. Steam absorption [COOLING SYSTEMS] > Absorption / Gas / Engine Chillers
+40. Natural gas engine-driven chiller [COOLING SYSTEMS] > Absorption / Gas / Engine Chillers
+41. CHP integrated chiller [COOLING SYSTEMS] > Absorption / Gas / Engine Chillers
+42. Air-source heat pump chiller [COOLING SYSTEMS] > Heat Pump Chillers (Belong under COOLING)
+43. Water-source heat pump chiller [COOLING SYSTEMS] > Heat Pump Chillers (Belong under COOLING)
+44. Reversible heat pump chiller (4-pipe) [COOLING SYSTEMS] > Heat Pump Chillers (Belong under COOLING)
+45. Heat-recovery chiller (simultaneous heat + cooling) [COOLING SYSTEMS] > Heat Pump Chillers (Belong under COOLING)
+46. High-temp heat pump chiller-boiler (130–180°F) [COOLING SYSTEMS] > Heat Pump Chillers (Belong under COOLING)
+47. CO₂ transcritical heat pump chiller [COOLING SYSTEMS] > Heat Pump Chillers (Belong under COOLING)
+48. VFD tower fans [COOLING SYSTEMS] > Cooling Towers
+49. EC fan motors [COOLING SYSTEMS] > Cooling Towers
+50. Drift eliminators [COOLING SYSTEMS] > Cooling Towers
+51. Fill media upgrades [COOLING SYSTEMS] > Cooling Towers
+52. Nozzle upgrades [COOLING SYSTEMS] > Cooling Towers
+53. Basin heaters optimization [COOLING SYSTEMS] > Cooling Towers
+54. Side-stream filtration [COOLING SYSTEMS] > Cooling Towers
+55. Water treatment optimization [COOLING SYSTEMS] > Cooling Towers
+56. CHW pumps (primary) [COOLING SYSTEMS] > Cooling Distribution
+57. CHW pumps (secondary) [COOLING SYSTEMS] > Cooling Distribution
+58. Pump VFDs [COOLING SYSTEMS] > Cooling Distribution
+59. Pump impeller trimming [COOLING SYSTEMS] > Cooling Distribution
+60. Variable primary flow conversion [COOLING SYSTEMS] > Cooling Distribution
+61. PICVs (pressure independent control valves) [COOLING SYSTEMS] > Cooling Distribution
+62. Hydronic balancing [COOLING SYSTEMS] > Cooling Distribution
+63. CHW ΔT optimization [COOLING SYSTEMS] > Cooling Distribution
+64. Condensing boilers (high-efficiency) [HEATING SYSTEMS] > Boilers
+65. High-turndown burner retrofits [HEATING SYSTEMS] > Boilers
+66. Steam boilers [HEATING SYSTEMS] > Boilers
+67. Boiler economizers [HEATING SYSTEMS] > Boilers
+68. Blowdown heat recovery [HEATING SYSTEMS] > Boilers
+69. Boiler sequencing optimization [HEATING SYSTEMS] > Boilers
+70. Packaged heat pumps (RTU heat pumps) [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+71. Split-system heat pumps [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+72. VRF/VRV heat pump systems [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+73. Water-source heat pumps [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+74. Air-to-water heat pumps [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+75. Ground-source heat pumps [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+76. Heat pump water heaters (HPWH) [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+77. High-temp industrial heat pumps [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+78. Heat pump make-up air units [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+79. Heat pump boiler replacements [HEATING SYSTEMS] > Heat Pumps (HEATING CATEGORY)
+80. HW pumps (primary/secondary) [HEATING SYSTEMS] > Heating Distribution
+81. Pump VFDs [HEATING SYSTEMS] > Heating Distribution
+82. Hydronic loop balancing [HEATING SYSTEMS] > Heating Distribution
+83. Reheat coil optimization [HEATING SYSTEMS] > Heating Distribution
+84. Pipe insulation [HEATING SYSTEMS] > Heating Distribution
+85. Steam-to-hot-water conversion [HEATING SYSTEMS] > Heating Distribution
+86. AHU replacements [HEATING SYSTEMS] > Air Handling Units (AHUs)
+87. Fan wall retrofits [HEATING SYSTEMS] > Air Handling Units (AHUs)
+88. ECM supply/return fans [HEATING SYSTEMS] > Air Handling Units (AHUs)
+89. VFD upgrades [HEATING SYSTEMS] > Air Handling Units (AHUs)
+90. Coil cleaning / replacement [HEATING SYSTEMS] > Air Handling Units (AHUs)
+91. Filter upgrades (MERV 13–16) [HEATING SYSTEMS] > Air Handling Units (AHUs)
+92. Humidification upgrades [HEATING SYSTEMS] > Air Handling Units (AHUs)
+93. DOAS systems [HEATING SYSTEMS] > Ventilation Systems
+94. ERV (energy recovery ventilator) [HEATING SYSTEMS] > Ventilation Systems
+95. HRV (heat recovery ventilator) [HEATING SYSTEMS] > Ventilation Systems
+96. Enthalpy wheels [HEATING SYSTEMS] > Ventilation Systems
+97. Heat pipes [HEATING SYSTEMS] > Ventilation Systems
+98. Runaround heat recovery loops [HEATING SYSTEMS] > Ventilation Systems
+99. CO₂ demand-controlled ventilation (DCV) [HEATING SYSTEMS] > Ventilation Controls
+100. Occupancy-based ventilation [HEATING SYSTEMS] > Ventilation Controls
+101. Outdoor air reset [HEATING SYSTEMS] > Ventilation Controls
+102. VAV calibration [HEATING SYSTEMS] > Ventilation Controls
+103. Night setback modes [HEATING SYSTEMS] > Ventilation Controls
+104. Lab fume hood VAV controls [HEATING SYSTEMS] > Exhaust Systems
+105. Lab exhaust VFD systems [HEATING SYSTEMS] > Exhaust Systems
+106. Kitchen hood VFD systems [HEATING SYSTEMS] > Exhaust Systems
+107. KMC Controls [HVAC CONTROLS] > BMS/EMS Platforms
+108. Siemens [HVAC CONTROLS] > BMS/EMS Platforms
+109. Honeywell [HVAC CONTROLS] > BMS/EMS Platforms
+110. Johnson Controls [HVAC CONTROLS] > BMS/EMS Platforms
+111. Tridium Niagara [HVAC CONTROLS] > BMS/EMS Platforms
+112. Ignition SCADA [HVAC CONTROLS] > BMS/EMS Platforms
+113. Distech [HVAC CONTROLS] > BMS/EMS Platforms
+114. Automated Logic [HVAC CONTROLS] > BMS/EMS Platforms
+115. Schneider EcoStruxure [HVAC CONTROLS] > BMS/EMS Platforms
+116. SAT reset [HVAC CONTROLS] > Control Strategies
+117. CHW reset [HVAC CONTROLS] > Control Strategies
+118. HW reset [HVAC CONTROLS] > Control Strategies
+119. Outside air reset [HVAC CONTROLS] > Control Strategies
+120. Static pressure reset [HVAC CONTROLS] > Control Strategies
+121. Optimal start/stop [HVAC CONTROLS] > Control Strategies
+122. Equipment scheduling optimization [HVAC CONTROLS] > Control Strategies
+123. Load shedding [HVAC CONTROLS] > Control Strategies
+124. Fault detection and diagnostics (FDD) [HVAC CONTROLS] > Advanced Controls
+125. AI-based optimization (EverWatt.AI) [HVAC CONTROLS] > Advanced Controls
+126. DR automation [HVAC CONTROLS] > Advanced Controls
+127. Weather-integrated predictive logic [HVAC CONTROLS] > Advanced Controls
+128. Circuit-level metering [HVAC CONTROLS] > Advanced Controls
+129. Gas boiler → heat pump chiller [ELECTRIFICATION MEASURES] > Heating Electrification
+130. Gas boiler → electric boiler [ELECTRIFICATION MEASURES] > Heating Electrification
+131. Gas furnace → heat pump [ELECTRIFICATION MEASURES] > Heating Electrification
+132. Gas RTU → electric heat pump RTU [ELECTRIFICATION MEASURES] > Heating Electrification
+133. Gas MAU → electric MAU [ELECTRIFICATION MEASURES] > Heating Electrification
+134. Steam heating → high-temp heat pump [ELECTRIFICATION MEASURES] > Heating Electrification
+135. Absorption chiller → electric chiller [ELECTRIFICATION MEASURES] > Cooling Electrification
+136. Engine-driven chiller → electric chiller [ELECTRIFICATION MEASURES] > Cooling Electrification
+137. Gas water heater → HPWH [ELECTRIFICATION MEASURES] > Domestic Hot Water Electrification
+138. Gas booster → electric booster [ELECTRIFICATION MEASURES] > Domestic Hot Water Electrification
+139. Steam → heat pump DHW system [ELECTRIFICATION MEASURES] > Domestic Hot Water Electrification
+140. Gas range → induction [ELECTRIFICATION MEASURES] > Cooking Electrification
+141. Gas fryer → electric fryer [ELECTRIFICATION MEASURES] > Cooking Electrification
+142. Gas oven → electric convection oven [ELECTRIFICATION MEASURES] > Cooking Electrification
+143. Gas broiler → electric salamander [ELECTRIFICATION MEASURES] > Cooking Electrification
+144. Panelboard replacement [ELECTRIFICATION MEASURES] > Infrastructure Upgrades for Electrification
+145. Service upgrade [ELECTRIFICATION MEASURES] > Infrastructure Upgrades for Electrification
+146. Transformer replacement [ELECTRIFICATION MEASURES] > Infrastructure Upgrades for Electrification
+147. Electrified reheat systems [ELECTRIFICATION MEASURES] > Infrastructure Upgrades for Electrification
+148. Distribution redesign (4-pipe to 2-pipe HP system) [ELECTRIFICATION MEASURES] > Infrastructure Upgrades for Electrification
+149. Roof insulation [ELECTRIFICATION MEASURES] > Insulation
+150. Wall insulation [ELECTRIFICATION MEASURES] > Insulation
+151. Pipe insulation [ELECTRIFICATION MEASURES] > Insulation
+152. Duct insulation [ELECTRIFICATION MEASURES] > Insulation
+153. Double-pane windows [ELECTRIFICATION MEASURES] > Windows
+154. Triple-pane windows [ELECTRIFICATION MEASURES] > Windows
+155. Low-E film [ELECTRIFICATION MEASURES] > Windows
+156. Security tint film [ELECTRIFICATION MEASURES] > Windows
+157. Window replacement [ELECTRIFICATION MEASURES] > Windows
+158. Skylights / solar tubes [ELECTRIFICATION MEASURES] > Windows
+159. Door sweeps [ELECTRIFICATION MEASURES] > Air Sealing
+160. Weather stripping [ELECTRIFICATION MEASURES] > Air Sealing
+161. Envelope leak sealing [ELECTRIFICATION MEASURES] > Air Sealing
+162. Vestibule addition [ELECTRIFICATION MEASURES] > Air Sealing
+163. Cool roof coating [ELECTRIFICATION MEASURES] > Roofing
+164. Reflective membranes [ELECTRIFICATION MEASURES] > Roofing
+165. Green roof [ELECTRIFICATION MEASURES] > Roofing
+166. EC evaporator fan motors [ELECTRIFICATION MEASURES] > Display / Case Refrigeration
+167. LED case lighting [ELECTRIFICATION MEASURES] > Display / Case Refrigeration
+168. Anti-sweat heater controls [ELECTRIFICATION MEASURES] > Display / Case Refrigeration
+169. Night curtains [ELECTRIFICATION MEASURES] > Display / Case Refrigeration
+170. Door gasket upgrades [ELECTRIFICATION MEASURES] > Display / Case Refrigeration
+171. Floating head pressure controls [ELECTRIFICATION MEASURES] > Rack Systems
+172. Floating suction pressure [ELECTRIFICATION MEASURES] > Rack Systems
+173. VFD compressors [ELECTRIFICATION MEASURES] > Rack Systems
+174. Heat reclaim [ELECTRIFICATION MEASURES] > Rack Systems
+175. Defrost optimization [ELECTRIFICATION MEASURES] > Rack Systems
+176. Refrigeration controls upgrade [ELECTRIFICATION MEASURES] > Rack Systems
+177. Strip curtains [ELECTRIFICATION MEASURES] > Walk-in Coolers / Freezers
+178. ECM fans [ELECTRIFICATION MEASURES] > Walk-in Coolers / Freezers
+179. High-efficiency doors [ELECTRIFICATION MEASURES] > Walk-in Coolers / Freezers
+180. Insulation upgrades [ELECTRIFICATION MEASURES] > Walk-in Coolers / Freezers
+181. Low-flow fixtures [ELECTRIFICATION MEASURES] > Walk-in Coolers / Freezers
+182. Auto-faucets [ELECTRIFICATION MEASURES] > Walk-in Coolers / Freezers
+183. Auto-flush valves [ELECTRIFICATION MEASURES] > Walk-in Coolers / Freezers
+184. HPWH systems [ELECTRIFICATION MEASURES] > Walk-in Coolers / Freezers
+185. Hot-water recirculation optimization [ELECTRIFICATION MEASURES] > Walk-in Coolers / Freezers
+186. Steam-to-DHW conversion [ELECTRIFICATION MEASURES] > Walk-in Coolers / Freezers
+187. Irrigation controllers [ELECTRIFICATION MEASURES] > Walk-in Coolers / Freezers
+188. Leak detection systems [ELECTRIFICATION MEASURES] > Walk-in Coolers / Freezers
+189. Water-cooled to air-cooled conversions [ELECTRIFICATION MEASURES] > Walk-in Coolers / Freezers
+190. NEMA Premium motors [MOTORS & ELECTRICAL SYSTEMS] > Motors
+191. ECM motors [MOTORS & ELECTRICAL SYSTEMS] > Motors
+192. Right-sizing motors [MOTORS & ELECTRICAL SYSTEMS] > Motors
+193. Soft starters [MOTORS & ELECTRICAL SYSTEMS] > Motors
+194. Motor VFDs [MOTORS & ELECTRICAL SYSTEMS] > Motors
+195. High-efficiency transformers [MOTORS & ELECTRICAL SYSTEMS] > Electrical Infrastructure
+196. Load balancing [MOTORS & ELECTRICAL SYSTEMS] > Electrical Infrastructure
+197. Power factor correction [MOTORS & ELECTRICAL SYSTEMS] > Electrical Infrastructure
+198. Harmonic filtering [MOTORS & ELECTRICAL SYSTEMS] > Electrical Infrastructure
+199. Smart panels [MOTORS & ELECTRICAL SYSTEMS] > Electrical Infrastructure
+200. Submetering [MOTORS & ELECTRICAL SYSTEMS] > Electrical Infrastructure
+201. Battery energy storage systems (BESS) [MOTORS & ELECTRICAL SYSTEMS] > Storage
+202. Peak shaving batteries [MOTORS & ELECTRICAL SYSTEMS] > Storage
+203. Load shifting batteries [MOTORS & ELECTRICAL SYSTEMS] > Storage
+204. Solar PV [MOTORS & ELECTRICAL SYSTEMS] > Renewables
+205. Solar thermal [MOTORS & ELECTRICAL SYSTEMS] > Renewables
+206. Microgrid controls [MOTORS & ELECTRICAL SYSTEMS] > Renewables
+207. Hybrid inverter systems [MOTORS & ELECTRICAL SYSTEMS] > Renewables
+208. Ice storage [MOTORS & ELECTRICAL SYSTEMS] > Thermal Storage
+209. Chilled water storage [MOTORS & ELECTRICAL SYSTEMS] > Thermal Storage
+210. PCM thermal storage [MOTORS & ELECTRICAL SYSTEMS] > Thermal Storage
+211. Leak detection [MOTORS & ELECTRICAL SYSTEMS] > Compressed Air
+212. Compressor replacement (VFD/two-stage) [MOTORS & ELECTRICAL SYSTEMS] > Compressed Air
+213. Zero-loss drains [MOTORS & ELECTRICAL SYSTEMS] > Compressed Air
+214. Heat recovery [MOTORS & ELECTRICAL SYSTEMS] > Compressed Air
+215. Setpoint optimization [MOTORS & ELECTRICAL SYSTEMS] > Compressed Air
+216. Oven upgrades [MOTORS & ELECTRICAL SYSTEMS] > Process Loads
+217. Process chiller optimization [MOTORS & ELECTRICAL SYSTEMS] > Process Loads
+218. Industrial refrigeration [MOTORS & ELECTRICAL SYSTEMS] > Process Loads
+219. Pump VFDs [MOTORS & ELECTRICAL SYSTEMS] > Process Loads
+220. Industrial fans (ECM/VFD) [MOTORS & ELECTRICAL SYSTEMS] > Process Loads
+221. OR setback controls [MOTORS & ELECTRICAL SYSTEMS] > Process Loads
+222. OR ACH reduction [MOTORS & ELECTRICAL SYSTEMS] > Process Loads
+223. Lab VAV hood control [MOTORS & ELECTRICAL SYSTEMS] > Process Loads
+224. Lab exhaust VFDs [MOTORS & ELECTRICAL SYSTEMS] > Process Loads
+225. Isolation room pressurization [MOTORS & ELECTRICAL SYSTEMS] > Process Loads
+226. Heat recovery chillers for reheat loops [MOTORS & ELECTRICAL SYSTEMS] > Process Loads
+227. MRI chiller optimization [MOTORS & ELECTRICAL SYSTEMS] > Process Loads
+228. Sterilizer reclaim systems [MOTORS & ELECTRICAL SYSTEMS] > Process Loads
+229. Medical air/vacuum optimization [MOTORS & ELECTRICAL SYSTEMS] > Process Loads
+230. Hot aisle containment [DATA CENTER MEASURES]
+231. Cold aisle containment [DATA CENTER MEASURES]
+232. CRAH/CRAC VFD retrofits [DATA CENTER MEASURES]
+233. Free cooling [DATA CENTER MEASURES]
+234. Liquid cooling [DATA CENTER MEASURES]
+235. IT Efficiency [DATA CENTER MEASURES]
+236. Server virtualization [DATA CENTER MEASURES]
+237. Server consolidation [DATA CENTER MEASURES]
+238. High-efficiency UPS [DATA CENTER MEASURES]
+239. Smart plugs [PLUG LOAD]
+240. PC power management [PLUG LOAD]
+241. Vending machine controllers [PLUG LOAD]
+242. Lab freezer replacements [PLUG LOAD]
+243. Appliance replacement [PLUG LOAD]
+244. Copier/printer consolidation [PLUG LOAD]
+245. If you want, I can convert this into: [PLUG LOAD]
+246. Just tell me the format and I’ll generate it. [PLUG LOAD]

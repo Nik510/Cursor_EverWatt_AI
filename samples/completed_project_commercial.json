@@ -1,0 +1,58 @@
+{
+  "completedProjectId": "cp_commercial_001",
+  "orgId": "demo-org",
+  "createdAt": "2025-06-20T00:00:00.000Z",
+  "building": {
+    "buildingType": "commercial",
+    "sqft": 140000,
+    "climateZone": "CA-3",
+    "territory": "PG&E",
+    "operatingSchedule": { "bucket": "business_hours", "notes": "Weekdays; light weekend occupancy" }
+  },
+  "assetsBefore": {
+    "ahuCount": 4,
+    "vavCount": 55,
+    "fanCount": 18,
+    "pumpCount": 8,
+    "chillerCount": 1,
+    "boilerCount": 1,
+    "coolingTowerCount": 1,
+    "lightingFixtureCount": 4800,
+    "lightingControlCount": 260
+  },
+  "measures": [
+    {
+      "measureId": "m_vfd_1",
+      "type": "Install VFD on supply fans",
+      "tags": ["vfd", "fans", "hvac"],
+      "parameters": { "systems": "AHU supply fans", "motorHpMin": 7.5 }
+    },
+    {
+      "measureId": "m_vfd_2",
+      "type": "Variable frequency drive retrofit (fans)",
+      "tags": ["variable frequency drive", "fan"],
+      "parameters": { "notes": "main supply fans only" }
+    },
+    {
+      "measureId": "m_vfd_3",
+      "type": "VFD retrofit",
+      "tags": ["vfd"],
+      "parameters": { "count": 6 }
+    },
+    {
+      "measureId": "m_light_1",
+      "type": "LED lighting retrofit",
+      "tags": ["lighting", "led"],
+      "parameters": { "areas": "open office + corridors" }
+    }
+  ],
+  "rationale": {
+    "summary": "Fan VFDs were consistently high ROI; LED retrofit targeted long-hour zones.",
+    "decisionTags": ["roi", "maintenance"]
+  },
+  "evidenceRefs": [
+    { "refId": "comm_drive_folder", "label": "Commercial closeout pack", "url": "https://example.com/commercial/closeout" }
+  ],
+  "source": { "kind": "json_template", "sourceKey": "samples/completed_project_commercial.json" }
+}
+

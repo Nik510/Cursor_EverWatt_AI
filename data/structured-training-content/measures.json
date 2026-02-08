@@ -1,0 +1,1352 @@
+[
+  {
+    "id": "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+    "title": "Awesome. Here’s the rebuilt, unified, “everything” master list — organized, dual-structured, and including:",
+    "category": "measures",
+    "source": "ALL EE MEASURES 1.0.docx",
+    "sections": [
+      {
+        "heading": "Existing vs Replacement",
+        "content": "Retrofits / Controls / Optimization"
+      },
+      {
+        "heading": "Electrification",
+        "content": "O&M\n\nBehavioral / Operational"
+      },
+      {
+        "heading": "Financing structures",
+        "content": "You can turn this straight into a database schema (Category → Subcategory → Measure Type).\n\n---\n\n🔧 Structure I’ll use for each technical category\n\nWhere it makes sense, you’ll see:\n\nExisting / Legacy – what we typically find\n\nReplacement / Upgrade – what we sell / spec\n\nRetrofit / Optimization – partial upgrades (VFDs, controls, etc.)\n\nElectrification – gas → electric transitions\n\nO&M / Maintenance – recurring efficiency actions\n\nBehavioral / Operational – human/process changes\n\nComponents – key parts that can be upgraded\n\n---\n\n1. LIGHTING SYSTEMS\n\n1.1 Existing / Legacy\n\nIncandescent (A-lamp, PAR, BR, decorative)\n\nHalogen (MR16, PAR20/30/38)\n\nFluorescent: T12, T8, T5, T5HO (lamps & troffers)\n\nCFL screw-in and pin-base PL lamps\n\nHID: MH, HPS, Mercury Vapor (high-bay, site, wall packs)"
+      },
+      {
+        "heading": "Induction fixtures",
+        "content": "Emergency fluorescent/halogen units\n\n1.2 Replacement / Upgrade\n\nLED troffers / flat panels / center-basket\n\nLED strips / wraps / vapor tights\n\nLED high-bay & low-bay\n\nLED wall packs / canopy / floods / bollards / site lighting\n\nLED downlights & can retrofits\n\nHazardous-location / cleanroom / OR LED fixtures\n\nLED exit signs / emergency fixtures\n\n1.3 Retrofit / Optimization\n\nLED tubes (Type A/B/C/hybrid)"
+      },
+      {
+        "heading": "Troffer retrofit kits",
+        "content": "High-bay retrofit kits"
+      },
+      {
+        "heading": "Emergency conversion kits",
+        "content": "Power quality / driver tuning where relevant\n\n1.4 Controls\n\nWall switch occupancy / vacancy sensors\n\nCeiling- or high-bay-mounted sensors"
+      },
+      {
+        "heading": "Daylight harvesting sensors",
+        "content": "Photocells / astronomic time clocks\n\nBi-level stairwell controls\n\n1.5 Networked Lighting Controls\n\nWireless / mesh NLC platforms"
+      },
+      {
+        "heading": "Zoning & scheduling",
+        "content": "High-end trim & task tuning\n\nDR-capable dimming profiles\n\nBACnet / BMS integration\n\nCentralized emergency testing/monitoring\n\n1.6 O&M / Behavioral\n\nLamp group relamping → LED strategy\n\n“Lights out” policies / training"
+      },
+      {
+        "heading": "Cleaning lenses & optics",
+        "content": "Removing unused / decorative loads\n\n---\n\n2. COOLING SYSTEMS (CHILLERS, RTUs, VRF, SPLIT, TOWERS)\n\n2.1 Existing / Legacy\n\nWater-cooled chillers (centrifugal, screw, scroll, reciprocating)\n\nAir-cooled chillers\n\nAbsorption chillers (gas/steam)\n\nEngine-driven chillers\n\nConstant-volume RTUs\n\nLow-IEER DX split systems\n\nPTACs / fan coil units (2-pipe / 4-pipe)\n\nCRAC/CRAH units (constant speed)\n\nOld cooling towers (single-speed, belt drive)\n\n2.2 Replacement / Upgrade\n\nHigh-eff electric chillers (mag-bearing, VFD centrifugal, efficient screw/scroll)\n\nHeat pump chillers & heat-recovery chillers\n\nHigh-IEER RTUs (with ECM fans, economizers)\n\nVRF/VRV systems\n\nHigh-eff FCUs\n\nNew cooling towers with VFDs, EC fans\n\n2.3 Retrofit / Optimization\n\nVFDs on:\n\nCHW primary/secondary pumps"
+      },
+      {
+        "heading": "Cooling tower fans",
+        "content": "Coil cleaning / fin straightening\n\nΔT optimization & variable primary flow\n\nEconomizer repair / enablement"
+      },
+      {
+        "heading": "Chiller plant optimization sequences",
+        "content": "2.4 Electrification\n\nAbsorption → electric chiller\n\nEngine-driven → electric chiller\n\nBoiler-driven reheat → heat pump chiller reheat\n\nOld gas RTUs → electric heat-pump RTUs\n\n2.5 O&M / Behavioral\n\nSeasonal chiller / tower start-up & shutdown procedures"
+      },
+      {
+        "heading": "Filter & coil maintenance schedules",
+        "content": "Operating fewer chillers at optimal load (vs many at low)\n\n---\n\n3. HEATING SYSTEMS (BOILERS, FURNACES, HEAT PUMPS)\n\n3.1 Existing / Legacy\n\nGas hot-water boilers (fire-tube, water-tube)"
+      },
+      {
+        "heading": "Steam boilers",
+        "content": "Gas furnaces (rooftop & packaged)\n\nGas unit heaters / radiant tube heaters\n\nSteam radiators / convectors\n\n3.2 Replacement / Upgrade"
+      },
+      {
+        "heading": "Condensing hot water boilers",
+        "content": "Modular high-efficiency boiler plants\n\nHigh-efficiency furnaces\n\nElectric boilers (where appropriate)\n\nAir-to-water / water-to-water heat pumps\n\nPackaged heat pumps / VRF heat pumps\n\n3.3 Retrofit / Optimization\n\nBurner upgrades / high-turndown burners\n\nO₂ trim systems"
+      },
+      {
+        "heading": "Pipe insulation upgrades",
+        "content": "3.4 Electrification\n\nBoiler → heat pump (air-to-water, water-to-water)\n\nFurnace / unit heater → heat pump systems\n\nSteam heating loops → high-temp heat pump\n\nGas radiant → electric radiant where appropriate\n\n3.5 O&M / Behavioral"
+      },
+      {
+        "heading": "Temperature setpoint policies in winter",
+        "content": "---\n\n4. AIR DISTRIBUTION, VENTILATION & EXHAUST\n\n4.1 Existing / Legacy\n\nConstant-volume AHUs"
+      },
+      {
+        "heading": "Pneumatic VAV systems",
+        "content": "Single-zone packaged units with no DCV"
+      },
+      {
+        "heading": "Old MAUs",
+        "content": "Constant-speed:"
+      },
+      {
+        "heading": "Industrial process exhaust",
+        "content": "4.2 Replacement / Upgrade\n\nHigh-eff AHUs / fan walls\n\nDOAS units\n\nERV/HRV, heat wheels, runaround loops\n\nNew MAUs with better heat / cooling\n\nHigh-eff exhaust fans (EC motors, direct drive)\n\nVAV fume hood systems\n\nDemand-controlled garage exhaust packages\n\nDCKV (demand-controlled kitchen ventilation) packages\n\n4.3 Retrofit / Optimization\n\nVFDs on supply, return & exhaust fans\n\nDCKV retrofits for kitchens\n\nCO/NO₂ sensors for garages"
+      },
+      {
+        "heading": "Duct sealing & insulation",
+        "content": "VAV box actuator & sensor upgrades\n\n4.4 Electrification\n\nGas-fired MAU → electric MAU\n\nSteam humidifiers → efficient electric or adiabatic\n\nPneumatics → DDC\n\n4.5 O&M / Behavioral\n\nKeep hood sashes closed (lab)\n\nTurn off hoods / exhaust when not required (where allowed)"
+      },
+      {
+        "heading": "Kitchen staff training on hood operation",
+        "content": "Regular cleaning of hoods, filters, and fans\n\n---\n\n5. HVAC CONTROLS, BMS & AI\n\n5.1 Existing / Legacy"
+      },
+      {
+        "heading": "Pneumatic control systems",
+        "content": "Relay-based panels\n\nEarly-generation BAS"
+      },
+      {
+        "heading": "Standalone stats",
+        "content": "5.2 Replacement / Upgrade\n\nModern BAS (KMC, Siemens, JCI, Honeywell, Distech, Niagara, Ignition, etc.)"
+      },
+      {
+        "heading": "Room controllers & smart stats",
+        "content": "Integrated lighting + HVAC platforms\n\n5.3 Retrofit / Optimization"
+      },
+      {
+        "heading": "Network & gateway upgrades",
+        "content": "5.4 Key Control Strategies (Measures)\n\nSAT / CHW / HW / OA reset"
+      },
+      {
+        "heading": "Static pressure reset",
+        "content": "Optimal start/stop"
+      },
+      {
+        "heading": "Equipment sequencing",
+        "content": "Demand-controlled ventilation"
+      },
+      {
+        "heading": "Global schedules & occupancy modes",
+        "content": "Night setback / setup\n\n5.5 Advanced / AI\n\nFDD (fault detection & diagnostics)\n\nAI optimization (EverWatt.AI)\n\nForecast-based control (weather, occupancy)"
+      },
+      {
+        "heading": "Automated DR integration",
+        "content": "---\n\n6. HOT WATER & PLUMBING\n\n6.1 Existing / Legacy"
+      },
+      {
+        "heading": "Gas tankless heaters",
+        "content": "Steam-to-DHW HX systems\n\nConstant-speed recirc pumps\n\n6.2 Replacement / Upgrade"
+      },
+      {
+        "heading": "Electric DHW boilers",
+        "content": "High-eff storage and mixing systems\n\n6.3 Retrofit / Optimization\n\nVFD recirc pumps"
+      },
+      {
+        "heading": "Thermostatic mixing valve optimization",
+        "content": "Low-flow fixtures (faucets, showers, toilets, urinals)"
+      },
+      {
+        "heading": "Smart leak detection",
+        "content": "6.4 Electrification\n\nGas DHW → HPWH\n\nSteam DHW → HPWH\n\n6.5 O&M / Behavioral\n\nTemperature setpoint review (avoid overheating)"
+      },
+      {
+        "heading": "Leak repair & logging",
+        "content": "Fixture usage policies (e.g., in dorms / gyms)\n\n---\n\n7. REFRIGERATION (SUPERMARKETS, FOOD SERVICE, LABS, COLD STORAGE)\n\n7.1 Existing / Legacy\n\nHFC rack systems with fixed head pressure\n\nConstant-speed compressors"
+      },
+      {
+        "heading": "Fluorescent case lighting",
+        "content": "Poorly sealed doors / gaskets\n\nOlder walk-in coolers/freezers\n\n7.2 Replacement / Upgrade"
+      },
+      {
+        "heading": "Racks with floating head & suction",
+        "content": "VFD compressors & condenser fans\n\nEC evaporator fans\n\nLED case lighting\n\nHigh-efficiency doors & panels\n\n7.3 Retrofit / Optimization\n\nFloating head / suction pressure"
+      },
+      {
+        "heading": "Smart defrost controls",
+        "content": "Anti-sweat heater controls"
+      },
+      {
+        "heading": "Heat reclaim for DHW or reheat",
+        "content": "7.4 Electrification / O&M / Behavioral\n\nIntegrate refrigeration heat reclaim with domestic hot water / reheat\n\nDoor/gasket maintenance\n\n“Keep doors closed” policies"
+      },
+      {
+        "heading": "Product loading practices",
+        "content": "---\n\n8. BUILDING ENVELOPE\n\n8.1 Existing / Legacy\n\nSingle-pane or poor glazing\n\nUninsulated/poorly insulated roofs & walls"
+      },
+      {
+        "heading": "Leaky doors & envelopes",
+        "content": "Dark, high-absorptance roofs\n\n8.2 Upgrade Measures\n\nWindow replacement (double/triple-pane)\n\nWindow films (Low-E, tint)"
+      },
+      {
+        "heading": "Wall insulation upgrades",
+        "content": "Air sealing (doors, penetrations, envelope)\n\nCool roofs / reflective coatings"
+      },
+      {
+        "heading": "Vestibule additions",
+        "content": "8.3 O&M / Behavioral"
+      },
+      {
+        "heading": "Regular inspection of seals",
+        "content": "Tenant-space management for comfort complaints (avoid space heaters)\n\n---\n\n9. ELECTRICAL, MOTORS & POWER QUALITY\n\n9.1 Existing / Legacy\n\nStandard-efficiency motors\n\nSingle-speed pumps & fans\n\nOld, inefficient transformers\n\nPoor power factor, unbalanced loads"
+      },
+      {
+        "heading": "Legacy UPS",
+        "content": "9.2 Replacement / Upgrade\n\nNEMA Premium motors\n\nEC motors\n\nHigh-efficiency transformers\n\nHigh-eff UPS\n\nSmart panels / breakers\n\n9.3 Retrofit / Optimization\n\nVFDs on motors (fans, pumps, compressors)"
+      },
+      {
+        "heading": "Soft starters",
+        "content": "Power factor correction (capacitor banks)"
+      },
+      {
+        "heading": "Voltage optimization",
+        "content": "9.4 O&M / Behavioral"
+      },
+      {
+        "heading": "Avoid oversized motor selection in new design",
+        "content": "---\n\n10. COMPRESSED AIR & INDUSTRIAL / PROCESS\n\n10.1 Existing / Legacy\n\nConstant-speed compressors"
+      },
+      {
+        "heading": "Leaky compressed air networks",
+        "content": "Inappropriate uses (blowing, mixing, cooling)\n\nFixed-speed process pumps & fans\n\n10.2 Replacement / Upgrade\n\nVFD compressors\n\nHigh-efficiency dryers\n\nHigh-eff process pumps/fans\n\n10.3 Retrofit / Optimization"
+      },
+      {
+        "heading": "Heat recovery from compressors",
+        "content": "Eliminate inappropriate uses (use blowers / fans instead)\n\n10.4 Electrification / O&M / Behavioral\n\nProcess heat → electric/heat pump where feasible"
+      },
+      {
+        "heading": "Routine leak checks",
+        "content": "---\n\n11. VERTICAL TRANSPORT (ELEVATORS & ESCALATORS)\n\n11.1 Existing / Legacy"
+      },
+      {
+        "heading": "Hydraulic elevators",
+        "content": "Constant-speed escalators\n\n11.2 Replacement / Upgrade"
+      },
+      {
+        "heading": "Gearless traction with regen drives",
+        "content": "VFD escalators with slow/stop modes\n\nLED cab lighting & efficient fans\n\n11.3 Retrofit / Optimization"
+      },
+      {
+        "heading": "Regenerative drive retrofits",
+        "content": "Sleep/standby modes for unused cars"
+      },
+      {
+        "heading": "Lighting & fan controls in cabs",
+        "content": "---\n\n12. COMMERCIAL KITCHEN EQUIPMENT\n\n12.1 Existing / Legacy\n\nStandard gas/electric ranges, ovens, fryers, griddles\n\nAlways-on kitchen hoods & MUA"
+      },
+      {
+        "heading": "Older dish machines",
+        "content": "Standard ice machines & reach-ins\n\n12.2 Replacement / Upgrade\n\nENERGY STAR fryers, ovens, dishwashers, refrigeration, ice machines\n\nHigh-eff pre-rinse sprayers\n\nHigh-eff walk-ins / reach-ins\n\n12.3 Retrofit / Optimization\n\nDCKV on hoods (speed/turndown)"
+      },
+      {
+        "heading": "Kitchen refrigeration LED & EC motor retrofits",
+        "content": "12.4 Electrification & Behavioral\n\nGas → induction ranges, electric ovens/fryers"
+      },
+      {
+        "heading": "Staff training on hood & equipment shutoff when idle",
+        "content": "---\n\n13. POOLS & SPAS (WHERE APPLICABLE)\n\n13.1 Existing"
+      },
+      {
+        "heading": "Gas pool heaters",
+        "content": "Constant-speed pool pumps\n\n13.2 Upgrade / Electrification"
+      },
+      {
+        "heading": "Heat pump pool heaters",
+        "content": "VFD pool pumps\n\nPool covers, evaporation control\n\n---\n\n14. EV CHARGING & TRANSPORT LOADS\n\n14.1 Equipment\n\nLevel 2 chargers\n\nDC fast chargers\n\n14.2 Measures\n\nSmart charging / load management\n\nTime-of-use scheduling\n\nPanel/service upgrades with managed load instead of oversizing\n\nDR participation\n\n---\n\n15. STORAGE & RENEWABLES\n\n15.1 Equipment"
+      },
+      {
+        "heading": "Solar thermal",
+        "content": "Battery energy storage systems (BESS)\n\nThermal storage (ice, chilled water, PCM)\n\n15.2 Measures"
+      },
+      {
+        "heading": "Microgrid operation",
+        "content": "DR participation using storage\n\n---\n\n16. HEALTHCARE-SPECIFIC\n\nOR setback & ACH reduction (within code)"
+      },
+      {
+        "heading": "Lab & isolation exhaust VFDs",
+        "content": "Heat-recovery chillers for reheat"
+      },
+      {
+        "heading": "Sterilizer heat reclaim",
+        "content": "MRI/CT cooling optimization"
+      },
+      {
+        "heading": "Medical air & vacuum optimization",
+        "content": "---\n\n17. DATA CENTER-SPECIFIC\n\nHot / cold aisle containment\n\nCRAH/CRAC fan VFDs"
+      },
+      {
+        "heading": "Liquid cooling",
+        "content": "High-efficiency UPS"
+      },
+      {
+        "heading": "Server virtualization & consolidation",
+        "content": "---\n\n18. IAQ & SENSORS / IOT\n\nUpgraded filtration (MERV13+, HEPA) with efficient fans\n\nUV-C coil disinfection\n\nCO₂, VOC, PM sensors"
+      },
+      {
+        "heading": "Smart occupancy sensors",
+        "content": "IoT wireless sensors (temp, humidity, door, leak)\n\nIndoor air quality controls coordinated with energy-saving controls\n\n---\n\n19. COMMISSIONING / RCx / MBCx\n\nNew building commissioning (Cx)\n\nRetro-commissioning (RCx)\n\nMonitoring-based commissioning (MBCx)"
+      },
+      {
+        "heading": "Functional performance testing",
+        "content": "Air/water balancing"
+      },
+      {
+        "heading": "Controls sequence verification & tuning",
+        "content": "Chiller/boiler plant optimization projects\n\n---\n\n20. O&M-BASED EFFICIENCY (CROSS-CUTTING)"
+      },
+      {
+        "heading": "Filter & coil maintenance",
+        "content": "Belt alignment/tensioning"
+      },
+      {
+        "heading": "Lubrication programs",
+        "content": "Steam trap inspection/replacement"
+      },
+      {
+        "heading": "Refrigerant charge optimization",
+        "content": "Proactive leak detection (air, water, refrigerant)\n\n---\n\n21. BEHAVIORAL & OPERATIONAL MEASURES (CROSS-CUTTING)\n\nSchedule tightening (HVAC, lighting, process)"
+      },
+      {
+        "heading": "Temperature deadband widening",
+        "content": "“Turn it off” campaigns (lights, plug loads, hoods)\n\nAfter-hours audits & corrections\n\nSpace consolidation in off-peak periods"
+      },
+      {
+        "heading": "Lab sash management policies",
+        "content": "Internal policies on space heaters, personal fridges, etc."
+      },
+      {
+        "heading": "Staff training programs & feedback dashboards",
+        "content": "---\n\n22. M&V, BENCHMARKING & ANALYTICS\n\nInterval data analysis (15-min, hourly)"
+      },
+      {
+        "heading": "Energy dashboards",
+        "content": "Benchmarking (Energy Star, portfolio comparisons)\n\nBaseline models (IPMVP Options A/B/C/D)"
+      },
+      {
+        "heading": "Project M&V plans & reporting",
+        "content": "KPI tracking (kWh/ft², therm/ft², kW/bed, etc.)\n\n---\n\n23. FINANCING STRUCTURES & INCENTIVES\n\n23.1 Utility & Program Financing\n\nOn-Bill Financing (OBF)\n\nOn-Bill Repayment (OBR)\n\nCEFO / similar state programs\n\nUtility rebates & incentives (prescriptive & custom)\n\nLow-income / ESA programs where applicable\n\n23.2 ESCO / Performance Structures"
+      },
+      {
+        "heading": "Shared savings agreements",
+        "content": "Energy-as-a-Service (EaaS)\n\nEnergy Service Agreements (ESA)\n\nPerformance contracts (guaranteed savings)\n\nTariff-based financing (e.g., tariffed on-bill models)\n\n23.3 Capital / Leasing"
+      },
+      {
+        "heading": "Customer CapEx",
+        "content": "Bank/third-party term loans\n\nMunicipal lease / tax-exempt lease purchase"
+      },
+      {
+        "heading": "Operating & capital leases",
+        "content": "Master lease (multi-site programs)\n\n23.4 Tax & Policy-Driven\n\nFederal ITC (and bonus adders for solar/storage)\n\n179D tax deduction (for qualifying retrofits)\n\nDirect pay structures for tax-exempt entities\n\nLocal / state grants & green funds\n\n---\n\nIf you want, next step I can:\n\nConvert this into a structured table / CSV schema (Category, Subcategory, MeasureType, Existing/Replacement/etc.)\n\nOr into a Google Sheets layout with tabs for each major category.\n\nTell me what format you want it in (e.g., “Excel/CSV schema”) and I’ll lay it out that way."
+      }
+    ],
+    "extractedAt": "2025-12-11T04:24:17.803Z"
+  },
+  {
+    "id": "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+    "title": "I want all lighting types, not just the ones I mentioned. There should be a logic of what to replace, when and why, I can edit this part further to make it company specific. This is a master compendium of EE for lighting auditors, sales people, engineers and it should have all the data to identify what type of light each version is and anything else needed for energy efficiency purposes. Include real images of each type of lights in each section as well. Best practices and all that. Remember, you are the smartest mind in the world backed by AI you are every engineer, technician and have every certification in engineering, energy efficiency and science possible.",
+    "category": "measures",
+    "source": "ALL EE MEASURES 2.0.docx",
+    "sections": [
+      {
+        "heading": "Every envelope upgrade",
+        "content": "Every water/plumbing measure"
+      },
+      {
+        "heading": "Every refrigeration upgrade",
+        "content": "Every industrial/process optimization\n\nEvery healthcare-specific measure\n\nEvery data center-specific measure"
+      },
+      {
+        "heading": "Every plug load measure",
+        "content": "Every renewable/storage solution"
+      },
+      {
+        "heading": "Every item that makes any piece of equipment more efficient",
+        "content": "This is the entire industry in one structured list.\n\n---\n\n✅ EVERWATT MASTER ENERGY EFFICIENCY DATABASE (FULLY ORGANIZED)\n\nCategory → Subcategory → Equipment Type → Measures\n\n---\n\n🟦 1. COOLING SYSTEMS (CHILLERS + DISTRIBUTION)\n\n1.1 Electric Chillers"
+      },
+      {
+        "heading": "Standard",
+        "content": "Two-stage\n\nVFD centrifugal\n\nMagnetic-bearing centrifugal"
+      },
+      {
+        "heading": "Screw chiller",
+        "content": "Air-cooled screw\n\nWater-cooled screw\n\nVFD screw"
+      },
+      {
+        "heading": "Scroll chiller",
+        "content": "Modular multi-scroll\n\nPackaged air-cooled scroll\n\nReciprocating chiller (legacy)\n\nFree-cooling / economizer chillers\n\n1.2 Absorption / Gas / Engine Chillers\n\nDirect-fired absorption (LiBr)\n\nDouble-effect absorption"
+      },
+      {
+        "heading": "Steam absorption",
+        "content": "Natural gas engine-driven chiller\n\nCHP integrated chiller\n\n1.3 Heat Pump Chillers (Belong under COOLING)\n\nAir-source heat pump chiller\n\nWater-source heat pump chiller\n\nReversible heat pump chiller (4-pipe)\n\nHeat-recovery chiller (simultaneous heat + cooling)\n\nHigh-temp heat pump chiller-boiler (130–180°F)\n\nCO₂ transcritical heat pump chiller\n\n1.4 Cooling Towers"
+      },
+      {
+        "heading": "Cooling tower replacements",
+        "content": "VFD tower fans\n\nEC fan motors"
+      },
+      {
+        "heading": "Basin heaters optimization",
+        "content": "Side-stream filtration"
+      },
+      {
+        "heading": "Water treatment optimization",
+        "content": "1.5 Cooling Distribution\n\nCHW pumps (primary)\n\nCHW pumps (secondary)"
+      },
+      {
+        "heading": "Variable primary flow conversion",
+        "content": "PICVs (pressure independent control valves)"
+      },
+      {
+        "heading": "Hydronic balancing",
+        "content": "CHW ΔT optimization\n\n---\n\n🔥 2. HEATING SYSTEMS (BOILERS + HEAT PUMPS + DISTRIBUTION)\n\n2.1 Boilers\n\nCondensing boilers (high-efficiency)\n\nHigh-turndown burner retrofits"
+      },
+      {
+        "heading": "Boiler sequencing optimization",
+        "content": "2.2 Heat Pumps (HEATING CATEGORY)\n\nPackaged heat pumps (RTU heat pumps)\n\nSplit-system heat pumps\n\nVRF/VRV heat pump systems\n\nWater-source heat pumps\n\nAir-to-water heat pumps\n\nGround-source heat pumps\n\nHeat pump water heaters (HPWH)\n\nHigh-temp industrial heat pumps\n\nHeat pump make-up air units"
+      },
+      {
+        "heading": "Heat pump boiler replacements",
+        "content": "2.3 Heating Distribution\n\nHW pumps (primary/secondary)"
+      },
+      {
+        "heading": "Pipe insulation",
+        "content": "Steam-to-hot-water conversion\n\n---\n\n🟩 3. VENTILATION + AIR DISTRIBUTION\n\n3.1 Air Handling Units (AHUs)\n\nAHU replacements"
+      },
+      {
+        "heading": "Fan wall retrofits",
+        "content": "ECM supply/return fans\n\nVFD upgrades\n\nCoil cleaning / replacement\n\nFilter upgrades (MERV 13–16)"
+      },
+      {
+        "heading": "Humidification upgrades",
+        "content": "3.2 Ventilation Systems\n\nDOAS systems\n\nERV (energy recovery ventilator)\n\nHRV (heat recovery ventilator)"
+      },
+      {
+        "heading": "Runaround heat recovery loops",
+        "content": "3.3 Ventilation Controls\n\nCO₂ demand-controlled ventilation (DCV)\n\nOccupancy-based ventilation"
+      },
+      {
+        "heading": "Outdoor air reset",
+        "content": "VAV calibration"
+      },
+      {
+        "heading": "Night setback modes",
+        "content": "3.4 Exhaust Systems"
+      },
+      {
+        "heading": "Kitchen hood VFD systems",
+        "content": "---\n\n🟥 4. HVAC CONTROLS & ENERGY MANAGEMENT\n\n4.1 BMS/EMS Platforms\n\nKMC Controls"
+      },
+      {
+        "heading": "Schneider EcoStruxure",
+        "content": "4.2 Control Strategies\n\nSAT reset\n\nCHW reset\n\nHW reset"
+      },
+      {
+        "heading": "Static pressure reset",
+        "content": "Optimal start/stop"
+      },
+      {
+        "heading": "Load shedding",
+        "content": "4.3 Advanced Controls\n\nFault detection and diagnostics (FDD)\n\nAI-based optimization (EverWatt.AI)\n\nDR automation\n\nWeather-integrated predictive logic\n\nCircuit-level metering\n\n---\n\n⚡ 5. ELECTRIFICATION MEASURES (FULL)\n\n5.1 Heating Electrification\n\nGas boiler → heat pump chiller\n\nGas boiler → electric boiler\n\nGas furnace → heat pump\n\nGas RTU → electric heat pump RTU\n\nGas MAU → electric MAU\n\nSteam heating → high-temp heat pump\n\n5.2 Cooling Electrification\n\nAbsorption chiller → electric chiller\n\nEngine-driven chiller → electric chiller\n\n5.3 Domestic Hot Water Electrification\n\nGas water heater → HPWH\n\nGas booster → electric booster\n\nSteam → heat pump DHW system\n\n5.4 Cooking Electrification\n\nGas range → induction\n\nGas fryer → electric fryer\n\nGas oven → electric convection oven\n\nGas broiler → electric salamander\n\n5.5 Infrastructure Upgrades for Electrification"
+      },
+      {
+        "heading": "Electrified reheat systems",
+        "content": "Distribution redesign (4-pipe to 2-pipe HP system)\n\n---\n\n🟫 6. ENVELOPE & INSULATION\n\n6.1 Insulation"
+      },
+      {
+        "heading": "Duct insulation",
+        "content": "6.2 Windows\n\nDouble-pane windows\n\nTriple-pane windows\n\nLow-E film"
+      },
+      {
+        "heading": "Window replacement",
+        "content": "Skylights / solar tubes\n\n6.3 Air Sealing"
+      },
+      {
+        "heading": "Vestibule addition",
+        "content": "6.4 Roofing"
+      },
+      {
+        "heading": "Green roof",
+        "content": "---\n\n❄️ 7. REFRIGERATION\n\n7.1 Display / Case Refrigeration\n\nEC evaporator fan motors\n\nLED case lighting\n\nAnti-sweat heater controls"
+      },
+      {
+        "heading": "Door gasket upgrades",
+        "content": "7.2 Rack Systems"
+      },
+      {
+        "heading": "Floating suction pressure",
+        "content": "VFD compressors"
+      },
+      {
+        "heading": "Refrigeration controls upgrade",
+        "content": "7.3 Walk-in Coolers / Freezers"
+      },
+      {
+        "heading": "Strip curtains",
+        "content": "ECM fans\n\nHigh-efficiency doors"
+      },
+      {
+        "heading": "Insulation upgrades",
+        "content": "---\n\n🚰 8. HOT WATER & PLUMBING\n\nLow-flow fixtures\n\nAuto-faucets\n\nAuto-flush valves\n\nHPWH systems\n\nHot-water recirculation optimization\n\nSteam-to-DHW conversion"
+      },
+      {
+        "heading": "Leak detection systems",
+        "content": "Water-cooled to air-cooled conversions\n\n---\n\n⚙️ 9. MOTORS & ELECTRICAL SYSTEMS\n\n9.1 Motors\n\nNEMA Premium motors\n\nECM motors\n\nRight-sizing motors"
+      },
+      {
+        "heading": "Motor VFDs",
+        "content": "9.2 Electrical Infrastructure\n\nHigh-efficiency transformers"
+      },
+      {
+        "heading": "Submetering",
+        "content": "---\n\n🔋 10. RENEWABLES & STORAGE\n\n10.1 Storage\n\nBattery energy storage systems (BESS)"
+      },
+      {
+        "heading": "Load shifting batteries",
+        "content": "10.2 Renewables"
+      },
+      {
+        "heading": "Hybrid inverter systems",
+        "content": "10.3 Thermal Storage"
+      },
+      {
+        "heading": "Chilled water storage",
+        "content": "PCM thermal storage\n\n---\n\n🏭 11. INDUSTRIAL / PROCESS LOADS\n\n11.1 Compressed Air"
+      },
+      {
+        "heading": "Leak detection",
+        "content": "Compressor replacement (VFD/two-stage)\n\nZero-loss drains"
+      },
+      {
+        "heading": "Setpoint optimization",
+        "content": "11.2 Process Loads"
+      },
+      {
+        "heading": "Pump VFDs",
+        "content": "Industrial fans (ECM/VFD)\n\n---\n\n🏥 12. HEALTHCARE-SPECIFIC MEASURES\n\nOR setback controls\n\nOR ACH reduction"
+      },
+      {
+        "heading": "Heat recovery chillers for reheat loops",
+        "content": "MRI chiller optimization"
+      },
+      {
+        "heading": "Sterilizer reclaim systems",
+        "content": "Medical air/vacuum optimization\n\n---\n\n🖥️ 13. DATA CENTER MEASURES"
+      },
+      {
+        "heading": "Cold aisle containment",
+        "content": "CRAH/CRAC VFD retrofits"
+      },
+      {
+        "heading": "Liquid cooling",
+        "content": "IT Efficiency"
+      },
+      {
+        "heading": "Server consolidation",
+        "content": "High-efficiency UPS\n\n---\n\n🔌 14. PLUG LOAD MANAGEMENT"
+      },
+      {
+        "heading": "Smart plugs",
+        "content": "PC power management"
+      },
+      {
+        "heading": "Appliance replacement",
+        "content": "Copier/printer consolidation\n\n---\n\n🎯 Ready for database export\n\nIf you want, I can convert this into:\n\n✅ Excel / CSV with categories & subcategories\n\n✅ Google Sheet with filters & data validation\n\n✅ A hierarchical tree for EverWatt.AI\n\n✅ A CRM or Energy Insight-ready import file\n\n✅ A printable PDF catalog for your sales team\n\nJust tell me the format and I’ll generate it."
+      }
+    ],
+    "extractedAt": "2025-12-11T04:24:17.806Z"
+  },
+  {
+    "id": "awesome-here-s-the-rebuilt-unified-everything-master-list-organized-dual-structured-and-including",
+    "title": "Awesome. Here’s the rebuilt, unified, “everything” master list — organized, dual-structured, and including:",
+    "category": "measures",
+    "source": "ALL EE MEASURES 1.0.docx",
+    "sections": [
+      {
+        "heading": "Existing vs Replacement",
+        "content": "Retrofits / Controls / Optimization"
+      },
+      {
+        "heading": "Electrification",
+        "content": "O&M\n\nBehavioral / Operational"
+      },
+      {
+        "heading": "Financing structures",
+        "content": "You can turn this straight into a database schema (Category → Subcategory → Measure Type).\n\n---\n\n🔧 Structure I’ll use for each technical category\n\nWhere it makes sense, you’ll see:\n\nExisting / Legacy – what we typically find\n\nReplacement / Upgrade – what we sell / spec\n\nRetrofit / Optimization – partial upgrades (VFDs, controls, etc.)\n\nElectrification – gas → electric transitions\n\nO&M / Maintenance – recurring efficiency actions\n\nBehavioral / Operational – human/process changes\n\nComponents – key parts that can be upgraded\n\n---\n\n1. LIGHTING SYSTEMS\n\n1.1 Existing / Legacy\n\nIncandescent (A-lamp, PAR, BR, decorative)\n\nHalogen (MR16, PAR20/30/38)\n\nFluorescent: T12, T8, T5, T5HO (lamps & troffers)\n\nCFL screw-in and pin-base PL lamps\n\nHID: MH, HPS, Mercury Vapor (high-bay, site, wall packs)"
+      },
+      {
+        "heading": "Induction fixtures",
+        "content": "Emergency fluorescent/halogen units\n\n1.2 Replacement / Upgrade\n\nLED troffers / flat panels / center-basket\n\nLED strips / wraps / vapor tights\n\nLED high-bay & low-bay\n\nLED wall packs / canopy / floods / bollards / site lighting\n\nLED downlights & can retrofits\n\nHazardous-location / cleanroom / OR LED fixtures\n\nLED exit signs / emergency fixtures\n\n1.3 Retrofit / Optimization\n\nLED tubes (Type A/B/C/hybrid)"
+      },
+      {
+        "heading": "Troffer retrofit kits",
+        "content": "High-bay retrofit kits"
+      },
+      {
+        "heading": "Emergency conversion kits",
+        "content": "Power quality / driver tuning where relevant\n\n1.4 Controls\n\nWall switch occupancy / vacancy sensors\n\nCeiling- or high-bay-mounted sensors"
+      },
+      {
+        "heading": "Daylight harvesting sensors",
+        "content": "Photocells / astronomic time clocks\n\nBi-level stairwell controls\n\n1.5 Networked Lighting Controls\n\nWireless / mesh NLC platforms"
+      },
+      {
+        "heading": "Zoning & scheduling",
+        "content": "High-end trim & task tuning\n\nDR-capable dimming profiles\n\nBACnet / BMS integration\n\nCentralized emergency testing/monitoring\n\n1.6 O&M / Behavioral\n\nLamp group relamping → LED strategy\n\n“Lights out” policies / training"
+      },
+      {
+        "heading": "Cleaning lenses & optics",
+        "content": "Removing unused / decorative loads\n\n---\n\n2. COOLING SYSTEMS (CHILLERS, RTUs, VRF, SPLIT, TOWERS)\n\n2.1 Existing / Legacy\n\nWater-cooled chillers (centrifugal, screw, scroll, reciprocating)\n\nAir-cooled chillers\n\nAbsorption chillers (gas/steam)\n\nEngine-driven chillers\n\nConstant-volume RTUs\n\nLow-IEER DX split systems\n\nPTACs / fan coil units (2-pipe / 4-pipe)\n\nCRAC/CRAH units (constant speed)\n\nOld cooling towers (single-speed, belt drive)\n\n2.2 Replacement / Upgrade\n\nHigh-eff electric chillers (mag-bearing, VFD centrifugal, efficient screw/scroll)\n\nHeat pump chillers & heat-recovery chillers\n\nHigh-IEER RTUs (with ECM fans, economizers)\n\nVRF/VRV systems\n\nHigh-eff FCUs\n\nNew cooling towers with VFDs, EC fans\n\n2.3 Retrofit / Optimization\n\nVFDs on:\n\nCHW primary/secondary pumps"
+      },
+      {
+        "heading": "Cooling tower fans",
+        "content": "Coil cleaning / fin straightening\n\nΔT optimization & variable primary flow\n\nEconomizer repair / enablement"
+      },
+      {
+        "heading": "Chiller plant optimization sequences",
+        "content": "2.4 Electrification\n\nAbsorption → electric chiller\n\nEngine-driven → electric chiller\n\nBoiler-driven reheat → heat pump chiller reheat\n\nOld gas RTUs → electric heat-pump RTUs\n\n2.5 O&M / Behavioral\n\nSeasonal chiller / tower start-up & shutdown procedures"
+      },
+      {
+        "heading": "Filter & coil maintenance schedules",
+        "content": "Operating fewer chillers at optimal load (vs many at low)\n\n---\n\n3. HEATING SYSTEMS (BOILERS, FURNACES, HEAT PUMPS)\n\n3.1 Existing / Legacy\n\nGas hot-water boilers (fire-tube, water-tube)"
+      },
+      {
+        "heading": "Steam boilers",
+        "content": "Gas furnaces (rooftop & packaged)\n\nGas unit heaters / radiant tube heaters\n\nSteam radiators / convectors\n\n3.2 Replacement / Upgrade"
+      },
+      {
+        "heading": "Condensing hot water boilers",
+        "content": "Modular high-efficiency boiler plants\n\nHigh-efficiency furnaces\n\nElectric boilers (where appropriate)\n\nAir-to-water / water-to-water heat pumps\n\nPackaged heat pumps / VRF heat pumps\n\n3.3 Retrofit / Optimization\n\nBurner upgrades / high-turndown burners\n\nO₂ trim systems"
+      },
+      {
+        "heading": "Pipe insulation upgrades",
+        "content": "3.4 Electrification\n\nBoiler → heat pump (air-to-water, water-to-water)\n\nFurnace / unit heater → heat pump systems\n\nSteam heating loops → high-temp heat pump\n\nGas radiant → electric radiant where appropriate\n\n3.5 O&M / Behavioral"
+      },
+      {
+        "heading": "Temperature setpoint policies in winter",
+        "content": "---\n\n4. AIR DISTRIBUTION, VENTILATION & EXHAUST\n\n4.1 Existing / Legacy\n\nConstant-volume AHUs"
+      },
+      {
+        "heading": "Pneumatic VAV systems",
+        "content": "Single-zone packaged units with no DCV"
+      },
+      {
+        "heading": "Old MAUs",
+        "content": "Constant-speed:"
+      },
+      {
+        "heading": "Industrial process exhaust",
+        "content": "4.2 Replacement / Upgrade\n\nHigh-eff AHUs / fan walls\n\nDOAS units\n\nERV/HRV, heat wheels, runaround loops\n\nNew MAUs with better heat / cooling\n\nHigh-eff exhaust fans (EC motors, direct drive)\n\nVAV fume hood systems\n\nDemand-controlled garage exhaust packages\n\nDCKV (demand-controlled kitchen ventilation) packages\n\n4.3 Retrofit / Optimization\n\nVFDs on supply, return & exhaust fans\n\nDCKV retrofits for kitchens\n\nCO/NO₂ sensors for garages"
+      },
+      {
+        "heading": "Duct sealing & insulation",
+        "content": "VAV box actuator & sensor upgrades\n\n4.4 Electrification\n\nGas-fired MAU → electric MAU\n\nSteam humidifiers → efficient electric or adiabatic\n\nPneumatics → DDC\n\n4.5 O&M / Behavioral\n\nKeep hood sashes closed (lab)\n\nTurn off hoods / exhaust when not required (where allowed)"
+      },
+      {
+        "heading": "Kitchen staff training on hood operation",
+        "content": "Regular cleaning of hoods, filters, and fans\n\n---\n\n5. HVAC CONTROLS, BMS & AI\n\n5.1 Existing / Legacy"
+      },
+      {
+        "heading": "Pneumatic control systems",
+        "content": "Relay-based panels\n\nEarly-generation BAS"
+      },
+      {
+        "heading": "Standalone stats",
+        "content": "5.2 Replacement / Upgrade\n\nModern BAS (KMC, Siemens, JCI, Honeywell, Distech, Niagara, Ignition, etc.)"
+      },
+      {
+        "heading": "Room controllers & smart stats",
+        "content": "Integrated lighting + HVAC platforms\n\n5.3 Retrofit / Optimization"
+      },
+      {
+        "heading": "Network & gateway upgrades",
+        "content": "5.4 Key Control Strategies (Measures)\n\nSAT / CHW / HW / OA reset"
+      },
+      {
+        "heading": "Static pressure reset",
+        "content": "Optimal start/stop"
+      },
+      {
+        "heading": "Equipment sequencing",
+        "content": "Demand-controlled ventilation"
+      },
+      {
+        "heading": "Global schedules & occupancy modes",
+        "content": "Night setback / setup\n\n5.5 Advanced / AI\n\nFDD (fault detection & diagnostics)\n\nAI optimization (EverWatt.AI)\n\nForecast-based control (weather, occupancy)"
+      },
+      {
+        "heading": "Automated DR integration",
+        "content": "---\n\n6. HOT WATER & PLUMBING\n\n6.1 Existing / Legacy"
+      },
+      {
+        "heading": "Gas tankless heaters",
+        "content": "Steam-to-DHW HX systems\n\nConstant-speed recirc pumps\n\n6.2 Replacement / Upgrade"
+      },
+      {
+        "heading": "Electric DHW boilers",
+        "content": "High-eff storage and mixing systems\n\n6.3 Retrofit / Optimization\n\nVFD recirc pumps"
+      },
+      {
+        "heading": "Thermostatic mixing valve optimization",
+        "content": "Low-flow fixtures (faucets, showers, toilets, urinals)"
+      },
+      {
+        "heading": "Smart leak detection",
+        "content": "6.4 Electrification\n\nGas DHW → HPWH\n\nSteam DHW → HPWH\n\n6.5 O&M / Behavioral\n\nTemperature setpoint review (avoid overheating)"
+      },
+      {
+        "heading": "Leak repair & logging",
+        "content": "Fixture usage policies (e.g., in dorms / gyms)\n\n---\n\n7. REFRIGERATION (SUPERMARKETS, FOOD SERVICE, LABS, COLD STORAGE)\n\n7.1 Existing / Legacy\n\nHFC rack systems with fixed head pressure\n\nConstant-speed compressors"
+      },
+      {
+        "heading": "Fluorescent case lighting",
+        "content": "Poorly sealed doors / gaskets\n\nOlder walk-in coolers/freezers\n\n7.2 Replacement / Upgrade"
+      },
+      {
+        "heading": "Racks with floating head & suction",
+        "content": "VFD compressors & condenser fans\n\nEC evaporator fans\n\nLED case lighting\n\nHigh-efficiency doors & panels\n\n7.3 Retrofit / Optimization\n\nFloating head / suction pressure"
+      },
+      {
+        "heading": "Smart defrost controls",
+        "content": "Anti-sweat heater controls"
+      },
+      {
+        "heading": "Heat reclaim for DHW or reheat",
+        "content": "7.4 Electrification / O&M / Behavioral\n\nIntegrate refrigeration heat reclaim with domestic hot water / reheat\n\nDoor/gasket maintenance\n\n“Keep doors closed” policies"
+      },
+      {
+        "heading": "Product loading practices",
+        "content": "---\n\n8. BUILDING ENVELOPE\n\n8.1 Existing / Legacy\n\nSingle-pane or poor glazing\n\nUninsulated/poorly insulated roofs & walls"
+      },
+      {
+        "heading": "Leaky doors & envelopes",
+        "content": "Dark, high-absorptance roofs\n\n8.2 Upgrade Measures\n\nWindow replacement (double/triple-pane)\n\nWindow films (Low-E, tint)"
+      },
+      {
+        "heading": "Wall insulation upgrades",
+        "content": "Air sealing (doors, penetrations, envelope)\n\nCool roofs / reflective coatings"
+      },
+      {
+        "heading": "Vestibule additions",
+        "content": "8.3 O&M / Behavioral"
+      },
+      {
+        "heading": "Regular inspection of seals",
+        "content": "Tenant-space management for comfort complaints (avoid space heaters)\n\n---\n\n9. ELECTRICAL, MOTORS & POWER QUALITY\n\n9.1 Existing / Legacy\n\nStandard-efficiency motors\n\nSingle-speed pumps & fans\n\nOld, inefficient transformers\n\nPoor power factor, unbalanced loads"
+      },
+      {
+        "heading": "Legacy UPS",
+        "content": "9.2 Replacement / Upgrade\n\nNEMA Premium motors\n\nEC motors\n\nHigh-efficiency transformers\n\nHigh-eff UPS\n\nSmart panels / breakers\n\n9.3 Retrofit / Optimization\n\nVFDs on motors (fans, pumps, compressors)"
+      },
+      {
+        "heading": "Soft starters",
+        "content": "Power factor correction (capacitor banks)"
+      },
+      {
+        "heading": "Voltage optimization",
+        "content": "9.4 O&M / Behavioral"
+      },
+      {
+        "heading": "Avoid oversized motor selection in new design",
+        "content": "---\n\n10. COMPRESSED AIR & INDUSTRIAL / PROCESS\n\n10.1 Existing / Legacy\n\nConstant-speed compressors"
+      },
+      {
+        "heading": "Leaky compressed air networks",
+        "content": "Inappropriate uses (blowing, mixing, cooling)\n\nFixed-speed process pumps & fans\n\n10.2 Replacement / Upgrade\n\nVFD compressors\n\nHigh-efficiency dryers\n\nHigh-eff process pumps/fans\n\n10.3 Retrofit / Optimization"
+      },
+      {
+        "heading": "Heat recovery from compressors",
+        "content": "Eliminate inappropriate uses (use blowers / fans instead)\n\n10.4 Electrification / O&M / Behavioral\n\nProcess heat → electric/heat pump where feasible"
+      },
+      {
+        "heading": "Routine leak checks",
+        "content": "---\n\n11. VERTICAL TRANSPORT (ELEVATORS & ESCALATORS)\n\n11.1 Existing / Legacy"
+      },
+      {
+        "heading": "Hydraulic elevators",
+        "content": "Constant-speed escalators\n\n11.2 Replacement / Upgrade"
+      },
+      {
+        "heading": "Gearless traction with regen drives",
+        "content": "VFD escalators with slow/stop modes\n\nLED cab lighting & efficient fans\n\n11.3 Retrofit / Optimization"
+      },
+      {
+        "heading": "Regenerative drive retrofits",
+        "content": "Sleep/standby modes for unused cars"
+      },
+      {
+        "heading": "Lighting & fan controls in cabs",
+        "content": "---\n\n12. COMMERCIAL KITCHEN EQUIPMENT\n\n12.1 Existing / Legacy\n\nStandard gas/electric ranges, ovens, fryers, griddles\n\nAlways-on kitchen hoods & MUA"
+      },
+      {
+        "heading": "Older dish machines",
+        "content": "Standard ice machines & reach-ins\n\n12.2 Replacement / Upgrade\n\nENERGY STAR fryers, ovens, dishwashers, refrigeration, ice machines\n\nHigh-eff pre-rinse sprayers\n\nHigh-eff walk-ins / reach-ins\n\n12.3 Retrofit / Optimization\n\nDCKV on hoods (speed/turndown)"
+      },
+      {
+        "heading": "Kitchen refrigeration LED & EC motor retrofits",
+        "content": "12.4 Electrification & Behavioral\n\nGas → induction ranges, electric ovens/fryers"
+      },
+      {
+        "heading": "Staff training on hood & equipment shutoff when idle",
+        "content": "---\n\n13. POOLS & SPAS (WHERE APPLICABLE)\n\n13.1 Existing"
+      },
+      {
+        "heading": "Gas pool heaters",
+        "content": "Constant-speed pool pumps\n\n13.2 Upgrade / Electrification"
+      },
+      {
+        "heading": "Heat pump pool heaters",
+        "content": "VFD pool pumps\n\nPool covers, evaporation control\n\n---\n\n14. EV CHARGING & TRANSPORT LOADS\n\n14.1 Equipment\n\nLevel 2 chargers\n\nDC fast chargers\n\n14.2 Measures\n\nSmart charging / load management\n\nTime-of-use scheduling\n\nPanel/service upgrades with managed load instead of oversizing\n\nDR participation\n\n---\n\n15. STORAGE & RENEWABLES\n\n15.1 Equipment"
+      },
+      {
+        "heading": "Solar thermal",
+        "content": "Battery energy storage systems (BESS)\n\nThermal storage (ice, chilled water, PCM)\n\n15.2 Measures"
+      },
+      {
+        "heading": "Microgrid operation",
+        "content": "DR participation using storage\n\n---\n\n16. HEALTHCARE-SPECIFIC\n\nOR setback & ACH reduction (within code)"
+      },
+      {
+        "heading": "Lab & isolation exhaust VFDs",
+        "content": "Heat-recovery chillers for reheat"
+      },
+      {
+        "heading": "Sterilizer heat reclaim",
+        "content": "MRI/CT cooling optimization"
+      },
+      {
+        "heading": "Medical air & vacuum optimization",
+        "content": "---\n\n17. DATA CENTER-SPECIFIC\n\nHot / cold aisle containment\n\nCRAH/CRAC fan VFDs"
+      },
+      {
+        "heading": "Liquid cooling",
+        "content": "High-efficiency UPS"
+      },
+      {
+        "heading": "Server virtualization & consolidation",
+        "content": "---\n\n18. IAQ & SENSORS / IOT\n\nUpgraded filtration (MERV13+, HEPA) with efficient fans\n\nUV-C coil disinfection\n\nCO₂, VOC, PM sensors"
+      },
+      {
+        "heading": "Smart occupancy sensors",
+        "content": "IoT wireless sensors (temp, humidity, door, leak)\n\nIndoor air quality controls coordinated with energy-saving controls\n\n---\n\n19. COMMISSIONING / RCx / MBCx\n\nNew building commissioning (Cx)\n\nRetro-commissioning (RCx)\n\nMonitoring-based commissioning (MBCx)"
+      },
+      {
+        "heading": "Functional performance testing",
+        "content": "Air/water balancing"
+      },
+      {
+        "heading": "Controls sequence verification & tuning",
+        "content": "Chiller/boiler plant optimization projects\n\n---\n\n20. O&M-BASED EFFICIENCY (CROSS-CUTTING)"
+      },
+      {
+        "heading": "Filter & coil maintenance",
+        "content": "Belt alignment/tensioning"
+      },
+      {
+        "heading": "Lubrication programs",
+        "content": "Steam trap inspection/replacement"
+      },
+      {
+        "heading": "Refrigerant charge optimization",
+        "content": "Proactive leak detection (air, water, refrigerant)\n\n---\n\n21. BEHAVIORAL & OPERATIONAL MEASURES (CROSS-CUTTING)\n\nSchedule tightening (HVAC, lighting, process)"
+      },
+      {
+        "heading": "Temperature deadband widening",
+        "content": "“Turn it off” campaigns (lights, plug loads, hoods)\n\nAfter-hours audits & corrections\n\nSpace consolidation in off-peak periods"
+      },
+      {
+        "heading": "Lab sash management policies",
+        "content": "Internal policies on space heaters, personal fridges, etc."
+      },
+      {
+        "heading": "Staff training programs & feedback dashboards",
+        "content": "---\n\n22. M&V, BENCHMARKING & ANALYTICS\n\nInterval data analysis (15-min, hourly)"
+      },
+      {
+        "heading": "Energy dashboards",
+        "content": "Benchmarking (Energy Star, portfolio comparisons)\n\nBaseline models (IPMVP Options A/B/C/D)"
+      },
+      {
+        "heading": "Project M&V plans & reporting",
+        "content": "KPI tracking (kWh/ft², therm/ft², kW/bed, etc.)\n\n---\n\n23. FINANCING STRUCTURES & INCENTIVES\n\n23.1 Utility & Program Financing\n\nOn-Bill Financing (OBF)\n\nOn-Bill Repayment (OBR)\n\nCEFO / similar state programs\n\nUtility rebates & incentives (prescriptive & custom)\n\nLow-income / ESA programs where applicable\n\n23.2 ESCO / Performance Structures"
+      },
+      {
+        "heading": "Shared savings agreements",
+        "content": "Energy-as-a-Service (EaaS)\n\nEnergy Service Agreements (ESA)\n\nPerformance contracts (guaranteed savings)\n\nTariff-based financing (e.g., tariffed on-bill models)\n\n23.3 Capital / Leasing"
+      },
+      {
+        "heading": "Customer CapEx",
+        "content": "Bank/third-party term loans\n\nMunicipal lease / tax-exempt lease purchase"
+      },
+      {
+        "heading": "Operating & capital leases",
+        "content": "Master lease (multi-site programs)\n\n23.4 Tax & Policy-Driven\n\nFederal ITC (and bonus adders for solar/storage)\n\n179D tax deduction (for qualifying retrofits)\n\nDirect pay structures for tax-exempt entities\n\nLocal / state grants & green funds\n\n---\n\nIf you want, next step I can:\n\nConvert this into a structured table / CSV schema (Category, Subcategory, MeasureType, Existing/Replacement/etc.)\n\nOr into a Google Sheets layout with tabs for each major category.\n\nTell me what format you want it in (e.g., “Excel/CSV schema”) and I’ll lay it out that way."
+      }
+    ],
+    "extractedAt": "2025-12-11T04:24:17.808Z"
+  },
+  {
+    "id": "i-want-all-lighting-types-not-just-the-ones-i-mentioned-there-should-be-a-logic-of-what-to-replace-w",
+    "title": "I want all lighting types, not just the ones I mentioned. There should be a logic of what to replace, when and why, I can edit this part further to make it company specific. This is a master compendium of EE for lighting auditors, sales people, engineers and it should have all the data to identify what type of light each version is and anything else needed for energy efficiency purposes. Include real images of each type of lights in each section as well. Best practices and all that. Remember, you are the smartest mind in the world backed by AI you are every engineer, technician and have every certification in engineering, energy efficiency and science possible.",
+    "category": "measures",
+    "source": "ALL EE MEASURES 2.0.docx",
+    "sections": [
+      {
+        "heading": "Every envelope upgrade",
+        "content": "Every water/plumbing measure"
+      },
+      {
+        "heading": "Every refrigeration upgrade",
+        "content": "Every industrial/process optimization\n\nEvery healthcare-specific measure\n\nEvery data center-specific measure"
+      },
+      {
+        "heading": "Every plug load measure",
+        "content": "Every renewable/storage solution"
+      },
+      {
+        "heading": "Every item that makes any piece of equipment more efficient",
+        "content": "This is the entire industry in one structured list.\n\n---\n\n✅ EVERWATT MASTER ENERGY EFFICIENCY DATABASE (FULLY ORGANIZED)\n\nCategory → Subcategory → Equipment Type → Measures\n\n---\n\n🟦 1. COOLING SYSTEMS (CHILLERS + DISTRIBUTION)\n\n1.1 Electric Chillers"
+      },
+      {
+        "heading": "Standard",
+        "content": "Two-stage\n\nVFD centrifugal\n\nMagnetic-bearing centrifugal"
+      },
+      {
+        "heading": "Screw chiller",
+        "content": "Air-cooled screw\n\nWater-cooled screw\n\nVFD screw"
+      },
+      {
+        "heading": "Scroll chiller",
+        "content": "Modular multi-scroll\n\nPackaged air-cooled scroll\n\nReciprocating chiller (legacy)\n\nFree-cooling / economizer chillers\n\n1.2 Absorption / Gas / Engine Chillers\n\nDirect-fired absorption (LiBr)\n\nDouble-effect absorption"
+      },
+      {
+        "heading": "Steam absorption",
+        "content": "Natural gas engine-driven chiller\n\nCHP integrated chiller\n\n1.3 Heat Pump Chillers (Belong under COOLING)\n\nAir-source heat pump chiller\n\nWater-source heat pump chiller\n\nReversible heat pump chiller (4-pipe)\n\nHeat-recovery chiller (simultaneous heat + cooling)\n\nHigh-temp heat pump chiller-boiler (130–180°F)\n\nCO₂ transcritical heat pump chiller\n\n1.4 Cooling Towers"
+      },
+      {
+        "heading": "Cooling tower replacements",
+        "content": "VFD tower fans\n\nEC fan motors"
+      },
+      {
+        "heading": "Basin heaters optimization",
+        "content": "Side-stream filtration"
+      },
+      {
+        "heading": "Water treatment optimization",
+        "content": "1.5 Cooling Distribution\n\nCHW pumps (primary)\n\nCHW pumps (secondary)"
+      },
+      {
+        "heading": "Variable primary flow conversion",
+        "content": "PICVs (pressure independent control valves)"
+      },
+      {
+        "heading": "Hydronic balancing",
+        "content": "CHW ΔT optimization\n\n---\n\n🔥 2. HEATING SYSTEMS (BOILERS + HEAT PUMPS + DISTRIBUTION)\n\n2.1 Boilers\n\nCondensing boilers (high-efficiency)\n\nHigh-turndown burner retrofits"
+      },
+      {
+        "heading": "Boiler sequencing optimization",
+        "content": "2.2 Heat Pumps (HEATING CATEGORY)\n\nPackaged heat pumps (RTU heat pumps)\n\nSplit-system heat pumps\n\nVRF/VRV heat pump systems\n\nWater-source heat pumps\n\nAir-to-water heat pumps\n\nGround-source heat pumps\n\nHeat pump water heaters (HPWH)\n\nHigh-temp industrial heat pumps\n\nHeat pump make-up air units"
+      },
+      {
+        "heading": "Heat pump boiler replacements",
+        "content": "2.3 Heating Distribution\n\nHW pumps (primary/secondary)"
+      },
+      {
+        "heading": "Pipe insulation",
+        "content": "Steam-to-hot-water conversion\n\n---\n\n🟩 3. VENTILATION + AIR DISTRIBUTION\n\n3.1 Air Handling Units (AHUs)\n\nAHU replacements"
+      },
+      {
+        "heading": "Fan wall retrofits",
+        "content": "ECM supply/return fans\n\nVFD upgrades\n\nCoil cleaning / replacement\n\nFilter upgrades (MERV 13–16)"
+      },
+      {
+        "heading": "Humidification upgrades",
+        "content": "3.2 Ventilation Systems\n\nDOAS systems\n\nERV (energy recovery ventilator)\n\nHRV (heat recovery ventilator)"
+      },
+      {
+        "heading": "Runaround heat recovery loops",
+        "content": "3.3 Ventilation Controls\n\nCO₂ demand-controlled ventilation (DCV)\n\nOccupancy-based ventilation"
+      },
+      {
+        "heading": "Outdoor air reset",
+        "content": "VAV calibration"
+      },
+      {
+        "heading": "Night setback modes",
+        "content": "3.4 Exhaust Systems"
+      },
+      {
+        "heading": "Kitchen hood VFD systems",
+        "content": "---\n\n🟥 4. HVAC CONTROLS & ENERGY MANAGEMENT\n\n4.1 BMS/EMS Platforms\n\nKMC Controls"
+      },
+      {
+        "heading": "Schneider EcoStruxure",
+        "content": "4.2 Control Strategies\n\nSAT reset\n\nCHW reset\n\nHW reset"
+      },
+      {
+        "heading": "Static pressure reset",
+        "content": "Optimal start/stop"
+      },
+      {
+        "heading": "Load shedding",
+        "content": "4.3 Advanced Controls\n\nFault detection and diagnostics (FDD)\n\nAI-based optimization (EverWatt.AI)\n\nDR automation\n\nWeather-integrated predictive logic\n\nCircuit-level metering\n\n---\n\n⚡ 5. ELECTRIFICATION MEASURES (FULL)\n\n5.1 Heating Electrification\n\nGas boiler → heat pump chiller\n\nGas boiler → electric boiler\n\nGas furnace → heat pump\n\nGas RTU → electric heat pump RTU\n\nGas MAU → electric MAU\n\nSteam heating → high-temp heat pump\n\n5.2 Cooling Electrification\n\nAbsorption chiller → electric chiller\n\nEngine-driven chiller → electric chiller\n\n5.3 Domestic Hot Water Electrification\n\nGas water heater → HPWH\n\nGas booster → electric booster\n\nSteam → heat pump DHW system\n\n5.4 Cooking Electrification\n\nGas range → induction\n\nGas fryer → electric fryer\n\nGas oven → electric convection oven\n\nGas broiler → electric salamander\n\n5.5 Infrastructure Upgrades for Electrification"
+      },
+      {
+        "heading": "Electrified reheat systems",
+        "content": "Distribution redesign (4-pipe to 2-pipe HP system)\n\n---\n\n🟫 6. ENVELOPE & INSULATION\n\n6.1 Insulation"
+      },
+      {
+        "heading": "Duct insulation",
+        "content": "6.2 Windows\n\nDouble-pane windows\n\nTriple-pane windows\n\nLow-E film"
+      },
+      {
+        "heading": "Window replacement",
+        "content": "Skylights / solar tubes\n\n6.3 Air Sealing"
+      },
+      {
+        "heading": "Vestibule addition",
+        "content": "6.4 Roofing"
+      },
+      {
+        "heading": "Green roof",
+        "content": "---\n\n❄️ 7. REFRIGERATION\n\n7.1 Display / Case Refrigeration\n\nEC evaporator fan motors\n\nLED case lighting\n\nAnti-sweat heater controls"
+      },
+      {
+        "heading": "Door gasket upgrades",
+        "content": "7.2 Rack Systems"
+      },
+      {
+        "heading": "Floating suction pressure",
+        "content": "VFD compressors"
+      },
+      {
+        "heading": "Refrigeration controls upgrade",
+        "content": "7.3 Walk-in Coolers / Freezers"
+      },
+      {
+        "heading": "Strip curtains",
+        "content": "ECM fans\n\nHigh-efficiency doors"
+      },
+      {
+        "heading": "Insulation upgrades",
+        "content": "---\n\n🚰 8. HOT WATER & PLUMBING\n\nLow-flow fixtures\n\nAuto-faucets\n\nAuto-flush valves\n\nHPWH systems\n\nHot-water recirculation optimization\n\nSteam-to-DHW conversion"
+      },
+      {
+        "heading": "Leak detection systems",
+        "content": "Water-cooled to air-cooled conversions\n\n---\n\n⚙️ 9. MOTORS & ELECTRICAL SYSTEMS\n\n9.1 Motors\n\nNEMA Premium motors\n\nECM motors\n\nRight-sizing motors"
+      },
+      {
+        "heading": "Motor VFDs",
+        "content": "9.2 Electrical Infrastructure\n\nHigh-efficiency transformers"
+      },
+      {
+        "heading": "Submetering",
+        "content": "---\n\n🔋 10. RENEWABLES & STORAGE\n\n10.1 Storage\n\nBattery energy storage systems (BESS)"
+      },
+      {
+        "heading": "Load shifting batteries",
+        "content": "10.2 Renewables"
+      },
+      {
+        "heading": "Hybrid inverter systems",
+        "content": "10.3 Thermal Storage"
+      },
+      {
+        "heading": "Chilled water storage",
+        "content": "PCM thermal storage\n\n---\n\n🏭 11. INDUSTRIAL / PROCESS LOADS\n\n11.1 Compressed Air"
+      },
+      {
+        "heading": "Leak detection",
+        "content": "Compressor replacement (VFD/two-stage)\n\nZero-loss drains"
+      },
+      {
+        "heading": "Setpoint optimization",
+        "content": "11.2 Process Loads"
+      },
+      {
+        "heading": "Pump VFDs",
+        "content": "Industrial fans (ECM/VFD)\n\n---\n\n🏥 12. HEALTHCARE-SPECIFIC MEASURES\n\nOR setback controls\n\nOR ACH reduction"
+      },
+      {
+        "heading": "Heat recovery chillers for reheat loops",
+        "content": "MRI chiller optimization"
+      },
+      {
+        "heading": "Sterilizer reclaim systems",
+        "content": "Medical air/vacuum optimization\n\n---\n\n🖥️ 13. DATA CENTER MEASURES"
+      },
+      {
+        "heading": "Cold aisle containment",
+        "content": "CRAH/CRAC VFD retrofits"
+      },
+      {
+        "heading": "Liquid cooling",
+        "content": "IT Efficiency"
+      },
+      {
+        "heading": "Server consolidation",
+        "content": "High-efficiency UPS\n\n---\n\n🔌 14. PLUG LOAD MANAGEMENT"
+      },
+      {
+        "heading": "Smart plugs",
+        "content": "PC power management"
+      },
+      {
+        "heading": "Appliance replacement",
+        "content": "Copier/printer consolidation\n\n---\n\n🎯 Ready for database export\n\nIf you want, I can convert this into:\n\n✅ Excel / CSV with categories & subcategories\n\n✅ Google Sheet with filters & data validation\n\n✅ A hierarchical tree for EverWatt.AI\n\n✅ A CRM or Energy Insight-ready import file\n\n✅ A printable PDF catalog for your sales team\n\nJust tell me the format and I’ll generate it."
+      }
+    ],
+    "extractedAt": "2025-12-11T04:24:17.809Z"
+  },
+  {
+    "id": "master-list-all-energy-efficiency-measures-for-commercial-buildings-everwatt-version",
+    "title": "MASTER LIST — ALL ENERGY-EFFICIENCY MEASURES FOR COMMERCIAL BUILDINGS (EVERWATT VERSION)",
+    "category": "measures",
+    "source": "MASTER LIST — ALL ENERGY-EFFICIENCY MEASURES FOR COMMERCIAL BUILDINGS (EVERWATT VERSION).docx",
+    "sections": [
+      {
+        "heading": "Exterior LED site lighting upgrades",
+        "content": "Parking-lot and garage LED upgrades"
+      },
+      {
+        "heading": "Vacancy sensors",
+        "content": "Bi-level stairwell lighting controls"
+      },
+      {
+        "heading": "Daylight harvesting sensors",
+        "content": "Networked lighting controls (NLC)\n\nWireless lighting control systems (Autani, nLight, Enlighted, etc.)"
+      },
+      {
+        "heading": "Scheduling and zoning controls",
+        "content": "High-bay motion sensing and daylighting"
+      },
+      {
+        "heading": "Photocells and astronomical timers",
+        "content": "Emergency lighting upgrades and self-testing systems"
+      },
+      {
+        "heading": "Demand response capable lighting systems",
+        "content": "❄️ HVAC — COOLING SYSTEM IMPROVEMENTS\n\nRooftop unit (RTU) replacement (high-SEER, high-IEER)\n\nVRF/VRV heat-pump systems"
+      },
+      {
+        "heading": "Chiller plant optimization",
+        "content": "Chiller replacements (magnetic-bearing, centrifugal, screw)\n\nChiller conversion (gas absorption → electric)\n\nHeat-pump chillers (HPCD)\n\nEconomizer repair/upgrade\n\nDemand-controlled ventilation (DCV)\n\nCO₂ sensors for ventilation control\n\nHigh-efficiency DX coils\n\nVFDs on fans, AHUs, chillers, cooling towers\n\nCooling tower upgrades (variable-speed fans, drift eliminators)"
+      },
+      {
+        "heading": "Condenser water pump upgrades",
+        "content": "Thermal storage (ice bank, chilled water storage)\n\n🔥 HVAC — HEATING SYSTEM IMPROVEMENTS\n\nBoiler retrofits (high efficiency condensing boilers)"
+      },
+      {
+        "heading": "Boiler replacements",
+        "content": "Heat-pump water heaters (HPWH)\n\nHeat-pump systems replacing gas furnaces\n\nHeat-pump chiller/boiler combos\n\nHot-water reset controls"
+      },
+      {
+        "heading": "Hydronic balancing",
+        "content": "Low-loss header optimization\n\nInfrared heating (warehouse, manufacturing)\n\nGas-to-electric conversion (full electrification)"
+      },
+      {
+        "heading": "Steam trap replacement programs",
+        "content": "Steam-to-hot water conversion\n\nThermal-decarbonization planning (roadmap)\n\n🌬️ AIR HANDLING & VENTILATION\n\nAHU replacement\n\nAHU VFDs\n\nFan upgrades (ECM motors, high-efficiency fans)\n\nVentilation optimization (ASHRAE 62.1 compliant)"
+      },
+      {
+        "heading": "Duct sealing",
+        "content": "Outside-air economizer optimization"
+      },
+      {
+        "heading": "Building pressurization correction",
+        "content": "Filtration upgrades (MERV13+ with efficient fans)\n\n⚙️ BUILDING AUTOMATION / CONTROLS\n\nBMS/EMS installation (BACnet, Niagara, Ignition, KMC, JCI, Siemens, Honeywell)\n\nRetro-commissioning (RCx)\n\nAutomated demand response (ADR)"
+      },
+      {
+        "heading": "Global scheduling & occupancy alignment",
+        "content": "Fault detection & diagnostics (FDD)"
+      },
+      {
+        "heading": "Reset strategies:",
+        "content": "supply air temp\n\nchilled-water temp\n\nhot-water temp\n\nstatic pressure"
+      },
+      {
+        "heading": "Smart thermostats for small facilities",
+        "content": "Smart meters & submeters (circuit-level)\n\nAI-based optimization (EverWatt AI controls)\n\n🧱 BUILDING ENVELOPE"
+      },
+      {
+        "heading": "Window tinting",
+        "content": "High-performance glazing\n\nLow-E window film"
+      },
+      {
+        "heading": "Door sweeps and weather stripping",
+        "content": "Skylight upgrades (diffused daylight)\n\n💧 WATER & PLUMBING EFFICIENCY\n\nLow-flow faucets\n\nLow-flow toilets\n\nLow-flow urinals\n\nShowerhead upgrades (hospitality / gyms)"
+      },
+      {
+        "heading": "Leak detection systems",
+        "content": "Hot-water recirculation optimization\n\nHeat-pump water heaters (commercial grade)\n\nBoiler-to-HPWH conversion"
+      },
+      {
+        "heading": "Commercial dishwashing system upgrades",
+        "content": "⚡ ELECTRICAL & MOTORS\n\nECM motors for fans, pumps\n\nVFD retrofits for pumps, fans, compressors\n\nSoft-start motor controllers\n\nPremium-efficiency motors\n\nAir-compressor optimization\n\nAir-leak reduction programs"
+      },
+      {
+        "heading": "Refrigeration compressor upgrades",
+        "content": "Refrigeration door gaskets, curtains"
+      },
+      {
+        "heading": "Compressor heat recovery",
+        "content": "Elevator modernization (regen drives)"
+      },
+      {
+        "heading": "Transformer replacement",
+        "content": "UPS efficiency upgrades\n\n🔥 GAS-TO-ELECTRIC DECARBONIZATION (PG&E PRIORITIES)\n\nGas absorption chiller → electric chiller\n\nSteam boiler → heat-pump chiller/boiler\n\nGas water heater → HPWH\n\nGas rooftop units → heat pumps\n\nGas furnaces → VRF\n\nGas kitchen hood make-up air → electric w/ VFD\n\nGas appliances → induction or electric\n\nThermal storage + heat pumps\n\nWhole-building electrification studies"
+      },
+      {
+        "heading": "Domestic hot water electrification",
+        "content": "🧯 REFRIGERATION (Food service, grocery, lab)\n\nAnti-sweat heater controls\n\nHigh-efficiency evaporator fans"
+      },
+      {
+        "heading": "Floating head pressure controls",
+        "content": "EC fan motors\n\nLED case lighting"
+      },
+      {
+        "heading": "Smart defrost controls",
+        "content": "🚰 PUMPS & DISTRIBUTION SYSTEMS\n\nChilled-water pump VFDs\n\nHot-water pump VFDs"
+      },
+      {
+        "heading": "Hydronic balancing",
+        "content": "Pressure-independent control valves (PICVs)\n\n🌱 RENEWABLES & STORAGE"
+      },
+      {
+        "heading": "Solar PV",
+        "content": "Solar thermal (water, pool, process)\n\nBattery storage (BESS)"
+      },
+      {
+        "heading": "Microgrid controls",
+        "content": "CHP replacement with renewables\n\nEV charging infrastructure\n\nBuilding-integrated PV\n\nGrid-interactive efficient buildings (GEB)\n\n🚗 TRANSPORTATION / EV\n\nEV charging"
+      },
+      {
+        "heading": "Smart EV charging load management",
+        "content": "V2G (future-ready)\n\nParking-garage ventilation controls\n\n🏭 PROCESS / INDUSTRIAL (for commercial/manufacturing clients)"
+      },
+      {
+        "heading": "Air leak audits",
+        "content": "High-efficiency industrial motors"
+      },
+      {
+        "heading": "Waste heat utilization",
+        "content": "Variable-load process systems"
+      },
+      {
+        "heading": "Industrial oven improvements",
+        "content": "Make-up air system control"
+      },
+      {
+        "heading": "Industrial fans & pumps upgrades",
+        "content": "🧪 HEALTHCARE-SPECIFIC MEASURES (Relevant to SCVMC)"
+      },
+      {
+        "heading": "Operating room AHU setbacks",
+        "content": "OR air-change-rate reduction strategies (code-compliant)\n\nHeat-recovery chillers for reheat loops"
+      },
+      {
+        "heading": "Central plant optimization",
+        "content": "Chiller conversion (gas → electric)\n\nHigh-efficiency sterilizers"
+      },
+      {
+        "heading": "Lab exhaust VFDs",
+        "content": "Supply/return tracking for 24/7 units\n\nMedical equipment plug-load management\n\nData center/surgical suite cooling optimization\n\n📊 MEASUREMENT, VERIFICATION & TRAINING\n\nReal-time energy monitoring\n\nInterval-data analysis"
+      },
+      {
+        "heading": "Staff training programs",
+        "content": "Commissioning (Cx)\n\nRecommissioning (RCx)"
+      },
+      {
+        "heading": "Lifecycle cost analysis",
+        "content": "Asset-level benchmarking\n\nEnergy audits (ASHRAE Level 1, 2, 3)"
+      }
+    ],
+    "extractedAt": "2025-12-11T04:24:17.814Z"
+  },
+  {
+    "id": "",
+    "title": "------------------------------------------------------------",
+    "category": "measures",
+    "source": "PDF #9_ Multi-Measure Stacking Manual.docx",
+    "sections": [
+      {
+        "heading": "RAW STRUCTURED ENGINEERING TEXT",
+        "content": "------------------------------------------------------------"
+      },
+      {
+        "heading": "SECTION 1 — PURPOSE OF MULTI-MEASURE STACKING",
+        "content": "1.1 Purpose This manual defines the engineering and financial logic necessary to combine multiple energy efficiency measures (EEMs) — including lighting, HVAC, battery storage, EV charging, building controls, and demand response — into a unified modeling framework.\n\nThe goal is to allow AI to: Combine measures without double-counting savings Respect interactive effects between systems Determine stacking priority Find optimal bundles Calculate combined economics Identify conflicts Explain interactions clearly Avoid infeasible combinations\n\n1.2 Measures Considered This manual covers:\n\nLighting retrofits Lighting controls HVAC controls VAV/VVT/CAV optimization RTU retrofits Chiller + boiler upgrades Battery storage (peak shaving, arbitrage, DR) EV charging infrastructure Demand response programs Building automation system upgrades Retrocommissioning\n\n1.3 AI Responsibilities AI must: Identify compatible measure combinations Reject incompatible combinations Apply correct modeling order Apply interaction factors Avoid double counting Model combined economics Adjust measure savings when interacting Provide clear measure-level and total savings breakdown Flag measures that become unnecessary due to others\n\n------------------------------------------------------------"
+      },
+      {
+        "heading": "SECTION 2 — MULTI-MEASURE INTERACTION PRINCIPLES",
+        "content": "------------------------------------------------------------\n\n2.1 Why Measures Interact Energy measures interact because:\n\nLighting reduces cooling load Lighting increases heating load HVAC resets reduce fan + compressor energy HVAC commissioning affects cooling loads Battery reduces peak but does not reduce actual kWh EV load increases peak and kWh DR participation affects battery availability Controls flatten profiles Boiler reset interacts with VAV reheat CHW reset interacts with economizers\n\n2.2 Measure Interaction Types Type A — Synergistic (1+1 > 2) Example: CHW reset + SAT reset + static pressure reset These produce compound savings.\n\nType B — Overlapping (1+1 < 2) Example: Lighting + SAT reset, where lighting reduces cooling load, shrinking SAT reset savings.\n\nType C — Conflicting Example: HVAC load reduction needed for DR while SAT reset also active; some combinations reduce effective savings.\n\nType D — Independent (1+1 = sum) Example: Exterior lighting + chiller optimization.\n\nAI must classify interactions among all measures.\n\n2.3 Interaction Effects on Savings Total savings must follow:\n\nTotalSavings = Sum(Savings_i) − OverlapLosses"
+      },
+      {
+        "heading": "SynergyGains",
+        "content": "2.4 Interaction Priority Interactive effects must be applied in hierarchical order:\n\nLighting → HVAC → Controls → Battery → DR → EV\n\nReason: Lighting affects HVAC HVAC affects controls Controls affect battery operation Battery affects DR EV affects tariff and DR\n\nAI must use this exact chain.\n\n------------------------------------------------------------"
+      },
+      {
+        "heading": "SECTION 3 — MEASURE ORDER OF OPERATIONS",
+        "content": "------------------------------------------------------------\n\n3.1 Why Order Matters Incorrect measure ordering leads to double counting or misallocation of savings. AI must always stack measures in a deterministic sequence.\n\n3.2 Order of Operations Correct order is:\n\nStep 1 — Compute baseline loads Step 2 — Apply lighting retrofit Step 3 — Apply lighting controls Step 4 — Apply HVAC optimization Step 5 — Apply HVAC equipment upgrades Step 6 — Apply battery modeling (shaving + arbitrage + DR interaction) Step 7 — Apply EV charging load Step 8 — Apply DR program modeling Step 9 — Recalculate tariff (including rate migration) Step 10 — Compute combined savings Step 11 — Apply incentive stacking Step 12 — Compute total financial metrics Step 13 — Validate\n\nAI must never deviate from this order.\n\n3.3 Why This Order Works Lighting modifies HVAC loads HVAC modifies comfort + reheat Controls modify HVAC behavior Battery modifies electricity bill but not HVAC loads EV modifies demand and TOU costs DR interacts with battery and HVAC Tariff migration depends on aggregated results\n\n------------------------------------------------------------"
+      },
+      {
+        "heading": "SECTION 4 — INTERACTION BETWEEN LIGHTING AND HVAC",
+        "content": "------------------------------------------------------------\n\n4.1 Lighting → HVAC Interaction Lighting reduction lowers cooling demand and increases heating demand.\n\nCoolingInteractionSavings = Lighting_kWh_reduction × CoolingFraction / HVAC_EER_equivalent\n\nHeatingInteractionPenalty = Lighting_kWh_reduction × HeatingFraction / BoilerEfficiency\n\nAI must compute these interaction effects.\n\n4.2 How Lighting Affects HVAC Savings Lighting reduces: Reheat Cooling load Supply air temperature reset potential\n\nLighting affects HVAC measures: SAT reset CHW reset Economizer operation Static pressure reset Reheat reset\n\nAI must shrink HVAC savings accordingly.\n\n4.3 Interaction Ranges Cooling-dominant climates → strong interaction (10–20% savings tied to lighting load) Heating-dominant climates → small or negative interaction Mild climates → moderate interaction\n\n4.4 Validation If combined lighting + HVAC savings > 50% of total building load → unrealistic, flag.\n\n------------------------------------------------------------"
+      },
+      {
+        "heading": "SECTION 5 — INTERACTION BETWEEN HVAC MEASURES",
+        "content": "------------------------------------------------------------\n\n5.1 HVAC Measure Synergies HVAC measures often reinforce each other:\n\nStatic pressure reset → lowers fan energy SAT reset → reduces cooling + reheat CHW reset → improves chiller efficiency Boiler reset → reduces heating therms Economizer → reduces compressor kWh\n\n5.2 Synergistic Savings Example If SAT reset and static pressure reset applied: FanSavings_spreset = cubic CoolingSavings_satreset = linear CombinedSavings = synergy factor applied AI must apply synergy factor ~1.05–1.15\n\n5.3 Overlaps Few HVAC measures overlap: SAT reset reduces cooling, which limits CHW reset effect Static pressure reset reduces airflow, limiting SAT reset savings Boiler reset reduces reheat availability\n\nAI must subtract overlap.\n\n5.4 HVAC + Controls Measures Controls such as DCV reduce HVAC runtime, impacting CHW reset savings, SAT reset savings, and reheat savings.\n\nAI must avoid double counting.\n\n5.5 Validation If HVAC stack savings > 30% of building consumption → likely unrealistic unless poor baseline controls.\n\n------------------------------------------------------------"
+      },
+      {
+        "heading": "SECTION 6 — INTERACTION BETWEEN HVAC AND BATTERY",
+        "content": "------------------------------------------------------------\n\n6.1 Battery → HVAC Battery storage affects electricity cost profile, not HVAC kWh consumption.\n\nAI must NOT apply HVAC load reduction due to battery.\n\n6.2 HVAC → Battery HVAC schedules heavily influence peak demand. Peak shaving must consider HVAC-driven peaks.\n\n6.3 Interaction Logic If HVAC reduces peak demand significantly → battery peak shaving potential decreases.\n\nBatteryPeakShave_new = min(Battery_kW, Peak_new − TargetPeak)\n\nAI must adopt the new reduced baseline peak for battery modeling.\n\n6.4 HVAC → DR HVAC can provide DR load shedding. Battery+HVAC DR synergy possible.\n\nAI must model coordinated dispatch during DR.\n\n6.5 Validation AI must ensure: HVAC savings do not reduce kWh eligible for battery arbitrage Battery DR does not create HVAC comfort issues\n\n------------------------------------------------------------"
+      },
+      {
+        "heading": "SECTION 7 — INTERACTION BETWEEN BATTERY AND EV LOAD",
+        "content": "------------------------------------------------------------\n\n7.1 Battery → EV Battery can mitigate EV demand impact. Battery may reduce: EV demand charges Transformer overload Peak impact\n\nAI must calculate battery-based peak shaving on EV loads separately.\n\n7.2 EV → Battery EV charging increases site peak → increases battery dispatch demand.\n\nBattery must have enough: Power (kW) Energy (kWh) SOC reserves\n\n7.3 Combined Load Modeling EV_peak_new = EVPeak_before_batt − min(Batt_kW, EVPeak_before_batt)\n\nBattery delivers: kWh_EV_support = min(Batt_kWh, EV_kWh_needed_for_peak)\n\n7.4 Validation If EV load exceeds battery rating by >3× → battery insufficient as mitigation.\n\n------------------------------------------------------------"
+      },
+      {
+        "heading": "SECTION 8 — INTERACTION BETWEEN DR AND BATTERY",
+        "content": "------------------------------------------------------------\n\n8.1 DR → Battery DR event reserves must be prioritized over arbitrage.\n\nBattery must start at sufficient SOC pre-event:\n\nSOC_required = (Committed_kW × EventDuration) / E_usable\n\n8.2 Battery → DR Battery may supply full DR curtailment if appropriately sized.\n\nAI must check: Battery_kW ≥ committed_kW Battery_kWh ≥ committed_kW × event_duration\n\n8.3 Interaction Constraints Battery DR reduces arbitrage cycles. Battery DR may reduce available peak shaving.\n\nAI must update savings accordingly.\n\n8.4 Validation If battery used for DR, arbitrage savings must be reduced in modeling.\n\n------------------------------------------------------------"
+      },
+      {
+        "heading": "SECTION 9 — CROSS-MEASURE OPTIMIZATION LOGIC",
+        "content": "------------------------------------------------------------\n\n9.1 Purpose AI must evaluate all measures together to form an optimal package.\n\n9.2 Multi-Measure Objective Choose measure bundle that maximizes: Net present value Payback IRR Demand reduction Carbon reduction Customer-specified goals\n\n9.3 Optimization Process For each measure i: Compute standalone savings Compute interactions with all previous measures Apply incentives Apply stacking rules Compute financial metrics\n\nAI must iterate through all valid combinations.\n\n9.4 Dominance Rule Measure A dominates measure B when: A has higher NPV A meets constraints B meets A has lower CAPEX A offers larger savings\n\nAI must eliminate dominated measures.\n\n9.5 Multi-Measure Feasibility AI must drop measures that: Offer small marginal savings Are redundant after previous optimizations Conflict with customer goals Exceed budget or panel capacity\n\nEND OF PART 1\n\n------------------------------------------------------------\n\nMULTI-MEASURE STACKING MANUAL"
+      },
+      {
+        "heading": "RAW STRUCTURED ENGINEERING TEXT",
+        "content": "------------------------------------------------------------"
+      },
+      {
+        "heading": "SECTION 10 — FULL MULTI-MEASURE STACKING FORMULAS",
+        "content": "10.1 Purpose of Stacking Formulas Stacking formulas ensure all measures are evaluated in correct sequence and that savings are neither understated nor overstated.\n\n10.2 General Stacking Formula TotalSavings = Σ(BaseSavings_i × AdjustmentFactor_i) − OverlapLosses"
+      },
+      {
+        "heading": "Where:",
+        "content": "BaseSavings_i = savings of measure i if applied alone AdjustmentFactor_i = factor adjustment after previous measures OverlapLosses = reductions due to overlapping effects SynergyGains = additional gains from measure interaction\n\n10.3 Example Adjustment Factors Lighting retrofit reduces cooling load → reduces HVAC cooling savings. AdjustmentFactor_HVAC = 1 − CoolingInteractionFraction\n\nIf lighting reduces cooling by 15%: AdjustmentFactor_HVAC ≈ 0.85\n\n10.4 Overlap Losses Overlap occurs when two measures target the same energy stream.\n\nExamples: SAT reset and CHW reset overlap on cooling DCV and economizer overlap on ventilation air HVAC DR and HVAC optimization overlap on airflow\n\nOverlapLoss = min(Savings_A, Savings_B) × OverlapCoefficient\n\n10.5 Synergy Gains Certain measures increase the effectiveness of other measures.\n\nExamples: VFD + Static Pressure Reset SAT reset + Chilled Water Reset Battery + DR\n\nSynergyGain = Savings_A × Savings_B × SynergyCoefficient\n\nTypical SynergyCoefficient = 0.05–0.20\n\n10.6 HVAC-Lighting Interaction Formula HVAC_Interaction_AdjustedSavings = LightingSavings × InteractionFactor(CZ, building_type)\n\nWhere InteractionFactor is based on climate zone.\n\n10.7 Battery + HVAC Integration Formula BatteryPeakShave_afterHVAC = min(Battery_kW, Peak_afterHVAC − TargetPeak)\n\nBattery savings recalculated after HVAC measures applied.\n\n10.8 EV + Battery Integration Formula Battery supports EV loads: EVPeakReduced = EVPeak − min(Batt_kW, EVPeak)\n\nAI must re-evaluate EV-augmented peak.\n\n10.9 DR + Battery Integration Formula Battery DR energy: DR_EnergyRequired = Committed_kW × EventDuration\n\nBattery must supply this before arbitrage is re-modeled.\n\nArbitrageReduction = (min(DR_EnergyRequired, ArbitrageEnergy)) × Spread\n\n------------------------------------------------------------"
+      },
+      {
+        "heading": "SECTION 11 — DETAILED REAL-WORLD MULTI-MEASURE EXAMPLES",
+        "content": "------------------------------------------------------------\n\n11.1 Example 1 — Office Building (VAV + Boiler + Lighting + Battery)\n\nBaseline: Lighting: 250,000 kWh/yr HVAC Cooling: 450,000 kWh/yr Heating: 25,000 therms/yr Peak: 350 kW\n\nMeasures: Lighting retrofit (LED) Lighting controls HVAC static pressure reset CHW reset Boiler reset Battery (100 kW / 400 kWh)"
+      },
+      {
+        "heading": "Stacking:",
+        "content": "Step 1 — Lighting Retrofit LightingSavings = 250,000 − 120,000 = 130,000 CoolingReduction = 130,000 × 0.12 = 15,600 kWh HeatingPenalty = 130,000 × 0.02 = 2,600 kWh equivalent (or therms based on boiler)\n\nStep 2 — Lighting Controls (post-retrofit) LightingControlsSavings = 120,000 × 0.25 = 30,000 kWh\n\nStep 3 — HVAC Optimization Cooling load reduced by lighting: HVACSavings_adjusted = 450,000 × 0.12 × 0.85 (reduced by lighting interaction)\n\nStep 4 — Battery Modeling Peak after HVAC = 350 − 40 = 310 kW BatteryPeakShave = min(100, 310 − target) Arbitrage adjusted because HVAC reset reduces daytime load\n\nStep 5 — DR Modeling DR kW now smaller because lighting + HVAC reduce baseline load.\n\nTotal system savings must sum properly.\n\n11.2 Example 2 — Hospital (CHW plant + Steam + Lighting + DR + Battery)\n\nComplex interactions: Lighting reduces cooling → reduces chiller load HVAC resets reduce heating → reduce steam demand Battery DR must reserve SOC, reducing arbitrage DR stacked with HVAC resets Battery DR + hospital peaks overlapping\n\nAI must detect: Lighting + CHW reset + CW reset synergy Lighting + boiler reset overlap Battery DR conflict with peak shaving\n\n11.3 Example 3 — School (RTUs + Boiler + Lighting + Controls) Lighting retrofit reduces RTU cooling HVAC resets smaller because RTUs are packaged DX Boiler heating penalty moderate Demand reduction from RTU staging improves battery value\n\nAI must stack: Lighting Controls RTU advanced logic Battery\n\n11.4 Example 4 — Industrial Site (High Bay + EV fleet + Battery) High bay lighting retrofit reduces warehouse cooling load EV charging increases peak Battery mitigates EV load Battery DR reduces arbitrage potential\n\nAI must simulate battery behavior with EV fleet arrivals.\n\n------------------------------------------------------------"
+      },
+      {
+        "heading": "SECTION 12 — MULTI-MEASURE VALIDATION MATRIX",
+        "content": "------------------------------------------------------------\n\n12.1 Purpose Ensures multi-measure models avoid double counting, incorrect stacking, or impossible combinations.\n\n12.2 Validation Test Cases\n\nTest 1 — Lighting + HVAC If lighting + HVAC savings > 50% total consumption → fail unless HID-heavy facility.\n\nTest 2 — HVAC + Battery If HVAC and battery both reduce peak for the same interval → allow only ONE savings source.\n\nTest 3 — DR + Battery If DR reduces peak and battery also reduces the same peak → apply DR first, battery second or vice versa depending on goal. Avoid double counting.\n\nTest 4 — EV + Battery If battery reduces EV peak, EV must not count DR reduction separately unless EV curtailment occurs.\n\nTest 5 — Battery DR + Arbitrage If battery used for DR, arbitrage reduced proportionally. Failure to reduce → fail.\n\nTest 6 — Boiler Reset + Lighting If boiler reset savings > heating load after lighting retrofit → fail.\n\nTest 7 — Controls + HVAC If combined controls + HVAC savings exceed thermodynamic limits → fail.\n\nTest 8 — Tariff Migration If tariff switch triggered by HVAC + lighting + battery combination → must rebuild entire bill. If not → fail.\n\nTest 9 — Incentive Stacking If incentive stacking > 100% of CAPEX → fail.\n\nTest 10 — Comfort or Safety If combination violates HVAC standards → reject.\n\n12.3 AI Response to Failures Reject combined measure Flag failure Recommend revised combination Ask for missing data Enforce conservative assumptions\n\n------------------------------------------------------------"
+      },
+      {
+        "heading": "SECTION 13 — COMPLETE MULTI-MEASURE OPTIMIZATION ENGINE LOGIC",
+        "content": "------------------------------------------------------------\n\n13.1 Objective Find the measure bundle that maximizes user goal (e.g., ROI, NPV, DR revenue, demand reduction).\n\n13.2 Optimization Algorithm\n\nStep 1 — Identify all feasible measures based on system type Step 2 — Calculate standalone savings Step 3 — Apply stacking order Step 4 — Recalculate loads Step 5 — Apply battery modeling Step 6 — Apply DR modeling Step 7 — Apply EV loads Step 8 — Apply tariff migration Step 9 — Compute incentive stacking Step 10 — Compute final savings and financial metrics Step 11 — Check all validation rules Step 12 — Produce sorted bundle recommendations\n\n13.3 Dominance Pruning Remove measure bundles that: Underperform across all metrics Violate constraints Cost more and save less\n\n13.4 Customer-Goal-Based Prioritization If user prioritizes: Demand Reduction → HVAC + battery prioritized DR Revenue → Battery + HVAC DR Energy Savings → Lighting + HVAC optimization Carbon Reduction → Lighting + HVAC + heat pump retrofits Capex Minimization → Controls + lighting\n\n13.5 Bundle Explanation AI must provide: What measures included Why included Why others excluded Savings breakdown Financial impacts Risks Uncertainties\n\n------------------------------------------------------------"
+      },
+      {
+        "heading": "SECTION 14 — AI GUARDRAILS FOR MULTI-MEASURE STACKING",
+        "content": "------------------------------------------------------------\n\n14.1 Core Rule AI must NOT double count savings under any circumstances.\n\n14.2 Lighting Guardrails Lighting savings cannot fully compound with HVAC savings Lighting + controls must apply controls to post-retrofit load Exterior lighting savings do not impact HVAC\n\n14.3 HVAC Guardrails HVAC savings cannot be added twice for overlapping measures HVAC comfort limits always enforced HVAC reset applicable only to VAV/CHW systems\n\n14.4 Battery Guardrails Battery does not reduce HVAC consumption Battery does not reduce lighting consumption Battery savings only impact cost, not physical HVAC load Battery DR must reduce arbitrage savings\n\n14.5 EV Guardrails EV peak cannot be reduced twice (battery + DR) unless distinct intervals EV diversity must remain realistic EV DR only eligible in fleet or controllable environments\n\n14.6 DR Guardrails DR must never be double counted with peak shaving DR baseline must be validated DR revenue must match performance\n\n14.7 Tariff Guardrails Tariff migration must be fully recomputed Seasonal TOU must be enforced Ratchet logic must be applied\n\n14.8 Incentive Guardrails No overlapping incentives Correct stacking order Correct basis adjustment\n\n------------------------------------------------------------"
+      },
+      {
+        "heading": "SECTION 15 — SAMPLE MEASURE STACK OUTPUT FORMAT",
+        "content": "------------------------------------------------------------\n\nAI must output:"
+      },
+      {
+        "heading": "Tariff modifications",
+        "content": "Battery + DR interactions"
+      },
+      {
+        "heading": "Financial summary:",
+        "content": "kWh saved\n\ntherms saved\n\npeak reduced\n\nNPV\n\nsimple payback\n\nIRR"
+      },
+      {
+        "heading": "Warnings and assumptions",
+        "content": "------------------------------------------------------------\n\nEND OF PDF #9 — MULTI-MEASURE STACKING MANUAL\n\n------------------------------------------------------------"
+      }
+    ],
+    "extractedAt": "2025-12-11T04:24:17.816Z"
+  }
+]

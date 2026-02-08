@@ -1,0 +1,265 @@
+{
+  "id": "k12-public-cert",
+  "industry": "k12-public",
+  "title": "EverWatt Energy Efficiency Certification - For K-12 Public School Engineers",
+  "subtitle": "Certification for energy efficiency in public elementary, middle, and high schools",
+  "description": "Validate your expertise in identifying and implementing energy efficiency measures for K-12 public schools. This certification covers HVAC scheduling, lighting, gymnasiums, cafeterias, variable occupancy patterns, and public school-specific considerations like budget constraints and state regulations.",
+  "icon": "🏫",
+  "passingScore": 80,
+  "timeLimit": 75,
+  "prerequisites": ["industry-specific"],
+  "metadata": {
+    "estimatedTime": 75,
+    "difficulty": "intermediate",
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-02"
+  },
+  "questions": [
+    {
+      "id": "k12p-001",
+      "question": "In K-12 public schools, what percentage of total energy is typically consumed by HVAC systems?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "30-40%" },
+        { "id": "b", "text": "40-55%" },
+        { "id": "c", "text": "55-65%" },
+        { "id": "d", "text": "65-75%" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "HVAC systems typically consume 40-55% of total energy in K-12 public schools. This is the largest single end use, making HVAC optimization the highest priority.",
+      "points": 5,
+      "category": "hvac",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "k12p-002",
+      "question": "A public school's HVAC system runs 24/7, but the building is only occupied 8 hours/day during school days. What is the most impactful measure?",
+      "questionType": "scenario",
+      "scenario": "A middle school's HVAC system runs continuously, but the building is only occupied Monday-Friday, 7 AM - 3 PM (8 hours/day). The system runs at full capacity even during unoccupied periods, weekends, and holidays.",
+      "options": [
+        { "id": "a", "text": "Replace the entire HVAC system" },
+        { "id": "b", "text": "Install scheduling controls to reduce operation during unoccupied periods" },
+        { "id": "c", "text": "Install LED lighting throughout" },
+        { "id": "d", "text": "Upgrade building envelope" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Installing scheduling controls to reduce HVAC operation during unoccupied periods can reduce HVAC energy by 20-40%. This addresses the specific issue of 24/7 operation when the building is only occupied 8 hours/day. Scheduling is typically the fastest payback measure for schools with variable occupancy.",
+      "points": 10,
+      "category": "hvac",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "k12p-003",
+      "question": "A school gymnasium has 20 high-bay HID fixtures (400W each) that operate 12 hours/day. If replaced with LED fixtures (150W each), what is the daily energy savings?",
+      "questionType": "calculation",
+      "options": [
+        { "id": "a", "text": "60 kWh/day (8 kW × 12 hrs = 96 kWh → 3 kW × 12 hrs = 36 kWh → 60 kWh savings)" },
+        { "id": "b", "text": "40 kWh/day" },
+        { "id": "c", "text": "80 kWh/day" },
+        { "id": "d", "text": "100 kWh/day" }
+      ],
+      "correctAnswer": "a",
+      "explanation": "Original: 20 × 400W = 8,000W = 8 kW × 12 hrs = 96 kWh/day. New: 20 × 150W = 3,000W = 3 kW × 12 hrs = 36 kWh/day. Savings: 96 - 36 = 60 kWh/day = 21,900 kWh/year (assuming 365 days).",
+      "points": 10,
+      "category": "lighting",
+      "difficulty": "intermediate",
+      "estimatedTime": 120
+    },
+    {
+      "id": "k12p-004",
+      "question": "During a site visit at a public school, you notice T12 fluorescent fixtures in classrooms and the HVAC runs during summer when school is closed. What should you prioritize?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "LED lighting replacement only" },
+        { "id": "b", "text": "HVAC scheduling controls first, then LED lighting" },
+        { "id": "c", "text": "Building envelope upgrades" },
+        { "id": "d", "text": "Plug load controls" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "HVAC scheduling controls should be prioritized first because they address the immediate waste of running HVAC during unoccupied summer months. This provides faster payback and immediate savings. LED lighting is the next priority, providing 40-65% lighting energy savings.",
+      "points": 8,
+      "category": "hvac",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "k12p-005",
+      "question": "What is a key consideration when recommending energy efficiency measures for public schools?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "Quick payback is always required (2 years or less)" },
+        { "id": "b", "text": "Budget constraints and long approval processes are common" },
+        { "id": "c", "text": "All measures must be implemented immediately" },
+        { "id": "d", "text": "State regulations don't apply" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Public schools often have tight budgets and long approval processes (school boards, bond measures). Energy savings free up funds for educational programs. ROI requirements may be longer (5-7 years) than commercial facilities. Some states have specific programs (e.g., Prop 39 in California) that can help fund improvements.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "k12p-006",
+      "question": "A high school has a pool that operates year-round. The pool pump runs 24/7. What energy efficiency opportunity should you identify?",
+      "questionType": "scenario",
+      "scenario": "A high school has an indoor pool. The pool pump (10 HP) runs continuously 24/7. The pool is only used during school hours and swim team practice (approximately 6 hours/day).",
+      "options": [
+        { "id": "a", "text": "Replace the pump with a smaller model" },
+        { "id": "b", "text": "Install a VFD and scheduling controls to reduce runtime" },
+        { "id": "c", "text": "Install pool covers" },
+        { "id": "d", "text": "All of the above" }
+      ],
+      "correctAnswer": "d",
+      "explanation": "All measures are valuable. Installing a VFD and scheduling controls can reduce pump energy by 50-70% by reducing speed and runtime. Pool covers can reduce heating energy by 20-40%. A combination of measures provides the best results.",
+      "points": 8,
+      "category": "process-equipment",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "k12p-007",
+      "question": "What is the typical energy savings potential for LED lighting retrofits in K-12 public schools?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "20-35%" },
+        { "id": "b", "text": "30-50%" },
+        { "id": "c", "text": "40-65%" },
+        { "id": "d", "text": "65-80%" }
+      ],
+      "correctAnswer": "c",
+      "explanation": "LED lighting retrofits in K-12 public schools typically yield 40-65% energy savings, especially when replacing T12/T8 fluorescents. Additional savings (10-40%) can be achieved with controls (scheduling, occupancy, daylight harvesting).",
+      "points": 5,
+      "category": "lighting",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "k12p-008",
+      "question": "A public school district wants to reduce energy costs across 10 schools. What approach should you recommend?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Implement different measures at each school" },
+        { "id": "b", "text": "Standardize measures across all schools to achieve economies of scale" },
+        { "id": "c", "text": "Focus on only one school as a pilot" },
+        { "id": "d", "text": "Wait until all schools need HVAC replacement" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Standardizing measures across all schools achieves economies of scale in procurement, installation, and maintenance. This approach is common for school districts and can improve ROI. A phased approach (pilot school first) can help validate measures before district-wide implementation.",
+      "points": 8,
+      "category": "general",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "k12p-009",
+      "question": "What percentage of K-12 public school energy is typically consumed by lighting?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "10-15%" },
+        { "id": "b", "text": "20-30%" },
+        { "id": "c", "text": "30-40%" },
+        { "id": "d", "text": "40-50%" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Lighting typically consumes 20-30% of total energy in K-12 public schools. While significant, it's less than HVAC due to variable occupancy patterns (schools are unoccupied during nights, weekends, and summers).",
+      "points": 5,
+      "category": "lighting",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "k12p-010",
+      "question": "A public school has single-pane windows in a 1970s building. What is the typical energy savings potential from window upgrades?",
+      "questionType": "scenario",
+      "scenario": "A public school built in 1975 has single-pane windows throughout. The building experiences draft complaints in winter and overheating in summer. Windows represent approximately 20% of the building envelope.",
+      "options": [
+        { "id": "a", "text": "2-5% overall energy reduction" },
+        { "id": "b", "text": "5-10% overall energy reduction" },
+        { "id": "c", "text": "10-20% overall energy reduction" },
+        { "id": "d", "text": "20-30% overall energy reduction" }
+      ],
+      "correctAnswer": "c",
+      "explanation": "Upgrading single-pane windows to double/triple-pane windows with low-E coatings can reduce overall building energy by 10-20%. This addresses both heating and cooling loads and improves comfort. However, window replacement is capital-intensive, so it's often combined with other envelope improvements.",
+      "points": 8,
+      "category": "building-envelope",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "k12p-011",
+      "question": "What is a key question to ask when assessing HVAC systems in public schools?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Is HVAC running during unoccupied periods?" },
+        { "id": "b", "text": "Are there controls? (Scheduling critical for variable occupancy)" },
+        { "id": "c", "text": "Do you have economizers?" },
+        { "id": "d", "text": "All of the above" }
+      ],
+      "correctAnswer": "d",
+      "explanation": "All questions are important for assessing HVAC systems in schools. Understanding unoccupied operation, controls, and economizers helps identify the highest-impact opportunities. These questions should be asked during every school assessment.",
+      "points": 5,
+      "category": "hvac",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "k12p-012",
+      "question": "A public school cafeteria kitchen has exhaust hoods that run continuously during school hours. What efficiency opportunity exists?",
+      "questionType": "scenario",
+      "scenario": "A school cafeteria has two exhaust hoods (Type I) that run continuously from 6 AM to 2 PM during school days. The hoods operate at full speed even when cooking is not occurring.",
+      "options": [
+        { "id": "a", "text": "Replace hoods with more efficient models" },
+        { "id": "b", "text": "Install variable-speed controls to reduce fan speed when cooking is not active" },
+        { "id": "c", "text": "Reduce hood operating hours" },
+        { "id": "d", "text": "Install heat recovery" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Installing variable-speed controls (VFDs) on exhaust hood fans can reduce ventilation energy by 30-50% by reducing fan speed when cooking is not active. This addresses the specific issue of continuous full-speed operation. Heat recovery is also valuable but requires more capital investment.",
+      "points": 8,
+      "category": "kitchen-equipment",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "k12p-013",
+      "question": "What is the typical priority order for energy efficiency measures in K-12 public schools?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "HVAC Systems, Lighting, Building Envelope, Plug Loads" },
+        { "id": "b", "text": "Lighting, HVAC, Plug Loads, Building Envelope" },
+        { "id": "c", "text": "Building Envelope, HVAC, Lighting, Plug Loads" },
+        { "id": "d", "text": "Plug Loads, Lighting, HVAC, Building Envelope" }
+      ],
+      "correctAnswer": "a",
+      "explanation": "HVAC systems are typically the highest priority (Very High) due to their large energy share (40-55%) and optimization opportunities. Lighting is High priority. Building Envelope is Medium-High. Plug Loads are Medium priority.",
+      "points": 8,
+      "category": "general",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "k12p-014",
+      "question": "A public school has gymnasium lighting that uses high-bay HID fixtures. What is the best energy efficiency approach?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Replace with LED high-bay fixtures only" },
+        { "id": "b", "text": "Replace with LED high-bay fixtures and install scheduling/occupancy controls" },
+        { "id": "c", "text": "Install controls only, no lighting replacement" },
+        { "id": "d", "text": "Wait until fixtures fail" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Replacing HID fixtures with LED high-bay fixtures and installing scheduling/occupancy controls provides the best combination of energy savings (50-75% reduction) and operational benefits. LEDs provide better light quality and longer life, while controls reduce wasted runtime.",
+      "points": 8,
+      "category": "lighting",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "k12p-015",
+      "question": "What state program in California provides funding for energy efficiency improvements in public schools?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "Prop 39" },
+        { "id": "b", "text": "Prop 13" },
+        { "id": "c", "text": "Prop 65" },
+        { "id": "d", "text": "Prop 98" }
+      ],
+      "correctAnswer": "a",
+      "explanation": "Proposition 39 (Prop 39) in California provides funding for energy efficiency improvements in public schools. Understanding state and utility programs is important for public school projects, as they can significantly improve ROI and enable projects that might not otherwise be feasible.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    }
+  ]
+}
+

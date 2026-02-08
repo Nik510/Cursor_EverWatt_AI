@@ -1,0 +1,101 @@
+{
+  "id": "food-service-cert",
+  "industry": "food-service",
+  "title": "EverWatt Energy Efficiency Certification - For Food Service Engineers",
+  "subtitle": "Certification for energy efficiency in restaurants and commercial kitchens",
+  "description": "Validate your expertise in identifying and implementing energy efficiency measures for restaurants and commercial kitchens. This certification covers kitchen equipment, ventilation, refrigeration, and high heat loads.",
+  "icon": "🍽️",
+  "passingScore": 80,
+  "timeLimit": 75,
+  "prerequisites": ["industry-specific"],
+  "metadata": {
+    "estimatedTime": 75,
+    "difficulty": "intermediate",
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-02"
+  },
+  "questions": [
+    {
+      "id": "fs-001",
+      "question": "In commercial kitchens, what percentage of total energy is typically consumed by kitchen equipment and ventilation?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "30-40%" },
+        { "id": "b", "text": "40-60%" },
+        { "id": "c", "text": "60-70%" },
+        { "id": "d", "text": "70-80%" }
+      ],
+      "correctAnswer": "c",
+      "explanation": "Kitchen equipment and ventilation typically consume 60-70% of total energy in commercial kitchens. This includes cooking equipment, exhaust hoods, and make-up air systems.",
+      "points": 5,
+      "category": "kitchen-equipment",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "fs-002",
+      "question": "A restaurant has exhaust hoods that run at full speed continuously during operating hours. What efficiency opportunity exists?",
+      "questionType": "scenario",
+      "scenario": "A restaurant has two exhaust hoods (Type I) that run at full speed continuously from 11 AM to 10 PM (11 hours/day). The hoods operate at full speed even during low-cooking periods.",
+      "options": [
+        { "id": "a", "text": "Replace hoods with more efficient models" },
+        { "id": "b", "text": "Install variable-speed controls to reduce fan speed during low-cooking periods" },
+        { "id": "c", "text": "Reduce hood operating hours" },
+        { "id": "d", "text": "Install heat recovery" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Installing variable-speed controls (VFDs) on exhaust hood fans can reduce ventilation energy by 30-50% by reducing fan speed during low-cooking periods. This addresses the specific issue of continuous full-speed operation. Heat recovery is also valuable but requires more capital investment.",
+      "points": 10,
+      "category": "kitchen-equipment",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "fs-003",
+      "question": "What is the typical energy savings potential for kitchen exhaust hood variable-speed controls?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "10-20% of ventilation energy" },
+        { "id": "b", "text": "20-40% of ventilation energy" },
+        { "id": "c", "text": "30-50% of ventilation energy" },
+        { "id": "d", "text": "50-70% of ventilation energy" }
+      ],
+      "correctAnswer": "c",
+      "explanation": "Kitchen exhaust hood variable-speed controls typically yield 30-50% savings of ventilation energy. This is achieved by reducing fan speed during low-cooking periods while maintaining adequate ventilation for safety.",
+      "points": 5,
+      "category": "kitchen-equipment",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "fs-004",
+      "question": "A commercial kitchen has refrigeration equipment that runs continuously. What efficiency opportunity should you prioritize?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Replace all refrigeration equipment" },
+        { "id": "b", "text": "Optimize refrigeration: door gaskets, defrost schedules, temperature setpoints, evaporator fan controls" },
+        { "id": "c", "text": "Install LED lighting only" },
+        { "id": "d", "text": "No opportunities" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Refrigeration optimization (door gaskets, defrost schedules, temperature setpoints, evaporator fan controls) can reduce refrigeration energy by 15-30%. This is typically more cost-effective than replacing all equipment and provides faster payback.",
+      "points": 8,
+      "category": "refrigeration",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "fs-005",
+      "question": "What is the typical priority order for energy efficiency measures in commercial kitchens?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Kitchen Equipment/Ventilation, Refrigeration, HVAC, Lighting" },
+        { "id": "b", "text": "Lighting, HVAC, Kitchen Equipment, Refrigeration" },
+        { "id": "c", "text": "Building Envelope, HVAC, Lighting, Kitchen Equipment" },
+        { "id": "d", "text": "Plug Loads, Lighting, HVAC, Kitchen Equipment" }
+      ],
+      "correctAnswer": "a",
+      "explanation": "For commercial kitchens, Kitchen Equipment/Ventilation is typically Very High priority (60-70% of energy). Refrigeration is High priority. HVAC is High priority. Lighting is Medium-High priority.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    }
+  ]
+}
+

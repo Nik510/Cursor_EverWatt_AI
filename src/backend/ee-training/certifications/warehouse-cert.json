@@ -1,0 +1,102 @@
+{
+  "id": "warehouse-cert",
+  "industry": "warehouse",
+  "title": "EverWatt Energy Efficiency Certification - For Warehouse Engineers",
+  "subtitle": "Certification for energy efficiency in warehouses and distribution centers",
+  "description": "Validate your expertise in identifying and implementing energy efficiency measures for warehouses and distribution centers. This certification covers high-bay lighting, minimal HVAC, dock doors, and material handling equipment.",
+  "icon": "📦",
+  "passingScore": 80,
+  "timeLimit": 75,
+  "prerequisites": ["industry-specific"],
+  "metadata": {
+    "estimatedTime": 75,
+    "difficulty": "intermediate",
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-02"
+  },
+  "questions": [
+    {
+      "id": "wh-001",
+      "question": "In warehouses, what percentage of total energy is typically consumed by lighting?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "30-40%" },
+        { "id": "b", "text": "40-60%" },
+        { "id": "c", "text": "60-70%" },
+        { "id": "d", "text": "70-80%" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Lighting typically consumes 40-60% of total energy in warehouses. This is the largest single end use, making lighting optimization the highest priority for warehouse facilities.",
+      "points": 5,
+      "category": "lighting",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "wh-002",
+      "question": "A warehouse has 200 high-bay HID fixtures (400W each) operating 16 hours/day. What is the annual energy use?",
+      "questionType": "calculation",
+      "options": [
+        { "id": "a", "text": "467,200 kWh/year" },
+        { "id": "b", "text": "584,000 kWh/year" },
+        { "id": "c", "text": "700,800 kWh/year" },
+        { "id": "d", "text": "934,400 kWh/year" }
+      ],
+      "correctAnswer": "a",
+      "explanation": "200 fixtures × 400W = 80,000W = 80 kW × 16 hrs/day × 365 days = 467,200 kWh/year. Replacing with LED fixtures (150W each) would reduce to: 200 × 150W = 30 kW × 16 hrs × 365 = 175,200 kWh/year. Savings: 292,000 kWh/year = ~$35,000/year at $0.12/kWh.",
+      "points": 10,
+      "category": "lighting",
+      "difficulty": "intermediate",
+      "estimatedTime": 120
+    },
+    {
+      "id": "wh-003",
+      "question": "A warehouse has dock doors that are frequently left open. What is the energy impact?",
+      "questionType": "scenario",
+      "scenario": "A warehouse has 20 dock doors. During loading/unloading operations, doors are frequently left open for extended periods, allowing conditioned air to escape.",
+      "options": [
+        { "id": "a", "text": "Minimal impact" },
+        { "id": "b", "text": "Significant HVAC energy waste, especially in extreme climates" },
+        { "id": "c", "text": "Only affects lighting" },
+        { "id": "d", "text": "No impact" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Open dock doors cause significant HVAC energy waste, especially in extreme climates (hot summers, cold winters). Installing dock door seals, high-speed doors, or dock shelters can reduce this waste. In some cases, minimal HVAC (spot heating/cooling) may be more appropriate than conditioning the entire space.",
+      "points": 8,
+      "category": "hvac",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "wh-004",
+      "question": "What is the typical energy savings potential for LED high-bay lighting retrofits in warehouses?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "30-45%" },
+        { "id": "b", "text": "40-65%" },
+        { "id": "c", "text": "50-75%" },
+        { "id": "d", "text": "65-85%" }
+      ],
+      "correctAnswer": "c",
+      "explanation": "LED high-bay lighting retrofits in warehouses typically yield 50-75% energy savings when replacing HID fixtures. Additional savings (10-40%) can be achieved with controls (scheduling, occupancy, daylight harvesting).",
+      "points": 5,
+      "category": "lighting",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "wh-005",
+      "question": "What is the typical priority order for energy efficiency measures in warehouses?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "High-Bay Lighting, HVAC (if applicable), Dock Doors, Material Handling" },
+        { "id": "b", "text": "HVAC, Lighting, Building Envelope, Plug Loads" },
+        { "id": "c", "text": "Building Envelope, HVAC, Lighting, Material Handling" },
+        { "id": "d", "text": "Material Handling, Lighting, HVAC, Building Envelope" }
+      ],
+      "correctAnswer": "a",
+      "explanation": "For warehouses, High-Bay Lighting is typically Very High priority (40-60% of energy). HVAC is Medium-High priority (if applicable). Dock Doors are Medium-High priority. Material Handling is Medium priority.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    }
+  ]
+}
+

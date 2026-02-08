@@ -1,0 +1,94 @@
+{
+  "schema_version": "project_record/v1",
+  "project_id": "pl_22995f305aa1",
+  "project_slug": "office-acme-controls",
+  "title": "ACME Office - VAV / AHU Controls Tune-up",
+  "created_at": "1970-01-01T00:00:00.000Z",
+  "updated_at": "1970-01-01T00:00:00.000Z",
+  "project_year": 2022,
+  "client": {
+    "name": "ACME Corp",
+    "industry": "office"
+  },
+  "site": {
+    "name": "ACME Office",
+    "city": "Austin",
+    "state": "TX"
+  },
+  "building_type": "office",
+  "tags": [
+    "ahu",
+    "vav",
+    "controls",
+    "sat-reset",
+    "static-pressure"
+  ],
+  "systems": [
+    {
+      "system_type": "AHU",
+      "description": "VAV AHU supply fan + SAT control"
+    },
+    {
+      "system_type": "VAV",
+      "description": "VAV terminal boxes"
+    }
+  ],
+  "measures": [
+    {
+      "name": "Static pressure reset",
+      "status": "implemented",
+      "description": "Reset duct static to reduce fan power while maintaining comfort"
+    },
+    {
+      "name": "Supply air temperature reset",
+      "status": "implemented",
+      "description": "Enable SAT reset with conservative bounds to reduce reheat and overcooling"
+    }
+  ],
+  "assumptions": {
+    "notes": "Weekday schedule dominant; verify occupancy schedules before resets.",
+    "kv": {
+      "baseline_year": 2021,
+      "sat_min_f": 52,
+      "sat_max_f": 58
+    }
+  },
+  "calc_outputs": {
+    "annual_kwh_savings": 45000,
+    "kw_reduction": 35,
+    "annual_cost_savings_usd": 6000
+  },
+  "confidence": {
+    "overall": 0.7
+  },
+  "implementation_notes": "Schedule fixes were prerequisite; resets tuned after VAV mins verified.",
+  "source_files": [
+    {
+      "path": "everwatt-project-library/raw/office-acme-controls/ems-summary.md",
+      "role": "summary",
+      "sha256": "309a3338896c4bc4668f666f932d0b8d658633b30b7591b09d560e18689f5981",
+      "bytes": 295,
+      "content_type": "text/markdown",
+      "description": "Human summary of scope and control changes",
+      "source": "raw"
+    },
+    {
+      "path": "everwatt-project-library/raw/office-acme-controls/final-savings-calc.txt",
+      "role": "calc",
+      "sha256": "33710e7659d95d62a3a72fd52dcf992b9f823d64abc9ec6644e0057a565a90dd",
+      "bytes": 82,
+      "content_type": "text/plain",
+      "description": "Final annual savings numbers used for audit reference",
+      "source": "raw"
+    },
+    {
+      "path": "everwatt-project-library/raw/office-acme-controls/best-notes.md",
+      "role": "other",
+      "sha256": "b088aacc57356b6fff49383dc07b5fd8904ef01c6eae46ef0fa1af748bff04cd",
+      "bytes": 219,
+      "content_type": "text/markdown",
+      "description": "Best notes / pitfalls",
+      "source": "raw"
+    }
+  ]
+}

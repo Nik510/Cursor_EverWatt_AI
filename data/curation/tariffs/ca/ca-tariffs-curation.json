@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "capturedAtIso": "2026-02-08T00:00:00.000Z",
+  "items": [
+    { "utilityKey": "PGE", "rateCode": "B-19*", "tier": "featured", "hidden": false, "preferredForEverWatt": true, "tags": ["demand", "tou", "business"], "notes": "EverWatt featured: common C&I TOU demand family." },
+    { "utilityKey": "PGE", "rateCode": "B-20*", "tier": "featured", "hidden": false, "preferredForEverWatt": true, "tags": ["demand", "tou", "business"], "notes": "EverWatt featured: common C&I TOU demand family." },
+    { "utilityKey": "PGE", "rateCode": "E-19*", "tier": "featured", "hidden": false, "preferredForEverWatt": true, "tags": ["demand", "tou", "business"], "notes": "EverWatt featured: large C&I TOU demand family." },
+    { "utilityKey": "PGE", "rateCode": "E-20*", "tier": "featured", "hidden": false, "preferredForEverWatt": true, "tags": ["demand", "tou", "business"], "notes": "EverWatt featured: large C&I TOU demand family." },
+    { "utilityKey": "PGE", "rateCode": "AG*", "tier": "featured", "hidden": false, "preferredForEverWatt": true, "tags": ["agricultural", "business"], "notes": "EverWatt featured: agriculture families (best-effort)." },
+    { "utilityKey": "PGE", "rateCode": "B-10", "tier": "common", "hidden": false, "preferredForEverWatt": true, "tags": ["business"], "notes": "Common small/medium GS schedule." },
+
+    { "utilityKey": "PGE", "rateCode": "A-*", "tier": "all", "hidden": true, "tags": ["residential"], "notes": "Residential rates hidden by default (commercial-first)." }
+  ]
+}
+

@@ -1,0 +1,46 @@
+{
+  "analysisId": "demo-tariff",
+  "analysisMode": "single",
+  "rateCode": "HB19S",
+  "demandRatePerKwMonth": 31,
+  "maxChartPoints": 2000,
+  "customerInfo": {
+    "accountNumber": "acct",
+    "saId": "5663820753",
+    "rateCode": "HB19S"
+  },
+  "usageData": [
+    {
+      "billStartDate": "2026-01-01",
+      "billEndDate": "2026-01-31",
+      "rateCode": "HB19S",
+      "totalCost": 10000,
+      "billingDays": 31,
+      "peakDemandKw": 344.4,
+      "totalUsageKwh": 1000
+    }
+  ],
+  "intervals": [
+    {
+      "timestamp": "2026-01-01T00:00:00Z",
+      "kw": 100
+    },
+    {
+      "timestamp": "2026-01-15T12:00:00Z",
+      "kw": 344.4
+    },
+    {
+      "timestamp": "2026-01-31T23:45:00Z",
+      "kw": 120
+    }
+  ],
+  "batterySpec": {
+    "capacity_kwh": 385,
+    "max_power_kw": 190,
+    "round_trip_efficiency": 0.9,
+    "degradation_rate": 0.02,
+    "min_soc": 0.1,
+    "max_soc": 0.9,
+    "depth_of_discharge": 0.8
+  }
+}

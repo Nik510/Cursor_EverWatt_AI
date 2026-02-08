@@ -1,0 +1,192 @@
+{
+  "version": "pge_programs_v1",
+  "lastUpdated": "2026-01-01",
+  "entries": [
+    {
+      "programId": "pge.dr.capacity_bidder_v1",
+      "name": "Capacity DR (Aggregator Bid, placeholder)",
+      "utilityTerritory": "PGE",
+      "category": "DEMAND_RESPONSE",
+      "administrator": "AGGREGATOR",
+      "customerSegments": ["commercial", "industrial"],
+      "naicsInclude": [],
+      "naicsExclude": [],
+      "eligibility": {
+        "minPeakKw": 200,
+        "requiresIntervalData": true,
+        "requiresAdvancedMetering": true,
+        "seasonMonths": [6, 7, 8, 9],
+        "weekdayOnly": true
+      },
+      "drTraits": {
+        "eventSeason": "summer",
+        "eventHours": "16:00-21:00",
+        "notificationLeadTime": "day-ahead",
+        "maxEvents": 20,
+        "typicalDurationHours": 2
+      },
+      "benefitsSummary": "Payments for committed load reduction capability during peak events.",
+      "requiredCustomerData": ["utilityTerritory", "intervalKw", "peakKw", "metering.ami"],
+      "nextSteps": [
+        "Confirm territory and AMI/interval availability.",
+        "Estimate curtailable kW in 16:00–21:00 window.",
+        "Contact aggregator for enrollment and baseline methodology."
+      ],
+      "version": "v1",
+      "lastUpdated": "2026-01-01"
+    },
+    {
+      "programId": "pge.dr.automated_dr_v1",
+      "name": "Automated Demand Response (AutoDR, placeholder)",
+      "utilityTerritory": "PGE",
+      "category": "DEMAND_RESPONSE",
+      "administrator": "UTILITY",
+      "customerSegments": ["commercial"],
+      "naicsInclude": [],
+      "naicsExclude": [],
+      "eligibility": {
+        "minPeakKw": 100,
+        "requiresIntervalData": true,
+        "requiresAdvancedMetering": true,
+        "seasonMonths": [6, 7, 8, 9],
+        "weekdayOnly": true
+      },
+      "drTraits": {
+        "eventSeason": "summer",
+        "eventHours": "16:00-21:00",
+        "notificationLeadTime": "day-of",
+        "maxEvents": 15,
+        "typicalDurationHours": 2
+      },
+      "benefitsSummary": "Incentives for automated curtailment capability during dispatch events.",
+      "requiredCustomerData": ["utilityTerritory", "intervalKw", "peakKw", "controls.bms"],
+      "nextSteps": ["Confirm controls/BMS capability.", "Identify controllable loads and automation approach.", "Enroll and test event response."],
+      "version": "v1",
+      "lastUpdated": "2026-01-01"
+    },
+    {
+      "programId": "pge.dr.nonres_cpp_v1",
+      "name": "Critical Peak Pricing (Non-Residential CPP, placeholder)",
+      "utilityTerritory": "PGE",
+      "category": "DEMAND_RESPONSE",
+      "administrator": "UTILITY",
+      "customerSegments": ["commercial", "industrial"],
+      "naicsInclude": [],
+      "naicsExclude": [],
+      "eligibility": {
+        "minMonthlyKwh": 50000,
+        "requiresIntervalData": true,
+        "seasonMonths": [6, 7, 8, 9]
+      },
+      "drTraits": {
+        "eventSeason": "summer",
+        "eventHours": "14:00-19:00",
+        "notificationLeadTime": "day-ahead",
+        "maxEvents": 15,
+        "typicalDurationHours": 4
+      },
+      "benefitsSummary": "Bill savings potential by reducing usage during critical peak price events.",
+      "requiredCustomerData": ["utilityTerritory", "intervalKw", "monthlyKwh", "rateCode"],
+      "nextSteps": ["Confirm current rate compatibility.", "Identify event response strategy.", "Estimate bill impacts with tariff modeling."],
+      "version": "v1",
+      "lastUpdated": "2026-01-01"
+    },
+    {
+      "programId": "pge.incentives.healthcare_efficiency_v1",
+      "name": "Healthcare Efficiency Incentives (placeholder)",
+      "utilityTerritory": "PGE",
+      "category": "INCENTIVE",
+      "administrator": "UTILITY",
+      "customerSegments": ["healthcare"],
+      "naicsInclude": ["62"],
+      "naicsExclude": [],
+      "eligibility": {
+        "minAnnualKwh": 1000000,
+        "requiresIntervalData": false
+      },
+      "benefitsSummary": "Custom incentives for efficiency projects in healthcare facilities (segment-gated).",
+      "requiredCustomerData": ["utilityTerritory", "naicsCode", "annualKwh", "customerType"],
+      "nextSteps": ["Confirm NAICS and facility type.", "Compile project list and baseline usage.", "Engage utility incentive administrator."],
+      "version": "v1",
+      "lastUpdated": "2026-01-01"
+    },
+    {
+      "programId": "pge.incentives.k12_efficiency_v1",
+      "name": "K-12/Public Sector Efficiency Incentives (placeholder)",
+      "utilityTerritory": "PGE",
+      "category": "INCENTIVE",
+      "administrator": "UTILITY",
+      "customerSegments": ["k12", "public_sector"],
+      "naicsInclude": ["6111"],
+      "naicsExclude": [],
+      "eligibility": {
+        "minAnnualKwh": 300000,
+        "requiresIntervalData": false
+      },
+      "benefitsSummary": "Incentives and technical assistance for K-12/public sector retrofits (NAICS-gated).",
+      "requiredCustomerData": ["utilityTerritory", "naicsCode", "annualKwh", "customerType"],
+      "nextSteps": ["Confirm NAICS prefix 6111 (K-12).", "Collect annual usage and measure list.", "Submit pre-application for incentive reservation."],
+      "version": "v1",
+      "lastUpdated": "2026-01-01"
+    },
+    {
+      "programId": "pge.storage.interconnection_fasttrack_v1",
+      "name": "Storage Interconnection Fast-Track (placeholder)",
+      "utilityTerritory": "PGE",
+      "category": "STORAGE",
+      "administrator": "UTILITY",
+      "customerSegments": ["commercial", "industrial"],
+      "naicsInclude": [],
+      "naicsExclude": [],
+      "eligibility": {
+        "minPeakKw": 300,
+        "requiresIntervalData": true,
+        "requiresAdvancedMetering": true
+      },
+      "benefitsSummary": "Potentially streamlined interconnection pathway for behind-the-meter storage meeting criteria.",
+      "requiredCustomerData": ["utilityTerritory", "intervalKw", "peakKw", "metering.ami", "storage.intent"],
+      "nextSteps": ["Confirm storage sizing intent.", "Compile single-line and interconnection data.", "Engage utility interconnection team."],
+      "version": "v1",
+      "lastUpdated": "2026-01-01"
+    },
+    {
+      "programId": "pge.fin.onbill_financing_v1",
+      "name": "On-Bill Financing (placeholder)",
+      "utilityTerritory": "PGE",
+      "category": "FINANCING",
+      "administrator": "UTILITY",
+      "customerSegments": ["commercial"],
+      "naicsInclude": [],
+      "naicsExclude": [],
+      "eligibility": {
+        "minAnnualKwh": 200000,
+        "requiresIntervalData": false
+      },
+      "benefitsSummary": "Financing mechanism for eligible efficiency upgrades repaid via utility bill (placeholder).",
+      "requiredCustomerData": ["utilityTerritory", "annualKwh", "project.intent"],
+      "nextSteps": ["Confirm qualifying measures and customer eligibility.", "Prepare scope and cost estimates.", "Submit financing application and review terms."],
+      "version": "v1",
+      "lastUpdated": "2026-01-01"
+    },
+    {
+      "programId": "pge.other.naics_exclusion_example_v1",
+      "name": "Industrial Process Support (excludes NAICS 62, placeholder)",
+      "utilityTerritory": "PGE",
+      "category": "OTHER",
+      "administrator": "UTILITY",
+      "customerSegments": ["industrial"],
+      "naicsInclude": ["31", "32", "33"],
+      "naicsExclude": ["62"],
+      "eligibility": {
+        "minPeakKw": 150,
+        "requiresIntervalData": false
+      },
+      "benefitsSummary": "Technical support for industrial process optimization (NAICS include/exclude demo).",
+      "requiredCustomerData": ["utilityTerritory", "naicsCode", "peakKw", "customerType"],
+      "nextSteps": ["Confirm NAICS prefix in 31-33 and not 62.", "Provide peak demand and process overview.", "Schedule utility engineering consult."],
+      "version": "v1",
+      "lastUpdated": "2026-01-01"
+    }
+  ]
+}
+

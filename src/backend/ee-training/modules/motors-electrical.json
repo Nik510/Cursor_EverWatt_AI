@@ -1,0 +1,388 @@
+{
+  "id": "motors-electrical",
+  "title": "Motors & Electrical Systems",
+  "subtitle": "Motor Efficiency, VFDs, Power Quality, and Lighting",
+  "description": "Comprehensive training on motor efficiency classes, VFD applications, power factor correction, and lighting systems. Covers the electrical side of building energy efficiency.",
+  "icon": "⚙️",
+  "category": "motors",
+  "order": 6,
+  "status": "published",
+  "metadata": {
+    "author": "EverWatt Engineering Team",
+    "lastUpdated": "2025-12-13",
+    "version": "1.0.0",
+    "estimatedTime": 140,
+    "difficulty": "intermediate",
+    "tags": ["motors", "vfd", "efficiency", "lighting", "power-factor", "electrical"]
+  },
+  "sections": [
+    {
+      "id": "quick-overview",
+      "title": "Quick Overview",
+      "subtitle": "90-second skim + jump points",
+      "icon": "⚡",
+      "order": 0,
+      "metadata": {
+        "estimatedTime": 8,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "sales", "selection"]
+      },
+      "content": [
+        {
+          "id": "qv-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 3,
+          "cards": [
+            {
+              "title": "Best ROI: VFDs",
+              "description": "If load varies, VFDs often save 25–50% with 1–3 year payback. Fans/pumps first.",
+              "metadata": { "icon": "⚙️" }
+            },
+            {
+              "title": "Premium Motors",
+              "description": "Use NEMA Premium at replacement. Efficiency gains are small, but lifetime hours add up.",
+              "metadata": { "icon": "🏭" }
+            },
+            {
+              "title": "Power Factor",
+              "description": "PF correction avoids utility penalties and frees capacity; validate with bills/metering.",
+              "metadata": { "icon": "📊" }
+            },
+            {
+              "title": "Lighting Controls",
+              "description": "Controls (sensors + scheduling + NLC) can add 10–40% savings on top of LEDs.",
+              "metadata": { "icon": "💡" }
+            },
+            {
+              "title": "Field Signals",
+              "description": "Constant-speed motors, throttling valves/dampers, PF penalties, harmonic issues, oversized motors.",
+              "metadata": { "icon": "🔍" }
+            },
+            {
+              "title": "What to Photograph",
+              "description": "Motor nameplates (HP/FLA), starters, VFD models, single-line diagram, PF line items on utility bills.",
+              "metadata": { "icon": "📸" }
+            }
+          ]
+        },
+        {
+          "id": "qv-kpi-table",
+          "type": "table",
+          "order": 2,
+          "metadata": { "title": "Motor/Electrical KPI Cheat Sheet" },
+          "headers": ["KPI", "What it means", "Rule-of-thumb"],
+          "rows": [
+            ["HP & hours", "Energy scale", "Savings = kW × hours; long runtime is everything"],
+            ["Speed control", "VFD opportunity", "If flow is throttled, VFD likely pays"],
+            ["Power factor", "Reactive power", "Avoid penalties; verify with utility bills"],
+            ["THD", "Harmonics", "High THD can cause heating/nuisance trips; consider filters"],
+            ["kW demand", "Peak charges", "VFDs can reduce kW and peak demand"]
+          ]
+        }
+        ,
+        {
+          "id": "vfd-fit-checker-diagram",
+          "type": "interactive",
+          "order": 2.5,
+          "component": "vfd-fit-checker",
+          "config": {
+            "title": "VFD Fit Checker",
+            "subtitle": "Fans/pumps vs conveyors vs constant-power loads (quick intuition)"
+          }
+        },
+        {
+          "id": "motor-nameplate-explainer",
+          "type": "interactive",
+          "order": 2.6,
+          "component": "motor-nameplate-explainer",
+          "config": {
+            "title": "Motor Nameplate Explainer",
+            "subtitle": "What each field means + what to capture in the field"
+          }
+        }
+      ]
+    },
+    {
+      "id": "introduction",
+      "title": "Introduction to Motor Efficiency",
+      "subtitle": "Motor Energy Fundamentals",
+      "icon": "📚",
+      "order": 1,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["fundamentals", "overview"]
+      },
+      "content": [
+        {
+          "id": "intro-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Motor Systems in Commercial Buildings\n\n## The Motor Energy Story\n\n**Motors consume 45-65% of all electricity in commercial and industrial facilities.** HVAC fans, pumps, compressors, conveyors, and process equipment all rely on electric motors.\n\n## Why Motor Efficiency Matters\n\n- A 50 HP motor running 8,760 hours/year uses ~300,000 kWh\n- 2% efficiency improvement = 6,000 kWh = $1,200/year savings\n- Motor operates for 15-20+ years = $18,000-$24,000 lifetime savings\n\n## The Opportunity\n\n**Three paths to motor savings:**\n1. **High-efficiency motors**: Replace old motors with premium efficient\n2. **Variable speed drives**: Add VFDs to variable-load applications\n3. **Right-sizing**: Oversized motors waste energy at part load"
+        },
+        {
+          "id": "intro-efficiency-classes",
+          "type": "table",
+          "order": 2,
+          "metadata": { "title": "Motor Efficiency Classifications" },
+          "headers": ["Standard", "US Term", "IEC Term", "Typical Efficiency (50 HP)"],
+          "rows": [
+            ["Below minimum", "Standard (pre-EPACT)", "IE1", "91-92%"],
+            ["EISA 2007 minimum", "NEMA Premium", "IE3", "93-94%"],
+            ["Above minimum", "Super Premium", "IE4", "95-96%"],
+            ["Best available", "Ultra Premium", "IE5", "96%+"]
+          ]
+        },
+        {
+          "id": "intro-quote",
+          "type": "quote",
+          "order": 3,
+          "quote": "Every motor over 5 HP should have a VFD if the load varies. The affinity laws give you cubic savings - that's money in the bank.",
+          "author": "Electrical Engineer",
+          "role": "Motor systems specialist"
+        }
+      ]
+    },
+    {
+      "id": "vfd-applications",
+      "title": "VFD Applications",
+      "subtitle": "Variable Frequency Drives for Energy Savings",
+      "icon": "⚡",
+      "order": 2,
+      "metadata": {
+        "estimatedTime": 30,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["vfd", "selection", "roi", "sales"]
+      },
+      "content": [
+        {
+          "id": "vfd-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Variable Frequency Drives (VFDs)\n\n## How VFDs Work\n\nA VFD controls motor speed by varying the frequency of the electrical supply. Standard AC motors are fixed-speed (tied to 60 Hz grid frequency). A VFD converts AC → DC → Variable frequency AC, allowing precise speed control.\n\n## Why VFDs Save Energy\n\n**Fan/Pump Affinity Laws:**\n- Flow ∝ Speed\n- Pressure ∝ Speed²\n- **Power ∝ Speed³**\n\n**Example:** Reduce speed to 80%:\n- Flow: 80%\n- Power: 51% (0.8³)\n- **49% energy savings!**\n\n## Best Applications\n\n✅ Variable load applications:\n- HVAC fans (supply, return, exhaust)\n- Chilled water pumps\n- Condenser water pumps\n- Cooling tower fans\n- Process pumps with variable demand"
+        },
+        {
+          "id": "vfd-payback",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "💰 VFD Payback Calculator",
+              "content": [
+                {
+                  "id": "vfd-calc",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Quick Payback Estimate\n\n**Inputs:**\n- Motor HP: 30 HP\n- Operating hours: 6,000/year\n- Average load: 70%\n- Electric rate: $0.15/kWh\n- VFD cost: $5,000 installed\n\n**Calculations:**\n\n*Without VFD (throttled):*\nPower = 30 HP × 0.746 × 6,000 hrs × 100% = 134,280 kWh\n\n*With VFD (70% speed):*\nPower = 30 HP × 0.746 × 6,000 hrs × (0.7³) = 46,050 kWh\n\n**Savings:** 88,230 kWh × $0.15 = **$13,235/year**\n\n**Payback:** $5,000 / $13,235 = **0.4 years (5 months!)**\n\n**Plus utility rebates** often cover 30-50% of VFD cost!"
+                }
+              ]
+            },
+            {
+              "title": "⚠️ VFD Considerations",
+              "content": [
+                {
+                  "id": "vfd-considerations",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Technical Considerations\n\n### Motor Compatibility\n- Most modern motors are VFD-rated (inverter duty)\n- Older motors may need evaluation for insulation and bearing currents\n- Very old motors may need replacement when adding VFD\n\n### Harmonics\n- VFDs can inject harmonics into electrical system\n- May need filters for sensitive equipment\n- IEEE 519 compliance if utility requires\n\n### Minimum Speed\n- Most applications need minimum speed of 20-30%\n- Below this, motor cooling may be insufficient\n- Some VFDs have motor thermal protection\n\n### Bypass\n- Consider bypass for critical applications\n- Allows motor to run on utility power if VFD fails"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "vfd-sales",
+          "type": "markdown",
+          "order": 3,
+          "content": "## 💼 Sales Approach: VFDs\n\n### Opening Hook\n*\"Your 50 HP supply fan is running at full speed all day, then you're throwing away half the air through a damper. A VFD lets the motor slow down instead - that's 50% less energy.\"*\n\n### Key Value Props\n1. **Payback under 2 years** (often under 1 year)\n2. **Utility rebates** of $50-100 per HP\n3. **OBF eligible** at 0% interest\n4. **Soft start** extends motor and mechanical life\n5. **Reduced noise** from slower operation\n\n### Qualifying Questions\n- \"Do you have dampers or valves that throttle flow?\"\n- \"What HP are your main HVAC motors?\"\n- \"How many hours per year do they run?\"\n- \"Are the motors VFD-rated or inverter-duty?\""
+        }
+      ]
+    },
+    {
+      "id": "power-quality",
+      "title": "Power Quality & Power Factor",
+      "subtitle": "Harmonics and Power Factor Correction",
+      "icon": "📊",
+      "order": 3,
+      "metadata": {
+        "estimatedTime": 25,
+        "difficulty": "advanced",
+        "roles": ["engineer", "sales"],
+        "tags": ["power-factor", "electrical", "roi"]
+      },
+      "content": [
+        {
+          "id": "pf-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Power Factor Basics\n\n## What is Power Factor?\n\n**Power Factor = Real Power (kW) / Apparent Power (kVA)**\n\n- Real power (kW): Does useful work\n- Reactive power (kVAR): Creates magnetic fields in motors\n- Apparent power (kVA): Total power utility delivers\n\n## Why Power Factor Matters\n\n### Utility Penalties\n- Many utilities charge penalties for PF < 0.90 or 0.85\n- Can be significant: $1-10 per kVAR or % of bill\n\n### Capacity\n- Low PF = higher current for same kW\n- Limits capacity of transformers and cables\n\n## Common Causes of Low PF\n- Induction motors (especially lightly loaded)\n- Fluorescent and HID lighting with magnetic ballasts\n- Transformers\n- VFDs (can worsen PF on line side)"
+        },
+        {
+          "id": "pf-correction",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "🔧 Power Factor Correction Methods",
+              "content": [
+                {
+                  "id": "pf-methods",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Correction Options\n\n### Capacitor Banks\n- Most common and cost-effective\n- Fixed or automatic switching\n- Installed at service, feeder, or individual motor\n- Must avoid over-correction (leading PF)\n\n### Synchronous Condensers\n- Rotating machine that provides reactive power\n- Less common in buildings\n- Can provide or absorb reactive power\n\n### Active Filters\n- Electronic devices that inject reactive power\n- Also correct harmonics\n- More expensive but flexible\n\n## Sizing Capacitors\n\nkVAR needed = kW × (tan θ₁ - tan θ₂)\n\nWhere θ₁ = arccos(current PF), θ₂ = arccos(target PF)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lighting",
+      "title": "Lighting Systems",
+      "subtitle": "LED Retrofits and Controls",
+      "icon": "💡",
+      "order": 4,
+      "metadata": {
+        "estimatedTime": 25,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["lighting", "controls", "roi", "sales"]
+      },
+      "content": [
+        {
+          "id": "lighting-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Lighting Efficiency\n\n## The LED Revolution\n\nLED lighting has transformed efficiency:\n\n| Technology | Efficacy (lm/W) | Life (hours) |\n|------------|-----------------|---------------|\n| Incandescent | 10-17 | 1,000 |\n| Halogen | 15-20 | 2,000 |\n| CFL | 50-70 | 8,000 |\n| Fluorescent T8 | 80-100 | 20,000 |\n| LED | 100-200+ | 50,000+ |\n\n## LED Retrofit Opportunities\n\n### Direct Replacement\n- LED tubes to replace T8 fluorescent\n- LED retrofit kits for troffers\n- LED lamps for recessed cans\n\n### Fixture Replacement\n- New LED fixtures (better performance)\n- Integrated controls capability\n- Improved optics and distribution"
+        },
+        {
+          "id": "lighting-controls",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "🎛️ Lighting Controls",
+              "content": [
+                {
+                  "id": "light-controls",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Control Strategies\n\n### Occupancy Sensors\n- PIR (passive infrared): Detects motion\n- Ultrasonic: Detects movement via sound waves\n- Dual-tech: Both PIR and ultrasonic\n- Savings: 20-40%\n\n### Daylight Harvesting\n- Photosensors dim/switch lights based on daylight\n- Works best near windows and skylights\n- Savings: 15-40%\n\n### Scheduling\n- Time-of-day on/off control\n- Integration with BMS\n- Savings: 10-20%\n\n### Personal/Task Lighting\n- Individual control at workstation\n- Reduces ambient lighting needs\n- Improves satisfaction"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lighting-sales",
+          "type": "markdown",
+          "order": 3,
+          "content": "## 💼 Sales Approach: LED Retrofit\n\n### Opening Hook\n*\"Your fluorescent fixtures are using 40-50 watts each. LEDs deliver the same light for 15-20 watts - that's 50-60% savings before we even add occupancy sensors.\"*\n\n### Key Value Props\n1. **50-70% energy savings** (lamps + controls)\n2. **Reduced maintenance** (LED lasts 50,000+ hours)\n3. **Better light quality** (no flicker, better color)\n4. **OBF eligible** at 0% interest\n5. **Quick payback** (2-4 years typically)\n\n### Qualifying Questions\n- \"What type of lighting do you have? (Fluorescent, HID, incandescent)\"\n- \"How many fixtures? What wattage?\"\n- \"What are your operating hours?\"\n- \"Do you have occupancy sensors or daylighting controls?\""
+        }
+      ]
+    },
+    {
+      "id": "obf-measures",
+      "title": "OBF-Eligible Measures",
+      "subtitle": "What Qualifies for Financing",
+      "icon": "💵",
+      "order": 5,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "roi", "financing"]
+      },
+      "content": [
+        {
+          "id": "obf-table",
+          "type": "table",
+          "order": 1,
+          "metadata": { "title": "Motors & Electrical OBF Eligibility" },
+          "headers": ["Measure", "OBF Eligible?", "Notes"],
+          "rows": [
+            ["VFD Installation", "✅ Yes", "Prime OBF measure - excellent payback"],
+            ["Premium Efficiency Motor", "✅ Yes", "Equipment upgrade qualifies"],
+            ["LED Lighting Retrofit", "✅ Yes", "Most common OBF project type"],
+            ["Occupancy Sensors", "✅ Yes", "Hardware with energy savings"],
+            ["Power Factor Correction", "✅ Yes", "Capacitor banks qualify"],
+            ["Lighting Controls System", "✅ Yes", "If includes hardware"],
+            ["Motor Soft Start", "⚠️ Maybe", "Depends on energy savings documentation"],
+            ["Harmonic Filters", "⚠️ Maybe", "May qualify if tied to efficiency project"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "subtitle": "Test Your Motors & Electrical Knowledge",
+      "icon": "📝",
+      "order": 6,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["quiz"]
+      },
+      "content": [
+        {
+          "id": "motors-quiz",
+          "type": "interactive",
+          "order": 1,
+          "component": "quiz-widget",
+          "config": {
+            "title": "Motors & Electrical Quiz",
+            "questions": [
+              {
+                "id": "q1",
+                "question": "According to the affinity laws, reducing fan speed to 70% reduces power to approximately:",
+                "options": ["70%", "49%", "34%", "21%"],
+                "correctAnswer": 2,
+                "explanation": "Power varies with the cube of speed. 0.7³ = 0.343, or approximately 34% of original power.",
+                "points": 10
+              },
+              {
+                "id": "q2",
+                "question": "What is the efficiency requirement for NEMA Premium motors?",
+                "options": ["IE1", "IE2", "IE3", "IE5"],
+                "correctAnswer": 2,
+                "explanation": "NEMA Premium motors meet IE3 efficiency standards per IEC classification.",
+                "points": 10
+              },
+              {
+                "id": "q3",
+                "question": "Power factor correction is primarily achieved in commercial buildings using:",
+                "options": ["VFDs", "Capacitor banks", "Transformers", "LED lighting"],
+                "correctAnswer": 1,
+                "explanation": "Capacitor banks are the most common and cost-effective power factor correction method.",
+                "points": 10
+              },
+              {
+                "id": "q4",
+                "question": "Modern LED fixtures typically achieve efficacies of:",
+                "options": ["20-40 lm/W", "50-80 lm/W", "100-200+ lm/W", "300+ lm/W"],
+                "correctAnswer": 2,
+                "explanation": "Current LED technology achieves 100-200+ lumens per watt, far exceeding older technologies.",
+                "points": 10
+              },
+              {
+                "id": "q5",
+                "question": "Occupancy sensors in lighting systems typically save:",
+                "options": ["5-10%", "20-40%", "50-70%", "80-90%"],
+                "correctAnswer": 1,
+                "explanation": "Occupancy sensors typically save 20-40% by turning off lights in unoccupied spaces.",
+                "points": 10
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

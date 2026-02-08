@@ -1,0 +1,27 @@
+{
+  "kind": "battery-analysis",
+  "apiVersion": "battery-analysis-v1",
+  "analysisId": "6afeae74-07b2-4970-b3b0-5de3171a6317",
+  "runId": "82c99997-5dbf-4a6e-9d2e-6b9a67ddf117",
+  "createdAt": "2026-01-14T16:10:54.254Z",
+  "userId": "default-user",
+  "mode": "single",
+  "intervalSha256": "8a7adf5242cb03bbf62b3c714317017587b1347b299cebcf95e453d7c2993a28",
+  "usageSha256": "1af74a311d6de803826a8a2bdec4b54d9d6c4e67b163b3d874b4c81c141e2ca7",
+  "rateCode": null,
+  "demandRatePerKwMonth": 30.7,
+  "thresholdKw": 280.9888723273026,
+  "batterySpec": {
+    "capacity_kwh": 385,
+    "max_power_kw": 190,
+    "round_trip_efficiency": 0.9,
+    "degradation_rate": 0.02,
+    "min_soc": 0.1,
+    "max_soc": 0.9,
+    "depth_of_discharge": 0.8
+  },
+  "batteryMeta": null,
+  "catalogSha256": "9b52fe0d51b6211d67dcfbc030d8ef2843e7294d45bac34336b6610f39632f7d",
+  "gitCommit": null,
+  "nodeVersion": "v24.11.1"
+}

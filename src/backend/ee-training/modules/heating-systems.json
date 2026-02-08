@@ -1,0 +1,772 @@
+{
+  "id": "heating-systems",
+  "title": "Commercial Heating Systems",
+  "subtitle": "Complete Guide to Boilers, Furnaces, Heat Pumps & Distribution",
+  "description": "Comprehensive training on all heating system technologies, from high-efficiency condensing boilers to heat pumps and steam systems. Includes engineering calculations, sales strategies, and field identification tips.",
+  "icon": "🔥",
+  "category": "heating",
+  "order": 2,
+  "status": "published",
+  "metadata": {
+    "author": "EverWatt Engineering Team",
+    "lastUpdated": "2025-12-13",
+    "version": "1.0.0",
+    "estimatedTime": 210,
+    "difficulty": "intermediate",
+    "tags": ["boilers", "furnaces", "heat-pumps", "steam", "hydronic", "heating"]
+  },
+  "sections": [
+    {
+      "id": "quick-overview",
+      "title": "Quick Overview",
+      "subtitle": "90-second skim + jump points",
+      "icon": "⚡",
+      "order": 0,
+      "metadata": {
+        "estimatedTime": 8,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "sales", "selection"]
+      },
+      "content": [
+        {
+          "id": "qv-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 3,
+          "cards": [
+            {
+              "title": "Big Lever: Hot Water Reset",
+              "description": "Every ~10°F lower HW supply can save ~2%+ and can enable condensing operation. Start with reset before replacement.",
+              "metadata": { "icon": "🌡️" }
+            },
+            {
+              "title": "Condensing Rule",
+              "description": "Return water < ~130°F is where condensing boilers earn their efficiency. Distribution matters as much as the boiler.",
+              "metadata": { "icon": "💧" }
+            },
+            {
+              "title": "Fastest Payback",
+              "description": "VFDs on HW pumps + schedule tuning are often 1–3 year payback (and reduce cycling + wear).",
+              "metadata": { "icon": "⚙️" }
+            },
+            {
+              "title": "Steam = Hidden Leaks",
+              "description": "15–25% of steam traps can be failed. Each failed trap can waste $500–$5,000/year.",
+              "metadata": { "icon": "💨" }
+            },
+            {
+              "title": "Electrification Talk Track",
+              "description": "Heat pumps deliver 2–4× the heat per kWh (COP 2–4). Watch demand charges + cold-weather capacity.",
+              "metadata": { "icon": "⚡" }
+            },
+            {
+              "title": "What to Photograph",
+              "description": "Nameplates (BTU, year), vent type (PVC vs metal), return temps, controls screens, pump nameplates and VFD presence.",
+              "metadata": { "icon": "📸" }
+            }
+          ]
+        },
+        {
+          "id": "qv-kpi-table",
+          "type": "table",
+          "order": 2,
+          "metadata": { "title": "Heating KPI Cheat Sheet" },
+          "headers": ["KPI", "What it means", "Rule-of-thumb"],
+          "rows": [
+            ["AFUE / Thermal eff.", "Combustion + standby efficiency", "Non-condensing ~80–85%; condensing ~90–98% (if return <130°F)"],
+            ["ΔT (hydronic)", "Return − supply temperature", "Comfort coils often 20°F ΔT; low ΔT can mean over-pumping"],
+            ["Turndown", "Min firing vs max firing", "Higher turndown reduces cycling; 10:1+ is strong"],
+            ["COP (HP)", "Heat out / electric in", "COP 2–4 typical; drops with colder ambient"],
+            ["Steam trap failure rate", "Percent failed traps", "15–25% is common without a program"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "introduction",
+      "title": "Introduction & Fundamentals",
+      "subtitle": "Understanding Commercial Heating Systems",
+      "icon": "📚",
+      "order": 1,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["fundamentals", "overview"]
+      },
+      "content": [
+        {
+          "id": "intro-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Why Heating Systems Matter\n\nCommercial heating systems provide thermal comfort and process heat using combustion, electric resistance, or heat pump technology. These systems include boilers (hot water and steam), furnaces, heat pumps, and hydronic distribution.\n\n## Energy Impact\n\n**Heating typically accounts for 20-40% of a commercial building's energy consumption** in heating-dominant climates. Natural gas is the primary fuel, making these systems major targets for electrification.\n\n## The Business Case\n\n- Condensing boiler upgrade: 10-15% gas savings\n- Boiler tune-up: 2-5% immediate savings (low cost)\n- Heat pump conversion: 50-70% energy savings (but fuel switch)\n- Steam trap repair: $500-5,000/year per failed trap"
+        },
+        {
+          "id": "intro-quote",
+          "type": "quote",
+          "order": 2,
+          "quote": "Every degree of hot water reset you can implement saves roughly 1% on heating costs. Start with a reset strategy before you talk about new equipment.",
+          "author": "Senior Mechanical Engineer",
+          "role": "25-year HVAC specialist"
+        },
+        {
+          "id": "intro-heating-types",
+          "type": "tabs",
+          "order": 3,
+          "tabs": [
+            {
+              "label": "Hot Water Boilers",
+              "content": [
+                {
+                  "id": "hw-boilers",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Hot Water (Hydronic) Systems\n\nMost common in commercial buildings built after 1970.\n\n**How it works**: Boiler heats water to 140-180°F, pumps distribute to heating coils, radiators, or radiant panels.\n\n**Advantages**:\n- Lower operating temperatures = higher efficiency\n- Easier to zone and control\n- No condensate return issues\n- Safer (no steam pressure)\n\n**Typical efficiency**: 80-98% (condensing)"
+                }
+              ]
+            },
+            {
+              "label": "Steam Boilers",
+              "content": [
+                {
+                  "id": "steam-boilers",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Steam Systems\n\nCommon in older buildings, hospitals, and industrial facilities.\n\n**How it works**: Boiler generates steam at 15-150 psig, steam travels to radiators/coils, condenses, returns as condensate.\n\n**Advantages**:\n- No pumping required (steam pressure moves it)\n- Very high heat transfer rate\n- Excellent for process loads\n- Can travel long distances\n\n**Challenges**:\n- Higher heat losses\n- Steam trap maintenance\n- Safety concerns (high pressure)\n- Lower efficiency (typically 75-85%)"
+                }
+              ]
+            },
+            {
+              "label": "Furnaces",
+              "content": [
+                {
+                  "id": "furnaces",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Direct-Fired Furnaces\n\nCommon in small commercial and retail buildings.\n\n**How it works**: Combustion heats a heat exchanger, supply fan blows air across exchanger directly to space.\n\n**Advantages**:\n- Simple and low-cost\n- Fast response time\n- Easy installation in packaged units\n- Common in RTUs (rooftop units)\n\n**Typical efficiency**: 80-95% (condensing furnaces up to 98%)"
+                }
+              ]
+            },
+            {
+              "label": "Heat Pumps",
+              "content": [
+                {
+                  "id": "heat-pumps",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Heat Pump Systems\n\nGrowing rapidly due to electrification mandates.\n\n**How it works**: Refrigeration cycle extracts heat from outdoor air, ground, or water and delivers to building.\n\n**Types**:\n- **ASHP**: Air-source (most common)\n- **WSHP**: Water-source (requires cooling tower or boiler loop)\n- **GSHP**: Ground-source (most efficient, highest cost)\n\n**Advantages**:\n- 200-400% efficiency (COP 2-4)\n- Can provide heating AND cooling\n- No on-site combustion\n- Electrification-ready\n\n**Challenges**:\n- Capacity drops in cold weather\n- Higher electric demand\n- May need backup heat"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "intro-metrics",
+          "type": "cards",
+          "order": 4,
+          "columns": 2,
+          "cards": [
+            {
+              "title": "Thermal Efficiency (Et)",
+              "description": "Ratio of useful heat output to fuel energy input. Standard boilers: 80-85%. Condensing: 90-98%.",
+              "metadata": { "icon": "📊" }
+            },
+            {
+              "title": "AFUE",
+              "description": "Annual Fuel Utilization Efficiency. Accounts for standby losses. Minimum code: 80%, best: 98%+.",
+              "metadata": { "icon": "📈" }
+            },
+            {
+              "title": "COP (Heat Pumps)",
+              "description": "Coefficient of Performance = Heat Output / Electric Input. Typical: 2.5-4.0 (250-400% efficient).",
+              "metadata": { "icon": "⚡" }
+            },
+            {
+              "title": "HSPF (Heat Pumps)",
+              "description": "Heating Seasonal Performance Factor. BTU output per Wh input. Good: 8.5+, excellent: 10+.",
+              "metadata": { "icon": "❄️" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "boilers",
+      "title": "Boiler Systems",
+      "subtitle": "Hot Water and Steam Boiler Technology",
+      "icon": "🔥",
+      "order": 2,
+      "metadata": {
+        "estimatedTime": 30,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["boilers", "selection"]
+      },
+      "content": [
+        {
+          "id": "boiler-diagram",
+          "type": "interactive",
+          "order": 1,
+          "component": "boiler-diagram",
+          "config": {
+            "title": "Interactive Condensing Boiler Diagram",
+            "subtitle": "Click on components to learn how a high-efficiency boiler works"
+          }
+        },
+        {
+          "id": "boiler-types",
+          "type": "markdown",
+          "order": 2,
+          "content": "## Boiler Types by Efficiency\n\n### Non-Condensing Boilers (Standard)\n- **Efficiency**: 80-85%\n- **Return water temp**: Must be > 140°F (to prevent condensation)\n- **Construction**: Cast iron or steel\n- **Flue**: Atmospheric or power-vented\n- **Cost**: Lower first cost\n\n### Condensing Boilers (High-Efficiency)\n- **Efficiency**: 90-98%\n- **Return water temp**: Can operate < 130°F (condensing mode)\n- **Construction**: Stainless steel or aluminum heat exchanger\n- **Flue**: Direct vent, PVC or stainless\n- **Requires**: Condensate drain (acidic - needs neutralizer)\n\n### Why Condensing Matters\nWhen flue gases cool below 140°F, water vapor condenses and releases latent heat. This \"free\" heat boosts efficiency by 10-15%. The key is running at LOW return water temperatures."
+        },
+        {
+          "id": "boiler-efficiency-table",
+          "type": "table",
+          "order": 3,
+          "metadata": { "title": "Boiler Efficiency Comparison" },
+          "headers": ["Boiler Type", "Thermal Efficiency", "AFUE", "Return Water Temp", "Best Application"],
+          "rows": [
+            ["Atmospheric Non-Condensing", "78-82%", "78-80%", "> 140°F", "Replacement in existing systems"],
+            ["Power-Vented Non-Condensing", "82-85%", "80-84%", "> 140°F", "Indoor installations, tight spaces"],
+            ["Condensing (Modulating)", "92-98%", "90-96%", "< 130°F ideal", "New construction, low-temp systems"],
+            ["Condensing Combi", "90-95%", "88-92%", "Variable", "Small buildings, DHW + space heat"]
+          ]
+        },
+        {
+          "id": "boiler-sizing",
+          "type": "accordion",
+          "order": 4,
+          "items": [
+            {
+              "title": "🔧 Boiler Sizing Fundamentals",
+              "content": [
+                {
+                  "id": "sizing-content",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Load Calculation\n\n**Rule of Thumb**: 20-40 BTU/sq ft for commercial spaces (climate dependent)\n\n**Formula**: Q = U × A × ΔT\n\nWhere:\n- Q = Heat loss (BTU/hr)\n- U = Overall heat transfer coefficient\n- A = Surface area (sq ft)\n- ΔT = Temperature difference (indoor - outdoor design temp)\n\n**Safety Factor**: Add 10-20% for pickup load\n\n**Example**: 50,000 sq ft office in San Francisco:\n- Design temp: 35°F outdoor, 70°F indoor\n- Estimated load: 25 BTU/sq ft × 50,000 = 1,250,000 BTU/hr\n- Boiler size: 1,500 MBH (1.5 million BTU/hr) with safety factor"
+                }
+              ]
+            },
+            {
+              "title": "💰 Condensing Boiler ROI Calculator",
+              "content": [
+                {
+                  "id": "roi-content",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Payback Calculation\n\n**Annual Gas Savings**:\nSavings = Annual Therms × (1 - Old Eff / New Eff) × Gas Rate\n\n**Example**:\n- Building uses 20,000 therms/year\n- Upgrade from 82% to 95% efficiency\n- Gas rate: $1.50/therm\n\n**Savings** = 20,000 × (1 - 82/95) × $1.50 = **$4,105/year**\n\n**If boiler costs $30,000 installed**:\n- Simple payback = $30,000 / $4,105 = **7.3 years**\n- With utility rebate of $10,000: **4.9 years**"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "boiler-sales",
+          "type": "markdown",
+          "order": 5,
+          "content": "## 💼 Sales Approach: Boiler Upgrades\n\n### Opening Hook\n*\"Your boiler is operating at about 80% efficiency, which means 20 cents of every dollar you spend on gas goes straight up the stack. Modern condensing boilers recover that heat.\"*\n\n### Key Value Props\n1. **10-15% gas savings** with condensing technology\n2. **Rebates available**: $500-$5,000 per boiler from utilities\n3. **Reduced maintenance**: Modulating burners = less cycling wear\n4. **Environmental**: Lower emissions for ESG reporting\n\n### Objection Handling\n\n| Objection | Response |\n|-----------|----------|\n| \"Our boiler still works\" | \"Absolutely, but it's costing you $X per year in excess gas. The question is when to capture those savings.\" |\n| \"Too expensive\" | \"Let's look at the 10-year cost of ownership. With rebates and gas savings, the condensing boiler often costs less over its lifetime.\" |\n| \"Worried about condensate\" | \"We include a condensate neutralizer and proper drain. It's a simple requirement for 15% efficiency gain.\" |"
+        }
+      ]
+    },
+    {
+      "id": "heat-pumps",
+      "title": "Heat Pump Technology",
+      "subtitle": "Air-Source, Water-Source, and Ground-Source Systems",
+      "icon": "♻️",
+      "order": 3,
+      "metadata": {
+        "estimatedTime": 35,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales", "field"],
+        "tags": ["heat-pumps", "electrification", "selection"]
+      },
+      "content": [
+        {
+          "id": "hp-cycle",
+          "type": "interactive",
+          "order": 1,
+          "component": "heat-pump-cycle",
+          "config": {
+            "title": "Heat Pump Heating Cycle Animation",
+            "subtitle": "Watch how a heat pump extracts heat from cold outdoor air"
+          }
+        },
+        {
+          "id": "hp-types",
+          "type": "markdown",
+          "order": 2,
+          "content": "## Heat Pump Types\n\n### Air-Source Heat Pumps (ASHP)\nMost common type. Extracts heat from outdoor air.\n\n**Cold-Climate ASHP**: New models maintain capacity down to -15°F\n\n**Key Specs**:\n- COP: 2.5-4.0 at 47°F outdoor\n- COP drops to 1.5-2.5 at 17°F\n- Capacity: 2-50+ tons\n\n### Water-Source Heat Pumps (WSHP)\nConnected to a water loop (cooling tower + boiler for balance).\n\n**Advantages**:\n- Consistent efficiency (water temp is stable)\n- Simultaneous heating/cooling between zones\n- Excellent for buildings with diverse loads\n\n### Ground-Source Heat Pumps (GSHP)\nUses ground as heat source/sink via underground loops.\n\n**COP**: 3.5-5.0 (highest of all types)\n\n**Challenges**:\n- High first cost ($15,000-30,000/ton)\n- Requires land for ground loops\n- Drilling/trenching required"
+        },
+        {
+          "id": "hp-comparison",
+          "type": "table",
+          "order": 3,
+          "metadata": { "title": "Heat Pump Type Comparison" },
+          "headers": ["Type", "COP Range", "Best Climate", "First Cost", "Maintenance"],
+          "rows": [
+            ["Air-Source", "2.0-4.0", "Mild (>30°F winters)", "$$", "Low"],
+            ["Cold-Climate ASHP", "1.8-3.5", "Cold (down to -15°F)", "$$$", "Low"],
+            ["Water-Source", "3.0-4.5", "Any (loop controlled)", "$$$", "Medium"],
+            ["Ground-Source", "3.5-5.0", "Any", "$$$$", "Very Low"]
+          ]
+        },
+        {
+          "id": "hp-electrification",
+          "type": "accordion",
+          "order": 4,
+          "items": [
+            {
+              "title": "⚡ Electrification Calculations",
+              "content": [
+                {
+                  "id": "elec-calc",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Gas-to-Heat Pump Conversion\n\n### Energy Comparison\n\n**Gas Boiler**: 80% efficient\n- 100 therms gas → 80 therms useful heat\n- Cost at $1.50/therm = $150 for 80 therms heat\n\n**Heat Pump**: COP 3.0\n- 23.4 kWh electricity → 80 therms (235 kBTU) heat\n- Cost at $0.25/kWh = $5.85 for 23.4 kWh = **$58 for same heat**\n\n### Operating Cost Savings\n**61% reduction** in heating energy costs (at these rates)\n\n### But Watch For:\n- Electric demand charges (can be 30-50% of bill)\n- Time-of-use rates (heat pump may run during peak)\n- Need for backup heat below design temp"
+                }
+              ]
+            },
+            {
+              "title": "📋 Heat Pump Sizing for Heating",
+              "content": [
+                {
+                  "id": "hp-sizing",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Sizing Considerations\n\n**Key Difference from Gas**: Heat pump capacity DROPS as outdoor temp drops.\n\n**Balance Point**: Outdoor temp where heat pump capacity = building load.\n\n**Below Balance Point**: Supplemental heat required.\n\n### Example Sizing:\n- Building load at 17°F design: 100,000 BTU/hr\n- Heat pump rated: 120,000 BTU/hr at 47°F\n- Heat pump capacity at 17°F: ~80,000 BTU/hr\n- Need 20,000 BTU/hr backup (electric strip or gas)\n\n**Rule of Thumb**: Size heat pump for 80-100% of design load; backup handles the peaks."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hp-sales",
+          "type": "markdown",
+          "order": 5,
+          "content": "## 💼 Sales Approach: Heat Pumps\n\n### Opening Hook\n*\"Heat pumps are like air conditioners that run in reverse - they can deliver 3-4 times more heat energy than the electricity they consume. That's 300-400% efficient compared to your 80% gas boiler.\"*\n\n### Key Value Props\n1. **50-70% operating cost savings** in many climates\n2. **No combustion on-site**: Improved air quality, simpler permitting\n3. **Dual-use**: Same equipment for heating AND cooling\n4. **Future-proof**: Ready for carbon regulations\n\n### Qualifying Questions\n- \"What are your current gas and electric rates?\"\n- \"How cold does it get here in winter? Any days below 20°F?\"\n- \"Do you have both heating and cooling loads?\"\n- \"Is there any mandate or goal to electrify?\""
+        }
+      ]
+    },
+    {
+      "id": "steam-systems",
+      "title": "Steam Systems",
+      "subtitle": "Steam Traps, Condensate Return, and Efficiency",
+      "icon": "💨",
+      "order": 4,
+      "metadata": {
+        "estimatedTime": 25,
+        "difficulty": "advanced",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["steam", "field"]
+      },
+      "content": [
+        {
+          "id": "steam-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Steam System Fundamentals\n\nSteam systems are prevalent in older buildings, hospitals, and industrial facilities. While less efficient than modern hydronic systems, they remain critical infrastructure.\n\n## Why Steam?\n\n**Advantages**:\n- No pumping required (steam pressure moves it)\n- Very high heat transfer coefficient\n- Can transport heat over long distances\n- Excellent for high-temperature process needs\n\n**Challenges**:\n- Higher distribution losses (uninsulated pipes)\n- Steam trap maintenance is critical\n- Lower overall efficiency\n- Safety concerns with high pressure"
+        },
+        {
+          "id": "steam-trap-tester",
+          "type": "interactive",
+          "order": 2,
+          "component": "steam-trap-tester",
+          "config": {
+            "title": "Interactive Steam Trap Diagnosis Tool",
+            "subtitle": "Learn to identify failed steam traps by their symptoms"
+          }
+        },
+        {
+          "id": "steam-traps",
+          "type": "markdown",
+          "order": 3,
+          "content": "## Steam Trap Types & Failure Modes\n\n### What Do Steam Traps Do?\nSteam traps remove condensate (water) and non-condensable gases while retaining live steam.\n\n### Common Trap Types:\n\n| Type | Mechanism | Best Application |\n|------|-----------|------------------|\n| Thermostatic | Opens when temp drops | Light loads, freeze protection |\n| Float & Thermostatic | Float rises with condensate | High capacity, modulating loads |\n| Inverted Bucket | Bucket sinks when filled | Steam mains, process |\n| Thermodynamic | Disc snaps open/closed | High pressure, outdoor |\n\n### Failure Modes:\n\n**Stuck Open (Failed Open)**: Allows live steam to pass\n- **Cost**: $500-$5,000/year per trap in wasted steam\n- **Symptom**: Hot downstream piping, high steam usage\n\n**Stuck Closed (Failed Closed)**: Blocks condensate\n- **Effect**: Water hammer, reduced heat transfer\n- **Symptom**: Banging pipes, cold radiators"
+        },
+        {
+          "id": "steam-savings",
+          "type": "accordion",
+          "order": 4,
+          "items": [
+            {
+              "title": "💰 Steam Trap ROI Calculator",
+              "content": [
+                {
+                  "id": "trap-roi",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Failed Trap Cost Calculation\n\n**Steam Loss Through Failed Trap**:\n\nLoss (lb/hr) = 0.7 × Orifice Area (sq in) × √(Pressure (psig))\n\n**Example**: 3/8\" orifice at 15 psig:\n- Loss = 0.7 × 0.11 × √15 = 0.3 lb/hr\n- Actually for a fully failed trap: ~10-50 lb/hr\n\n**Annual Cost**:\n- 20 lb/hr × 8,760 hrs × $15/1000 lb steam = **$2,628/year per trap**\n\n**Typical Survey Results**:\n- 15-25% of traps failed in most buildings\n- 100 traps × 20% failed × $2,000/trap = **$40,000/year wasted**"
+                }
+              ]
+            },
+            {
+              "title": "🔧 Steam System Optimization",
+              "content": [
+                {
+                  "id": "steam-opt",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Key Opportunities\n\n1. **Steam Trap Survey & Repair**\n   - Annual testing with ultrasonic or temperature\n   - Repair failed traps immediately\n   - Payback: Often < 1 year\n\n2. **Insulation**\n   - Bare steam pipes lose 50-100 BTU/hr/linear ft\n   - Insulate all pipes, valves, and fittings\n   - Removable blankets for valves\n\n3. **Condensate Return**\n   - Condensate is free hot water (200°F+)\n   - Every lb returned saves $0.01-0.02\n   - Fix leaks and return all possible condensate\n\n4. **Pressure Reduction**\n   - Lower distribution pressure if loads allow\n   - Reduces flash steam losses\n   - Must maintain minimum for distribution distance"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "steam-sales",
+          "type": "markdown",
+          "order": 5,
+          "content": "## 💼 Sales Approach: Steam Optimization\n\n### Opening Hook\n*\"In a typical steam system, 15-25% of steam traps are failed, and each one can waste $500-$5,000 per year. A simple survey can identify these leaks.\"*\n\n### Key Value Props\n1. **Immediate savings**: Often < 1 year payback\n2. **No capital equipment**: Just repair failed traps\n3. **Prevents damage**: Water hammer damages pipes and equipment\n4. **Low risk**: Survey first, then repair based on findings\n\n### Qualifying Questions\n- \"When was your last steam trap survey?\"\n- \"Do you have water hammer or banging pipes?\"\n- \"How much do you spend on makeup water treatment?\"\n- \"Any areas that don't heat properly?\""
+        }
+      ]
+    },
+    {
+      "id": "hydronic-distribution",
+      "title": "Hydronic Distribution",
+      "subtitle": "Pumps, Piping, and Reset Strategies",
+      "icon": "🔄",
+      "order": 5,
+      "metadata": {
+        "estimatedTime": 25,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["pumps", "distribution", "controls"]
+      },
+      "content": [
+        {
+          "id": "hydronic-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Hydronic (Hot Water) Distribution\n\nHot water distribution systems move heated water from boilers to heating coils, radiators, or radiant panels throughout the building.\n\n## System Types\n\n### Primary-Only\n- Single set of pumps serves both boilers and building\n- Simpler, lower cost\n- Less flexibility in flow control\n\n### Primary-Secondary\n- Separate loops for boiler and distribution\n- Allows variable flow to building while maintaining constant flow through boilers\n- Better for condensing boilers (can return lower temps)\n\n### Variable Primary\n- Single loop with variable speed pumps\n- Most energy efficient\n- Requires minimum flow protection for boilers"
+        },
+        {
+          "id": "pump-vfd",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "⚡ VFD Pump Savings (Affinity Laws)",
+              "content": [
+                {
+                  "id": "vfd-calc",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Pump Affinity Laws\n\nPump power varies with the CUBE of speed:\n\n**Power ∝ (Speed)³**\n\n### Example:\n- Pump at 100% speed: 50 HP\n- Pump at 80% speed: 50 × (0.8)³ = 50 × 0.51 = **25.6 HP** (49% reduction!)\n- Pump at 60% speed: 50 × (0.6)³ = 50 × 0.22 = **10.8 HP** (78% reduction!)\n\n### Why This Matters:\nMost heating systems are sized for peak load but operate at 40-70% load most of the time. A VFD allows the pump to slow down and save significant energy.\n\n### Typical Savings:\n- VFD on HW pump: 30-50% pump energy savings\n- Payback: 1-3 years"
+                }
+              ]
+            },
+            {
+              "title": "🌡️ Hot Water Reset Strategies",
+              "content": [
+                {
+                  "id": "hw-reset",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "## Hot Water Temperature Reset\n\nLower supply water temperature when loads are low.\n\n**Why It Saves Energy**:\n1. Reduces distribution losses (lower ΔT from pipe to ambient)\n2. Enables condensing boiler operation\n3. Each 10°F reduction ≈ 2% boiler efficiency gain\n\n### Reset Schedule Example:\n| Outdoor Temp | HW Supply Setpoint |\n|--------------|--------------------|\n| 20°F (design)| 180°F |\n| 40°F | 160°F |\n| 60°F | 140°F |\n| 65°F+ (no heat)| Off |\n\n**For Condensing Boilers**: Target return water < 130°F to achieve condensing mode.\n\n### Implementation:\n- Outdoor air temp sensor\n- BMS or boiler-integrated controller\n- Linear or curved reset schedule"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hydronic-sales",
+          "type": "markdown",
+          "order": 3,
+          "content": "## 💼 Sales Approach: Hydronic Optimization\n\n### Opening Hook\n*\"Your hot water pumps are probably running at full speed 24/7, even when the building only needs 50% of the heat. A VFD can cut pump energy by 40-60%.\"*\n\n### Key Value Props\n1. **Fast payback**: VFDs typically pay back in 1-3 years\n2. **OBF Eligible**: Utilities offer 0% financing\n3. **Dual benefit**: Saves pump energy AND enables reset for boiler savings\n4. **Soft start**: Extends pump life\n\n### Bundle Opportunity\n*\"While we're upgrading the pumps, let's implement hot water reset. It's mostly a controls change and adds another 5-10% savings.\"*"
+        }
+      ]
+    },
+    {
+      "id": "controls",
+      "title": "Controls & Optimization",
+      "subtitle": "BMS Strategies for Heating Systems",
+      "icon": "🎛️",
+      "order": 6,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales", "field"],
+        "tags": ["controls", "optimization", "sales"]
+      },
+      "content": [
+        {
+          "id": "controls-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Heating Controls Optimization\n\n## Key Control Strategies\n\n### 1. Outdoor Air Reset\nAdjust supply temp based on outdoor conditions.\n- **Savings**: 5-15% heating energy\n- **Requirements**: OAT sensor, BMS or boiler controller\n\n### 2. Night Setback\nReduce setpoints during unoccupied hours.\n- **Typical schedule**: 55-60°F nights/weekends vs. 70°F occupied\n- **Savings**: 10-20% depending on building\n\n### 3. Optimal Start\nBMS calculates when to start heating to reach setpoint at occupancy.\n- Prevents overheating from starting too early\n- Learns building thermal mass\n\n### 4. Boiler Sequencing\nStage multiple boilers efficiently.\n- Run fewer boilers at higher load (more efficient)\n- Lead-lag rotation for even wear\n\n### 5. Demand Limiting\nShed heating load during peak demand periods.\n- Pre-heat building before demand peak\n- Coast through peak with thermal mass"
+        },
+        {
+          "id": "controls-opportunities",
+          "type": "cards",
+          "order": 2,
+          "columns": 2,
+          "cards": [
+            {
+              "title": "Quick Win: Setpoint Review",
+              "description": "Most thermostats are set 2-3°F higher than necessary. Each degree of reduction = 3% savings.",
+              "metadata": { "icon": "🎯", "payback": "Immediate" }
+            },
+            {
+              "title": "Schedule Optimization",
+              "description": "Review occupied hours - many buildings heat 2+ hours before arrival. Optimize with building mass data.",
+              "metadata": { "icon": "📅", "payback": "Immediate" }
+            },
+            {
+              "title": "Dead Band Widening",
+              "description": "Increase dead band between heating and cooling setpoints to 4-6°F to prevent simultaneous operation.",
+              "metadata": { "icon": "↔️", "payback": "Immediate" }
+            },
+            {
+              "title": "VFD + Reset Integration",
+              "description": "Combine variable speed pumping with hot water reset for maximum efficiency.",
+              "metadata": { "icon": "🔧", "payback": "2-4 years" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sales-strategies",
+      "title": "Sales Strategies & ROI",
+      "subtitle": "Selling Heating Upgrades Effectively",
+      "icon": "💰",
+      "order": 7,
+      "metadata": {
+        "estimatedTime": 25,
+        "difficulty": "intermediate",
+        "roles": ["sales"],
+        "tags": ["sales", "roi"]
+      },
+      "content": [
+        {
+          "id": "sales-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Selling Heating Projects\n\n## The Heating Upgrade Conversation\n\n### Common Entry Points\n1. **End of life replacement** - Boiler failure or approaching end of life\n2. **Electrification mandate** - City/state carbon goals\n3. **ESG reporting** - Scope 1 emissions reduction\n4. **Comfort complaints** - Uneven heating, slow recovery\n5. **High gas bills** - Especially after rate increases"
+        },
+        {
+          "id": "sales-discovery",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "🎯 Discovery Questions",
+              "content": [
+                {
+                  "id": "discovery",
+                  "type": "list",
+                  "order": 1,
+                  "items": [
+                    "How old is your boiler/furnace? What condition is it in?",
+                    "What are your annual gas costs for heating?",
+                    "Do you have any areas that don't heat properly?",
+                    "What's your current thermostat setpoint? Is there night setback?",
+                    "Does your organization have sustainability or carbon reduction goals?",
+                    "Have you considered electrification? Any mandates you're aware of?",
+                    "When is the next major equipment replacement planned?",
+                    "Do you have steam traps? When were they last surveyed?"
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "👔 Selling to Different Personas",
+              "content": [
+                {
+                  "id": "personas",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "### CFO/Finance\n- Lead with ROI and payback period\n- Highlight OBF (0% financing)\n- Show cash flow positive scenarios\n\n### Facilities Manager\n- Emphasize reliability and reduced maintenance\n- Comfort improvements\n- Modern controls for easier operation\n\n### Sustainability Director\n- Scope 1 emissions reduction\n- Progress toward carbon neutrality\n- ESG reporting benefits\n\n### Building Owner\n- Property value and tenant attraction\n- Compliance with future regulations\n- Long-term cost savings"
+                }
+              ]
+            },
+            {
+              "title": "⚠️ Common Objections",
+              "content": [
+                {
+                  "id": "objections",
+                  "type": "markdown",
+                  "order": 1,
+                  "content": "### \"We can't afford it right now\"\n*\"I understand budget constraints. That's why we focus on projects with fast payback - often 2-4 years. Plus, OBF financing means zero upfront cost, and the savings exceed the payments from day one.\"*\n\n### \"Our boiler works fine\"\n*\"It does run, but it's likely 80% efficient while new condensing units are 95%+. Every year you wait, you're spending 15% more on gas than necessary.\"*\n\n### \"Heat pumps don't work in cold weather\"\n*\"That was true 10 years ago. Today's cold-climate heat pumps maintain capacity down to -15°F. We've installed them in [reference similar climate].\"*\n\n### \"Electric rates are too high\"\n*\"Let's look at the actual math. Heat pumps are 300% efficient, so even at higher electric rates, the cost per BTU is often lower than gas. Plus, there are no demand charges during heating season when you're not running cooling.\"*"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sales-bundle",
+          "type": "markdown",
+          "order": 3,
+          "content": "## 📦 Bundling for Maximum Value\n\n### Bronze Package (Quick Wins)\n- Boiler tune-up and combustion analysis\n- Controls review and setpoint optimization\n- Steam trap survey (if applicable)\n- **Payback**: Immediate to 1 year\n\n### Silver Package (VFD Focus)\n- All Bronze items\n- VFD on hot water pumps\n- Hot water reset implementation\n- **Payback**: 2-3 years\n\n### Gold Package (Equipment Upgrade)\n- All Silver items\n- Condensing boiler replacement\n- Pump and piping optimization\n- **Payback**: 4-7 years (rebates help!)\n\n### Platinum Package (Electrification)\n- Heat pump conversion study\n- Phased electrification plan\n- Utility rate analysis\n- Carbon reduction reporting\n- **Payback**: 5-10 years (often mandated)"
+        }
+      ]
+    },
+    {
+      "id": "field-guide",
+      "title": "Field Identification Guide",
+      "subtitle": "Identifying Heating Equipment in the Field",
+      "icon": "🔍",
+      "order": 8,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["field", "sales", "engineer"],
+        "tags": ["field", "selection"]
+      },
+      "content": [
+        {
+          "id": "field-boilers",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Field Identification: Heating Equipment\n\n## Boiler Identification\n\n### Visual Clues\n\n**Condensing Boiler**:\n- Stainless steel or compact design\n- PVC (white) or stainless vent pipe\n- Condensate drain line visible\n- Usually modulating burner\n- Digital display common\n\n**Non-Condensing Boiler**:\n- Cast iron or steel construction (heavier)\n- Metal flue pipe (may be atmospheric)\n- No condensate drain\n- Often older, larger footprint\n- May have standing pilot\n\n### Nameplate Data to Capture\n- Manufacturer and model\n- Input/Output BTU rating\n- AFUE or thermal efficiency\n- Year of manufacture\n- Fuel type (natural gas, propane, oil)"
+        },
+        {
+          "id": "field-heatpumps",
+          "type": "markdown",
+          "order": 2,
+          "content": "## Heat Pump Identification\n\n### Air-Source Heat Pump\n- Looks like an air conditioner condenser\n- Has reversing valve (check nameplate)\n- Nameplate shows heating AND cooling capacity\n- May have defrost controls\n\n### Water-Source Heat Pump\n- Indoor unit with water connections\n- Connected to building water loop\n- Often in ceiling or closet\n- Look for \"WSHP\" on nameplate\n\n### Ground-Source Heat Pump\n- Indoor unit similar to air handler\n- Ground loop (well or horizontal) connection\n- Very high COP on nameplate (3.5-5.0)\n- Look for \"GeoExchange\" or \"GSHP\"\n\n### Key Nameplate Data\n- Heating capacity at 47°F AND 17°F (for ASHP)\n- COP or HSPF rating\n- Refrigerant type (R-410A, R-32)\n- Voltage requirements"
+        },
+        {
+          "id": "field-steam",
+          "type": "markdown",
+          "order": 3,
+          "content": "## Steam System Identification\n\n### How to Know It's Steam\n- Single pipe to radiators (steam up, condensate down)\n- Steam traps visible at radiators and mains\n- Sight glass on boiler showing water level\n- Pressure gauge showing psig (not temperature)\n- Hissing sounds (steam vents)\n\n### Steam Trap Identification\n- Thermostatic: Small, has bellows or wafer element\n- Float & Thermostatic: Larger, rounded body\n- Inverted Bucket: Heavy, often cast iron\n- Thermodynamic: Disc-type, compact\n\n### Signs of Failed Traps\n- Excessive steam noise at trap\n- Hot pipe downstream of trap (should be cooler)\n- Water hammer in pipes\n- Radiators not heating properly"
+        }
+      ]
+    },
+    {
+      "id": "obf-measures",
+      "title": "OBF-Eligible Measures",
+      "subtitle": "What Heating Upgrades Qualify for On-Bill Financing",
+      "icon": "💵",
+      "order": 9,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "roi", "financing"]
+      },
+      "content": [
+        {
+          "id": "obf-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# OBF Eligibility for Heating Measures\n\n## What is OBF?\n\nOn-Bill Financing allows commercial customers to finance energy efficiency upgrades at **0% interest**, repaying through their utility bill. The key: monthly payments must be less than energy savings (\"bill neutral\" or better).\n\n## General Eligibility Rules\n\n✅ **Equipment-based measures** (hardware, not just controls)\n\n✅ **Measurable energy savings**\n\n✅ **Reasonable payback** (typically < 10 years)\n\n✅ **Installed by licensed contractor**"
+        },
+        {
+          "id": "obf-heating-table",
+          "type": "table",
+          "order": 2,
+          "metadata": { "title": "Heating Measure OBF Eligibility" },
+          "headers": ["Measure", "OBF Eligible?", "Typical Financing", "Notes"],
+          "rows": [
+            ["Condensing Boiler Replacement", "✅ Yes", "$20K-$200K", "Very common OBF project"],
+            ["High-Efficiency Furnace", "✅ Yes", "$5K-$50K", "Must meet efficiency threshold"],
+            ["Heat Pump Conversion", "✅ Yes", "$30K-$150K", "Strong utility support"],
+            ["VFD on HW Pumps", "✅ Yes", "$5K-$25K", "Excellent payback"],
+            ["Steam Trap Replacement", "✅ Yes*", "$10K-$50K", "*May need minimum quantity"],
+            ["Boiler Controls Only", "⚠️ Maybe", "Varies", "Often needs hardware component"],
+            ["Hot Water Reset (software)", "❌ No", "N/A", "Controls-only not typically eligible"],
+            ["Pipe Insulation", "✅ Yes", "$5K-$30K", "Often bundled with other measures"],
+            ["Tune-up/Maintenance", "❌ No", "N/A", "Maintenance not eligible"]
+          ]
+        },
+        {
+          "id": "obf-tips",
+          "type": "cards",
+          "order": 3,
+          "columns": 2,
+          "cards": [
+            {
+              "title": "Bundle for Success",
+              "description": "Combine smaller measures into a larger project. Controls + VFD + boiler = more attractive financing package.",
+              "metadata": { "icon": "📦" }
+            },
+            {
+              "title": "Get Pre-Approval",
+              "description": "Submit project to utility BEFORE starting work. Many programs require pre-approval for OBF.",
+              "metadata": { "icon": "✅" }
+            },
+            {
+              "title": "Document Savings",
+              "description": "Utility will require energy savings calculations. Our analysis provides the documentation needed.",
+              "metadata": { "icon": "📊" }
+            },
+            {
+              "title": "Know the Limits",
+              "description": "PG&E: Up to $250K. SCE: Up to $250K. SDG&E: Up to $150K. LADWP: Up to $100K.",
+              "metadata": { "icon": "💰" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "subtitle": "Test Your Heating Systems Knowledge",
+      "icon": "📝",
+      "order": 10,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["quiz"]
+      },
+      "content": [
+        {
+          "id": "heating-quiz",
+          "type": "interactive",
+          "order": 1,
+          "component": "quiz-widget",
+          "config": {
+            "title": "Heating Systems Quiz",
+            "questions": [
+              {
+                "id": "q1",
+                "question": "What is the minimum return water temperature for a condensing boiler to achieve condensing efficiency?",
+                "options": ["180°F", "140°F", "130°F", "160°F"],
+                "correctAnswer": 2,
+                "explanation": "Return water must be below 130°F for the flue gases to condense and release latent heat.",
+                "points": 10
+              },
+              {
+                "id": "q2",
+                "question": "A heat pump with a COP of 3.0 produces how much more heat energy than the electricity it consumes?",
+                "options": ["Same amount", "2 times more", "3 times more", "4 times more"],
+                "correctAnswer": 2,
+                "explanation": "COP of 3.0 means 3 units of heat output for every 1 unit of electricity input - that's 300% efficiency.",
+                "points": 10
+              },
+              {
+                "id": "q3",
+                "question": "What percentage of steam traps are typically failed in a commercial building that hasn't been surveyed?",
+                "options": ["5-10%", "15-25%", "30-40%", "50%+"],
+                "correctAnswer": 1,
+                "explanation": "Industry surveys consistently find 15-25% failed traps in buildings without regular maintenance programs.",
+                "points": 10
+              },
+              {
+                "id": "q4",
+                "question": "According to the affinity laws, reducing pump speed to 80% reduces power consumption by approximately:",
+                "options": ["20%", "36%", "49%", "64%"],
+                "correctAnswer": 2,
+                "explanation": "Power varies with the cube of speed. 0.8³ = 0.51, meaning 49% reduction in power.",
+                "points": 10
+              },
+              {
+                "id": "q5",
+                "question": "Which heat pump type typically has the highest COP?",
+                "options": ["Air-source", "Water-source", "Ground-source", "Cold-climate air-source"],
+                "correctAnswer": 2,
+                "explanation": "Ground-source heat pumps achieve COP of 3.5-5.0 because ground temperature is stable year-round.",
+                "points": 10
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "utility": "SDGE",
+  "capturedAt": "2026-02-06T19:00:01.692Z",
+  "versionTag": "2026-02-06T1900Z",
+  "rates": [],
+  "sourceFingerprints": [
+    {
+      "url": "https://tariffsprd.sdge.com/sdge/tariffs/?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "contentHash": "e2cfe7ba5dd9c93ed0ee1c98a3865528e85c7284189c29c7c10f900c35140e8a"
+    }
+  ],
+  "raw": [
+    {
+      "url": "https://tariffsprd.sdge.com/sdge/tariffs/?bookId=ELEC&sectId=ELEC-SCHEDS&utilId=SDGE",
+      "contentHash": "e2cfe7ba5dd9c93ed0ee1c98a3865528e85c7284189c29c7c10f900c35140e8a"
+    }
+  ]
+}

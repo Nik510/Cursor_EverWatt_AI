@@ -1,0 +1,61 @@
+{
+  "id": "data-center-measures",
+  "name": "DATA CENTER MEASURES",
+  "subcategories": [
+    {
+      "id": "general",
+      "name": "General",
+      "measures": [
+        {
+          "id": "measure-230",
+          "name": "Hot aisle containment",
+          "keywords": []
+        },
+        {
+          "id": "measure-231",
+          "name": "Cold aisle containment",
+          "keywords": []
+        },
+        {
+          "id": "measure-232",
+          "name": "CRAH/CRAC VFD retrofits",
+          "keywords": [
+            "vfd"
+          ]
+        },
+        {
+          "id": "measure-233",
+          "name": "Free cooling",
+          "keywords": []
+        },
+        {
+          "id": "measure-234",
+          "name": "Liquid cooling",
+          "keywords": []
+        },
+        {
+          "id": "measure-235",
+          "name": "IT Efficiency",
+          "keywords": [
+            "efficiency"
+          ]
+        },
+        {
+          "id": "measure-236",
+          "name": "Server virtualization",
+          "keywords": []
+        },
+        {
+          "id": "measure-237",
+          "name": "Server consolidation",
+          "keywords": []
+        },
+        {
+          "id": "measure-238",
+          "name": "High-efficiency UPS",
+          "keywords": []
+        }
+      ]
+    }
+  ]
+}

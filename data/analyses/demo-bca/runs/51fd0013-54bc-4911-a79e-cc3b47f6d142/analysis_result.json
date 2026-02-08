@@ -1,0 +1,469 @@
+{
+  "apiVersion": "battery-analysis-v1",
+  "analysisId": "demo-bca",
+  "runId": "51fd0013-54bc-4911-a79e-cc3b47f6d142",
+  "createdAt": "2026-01-14T16:39:45.867Z",
+  "customerInfo": {
+    "accountNumber": "acct",
+    "saId": "5663820753",
+    "rateCode": "HB19S"
+  },
+  "usageData": [
+    {
+      "billStartDate": "2026-01-01",
+      "billEndDate": "2026-01-31",
+      "rateCode": "HB19S",
+      "totalCost": 10000,
+      "billingDays": 31,
+      "peakDemandKw": 344.4,
+      "totalUsageKwh": 1000
+    }
+  ],
+  "batteryMeta": null,
+  "result": {
+    "success": true,
+    "diagnostic": {
+      "captureRate": 1,
+      "utilizationRate": 0.10294014232580741,
+      "powerAdequacy": "sufficient",
+      "capacityAdequacy": "oversized",
+      "peakEventAnalysis": {
+        "totalEvents": 1,
+        "averageDurationHours": 0.25,
+        "averageExcessKw": 126.82225534539472,
+        "longestEvent": {
+          "start": "2026-01-15T12:00:00.000Z",
+          "end": "2026-01-15T12:00:00.000Z",
+          "durationHours": 0.25,
+          "peakKw": 344.4,
+          "totalExcessKwh": 31.70556383634868,
+          "captureRate": 1
+        },
+        "mostSevereEvent": {
+          "start": "2026-01-15T12:00:00.000Z",
+          "end": "2026-01-15T12:00:00.000Z",
+          "durationHours": 0.25,
+          "peakKw": 344.4,
+          "totalExcessKwh": 31.70556383634868,
+          "captureRate": 1
+        },
+        "eventsPerMonth": [
+          0,
+          1
+        ],
+        "excessEnergyKwhPerMonth": [
+          0,
+          31.70556383634868
+        ],
+        "capturedEnergyKwhPerMonth": [
+          0,
+          31.70556383634868
+        ]
+      },
+      "limitingFactors": [],
+      "usagePatternInsights": {
+        "loadFactor": 0.5462640340689121,
+        "peakinessScore": 45.373596593108786,
+        "emptyAtPeakRate": 0,
+        "weeklyPattern": {
+          "weekdayPeakKw": 344.4,
+          "weekendPeakKw": 120,
+          "weekdayAvgKw": 222.2,
+          "weekendAvgKw": 120
+        }
+      },
+      "kpis": {
+        "peakBeforeKw": 344.4,
+        "peakAfterKw": 217.57774465460525,
+        "thresholdKw": 217.57774465460525,
+        "excessEnergyKwh": 31.70556383634868,
+        "shavedEnergyKwh": 31.70556383634868,
+        "dischargedEnergyKwh": 31.70556383634868,
+        "chargedEnergyKwh": 21.67471435546875,
+        "achievedRoundTripEfficiency": 1.4627903886700608,
+        "timeUtilization": 0.6666666666666666,
+        "chargingHeadroomHours": 0.25,
+        "chargingPossibleKwh": 12.858159241860397,
+        "chargingEffectiveness": 1.6856778600863493
+      },
+      "improvementOpportunities": []
+    },
+    "peakEvents": [
+      {
+        "start": "2026-01-15T12:00:00.000Z",
+        "end": "2026-01-15T12:00:00.000Z",
+        "durationHours": 0.25,
+        "peakKw": 344.4,
+        "totalExcessKwh": 31.70556383634868
+      }
+    ],
+    "peakPatterns": [
+      {
+        "patternType": "random",
+        "frequencyPerMonth": 1,
+        "typicalDurationHours": 0.25,
+        "typicalMagnitudeKw": 126.82225534539472,
+        "timeOfDay": {
+          "startHour": 4,
+          "endHour": 4
+        },
+        "dayOfWeek": [
+          4
+        ],
+        "seasonalTrend": "winter",
+        "batterySuitability": "excellent",
+        "reasoning": "No strong time-of-day signature; classified as irregular."
+      }
+    ],
+    "peakFrequency": {
+      "eventsPerMonth": {
+        "2026-01": 1
+      },
+      "eventsPerDayOfWeek": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "eventsPerHour": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "usageOptimization": {
+      "loadShifting": [
+        {
+          "equipment": "HVAC pre-cool / setpoint strategy",
+          "currentPeakTime": "04:00–05:00",
+          "recommendedShiftTime": "02:00–04:00",
+          "potentialPeakReductionKw": 44.38778937088815,
+          "estimatedSavings": 16512.257645970392,
+          "feasibility": "high",
+          "notes": "If peaks are driven by afternoon HVAC, pre-cooling earlier can reduce 4–9pm demand without affecting comfort."
+        },
+        {
+          "equipment": "Process scheduling / batch timing",
+          "currentPeakTime": "04:00–05:00",
+          "recommendedShiftTime": "02:00–04:00",
+          "potentialPeakReductionKw": 57.07001490542763,
+          "estimatedSavings": 21230.045544819077,
+          "feasibility": "medium",
+          "notes": "If peaks are driven by short process overlaps, staggering start times can reduce instantaneous kW peaks."
+        },
+        {
+          "equipment": "EV / fleet charging control",
+          "currentPeakTime": "04:00–05:00",
+          "recommendedShiftTime": "02:00–04:00",
+          "potentialPeakReductionKw": 25.364451069078946,
+          "estimatedSavings": 9435.575797697367,
+          "feasibility": "high",
+          "notes": "If any EV charging is present, ensure it does not occur during peak windows; shift to overnight."
+        }
+      ],
+      "peakSpreading": {
+        "currentPeakConcentration": 0.3333333333333333,
+        "recommendedSpread": "Peaks are relatively distributed. Focus on the highest-peak events rather than broad spreading.",
+        "potentialBenefit": 0
+      },
+      "demandResponse": {
+        "eligible": false,
+        "potentialSavings": 0,
+        "participationLevel": "conservative"
+      },
+      "efficiencySynergies": []
+    },
+    "sizingRecommendation": {
+      "currentBattery": null,
+      "recommendedSizing": {
+        "minPowerKw": 34.44,
+        "optimalPowerKw": 226,
+        "maxPowerKw": 226,
+        "minCapacityKwh": 68.88,
+        "optimalCapacityKwh": 397.5,
+        "maxCapacityKwh": 397.5,
+        "reasoning": [
+          "Power sized to target reduction: 34.4 kW",
+          "Energy constraint (longest event): 10.3 kWh",
+          "Energy constraint (daily cycling): 6.0 kWh",
+          "Energy constraint (min duration): 68.9 kWh",
+          "Final energy requirement: 68.9 kWh",
+          "Required duration: 2.0 hours",
+          "Best catalog fit (economic knee): 3×HBPES110 + 1×HBPES060",
+          "System size: 226 kW / 398 kWh",
+          "Estimated demand-charge savings: $41738/yr; payback ~2.0 yrs"
+        ]
+      },
+      "sizingScenarios": [
+        {
+          "label": "3×HBPES110 + 1×HBPES060",
+          "powerKw": 226,
+          "capacityKwh": 397.5,
+          "captureRate": 0.6515679442508711,
+          "annualSavings": 41738.399999999994,
+          "systemCost": 85125,
+          "paybackYears": 2.0394888160542815,
+          "recommendation": "optimal"
+        },
+        {
+          "label": "2×HBPES160 + 1×HBPES110",
+          "powerKw": 242,
+          "capacityKwh": 432.5,
+          "captureRate": 0.6515679442508711,
+          "annualSavings": 41738.399999999994,
+          "systemCost": 88043,
+          "paybackYears": 2.10940045617465,
+          "recommendation": "viable"
+        },
+        {
+          "label": "6×HBPES060",
+          "powerKw": 240,
+          "capacityKwh": 360,
+          "captureRate": 0.6515679442508711,
+          "annualSavings": 41738.399999999994,
+          "systemCost": 90000,
+          "paybackYears": 2.1562877350353635,
+          "recommendation": "viable"
+        },
+        {
+          "label": "2×HBPES110 + 3×HBPES060",
+          "powerKw": 244,
+          "capacityKwh": 405,
+          "captureRate": 0.6515679442508711,
+          "annualSavings": 41738.399999999994,
+          "systemCost": 91750,
+          "paybackYears": 2.1982155521054954,
+          "recommendation": "viable"
+        },
+        {
+          "label": "4×HBPES060 + 1×HBPES160",
+          "powerKw": 250,
+          "capacityKwh": 400,
+          "captureRate": 0.6515679442508711,
+          "annualSavings": 41738.399999999994,
+          "systemCost": 92334,
+          "paybackYears": 2.2122074636306137,
+          "recommendation": "viable"
+        }
+      ],
+      "helpers": {}
+    },
+    "tariffEngine": {
+      "success": true,
+      "detectedTariff": {
+        "rateCode": "HB19S",
+        "tariffId": "PGE:HB19S:simple-demand-v1",
+        "version": "simple-demand-v1",
+        "confidence": 1,
+        "whyMatched": [
+          "rateCode from usage data."
+        ],
+        "timezone": "America/Los_Angeles"
+      },
+      "joinQa": {
+        "before": {
+          "intervalsPerCycle": {
+            "acct:2026-01-31": 3
+          },
+          "unassignedIntervals": 0,
+          "unassignedSample": [],
+          "maxKwTimestampByCycle": {
+            "acct:2026-01-31": {
+              "kw": 344.4,
+              "timestamp": "2026-01-15T12:00:00.000Z"
+            }
+          }
+        },
+        "after": {
+          "intervalsPerCycle": {
+            "acct:2026-01-31": 3
+          },
+          "unassignedIntervals": 0,
+          "unassignedSample": [],
+          "maxKwTimestampByCycle": {
+            "acct:2026-01-31": {
+              "kw": 217.57774465460525,
+              "timestamp": "2026-01-15T12:00:00.000Z"
+            }
+          }
+        }
+      },
+      "billingCycleAnalysis": [
+        {
+          "cycle_id": "acct:2026-01-31",
+          "bill_start_date": "2026-01-01",
+          "bill_end_date": "2026-01-31",
+          "tariff_code": "HB19S",
+          "demand_structure": {
+            "type": "flat"
+          },
+          "measured": {
+            "max_kw": 344.4,
+            "max_kw_timestamp": "2026-01-15T12:00:00.000Z",
+            "total_kwh": 209886.25
+          },
+          "economic_targets": {
+            "avoidable_kw": 126.82225534539472,
+            "marginal_demand_cost_per_kw": 31
+          },
+          "recommendation_context": {
+            "peak_shaving_value_high": true,
+            "rate_switch_candidate": false
+          }
+        }
+      ],
+      "cycles": [
+        {
+          "cycleId": "acct:2026-01-31",
+          "billStartDate": "2026-01-01T00:00:00.000Z",
+          "billEndDate": "2026-01-31T00:00:00.000Z",
+          "statedTotalBill": 10000,
+          "determinants": [
+            {
+              "determinantId": "demand_peak",
+              "name": "Peak demand (billing)",
+              "kind": "peak",
+              "beforeKw": 344.4,
+              "afterKw": 217.57774465460525,
+              "bindingTimestampsBefore": [
+                "2026-01-15T12:00:00.000Z"
+              ],
+              "bindingTimestampsAfter": [
+                "2026-01-15T12:00:00.000Z"
+              ],
+              "ratchetApplied": false
+            }
+          ],
+          "lineItems": [
+            {
+              "kind": "demand",
+              "label": "Demand: Peak demand (billing)",
+              "amount": 6744.910084292763,
+              "meta": {
+                "determinantId": "demand_peak",
+                "afterKw": 217.57774465460525
+              }
+            }
+          ],
+          "total": 6744.910084292763,
+          "reconcile": {
+            "ok": false,
+            "delta": -3255.089915707237,
+            "deltaPct": -0.3255089915707237,
+            "notes": [
+              "Computed bill does not reconcile; missing components likely (riders, taxes, energy TOU, minimums)."
+            ]
+          },
+          "baselineTotal": 10676.4,
+          "savings": 3931.489915707237
+        }
+      ],
+      "scenarios": [
+        {
+          "capKw": 217.57774465460525,
+          "annualSavings": 3931.489915707237,
+          "npv10": 27431.713163592005,
+          "paybackYears": 0,
+          "why": [
+            "Evaluated using true bill delta per billing cycle (demand determinant only in v1)."
+          ]
+        },
+        {
+          "capKw": 309.96,
+          "annualSavings": 1067.6399999999994,
+          "npv10": 7449.3881123713545,
+          "paybackYears": 0,
+          "why": [
+            "Evaluated using true bill delta per billing cycle (demand determinant only in v1)."
+          ]
+        },
+        {
+          "capKw": 327.17999999999995,
+          "annualSavings": 533.8200000000015,
+          "npv10": 3724.6940561856904,
+          "paybackYears": 0,
+          "why": [
+            "Evaluated using true bill delta per billing cycle (demand determinant only in v1)."
+          ]
+        }
+      ],
+      "selectedScenario": {
+        "capKw": 217.57774465460525,
+        "annualSavings": 3931.489915707237,
+        "npv10": 27431.713163592005,
+        "paybackYears": 0
+      },
+      "totals": {
+        "totalBefore": 10676.4,
+        "totalAfter": 6744.910084292763,
+        "totalSavings": 3931.489915707237,
+        "cyclesCount": 1
+      },
+      "missingComponentsNotes": [
+        "Energy charges are not modeled (tariff.energyCharges empty)."
+      ]
+    },
+    "simulationResult": {
+      "original_peak": 344.4,
+      "new_peak": 217.57774465460525,
+      "savings_kwh": 31.70556383634868,
+      "energy_discharged": 31.70556383634868,
+      "energy_charged": 21.67471435546875,
+      "chartData": {
+        "intervals": [
+          {
+            "timestamp": "2026-01-01T00:00:00.000Z",
+            "kw": 100
+          },
+          {
+            "timestamp": "2026-01-15T12:00:00.000Z",
+            "kw": 344.4
+          },
+          {
+            "timestamp": "2026-01-31T23:45:00.000Z",
+            "kw": 120
+          }
+        ],
+        "afterKw": [
+          100,
+          217.57774465460525,
+          206.698857421875
+        ],
+        "socHistory": [
+          0.8999999999999999,
+          0.7914915625295152,
+          0.8582527297342195
+        ]
+      },
+      "monthlyPeakReduction": {
+        "reductionKwMonthSum": 126.82225534539472,
+        "monthsCount": 2
+      }
+    },
+    "thresholdKw": 217.57774465460525
+  }
+}

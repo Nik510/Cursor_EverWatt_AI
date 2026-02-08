@@ -1,0 +1,504 @@
+{
+  "id": "process-heating",
+  "title": "Process Heating",
+  "subtitle": "Complete Guide to Industrial Boilers, Ovens, Heat Recovery & Electrification",
+  "description": "Comprehensive training on industrial/process heating: boilers and steam for process loads, ovens and furnaces, combustion optimization, insulation and refractory, waste heat recovery, controls and automation, and electrification pathways. Includes sales strategies, field identification, and OBF-eligible measures.",
+  "icon": "♨️",
+  "category": "process-heating",
+  "order": 15,
+  "status": "published",
+  "metadata": {
+    "author": "EverWatt Engineering Team",
+    "lastUpdated": "2025-12-29",
+    "version": "1.0.0",
+    "estimatedTime": 210,
+    "difficulty": "advanced",
+    "tags": ["process-heating", "boilers", "steam", "ovens", "combustion", "heat-recovery", "electrification"]
+  },
+  "sections": [
+    {
+      "id": "quick-overview",
+      "title": "Quick Overview",
+      "subtitle": "90-second skim + jump points",
+      "icon": "⚡",
+      "order": 0,
+      "metadata": {
+        "estimatedTime": 8,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "navigation", "sales", "field"]
+      },
+      "content": [
+        {
+          "id": "overview-cards",
+          "type": "cards",
+          "order": 1,
+          "columns": 3,
+          "cards": [
+            {
+              "title": "Fastest Win: Combustion Tuning",
+              "description": "O2 trim and combustion tuning often yields 2–5% savings quickly, plus reliability benefits.",
+              "metadata": { "icon": "🎯", "jumpTo": "combustion-optimization", "roles": ["sales", "engineer"] }
+            },
+            {
+              "title": "Waste Heat is Everywhere",
+              "description": "Stack heat, hot product, and hot fluids can be recovered via economizers and heat exchangers.",
+              "metadata": { "icon": "🔄", "jumpTo": "heat-recovery", "roles": ["sales", "engineer"] }
+            },
+            {
+              "title": "Insulation = Guaranteed ROI",
+              "description": "Bare hot surfaces are pure loss. Insulation and refractory repairs can pay back fast.",
+              "metadata": { "icon": "🧤", "jumpTo": "insulation-refractory", "roles": ["field", "sales"] }
+            },
+            {
+              "title": "Steam Leaks Cost Real Money",
+              "description": "Steam leaks, trap failures, and poor condensate return waste fuel and water treatment costs.",
+              "metadata": { "icon": "💨", "jumpTo": "industrial-boilers-steam", "roles": ["engineer", "field", "sales"] }
+            },
+            {
+              "title": "Electrification is Emerging",
+              "description": "Electric process heat can reduce emissions; economics depend on temperature, duty cycle, and rates.",
+              "metadata": { "icon": "⚡", "jumpTo": "electric-process-heat", "roles": ["sales", "engineer"] }
+            },
+            {
+              "title": "How to Sell It",
+              "description": "Lead with throughput reliability and fuel savings, then quantify emissions and compliance benefits.",
+              "metadata": { "icon": "💰", "jumpTo": "sales-strategies", "roles": ["sales"] }
+            }
+          ]
+        },
+        {
+          "id": "overview-kpis",
+          "type": "table",
+          "order": 2,
+          "headers": ["KPI", "What it means", "Rule-of-thumb"],
+          "rows": [
+            ["Stack temp", "Waste heat indicator", "Higher stack temp often means recovery opportunity"],
+            ["Excess O2 (%)", "Combustion air margin", "Too high wastes heat; too low risks CO; tune safely"],
+            ["Boiler efficiency", "Fuel-to-steam performance", "Tune-up gains often 2–5%; larger with recovery"],
+            ["Condensate return (%)", "Recovered hot water", "Higher is better; poor return wastes fuel + chemicals"],
+            ["Process setpoint stability", "Controls quality proxy", "Unstable control often wastes energy and affects quality"],
+            ["Run hours/duty cycle", "Energy scale factor", "High run hours increase ROI for recovery and electrification"]
+          ],
+          "caption": "Process Heating KPI Cheat Sheet"
+        },
+        {
+          "id": "overview-personas",
+          "type": "tabs",
+          "order": 3,
+          "tabs": [
+            {
+              "label": "💰 Sales",
+              "content": [
+                {
+                  "id": "overview-sales",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["sales"] },
+                  "content": "## Talk track (fast)\n\n- Start with **reliability** and **throughput**: stable heat = stable product\n- Quick wins: combustion tuning, insulation repairs, steam trap/leak fixes\n- Bigger wins: economizers, heat recovery, controls modernization\n- Electrification: viable for some temperature ranges and processes; rates matter\n\n**One-liner:** \"We cut fuel costs and improve process stability—often with quick-payback tuning and heat recovery first.\""
+                }
+              ]
+            },
+            {
+              "label": "🔧 Engineer",
+              "content": [
+                {
+                  "id": "overview-engineer",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["engineer"] },
+                  "content": "## What to verify (fast)\n\n- Process temperature requirements and duty cycle\n- Baseline fuel input and stack conditions\n- Controls architecture and setpoint stability\n- Condensate return and steam trap program\n- Heat recovery sinks (preheat air, water, product)\n\n**Rule:** quantify baseline energy and losses (stack, surfaces, leaks) before selecting recovery equipment."
+                }
+              ]
+            },
+            {
+              "label": "🧰 Field",
+              "content": [
+                {
+                  "id": "overview-field",
+                  "type": "markdown",
+                  "order": 1,
+                  "metadata": { "roles": ["field"] },
+                  "content": "## What to capture on-site\n\n- Equipment nameplates (boilers, burners, ovens/furnaces)\n- Stack temperatures (if available) and flue configuration\n- Obvious hot surfaces without insulation\n- Steam leaks, failed traps symptoms, condensate return condition\n- Control panel screenshots and alarm history where available"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "introduction",
+      "title": "Introduction & Fundamentals",
+      "subtitle": "Process heat is high energy intensity",
+      "icon": "📚",
+      "order": 1,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["overview", "fundamentals", "sales"]
+      },
+      "content": [
+        {
+          "id": "intro-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Why Process Heating Matters\n\nProcess heating includes any system that provides heat for production: steam, hot water, hot air, ovens, furnaces, kilns, dryers, and more.\n\nSavings levers:\n\n- **Combustion efficiency** (air/fuel tuning, O2 trim)\n- **Reduce losses** (insulation, refractory, leaks)\n- **Recover waste heat** (economizers, recuperators)\n- **Improve controls** (stability, scheduling, sequencing)\n- **Electrify where feasible** (temperature and economics dependent)\n\nThese projects are often justified by **throughput reliability** and **maintenance reduction** in addition to energy."
+        },
+        {
+          "id": "intro-quote",
+          "type": "quote",
+          "order": 2,
+          "quote": "Every degree of excess air is energy you paid for and didn’t use. Tune carefully and you get savings and better stability.",
+          "author": "Combustion Specialist",
+          "role": "Industrial burner technician"
+        }
+      ]
+    },
+    {
+      "id": "industrial-boilers-steam",
+      "title": "Industrial Boilers & Steam Systems",
+      "subtitle": "Steam production, distribution, and return",
+      "icon": "💨",
+      "order": 2,
+      "metadata": {
+        "estimatedTime": 25,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["selection", "field", "sales"]
+      },
+      "content": [
+        {
+          "id": "steam-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Steam system loss map\n\n- Boiler efficiency and excess air\n- Blowdown losses\n- Distribution losses (uninsulated piping)\n- Steam leaks\n- Steam trap failures\n- Poor condensate return\n\n**Rule:** condensate is hot, treated water—returning it saves fuel, water, and chemicals."
+        },
+        {
+          "id": "steam-math",
+          "type": "formula",
+          "order": 2,
+          "formula": "Fuel input ≈ Steam output / Boiler efficiency",
+          "explanation": "This simple relationship highlights why small efficiency gains on large steam loads create big savings.",
+          "variables": [
+            { "name": "Steam output", "description": "Useful steam energy delivered (or steam mass × enthalpy rise)" },
+            { "name": "Boiler efficiency", "description": "Fraction of fuel converted to useful steam" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ovens-furnaces",
+      "title": "Industrial Ovens & Furnaces",
+      "subtitle": "Heat delivery and control fundamentals",
+      "icon": "🏭",
+      "order": 3,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field"],
+        "tags": ["technology"]
+      },
+      "content": [
+        {
+          "id": "ovens-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Common oven/furnace losses\n\n- Stack/exhaust losses\n- Hot surfaces (poor insulation/refractory)\n- Excess air and poor burner tuning\n- Poor controls (overshoot/undershoot)\n\n**Field tip:** hot exterior skin temperatures often indicate insulation or refractory issues."
+        }
+      ]
+    },
+    {
+      "id": "heat-recovery",
+      "title": "Waste Heat Recovery",
+      "subtitle": "Economizers, recuperators, and process integration",
+      "icon": "🔄",
+      "order": 4,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales"],
+        "tags": ["optimization", "roi", "sales"]
+      },
+      "content": [
+        {
+          "id": "whr-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Waste heat recovery (WHR) types\n\n- **Boiler economizers**: recover stack heat to preheat feedwater\n- **Air preheaters/recuperators**: preheat combustion air\n- **Process-to-process heat exchangers**: use waste heat to preheat incoming streams\n\n**Rule:** recovery needs a good sink. If you can’t use the heat, you can’t monetize it."
+        },
+        {
+          "id": "whr-table",
+          "type": "table",
+          "order": 2,
+          "headers": ["Recovery", "Best fit", "Watch-out"],
+          "rows": [
+            ["Economizer", "Steam/hot water boilers with high stack temp", "Condensation/corrosion risk; ensure proper materials"],
+            ["Combustion air preheat", "Ovens/furnaces with high exhaust temp", "Controls integration and safety interlocks"],
+            ["Process HX", "Steady process streams", "Fouling and maintenance; heat exchanger selection"]
+          ],
+          "caption": "Waste heat recovery fit guide"
+        }
+      ]
+    },
+    {
+      "id": "insulation-refractory",
+      "title": "Insulation & Refractory",
+      "subtitle": "Stop radiating money into the room",
+      "icon": "🧤",
+      "order": 5,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["field", "engineer", "sales"],
+        "tags": ["field", "sales"]
+      },
+      "content": [
+        {
+          "id": "insul-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## High ROI, low regret\n\n- Insulate bare steam/hot water piping\n- Add removable insulation blankets to valves/fittings\n- Repair refractory and hot spots on furnaces/ovens\n\nBenefits:\n- Reduced heat loss\n- Improved safety (lower surface temps)\n- Better temperature stability\n\n**Sales translation:** insulation is one of the easiest measures to justify: it’s visible, safe, and savings are durable."
+        }
+      ]
+    },
+    {
+      "id": "combustion-optimization",
+      "title": "Combustion Optimization",
+      "subtitle": "Excess air, O2 trim, and burner tuning",
+      "icon": "🎯",
+      "order": 6,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "field", "sales"],
+        "tags": ["selection", "optimization", "sales", "field"]
+      },
+      "content": [
+        {
+          "id": "combustion-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Combustion tuning basics\n\n- Too much excess air increases stack losses (you heat extra air and exhaust it)\n- Too little can create CO and unsafe operation\n\nLevers:\n- Regular tune-ups and burner maintenance\n- O2 trim (for systems with variable conditions)\n- Proper draft and air handling\n\n**Rule:** tuning must be done safely, with combustion analysis and verification."
+        },
+        {
+          "id": "combustion-accordion",
+          "type": "accordion",
+          "order": 2,
+          "items": [
+            {
+              "title": "What to measure during tuning",
+              "content": [
+                {
+                  "id": "combustion-measure-list",
+                  "type": "list",
+                  "order": 1,
+                  "items": [
+                    "O2 (%) and CO (ppm) in flue gas",
+                    "Stack temperature",
+                    "Fuel pressure and burner condition",
+                    "Draft/pressure in combustion zone",
+                    "Process temperature stability (before/after)"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "electric-process-heat",
+      "title": "Electric Process Heat (Electrification)",
+      "subtitle": "When electric heat makes sense",
+      "icon": "⚡",
+      "order": 7,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer", "sales"],
+        "tags": ["electrification", "roi", "sales"]
+      },
+      "content": [
+        {
+          "id": "electric-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Electrification pathways\n\nElectric process heating options include:\n- Electric resistance (simple, but can be expensive to operate)\n- Induction heating (high efficiency for some applications)\n- Heat pumps (limited by temperature lift, but rapidly improving)\n\nEconomics depend on:\n- Required temperature and duty cycle\n- Gas vs electric rates and demand charges\n- Incentives and carbon compliance drivers\n\n**Sales translation:** electrification is a strategic roadmap—start with efficiency and recovery, then electrify the right loads first."
+        }
+      ]
+    },
+    {
+      "id": "controls-automation",
+      "title": "Controls & Automation",
+      "subtitle": "Stability saves energy and improves product quality",
+      "icon": "🎛️",
+      "order": 8,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "intermediate",
+        "roles": ["engineer"],
+        "tags": ["controls", "optimization"]
+      },
+      "content": [
+        {
+          "id": "controls-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "## Controls levers\n\n- Reduce temperature overshoot/undershoot\n- Optimize warm-up and idle modes\n- Sequence multiple heaters/burners effectively\n- Add trending and alarms for drift\n\n**Rule:** stable controls often reduce scrap/rework in addition to energy."
+        }
+      ]
+    },
+    {
+      "id": "sales-strategies",
+      "title": "Sales Strategies & ROI",
+      "subtitle": "Selling process heating upgrades effectively",
+      "icon": "💰",
+      "order": 9,
+      "metadata": {
+        "estimatedTime": 20,
+        "difficulty": "intermediate",
+        "roles": ["sales"],
+        "tags": ["sales", "roi"]
+      },
+      "content": [
+        {
+          "id": "sales-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# Selling Process Heating Projects\n\n## Positioning\n\n- Reliability + uptime + product quality first\n- Energy savings as a margin improvement\n- Compliance and emissions as strategic benefits\n\n### Discovery questions\n- What processes use heat and what are required temperatures?\n- What are run hours and duty cycle?\n- Any quality issues tied to temperature control?\n- Any known steam leaks or trap program?\n- Do you have stack temp and combustion data?\n\n### Objection handling\n| Objection | Response |\n|---|---|\n| \"We can’t risk production\" | \"We start with non-invasive measures: tuning, insulation, leak repair, and monitoring.\" |\n| \"Savings are uncertain\" | \"We measure baseline fuel and stack conditions, then target the biggest loss channels first.\" |\n| \"Electrification is too risky\" | \"We build a phased roadmap and start with the loads that pencil and fit your rates.\" |"
+        }
+      ]
+    },
+    {
+      "id": "field-guide",
+      "title": "Field Identification Guide",
+      "subtitle": "What to capture in a process heating walkdown",
+      "icon": "🔍",
+      "order": 10,
+      "metadata": {
+        "estimatedTime": 15,
+        "difficulty": "beginner",
+        "roles": ["field", "sales", "engineer"],
+        "tags": ["field", "selection"]
+      },
+      "content": [
+        {
+          "id": "field-checklist",
+          "type": "list",
+          "order": 1,
+          "items": [
+            "Equipment nameplates (boilers, burners, ovens/furnaces) and fuel type",
+            "Controller screenshots: setpoints, schedules, alarms",
+            "Evidence of hot surfaces without insulation or refractory damage",
+            "Steam system walk: leaks, traps, condensate return condition",
+            "Stack temperature readings if available and flue layout",
+            "Identify potential heat recovery sinks (feedwater, combustion air, process preheat)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "obf-measures",
+      "title": "OBF-Eligible Measures",
+      "subtitle": "Common process heating measures that qualify",
+      "icon": "💵",
+      "order": 11,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "beginner",
+        "roles": ["sales"],
+        "tags": ["sales", "roi", "financing"]
+      },
+      "content": [
+        {
+          "id": "obf-overview",
+          "type": "markdown",
+          "order": 1,
+          "content": "# OBF Eligibility for Process Heating\n\nEligibility depends on utility program rules and industrial segment. Measures with hardware and documented savings are commonly eligible."
+        },
+        {
+          "id": "obf-table",
+          "type": "table",
+          "order": 2,
+          "headers": ["Measure", "OBF Eligible?", "Notes"],
+          "rows": [
+            ["Boiler economizer", "✅ Yes", "Classic waste heat recovery measure"],
+            ["Burner controls / O2 trim hardware", "✅/⚠️ Sometimes", "Program-dependent; often eligible as controls hardware"],
+            ["Insulation and refractory repairs", "✅/⚠️ Sometimes", "May need to be bundled; depends on program rules"],
+            ["Steam trap replacement program", "✅/⚠️ Sometimes", "Often eligible with sufficient scope and documented savings"],
+            ["Electric process heat conversion", "✅/⚠️ Sometimes", "Usually needs electrification incentives and rate analysis"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "subtitle": "Test your process heating knowledge",
+      "icon": "📝",
+      "order": 12,
+      "metadata": {
+        "estimatedTime": 10,
+        "difficulty": "intermediate",
+        "roles": ["sales", "engineer", "field"],
+        "tags": ["quiz"]
+      },
+      "content": [
+        {
+          "id": "process-heating-quiz",
+          "type": "interactive",
+          "order": 1,
+          "component": "quiz-widget",
+          "config": {
+            "title": "Process Heating Quiz",
+            "questions": [
+              {
+                "id": "q1",
+                "question": "Why does excessive excess air in combustion often waste energy?",
+                "options": ["It lowers stack temperature", "It increases stack losses by heating extra air that is exhausted", "It eliminates CO risk", "It reduces draft"],
+                "correctAnswer": 1,
+                "explanation": "More excess air means more heated air leaving via the stack, increasing losses.",
+                "points": 10
+              },
+              {
+                "id": "q2",
+                "question": "What is a common high-value waste heat recovery measure on boilers?",
+                "options": ["LED retrofit", "Economizer to preheat feedwater", "Window film", "VAV reset"],
+                "correctAnswer": 1,
+                "explanation": "Economizers recover stack heat to preheat boiler feedwater, improving overall efficiency.",
+                "points": 10
+              },
+              {
+                "id": "q3",
+                "question": "Why is insulation often a “low regret” process heating measure?",
+                "options": ["It increases surface temperature", "It reduces durable heat losses and improves safety", "It increases excess air", "It increases stack temp"],
+                "correctAnswer": 1,
+                "explanation": "Insulation reduces heat loss from hot surfaces and typically provides persistent savings and safety benefits.",
+                "points": 10
+              },
+              {
+                "id": "q4",
+                "question": "What is a key non-energy driver for process heating projects?",
+                "options": ["Color rendering index", "Throughput reliability and product quality", "Parking lot lighting", "Window U-factor"],
+                "correctAnswer": 1,
+                "explanation": "Stable, reliable process heat directly impacts quality and uptime, often the primary business driver.",
+                "points": 10
+              },
+              {
+                "id": "q5",
+                "question": "Why does condensate return matter in steam systems?",
+                "options": ["It increases leaks", "It returns hot, treated water and saves fuel and chemicals", "It lowers boiler efficiency", "It increases blowdown"],
+                "correctAnswer": 1,
+                "explanation": "Returning condensate recovers heat and reduces water and chemical treatment needs.",
+                "points": 10
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+

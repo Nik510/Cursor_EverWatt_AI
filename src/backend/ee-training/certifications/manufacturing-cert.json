@@ -1,0 +1,266 @@
+{
+  "id": "manufacturing-cert",
+  "industry": "manufacturing",
+  "title": "EverWatt Energy Efficiency Certification - For Manufacturing Engineers",
+  "subtitle": "Certification for energy efficiency in manufacturing and industrial facilities",
+  "description": "Validate your expertise in identifying and implementing energy efficiency measures for manufacturing facilities. This certification covers compressed air systems, process heating, motors, steam systems, and high-energy-intensity industrial operations.",
+  "icon": "⚙️",
+  "passingScore": 80,
+  "timeLimit": 90,
+  "prerequisites": ["industry-specific"],
+  "metadata": {
+    "estimatedTime": 90,
+    "difficulty": "advanced",
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-02"
+  },
+  "questions": [
+    {
+      "id": "mfg-001",
+      "question": "In a typical manufacturing facility, what percentage of total energy is typically consumed by process loads (compressed air, process heating, motors)?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "30-40%" },
+        { "id": "b", "text": "40-50%" },
+        { "id": "c", "text": "50-70%" },
+        { "id": "d", "text": "70-85%" }
+      ],
+      "correctAnswer": "c",
+      "explanation": "Process loads (compressed air, process heating, motors, steam) typically consume 50-70% of total energy in manufacturing facilities, making them the highest priority for energy efficiency improvements.",
+      "points": 5,
+      "category": "process-loads",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "mfg-002",
+      "question": "A manufacturing facility has three 100 HP compressors that run continuously. During a site visit, you notice all three are running simultaneously, but production only requires two. What is the most impactful measure?",
+      "questionType": "scenario",
+      "scenario": "A facility has three 100 HP air compressors. All three run 24/7, but production only requires two compressors. The third compressor runs unloaded 60% of the time. Compressed air pressure is maintained at 120 psi.",
+      "options": [
+        { "id": "a", "text": "Replace all compressors with more efficient models" },
+        { "id": "b", "text": "Install compressor sequencing controls to run only two compressors" },
+        { "id": "c", "text": "Reduce compressed air pressure to 100 psi" },
+        { "id": "d", "text": "Install VFDs on all three compressors" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Installing compressor sequencing controls to run only the required number of compressors can reduce compressed air energy by 30-50% immediately. This addresses the specific issue of unnecessary compressor operation. While VFDs and pressure reduction are good measures, sequencing provides the fastest and highest-impact solution for this scenario.",
+      "points": 10,
+      "category": "compressed-air",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "mfg-003",
+      "question": "A 50 HP motor runs at 80% of rated speed using a VFD. According to the affinity laws, what percentage of full-load power does it consume?",
+      "questionType": "calculation",
+      "options": [
+        { "id": "a", "text": "51.2% (0.8³ = 0.512)" },
+        { "id": "b", "text": "64% (0.8² = 0.64)" },
+        { "id": "c", "text": "80%" },
+        { "id": "d", "text": "100%" }
+      ],
+      "correctAnswer": "a",
+      "explanation": "According to the affinity laws, power is proportional to the cube of speed. At 80% speed: Power = (0.8)³ = 0.512 = 51.2% of full-load power. This is why VFDs are so effective for variable-load applications.",
+      "points": 10,
+      "category": "motors",
+      "difficulty": "advanced",
+      "estimatedTime": 120
+    },
+    {
+      "id": "mfg-004",
+      "question": "During a field visit, you notice compressed air leaks throughout the facility (hissing sounds). What is the typical energy savings potential from leak repair?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "5-10% of compressed air energy" },
+        { "id": "b", "text": "15-50% of compressed air energy" },
+        { "id": "c", "text": "50-70% of compressed air energy" },
+        { "id": "d", "text": "70-90% of compressed air energy" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Compressed air leak repair typically yields 15-50% savings of compressed air energy, depending on leak severity. Leaks are often the largest single opportunity in compressed air systems and are relatively easy to identify and repair.",
+      "points": 8,
+      "category": "compressed-air",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "mfg-005",
+      "question": "A manufacturing facility has a process heating furnace operating at 1,800°F. The exhaust gases exit at 1,200°F. What energy efficiency opportunity should you prioritize?",
+      "questionType": "scenario",
+      "scenario": "A process heating furnace operates at 1,800°F. Exhaust gases exit at 1,200°F and are vented directly to atmosphere. The facility uses natural gas for heating.",
+      "options": [
+        { "id": "a", "text": "Replace the furnace with a more efficient model" },
+        { "id": "b", "text": "Install heat recovery to preheat combustion air or process materials" },
+        { "id": "c", "text": "Reduce furnace operating temperature" },
+        { "id": "d", "text": "Install better insulation" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Installing heat recovery to capture waste heat from 1,200°F exhaust gases can reduce fuel consumption by 20-40%. The high exhaust temperature (1,200°F) represents significant recoverable energy. Preheating combustion air or process materials provides the highest impact.",
+      "points": 10,
+      "category": "process-heating",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "mfg-006",
+      "question": "What is the typical energy savings potential for compressed air system optimization (leaks, sequencing, VFDs, storage)?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "10-20% of compressed air energy" },
+        { "id": "b", "text": "15-50% of compressed air energy" },
+        { "id": "c", "text": "50-70% of compressed air energy" },
+        { "id": "d", "text": "70-90% of compressed air energy" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Comprehensive compressed air system optimization (addressing leaks, sequencing, VFDs, storage, pressure optimization) typically yields 15-50% savings of compressed air energy. This is one of the highest-impact opportunities in manufacturing facilities.",
+      "points": 5,
+      "category": "compressed-air",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "mfg-007",
+      "question": "A steam system has uninsulated pipes running 200 feet through an unheated area. Pipe temperature is 350°F, ambient is 70°F. What is the approximate heat loss per linear foot? (Assume 4-inch pipe, natural convection: ~150 BTU/hr per linear foot for uninsulated pipe at this temperature difference)",
+      "questionType": "calculation",
+      "options": [
+        { "id": "a", "text": "~50 BTU/hr per foot" },
+        { "id": "b", "text": "~150 BTU/hr per foot" },
+        { "id": "c", "text": "~300 BTU/hr per foot" },
+        { "id": "d", "text": "~500 BTU/hr per foot" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "For an uninsulated 4-inch pipe at 350°F in 70°F ambient, heat loss is approximately 150 BTU/hr per linear foot. Over 200 feet, this equals 30,000 BTU/hr = ~30,000 BTU/hr ÷ 100,000 BTU/therm = 0.3 therms/hr = 7.2 therms/day. Insulation can reduce this by 80-90%.",
+      "points": 10,
+      "category": "steam-systems",
+      "difficulty": "advanced",
+      "estimatedTime": 180
+    },
+    {
+      "id": "mfg-008",
+      "question": "During a site visit, you identify a motor that runs continuously but only needs to run during production hours (16 hours/day, 5 days/week). What is the best approach?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Install a VFD to reduce speed" },
+        { "id": "b", "text": "Install scheduling controls to turn off during non-production hours" },
+        { "id": "c", "text": "Replace with a more efficient motor" },
+        { "id": "d", "text": "Install power factor correction" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Installing scheduling controls to turn off the motor during non-production hours provides the highest energy savings (reducing runtime from 168 hours/week to 80 hours/week = 52% reduction). This is a simple, low-cost measure with immediate impact.",
+      "points": 8,
+      "category": "motors",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "mfg-009",
+      "question": "What is the typical priority order for energy efficiency measures in manufacturing facilities?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Lighting, HVAC, Compressed Air, Process Heating" },
+        { "id": "b", "text": "Compressed Air, Process Heating, Motors, HVAC" },
+        { "id": "c", "text": "Building Envelope, Lighting, HVAC, Process Loads" },
+        { "id": "d", "text": "Plug Loads, Lighting, HVAC, Process Equipment" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "In manufacturing facilities, process loads (compressed air, process heating, motors) are typically the highest priority (Very High) due to their large energy share (50-70% of total). HVAC and lighting are lower priority (Medium) compared to process loads.",
+      "points": 8,
+      "category": "general",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "mfg-010",
+      "question": "A manufacturing facility operates 24/7 with three shifts. What is a key consideration for energy efficiency measures?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "Scheduling controls are not applicable" },
+        { "id": "b", "text": "High base loads mean process optimization is critical" },
+        { "id": "c", "text": "Lighting is the only opportunity" },
+        { "id": "d", "text": "HVAC can be turned off at night" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "24/7 operations with high base loads mean that process optimization (compressed air, process heating, motors) is critical. While scheduling may have limited applicability, process efficiency improvements provide the highest impact. HVAC and lighting still run 24/7, creating opportunities for optimization.",
+      "points": 5,
+      "category": "general",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "mfg-011",
+      "question": "During a compressed air audit, you measure that a facility uses 1,000 CFM at 120 psi. The facility could operate at 100 psi. What is the approximate energy savings from reducing pressure?",
+      "questionType": "calculation",
+      "options": [
+        { "id": "a", "text": "5-10%" },
+        { "id": "b", "text": "10-15%" },
+        { "id": "c", "text": "15-20%" },
+        { "id": "d", "text": "20-25%" }
+      ],
+      "correctAnswer": "c",
+      "explanation": "Reducing compressed air pressure from 120 psi to 100 psi (17% reduction) typically yields 15-20% energy savings. Power is approximately proportional to pressure for positive displacement compressors. This is a simple, low-cost measure with significant impact.",
+      "points": 10,
+      "category": "compressed-air",
+      "difficulty": "intermediate",
+      "estimatedTime": 120
+    },
+    {
+      "id": "mfg-012",
+      "question": "A manufacturing facility has steam traps that are failing (blowing steam). What is the typical energy impact?",
+      "questionType": "scenario",
+      "scenario": "During a site visit, you identify multiple steam traps that are blowing live steam. The facility has 50 steam traps total, and approximately 10 are failing.",
+      "options": [
+        { "id": "a", "text": "Minimal impact - traps are small" },
+        { "id": "b", "text": "Each failed trap can waste 10-50 lbs/hr of steam" },
+        { "id": "c", "text": "Failed traps only affect comfort" },
+        { "id": "d", "text": "Traps don't affect energy use" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Each failed steam trap can waste 10-50 lbs/hr of live steam. With 10 failed traps wasting an average of 30 lbs/hr each = 300 lbs/hr = 7,200 lbs/day. At typical steam costs, this can represent thousands of dollars per year in wasted energy. Trap maintenance is a high-priority, low-cost measure.",
+      "points": 8,
+      "category": "steam-systems",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "mfg-013",
+      "question": "What is the typical energy savings potential for process heating optimization (heat recovery, insulation, burner efficiency)?",
+      "questionType": "multiple-choice",
+      "options": [
+        { "id": "a", "text": "5-15% of heating energy" },
+        { "id": "b", "text": "10-40% of heating energy" },
+        { "id": "c", "text": "40-60% of heating energy" },
+        { "id": "d", "text": "60-80% of heating energy" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Process heating optimization (heat recovery, insulation, burner efficiency, controls) typically yields 10-40% savings of heating energy. The exact savings depend on the specific application, exhaust temperatures, and current efficiency.",
+      "points": 5,
+      "category": "process-heating",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "mfg-014",
+      "question": "A manufacturing facility has motors that run at constant speed but have variable loads. What is the best energy efficiency measure?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "Replace with premium efficiency motors" },
+        { "id": "b", "text": "Install VFDs to match motor speed to load" },
+        { "id": "c", "text": "Install power factor correction" },
+        { "id": "d", "text": "Reduce motor operating hours" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Installing VFDs to match motor speed to load can reduce energy by 20-60% for variable-load applications. The affinity law (power ∝ speed³) means that reducing speed significantly reduces power consumption. This is typically the highest-impact measure for variable-load motors.",
+      "points": 10,
+      "category": "motors",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "mfg-015",
+      "question": "What is a key question to ask when assessing compressed air systems?",
+      "questionType": "application",
+      "options": [
+        { "id": "a", "text": "How many compressors do you have? Are they always running?" },
+        { "id": "b", "text": "What is your typical compressed air pressure? Could you reduce it?" },
+        { "id": "c", "text": "Do you have compressed air leaks?" },
+        { "id": "d", "text": "All of the above" }
+      ],
+      "correctAnswer": "d",
+      "explanation": "All questions are important for assessing compressed air systems. Understanding compressor operation, pressure requirements, and leak presence helps identify the highest-impact opportunities. These questions should be asked during every manufacturing facility assessment.",
+      "points": 5,
+      "category": "compressed-air",
+      "difficulty": "beginner"
+    }
+  ]
+}
+

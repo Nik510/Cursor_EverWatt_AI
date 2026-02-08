@@ -1,0 +1,8 @@
+[
+  { "timestampIso": "2026-01-05T15:00", "kw": 10 },
+  { "timestampIso": "2026-01-05T16:00", "kw": 40 },
+  { "timestampIso": "2026-01-05T20:00", "kw": 50 },
+  { "timestampIso": "2026-01-05T22:00", "kw": 5 },
+  { "timestampIso": "not-a-date", "kw": 999 }
+]
+

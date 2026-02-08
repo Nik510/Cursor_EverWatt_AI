@@ -1,0 +1,1843 @@
+[
+  {
+    "name": "Electrification",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 4
+  },
+  {
+    "name": "Financing structures",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 7
+  },
+  {
+    "name": "Induction fixtures",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 27
+  },
+  {
+    "name": "LED downlights & can retrofits",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [
+      "led",
+      "lighting"
+    ],
+    "lineNumber": 34
+  },
+  {
+    "name": "Troffer retrofit kits",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 39
+  },
+  {
+    "name": "Downlight retrofit kits",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 41
+  },
+  {
+    "name": "Emergency conversion kits",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 42
+  },
+  {
+    "name": "Daylight harvesting sensors",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 47
+  },
+  {
+    "name": "Zoning & scheduling",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 52
+  },
+  {
+    "name": "Cleaning lenses & optics",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 60
+  },
+  {
+    "name": "Condenser water pumps",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 84
+  },
+  {
+    "name": "Cooling tower fans",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 85
+  },
+  {
+    "name": "Chiller plant optimization sequences",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "chiller",
+      "cooling",
+      "optimization"
+    ],
+    "lineNumber": 89
+  },
+  {
+    "name": "Filter & coil maintenance schedules",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "maintenance"
+    ],
+    "lineNumber": 97
+  },
+  {
+    "name": "Steam boilers",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "boiler",
+      "heating"
+    ],
+    "lineNumber": 82
+  },
+  {
+    "name": "Condensing hot water boilers",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "boiler",
+      "heating"
+    ],
+    "lineNumber": 108
+  },
+  {
+    "name": "Blowdown heat recovery",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 84
+  },
+  {
+    "name": "Boiler economizers",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "boiler",
+      "heating"
+    ],
+    "lineNumber": 83
+  },
+  {
+    "name": "Hot water reset",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 119
+  },
+  {
+    "name": "Condensate return improvements",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 120
+  },
+  {
+    "name": "Pipe insulation upgrades",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 121
+  },
+  {
+    "name": "Seasonal boiler shutdown where possible",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "boiler",
+      "heating"
+    ],
+    "lineNumber": 128
+  },
+  {
+    "name": "Boiler tuning and combustion checks",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "boiler",
+      "heating"
+    ],
+    "lineNumber": 129
+  },
+  {
+    "name": "Temperature setpoint policies in winter",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 130
+  },
+  {
+    "name": "Pneumatic VAV systems",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 135
+  },
+  {
+    "name": "Old MAUs",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 137
+  },
+  {
+    "name": "General exhaust",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 139
+  },
+  {
+    "name": "Kitchen hoods",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 140
+  },
+  {
+    "name": "Garage exhaust",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 141
+  },
+  {
+    "name": "Lab fume hoods",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 142
+  },
+  {
+    "name": "Industrial process exhaust",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 143
+  },
+  {
+    "name": "DOAS units",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 146
+  },
+  {
+    "name": "VAV fume hood systems",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 150
+  },
+  {
+    "name": "DCKV retrofits for kitchens",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 155
+  },
+  {
+    "name": "Lab hood sash & flow controls",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "controls",
+      "automation"
+    ],
+    "lineNumber": 157
+  },
+  {
+    "name": "Duct sealing & insulation",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 158
+  },
+  {
+    "name": "VAV box actuator & sensor upgrades",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 159
+  },
+  {
+    "name": "Kitchen staff training on hood operation",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 167
+  },
+  {
+    "name": "Pneumatic control systems",
+    "category": "HVAC_COOLING",
+    "tags": [],
+    "lineNumber": 172
+  },
+  {
+    "name": "Standalone stats",
+    "category": "HVAC_COOLING",
+    "tags": [],
+    "lineNumber": 175
+  },
+  {
+    "name": "Room controllers & smart stats",
+    "category": "HVAC_COOLING",
+    "tags": [],
+    "lineNumber": 178
+  },
+  {
+    "name": "Control reprogramming & sequence optimization",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [
+      "optimization"
+    ],
+    "lineNumber": 181
+  },
+  {
+    "name": "Sensor & actuator replacements",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 182
+  },
+  {
+    "name": "Network & gateway upgrades",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 183
+  },
+  {
+    "name": "Static pressure reset",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 148
+  },
+  {
+    "name": "Equipment sequencing",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 188
+  },
+  {
+    "name": "Global schedules & occupancy modes",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 190
+  },
+  {
+    "name": "Automated DR integration",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 196
+  },
+  {
+    "name": "Gas storage water heaters",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 200
+  },
+  {
+    "name": "Gas tankless heaters",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 201
+  },
+  {
+    "name": "Commercial HPWH systems",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 205
+  },
+  {
+    "name": "Electric DHW boilers",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "boiler",
+      "heating"
+    ],
+    "lineNumber": 206
+  },
+  {
+    "name": "VFD recirc pumps",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "vfd",
+      "variable-speed"
+    ],
+    "lineNumber": 209
+  },
+  {
+    "name": "Recirc loop balancing",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 210
+  },
+  {
+    "name": "Thermostatic mixing valve optimization",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "optimization"
+    ],
+    "lineNumber": 211
+  },
+  {
+    "name": "Smart leak detection",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 213
+  },
+  {
+    "name": "Leak repair & logging",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 219
+  },
+  {
+    "name": "HFC rack systems with fixed head pressure",
+    "category": "REFRIGERATION",
+    "tags": [],
+    "lineNumber": 224
+  },
+  {
+    "name": "Old evaporator fans",
+    "category": "REFRIGERATION",
+    "tags": [],
+    "lineNumber": 226
+  },
+  {
+    "name": "Fluorescent case lighting",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 227
+  },
+  {
+    "name": "Racks with floating head & suction",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 231
+  },
+  {
+    "name": "VFD compressors & condenser fans",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [
+      "vfd",
+      "variable-speed"
+    ],
+    "lineNumber": 232
+  },
+  {
+    "name": "EC evaporator fans",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 233
+  },
+  {
+    "name": "LED case lighting",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [
+      "led",
+      "lighting"
+    ],
+    "lineNumber": 212
+  },
+  {
+    "name": "Smart defrost controls",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "controls",
+      "automation"
+    ],
+    "lineNumber": 238
+  },
+  {
+    "name": "Strip curtains",
+    "category": "REFRIGERATION",
+    "tags": [],
+    "lineNumber": 224
+  },
+  {
+    "name": "Case door retrofits",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 241
+  },
+  {
+    "name": "Heat reclaim for DHW or reheat",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 242
+  },
+  {
+    "name": "Product loading practices",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 247
+  },
+  {
+    "name": "Leaky doors & envelopes",
+    "category": "BUILDING_ENVELOPE",
+    "tags": [],
+    "lineNumber": 253
+  },
+  {
+    "name": "Roof insulation upgrades",
+    "category": "BUILDING_ENVELOPE",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 258
+  },
+  {
+    "name": "Wall insulation upgrades",
+    "category": "BUILDING_ENVELOPE",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 259
+  },
+  {
+    "name": "Vestibule additions",
+    "category": "BUILDING_ENVELOPE",
+    "tags": [],
+    "lineNumber": 262
+  },
+  {
+    "name": "Regular inspection of seals",
+    "category": "BUILDING_ENVELOPE",
+    "tags": [],
+    "lineNumber": 264
+  },
+  {
+    "name": "Legacy UPS",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 273
+  },
+  {
+    "name": "NEMA Premium motors",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 242
+  },
+  {
+    "name": "EC motors",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 276
+  },
+  {
+    "name": "Soft starters",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 245
+  },
+  {
+    "name": "Harmonic filters",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 284
+  },
+  {
+    "name": "Load balancing across phases",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 285
+  },
+  {
+    "name": "Voltage optimization",
+    "category": "MOTORS_DRIVES",
+    "tags": [
+      "optimization"
+    ],
+    "lineNumber": 286
+  },
+  {
+    "name": "Motor maintenance & lubrication",
+    "category": "MOTORS_DRIVES",
+    "tags": [
+      "maintenance"
+    ],
+    "lineNumber": 288
+  },
+  {
+    "name": "Avoid oversized motor selection in new design",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 289
+  },
+  {
+    "name": "Leaky compressed air networks",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 294
+  },
+  {
+    "name": "VFD compressors",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "vfd",
+      "variable-speed"
+    ],
+    "lineNumber": 219
+  },
+  {
+    "name": "Leak detection & repair programs",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 302
+  },
+  {
+    "name": "Pressure setpoint optimization & narrowing band",
+    "category": "MOTORS_DRIVES",
+    "tags": [
+      "optimization"
+    ],
+    "lineNumber": 303
+  },
+  {
+    "name": "Staged compressor sequencing",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 304
+  },
+  {
+    "name": "Heat recovery from compressors",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 305
+  },
+  {
+    "name": "Operator training on compressed air abuse",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 309
+  },
+  {
+    "name": "Routine leak checks",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 310
+  },
+  {
+    "name": "Geared traction elevators",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 314
+  },
+  {
+    "name": "Hydraulic elevators",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 315
+  },
+  {
+    "name": "Gearless traction with regen drives",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 318
+  },
+  {
+    "name": "LED cab lighting & efficient fans",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [
+      "led",
+      "lighting"
+    ],
+    "lineNumber": 320
+  },
+  {
+    "name": "Regenerative drive retrofits",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 322
+  },
+  {
+    "name": "Lighting & fan controls in cabs",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [
+      "controls",
+      "automation"
+    ],
+    "lineNumber": 324
+  },
+  {
+    "name": "Older dish machines",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 330
+  },
+  {
+    "name": "Kitchen refrigeration LED & EC motor retrofits",
+    "category": "REFRIGERATION",
+    "tags": [
+      "led",
+      "lighting"
+    ],
+    "lineNumber": 338
+  },
+  {
+    "name": "Staff training on hood & equipment shutoff when idle",
+    "category": "REFRIGERATION",
+    "tags": [],
+    "lineNumber": 341
+  },
+  {
+    "name": "Gas pool heaters",
+    "category": "REFRIGERATION",
+    "tags": [],
+    "lineNumber": 345
+  },
+  {
+    "name": "Heat pump pool heaters",
+    "category": "REFRIGERATION",
+    "tags": [],
+    "lineNumber": 348
+  },
+  {
+    "name": "VFD pool pumps",
+    "category": "REFRIGERATION",
+    "tags": [
+      "vfd",
+      "variable-speed"
+    ],
+    "lineNumber": 349
+  },
+  {
+    "name": "DC fast chargers",
+    "category": "REFRIGERATION",
+    "tags": [],
+    "lineNumber": 355
+  },
+  {
+    "name": "DR participation",
+    "category": "REFRIGERATION",
+    "tags": [],
+    "lineNumber": 360
+  },
+  {
+    "name": "Solar PV",
+    "category": "RENEWABLE_ENERGY",
+    "tags": [
+      "solar",
+      "renewable"
+    ],
+    "lineNumber": 261
+  },
+  {
+    "name": "Solar thermal",
+    "category": "RENEWABLE_ENERGY",
+    "tags": [
+      "solar",
+      "renewable"
+    ],
+    "lineNumber": 262
+  },
+  {
+    "name": "Peak shaving",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 369
+  },
+  {
+    "name": "Load shifting",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 370
+  },
+  {
+    "name": "Microgrid operation",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 371
+  },
+  {
+    "name": "DR participation using storage",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 372
+  },
+  {
+    "name": "Isolation room pressure controls",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "controls",
+      "automation"
+    ],
+    "lineNumber": 376
+  },
+  {
+    "name": "Lab VAV fume hoods",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 377
+  },
+  {
+    "name": "Lab & isolation exhaust VFDs",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "vfd",
+      "variable-speed"
+    ],
+    "lineNumber": 378
+  },
+  {
+    "name": "Sterilizer heat reclaim",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 380
+  },
+  {
+    "name": "Medical air & vacuum optimization",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "optimization"
+    ],
+    "lineNumber": 382
+  },
+  {
+    "name": "Free cooling integration",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 387
+  },
+  {
+    "name": "Liquid cooling",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 301
+  },
+  {
+    "name": "Server virtualization & consolidation",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 390
+  },
+  {
+    "name": "Smart occupancy sensors",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 396
+  },
+  {
+    "name": "Functional performance testing",
+    "category": "BUILDING_ENVELOPE",
+    "tags": [],
+    "lineNumber": 404
+  },
+  {
+    "name": "Controls sequence verification & tuning",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "controls",
+      "automation"
+    ],
+    "lineNumber": 406
+  },
+  {
+    "name": "Filter & coil maintenance",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "maintenance"
+    ],
+    "lineNumber": 410
+  },
+  {
+    "name": "Lubrication programs",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 412
+  },
+  {
+    "name": "Cooling tower cleaning & descaling",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 414
+  },
+  {
+    "name": "Duct cleaning where justified",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 415
+  },
+  {
+    "name": "Refrigerant charge optimization",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "optimization"
+    ],
+    "lineNumber": 416
+  },
+  {
+    "name": "Temperature deadband widening",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 421
+  },
+  {
+    "name": "Lab sash management policies",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 425
+  },
+  {
+    "name": "Staff training programs & feedback dashboards",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 427
+  },
+  {
+    "name": "Energy dashboards",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 431
+  },
+  {
+    "name": "Project M&V plans & reporting",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 434
+  },
+  {
+    "name": "Shared savings agreements",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 445
+  },
+  {
+    "name": "Customer CapEx",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 451
+  },
+  {
+    "name": "Operating & capital leases",
+    "category": "LIGHTING_CONTROLS",
+    "tags": [],
+    "lineNumber": 454
+  },
+  {
+    "name": "Every HVAC distribution component",
+    "category": "HVAC_COOLING",
+    "tags": [
+      "hvac"
+    ],
+    "lineNumber": 10
+  },
+  {
+    "name": "Every central plant component",
+    "category": "HVAC_COOLING",
+    "tags": [],
+    "lineNumber": 11
+  },
+  {
+    "name": "Every control measure",
+    "category": "HVAC_COOLING",
+    "tags": [],
+    "lineNumber": 12
+  },
+  {
+    "name": "Every electrification pathway",
+    "category": "HVAC_COOLING",
+    "tags": [],
+    "lineNumber": 13
+  },
+  {
+    "name": "Every envelope upgrade",
+    "category": "HVAC_COOLING",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 14
+  },
+  {
+    "name": "Every refrigeration upgrade",
+    "category": "REFRIGERATION",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 16
+  },
+  {
+    "name": "Every plug load measure",
+    "category": "REFRIGERATION",
+    "tags": [],
+    "lineNumber": 20
+  },
+  {
+    "name": "Every electrical improvement",
+    "category": "RENEWABLE_ENERGY",
+    "tags": [],
+    "lineNumber": 22
+  },
+  {
+    "name": "Every item that makes any piece of equipment more efficient",
+    "category": "RENEWABLE_ENERGY",
+    "tags": [],
+    "lineNumber": 23
+  },
+  {
+    "name": "Centrifugal chiller",
+    "category": "RENEWABLE_ENERGY",
+    "tags": [
+      "chiller",
+      "cooling"
+    ],
+    "lineNumber": 31
+  },
+  {
+    "name": "Standard",
+    "category": "RENEWABLE_ENERGY",
+    "tags": [],
+    "lineNumber": 32
+  },
+  {
+    "name": "VFD centrifugal",
+    "category": "RENEWABLE_ENERGY",
+    "tags": [
+      "vfd",
+      "variable-speed"
+    ],
+    "lineNumber": 34
+  },
+  {
+    "name": "Screw chiller",
+    "category": "RENEWABLE_ENERGY",
+    "tags": [
+      "chiller",
+      "cooling"
+    ],
+    "lineNumber": 36
+  },
+  {
+    "name": "VFD screw",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "vfd",
+      "variable-speed"
+    ],
+    "lineNumber": 39
+  },
+  {
+    "name": "Scroll chiller",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "chiller",
+      "cooling"
+    ],
+    "lineNumber": 40
+  },
+  {
+    "name": "Steam absorption",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 48
+  },
+  {
+    "name": "CHP integrated chiller",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "chiller",
+      "cooling"
+    ],
+    "lineNumber": 50
+  },
+  {
+    "name": "Cooling tower replacements",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 59
+  },
+  {
+    "name": "VFD tower fans",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "vfd",
+      "variable-speed"
+    ],
+    "lineNumber": 60
+  },
+  {
+    "name": "EC fan motors",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 61
+  },
+  {
+    "name": "Drift eliminators",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 62
+  },
+  {
+    "name": "Fill media upgrades",
+    "category": "MOTORS_DRIVES",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 63
+  },
+  {
+    "name": "Nozzle upgrades",
+    "category": "MOTORS_DRIVES",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 64
+  },
+  {
+    "name": "Basin heaters optimization",
+    "category": "MOTORS_DRIVES",
+    "tags": [
+      "optimization"
+    ],
+    "lineNumber": 65
+  },
+  {
+    "name": "Water treatment optimization",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "optimization"
+    ],
+    "lineNumber": 67
+  },
+  {
+    "name": "Pump VFDs",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "vfd",
+      "variable-speed"
+    ],
+    "lineNumber": 71
+  },
+  {
+    "name": "Pump impeller trimming",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 72
+  },
+  {
+    "name": "Variable primary flow conversion",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "vfd",
+      "variable-speed"
+    ],
+    "lineNumber": 73
+  },
+  {
+    "name": "Hydronic balancing",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 75
+  },
+  {
+    "name": "Boiler sequencing optimization",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "boiler",
+      "heating",
+      "optimization"
+    ],
+    "lineNumber": 85
+  },
+  {
+    "name": "Heat pump boiler replacements",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "boiler",
+      "heating",
+      "retrofit"
+    ],
+    "lineNumber": 96
+  },
+  {
+    "name": "Hydronic loop balancing",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 100
+  },
+  {
+    "name": "Reheat coil optimization",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "optimization"
+    ],
+    "lineNumber": 101
+  },
+  {
+    "name": "Pipe insulation",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 102
+  },
+  {
+    "name": "AHU replacements",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 107
+  },
+  {
+    "name": "Fan wall retrofits",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 108
+  },
+  {
+    "name": "VFD upgrades",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "vfd",
+      "variable-speed",
+      "retrofit"
+    ],
+    "lineNumber": 110
+  },
+  {
+    "name": "Humidification upgrades",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 113
+  },
+  {
+    "name": "DOAS systems",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 115
+  },
+  {
+    "name": "Enthalpy wheels",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 118
+  },
+  {
+    "name": "Heat pipes",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 119
+  },
+  {
+    "name": "Runaround heat recovery loops",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 120
+  },
+  {
+    "name": "Outdoor air reset",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 124
+  },
+  {
+    "name": "VAV calibration",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 125
+  },
+  {
+    "name": "Night setback modes",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 126
+  },
+  {
+    "name": "Lab fume hood VAV controls",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "controls",
+      "automation"
+    ],
+    "lineNumber": 128
+  },
+  {
+    "name": "Lab exhaust VFD systems",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "vfd",
+      "variable-speed"
+    ],
+    "lineNumber": 129
+  },
+  {
+    "name": "Kitchen hood VFD systems",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "vfd",
+      "variable-speed"
+    ],
+    "lineNumber": 130
+  },
+  {
+    "name": "KMC Controls",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "controls",
+      "automation"
+    ],
+    "lineNumber": 134
+  },
+  {
+    "name": "Siemens",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 135
+  },
+  {
+    "name": "Honeywell",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 136
+  },
+  {
+    "name": "Johnson Controls",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "controls",
+      "automation"
+    ],
+    "lineNumber": 137
+  },
+  {
+    "name": "Tridium Niagara",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 138
+  },
+  {
+    "name": "Ignition SCADA",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 139
+  },
+  {
+    "name": "Distech",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 140
+  },
+  {
+    "name": "Automated Logic",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 141
+  },
+  {
+    "name": "Schneider EcoStruxure",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 142
+  },
+  {
+    "name": "SAT reset",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 144
+  },
+  {
+    "name": "CHW reset",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 145
+  },
+  {
+    "name": "HW reset",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 146
+  },
+  {
+    "name": "Outside air reset",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 147
+  },
+  {
+    "name": "Equipment scheduling optimization",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "optimization"
+    ],
+    "lineNumber": 150
+  },
+  {
+    "name": "Load shedding",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 151
+  },
+  {
+    "name": "DR automation",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 155
+  },
+  {
+    "name": "Panelboard replacement",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 180
+  },
+  {
+    "name": "Service upgrade",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 181
+  },
+  {
+    "name": "Transformer replacement",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 182
+  },
+  {
+    "name": "Electrified reheat systems",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 183
+  },
+  {
+    "name": "Roof insulation",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 188
+  },
+  {
+    "name": "Wall insulation",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 189
+  },
+  {
+    "name": "Duct insulation",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 191
+  },
+  {
+    "name": "Security tint film",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 196
+  },
+  {
+    "name": "Window replacement",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 197
+  },
+  {
+    "name": "Door sweeps",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 200
+  },
+  {
+    "name": "Weather stripping",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 201
+  },
+  {
+    "name": "Envelope leak sealing",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 202
+  },
+  {
+    "name": "Vestibule addition",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 203
+  },
+  {
+    "name": "Cool roof coating",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 205
+  },
+  {
+    "name": "Reflective membranes",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 206
+  },
+  {
+    "name": "Green roof",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 207
+  },
+  {
+    "name": "EC evaporator fan motors",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 211
+  },
+  {
+    "name": "Night curtains",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 214
+  },
+  {
+    "name": "Door gasket upgrades",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 215
+  },
+  {
+    "name": "Floating head pressure controls",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "controls",
+      "automation"
+    ],
+    "lineNumber": 217
+  },
+  {
+    "name": "Floating suction pressure",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 218
+  },
+  {
+    "name": "Heat reclaim",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 220
+  },
+  {
+    "name": "Defrost optimization",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "optimization"
+    ],
+    "lineNumber": 221
+  },
+  {
+    "name": "Refrigeration controls upgrade",
+    "category": "REFRIGERATION",
+    "tags": [
+      "controls",
+      "automation",
+      "retrofit"
+    ],
+    "lineNumber": 222
+  },
+  {
+    "name": "ECM fans",
+    "category": "REFRIGERATION",
+    "tags": [],
+    "lineNumber": 225
+  },
+  {
+    "name": "Insulation upgrades",
+    "category": "REFRIGERATION",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 227
+  },
+  {
+    "name": "HPWH systems",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 233
+  },
+  {
+    "name": "Irrigation controllers",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 236
+  },
+  {
+    "name": "Leak detection systems",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 237
+  },
+  {
+    "name": "ECM motors",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 243
+  },
+  {
+    "name": "Motor VFDs",
+    "category": "MOTORS_DRIVES",
+    "tags": [
+      "vfd",
+      "variable-speed"
+    ],
+    "lineNumber": 246
+  },
+  {
+    "name": "Load balancing",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 249
+  },
+  {
+    "name": "Power factor correction",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 250
+  },
+  {
+    "name": "Harmonic filtering",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 251
+  },
+  {
+    "name": "Smart panels",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 252
+  },
+  {
+    "name": "Submetering",
+    "category": "MOTORS_DRIVES",
+    "tags": [],
+    "lineNumber": 253
+  },
+  {
+    "name": "Peak shaving batteries",
+    "category": "RENEWABLE_ENERGY",
+    "tags": [],
+    "lineNumber": 258
+  },
+  {
+    "name": "Load shifting batteries",
+    "category": "RENEWABLE_ENERGY",
+    "tags": [],
+    "lineNumber": 259
+  },
+  {
+    "name": "Microgrid controls",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "controls",
+      "automation"
+    ],
+    "lineNumber": 263
+  },
+  {
+    "name": "Hybrid inverter systems",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 264
+  },
+  {
+    "name": "Ice storage",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 266
+  },
+  {
+    "name": "Chilled water storage",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "led",
+      "lighting"
+    ],
+    "lineNumber": 267
+  },
+  {
+    "name": "PCM thermal storage",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 268
+  },
+  {
+    "name": "Leak detection",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 272
+  },
+  {
+    "name": "Heat recovery",
+    "category": "WATER_PLUMBING",
+    "tags": [],
+    "lineNumber": 275
+  },
+  {
+    "name": "Setpoint optimization",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "optimization"
+    ],
+    "lineNumber": 276
+  },
+  {
+    "name": "Oven upgrades",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 278
+  },
+  {
+    "name": "Process chiller optimization",
+    "category": "WATER_PLUMBING",
+    "tags": [
+      "chiller",
+      "cooling",
+      "optimization"
+    ],
+    "lineNumber": 279
+  },
+  {
+    "name": "Industrial refrigeration",
+    "category": "REFRIGERATION",
+    "tags": [],
+    "lineNumber": 280
+  },
+  {
+    "name": "OR setback controls",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "controls",
+      "automation"
+    ],
+    "lineNumber": 285
+  },
+  {
+    "name": "OR ACH reduction",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 286
+  },
+  {
+    "name": "Lab VAV hood control",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 287
+  },
+  {
+    "name": "Lab exhaust VFDs",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "vfd",
+      "variable-speed"
+    ],
+    "lineNumber": 288
+  },
+  {
+    "name": "Isolation room pressurization",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 289
+  },
+  {
+    "name": "Heat recovery chillers for reheat loops",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "chiller",
+      "cooling"
+    ],
+    "lineNumber": 290
+  },
+  {
+    "name": "MRI chiller optimization",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "chiller",
+      "cooling",
+      "optimization"
+    ],
+    "lineNumber": 291
+  },
+  {
+    "name": "Sterilizer reclaim systems",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 292
+  },
+  {
+    "name": "Cooling",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 296
+  },
+  {
+    "name": "Hot aisle containment",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 297
+  },
+  {
+    "name": "Cold aisle containment",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 298
+  },
+  {
+    "name": "Free cooling",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 300
+  },
+  {
+    "name": "IT Efficiency",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 302
+  },
+  {
+    "name": "Server virtualization",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 303
+  },
+  {
+    "name": "Server consolidation",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 304
+  },
+  {
+    "name": "Smart plugs",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 308
+  },
+  {
+    "name": "PC power management",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 309
+  },
+  {
+    "name": "Vending machine controllers",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [],
+    "lineNumber": 310
+  },
+  {
+    "name": "Lab freezer replacements",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 311
+  },
+  {
+    "name": "Appliance replacement",
+    "category": "BUILDING_AUTOMATION",
+    "tags": [
+      "retrofit"
+    ],
+    "lineNumber": 312
+  }
+]
