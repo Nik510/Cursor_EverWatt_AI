@@ -7,27 +7,44 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# build / deps
+node_modules/
+dist/
+dist-ssr/
+build/
+.vite/
+.cache/
 *.local
 
-# Editor directories and files
-.vscode/*
+# OS/editor
+.DS_Store
+.vscode/
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
-# Environment variables
+# local env
 .env
+.env.*
 .env.local
 .env.production
 
 # Training data (may contain proprietary information)
 TRAINING_DATA/
+
+# generated / local data (EverWatt engine)
+data/analyses/
+data/exports/
+data/_rollback/
+data/tmp/
+**/*export*.csv
+**/*export*.xlsx
+
+# If these are generated snapshots (not hand-curated):
+data/tariffs/
+data/tariffs_gas/
 
