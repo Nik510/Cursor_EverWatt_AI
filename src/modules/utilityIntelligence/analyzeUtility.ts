@@ -9,6 +9,8 @@ import { evaluateLoadShiftPotential } from './interval/loadShiftPotential';
 import { estimateAnnualKwh } from './interval/annualize';
 import { computeProvenMetricsV1 } from './interval/provenMetrics';
 import { analyzeSupplyStructure } from './supply/analyzeSupplyStructure';
+import { extractBillPdfTariffHintsV1 } from './billPdf/extractBillPdfTariffHintsV1';
+import { extractBillPdfTouUsageV1 } from './billPdf/extractBillPdfTouUsageV1';
 import type { MissingInfoItemV0 } from './missingInfo/types';
 import { runWeatherRegressionV1, type IntervalKwPointWithTemp } from './weather/regression';
 import type { WeatherProvider } from './weather/provider';
@@ -33,6 +35,8 @@ import { programMatchesToRecommendations } from '../programIntelligence/toRecomm
 
 import { loadProjectForOrg } from '../project/projectRepository';
 import { readIntervalData } from '../../utils/excel-reader';
+import { matchBillTariffToLibraryV1 } from '../tariffLibrary/matching/matchBillTariffToLibraryV1';
+import { loadLatestGasSnapshot } from '../tariffLibraryGas/storage';
 
 type IntervalKwPoint = IntervalKwPoint1 & IntervalKwPoint2;
 
@@ -71,6 +75,22 @@ function asCaIouUtility(raw: unknown): 'PGE' | 'SCE' | 'SDGE' | null {
   if (s === 'PGE' || s === 'PG&E' || s === 'PACIFICGASANDELECTRIC' || s === 'PACIFICGASELECTRIC') return 'PGE';
   if (s === 'SCE' || s === 'SOUTHERNCALIFORNIAEDISON') return 'SCE';
   if (s === 'SDGE' || s === 'SDG&E' || s === 'SANDIEGOGASANDELECTRIC') return 'SDGE';
+  return null;
+}
+
+function mapBillUtilityHintToLibraryUtility(args: { utilityHint?: string | null; commodity: 'electric' | 'gas' }): string | null {
+  const h = String(args.utilityHint || '').trim().toUpperCase().replace(/[^A-Z]/g, '');
+  // From bill extractor returns: PG&E, SCE, SDG&E, SoCalGas
+  if (args.commodity === 'electric') {
+    if (h.includes('PGE') || h.includes('PACIFICGAS')) return 'PGE';
+    if (h === 'SCE' || h.includes('SOUTHERNCALIFORNIAEDISON')) return 'SCE';
+    if (h.includes('SDGE') || h.includes('SANDIEGOGAS')) return 'SDGE';
+    return null;
+  }
+  // gas
+  if (h.includes('PGE') || h.includes('PACIFICGAS')) return 'PGE';
+  if (h.includes('SDGE') || h.includes('SANDIEGOGAS')) return 'SDGE';
+  if (h.includes('SOCALGAS') || h.includes('SOUTHERNCALIFORNIAGAS')) return 'SOCALGAS';
   return null;
 }
 
@@ -253,6 +273,16 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
 
   // Program intelligence (deterministic catalog matching)
   const proven = computeProvenMetricsV1({ inputs, intervalKw: intervalKw || null });
+  const tz =
+    String(proven.provenTouExposureSummary?.timezone || '').trim() ||
+    (normText(inputs.utilityTerritory).includes('pge') ? 'America/Los_Angeles' : 'UTC');
+  const billTou = (() => {
+    try {
+      return extractBillPdfTouUsageV1({ billPdfText: inputs.billPdfText || null, timezone: tz });
+    } catch {
+      return null;
+    }
+  })();
   const monthlyKwh = (() => {
     const m = inputs.billingSummary?.monthly || [];
     const vals = m.map((x) => Number(x.kWh)).filter((n) => Number.isFinite(n) && n >= 0);
@@ -319,6 +349,61 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     billingRecords: inputs.billingRecords || null,
     billPdfText: inputs.billPdfText || null,
   });
+
+  const billPdfTariffTruth = extractBillPdfTariffHintsV1(inputs.billPdfText || null);
+
+  const billTariffCommodity: 'electric' | 'gas' =
+    String(inputs.serviceType || '').toLowerCase() === 'gas' ? 'gas' : 'electric';
+
+  const billTariffUtilityKey =
+    mapBillUtilityHintToLibraryUtility({ utilityHint: (billPdfTariffTruth as any)?.utilityHint, commodity: billTariffCommodity }) ||
+    asCaIouUtility(inputs.utilityTerritory) ||
+    null;
+
+  const billTariffSnapshot =
+    billTariffUtilityKey && billTariffCommodity === 'electric'
+      ? await loadLatestSnapshot(billTariffUtilityKey as any).catch(() => null)
+      : billTariffUtilityKey && billTariffCommodity === 'gas'
+        ? await loadLatestGasSnapshot(billTariffUtilityKey as any).catch(() => null)
+        : null;
+
+  const billPdfTariffLibraryMatchRaw = matchBillTariffToLibraryV1({
+    utilityId: billTariffUtilityKey,
+    commodity: billTariffCommodity,
+    rateScheduleText: (billPdfTariffTruth as any)?.rateScheduleText || null,
+    snapshot: billTariffSnapshot
+      ? {
+          versionTag: String((billTariffSnapshot as any).versionTag),
+          capturedAt: String((billTariffSnapshot as any).capturedAt),
+          rates: Array.isArray((billTariffSnapshot as any).rates) ? (billTariffSnapshot as any).rates : [],
+        }
+      : null,
+  });
+
+  const billPdfTariffLibraryMatch =
+    billPdfTariffTruth && (billPdfTariffTruth as any)?.rateScheduleText
+      ? {
+          commodity: billTariffCommodity,
+          utilityId: billTariffUtilityKey || undefined,
+          snapshotVersionTag: billPdfTariffLibraryMatchRaw.snapshotId,
+          snapshotCapturedAt: billPdfTariffLibraryMatchRaw.snapshotCapturedAt,
+          ...(billPdfTariffLibraryMatchRaw.resolved
+            ? { resolved: { rateCode: billPdfTariffLibraryMatchRaw.resolved.rateCode, matchType: billPdfTariffLibraryMatchRaw.resolved.matchType, sourceUrl: billPdfTariffLibraryMatchRaw.resolved.sourceUrl, sourceTitle: billPdfTariffLibraryMatchRaw.resolved.sourceTitle } }
+            : {}),
+          ...(Array.isArray(billPdfTariffLibraryMatchRaw.candidates) && billPdfTariffLibraryMatchRaw.candidates.length
+            ? {
+                candidates: billPdfTariffLibraryMatchRaw.candidates.map((c) => ({
+                  rateCode: c.rateCode,
+                  score: c.score,
+                  reason: c.reason,
+                  sourceUrl: c.sourceUrl,
+                  sourceTitle: c.sourceTitle,
+                })),
+              }
+            : {}),
+          ...(Array.isArray(billPdfTariffLibraryMatchRaw.warnings) && billPdfTariffLibraryMatchRaw.warnings.length ? { warnings: billPdfTariffLibraryMatchRaw.warnings } : {}),
+        }
+      : null;
 
   // CA Tariff Library v0 (metadata only)
   const tariffLibrary = await (async () => {
@@ -394,16 +479,37 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
               ? 1440
               : null;
 
-      const tz =
-        String(proven.provenTouExposureSummary?.timezone || '').trim() ||
-        (normText(inputs.utilityTerritory).includes('pge') ? 'America/Los_Angeles' : 'UTC');
-
       const meterIdGuess = (() => {
         const br0: any = Array.isArray(inputs.billingRecords) && inputs.billingRecords.length ? inputs.billingRecords[0] : null;
         return String(br0?.saId || br0?.meterNumber || 'site').trim() || 'site';
       })();
 
       const canonicalPoints = Array.isArray(deps?.intervalPointsV1) && deps?.intervalPointsV1.length ? deps?.intervalPointsV1 : null;
+      const billTouCycleLabel = billTou && String((billTou as any).cycleLabel || '').trim() && String((billTou as any).cycleLabel || '').trim() !== 'unknown'
+        ? String((billTou as any).cycleLabel || '').trim()
+        : null;
+      const observedTouEnergyByMeterAndCycle =
+        billTouCycleLabel && (billTou as any)?.observedTouEnergy?.values && Object.keys((billTou as any).observedTouEnergy.values).length
+          ? {
+              [meterIdGuess]: {
+                [billTouCycleLabel]: {
+                  values: (billTou as any).observedTouEnergy.values,
+                  fields: (billTou as any).observedTouEnergy.fields,
+                },
+              },
+            }
+          : undefined;
+      const observedTouDemandByMeterAndCycle =
+        billTouCycleLabel && (billTou as any)?.observedTouDemand?.values && Object.keys((billTou as any).observedTouDemand.values).length
+          ? {
+              [meterIdGuess]: {
+                [billTouCycleLabel]: {
+                  values: (billTou as any).observedTouDemand.values,
+                  fields: (billTou as any).observedTouDemand.fields,
+                },
+              },
+            }
+          : undefined;
       return buildDeterminantsPackV1({
         utility: String(u),
         rateCode,
@@ -411,6 +517,8 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         timezone: tz,
         billingRecords: inputs.billingRecords || null,
         billPdfText: inputs.billPdfText || null,
+        ...(observedTouEnergyByMeterAndCycle ? { observedTouEnergyByMeterAndCycle } : {}),
+        ...(observedTouDemandByMeterAndCycle ? { observedTouDemandByMeterAndCycle } : {}),
         intervalSeries: canonicalPoints || intervalKw
           ? [
               {
@@ -535,6 +643,37 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
 
     const currentRateCode = String(inputs.currentRate?.rateCode || '').trim();
     const currentUtility = asCaIouUtility(inputs.currentRate?.utility ?? inputs.utilityTerritory);
+
+    if (!String(inputs.billPdfText || '').trim()) {
+      items.push({
+        id: 'billing.billPdfText.missing',
+        category: 'tariff',
+        severity: 'info',
+        description: 'Bill PDF text is missing; bill-based tariff extraction and TOU usage hints are unavailable.',
+      });
+    } else if (billTou && Array.isArray((billTou as any).warnings) && (billTou as any).warnings.length) {
+      const snips = Array.isArray((billTou as any).evidenceSnippets) ? ((billTou as any).evidenceSnippets as any[]) : [];
+      const evidence = snips
+        .map((s) => String(s || '').trim())
+        .filter(Boolean)
+        .slice(0, 4)
+        .map((s) => ({ kind: 'bill_pdf_snippet', value: s }));
+      for (const w of ((billTou as any).warnings as any[]).slice(0, 8)) {
+        const code = String((w as any)?.code || '').trim();
+        const hint = String((w as any)?.hint || '').trim() || 'Bill PDF TOU extraction warning.';
+        if (!code) continue;
+        const severity: MissingInfoItemV0['severity'] =
+          code === 'BILL_PDF_CYCLE_LABEL_MISSING' || code === 'BILL_PDF_TOU_ENERGY_INCONSISTENT_WITH_TOTAL' ? 'warning' : 'info';
+        items.push({
+          id: `billing.billPdfTouUsage.${code}`,
+          category: 'billing',
+          severity,
+          description: hint,
+          ...(evidence.length ? { evidence } : {}),
+          details: { reasonCode: code, source: 'bill_pdf' },
+        });
+      }
+    }
 
     if (!currentRateCode) {
       items.push({
@@ -825,6 +964,8 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     optionSRelevance: optionS,
     programs,
     ...(supplyStructure ? { supplyStructure } : {}),
+    ...(billPdfTariffTruth ? { billPdfTariffTruth } : {}),
+    ...(billPdfTariffLibraryMatch ? { billPdfTariffLibraryMatch } : {}),
     ...(tariffLibrary ? { tariffLibrary } : {}),
     ...(tariffApplicability ? { tariffApplicability } : {}),
     ...(determinantsPackSummary ? { determinantsPackSummary } : {}),

@@ -231,7 +231,7 @@ app.get('/api/tariffs/ca/latest', async (c) => {
     includeResidential: boolean;
     includeUnknownSegment: boolean;
     sectors?: string[];
-    tier: 'featured' | 'common' | 'all';
+    tier: 'top' | 'featured' | 'common' | 'all';
     includeHidden: boolean;
     includeNonCanon: boolean;
   }): any[] {
@@ -246,8 +246,9 @@ app.get('/api/tariffs/ca/latest', async (c) => {
       .filter((r) => {
         const t = String((r as any).popularityTier || 'all');
         if (args.tier === 'all') return true;
-        if (args.tier === 'common') return t === 'featured' || t === 'common';
-        return t === 'featured';
+        if (args.tier === 'common') return t === 'top' || t === 'featured' || t === 'common';
+        if (args.tier === 'featured') return t === 'top' || t === 'featured';
+        return t === 'top';
       })
       .filter((r) => {
         const sg = String((r as any).sectorGroup || '').trim();
@@ -304,7 +305,8 @@ app.get('/api/tariffs/ca/latest', async (c) => {
   const includeHidden = String(qIncludeHidden || '').trim() === '1';
   const includeNonCanon = String(qIncludeNonCanon || '').trim() === '1';
   const tierRaw = String(qTier || '').trim().toLowerCase();
-  const tier: 'featured' | 'common' | 'all' = tierRaw === 'featured' || tierRaw === 'common' || tierRaw === 'all' ? (tierRaw as any) : 'all';
+  const tier: 'top' | 'featured' | 'common' | 'all' =
+    tierRaw === 'top' || tierRaw === 'featured' || tierRaw === 'common' || tierRaw === 'all' ? (tierRaw as any) : 'all';
 
   const { items: tariffCurationItems, warnings: curWarnings, loadedFromPath: tariffCurationPath, capturedAtIso: tariffCurationCapturedAtIso, version: tariffCurationVersion } =
     loadTariffCurationV1();
@@ -315,6 +317,7 @@ app.get('/api/tariffs/ca/latest', async (c) => {
     version: tariffCurationVersion ?? null,
     itemCount: Array.isArray(tariffCurationItems) ? tariffCurationItems.length : 0,
     hiddenRuleCount: (tariffCurationItems || []).filter((x: any) => x && typeof x === 'object' && Boolean((x as any).hidden)).length,
+    topRuleCount: (tariffCurationItems || []).filter((x: any) => String((x as any).tier || '').toLowerCase() === 'top').length,
     featuredRuleCount: (tariffCurationItems || []).filter((x: any) => String((x as any).tier || '').toLowerCase() === 'featured').length,
   };
 
@@ -379,8 +382,9 @@ app.get('/api/tariffs/ca/latest', async (c) => {
             function tierAllows(tRaw: any): boolean {
               const t = String(tRaw || 'all');
               if (tier === 'all') return true;
-              if (tier === 'common') return t === 'featured' || t === 'common';
-              return t === 'featured';
+              if (tier === 'common') return t === 'top' || t === 'featured' || t === 'common';
+              if (tier === 'featured') return t === 'top' || t === 'featured';
+              return t === 'top';
             }
             const candidatesForSector = decorated.filter((r: any) => allowedSectorGroups.has(sectorGroupOf(r)));
             return {
@@ -411,6 +415,23 @@ app.get('/api/tariffs/ca/latest', async (c) => {
           })()
         : null;
 
+    function tierAllows(tRaw: any): boolean {
+      const t = String(tRaw || 'all');
+      if (tier === 'all') return true;
+      if (tier === 'common') return t === 'top' || t === 'featured' || t === 'common';
+      if (tier === 'featured') return t === 'top' || t === 'featured';
+      return t === 'top';
+    }
+    const tierCounts = {
+      top: decorated.filter((r: any) => String(r.popularityTier || 'all') === 'top').length,
+      featured: decorated.filter((r: any) => String(r.popularityTier || 'all') === 'top' || String(r.popularityTier || 'all') === 'featured').length,
+      common: decorated.filter((r: any) => {
+        const t = String(r.popularityTier || 'all');
+        return t === 'top' || t === 'featured' || t === 'common';
+      }).length,
+      all: decorated.length,
+    };
+
     out.push({
       utility,
       latestSnapshot: {
@@ -438,6 +459,7 @@ app.get('/api/tariffs/ca/latest', async (c) => {
         canonicalBusinessCount,
         businessRelevantShownCount,
         totalRateCount,
+        tierCounts,
         ...(filterSummary ? { filterSummary } : {}),
       },
       rates: shownRates,
@@ -581,7 +603,8 @@ app.get('/api/tariffs/ca/snapshot/:utility/:versionTag', async (c) => {
   const includeHidden = String(qIncludeHidden || '').trim() === '1';
   const includeNonCanon = String(qIncludeNonCanon || '').trim() === '1';
   const tierRaw = String(qTier || '').trim().toLowerCase();
-  const tier: 'featured' | 'common' | 'all' = tierRaw === 'featured' || tierRaw === 'common' || tierRaw === 'all' ? (tierRaw as any) : 'all';
+  const tier: 'top' | 'featured' | 'common' | 'all' =
+    tierRaw === 'top' || tierRaw === 'featured' || tierRaw === 'common' || tierRaw === 'all' ? (tierRaw as any) : 'all';
   const { items: tariffCurationItems, warnings: curWarnings, loadedFromPath: tariffCurationPath, capturedAtIso: tariffCurationCapturedAtIso, version: tariffCurationVersion } =
     loadTariffCurationV1();
   warnings.push(...curWarnings.map((w) => `[tariffCuration] ${w}`));
@@ -591,6 +614,7 @@ app.get('/api/tariffs/ca/snapshot/:utility/:versionTag', async (c) => {
     version: tariffCurationVersion ?? null,
     itemCount: Array.isArray(tariffCurationItems) ? tariffCurationItems.length : 0,
     hiddenRuleCount: (tariffCurationItems || []).filter((x: any) => x && typeof x === 'object' && Boolean((x as any).hidden)).length,
+    topRuleCount: (tariffCurationItems || []).filter((x: any) => String((x as any).tier || '').toLowerCase() === 'top').length,
     featuredRuleCount: (tariffCurationItems || []).filter((x: any) => String((x as any).tier || '').toLowerCase() === 'featured').length,
   };
 
@@ -610,8 +634,9 @@ app.get('/api/tariffs/ca/snapshot/:utility/:versionTag', async (c) => {
       if (!anyFilterParamProvided) return true;
       const t = String(r.popularityTier || 'all');
       if (tier === 'all') return true;
-      if (tier === 'common') return t === 'featured' || t === 'common';
-      return t === 'featured';
+      if (tier === 'common') return t === 'top' || t === 'featured' || t === 'common';
+      if (tier === 'featured') return t === 'top' || t === 'featured';
+      return t === 'top';
     })
     .filter((r: any) => {
       if (!anyFilterParamProvided) return true;
@@ -632,6 +657,18 @@ app.get('/api/tariffs/ca/snapshot/:utility/:versionTag', async (c) => {
   const segShown: Record<string, number> = {};
   for (const r of decorated) segTotal[String((r as any).customerSegment || 'unknown')] = (segTotal[String((r as any).customerSegment || 'unknown')] || 0) + 1;
   for (const r of shownRates) segShown[String((r as any).customerSegment || 'unknown')] = (segShown[String((r as any).customerSegment || 'unknown')] || 0) + 1;
+  const tierCounts = {
+    top: decorated.filter((r: any) => String(r.popularityTier || 'all') === 'top').length,
+    featured: decorated.filter((r: any) => {
+      const t = String(r.popularityTier || 'all');
+      return t === 'top' || t === 'featured';
+    }).length,
+    common: decorated.filter((r: any) => {
+      const t = String(r.popularityTier || 'all');
+      return t === 'top' || t === 'featured' || t === 'common';
+    }).length,
+    all: decorated.length,
+  };
   const filterSummary =
     anyFilterParamProvided
       ? (() => {
@@ -645,8 +682,9 @@ app.get('/api/tariffs/ca/snapshot/:utility/:versionTag', async (c) => {
           function tierAllows(tRaw: any): boolean {
             const t = String(tRaw || 'all');
             if (tier === 'all') return true;
-            if (tier === 'common') return t === 'featured' || t === 'common';
-            return t === 'featured';
+            if (tier === 'common') return t === 'top' || t === 'featured' || t === 'common';
+            if (tier === 'featured') return t === 'top' || t === 'featured';
+            return t === 'top';
           }
           const candidatesForSector = decorated.filter((r: any) => allowedSectorGroups.has(sectorGroupOf(r)));
           return {
@@ -679,7 +717,14 @@ app.get('/api/tariffs/ca/snapshot/:utility/:versionTag', async (c) => {
 
   return c.json({
     success: true,
-    snapshot: { ...(snap as any), rates: shownRates, segmentSummaryTotal: segTotal, segmentSummaryShown: segShown, ...(filterSummary ? { filterSummary } : {}) },
+    snapshot: {
+      ...(snap as any),
+      rates: shownRates,
+      segmentSummaryTotal: segTotal,
+      segmentSummaryShown: segShown,
+      tierCounts,
+      ...(filterSummary ? { filterSummary } : {}),
+    },
     isStale: isSnapshotStale(snap.capturedAt, nowIso, 14),
     warnings,
     curationStatus: { tariffCuration: tariffCurationStatus },
@@ -722,7 +767,7 @@ app.get('/api/tariffs/ca/gas/latest', async (c) => {
     includeResidential: boolean;
     includeUnknownSegment: boolean;
     sectors?: string[];
-    tier: 'featured' | 'common' | 'all';
+    tier: 'top' | 'featured' | 'common' | 'all';
     includeHidden: boolean;
   }): any[] {
     const allowedSectorGroups = new Set<string>(['non_residential']);
@@ -734,8 +779,9 @@ app.get('/api/tariffs/ca/gas/latest', async (c) => {
       .filter((r) => {
         const t = String((r as any).popularityTier || 'all');
         if (args.tier === 'all') return true;
-        if (args.tier === 'common') return t === 'featured' || t === 'common';
-        return t === 'featured';
+        if (args.tier === 'common') return t === 'top' || t === 'featured' || t === 'common';
+        if (args.tier === 'featured') return t === 'top' || t === 'featured';
+        return t === 'top';
       })
       .filter((r) => {
         const sg = String((r as any).sectorGroup || '').trim();
@@ -785,7 +831,8 @@ app.get('/api/tariffs/ca/gas/latest', async (c) => {
   const includeUnknownSegment = String(qIncludeUnknownSegment || '').trim() === '1';
   const includeHidden = String(qIncludeHidden || '').trim() === '1';
   const tierRaw = String(qTier || '').trim().toLowerCase();
-  const tier: 'featured' | 'common' | 'all' = tierRaw === 'featured' || tierRaw === 'common' || tierRaw === 'all' ? (tierRaw as any) : 'all';
+  const tier: 'top' | 'featured' | 'common' | 'all' =
+    tierRaw === 'top' || tierRaw === 'featured' || tierRaw === 'common' || tierRaw === 'all' ? (tierRaw as any) : 'all';
 
   const { items: tariffCurationItems, warnings: curWarnings, loadedFromPath: tariffCurationPath, capturedAtIso: tariffCurationCapturedAtIso, version: tariffCurationVersion } =
     loadTariffCurationV1();
@@ -842,6 +889,18 @@ app.get('/api/tariffs/ca/gas/latest', async (c) => {
     const hiddenByCurationCount = decorated.filter((r: any) => Boolean(r.curationHidden)).length;
     const nonResidentialShownCount = shownRates.filter((r: any) => String((r as any).sectorGroup || '') === 'non_residential').length;
     const totalRateCount = decorated.length;
+    const tierCounts = {
+      top: decorated.filter((r: any) => String(r.popularityTier || 'all') === 'top').length,
+      featured: decorated.filter((r: any) => {
+        const t = String(r.popularityTier || 'all');
+        return t === 'top' || t === 'featured';
+      }).length,
+      common: decorated.filter((r: any) => {
+        const t = String(r.popularityTier || 'all');
+        return t === 'top' || t === 'featured' || t === 'common';
+      }).length,
+      all: decorated.length,
+    };
     const filterSummary =
       anyFilterParamProvided
         ? (() => {
@@ -858,8 +917,9 @@ app.get('/api/tariffs/ca/gas/latest', async (c) => {
             function tierAllows(tRaw: any): boolean {
               const t = String(tRaw || 'all');
               if (tier === 'all') return true;
-              if (tier === 'common') return t === 'featured' || t === 'common';
-              return t === 'featured';
+              if (tier === 'common') return t === 'top' || t === 'featured' || t === 'common';
+              if (tier === 'featured') return t === 'top' || t === 'featured';
+              return t === 'top';
             }
             const candidatesForSector = decorated.filter((r: any) => allowedSectorGroups.has(sectorGroupOf(r)));
             return {
@@ -912,6 +972,7 @@ app.get('/api/tariffs/ca/gas/latest', async (c) => {
         hiddenByCurationCount,
         businessRelevantShownCount: nonResidentialShownCount,
         totalRateCount,
+        tierCounts,
         ...(filterSummary ? { filterSummary } : {}),
       },
       rates: shownRates,
@@ -1041,7 +1102,8 @@ app.get('/api/tariffs/ca/gas/snapshot/:utility/:versionTag', async (c) => {
   const includeUnknownSegment = String(qIncludeUnknownSegment || '').trim() === '1';
   const includeHidden = String(qIncludeHidden || '').trim() === '1';
   const tierRaw = String(qTier || '').trim().toLowerCase();
-  const tier: 'featured' | 'common' | 'all' = tierRaw === 'featured' || tierRaw === 'common' || tierRaw === 'all' ? (tierRaw as any) : 'all';
+  const tier: 'top' | 'featured' | 'common' | 'all' =
+    tierRaw === 'top' || tierRaw === 'featured' || tierRaw === 'common' || tierRaw === 'all' ? (tierRaw as any) : 'all';
 
   const { items: tariffCurationItems, warnings: curWarnings, loadedFromPath: tariffCurationPath, capturedAtIso: tariffCurationCapturedAtIso, version: tariffCurationVersion } =
     loadTariffCurationV1();
@@ -1052,6 +1114,7 @@ app.get('/api/tariffs/ca/gas/snapshot/:utility/:versionTag', async (c) => {
     version: tariffCurationVersion ?? null,
     itemCount: Array.isArray(tariffCurationItems) ? tariffCurationItems.length : 0,
     hiddenRuleCount: (tariffCurationItems || []).filter((x: any) => x && typeof x === 'object' && Boolean((x as any).hidden)).length,
+    topRuleCount: (tariffCurationItems || []).filter((x: any) => String((x as any).tier || '').toLowerCase() === 'top').length,
     featuredRuleCount: (tariffCurationItems || []).filter((x: any) => String((x as any).tier || '').toLowerCase() === 'featured').length,
   };
 
@@ -1071,8 +1134,9 @@ app.get('/api/tariffs/ca/gas/snapshot/:utility/:versionTag', async (c) => {
       if (!anyFilterParamProvided) return true;
       const t = String(r.popularityTier || 'all');
       if (tier === 'all') return true;
-      if (tier === 'common') return t === 'featured' || t === 'common';
-      return t === 'featured';
+      if (tier === 'common') return t === 'top' || t === 'featured' || t === 'common';
+      if (tier === 'featured') return t === 'top' || t === 'featured';
+      return t === 'top';
     })
     .filter((r: any) => {
       if (!anyFilterParamProvided) return true;
@@ -1106,8 +1170,9 @@ app.get('/api/tariffs/ca/gas/snapshot/:utility/:versionTag', async (c) => {
           function tierAllows(tRaw: any): boolean {
             const t = String(tRaw || 'all');
             if (tier === 'all') return true;
-            if (tier === 'common') return t === 'featured' || t === 'common';
-            return t === 'featured';
+            if (tier === 'common') return t === 'top' || t === 'featured' || t === 'common';
+            if (tier === 'featured') return t === 'top' || t === 'featured';
+            return t === 'top';
           }
           const candidatesForSector = decorated.filter((r: any) => allowedSectorGroups.has(sectorGroupOf(r)));
           return {
@@ -5973,31 +6038,38 @@ app.get('/api/projects/:id/analysis-results-v1', async (c) => {
     const lib = await loadBatteryLibraryV1(libPath);
 
     const customer = (project as any)?.customer || {};
+    const telemetry = (project as any)?.telemetry || {};
     const territory =
       String((project as any)?.telemetry?.utilityTerritory || customer?.utilityCompany || (project as any)?.utilityTerritory || '').trim() ||
       (demo ? 'PGE' : '');
     const projectName = String(customer?.projectName || customer?.companyName || '').trim() || (demo ? 'Demo: Peaky Office' : '');
     const siteLocation = String(customer?.siteLocation || '').trim() || (demo ? 'Oakland, CA' : '');
+    const billPdfText = String(telemetry?.billPdfText || '').trim();
+    const tariffOverrideV1 = !demo ? ((project as any)?.tariffOverrideV1 ?? null) : null;
+    const { resolveCurrentRateSelectionV1 } = await import('./modules/utilityIntelligence/currentRate/resolveCurrentRateSelectionV1');
+    const resolvedRate = await resolveCurrentRateSelectionV1({
+      demo,
+      territory,
+      customerRateCode: demo ? null : (customer?.rateCode ? String(customer.rateCode) : null),
+      billPdfText: billPdfText || null,
+      tariffOverrideV1,
+    });
 
     const inputs = {
       orgId: userId,
       projectId,
       serviceType: 'electric',
       utilityTerritory: territory || undefined,
-      currentRate:
-        demo || customer?.rateCode
-          ? {
-              utility: territory || 'PGE',
-              rateCode: demo ? 'PGE_SIM_B19_LIKE' : String(customer.rateCode),
-              effectiveDate: undefined,
-            }
-          : undefined,
+      currentRate: resolvedRate.currentRate,
+      currentRateSelectionSource: resolvedRate.currentRateSelectionSource,
       customerType: customer?.customerType ? String(customer.customerType) : undefined,
       naicsCode: customer?.naicsCode ? String(customer.naicsCode) : undefined,
       // Keep address optional; many project records store a single string.
       ...(siteLocation
         ? { address: { line1: siteLocation, city: '', state: '', zip: '', country: 'US' } }
         : {}),
+      ...(billPdfText ? { billPdfText } : {}),
+      ...(tariffOverrideV1 ? { tariffOverrideV1 } : {}),
     } as const;
 
     const workflow = await runUtilityWorkflow({
@@ -6123,24 +6195,36 @@ app.get('/api/projects/:id/analysis-results-v1.pdf', async (c) => {
     const lib = await loadBatteryLibraryV1(libPath);
 
     const customer = (project as any)?.customer || {};
+    const telemetry = (project as any)?.telemetry || {};
     const territory =
       String((project as any)?.telemetry?.utilityTerritory || customer?.utilityCompany || (project as any)?.utilityTerritory || '').trim() ||
       (demo ? 'PGE' : '');
     const projectName = String(customer?.projectName || customer?.companyName || '').trim() || (demo ? 'Demo: Peaky Office' : '');
     const siteLocation = String(customer?.siteLocation || '').trim() || (demo ? 'Oakland, CA' : '');
+    const billPdfText = String(telemetry?.billPdfText || '').trim();
+    const tariffOverrideV1 = !demo ? ((project as any)?.tariffOverrideV1 ?? null) : null;
+    const { resolveCurrentRateSelectionV1 } = await import('./modules/utilityIntelligence/currentRate/resolveCurrentRateSelectionV1');
+    const resolvedRate = await resolveCurrentRateSelectionV1({
+      demo,
+      territory,
+      customerRateCode: demo ? null : (customer?.rateCode ? String(customer.rateCode) : null),
+      billPdfText: billPdfText || null,
+      tariffOverrideV1,
+    });
 
     const inputs = {
       orgId: userId,
       projectId,
       serviceType: 'electric',
       utilityTerritory: territory || undefined,
-      currentRate: customer?.rateCode
-        ? { utility: territory || 'UNKNOWN', rateCode: String(customer.rateCode), effectiveDate: undefined }
-        : undefined,
+      currentRate: resolvedRate.currentRate,
+      currentRateSelectionSource: resolvedRate.currentRateSelectionSource,
       customerType: customer?.customerType ? String(customer.customerType) : undefined,
       naicsCode: customer?.naicsCode ? String(customer.naicsCode) : undefined,
       // Keep address optional; many project records store a single string.
       ...(siteLocation ? { address: { line1: siteLocation, city: '', state: '', zip: '', country: 'US' } } : {}),
+      ...(billPdfText ? { billPdfText } : {}),
+      ...(tariffOverrideV1 ? { tariffOverrideV1 } : {}),
     } as const;
 
     const workflow = await runUtilityWorkflow({
@@ -6185,10 +6269,27 @@ app.put('/api/projects/:id', async (c) => {
   const id = c.req.param('id');
   const body = await c.req.json().catch(() => ({}));
   const patch = (body as any)?.patch || body || {};
+  const hasTariffOverridePatch = Object.prototype.hasOwnProperty.call(patch || {}, 'tariffOverrideV1');
 
   if (isDatabaseEnabled()) {
-    const { updateProject } = await import('./services/db-service');
-    const project = await updateProject(userId, id, patch);
+    const { getProject, updateProject } = await import('./services/db-service');
+    const prev = await getProject(userId, id);
+    if (!prev) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    let nextPatch = patch;
+    if (hasTariffOverridePatch) {
+      const { appendTariffOverrideAuditEventV1 } = await import('./modules/project/audit/tariffOverrideAuditV1');
+      const prevOverride = (prev as any)?.tariffOverrideV1 ?? null;
+      const nextOverride = (patch as any)?.tariffOverrideV1 ?? null;
+      const auditEventsV1 = appendTariffOverrideAuditEventV1({
+        existingEvents: (prev as any)?.auditEventsV1,
+        previousOverride: prevOverride,
+        newOverride: nextOverride,
+      });
+      nextPatch = { ...(patch as any), auditEventsV1 };
+    }
+
+    const project = await updateProject(userId, id, nextPatch);
     return c.json({ success: true, project });
   }
 
@@ -6196,6 +6297,18 @@ app.put('/api/projects/:id', async (c) => {
   if (!existsSync(filePath)) return c.json({ success: false, error: 'Project not found' }, 404);
   const rec = JSON.parse(await readFile(filePath, 'utf-8')) as any;
   if (rec?.userId !== userId) return c.json({ success: false, error: 'Project not found' }, 404);
+
+  let auditEventsV1Next = (rec as any)?.auditEventsV1;
+  if (hasTariffOverridePatch) {
+    const { appendTariffOverrideAuditEventV1 } = await import('./modules/project/audit/tariffOverrideAuditV1');
+    const prevOverride = (rec as any)?.tariffOverrideV1 ?? null;
+    const nextOverride = (patch as any)?.tariffOverrideV1 ?? null;
+    auditEventsV1Next = appendTariffOverrideAuditEventV1({
+      existingEvents: (rec as any)?.auditEventsV1,
+      previousOverride: prevOverride,
+      newOverride: nextOverride,
+    });
+  }
   const merged = {
     ...rec,
     ...patch,
@@ -6203,6 +6316,7 @@ app.put('/api/projects/:id', async (c) => {
     customer: { ...(rec.customer || {}), ...(patch.customer || {}) },
     driveFolderLink: patch.driveFolderLink || rec.driveFolderLink,
     updatedAt: new Date().toISOString(),
+    ...(hasTariffOverridePatch ? { auditEventsV1: auditEventsV1Next } : {}),
   };
   await writeFile(filePath, JSON.stringify(merged, null, 2));
   const { userId: _omit, ...clientProject } = merged;

@@ -1,9 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { AlertTriangle, ArrowLeft, Battery, Building2, ClipboardList, Download, FileText, ListChecks, PlugZap, TrendingUp } from 'lucide-react';
 import { SectionCard } from '../components/SectionCard';
 import { MarkdownViewer } from '../components/analysis/MarkdownViewer';
 import * as analysisApi from '../shared/api/analysisResults';
+import { apiRequest } from '../shared/api/client';
+import { extractBillPdfTariffHintsV1 } from '../modules/utilityIntelligence/billPdf/extractBillPdfTariffHintsV1';
+import { getSourceLinkStatusV1 } from './tariffBrowserTruth';
 
 type TabId = 'overview' | 'rate' | 'programs' | 'battery' | 'missing' | 'inbox' | 'markdown';
 
@@ -64,6 +67,43 @@ function truncateText(s: unknown, maxLen = 140): string {
   if (!t) return '';
   if (t.length <= maxLen) return t;
   return `${t.slice(0, Math.max(0, maxLen - 1)).trim()}…`;
+}
+
+function TariffSourceLink(props: { sourceUrl?: string | null; sourceTitle?: string | null }) {
+  const status = getSourceLinkStatusV1(props.sourceUrl);
+  const label = String(props.sourceTitle || props.sourceUrl || '').trim() || '(no source)';
+
+  if (!status.ok) {
+    return (
+      <div className="inline-flex items-center gap-2 text-xs text-gray-700">
+        <button
+          type="button"
+          className="inline-flex items-center gap-1 px-2 py-1 rounded-md border border-gray-200 text-gray-400 cursor-not-allowed"
+          disabled
+          title={`${status.code}: ${status.reason}`}
+        >
+          Open source
+        </button>
+        <span className="font-mono text-amber-800 text-[11px]" title={status.reason}>
+          {status.code}
+        </span>
+        <span className="text-gray-500">{label}</span>
+      </div>
+    );
+  }
+
+  return (
+    <a
+      className="inline-flex items-center gap-2 px-2 py-1 rounded-md border border-gray-200 text-xs font-semibold text-blue-700 hover:text-blue-800 hover:bg-blue-50"
+      href={status.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      title={label}
+    >
+      Open source
+      <span className="text-[11px] text-gray-600 font-normal">{truncateText(props.sourceTitle || props.sourceUrl, 120)}</span>
+    </a>
+  );
 }
 
 function supplyTypeLabel(type: unknown): string {
@@ -162,6 +202,8 @@ function formatPct01(n: unknown): string {
 export const AnalysisResultsV1Page: React.FC = () => {
   const params = useParams();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const location = useLocation();
   const projectIdRaw = String(params.projectId || '').trim();
   const demo = projectIdRaw.toLowerCase() === 'demo' || String(searchParams.get('demo') || '').toLowerCase() === 'true';
   const projectId = projectIdRaw || 'demo';
@@ -172,6 +214,8 @@ export const AnalysisResultsV1Page: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<analysisApi.AnalysisResultsV1Response | null>(null);
   const [exportingPdf, setExportingPdf] = useState(false);
+  const [tariffOverrideBusy, setTariffOverrideBusy] = useState(false);
+  const [tariffOverrideError, setTariffOverrideError] = useState<string | null>(null);
 
   const tabs = useMemo<Array<{ id: TabId; label: string }>>(
     () => [
@@ -207,6 +251,16 @@ export const AnalysisResultsV1Page: React.FC = () => {
     };
   }, [projectId, demo]);
 
+  async function refetchAnalysis() {
+    if (!projectId) return;
+    try {
+      const res = await analysisApi.getAnalysisResultsV1({ projectId, demo });
+      setData(res);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Failed to load analysis results');
+    }
+  }
+
   const project = data?.project as any;
   const workflow = data?.workflow as any;
   const summary = data?.summary as any;
@@ -218,12 +272,155 @@ export const AnalysisResultsV1Page: React.FC = () => {
   const loadAttribution = insights?.loadAttribution as any;
   const versionTags = insights?.versionTags as any;
   const supplyType = String(insights?.supplyStructure?.supplyType || '').trim() || 'bundled';
+
+  const billPdfTruthForUi = useMemo(() => {
+    const s = (insights as any)?.billPdfTariffTruth;
+    if (s && typeof s === 'object') return s;
+    const inputs = (workflow as any)?.utility?.inputs || {};
+    const pdf = String(inputs?.billPdfText || '').trim();
+    return extractBillPdfTariffHintsV1(pdf) || null;
+  }, [insights, workflow]);
+
+  const billPdfLibraryMatchForUi = useMemo(() => {
+    const m = (insights as any)?.billPdfTariffLibraryMatch;
+    return m && typeof m === 'object' ? m : null;
+  }, [insights]);
+
+  const appliedTariffOverride = useMemo(() => {
+    const ov = (workflow as any)?.utility?.inputs?.tariffOverrideV1;
+    return ov && typeof ov === 'object' ? ov : null;
+  }, [workflow]);
+
+  async function applyTariffOverride(args: {
+    utilityId: string;
+    snapshotId: string;
+    commodity: 'electric' | 'gas';
+    tariffIdOrRateCode: string;
+    matchType: 'EXACT' | 'NORMALIZED' | 'CANDIDATE';
+    sourceUrl?: string;
+    sourceTitle?: string;
+  }) {
+    if (!projectId || demo) return;
+    setTariffOverrideBusy(true);
+    setTariffOverrideError(null);
+    try {
+      const patch = {
+        tariffOverrideV1: {
+          schemaVersion: 1,
+          commodity: args.commodity,
+          utilityId: args.utilityId,
+          snapshotId: args.snapshotId,
+          tariffIdOrRateCode: args.tariffIdOrRateCode,
+          selectedBy: 'user',
+          selectedAt: new Date().toISOString(),
+          selectionSource: 'bill_pdf_match',
+          matchType: args.matchType,
+          ...(String(args.sourceUrl || '').trim() ? { sourceUrl: String(args.sourceUrl) } : {}),
+          ...(String(args.sourceTitle || '').trim() ? { sourceTitle: String(args.sourceTitle) } : {}),
+        },
+      };
+      await apiRequest({
+        url: `/api/projects/${encodeURIComponent(projectId)}`,
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ patch }),
+      });
+      await refetchAnalysis();
+    } catch (e) {
+      setTariffOverrideError(e instanceof Error ? e.message : 'Failed to apply tariff override');
+    } finally {
+      setTariffOverrideBusy(false);
+    }
+  }
+
+  async function undoTariffOverride() {
+    if (!projectId || demo) return;
+    setTariffOverrideBusy(true);
+    setTariffOverrideError(null);
+    try {
+      await apiRequest({
+        url: `/api/projects/${encodeURIComponent(projectId)}`,
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ patch: { tariffOverrideV1: null } }),
+      });
+      await refetchAnalysis();
+    } catch (e) {
+      setTariffOverrideError(e instanceof Error ? e.message : 'Failed to undo tariff override');
+    } finally {
+      setTariffOverrideBusy(false);
+    }
+  }
+
+  const supplyStructureForUi = useMemo(() => {
+    const inputs = (workflow as any)?.utility?.inputs || {};
+    const hasBillingRecords = Array.isArray(inputs?.billingRecords) && inputs.billingRecords.length > 0;
+    const hasBillPdfText = Boolean(String(inputs?.billPdfText || '').trim());
+    const hasBillInputs = hasBillingRecords || hasBillPdfText;
+
+    const hintRequiresBills = 'Requires billing records or parsed bill PDF text to infer supply structure.';
+    const warnings: Array<{ code: analysisApi.SupplyStructureWarningCodeV1; hint: string }> = [];
+
+    const s = insights?.supplyStructure as any | null;
+    if (!s) {
+      return {
+        supplyType: 'unknown',
+        confidence: undefined,
+        because: [],
+        reasonCode: !hasBillInputs ? analysisApi.SupplyStructureWarningCodesV1.MISSING_INPUT : analysisApi.SupplyStructureWarningCodesV1.PARTIAL,
+        shortHint: !hasBillInputs ? hintRequiresBills : 'Bill inputs were provided, but supply structure could not be inferred (check parsing / evidence).',
+        warnings: hasBillInputs
+          ? [
+              {
+                code: analysisApi.SupplyStructureWarningCodesV1.PARTIAL,
+                hint: 'Bill inputs were provided, but supply structure could not be inferred (check parsing / evidence).',
+              },
+            ]
+          : [],
+      };
+    }
+
+    // Carry through backend warnings (warnings-first), then apply UI-only missing-input warning if needed.
+    const sWarnings = Array.isArray(s?.warnings) ? (s.warnings as any[]) : [];
+    for (const w of sWarnings) {
+      const code = String((w as any)?.code || '').trim();
+      const hint = String((w as any)?.hint || '').trim();
+      if (!code || !hint) continue;
+      warnings.push({ code: code as any, hint });
+    }
+
+    // Partially inferred: if we have a supplyType but lack bill inputs, warn that it’s unconfirmed.
+    if (!hasBillInputs) {
+      warnings.push({ code: analysisApi.SupplyStructureWarningCodesV1.MISSING_INPUT, hint: hintRequiresBills });
+    } else if (String(s?.supplyType || '') === 'unknown' && !String(s?.reasonCode || '').trim()) {
+      warnings.push({
+        code: analysisApi.SupplyStructureWarningCodesV1.PARTIAL,
+        hint: 'Insufficient evidence to determine supply structure (bundled vs CCA vs DA).',
+      });
+    }
+
+    return {
+      ...s,
+      warnings: Array.from(
+        new Map(
+          warnings.map((w) => [`${String(w.code || '')}|${String(w.hint || '')}`.toLowerCase(), w] as const)
+        ).values()
+      ),
+    };
+  }, [insights?.supplyStructure, workflow]);
   const qualifySavings = supplyType !== 'bundled';
   const missingInputs: string[] = Array.isArray(workflow?.requiredInputsMissing)
     ? workflow.requiredInputsMissing
     : Array.isArray(summary?.json?.missingInputsChecklist)
       ? summary.json.missingInputsChecklist
       : [];
+
+  const showFromBillPanel = useMemo(() => {
+    const inputs = (workflow as any)?.utility?.inputs || {};
+    const hasBillPdfText = Boolean(String(inputs?.billPdfText || '').trim());
+    const needsRateCode = missingInputs.some((m) => String(m || '').toLowerCase().includes('tariff/rate code'));
+    return hasBillPdfText || needsRateCode;
+  }, [workflow, missingInputs]);
 
   const programsMatches: any[] = Array.isArray(insights?.programs?.matches) ? insights.programs.matches : [];
   const utilityRecos: any[] = Array.isArray(workflow?.utility?.recommendations) ? workflow.utility.recommendations : [];
@@ -514,24 +711,374 @@ export const AnalysisResultsV1Page: React.FC = () => {
                 </button>
               </div>
 
-              {insights?.supplyStructure && (
-                <div className="mb-4 p-4 bg-gray-50 border border-gray-200 rounded-xl">
-                  <div className="text-sm font-semibold text-gray-900">
-                    Supply: {supplyTypeLabel(insights.supplyStructure.supplyType)}
-                  </div>
-                  <div className="text-sm text-gray-700 mt-1">
-                    Confidence: {supplyConfidenceLabel(insights.supplyStructure.confidence)}
-                  </div>
-                  {supplyBecauseSummary(insights.supplyStructure.because) && (
-                    <div className="text-xs text-gray-600 mt-2">{supplyBecauseSummary(insights.supplyStructure.because)}</div>
-                  )}
-                  {String(insights.supplyStructure.supplyType || '') !== 'bundled' && (
-                    <div className="text-xs text-gray-500 mt-2">
-                      Note: Estimated savings may be inaccurate unless CCA/ESP generation is modeled.
+              <div className="mb-4 p-4 bg-white border border-gray-200 rounded-xl shadow-sm">
+                <div className="flex items-center gap-2 text-sm font-semibold text-gray-900">
+                  Truth Panel
+                  <span className="text-xs font-normal text-gray-500">(deterministic, warnings-first)</span>
+                </div>
+
+                <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-gray-700">
+                  <div className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                    <div className="text-[11px] uppercase text-gray-500 font-semibold">Tariff selection</div>
+                    <div className="mt-1 space-y-1">
+                      <div>
+                        Utility:{' '}
+                        <span className="font-semibold text-gray-900">{inferredUtilityLabel || String(workflow?.utility?.inputs?.currentRate?.utility || '') || 'Unknown'}</span>
+                      </div>
+                      <div>
+                        Rate code:{' '}
+                        <span className="font-semibold text-gray-900">
+                          {String(tariffLibrary?.rateMetadata?.rateCode || workflow?.utility?.inputs?.currentRate?.rateCode || '').trim() || 'Unknown'}
+                        </span>
+                      </div>
+                      <div>
+                        Snapshot captured:{' '}
+                        <span className="font-mono text-gray-900">
+                          {shortIso(tariffLibrary?.snapshotCapturedAt || tariffLibrary?.lastUpdatedAt || workflow?.utility?.inputs?.currentRate?.capturedAt)}
+                        </span>
+                      </div>
+                      <div>
+                        Effective status:{' '}
+                        <span className="font-semibold text-gray-900">
+                          {String((tariffLibrary as any)?.rateMetadata?.effectiveStatus || 'Unknown')}
+                        </span>
+                      </div>
                     </div>
+                  </div>
+
+                  <div className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                    <div className="text-[11px] uppercase text-gray-500 font-semibold">Source link</div>
+                    <div className="mt-1">
+                      <TariffSourceLink
+                        sourceUrl={String((tariffLibrary as any)?.rateMetadata?.sourceUrl || '')}
+                        sourceTitle={String((tariffLibrary as any)?.rateMetadata?.sourceTitle || '')}
+                      />
+                    </div>
+                  </div>
+
+                  {showFromBillPanel ? (
+                    <div id="tariff-from-bill" className="p-3 bg-gray-50 border border-gray-200 rounded-lg md:col-span-2">
+                      <div className="text-[11px] uppercase text-gray-500 font-semibold">From bill</div>
+                      <div className="mt-1 grid grid-cols-1 md:grid-cols-2 gap-2">
+                        <div>
+                          Utility:{' '}
+                          <span className="font-semibold text-gray-900">
+                            {String((billPdfTruthForUi as any)?.utilityHint || '').trim() ? String((billPdfTruthForUi as any).utilityHint) : 'Unknown'}
+                          </span>
+                          {!String((billPdfTruthForUi as any)?.utilityHint || '').trim() ? (
+                            <span className="ml-2 font-mono text-[11px] text-amber-800">
+                              {String((Array.isArray((billPdfTruthForUi as any)?.warnings) ? (billPdfTruthForUi as any).warnings : []).find((w: any) => String(w?.code || '').includes('BILL_UTILITY_'))?.code || 'BILL_UTILITY_MISSING')}
+                            </span>
+                          ) : null}
+                        </div>
+                        <div>
+                          Rate Schedule:{' '}
+                          <span className="font-semibold text-gray-900">
+                            {String((billPdfTruthForUi as any)?.rateScheduleText || '').trim()
+                              ? String((billPdfTruthForUi as any).rateScheduleText)
+                              : 'Unknown'}
+                          </span>
+                          {!String((billPdfTruthForUi as any)?.rateScheduleText || '').trim() ? (
+                            <span className="ml-2 font-mono text-[11px] text-amber-800">
+                              {String(
+                                (Array.isArray((billPdfTruthForUi as any)?.warnings) ? (billPdfTruthForUi as any).warnings : []).find((w: any) =>
+                                  String(w?.code || '').includes('BILL_RATE_SCHEDULE_')
+                                )?.code || 'BILL_RATE_SCHEDULE_MISSING'
+                              )}
+                            </span>
+                          ) : null}
+                        </div>
+                      </div>
+
+                      <div className="mt-2 pt-2 border-t border-gray-200">
+                        <div className="text-[11px] uppercase text-gray-500 font-semibold">Library match</div>
+                        <div className="mt-1 text-xs text-gray-700">
+                          {billPdfLibraryMatchForUi?.resolved?.rateCode ? (
+                            <div>
+                              Resolved{' '}
+                              <span className="font-semibold text-gray-900">{String(billPdfLibraryMatchForUi.resolved.rateCode)}</span>{' '}
+                              <span className="font-mono text-[11px] text-gray-600">({String(billPdfLibraryMatchForUi.resolved.matchType)})</span>
+                            </div>
+                          ) : (
+                            <div>
+                              Unknown{' '}
+                              <span className="ml-2 font-mono text-[11px] text-amber-800">
+                                {String((billPdfLibraryMatchForUi?.warnings || [])[0] || 'BILL_TARIFF_MATCH_NEEDS_SNAPSHOT_SELECTION')}
+                              </span>
+                            </div>
+                          )}
+                          {billPdfLibraryMatchForUi?.snapshotCapturedAt ? (
+                            <div className="text-[11px] text-gray-500">
+                              Snapshot captured: <span className="font-mono">{shortIso(billPdfLibraryMatchForUi.snapshotCapturedAt)}</span>
+                            </div>
+                          ) : null}
+                        </div>
+
+                        {tariffOverrideError ? (
+                          <div className="mt-2 text-xs text-red-700 bg-red-50 border border-red-200 rounded-md p-2">{tariffOverrideError}</div>
+                        ) : null}
+
+                        {appliedTariffOverride ? (
+                          <div className="mt-2 flex items-start justify-between gap-3 p-2 bg-emerald-50 border border-emerald-200 rounded-lg">
+                            <div className="min-w-0">
+                              <div className="text-xs font-semibold text-emerald-900">Applied (user-selected)</div>
+                              <div className="text-[11px] text-emerald-900/90 mt-0.5">
+                                source=<span className="font-mono">{String((appliedTariffOverride as any)?.selectionSource || 'unknown')}</span> • matchType=
+                                <span className="font-mono">{String((appliedTariffOverride as any)?.matchType || 'unknown')}</span> • selectedAt=
+                                <span className="font-mono">{shortIso((appliedTariffOverride as any)?.selectedAt)}</span>
+                              </div>
+                            </div>
+                            <button
+                              type="button"
+                              className="shrink-0 inline-flex items-center gap-2 px-2 py-1 rounded-md bg-white border border-emerald-200 text-xs font-semibold text-emerald-900 hover:bg-emerald-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                              onClick={undoTariffOverride}
+                              disabled={tariffOverrideBusy || demo}
+                            >
+                              Undo
+                            </button>
+                          </div>
+                        ) : billPdfLibraryMatchForUi?.resolved?.rateCode &&
+                          String(billPdfLibraryMatchForUi?.utilityId || '').trim() &&
+                          String(billPdfLibraryMatchForUi?.snapshotVersionTag || '').trim() ? (
+                          <div className="mt-2">
+                            <button
+                              type="button"
+                              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                              disabled={tariffOverrideBusy || demo}
+                              onClick={() =>
+                                applyTariffOverride({
+                                  commodity: String(billPdfLibraryMatchForUi?.commodity || 'electric') === 'gas' ? 'gas' : 'electric',
+                                  utilityId: String(billPdfLibraryMatchForUi.utilityId),
+                                  snapshotId: String(billPdfLibraryMatchForUi.snapshotVersionTag),
+                                  tariffIdOrRateCode: String(billPdfLibraryMatchForUi.resolved.rateCode),
+                                  matchType: String(billPdfLibraryMatchForUi.resolved.matchType) === 'NORMALIZED' ? 'NORMALIZED' : 'EXACT',
+                                  sourceUrl: String((billPdfLibraryMatchForUi as any)?.resolved?.sourceUrl || ''),
+                                  sourceTitle: String((billPdfLibraryMatchForUi as any)?.resolved?.sourceTitle || ''),
+                                })
+                              }
+                            >
+                              {tariffOverrideBusy ? 'Applying…' : 'Use this tariff'}
+                            </button>
+                            {demo ? <div className="text-[11px] text-gray-500 mt-1">Disabled in demo mode (no project to patch).</div> : null}
+                          </div>
+                        ) : null}
+
+                        {Array.isArray(billPdfLibraryMatchForUi?.candidates) && billPdfLibraryMatchForUi.candidates.length ? (
+                          <div className="mt-2">
+                            <div className="text-xs font-semibold text-gray-900 mb-1">Candidates</div>
+                            <ul className="space-y-2">
+                              {billPdfLibraryMatchForUi.candidates.slice(0, 3).map((c: any) => (
+                                <li key={String(c?.rateCode || Math.random())} className="p-2 bg-white border border-gray-200 rounded-lg">
+                                  <div className="flex items-start justify-between gap-3">
+                                    <div className="min-w-0">
+                                      <div className="text-xs font-semibold text-gray-900">
+                                        {String(c?.rateCode || 'Unknown')}{' '}
+                                        <span className="ml-2 font-mono text-[11px] text-gray-500">score={Number(c?.score || 0).toFixed(2)}</span>
+                                      </div>
+                                      {String(c?.reason || '').trim() ? <div className="text-[11px] text-gray-600 mt-0.5">{String(c.reason)}</div> : null}
+                                      {!appliedTariffOverride &&
+                                      String(billPdfLibraryMatchForUi?.utilityId || '').trim() &&
+                                      String(billPdfLibraryMatchForUi?.snapshotVersionTag || '').trim() &&
+                                      String(c?.rateCode || '').trim() ? (
+                                        <div className="mt-2">
+                                          <button
+                                            type="button"
+                                            className="inline-flex items-center gap-2 px-2 py-1 rounded-md bg-white border border-gray-200 text-xs font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                            disabled={tariffOverrideBusy || demo}
+                                            onClick={() =>
+                                              applyTariffOverride({
+                                                commodity: String(billPdfLibraryMatchForUi?.commodity || 'electric') === 'gas' ? 'gas' : 'electric',
+                                                utilityId: String(billPdfLibraryMatchForUi.utilityId),
+                                                snapshotId: String(billPdfLibraryMatchForUi.snapshotVersionTag),
+                                                tariffIdOrRateCode: String(c.rateCode),
+                                                matchType: 'CANDIDATE',
+                                                sourceUrl: String(c?.sourceUrl || ''),
+                                                sourceTitle: String(c?.sourceTitle || ''),
+                                              })
+                                            }
+                                          >
+                                            {tariffOverrideBusy ? 'Applying…' : 'Use this candidate'}
+                                          </button>
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                    <div className="shrink-0">
+                                      <TariffSourceLink sourceUrl={String(c?.sourceUrl || '')} sourceTitle={String(c?.sourceTitle || c?.sourceUrl || '')} />
+                                    </div>
+                                  </div>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ) : null}
+                      </div>
+
+                      {Array.isArray((billPdfTruthForUi as any)?.warnings) && (billPdfTruthForUi as any).warnings.length ? (
+                        <div className="mt-2 text-[11px] text-gray-600">
+                          {((billPdfTruthForUi as any).warnings as any[])
+                            .slice(0, 2)
+                            .map((w: any) => `${String(w?.code || '')}: ${String(w?.hint || '')}`)
+                            .join(' • ')}
+                        </div>
+                      ) : null}
+                    </div>
+                  ) : null}
+                </div>
+
+                <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                  <div className="text-sm font-semibold text-gray-900">Supply: {supplyTypeLabel((supplyStructureForUi as any)?.supplyType)}</div>
+                  <div className="text-sm text-gray-700 mt-1">Confidence: {supplyConfidenceLabel((supplyStructureForUi as any)?.confidence)}</div>
+
+                  {String((supplyStructureForUi as any)?.reasonCode || '').trim() ? (
+                    <div className="text-xs text-gray-700 mt-2 space-y-1">
+                      <div>
+                        Reason code: <span className="font-mono">{String((supplyStructureForUi as any).reasonCode)}</span>
+                      </div>
+                      {String((supplyStructureForUi as any)?.shortHint || '').trim() ? <div>Short hint: {String((supplyStructureForUi as any).shortHint)}</div> : null}
+                    </div>
+                  ) : null}
+
+                  {Array.isArray((supplyStructureForUi as any)?.warnings) && (supplyStructureForUi as any).warnings.length ? (
+                    <div className="mt-2">
+                      <div className="text-xs font-semibold text-gray-900 mb-1">Warnings</div>
+                      <ul className="text-xs text-gray-700 space-y-1">
+                        {(supplyStructureForUi as any).warnings.slice(0, 2).map((w: any, idx: number) => (
+                          <li key={idx}>
+                            - <span className="font-mono">{String(w.code || '')}</span>: {String(w.hint || '')}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+
+                  {String((supplyStructureForUi as any)?.reasonCode || '').trim() === analysisApi.SupplyStructureWarningCodesV1.MISSING_INPUT ? (
+                    <div className="mt-3">
+                      <button
+                        type="button"
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                        onClick={() =>
+                          navigate(`/project-builder/${encodeURIComponent(projectId)}/billing`, {
+                            state: { returnTo: `${location.pathname}${location.search}` },
+                          })
+                        }
+                      >
+                        Add bill PDF / billing records
+                      </button>
+                    </div>
+                  ) : null}
+
+                  {supplyBecauseSummary((supplyStructureForUi as any)?.because) && (
+                    <div className="text-xs text-gray-600 mt-2">{supplyBecauseSummary((supplyStructureForUi as any)?.because)}</div>
+                  )}
+
+                  {String((supplyStructureForUi as any)?.supplyType || '') !== 'bundled' &&
+                    String((supplyStructureForUi as any)?.supplyType || '') !== 'unknown' && (
+                      <div className="text-xs text-gray-500 mt-2">Note: Estimated savings may be inaccurate unless CCA/ESP generation is modeled.</div>
+                    )}
+                </div>
+
+                <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                  <div className="text-sm font-semibold text-gray-900">Billing engine audit / missing info</div>
+                  {Array.isArray((insights as any)?.missingInfo) && (insights as any).missingInfo.length ? (
+                    <ul className="mt-2 text-xs text-gray-700 space-y-1">
+                      {(insights as any).missingInfo.slice(0, 4).map((it: any) => (
+                        <li key={String(it?.id || `${it?.category}-${it?.description}`)} className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            - <span className="font-semibold">{String(it?.severity || 'unknown')}</span>
+                            {String(it?.category || '').trim() ? ` (${String(it?.category)})` : ''}: {String(it?.description || '').trim() || '(no description)'}
+                          </div>
+                          <div className="shrink-0">
+                            {(() => {
+                              const id = String(it?.id || '').trim();
+                              const utilityHint = String((workflow as any)?.utility?.inputs?.currentRate?.utility || (workflow as any)?.utility?.inputs?.utilityTerritory || '')
+                                .trim()
+                                .toUpperCase();
+                              const rateHint = String((workflow as any)?.utility?.inputs?.currentRate?.rateCode || '').trim();
+                              const goTariffs = () => {
+                                const qs = new URLSearchParams();
+                                if (utilityHint) qs.set('utility', utilityHint);
+                                if (rateHint) qs.set('rate', rateHint);
+                                qs.set('commodity', 'electric');
+                                navigate(`/utilities/tariffs-ca?${qs.toString()}`);
+                              };
+                              if (id === 'billing.billPdfText.missing') {
+                                return (
+                                  <button
+                                    type="button"
+                                    className="inline-flex items-center gap-2 px-2 py-1 rounded-md bg-white border border-gray-200 text-[11px] font-semibold text-gray-700 hover:bg-gray-50"
+                                    onClick={() =>
+                                      navigate(`/project-builder/${encodeURIComponent(projectId)}/billing`, {
+                                        state: { returnTo: `${location.pathname}${location.search}` },
+                                      })
+                                    }
+                                  >
+                                    Add bill text
+                                  </button>
+                                );
+                              }
+                              if (id.startsWith('billing.billPdfTouUsage.')) {
+                                return (
+                                  <button
+                                    type="button"
+                                    className="inline-flex items-center gap-2 px-2 py-1 rounded-md bg-white border border-gray-200 text-[11px] font-semibold text-gray-700 hover:bg-gray-50"
+                                    onClick={() =>
+                                      navigate(`/project-builder/${encodeURIComponent(projectId)}/billing`, {
+                                        state: { returnTo: `${location.pathname}${location.search}` },
+                                      })
+                                    }
+                                  >
+                                    Update bill PDF
+                                  </button>
+                                );
+                              }
+                              if (id === 'tariff.currentRateCode.missing') {
+                                return (
+                                  <button
+                                    type="button"
+                                    className="inline-flex items-center gap-2 px-2 py-1 rounded-md bg-white border border-gray-200 text-[11px] font-semibold text-gray-700 hover:bg-gray-50"
+                                    onClick={() => {
+                                      const el = document.getElementById('tariff-from-bill');
+                                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                    }}
+                                    title="Scroll to From bill / Library match"
+                                  >
+                                    Select tariff
+                                  </button>
+                                );
+                              }
+                              if (id === 'tariff.snapshot.missing' || id === 'tariff.snapshot.stale' || id === 'tariff.rateMetadata.notFound') {
+                                return (
+                                  <button
+                                    type="button"
+                                    className="inline-flex items-center gap-2 px-2 py-1 rounded-md bg-white border border-gray-200 text-[11px] font-semibold text-gray-700 hover:bg-gray-50"
+                                    onClick={goTariffs}
+                                  >
+                                    Open tariff library
+                                  </button>
+                                );
+                              }
+                              if (id === 'billSimV2.utility.not_supported' || id === 'billSimV2.rateCatalog.missing') {
+                                return (
+                                  <button
+                                    type="button"
+                                    className="inline-flex items-center gap-2 px-2 py-1 rounded-md bg-white border border-gray-200 text-[11px] font-semibold text-gray-700 hover:bg-gray-50"
+                                    onClick={goTariffs}
+                                  >
+                                    Review tariff metadata
+                                  </button>
+                                );
+                              }
+                              return <span className="text-[11px] text-gray-500">Not yet supported</span>;
+                            })()}
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className="mt-2 text-xs text-gray-600">No billing-engine missing info reported.</div>
                   )}
                 </div>
-              )}
+              </div>
 
               {tariffApplicability && (
                 <div className="mb-4 p-4 bg-gray-50 border border-gray-200 rounded-xl">
