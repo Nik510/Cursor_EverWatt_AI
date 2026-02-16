@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
-import app from '../src/server';
+import './helpers/mockHeavyServerDeps';
 
 describe('utilities endpoint: /api/utilities/ca/registry', () => {
   it('includes required CA POU entries', async () => {
+    const { default: app } = await import('../src/server');
     const res = await app.request('/api/utilities/ca/registry');
     expect(res.status).toBe(200);
     const json = await res.json();

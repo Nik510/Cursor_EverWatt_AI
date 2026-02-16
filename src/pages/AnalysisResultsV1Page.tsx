@@ -288,6 +288,8 @@ export const AnalysisResultsV1Page: React.FC = () => {
 
   const billIntelligence = (insights as any)?.billIntelligenceV1 || null;
   const billIntelligenceWarnings: Array<{ code: string; reason: string }> = Array.isArray(billIntelligence?.warnings) ? billIntelligence.warnings : [];
+  const billIntelIntervals = (billIntelligence as any)?.intervalInsightsV1 || null;
+  const billIntelWeather = (billIntelligence as any)?.weatherCorrelationV1 || null;
 
   const billIntelFactsList = useMemo(() => {
     const f = (billIntelligence as any)?.extractedFacts || {};
@@ -1054,6 +1056,179 @@ export const AnalysisResultsV1Page: React.FC = () => {
                           </ul>
                         ) : (
                           <div className="mt-2 text-gray-500">Metrics not computable (needs labeled dollars, kWh, dates).</div>
+                        )}
+                      </div>
+
+                      <div className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                        <div className="text-[11px] uppercase text-gray-500 font-semibold">From intervals</div>
+                        {billIntelIntervals && typeof billIntelIntervals === 'object' && (billIntelIntervals as any).available ? (
+                          <ul className="mt-2 space-y-1">
+                            {Number.isFinite((billIntelIntervals as any)?.topHourOfDayKwh?.hourOfDay) &&
+                            Number.isFinite((billIntelIntervals as any)?.topHourOfDayKwh?.percentOfTotal) ? (
+                              <li className="flex items-start justify-between gap-2">
+                                <span className="text-gray-600">Top kWh hour (UTC)</span>
+                                <span className="font-semibold text-gray-900 text-right">
+                                  {Number((billIntelIntervals as any).topHourOfDayKwh.hourOfDay)} ({(Number((billIntelIntervals as any).topHourOfDayKwh.percentOfTotal) * 100).toFixed(1)}%)
+                                </span>
+                              </li>
+                            ) : null}
+                            {Number.isFinite((billIntelIntervals as any)?.topHourOfDayKw?.hourOfDay) && Number.isFinite((billIntelIntervals as any)?.topHourOfDayKw?.value) ? (
+                              <li className="flex items-start justify-between gap-2">
+                                <span className="text-gray-600">Top kW hour (UTC)</span>
+                                <span className="font-semibold text-gray-900 text-right">
+                                  {Number((billIntelIntervals as any).topHourOfDayKw.hourOfDay)} ({Number((billIntelIntervals as any).topHourOfDayKw.value).toFixed(2)} kW)
+                                </span>
+                              </li>
+                            ) : null}
+                            {Number.isFinite((billIntelIntervals as any)?.weekdayAvgKwhPerDay) && Number.isFinite((billIntelIntervals as any)?.weekendAvgKwhPerDay) ? (
+                              <li className="flex items-start justify-between gap-2">
+                                <span className="text-gray-600">kWh/day (WD vs WE)</span>
+                                <span className="font-semibold text-gray-900 text-right" title="delta = weekday - weekend">
+                                  {Number((billIntelIntervals as any).weekdayAvgKwhPerDay).toFixed(1)} vs {Number((billIntelIntervals as any).weekendAvgKwhPerDay).toFixed(1)} (Δ {Number((billIntelIntervals as any).deltaWeekdayMinusWeekendKwhPerDay).toFixed(1)})
+                                </span>
+                              </li>
+                            ) : null}
+                            {Number.isFinite((billIntelIntervals as any)?.weekdayAvgKw) && Number.isFinite((billIntelIntervals as any)?.weekendAvgKw) ? (
+                              <li className="flex items-start justify-between gap-2">
+                                <span className="text-gray-600">Avg kW (WD vs WE)</span>
+                                <span className="font-semibold text-gray-900 text-right" title="delta = weekday - weekend">
+                                  {Number((billIntelIntervals as any).weekdayAvgKw).toFixed(2)} vs {Number((billIntelIntervals as any).weekendAvgKw).toFixed(2)} (Δ {Number((billIntelIntervals as any).deltaWeekdayMinusWeekendKw).toFixed(2)})
+                                </span>
+                              </li>
+                            ) : null}
+                            {Number.isFinite((billIntelIntervals as any)?.loadFactorApprox) ? (
+                              <li className="flex items-start justify-between gap-2">
+                                <span className="text-gray-600">Load factor (approx)</span>
+                                <span className="font-semibold text-gray-900 text-right">{Number((billIntelIntervals as any).loadFactorApprox).toFixed(3)}</span>
+                              </li>
+                            ) : null}
+                            {String((billIntelIntervals as any)?.peakDayOfWeek || '').trim() ? (
+                              <li className="flex items-start justify-between gap-2">
+                                <span className="text-gray-600">Peak day-of-week</span>
+                                <span className="font-semibold text-gray-900 text-right">
+                                  {String((billIntelIntervals as any).peakDayOfWeek)}{String((billIntelIntervals as any)?.peakDayOfWeekBasis || '').trim() ? ` (${String((billIntelIntervals as any).peakDayOfWeekBasis)})` : ''}
+                                </span>
+                              </li>
+                            ) : null}
+                            {Array.isArray((billIntelIntervals as any)?.reasons) && (billIntelIntervals as any).reasons.length ? (
+                              <li className="pt-2">
+                                <div className="text-[11px] uppercase text-gray-500 font-semibold">Missing / guardrails</div>
+                                <ul className="mt-1 space-y-1">
+                                  {((billIntelIntervals as any).reasons as any[]).slice(0, 3).map((r: any, idx: number) => (
+                                    <li key={idx} className="flex items-start gap-2">
+                                      <span className="font-mono text-[11px] text-amber-800">{String(r?.code || '')}</span>
+                                      <span className="text-gray-700">{String(r?.reason || '')}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </li>
+                            ) : null}
+                            {!(
+                              Number.isFinite((billIntelIntervals as any)?.topHourOfDayKwh?.hourOfDay) ||
+                              Number.isFinite((billIntelIntervals as any)?.topHourOfDayKw?.hourOfDay) ||
+                              Number.isFinite((billIntelIntervals as any)?.weekdayAvgKw) ||
+                              Number.isFinite((billIntelIntervals as any)?.weekdayAvgKwhPerDay) ||
+                              Number.isFinite((billIntelIntervals as any)?.loadFactorApprox) ||
+                              String((billIntelIntervals as any)?.peakDayOfWeek || '').trim()
+                            ) ? (
+                              <li className="mt-2 text-gray-500">No interval-derived insights were computable with current inputs.</li>
+                            ) : null}
+                          </ul>
+                        ) : (
+                          <div className="mt-2 text-gray-600">
+                            <div className="font-semibold text-gray-900">Unknown</div>
+                            {Array.isArray((billIntelIntervals as any)?.reasons) && (billIntelIntervals as any).reasons.length ? (
+                              <ul className="mt-2 space-y-1">
+                                {((billIntelIntervals as any).reasons as any[]).slice(0, 3).map((r: any, idx: number) => (
+                                  <li key={idx} className="flex items-start gap-2">
+                                    <span className="font-mono text-[11px] text-amber-800">{String(r?.code || '')}</span>
+                                    <span className="text-gray-700">{String(r?.reason || '')}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
+                              <div className="mt-2 text-gray-500">Interval insights not available.</div>
+                            )}
+                            <div className="mt-3">
+                              <button
+                                type="button"
+                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                                onClick={() =>
+                                  navigate(`/project-builder/${encodeURIComponent(projectId)}/billing`, {
+                                    state: { returnTo: `${location.pathname}${location.search}` },
+                                  })
+                                }
+                              >
+                                Upload interval data
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                        <div className="text-[11px] uppercase text-gray-500 font-semibold">Weather correlation (OAT)</div>
+                        {billIntelWeather && typeof billIntelWeather === 'object' && (billIntelWeather as any).available ? (
+                          <ul className="mt-2 space-y-1">
+                            <li className="flex items-start justify-between gap-2">
+                              <span className="text-gray-600">Signature</span>
+                              <span className="font-semibold text-gray-900 text-right">{String((billIntelWeather as any)?.signature || 'UNKNOWN')}</span>
+                            </li>
+                            {Number.isFinite((billIntelWeather as any)?.correlationCoeff_kwh_vs_oat) ? (
+                              <li className="flex items-start justify-between gap-2">
+                                <span className="text-gray-600">r(kWh,OAT)</span>
+                                <span className="font-semibold text-gray-900 text-right">{Number((billIntelWeather as any).correlationCoeff_kwh_vs_oat).toFixed(3)}</span>
+                              </li>
+                            ) : null}
+                            {Number.isFinite((billIntelWeather as any)?.correlationCoeff_kw_vs_oat) ? (
+                              <li className="flex items-start justify-between gap-2">
+                                <span className="text-gray-600">r(kW,OAT)</span>
+                                <span className="font-semibold text-gray-900 text-right">{Number((billIntelWeather as any).correlationCoeff_kw_vs_oat).toFixed(3)}</span>
+                              </li>
+                            ) : null}
+                            {Array.isArray((billIntelWeather as any)?.reasons) && (billIntelWeather as any).reasons.length ? (
+                              <li className="pt-2">
+                                <div className="text-[11px] uppercase text-gray-500 font-semibold">Missing / guardrails</div>
+                                <ul className="mt-1 space-y-1">
+                                  {((billIntelWeather as any).reasons as any[]).slice(0, 3).map((r: any, idx: number) => (
+                                    <li key={idx} className="flex items-start gap-2">
+                                      <span className="font-mono text-[11px] text-amber-800">{String(r?.code || '')}</span>
+                                      <span className="text-gray-700">{String(r?.reason || '')}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </li>
+                            ) : null}
+                          </ul>
+                        ) : (
+                          <div className="mt-2 text-gray-600">
+                            <div className="font-semibold text-gray-900">Unknown</div>
+                            {Array.isArray((billIntelWeather as any)?.reasons) && (billIntelWeather as any).reasons.length ? (
+                              <ul className="mt-2 space-y-1">
+                                {((billIntelWeather as any).reasons as any[]).slice(0, 3).map((r: any, idx: number) => (
+                                  <li key={idx} className="flex items-start gap-2">
+                                    <span className="font-mono text-[11px] text-amber-800">{String(r?.code || '')}</span>
+                                    <span className="text-gray-700">{String(r?.reason || '')}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
+                              <div className="mt-2 text-gray-500">Weather correlation not available.</div>
+                            )}
+                            <div className="mt-3 flex items-center gap-2">
+                              <button
+                                type="button"
+                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                                onClick={() =>
+                                  navigate(`/project-builder/${encodeURIComponent(projectId)}/billing`, {
+                                    state: { returnTo: `${location.pathname}${location.search}` },
+                                  })
+                                }
+                              >
+                                Enable weather / upload temperature
+                              </button>
+                            </div>
+                          </div>
                         )}
                       </div>
 

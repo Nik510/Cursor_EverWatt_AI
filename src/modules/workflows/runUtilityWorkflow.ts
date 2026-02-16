@@ -33,7 +33,7 @@ export async function runUtilityWorkflow(args: {
   suggestionIdFactory?: () => string;
   inboxIdFactory?: () => string;
 }): Promise<{
-  utility: Awaited<ReturnType<typeof analyzeUtility>>;
+  utility: { inputs: UtilityInputs } & Awaited<ReturnType<typeof analyzeUtility>>;
   battery: {
     gate: ReturnType<typeof shouldEvaluateBattery>;
     selection: ReturnType<typeof selectBatteryCandidatesV1>;
@@ -49,26 +49,28 @@ export async function runUtilityWorkflow(args: {
   const nowIso = args.nowIso || new Date('2026-01-01T00:00:00.000Z').toISOString();
   const idFactory = args.idFactory;
 
-  const utility = await analyzeUtility(args.inputs, {
+  const utilityAnalysis = await analyzeUtility(args.inputs, {
     intervalKwSeries: args.intervalKwSeries || undefined,
     intervalPointsV1: args.intervalPointsV1 || undefined,
     nowIso,
     idFactory,
   });
 
+  const utility = { inputs: args.inputs, ...utilityAnalysis };
+
   const utilityInbox = toInboxSuggestions({
     inputs: args.inputs,
-    recommendations: utility.recommendations,
+    recommendations: utilityAnalysis.recommendations,
     nowIso,
     suggestionIdFactory: args.suggestionIdFactory,
     inboxIdFactory: args.inboxIdFactory,
   });
 
-  const gate = shouldEvaluateBattery({ insights: utility.insights, constraints: args.inputs.constraints });
-  const selection = selectBatteryCandidatesV1({ insights: utility.insights, library: args.batteryLibrary });
+  const gate = shouldEvaluateBattery({ insights: utilityAnalysis.insights, constraints: args.inputs.constraints });
+  const selection = selectBatteryCandidatesV1({ insights: utilityAnalysis.insights, library: args.batteryLibrary });
   const batteryInbox = toBatteryRecommendationsV1({
     inputs: args.inputs,
-    insights: utility.insights,
+    insights: utilityAnalysis.insights,
     gate,
     selection,
     meterId: args.meterId,
@@ -78,7 +80,7 @@ export async function runUtilityWorkflow(args: {
   });
 
   const requiredInputsMissing = uniq([
-    ...(utility.insights.requiredInputsMissing || []),
+    ...(utilityAnalysis.insights.requiredInputsMissing || []),
     ...(gate.requiredInputsMissing || []),
     ...(selection.requiredInputsMissing || []),
   ]);

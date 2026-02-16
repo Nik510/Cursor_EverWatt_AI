@@ -1,10 +1,9 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import os from 'node:os';
 import path from 'node:path';
 import { mkdtempSync } from 'node:fs';
 
-import app from '../src/server';
-import { saveSnapshot } from '../src/modules/tariffLibrary/storage';
+import './helpers/mockHeavyServerDeps';
 import type { TariffSnapshot } from '../src/modules/tariffLibrary/types';
 
 describe('tariffs endpoints: /api/tariffs/ca/history and /api/tariffs/ca/snapshot', () => {
@@ -14,6 +13,8 @@ describe('tariffs endpoints: /api/tariffs/ca/history and /api/tariffs/ca/snapsho
     process.env.EVERWATT_TARIFF_LIBRARY_BASEDIR = tmp;
 
     try {
+      vi.resetModules();
+      const { default: app } = await import('../src/server');
       const res = await app.request('/api/tariffs/ca/history?utility=PGE');
       expect(res.status).toBe(200);
       const json = await res.json();
@@ -34,6 +35,7 @@ describe('tariffs endpoints: /api/tariffs/ca/history and /api/tariffs/ca/snapsho
     process.env.EVERWATT_TARIFF_LIBRARY_BASEDIR = tmp;
 
     try {
+      vi.resetModules();
       const s1: TariffSnapshot = {
         utility: 'PGE',
         capturedAt: '2026-02-01T00:00:00.000Z',
@@ -53,9 +55,11 @@ describe('tariffs endpoints: /api/tariffs/ca/history and /api/tariffs/ca/snapsho
         sourceFingerprints: [{ url: 'https://example.com/index', contentHash: 'h2' }],
         diffFromPrevious: { previousVersionTag: '2026-02-01T0000Z', addedRateCodes: ['B-19'], removedRateCodes: ['A-10'], unchangedRateCodes: [] },
       };
+      const { saveSnapshot } = await import('../src/modules/tariffLibrary/storage');
       await saveSnapshot(s1);
       await saveSnapshot(s2);
 
+      const { default: app } = await import('../src/server');
       const histRes = await app.request('/api/tariffs/ca/history?utility=PGE');
       expect(histRes.status).toBe(200);
       const hist = await histRes.json();

@@ -12,6 +12,8 @@ import { analyzeSupplyStructure } from './supply/analyzeSupplyStructure';
 import { extractBillPdfTariffHintsV1 } from './billPdf/extractBillPdfTariffHintsV1';
 import { extractBillPdfTouUsageV1 } from './billPdf/extractBillPdfTouUsageV1';
 import { analyzeBillIntelligenceV1 } from './billPdf/analyzeBillIntelligenceV1';
+import { analyzeBillIntelligenceIntervalInsightsV1 } from './billIntelligence/intervalInsightsV1';
+import { analyzeBillIntelligenceWeatherCorrelationV1 } from './billIntelligence/weatherCorrelationV1';
 import type { MissingInfoItemV0 } from './missingInfo/types';
 import { runWeatherRegressionV1, type IntervalKwPointWithTemp } from './weather/regression';
 import type { WeatherProvider } from './weather/provider';
@@ -66,6 +68,16 @@ function uniq(arr: string[]): string[] {
     out.push(k);
   }
   return out;
+}
+
+function mergeBillIntelWarnings(base: Array<{ code: any; reason: string }>, add: Array<{ code: any; reason: string }>): void {
+  const seen = new Set(base.map((w) => `${String(w.code)}|${String(w.reason)}`.toLowerCase()));
+  for (const w of add) {
+    const k = `${String(w.code)}|${String(w.reason)}`.toLowerCase();
+    if (seen.has(k)) continue;
+    seen.add(k);
+    base.push(w as any);
+  }
 }
 
 function asCaIouUtility(raw: unknown): 'PGE' | 'SCE' | 'SDGE' | null {
@@ -357,6 +369,26 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     billPdfText: inputs.billPdfText || null,
     billPdfTariffTruth,
   });
+
+  // Bill Intelligence v1 – Interval + Weather insights (warnings-first, deterministic).
+  {
+    const explicitPeakKwFromBill = Number.isFinite(Number((billIntelligenceV1 as any)?.extractedFacts?.peakKw?.value))
+      ? Number((billIntelligenceV1 as any).extractedFacts.peakKw.value)
+      : null;
+
+    const intervalRes = analyzeBillIntelligenceIntervalInsightsV1({
+      intervalPointsV1: Array.isArray(deps?.intervalPointsV1) ? deps?.intervalPointsV1 : null,
+      explicitPeakKwFromBill,
+    });
+    (billIntelligenceV1 as any).intervalInsightsV1 = intervalRes.intervalInsightsV1;
+    mergeBillIntelWarnings((billIntelligenceV1 as any).warnings, intervalRes.warnings);
+
+    const weatherRes = analyzeBillIntelligenceWeatherCorrelationV1({
+      intervalPointsV1: Array.isArray(deps?.intervalPointsV1) ? deps?.intervalPointsV1 : null,
+    });
+    (billIntelligenceV1 as any).weatherCorrelationV1 = weatherRes.weatherCorrelationV1;
+    mergeBillIntelWarnings((billIntelligenceV1 as any).warnings, weatherRes.warnings);
+  }
 
   const billTariffCommodity: 'electric' | 'gas' =
     String(inputs.serviceType || '').toLowerCase() === 'gas' ? 'gas' : 'electric';

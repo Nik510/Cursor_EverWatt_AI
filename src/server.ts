@@ -9,6 +9,7 @@ import { cors } from 'hono/cors';
 import { writeFile, mkdir, unlink, readFile, readdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'node:url';
 import { tmpdir } from 'os';
 import { randomUUID } from 'crypto';
 import { createServer, type Server as HttpServer } from 'node:http';
@@ -5416,8 +5417,10 @@ function generateAIDescription(item: unknown, type: 'battery' | 'rate'): string 
   }
 }
 
-// Initialize on startup
-initializeLibraryStorage();
+// NOTE: Library storage initialization can be expensive (loads/seeds JSON libraries).
+// Avoid doing this at module-import time so unit tests that import `app` don't
+// eagerly load large datasets. When running the server normally, `bootstrap()`
+// will warm this cache once; routes also lazily initialize as needed.
 
 /**
  * GET /api/library/batteries - Get all batteries
@@ -8386,71 +8389,103 @@ async function bootstrap() {
     console.error('Database initialization failed:', e);
   }
 
-  // Dev ergonomics: when running under a file-watcher (tsx watch), we can re-enter
-  // `bootstrap()` within the same process. Ensure we close the previous listener
-  // to avoid EADDRINUSE / intermittent API downtime during reloads.
-  if (globalThis.__everwattServer) {
-    await new Promise<void>((resolve) => {
-      try {
-        globalThis.__everwattServer?.close(() => resolve());
-      } catch {
-        resolve();
-      }
-    });
-    globalThis.__everwattServer = undefined;
-  }
+  const store: any = process as any;
+  const isWatch = Boolean(process.env.TSX_WATCH) || process.argv.some((a) => String(a || '').toLowerCase() === 'watch');
 
-  const listener = getRequestListener(app.fetch);
-  const server = createServer(listener);
-  globalThis.__everwattServer = server;
-
-  // Attach error handler before listen so EADDRINUSE doesn't crash the process.
-  server.on('error', (err: any) => {
-    console.error('Server error:', err);
-  });
-
-  // Small retry loop helps on rapid restarts.
-  const maxRetries = 5;
-  for (let attempt = 0; attempt <= maxRetries; attempt++) {
-    try {
-      await new Promise<void>((resolve, reject) => {
-        server.listen(port, () => resolve());
-        server.once('error', reject);
-      });
-      console.log(`🚀 EverWatt Engine API Server running on http://localhost:${port}`);
-      console.log(`📡 Health check: http://localhost:${port}/health`);
-      console.log(`📊 Analyze endpoint: POST http://localhost:${port}/api/analyze`);
-
-      // Non-fatal startup snapshot summary (decision-safety signal).
-      try {
-        const nowIso = new Date().toISOString();
-        const utilities = ['PGE', 'SCE', 'SDGE'] as const;
-        console.log('[tariffLibrary:v0] Tariff Library loaded:');
-        for (const u of utilities) {
-          const snap = await loadLatestSnapshot(u);
-          if (!snap) {
-            console.log(`  ${u}: (missing) → run: npm run tariffs:ingest:ca`);
-            continue;
-          }
-          const stale = isSnapshotStale(snap.capturedAt, nowIso, 14);
-          console.log(`  ${u}@${snap.versionTag} (${stale ? 'stale' : 'fresh'}) capturedAt=${snap.capturedAt} rates=${snap.rates?.length || 0}`);
+  const startServer = async (args: { closeExisting: boolean }) => {
+    // Dev ergonomics: when running under a file-watcher (tsx watch), we can re-enter
+    // `bootstrap()` within the same process. Ensure we close the previous listener
+    // to avoid EADDRINUSE / intermittent API downtime during reloads.
+    if (args.closeExisting && store.__everwattServer) {
+      await new Promise<void>((resolve) => {
+        try {
+          store.__everwattServer?.close(() => resolve());
+        } catch {
+          resolve();
         }
-      } catch {
-        // ignore
-      }
-
-      break;
-    } catch (err: any) {
-      if (err?.code === 'EADDRINUSE' && attempt < maxRetries) {
-        await new Promise((r) => setTimeout(r, 250));
-        continue;
-      }
-      throw err;
+      });
+      store.__everwattServer = undefined;
     }
+
+    // In Vitest (module isolation) and other re-import scenarios, avoid repeatedly
+    // bootstrapping the API server within the same Node process.
+    if (store.__everwattServer) return;
+
+    // Warm library storage once on real server start (not on import).
+    // Routes will also lazily initialize on-demand.
+    await initializeLibraryStorage();
+
+    const listener = getRequestListener(app.fetch);
+    const server = createServer(listener);
+    store.__everwattServer = server;
+
+    // Attach error handler before listen so EADDRINUSE doesn't crash the process.
+    server.on('error', (err: any) => {
+      console.error('Server error:', err);
+    });
+
+    // Small retry loop helps on rapid restarts.
+    const maxRetries = 5;
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        await new Promise<void>((resolve, reject) => {
+          server.listen(port, () => resolve());
+          server.once('error', reject);
+        });
+        console.log(`🚀 EverWatt Engine API Server running on http://localhost:${port}`);
+        console.log(`📡 Health check: http://localhost:${port}/health`);
+        console.log(`📊 Analyze endpoint: POST http://localhost:${port}/api/analyze`);
+
+        // Non-fatal startup snapshot summary (decision-safety signal).
+        try {
+          const nowIso = new Date().toISOString();
+          const utilities = ['PGE', 'SCE', 'SDGE'] as const;
+          console.log('[tariffLibrary:v0] Tariff Library loaded:');
+          for (const u of utilities) {
+            const snap = await loadLatestSnapshot(u);
+            if (!snap) {
+              console.log(`  ${u}: (missing) → run: npm run tariffs:ingest:ca`);
+              continue;
+            }
+            const stale = isSnapshotStale(snap.capturedAt, nowIso, 14);
+            console.log(`  ${u}@${snap.versionTag} (${stale ? 'stale' : 'fresh'}) capturedAt=${snap.capturedAt} rates=${snap.rates?.length || 0}`);
+          }
+        } catch {
+          // ignore
+        }
+
+        break;
+      } catch (err: any) {
+        if (err?.code === 'EADDRINUSE' && attempt < maxRetries) {
+          await new Promise((r) => setTimeout(r, 250));
+          continue;
+        }
+        throw err;
+      }
+    }
+  };
+
+  if (!isWatch) {
+    if (store.__everwattBootstrapPromise) return await store.__everwattBootstrapPromise;
+    store.__everwattBootstrapPromise = startServer({ closeExisting: false });
+    return await store.__everwattBootstrapPromise;
   }
+
+  await startServer({ closeExisting: true });
 }
 
-bootstrap();
+// Only start the network listener when this file is the entrypoint.
+// Unit tests import `app` and call `app.request(...)` without needing a live port.
+try {
+  const thisFile = path.resolve(fileURLToPath(import.meta.url));
+  const entry = path.resolve(String(process.argv[1] || ''));
+  if (thisFile === entry) {
+    bootstrap();
+  }
+} catch {
+  // If we can't determine entrypoint, default to starting (backwards compatible).
+  bootstrap();
+}
 
 export default app;
 

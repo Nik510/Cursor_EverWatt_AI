@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { analyzeBillIntelligenceV1 } from '../src/modules/utilityIntelligence/billPdf/analyzeBillIntelligenceV1';
-import { BillIntelligenceWarningCodesV1 } from '../src/modules/utilityIntelligence/types';
+import { BillIntelligenceWarningCodesV1 } from '../src/modules/utilityIntelligence/billIntelligence/typesV1';
 
 describe('analyzeBillIntelligenceV1', () => {
   it('extracts labeled facts and computes derived metrics when all labels are present', () => {
@@ -41,8 +41,6 @@ describe('analyzeBillIntelligenceV1', () => {
     expect(codes).not.toContain(BillIntelligenceWarningCodesV1.BILL_INTEL_MISSING_TOTAL_DOLLARS);
     expect(codes).not.toContain(BillIntelligenceWarningCodesV1.BILL_INTEL_MISSING_BILLING_PERIOD_DATES);
     expect(codes).not.toContain(BillIntelligenceWarningCodesV1.BILL_INTEL_MISSING_PEAK_KW);
-    expect(codes).toContain(BillIntelligenceWarningCodesV1.BILL_INTEL_INTERVAL_DATA_REQUIRED);
-    expect(codes).toContain(BillIntelligenceWarningCodesV1.BILL_INTEL_WEATHER_DATA_REQUIRED);
   });
 
   it('emits missing-field warnings when dollars/dates/peak are absent', () => {
@@ -61,8 +59,6 @@ describe('analyzeBillIntelligenceV1', () => {
     expect(codes).toContain(BillIntelligenceWarningCodesV1.BILL_INTEL_MISSING_TOTAL_DOLLARS);
     expect(codes).toContain(BillIntelligenceWarningCodesV1.BILL_INTEL_MISSING_BILLING_PERIOD_DATES);
     expect(codes).toContain(BillIntelligenceWarningCodesV1.BILL_INTEL_MISSING_PEAK_KW);
-    expect(codes).toContain(BillIntelligenceWarningCodesV1.BILL_INTEL_INTERVAL_DATA_REQUIRED);
-    expect(codes).toContain(BillIntelligenceWarningCodesV1.BILL_INTEL_WEATHER_DATA_REQUIRED);
   });
 
   it('does not parse ambiguous day/month and emits warning', () => {

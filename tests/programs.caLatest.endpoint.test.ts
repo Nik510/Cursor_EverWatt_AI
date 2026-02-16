@@ -1,10 +1,9 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import os from 'node:os';
 import path from 'node:path';
 import { mkdtempSync } from 'node:fs';
 
-import app from '../src/server';
-import { saveProgramSnapshotV1 } from '../src/modules/programLibrary/v1/storage';
+import './helpers/mockHeavyServerDeps';
 import type { ProgramSnapshotV1 } from '../src/modules/programLibrary/v1/types';
 
 describe('programs endpoint: /api/programs/ca/latest', () => {
@@ -14,6 +13,7 @@ describe('programs endpoint: /api/programs/ca/latest', () => {
     process.env.EVERWATT_PROGRAM_LIBRARY_BASEDIR = baseDir;
 
     try {
+      vi.resetModules();
       const snap: ProgramSnapshotV1 = {
         utilityKey: 'PGE',
         capturedAt: '2026-02-07T00:00:00.000Z',
@@ -45,8 +45,10 @@ describe('programs endpoint: /api/programs/ca/latest', () => {
           } as any,
         ],
       };
+      const { saveProgramSnapshotV1 } = await import('../src/modules/programLibrary/v1/storage');
       await saveProgramSnapshotV1(snap, { baseDir });
 
+      const { default: app } = await import('../src/server');
       const res = await app.request('/api/programs/ca/latest?utility=PGE');
       expect(res.status).toBe(200);
       const json: any = await res.json();

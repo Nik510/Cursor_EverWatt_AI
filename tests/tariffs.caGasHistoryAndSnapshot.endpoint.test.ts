@@ -1,10 +1,9 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import os from 'node:os';
 import path from 'node:path';
 import { mkdtempSync } from 'node:fs';
 
-import app from '../src/server';
-import { saveGasSnapshot } from '../src/modules/tariffLibraryGas/storage';
+import './helpers/mockHeavyServerDeps';
 import type { GasTariffSnapshot } from '../src/modules/tariffLibraryGas/types';
 
 describe('gas tariffs endpoints: /api/tariffs/ca/gas/history and /api/tariffs/ca/gas/snapshot', () => {
@@ -14,6 +13,8 @@ describe('gas tariffs endpoints: /api/tariffs/ca/gas/history and /api/tariffs/ca
     process.env.EVERWATT_TARIFF_LIBRARY_GAS_BASEDIR = tmp;
 
     try {
+      vi.resetModules();
+      const { default: app } = await import('../src/server');
       const res = await app.request('/api/tariffs/ca/gas/history?utility=SOCALGAS');
       expect(res.status).toBe(200);
       const json = await res.json();
@@ -34,6 +35,7 @@ describe('gas tariffs endpoints: /api/tariffs/ca/gas/history and /api/tariffs/ca
     process.env.EVERWATT_TARIFF_LIBRARY_GAS_BASEDIR = tmp;
 
     try {
+      vi.resetModules();
       const s1: GasTariffSnapshot = {
         utility: 'SOCALGAS',
         capturedAt: '2026-02-01T00:00:00.000Z',
@@ -49,9 +51,11 @@ describe('gas tariffs endpoints: /api/tariffs/ca/gas/history and /api/tariffs/ca
         sourceFingerprints: [{ url: 'https://example.com/index', contentHash: 'h2' }],
         diffFromPrevious: { previousVersionTag: '2026-02-01T0000Z', addedRateCodes: ['G-NR1'], removedRateCodes: ['GR'], unchangedRateCodes: [] },
       };
+      const { saveGasSnapshot } = await import('../src/modules/tariffLibraryGas/storage');
       await saveGasSnapshot(s1);
       await saveGasSnapshot(s2);
 
+      const { default: app } = await import('../src/server');
       const histRes = await app.request('/api/tariffs/ca/gas/history?utility=SOCALGAS');
       expect(histRes.status).toBe(200);
       const hist = await histRes.json();
