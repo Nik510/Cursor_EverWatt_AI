@@ -232,7 +232,9 @@ export function buildDeterminantsPackV1(args: {
   /** Optional evidence to attach to every cycle for a given meter (e.g., join + cycle derivation provenance). */
   externalCycleEvidenceByMeter?: Record<string, EvidenceItemV1[]>;
   /**
-   * Optional observed TOU demand buckets (usage-export truth) keyed by meterId and cycleLabel.\n+   * Used as a fallback when interval TOU labeling is unavailable, and for cross-check when both exist.\n+   */
+   * Optional observed TOU demand buckets (usage-export truth) keyed by meterId and cycleLabel.
+   * Used as a fallback when interval TOU labeling is unavailable, and for cross-check when both exist.
+   */
   observedTouDemandByMeterAndCycle?: Record<
     string,
     Record<
@@ -338,14 +340,15 @@ export function buildDeterminantsPackV1(args: {
       const touMerged = (() => {
         if (computedTou) return computedTou;
         if (observed && observed.values && Object.keys(observed.values).length) {
-          because.push('Using usage-export TOU demand as observed truth; interval TOU labeling not available.');
+          because.push('Using observed TOU demand as truth; interval TOU labeling not available.');
           for (const k of ['onPeak', 'partialPeak', 'offPeak', 'superOffPeak'] as const) {
             const v = Number(observed.values?.[k]);
             if (!Number.isFinite(v)) continue;
             const field = String(observed.fields?.[k] || '').trim();
+            const src = field.toLowerCase().startsWith('billpdftext:') ? 'billPdfText' : 'pgeUsageCsv';
             evidence.push({
               kind: 'billingRecordField',
-              pointer: { source: 'pgeUsageCsv', key: field ? field : `touDemandKw.${k}`, value: v },
+              pointer: { source: src, key: field ? field : `touDemandKw.${k}`, value: v },
             });
           }
           return observed.values as any;
@@ -387,14 +390,15 @@ export function buildDeterminantsPackV1(args: {
           return { values: computedEnergyTou as any, source: 'computed' as const };
         }
         if (observedEnergy && observedEnergy.values && Object.keys(observedEnergy.values).length) {
-          because.push('Using usage-export TOU kWh as observed truth; interval TOU energy labeling not available.');
+          because.push('Using observed TOU kWh as truth; interval TOU energy labeling not available.');
           for (const k of ['onPeak', 'partialPeak', 'offPeak', 'superOffPeak'] as const) {
             const v = Number(observedEnergy.values?.[k]);
             if (!Number.isFinite(v)) continue;
             const field = String(observedEnergy.fields?.[k] || '').trim();
+            const src = field.toLowerCase().startsWith('billpdftext:') ? 'billPdfText' : 'pgeUsageCsv';
             evidence.push({
               kind: 'billingRecordField',
-              pointer: { source: 'pgeUsageCsv', key: field ? field : `touEnergyKwh.${k}`, value: v },
+              pointer: { source: src, key: field ? field : `touEnergyKwh.${k}`, value: v },
             });
           }
           return { values: observedEnergy.values as any, source: 'usage_export' as const };
