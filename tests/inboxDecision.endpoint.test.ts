@@ -4,7 +4,7 @@ import { mkdir, readFile, rm, writeFile } from 'fs/promises';
 import { existsSync } from 'fs';
 import { randomUUID } from 'crypto';
 
-import app from '../src/server';
+import './helpers/mockHeavyServerDeps';
 
 const PROJECTS_DIR = path.join(process.cwd(), 'data', 'projects');
 
@@ -53,6 +53,7 @@ describe('Phase2A inbox decision (endpoint)', () => {
         },
       });
 
+      const { default: app } = await import('../src/server');
       const res = await app.request(`/api/projects/${projectId}/graph/inbox/ii1/decide`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-user-id': userId },
@@ -94,6 +95,7 @@ describe('Phase2A inbox decision (endpoint)', () => {
         },
       });
 
+      const { default: app } = await import('../src/server');
       const res = await app.request(`/api/projects/${projectId}/graph/inbox/ii2/decide`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-user-id': userId },
@@ -144,6 +146,7 @@ describe('Phase2A inbox decision (endpoint)', () => {
         },
       });
 
+      const { default: app } = await import('../src/server');
       const res = await app.request(`/api/projects/${projectId}/graph/inbox/ii3/decide`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-user-id': userId },

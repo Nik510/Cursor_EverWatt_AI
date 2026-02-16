@@ -5,7 +5,14 @@ export default defineConfig({
     include: ['tests/**/*.test.ts'],
     environment: 'node',
     globals: false,
-    pool: 'threads',
+    pool: 'forks',
+    poolOptions: {
+      forks: {
+        minForks: 1,
+        maxForks: 4,
+        execArgv: ['--max-old-space-size=4096'],
+      },
+    },
   },
 });
 

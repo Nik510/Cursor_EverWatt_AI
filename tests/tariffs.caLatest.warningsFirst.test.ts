@@ -1,4 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
+import './helpers/mockHeavyServerDeps';
 
 describe('tariffs endpoint: /api/tariffs/ca/latest (warnings-first)', () => {
   it('returns success:true with structured errors when snapshot load throws', async () => {

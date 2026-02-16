@@ -1,10 +1,9 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import os from 'node:os';
 import path from 'node:path';
 import { mkdtempSync } from 'node:fs';
 
-import app from '../src/server';
-import { saveSnapshot } from '../src/modules/tariffLibrary/storage';
+import './helpers/mockHeavyServerDeps';
 import type { TariffSnapshot } from '../src/modules/tariffLibrary/types';
 
 describe('tariffs endpoint: /api/tariffs/ca/latest', () => {
@@ -14,6 +13,8 @@ describe('tariffs endpoint: /api/tariffs/ca/latest', () => {
     process.env.EVERWATT_TARIFF_LIBRARY_BASEDIR = tmp;
 
     try {
+      vi.resetModules();
+      const { default: app } = await import('../src/server');
       const res = await app.request('/api/tariffs/ca/latest');
       expect(res.status).toBe(200);
       const json = await res.json();
@@ -37,6 +38,7 @@ describe('tariffs endpoint: /api/tariffs/ca/latest', () => {
     process.env.EVERWATT_TARIFF_LIBRARY_BASEDIR = tmp;
 
     try {
+      vi.resetModules();
       const snap: TariffSnapshot = {
         utility: 'PGE',
         capturedAt: '2026-02-05T12:00:00.000Z',
@@ -52,8 +54,10 @@ describe('tariffs endpoint: /api/tariffs/ca/latest', () => {
         ],
         sourceFingerprints: [{ url: 'https://example.com/pge-index', contentHash: 'hash1' }],
       };
+      const { saveSnapshot } = await import('../src/modules/tariffLibrary/storage');
       await saveSnapshot(snap);
 
+      const { default: app } = await import('../src/server');
       const res = await app.request('/api/tariffs/ca/latest');
       expect(res.status).toBe(200);
       const json = await res.json();

@@ -6,7 +6,7 @@ import {
   type BillIntelligenceNumberFact,
   type BillIntelligenceStringFact,
   type BillIntelligenceDerivedMetric,
-} from '../types';
+} from '../billIntelligence/typesV1';
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
@@ -193,12 +193,17 @@ export function analyzeBillIntelligenceV1(args: {
 
     const dollarCandidates: Array<{ priority: number; value: number; snippet: string }> = [];
     for (const cand of dollarsLabelRes) {
-      let m;
-      const re = new RegExp(cand.re.source, cand.re.flags);
-      while ((m = re.exec(rawText)) !== null) {
-        const val = parseNumber(m[2]);
+      // Ensure global iteration; `RegExp#exec` without `g` would loop forever.
+      const flags = cand.re.flags.includes('g') ? cand.re.flags : `${cand.re.flags}g`;
+      const re = new RegExp(cand.re.source, flags);
+      for (const m of rawText.matchAll(re)) {
+        const val = parseNumber(String(m[2] || ''));
         if (!Number.isFinite(val)) continue;
-        dollarCandidates.push({ priority: cand.priority, value: val as number, snippet: snippetAround(rawText, m.index, m[0].length) });
+        dollarCandidates.push({
+          priority: cand.priority,
+          value: val as number,
+          snippet: snippetAround(rawText, m.index ?? 0, String(m[0] || '').length),
+        });
       }
     }
     if (dollarCandidates.length) {
@@ -221,12 +226,17 @@ export function analyzeBillIntelligenceV1(args: {
 
     const peakCandidates: Array<{ priority: number; value: number; snippet: string }> = [];
     for (const cand of peakLabelRes) {
-      let m;
-      const re = new RegExp(cand.re.source, cand.re.flags);
-      while ((m = re.exec(rawText)) !== null) {
-        const val = parseNumber(m[2]);
+      // Ensure global iteration; `RegExp#exec` without `g` would loop forever.
+      const flags = cand.re.flags.includes('g') ? cand.re.flags : `${cand.re.flags}g`;
+      const re = new RegExp(cand.re.source, flags);
+      for (const m of rawText.matchAll(re)) {
+        const val = parseNumber(String(m[2] || ''));
         if (!Number.isFinite(val)) continue;
-        peakCandidates.push({ priority: cand.priority, value: val as number, snippet: snippetAround(rawText, m.index, m[0].length) });
+        peakCandidates.push({
+          priority: cand.priority,
+          value: val as number,
+          snippet: snippetAround(rawText, m.index ?? 0, String(m[0] || '').length),
+        });
       }
     }
     if (peakCandidates.length) {
@@ -337,18 +347,6 @@ export function analyzeBillIntelligenceV1(args: {
       `avgKw>${peakKw} | avgKw=${(derivedMetrics.avgKw?.value as number).toFixed(3)}`
     );
   }
-
-  // Always include prerequisites for deeper analysis.
-  addWarning(
-    warnings,
-    BillIntelligenceWarningCodesV1.BILL_INTEL_INTERVAL_DATA_REQUIRED,
-    'Interval data required to validate bill-derived usage and demand.'
-  );
-  addWarning(
-    warnings,
-    BillIntelligenceWarningCodesV1.BILL_INTEL_WEATHER_DATA_REQUIRED,
-    'Weather data required to contextualize usage vs. temperature.'
-  );
 
   return {
     extractedFacts,

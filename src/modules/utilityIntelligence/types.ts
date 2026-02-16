@@ -6,6 +6,7 @@ import type { MissingInfoItemV0 } from './missingInfo/types';
 import type { ApplicabilityResult } from '../tariffApplicability/types';
 import type { LoadAttributionResultV1 } from '../loadAttribution/types';
 import type { BillSimV2 } from '../billingEngineV2/types';
+import type { BillIntelligenceV1 } from './billIntelligence/typesV1';
 
 export type UtilityServiceType = 'electric' | 'gas' | 'both';
 
@@ -224,73 +225,5 @@ export type UtilityRecommendation = {
   suggestedMeasure: Measure;
 };
 
-export const BillIntelligenceWarningCodesV1 = {
-  BILL_INTEL_MISSING_TOTAL_KWH: 'BILL_INTEL_MISSING_TOTAL_KWH',
-  BILL_INTEL_MISSING_TOTAL_DOLLARS: 'BILL_INTEL_MISSING_TOTAL_DOLLARS',
-  BILL_INTEL_MISSING_BILLING_PERIOD_DATES: 'BILL_INTEL_MISSING_BILLING_PERIOD_DATES',
-  BILL_INTEL_MISSING_PEAK_KW: 'BILL_INTEL_MISSING_PEAK_KW',
-  BILL_INTEL_INTERVAL_DATA_REQUIRED: 'BILL_INTEL_INTERVAL_DATA_REQUIRED',
-  BILL_INTEL_WEATHER_DATA_REQUIRED: 'BILL_INTEL_WEATHER_DATA_REQUIRED',
-  BILL_INTEL_BILLING_PERIOD_AMBIGUOUS_DATE_FORMAT: 'BILL_INTEL_BILLING_PERIOD_AMBIGUOUS_DATE_FORMAT',
-  BILL_INTEL_BILLING_PERIOD_INVALID_RANGE: 'BILL_INTEL_BILLING_PERIOD_INVALID_RANGE',
-  BILL_INTEL_MULTIPLE_DOLLARS_CANDIDATES: 'BILL_INTEL_MULTIPLE_DOLLARS_CANDIDATES',
-  BILL_INTEL_MULTIPLE_PEAK_KW_CANDIDATES: 'BILL_INTEL_MULTIPLE_PEAK_KW_CANDIDATES',
-  BILL_INTEL_SANITY_OUTLIER: 'BILL_INTEL_SANITY_OUTLIER',
-} as const;
-
-export type BillIntelligenceWarningCodeV1 =
-  (typeof BillIntelligenceWarningCodesV1)[keyof typeof BillIntelligenceWarningCodesV1];
-
-export type BillIntelligenceEvidence = {
-  ruleId: string;
-  matchedText: string;
-  source: 'bill_pdf';
-};
-
-export type BillIntelligenceNumberFact = {
-  value: number;
-  unit?: string;
-  source: 'bill_pdf';
-  evidence: BillIntelligenceEvidence;
-};
-
-export type BillIntelligenceStringFact = {
-  value: string;
-  source: 'bill_pdf';
-  evidence: BillIntelligenceEvidence;
-};
-
-export type BillIntelligenceBillingPeriodFact = {
-  startDateIso: string;
-  endDateIso: string;
-  days?: number;
-  source: 'bill_pdf';
-  evidence: BillIntelligenceEvidence;
-};
-
-export type BillIntelligenceDerivedMetric = {
-  value: number;
-  unit: string;
-  source: 'derived_math';
-  confidence: 'derived';
-  inputsUsed: string[];
-};
-
-export type BillIntelligenceV1 = {
-  extractedFacts: {
-    billingPeriod?: BillIntelligenceBillingPeriodFact;
-    totalKwh?: BillIntelligenceNumberFact;
-    totalDollars?: BillIntelligenceNumberFact;
-    peakKw?: BillIntelligenceNumberFact;
-    rateScheduleText?: BillIntelligenceStringFact;
-    utilityHint?: BillIntelligenceStringFact;
-  };
-  derivedMetrics: {
-    blendedRate?: BillIntelligenceDerivedMetric;
-    avgDailyKwh?: BillIntelligenceDerivedMetric;
-    avgKw?: BillIntelligenceDerivedMetric;
-    demandFactorApprox?: BillIntelligenceDerivedMetric;
-  };
-  warnings: Array<{ code: BillIntelligenceWarningCodeV1; reason: string }>;
-};
+export * from './billIntelligence/typesV1';
 
