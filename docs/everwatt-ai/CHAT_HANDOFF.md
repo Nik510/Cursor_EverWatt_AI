@@ -39,3 +39,6 @@ Maintain the EverWatt app source-of-truth docs and keep tariff/program intellige
 - Hidden: `curation.hidden` / `curationHidden` removes items from UI lists.
 - Snapshot: stored JSON of tariffs/programs in `data/tariffs/<utility>/<version>.json` and `data/programs/<utility>/<version>.json`.
 - Demo inputs: `samples/interval_peaky_office.json` plus demo defaults in `src/server.ts` (`?demo=true`).
+
+## Recent handoff
+- Hardened `analyzeBillIntelligenceV1`: ambiguous date warnings, stricter label gating, derived metric sanity warnings; tests added/updated; `npm test -- tests/billPdf.billIntelligenceV1.test.ts` passes.
