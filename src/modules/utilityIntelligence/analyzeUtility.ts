@@ -11,6 +11,7 @@ import { computeProvenMetricsV1 } from './interval/provenMetrics';
 import { analyzeSupplyStructure } from './supply/analyzeSupplyStructure';
 import { extractBillPdfTariffHintsV1 } from './billPdf/extractBillPdfTariffHintsV1';
 import { extractBillPdfTouUsageV1 } from './billPdf/extractBillPdfTouUsageV1';
+import { analyzeBillIntelligenceV1 } from './billPdf/analyzeBillIntelligenceV1';
 import type { MissingInfoItemV0 } from './missingInfo/types';
 import { runWeatherRegressionV1, type IntervalKwPointWithTemp } from './weather/regression';
 import type { WeatherProvider } from './weather/provider';
@@ -351,6 +352,11 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
   });
 
   const billPdfTariffTruth = extractBillPdfTariffHintsV1(inputs.billPdfText || null);
+
+  const billIntelligenceV1 = analyzeBillIntelligenceV1({
+    billPdfText: inputs.billPdfText || null,
+    billPdfTariffTruth,
+  });
 
   const billTariffCommodity: 'electric' | 'gas' =
     String(inputs.serviceType || '').toLowerCase() === 'gas' ? 'gas' : 'electric';
@@ -970,6 +976,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     ...(tariffApplicability ? { tariffApplicability } : {}),
     ...(determinantsPackSummary ? { determinantsPackSummary } : {}),
     ...(billSimV2 ? { billSimV2 } : {}),
+    ...(billIntelligenceV1 ? { billIntelligenceV1 } : {}),
     ...(behaviorInsights ? { behaviorInsights } : {}),
     ...(behaviorInsightsV2 ? { behaviorInsightsV2 } : {}),
     ...(behaviorInsightsV3 ? { behaviorInsightsV3 } : {}),

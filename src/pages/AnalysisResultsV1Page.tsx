@@ -286,6 +286,95 @@ export const AnalysisResultsV1Page: React.FC = () => {
     return m && typeof m === 'object' ? m : null;
   }, [insights]);
 
+  const billIntelligence = (insights as any)?.billIntelligenceV1 || null;
+  const billIntelligenceWarnings: Array<{ code: string; reason: string }> = Array.isArray(billIntelligence?.warnings) ? billIntelligence.warnings : [];
+
+  const billIntelFactsList = useMemo(() => {
+    const f = (billIntelligence as any)?.extractedFacts || {};
+    const facts: Array<{ key: string; label: string; display: string; title?: string }> = [];
+    const title = (e: any) => {
+      const rid = String(e?.ruleId || '').trim();
+      const mt = String(e?.matchedText || '').trim();
+      return [rid, mt].filter(Boolean).join(' • ');
+    };
+
+    if (f?.billingPeriod?.startDateIso && f?.billingPeriod?.endDateIso) {
+      facts.push({
+        key: 'billingPeriod',
+        label: 'Billing Period',
+        display: `${shortIso(f.billingPeriod.startDateIso)} → ${shortIso(f.billingPeriod.endDateIso)}${Number.isFinite(f.billingPeriod.days) ? ` (${Number(f.billingPeriod.days)} days)` : ''}`,
+        title: title(f.billingPeriod.evidence),
+      });
+    }
+    if (Number.isFinite(f?.totalKwh?.value)) {
+      facts.push({
+        key: 'totalKwh',
+        label: 'Total kWh',
+        display: `${Number(f.totalKwh.value).toLocaleString()} kWh`,
+        title: title(f.totalKwh.evidence),
+      });
+    }
+    if (Number.isFinite(f?.totalDollars?.value)) {
+      facts.push({
+        key: 'totalDollars',
+        label: 'Total $',
+        display: `$${Number(f.totalDollars.value).toFixed(2)}`,
+        title: title(f.totalDollars.evidence),
+      });
+    }
+    if (Number.isFinite(f?.peakKw?.value)) {
+      facts.push({
+        key: 'peakKw',
+        label: 'Peak kW',
+        display: `${Number(f.peakKw.value).toFixed(1)} kW`,
+        title: title(f.peakKw.evidence),
+      });
+    }
+    if (String(f?.rateScheduleText?.value || '').trim()) {
+      facts.push({
+        key: 'rateScheduleText',
+        label: 'Rate schedule',
+        display: String(f.rateScheduleText.value),
+        title: title(f.rateScheduleText.evidence),
+      });
+    }
+    if (String(f?.utilityHint?.value || '').trim()) {
+      facts.push({
+        key: 'utilityHint',
+        label: 'Utility hint',
+        display: String(f.utilityHint.value),
+        title: title(f.utilityHint.evidence),
+      });
+    }
+    return facts;
+  }, [billIntelligence]);
+
+  const billIntelMetricsList = useMemo(() => {
+    const m = (billIntelligence as any)?.derivedMetrics || {};
+    const metrics: Array<{ key: string; label: string; display: string; title?: string }> = [];
+    const pushMetric = (key: string, label: string, val: number, unitLabel: string, inputsUsed?: string[]) => {
+      metrics.push({
+        key,
+        label,
+        display: `${Number(val).toFixed(key === 'demandFactorApprox' ? 3 : 3)} ${unitLabel}`.trim(),
+        title: inputsUsed && inputsUsed.length ? `inputs: ${inputsUsed.join(', ')}` : undefined,
+      });
+    };
+    if (Number.isFinite(m?.blendedRate?.value)) {
+      pushMetric('blendedRate', 'Blended rate', Number(m.blendedRate.value), '$/kWh', m.blendedRate.inputsUsed);
+    }
+    if (Number.isFinite(m?.avgDailyKwh?.value)) {
+      pushMetric('avgDailyKwh', 'Avg daily kWh', Number(m.avgDailyKwh.value), 'kWh/day', m.avgDailyKwh.inputsUsed);
+    }
+    if (Number.isFinite(m?.avgKw?.value)) {
+      pushMetric('avgKw', 'Avg kW', Number(m.avgKw.value), 'kW', m.avgKw.inputsUsed);
+    }
+    if (Number.isFinite(m?.demandFactorApprox?.value)) {
+      pushMetric('demandFactorApprox', 'Demand factor (approx)', Number(m.demandFactorApprox.value), '', m.demandFactorApprox.inputsUsed);
+    }
+    return metrics;
+  }, [billIntelligence]);
+
   const appliedTariffOverride = useMemo(() => {
     const ov = (workflow as any)?.utility?.inputs?.tariffOverrideV1;
     return ov && typeof ov === 'object' ? ov : null;
@@ -923,6 +1012,70 @@ export const AnalysisResultsV1Page: React.FC = () => {
                       ) : null}
                     </div>
                   ) : null}
+                </div>
+
+                <div className="mt-4 p-4 bg-white border border-gray-200 rounded-xl shadow-sm">
+                  <div className="flex items-center gap-2 text-sm font-semibold text-gray-900">
+                    Bill Intelligence
+                    <span className="text-xs font-normal text-gray-500">(billPdfText v1, warnings-first)</span>
+                  </div>
+                  {billIntelligence ? (
+                    <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-gray-700">
+                      <div className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                        <div className="text-[11px] uppercase text-gray-500 font-semibold">Facts found</div>
+                        {billIntelFactsList.length ? (
+                          <ul className="mt-2 space-y-1">
+                            {billIntelFactsList.map((f) => (
+                              <li key={f.key} className="flex items-start justify-between gap-2">
+                                <span className="text-gray-600">{f.label}</span>
+                                <span className="font-semibold text-gray-900 text-right" title={f.title}>
+                                  {f.display}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <div className="mt-2 text-gray-500">No explicit facts found in billPdfText.</div>
+                        )}
+                      </div>
+
+                      <div className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                        <div className="text-[11px] uppercase text-gray-500 font-semibold">Computed metrics</div>
+                        {billIntelMetricsList.length ? (
+                          <ul className="mt-2 space-y-1">
+                            {billIntelMetricsList.map((m) => (
+                              <li key={m.key} className="flex items-start justify-between gap-2">
+                                <span className="text-gray-600">{m.label}</span>
+                                <span className="font-semibold text-gray-900 text-right" title={m.title}>
+                                  {m.display}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <div className="mt-2 text-gray-500">Metrics not computable (needs labeled dollars, kWh, dates).</div>
+                        )}
+                      </div>
+
+                      <div className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                        <div className="text-[11px] uppercase text-gray-500 font-semibold">To go deeper</div>
+                        {billIntelligenceWarnings.length ? (
+                          <ul className="mt-2 space-y-1">
+                            {billIntelligenceWarnings.map((w, idx) => (
+                              <li key={`${w.code}-${idx}`} className="flex items-start gap-2">
+                                <span className="font-mono text-[11px] text-amber-800">{String(w.code || '')}</span>
+                                <span className="text-gray-700">{String(w.reason || '')}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <div className="mt-2 text-gray-500">No warnings.</div>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="mt-2 text-xs text-gray-600">Bill intelligence unavailable (no billPdfText provided).</div>
+                  )}
                 </div>
 
                 <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-lg">
