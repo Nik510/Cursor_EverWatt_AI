@@ -107,6 +107,60 @@ describe('renderInternalEngineeringReportHtmlV1', () => {
             },
             warnings: ['weather.v1.outliers_clipped'],
           },
+          storageOpportunityPackV1: {
+            batteryOpportunityV1: {
+              recommendedPowerKwRange: [50, 120],
+              recommendedEnergyKwhRange: [100, 300],
+              recommendedBatteryConfigs: [
+                { powerKw: 80, energyKwh: 160, durationHours: 2, rte: 0.9, maxCyclesPerDay: 1 },
+                { powerKw: 60, energyKwh: 180, durationHours: 3, rte: 0.9, maxCyclesPerDay: 1 },
+                { powerKw: 100, energyKwh: 300, durationHours: 3, rte: 0.9, maxCyclesPerDay: 1 },
+              ],
+              savingsEstimateAnnual: {
+                energy: { min: 1000, max: 1200, method: 'tou_arbitrage_simple_v1' },
+                demand: { min: null, max: null, method: 'demand_charge_simple_monthly_v1' },
+                total: { min: null, max: null, method: 'battery_total_savings_hybrid_v1' },
+              },
+              valueDrivers: ['TOU_ARBITRAGE', 'LOAD_SHIFT'],
+              confidenceTier: 'LOW',
+              warnings: ['battery.v1.missing_tariff_prices'],
+              missingInfo: ['battery.v1.missing_tariff_prices'],
+              engineVersion: 'storage_opportunity_pack_v1.0',
+            },
+            dispatchSimulationV1: {
+              assumptions: { strategyId: 'DISPATCH_MULTI_STRATEGY_V1', rte: 0.9, maxCyclesPerDay: 1, dispatchDaysPerYear: 260, demandWindowStrategy: 'WINDOW_AROUND_DAILY_PEAK_V1' },
+              strategyResults: [
+                {
+                  strategyId: 'PEAK_SHAVE_DAILY_V1',
+                  estimatedPeakKwReduction: { min: 10, max: 10, method: 'dispatch_peak_kw_reduction_v1' },
+                  estimatedShiftedKwhAnnual: { value: 5000, method: 'dispatch_shifted_kwh_annual_v1' },
+                  estimatedEnergySavingsAnnual: { min: null, max: null, method: 'tou_arbitrage_simple_v1' },
+                  estimatedDemandSavingsAnnual: { min: null, max: null, method: 'demand_charge_simple_monthly_v1' },
+                  constraintsHit: ['MISSING_TARIFF_PRICES'],
+                },
+              ],
+              warnings: ['battery.dispatch.v1.bucket_only_simulation'],
+            },
+            drReadinessV1: {
+              eventCandidateDefinition: { topDaysCount: 10, windowDurationHours: 2, basis: 'DAILY_PEAK_KW_V1', method: 'dr_event_candidates_daily_peak_v1' },
+              topEventWindows: [
+                {
+                  dateIso: '2026-01-15',
+                  startHourLocal: 16,
+                  durationHours: 2,
+                  peakKw: 42.5,
+                  avgKw: 16.5,
+                  baseloadKw: 5.1,
+                  shedPotentialKw: { value: 37.4, method: 'dr_shed_potential_kw_v1' },
+                },
+              ],
+              typicalShedPotentialKwRange: [20, 40],
+              variabilityScore: { value: 0.42, method: 'dr_variability_cv_v1' },
+              confidenceTier: 'MEDIUM',
+              warnings: [],
+              missingInfo: [],
+            },
+          },
           workflow: {
             utility: {
               inputs: { currentRate: { utility: 'PGE', rateCode: 'E-19', capturedAt: '2026-01-15T00:00:00.000Z' } },
@@ -150,6 +204,12 @@ describe('renderInternalEngineeringReportHtmlV1', () => {
     expect(html).toContain('HDD_CDD_LINEAR_V1');
     expect(html).toContain('annualKwhEstimate');
     expect(html).toContain('weather.v1.outliers_clipped');
+
+    // Storage Opportunity Pack cards (snapshot-only)
+    expect(html).toContain('Battery Opportunity');
+    expect(html).toContain('Dispatch Simulation');
+    expect(html).toContain('DR Readiness');
+    expect(html).toContain('storage_opportunity_pack_v1.0');
 
     // Deep links
     expect(html).toContain(`/project-builder/${projectId}/intake/intervals`);

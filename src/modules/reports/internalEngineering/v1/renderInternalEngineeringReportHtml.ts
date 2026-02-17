@@ -125,6 +125,7 @@ export function renderInternalEngineeringReportHtmlV1(args: {
   const workflow = report?.workflow || {};
   const intervalInsightsV1 = (report as any)?.intervalInsightsV1 || null;
   const weatherRegressionV1 = (report as any)?.weatherRegressionV1 || null;
+  const storageOpportunityPackV1 = (report as any)?.storageOpportunityPackV1 || null;
   const engineVersions = (report as any)?.engineVersions || null;
   const engineVersionsLine = (() => {
     const ev = engineVersions && typeof engineVersions === 'object' ? engineVersions : {};
@@ -208,6 +209,96 @@ export function renderInternalEngineeringReportHtmlV1(args: {
       { k: 'annualKwhEstimate', v: fmtMaybe(safeNumber(wr.annualization?.annualKwhEstimate), 0) },
       { k: 'annualConfidenceTier', v: String(wr.annualization?.confidenceTier || '—') },
       { k: 'warnings', v: warn },
+    ];
+  })();
+
+  // ---- Storage Opportunity Pack v1 (snapshot-only) ----
+  const batteryOpportunityRows: Array<{ k: string; v: string }> = (() => {
+    const pack: any = storageOpportunityPackV1 && typeof storageOpportunityPackV1 === 'object' ? storageOpportunityPackV1 : null;
+    const bo: any = pack?.batteryOpportunityV1 || null;
+    if (!bo) return [{ k: 'present', v: 'false' }];
+
+    const power = Array.isArray(bo.recommendedPowerKwRange) ? bo.recommendedPowerKwRange : [];
+    const energy = Array.isArray(bo.recommendedEnergyKwhRange) ? bo.recommendedEnergyKwhRange : [];
+    const drivers = Array.isArray(bo.valueDrivers) ? (bo.valueDrivers as any[]).map((x) => String(x || '').trim()).filter(Boolean).join(', ') : '—';
+    const warn = Array.isArray(bo.warnings) ? (bo.warnings as any[]).map((x) => String(x || '').trim()).filter(Boolean).slice(0, 10).join(', ') : '(none)';
+    const miss = Array.isArray(bo.missingInfo) ? (bo.missingInfo as any[]).map((x) => String(x || '').trim()).filter(Boolean).slice(0, 10).join(', ') : '(none)';
+    const configs = Array.isArray(bo.recommendedBatteryConfigs)
+      ? (bo.recommendedBatteryConfigs as any[])
+          .slice(0, 3)
+          .map((c) => `${fmtMaybe(safeNumber(c?.powerKw), 0)}kW/${fmtMaybe(safeNumber(c?.energyKwh), 0)}kWh@${fmtMaybe(safeNumber(c?.durationHours), 0)}h`)
+          .join(' • ')
+      : '—';
+
+    const total = bo?.savingsEstimateAnnual?.total || null;
+    const totalText =
+      total && typeof total === 'object'
+        ? `${fmtMaybe(safeNumber(total.min), 0)}..${fmtMaybe(safeNumber(total.max), 0)} (method=${String(total.method || '—')})`
+        : '—';
+
+    return [
+      { k: 'present', v: 'true' },
+      { k: 'confidenceTier', v: String(bo.confidenceTier || '—') },
+      { k: 'engineVersion', v: String(bo.engineVersion || '—') },
+      { k: 'recommendedPowerKwRange', v: `${fmtMaybe(safeNumber(power[0]), 0)}..${fmtMaybe(safeNumber(power[1]), 0)}` },
+      { k: 'recommendedEnergyKwhRange', v: `${fmtMaybe(safeNumber(energy[0]), 0)}..${fmtMaybe(safeNumber(energy[1]), 0)}` },
+      { k: 'recommendedBatteryConfigsTop3', v: configs || '—' },
+      { k: 'savingsEstimateAnnual.total', v: totalText },
+      { k: 'valueDrivers', v: drivers || '—' },
+      { k: 'warnings', v: warn || '(none)' },
+      { k: 'missingInfo', v: miss || '(none)' },
+    ];
+  })();
+
+  const dispatchSimulationRows: Array<{ k: string; v: string }> = (() => {
+    const pack: any = storageOpportunityPackV1 && typeof storageOpportunityPackV1 === 'object' ? storageOpportunityPackV1 : null;
+    const sim: any = pack?.dispatchSimulationV1 || null;
+    if (!sim) return [{ k: 'present', v: 'false' }];
+    const a = sim.assumptions || {};
+    const warn = Array.isArray(sim.warnings) ? (sim.warnings as any[]).map((x) => String(x || '').trim()).filter(Boolean).slice(0, 10).join(', ') : '(none)';
+    const results = Array.isArray(sim.strategyResults) ? (sim.strategyResults as any[]) : [];
+    const summary = results
+      .slice(0, 3)
+      .map((r) => {
+        const id = String(r?.strategyId || '—');
+        const peak = r?.estimatedPeakKwReduction ? `${fmtMaybe(safeNumber(r.estimatedPeakKwReduction.min), 2)}kW` : '—';
+        const kwh = r?.estimatedShiftedKwhAnnual ? `${fmtMaybe(safeNumber(r.estimatedShiftedKwhAnnual.value), 0)}kWh/yr` : '—';
+        const e = r?.estimatedEnergySavingsAnnual ? `${fmtMaybe(safeNumber(r.estimatedEnergySavingsAnnual.min), 0)}` : '—';
+        const d = r?.estimatedDemandSavingsAnnual ? `${fmtMaybe(safeNumber(r.estimatedDemandSavingsAnnual.min), 0)}` : '—';
+        return `${id}: peakRed≈${peak}, shifted≈${kwh}, energy$≈${e}, demand$≈${d}`;
+      })
+      .join(' | ');
+
+    return [
+      { k: 'present', v: 'true' },
+      { k: 'assumptions.strategyId', v: String(a.strategyId || '—') },
+      { k: 'assumptions.rte', v: fmtMaybe(safeNumber(a.rte), 3) },
+      { k: 'assumptions.maxCyclesPerDay', v: fmtMaybe(safeNumber(a.maxCyclesPerDay), 0) },
+      { k: 'assumptions.dispatchDaysPerYear', v: fmtMaybe(safeNumber(a.dispatchDaysPerYear), 0) },
+      { k: 'strategyResults.summary', v: summary || '—' },
+      { k: 'warnings', v: warn || '(none)' },
+    ];
+  })();
+
+  const drReadinessRows: Array<{ k: string; v: string }> = (() => {
+    const pack: any = storageOpportunityPackV1 && typeof storageOpportunityPackV1 === 'object' ? storageOpportunityPackV1 : null;
+    const dr: any = pack?.drReadinessV1 || null;
+    if (!dr) return [{ k: 'present', v: 'false' }];
+    const warn = Array.isArray(dr.warnings) ? (dr.warnings as any[]).map((x) => String(x || '').trim()).filter(Boolean).slice(0, 10).join(', ') : '(none)';
+    const miss = Array.isArray(dr.missingInfo) ? (dr.missingInfo as any[]).map((x) => String(x || '').trim()).filter(Boolean).slice(0, 10).join(', ') : '(none)';
+    const top = Array.isArray(dr.topEventWindows) ? (dr.topEventWindows as any[]) : [];
+    const t0 = top[0] || null;
+    const typical = Array.isArray(dr.typicalShedPotentialKwRange) ? dr.typicalShedPotentialKwRange : [];
+    const variability = dr.variabilityScore || {};
+    return [
+      { k: 'present', v: 'true' },
+      { k: 'confidenceTier', v: String(dr.confidenceTier || '—') },
+      { k: 'typicalShedPotentialKwRange', v: `${fmtMaybe(safeNumber(typical[0]), 2)}..${fmtMaybe(safeNumber(typical[1]), 2)}` },
+      { k: 'variabilityScore', v: `${fmtMaybe(safeNumber(variability.value), 3)} (method=${String(variability.method || '—')})` },
+      { k: 'topEventWindows.count', v: String(top.length) },
+      { k: 'topEventWindows.top1', v: t0 ? `${String(t0.dateIso || '—')} @${fmtMaybe(safeNumber(t0.startHourLocal), 0)}h` : '—' },
+      { k: 'warnings', v: warn || '(none)' },
+      { k: 'missingInfo', v: miss || '(none)' },
     ];
   })();
 
@@ -350,6 +441,30 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     `<div class="cardBody">`,
     `${renderKvTable(weatherRegressionRows)}`,
     `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.weatherRegressionV1 (no live recompute).</div>`,
+    `</div>`,
+    `</div>`,
+
+    `<div class="card">`,
+    `<div class="cardTitle">Battery Opportunity</div>`,
+    `<div class="cardBody">`,
+    `${renderKvTable(batteryOpportunityRows)}`,
+    `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.storageOpportunityPackV1.batteryOpportunityV1 (no live recompute).</div>`,
+    `</div>`,
+    `</div>`,
+
+    `<div class="card">`,
+    `<div class="cardTitle">Dispatch Simulation</div>`,
+    `<div class="cardBody">`,
+    `${renderKvTable(dispatchSimulationRows)}`,
+    `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.storageOpportunityPackV1.dispatchSimulationV1 (no live recompute).</div>`,
+    `</div>`,
+    `</div>`,
+
+    `<div class="card">`,
+    `<div class="cardTitle">DR Readiness</div>`,
+    `<div class="cardBody">`,
+    `${renderKvTable(drReadinessRows)}`,
+    `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.storageOpportunityPackV1.drReadinessV1 (no live recompute).</div>`,
     `</div>`,
     `</div>`,
 

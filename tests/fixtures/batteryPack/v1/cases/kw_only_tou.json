@@ -1,0 +1,16 @@
+{
+  "caseId": "kw_only_tou",
+  "intervalCsv": "tests/fixtures/intervals/v1/kw_only_15m.csv",
+  "timezoneHint": "America/Los_Angeles",
+  "tariffPriceSignalsV1": {
+    "timezone": "America/Los_Angeles",
+    "touEnergyPrices": [
+      { "periodId": "OFF", "startHourLocal": 0, "endHourLocalExclusive": 16, "days": "all", "pricePerKwh": 0.1 },
+      { "periodId": "ON", "startHourLocal": 16, "endHourLocalExclusive": 21, "days": "all", "pricePerKwh": 0.3 },
+      { "periodId": "OFF2", "startHourLocal": 21, "endHourLocalExclusive": 24, "days": "all", "pricePerKwh": 0.12 }
+    ],
+    "demandChargePerKw": 20
+  },
+  "determinantsV1": null
+}
+

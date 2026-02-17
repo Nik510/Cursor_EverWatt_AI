@@ -37,6 +37,7 @@ import { computeBehaviorInsightsV3 } from './behaviorV3/computeBehaviorInsightsV
 
 import { getDefaultCatalogForTerritory, matchPrograms } from '../programIntelligence/matchPrograms';
 import { programMatchesToRecommendations } from '../programIntelligence/toRecommendations';
+import { evaluateStorageOpportunityPackV1 } from '../batteryEngineV1/evaluateBatteryOpportunityV1';
 
 import { loadProjectForOrg } from '../project/projectRepository';
 import { readIntervalData } from '../../utils/excel-reader';
@@ -669,6 +670,42 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     }
   })();
 
+  // Storage Opportunity Pack v1 (battery + dispatch + DR readiness): always attach (warnings-first).
+  const storageOpportunityPackV1 = (() => {
+    try {
+      const det0: any = (determinantsPackSummary as any)?.meters?.[0]?.last12Cycles?.[0] || null;
+      const determinantsV1 = det0
+        ? {
+            billingDemandKw: Number.isFinite(Number(det0?.billingDemandKw)) ? Number(det0.billingDemandKw) : null,
+            ratchetDemandKw: Number.isFinite(Number(det0?.ratchetDemandKw)) ? Number(det0.ratchetDemandKw) : null,
+            billingDemandMethod: String(det0?.billingDemandMethod || '').trim() || null,
+          }
+        : null;
+
+      return evaluateStorageOpportunityPackV1({
+        intervalInsightsV1: (intervalIntelligenceV1 as any) || null,
+        intervalPointsV1: Array.isArray(deps?.intervalPointsV1) ? (deps?.intervalPointsV1 as any) : null,
+        // Tariff price signals are not inferred here (no guessing); fixture tests can supply them directly to the engine.
+        tariffPriceSignalsV1: null,
+        determinantsV1,
+        config: {
+          rte: 0.9,
+          maxCyclesPerDay: 1,
+          dispatchDaysPerYear: 260,
+          demandWindowStrategy: 'WINDOW_AROUND_DAILY_PEAK_V1',
+        },
+      });
+    } catch {
+      // Last-resort deterministic fallback (do not throw from analyzeUtility).
+      return evaluateStorageOpportunityPackV1({
+        intervalInsightsV1: null,
+        intervalPointsV1: null,
+        tariffPriceSignalsV1: null,
+        determinantsV1: null,
+      });
+    }
+  })();
+
   const behaviorInsights = (() => {
     try {
       return computeBehaviorInsights({
@@ -1087,6 +1124,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     ...(billSimV2 ? { billSimV2 } : {}),
     ...(billIntelligenceV1 ? { billIntelligenceV1 } : {}),
     ...(intervalIntelligenceV1 ? { intervalIntelligenceV1 } : {}),
+    storageOpportunityPackV1,
     ...(weatherRegressionV1 ? { weatherRegressionV1 } : {}),
     ...(behaviorInsights ? { behaviorInsights } : {}),
     ...(behaviorInsightsV2 ? { behaviorInsightsV2 } : {}),

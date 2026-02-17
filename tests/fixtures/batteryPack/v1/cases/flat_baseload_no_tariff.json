@@ -1,0 +1,8 @@
+{
+  "caseId": "flat_baseload_no_tariff",
+  "intervalCsv": "tests/fixtures/intervals/v1/flat_baseload_15m.csv",
+  "timezoneHint": "America/Los_Angeles",
+  "tariffPriceSignalsV1": null,
+  "determinantsV1": null
+}
+
