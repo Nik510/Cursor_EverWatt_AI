@@ -1,0 +1,9 @@
+{
+  "caseId": "02_flat_load_net_non_positive",
+  "intervalCsv": "tests/fixtures/intervals/v1/flat_baseload_15m.csv",
+  "timezoneHint": "America/Los_Angeles",
+  "economicsMode": "use_dispatch",
+  "tariffPriceSignalsV1": null,
+  "determinantsV1": null
+}
+

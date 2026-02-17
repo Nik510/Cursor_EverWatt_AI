@@ -1,0 +1,17 @@
+{
+  "caseId": "06_weekend_heavy_tou_small_savings",
+  "intervalCsv": "tests/fixtures/intervals/v1/weekend_heavy_15m.csv",
+  "timezoneHint": "America/Los_Angeles",
+  "economicsMode": "use_dispatch",
+  "tariffPriceSignalsV1": {
+    "timezone": "America/Los_Angeles",
+    "touEnergyPrices": [
+      { "periodId": "OFF", "startHourLocal": 0, "endHourLocalExclusive": 12, "days": "weekday", "pricePerKwh": 0.12 },
+      { "periodId": "ON", "startHourLocal": 12, "endHourLocalExclusive": 18, "days": "weekday", "pricePerKwh": 0.28 },
+      { "periodId": "OFF2", "startHourLocal": 18, "endHourLocalExclusive": 24, "days": "weekday", "pricePerKwh": 0.14 },
+      { "periodId": "WKND", "startHourLocal": 0, "endHourLocalExclusive": 24, "days": "weekend", "pricePerKwh": 0.15 }
+    ]
+  },
+  "determinantsV1": null
+}
+

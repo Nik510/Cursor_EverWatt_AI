@@ -127,6 +127,42 @@ describe('renderInternalEngineeringReportHtmlV1', () => {
               missingInfo: ['battery.v1.missing_tariff_prices'],
               engineVersion: 'storage_opportunity_pack_v1.0',
             },
+            storageEconomicsV1: {
+              assumptions: {
+                projectLifeYears: { value: 10, method: 'project_life_years_default_v1' },
+                discountRateRange: { min: 0.06, max: 0.12, method: 'discount_rate_default_v1' },
+                capexModel: {
+                  powerCostPerKwUsdRange: { min: 500, max: 1200, method: 'capex_default_range_v1' },
+                  energyCostPerKwhUsdRange: { min: 200, max: 500, method: 'capex_default_range_v1' },
+                  softCostsPctRange: { min: 0.05, max: 0.2, method: 'capex_default_range_v1' },
+                  omPctOfCapexPerYearRange: { min: 0.01, max: 0.03, method: 'opex_om_default_v1' },
+                },
+              },
+              capexEstimate: {
+                totalCapexUsdRange: [100000, 200000],
+                breakdown: { powerComponentRange: [50000, 120000], energyComponentRange: [40000, 80000], softCostsRange: [5000, 20000] },
+                capexMethodTag: 'capex_default_range_v1',
+              },
+              opexEstimate: { annualOmUsdRange: [1000, 6000], opexMethodTag: 'opex_om_pct_of_capex_v1' },
+              cashflow: {
+                annualGrossSavingsUsdRange: [10000, 15000],
+                annualNetSavingsUsdRange: [4000, 14000],
+                savingsMethodTag: 'storage_econ_gross_savings_from_dispatch_v1',
+              },
+              payback: { simplePaybackYearsRange: [7.1, 50], paybackMethodTag: 'simple_payback_v1' },
+              npvLite: { npvUsdRange: [-50000, 60000], npvMethodTag: 'npv_lite_annuity_v1' },
+              normalizedMetrics: {
+                capexPerKwRange: [1000, 2000],
+                capexPerKwhRange: [400, 800],
+                annualNetSavingsPerKwRange: [40, 140],
+                annualNetSavingsPerKwhRange: [20, 60],
+                annualNetSavingsPerAnnualKwhRange: [0.01, 0.03],
+              },
+              confidenceTier: 'LOW',
+              warnings: [],
+              missingInfo: ['storage.econ.v1.capex_defaults_used'],
+              engineVersion: 'storage_econ_v1.0',
+            },
             dispatchSimulationV1: {
               assumptions: { strategyId: 'DISPATCH_MULTI_STRATEGY_V1', rte: 0.9, maxCyclesPerDay: 1, dispatchDaysPerYear: 260, demandWindowStrategy: 'WINDOW_AROUND_DAILY_PEAK_V1' },
               strategyResults: [
@@ -140,6 +176,14 @@ describe('renderInternalEngineeringReportHtmlV1', () => {
                 },
               ],
               warnings: ['battery.dispatch.v1.bucket_only_simulation'],
+            },
+            incentivesStubV1: {
+              programsConsidered: [],
+              estimatedIncentiveUsdRange: null,
+              confidenceTier: 'NONE',
+              warnings: [],
+              missingInfo: ['incentives.v1.program_unknown'],
+              engineVersion: 'incentives_stub_v1.0',
             },
             drReadinessV1: {
               eventCandidateDefinition: { topDaysCount: 10, windowDurationHours: 2, basis: 'DAILY_PEAK_KW_V1', method: 'dr_event_candidates_daily_peak_v1' },
@@ -209,6 +253,8 @@ describe('renderInternalEngineeringReportHtmlV1', () => {
     expect(html).toContain('Battery Opportunity');
     expect(html).toContain('Dispatch Simulation');
     expect(html).toContain('DR Readiness');
+    expect(html).toContain('Storage Economics');
+    expect(html).toContain('Incentives');
     expect(html).toContain('storage_opportunity_pack_v1.0');
 
     // Deep links

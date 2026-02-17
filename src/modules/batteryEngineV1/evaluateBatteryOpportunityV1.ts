@@ -2,6 +2,8 @@ import { defaultBatteryEngineConfigV1, batteryEngineVersionTagV1 } from './const
 import { BatteryOpportunityReasonCodesV1, uniqSortedReasonCodes } from './reasons';
 import { drReadinessV1 } from './drReadinessV1';
 import { simulateDispatchV1 } from './simulateDispatchV1';
+import { storageEconomicsV1 } from './storageEconomicsV1';
+import { incentivesStubV1 } from './incentivesStubV1';
 import type {
   BatteryConfigV1,
   BatteryEngineConfigV1,
@@ -236,10 +238,26 @@ export function evaluateStorageOpportunityPackV1(args: EvaluateStorageOpportunit
     engineVersion: batteryEngineVersionTagV1,
   };
 
+  const storageEconomicsV1Out = storageEconomicsV1({
+    batteryOpportunityV1,
+    dispatchSimulationV1,
+    tariffPriceSignalsV1: tariff,
+    determinantsV1: det,
+    overrides: args.storageEconomicsOverridesV1 || null,
+    intervalInsightsV1: intervalInsights as any,
+  });
+
+  const incentivesStubV1Out = incentivesStubV1({
+    recommendedBatteryConfig: recommendedBatteryConfigs[0] || null,
+    customerType: args.customerType || null,
+  });
+
   return {
     batteryOpportunityV1,
     dispatchSimulationV1,
     drReadinessV1: dr,
+    storageEconomicsV1: storageEconomicsV1Out,
+    incentivesStubV1: incentivesStubV1Out,
   };
 }
 

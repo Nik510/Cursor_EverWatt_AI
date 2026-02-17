@@ -302,6 +302,51 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     ];
   })();
 
+  const storageEconomicsRows: Array<{ k: string; v: string }> = (() => {
+    const pack: any = storageOpportunityPackV1 && typeof storageOpportunityPackV1 === 'object' ? storageOpportunityPackV1 : null;
+    const econ: any = pack?.storageEconomicsV1 || null;
+    if (!econ) return [{ k: 'present', v: 'false' }];
+    const capex = econ.capexEstimate || {};
+    const cash = econ.cashflow || {};
+    const payback = econ.payback || {};
+    const npv = econ.npvLite || {};
+    const warn = Array.isArray(econ.warnings) ? (econ.warnings as any[]).map((x) => String(x || '').trim()).filter(Boolean).slice(0, 10).join(', ') : '(none)';
+    const miss = Array.isArray(econ.missingInfo) ? (econ.missingInfo as any[]).map((x) => String(x || '').trim()).filter(Boolean).slice(0, 10).join(', ') : '(none)';
+    const capexR = Array.isArray(capex.totalCapexUsdRange) ? capex.totalCapexUsdRange : [];
+    const gross = Array.isArray(cash.annualGrossSavingsUsdRange) ? cash.annualGrossSavingsUsdRange : [];
+    const net = Array.isArray(cash.annualNetSavingsUsdRange) ? cash.annualNetSavingsUsdRange : [];
+    const pb = Array.isArray(payback.simplePaybackYearsRange) ? payback.simplePaybackYearsRange : [];
+    const npvR = Array.isArray(npv.npvUsdRange) ? npv.npvUsdRange : [];
+    return [
+      { k: 'present', v: 'true' },
+      { k: 'confidenceTier', v: String(econ.confidenceTier || '—') },
+      { k: 'engineVersion', v: String(econ.engineVersion || '—') },
+      { k: 'capex.totalCapexUsdRange', v: `${fmtMaybe(safeNumber(capexR[0]), 0)}..${fmtMaybe(safeNumber(capexR[1]), 0)}` },
+      { k: 'cashflow.annualGrossSavingsUsdRange', v: `${fmtMaybe(safeNumber(gross[0]), 0)}..${fmtMaybe(safeNumber(gross[1]), 0)}` },
+      { k: 'cashflow.annualNetSavingsUsdRange', v: `${fmtMaybe(safeNumber(net[0]), 0)}..${fmtMaybe(safeNumber(net[1]), 0)}` },
+      { k: 'payback.simplePaybackYearsRange', v: `${fmtMaybe(safeNumber(pb[0]), 2)}..${fmtMaybe(safeNumber(pb[1]), 2)}` },
+      { k: 'npvLite.npvUsdRange', v: `${fmtMaybe(safeNumber(npvR[0]), 0)}..${fmtMaybe(safeNumber(npvR[1]), 0)}` },
+      { k: 'warnings', v: warn || '(none)' },
+      { k: 'missingInfo', v: miss || '(none)' },
+    ];
+  })();
+
+  const incentivesRows: Array<{ k: string; v: string }> = (() => {
+    const pack: any = storageOpportunityPackV1 && typeof storageOpportunityPackV1 === 'object' ? storageOpportunityPackV1 : null;
+    const inc: any = pack?.incentivesStubV1 || null;
+    if (!inc) return [{ k: 'present', v: 'false' }];
+    const warn = Array.isArray(inc.warnings) ? (inc.warnings as any[]).map((x) => String(x || '').trim()).filter(Boolean).slice(0, 10).join(', ') : '(none)';
+    const miss = Array.isArray(inc.missingInfo) ? (inc.missingInfo as any[]).map((x) => String(x || '').trim()).filter(Boolean).slice(0, 10).join(', ') : '(none)';
+    return [
+      { k: 'present', v: 'true' },
+      { k: 'confidenceTier', v: String(inc.confidenceTier || '—') },
+      { k: 'engineVersion', v: String(inc.engineVersion || '—') },
+      { k: 'estimatedIncentiveUsdRange', v: '—' },
+      { k: 'warnings', v: warn || '(none)' },
+      { k: 'missingInfo', v: miss || '(none)' },
+    ];
+  })();
+
   // ---- Missing Evidence / Next Actions (deterministic) ----
   const missingFromInterval = Array.isArray((intervalMeta as any)?.missingInfo) ? ((intervalMeta as any).missingInfo as any[]) : [];
   const missingFromInsights = Array.isArray(workflow?.utility?.insights?.missingInfo) ? (workflow.utility.insights.missingInfo as any[]) : [];
@@ -465,6 +510,22 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     `<div class="cardBody">`,
     `${renderKvTable(drReadinessRows)}`,
     `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.storageOpportunityPackV1.drReadinessV1 (no live recompute).</div>`,
+    `</div>`,
+    `</div>`,
+
+    `<div class="card">`,
+    `<div class="cardTitle">Storage Economics</div>`,
+    `<div class="cardBody">`,
+    `${renderKvTable(storageEconomicsRows)}`,
+    `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.storageOpportunityPackV1.storageEconomicsV1 (no live recompute).</div>`,
+    `</div>`,
+    `</div>`,
+
+    `<div class="card">`,
+    `<div class="cardTitle">Incentives</div>`,
+    `<div class="cardBody">`,
+    `${renderKvTable(incentivesRows)}`,
+    `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.storageOpportunityPackV1.incentivesStubV1 (no live recompute).</div>`,
     `</div>`,
     `</div>`,
 

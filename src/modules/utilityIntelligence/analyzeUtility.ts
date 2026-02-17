@@ -188,10 +188,61 @@ async function tryLoadIntervalKwFromProject(inputs: UtilityInputs): Promise<Inte
   }
 }
 
+async function tryLoadProjectTelemetry(inputs: UtilityInputs): Promise<any | null> {
+  try {
+    if (!inputs.orgId || !inputs.projectId) return null;
+    const project = await loadProjectForOrg(inputs.orgId, inputs.projectId);
+    const telemetry: any = (project as any)?.telemetry || null;
+    return telemetry && typeof telemetry === 'object' ? telemetry : null;
+  } catch {
+    return null;
+  }
+}
+
+function intervalKwFromProjectTelemetry(telemetry: any): IntervalKwPoint[] | null {
+  try {
+    if (!telemetry || typeof telemetry !== 'object') return null;
+
+    const series = (telemetry as any).intervalKwSeries;
+    if (Array.isArray(series) && series.length) {
+      const out: IntervalKwPoint[] = series
+        .map((r: any) => ({
+          timestampIso: String(r?.timestampIso || r?.timestamp || '').trim(),
+          kw: Number(r?.kw),
+          temperatureF: Number((r as any)?.temperatureF ?? (r as any)?.tempF ?? (r as any)?.temperature),
+        }))
+        .filter((r: any) => r.timestampIso && Number.isFinite(r.kw));
+      if (out.length) return out;
+    }
+
+    const fp = String((telemetry as any).intervalFilePath || '').trim();
+    if (fp) {
+      const abs = path.isAbsolute(fp) ? fp : path.join(process.cwd(), fp);
+      if (existsSync(abs)) {
+        const data = readIntervalData(abs);
+        const out: IntervalKwPoint[] = data
+          .map((d) => ({
+            timestampIso: d.timestamp instanceof Date ? d.timestamp.toISOString() : new Date(d.timestamp as any).toISOString(),
+            kw: Number((d as any).demand),
+            temperatureF: Number((d as any).temperatureF ?? (d as any).avgTemperature ?? (d as any).temperature),
+          }))
+          .filter((r) => r.timestampIso && Number.isFinite(r.kw));
+        if (out.length) return out;
+      }
+    }
+
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 export type AnalyzeUtilityDeps = {
   intervalKwSeries?: IntervalKwPoint[] | null;
   /** Canonical interval points (kWh/kW/temperatureF) from PG&E exports or other sources. */
   intervalPointsV1?: Array<{ timestampIso: string; intervalMinutes: number; kWh?: number; kW?: number; temperatureF?: number }> | null;
+  /** Optional operator-provided deterministic economics overrides (capex/opex assumptions). */
+  storageEconomicsOverridesV1?: any | null;
   weatherProvider?: WeatherProvider;
   nowIso?: string;
   idFactory?: () => string;
@@ -226,9 +277,20 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
           .filter((p) => p.timestampIso && Number.isFinite((p as any).kw))
       : null;
 
+  const depsHasIntervalKwSeries = Array.isArray(deps?.intervalKwSeries) ? deps?.intervalKwSeries : null;
+  const depsHasEconomicsOverrides = deps && Object.prototype.hasOwnProperty.call(deps, 'storageEconomicsOverridesV1');
+  const needProjectTelemetry = Boolean((!intervalFromCanonical || !intervalFromCanonical.length) && !depsHasIntervalKwSeries) || !depsHasEconomicsOverrides;
+  const projectTelemetry = needProjectTelemetry ? await tryLoadProjectTelemetry(inputs) : null;
+
   const intervalKw: IntervalKwPoint[] | null =
     (intervalFromCanonical && intervalFromCanonical.length ? (intervalFromCanonical as any) : null) ??
-    ((Array.isArray(deps?.intervalKwSeries) ? deps?.intervalKwSeries : null) ?? (await tryLoadIntervalKwFromProject(inputs)));
+    (depsHasIntervalKwSeries ??
+      intervalKwFromProjectTelemetry(projectTelemetry) ??
+      (projectTelemetry ? null : await tryLoadIntervalKwFromProject(inputs)));
+
+  const storageEconomicsOverridesV1 = depsHasEconomicsOverrides
+    ? (deps as any).storageEconomicsOverridesV1 || null
+    : (projectTelemetry as any)?.storageEconomicsOverridesV1 || null;
 
   const missingGlobal = getUtilityMissingInputs(inputs);
 
@@ -688,6 +750,8 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         // Tariff price signals are not inferred here (no guessing); fixture tests can supply them directly to the engine.
         tariffPriceSignalsV1: null,
         determinantsV1,
+        storageEconomicsOverridesV1,
+        customerType: String((inputs as any)?.customerType || '').trim() || null,
         config: {
           rte: 0.9,
           maxCyclesPerDay: 1,

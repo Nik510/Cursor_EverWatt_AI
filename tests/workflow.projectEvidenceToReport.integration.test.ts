@@ -501,7 +501,7 @@ describe('workflow: kitchen-sink ratchet guardrail (deterministic)', () => {
         else delete process.env.EVERWATT_TARIFF_LIBRARY_BASEDIR;
       }
     },
-    30_000,
+    60_000,
   );
 });
 

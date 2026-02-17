@@ -1,0 +1,445 @@
+[
+  {
+    "fixtureFile": "tests\\fixtures\\storageEconomics\\v1\\cases\\01_strong_tou_with_demand.json",
+    "expected": {
+      "confidenceTier": "LOW",
+      "engineVersion": "storage_econ_v1.0",
+      "capexTotal": [
+        7166.25,
+        20160
+      ],
+      "annualGrossSavings": [
+        1686.883333,
+        1686.883333
+      ],
+      "annualNetSavings": [
+        1082.083333,
+        1615.220833
+      ],
+      "paybackYears": [
+        4.4367,
+        18.630728
+      ],
+      "npvUsd": [
+        -14045.987864,
+        4721.915855
+      ],
+      "normalized": {
+        "capexPerKwRange": [
+          1365,
+          3840
+        ],
+        "capexPerKwhRange": [
+          341.25,
+          960
+        ],
+        "annualNetSavingsPerKwRange": [
+          206.111111,
+          307.661111
+        ],
+        "annualNetSavingsPerKwhRange": [
+          51.527778,
+          76.915278
+        ],
+        "annualNetSavingsPerAnnualKwhRange": [
+          0.042352,
+          0.063218
+        ]
+      },
+      "warnings": [],
+      "missingInfo": [
+        "storage.econ.v1.capex_defaults_used",
+        "storage.econ.v1.discount_rate_default_used"
+      ]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\storageEconomics\\v1\\cases\\02_flat_load_net_non_positive.json",
+    "expected": {
+      "confidenceTier": "NONE",
+      "engineVersion": "storage_econ_v1.0",
+      "capexTotal": [
+        null,
+        null
+      ],
+      "annualGrossSavings": [
+        0,
+        0
+      ],
+      "annualNetSavings": [
+        null,
+        null
+      ],
+      "paybackYears": [
+        null,
+        null
+      ],
+      "npvUsd": [
+        null,
+        null
+      ],
+      "normalized": {
+        "capexPerKwRange": [
+          null,
+          null
+        ],
+        "capexPerKwhRange": [
+          null,
+          null
+        ],
+        "annualNetSavingsPerKwRange": [
+          null,
+          null
+        ],
+        "annualNetSavingsPerKwhRange": [
+          null,
+          null
+        ],
+        "annualNetSavingsPerAnnualKwhRange": [
+          null,
+          null
+        ]
+      },
+      "warnings": [
+        "storage.econ.v1.missing_demand_determinants",
+        "storage.econ.v1.missing_tariff_prices"
+      ],
+      "missingInfo": [
+        "storage.econ.v1.capex_defaults_used",
+        "storage.econ.v1.discount_rate_default_used"
+      ]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\storageEconomics\\v1\\cases\\03_missing_tariff_prices.json",
+    "expected": {
+      "confidenceTier": "LOW",
+      "engineVersion": "storage_econ_v1.0",
+      "capexTotal": [
+        7166.25,
+        20160
+      ],
+      "annualGrossSavings": [
+        0,
+        0
+      ],
+      "annualNetSavings": [
+        -604.8,
+        -71.6625
+      ],
+      "paybackYears": [
+        null,
+        null
+      ],
+      "npvUsd": [
+        -23577.25487,
+        -7693.692235
+      ],
+      "normalized": {
+        "capexPerKwRange": [
+          1365,
+          3840
+        ],
+        "capexPerKwhRange": [
+          341.25,
+          960
+        ],
+        "annualNetSavingsPerKwRange": [
+          -115.2,
+          -13.65
+        ],
+        "annualNetSavingsPerKwhRange": [
+          -28.8,
+          -3.4125
+        ],
+        "annualNetSavingsPerAnnualKwhRange": [
+          -0.023671,
+          -0.002805
+        ]
+      },
+      "warnings": [
+        "storage.econ.v1.missing_tariff_prices",
+        "storage.econ.v1.net_savings_non_positive"
+      ],
+      "missingInfo": [
+        "storage.econ.v1.capex_defaults_used",
+        "storage.econ.v1.discount_rate_default_used"
+      ]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\storageEconomics\\v1\\cases\\04_missing_dispatch_fallback_to_battery_opportunity.json",
+    "expected": {
+      "confidenceTier": "LOW",
+      "engineVersion": "storage_econ_v1.0",
+      "capexTotal": [
+        7166.25,
+        20160
+      ],
+      "annualGrossSavings": [
+        1686.883333,
+        1686.883333
+      ],
+      "annualNetSavings": [
+        1082.083333,
+        1615.220833
+      ],
+      "paybackYears": [
+        4.4367,
+        18.630728
+      ],
+      "npvUsd": [
+        -14045.987864,
+        4721.915855
+      ],
+      "normalized": {
+        "capexPerKwRange": [
+          1365,
+          3840
+        ],
+        "capexPerKwhRange": [
+          341.25,
+          960
+        ],
+        "annualNetSavingsPerKwRange": [
+          206.111111,
+          307.661111
+        ],
+        "annualNetSavingsPerKwhRange": [
+          51.527778,
+          76.915278
+        ],
+        "annualNetSavingsPerAnnualKwhRange": [
+          0.042352,
+          0.063218
+        ]
+      },
+      "warnings": [
+        "storage.econ.v1.missing_dispatch"
+      ],
+      "missingInfo": [
+        "storage.econ.v1.capex_defaults_used",
+        "storage.econ.v1.discount_rate_default_used"
+      ]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\storageEconomics\\v1\\cases\\05_tou_energy_only_determinants_missing.json",
+    "expected": {
+      "confidenceTier": "LOW",
+      "engineVersion": "storage_econ_v1.0",
+      "capexTotal": [
+        7166.25,
+        20160
+      ],
+      "annualGrossSavings": [
+        489.883333,
+        489.883333
+      ],
+      "annualNetSavings": [
+        -114.916667,
+        418.220833
+      ],
+      "paybackYears": [
+        null,
+        null
+      ],
+      "npvUsd": [
+        -20809.304795,
+        -4088.108284
+      ],
+      "normalized": {
+        "capexPerKwRange": [
+          1365,
+          3840
+        ],
+        "capexPerKwhRange": [
+          341.25,
+          960
+        ],
+        "annualNetSavingsPerKwRange": [
+          -21.888889,
+          79.661111
+        ],
+        "annualNetSavingsPerKwhRange": [
+          -5.472222,
+          19.915278
+        ],
+        "annualNetSavingsPerAnnualKwhRange": [
+          -0.004498,
+          0.016369
+        ]
+      },
+      "warnings": [
+        "storage.econ.v1.missing_demand_determinants",
+        "storage.econ.v1.net_savings_non_positive"
+      ],
+      "missingInfo": [
+        "storage.econ.v1.capex_defaults_used",
+        "storage.econ.v1.discount_rate_default_used"
+      ]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\storageEconomics\\v1\\cases\\06_weekend_heavy_tou_small_savings.json",
+    "expected": {
+      "confidenceTier": "LOW",
+      "engineVersion": "storage_econ_v1.0",
+      "capexTotal": [
+        2388.75,
+        6720
+      ],
+      "annualGrossSavings": [
+        126.793333,
+        126.793333
+      ],
+      "annualNetSavings": [
+        -74.806667,
+        102.905833
+      ],
+      "paybackYears": [
+        null,
+        null
+      ],
+      "npvUsd": [
+        -7142.67435,
+        -1631.354116
+      ],
+      "normalized": {
+        "capexPerKwRange": [
+          1365,
+          3840
+        ],
+        "capexPerKwhRange": [
+          341.25,
+          960
+        ],
+        "annualNetSavingsPerKwRange": [
+          -42.746667,
+          58.803333
+        ],
+        "annualNetSavingsPerKwhRange": [
+          -10.686667,
+          14.700833
+        ],
+        "annualNetSavingsPerAnnualKwhRange": [
+          -0.010247,
+          0.014097
+        ]
+      },
+      "warnings": [
+        "storage.econ.v1.missing_demand_determinants",
+        "storage.econ.v1.net_savings_non_positive"
+      ],
+      "missingInfo": [
+        "storage.econ.v1.capex_defaults_used",
+        "storage.econ.v1.discount_rate_default_used"
+      ]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\storageEconomics\\v1\\cases\\07_capex_override_confidence_higher.json",
+    "expected": {
+      "confidenceTier": "MEDIUM",
+      "engineVersion": "storage_econ_v1.0",
+      "capexTotal": [
+        4795.875,
+        9937.2
+      ],
+      "annualGrossSavings": [
+        1686.883333,
+        1686.883333
+      ],
+      "annualNetSavings": [
+        1488.139333,
+        1638.924583
+      ],
+      "paybackYears": [
+        2.926233,
+        6.677601
+      ],
+      "npvUsd": [
+        1381.706818,
+        10131.309154
+      ],
+      "normalized": {
+        "capexPerKwRange": [
+          913.5,
+          1892.8
+        ],
+        "capexPerKwhRange": [
+          228.375,
+          473.2
+        ],
+        "annualNetSavingsPerKwRange": [
+          283.455111,
+          312.176111
+        ],
+        "annualNetSavingsPerKwhRange": [
+          70.863778,
+          78.044028
+        ],
+        "annualNetSavingsPerAnnualKwhRange": [
+          0.058244,
+          0.064146
+        ]
+      },
+      "warnings": [],
+      "missingInfo": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\storageEconomics\\v1\\cases\\08_normalized_metrics_invariants.json",
+    "expected": {
+      "confidenceTier": "LOW",
+      "engineVersion": "storage_econ_v1.0",
+      "capexTotal": [
+        7166.25,
+        20160
+      ],
+      "annualGrossSavings": [
+        1387.633333,
+        1387.633333
+      ],
+      "annualNetSavings": [
+        782.833333,
+        1315.970833
+      ],
+      "paybackYears": [
+        5.445599,
+        25.752608
+      ],
+      "npvUsd": [
+        -15736.817097,
+        2519.40982
+      ],
+      "normalized": {
+        "capexPerKwRange": [
+          1365,
+          3840
+        ],
+        "capexPerKwhRange": [
+          341.25,
+          960
+        ],
+        "annualNetSavingsPerKwRange": [
+          149.111111,
+          250.661111
+        ],
+        "annualNetSavingsPerKwhRange": [
+          37.277778,
+          62.665278
+        ],
+        "annualNetSavingsPerAnnualKwhRange": [
+          0.030639,
+          0.051506
+        ]
+      },
+      "warnings": [],
+      "missingInfo": [
+        "storage.econ.v1.capex_defaults_used",
+        "storage.econ.v1.discount_rate_default_used"
+      ]
+    }
+  }
+]

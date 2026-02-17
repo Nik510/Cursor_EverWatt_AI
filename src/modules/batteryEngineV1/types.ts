@@ -1,4 +1,6 @@
 import type { IntervalIntelligenceV1 } from '../utilityIntelligence/intervalIntelligenceV1/types';
+import type { StorageEconomicsCapexOverridesV1, StorageEconomicsV1 } from './storageEconomicsTypes';
+import type { IncentivesStubV1 } from './incentivesStubV1';
 
 export type ConfidenceTierV1 = 'HIGH' | 'MEDIUM' | 'LOW' | 'NONE';
 
@@ -91,6 +93,8 @@ export type StorageOpportunityPackV1 = {
   batteryOpportunityV1: BatteryOpportunityV1;
   dispatchSimulationV1: DispatchSimulationV1;
   drReadinessV1: DrReadinessV1;
+  storageEconomicsV1: StorageEconomicsV1;
+  incentivesStubV1: IncentivesStubV1;
 };
 
 export type DemandWindowStrategyIdV1 = 'WINDOW_AROUND_DAILY_PEAK_V1' | 'TOU_ONPEAK_WINDOW_V1';
@@ -134,6 +138,8 @@ export type EvaluateStorageOpportunityPackV1Args = {
   intervalPointsV1?: IntervalPointV1[] | null;
   tariffPriceSignalsV1?: TariffPriceSignalsV1 | null;
   determinantsV1?: DeterminantsSignalsV1 | null;
+  storageEconomicsOverridesV1?: StorageEconomicsCapexOverridesV1 | null;
+  customerType?: string | null;
   config?: Partial<BatteryEngineConfigV1>;
 };
 

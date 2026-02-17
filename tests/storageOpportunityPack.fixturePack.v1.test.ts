@@ -64,6 +64,23 @@ describe('Storage Opportunity Pack v1 fixture pack contract (deterministic)', ()
             missingInfo: uniqSorted(out.batteryOpportunityV1.missingInfo),
             savingsTotal: out.batteryOpportunityV1.savingsEstimateAnnual.total,
           },
+          storageEconomicsV1: {
+            confidenceTier: out.storageEconomicsV1.confidenceTier,
+            engineVersion: out.storageEconomicsV1.engineVersion,
+            capexTotal: out.storageEconomicsV1.capexEstimate.totalCapexUsdRange,
+            annualNetSavings: out.storageEconomicsV1.cashflow.annualNetSavingsUsdRange,
+            paybackYears: out.storageEconomicsV1.payback.simplePaybackYearsRange,
+            npvUsd: out.storageEconomicsV1.npvLite.npvUsdRange,
+            warnings: uniqSorted(out.storageEconomicsV1.warnings),
+            missingInfo: uniqSorted(out.storageEconomicsV1.missingInfo),
+          },
+          incentivesStubV1: {
+            confidenceTier: out.incentivesStubV1.confidenceTier,
+            engineVersion: out.incentivesStubV1.engineVersion,
+            programsConsideredCount: out.incentivesStubV1.programsConsidered.length,
+            missingInfo: uniqSorted(out.incentivesStubV1.missingInfo),
+            warnings: uniqSorted(out.incentivesStubV1.warnings),
+          },
           dispatchSimulationV1: {
             strategyOrder: out.dispatchSimulationV1.strategyResults.map((r) => r.strategyId),
             strategyMethods: out.dispatchSimulationV1.strategyResults.map((r) => ({

@@ -29,6 +29,7 @@ export type BuildInternalEngineeringReportJsonV1Args = {
   telemetry?: {
     intervalElectricPointsV1?: Array<{ timestampIso: string; intervalMinutes: number; kWh?: number; kW?: number; temperatureF?: number }> | null;
     intervalElectricMetaV1?: any | null;
+    storageEconomicsOverridesV1?: any | null;
   };
 };
 
@@ -46,6 +47,7 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
 
   const intervalPts = Array.isArray(args.telemetry?.intervalElectricPointsV1) ? args.telemetry?.intervalElectricPointsV1 : [];
   const intervalMeta = args.telemetry?.intervalElectricMetaV1 ?? null;
+  const storageEconomicsOverridesV1 = args.telemetry?.storageEconomicsOverridesV1 ?? null;
   const intervalWarnCount = Array.isArray((intervalMeta as any)?.warnings) ? (intervalMeta as any).warnings.length : 0;
 
   const intervalInsightsV1 = (() => {
@@ -114,6 +116,7 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
         warningCount: intervalWarnCount,
       },
       intervalElectricMetaV1: intervalMeta,
+      ...(storageEconomicsOverridesV1 ? { storageEconomicsOverridesV1 } : {}),
     },
     intervalInsightsV1,
     weatherRegressionV1,
