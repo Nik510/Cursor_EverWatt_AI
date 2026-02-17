@@ -7,6 +7,7 @@ import type { ApplicabilityResult } from '../tariffApplicability/types';
 import type { LoadAttributionResultV1 } from '../loadAttribution/types';
 import type { BillSimV2 } from '../billingEngineV2/types';
 import type { BillIntelligenceV1 } from './billIntelligence/typesV1';
+import type { IntervalIntelligenceV1 } from './intervalIntelligenceV1/types';
 
 export type UtilityServiceType = 'electric' | 'gas' | 'both';
 
@@ -213,6 +214,8 @@ export type UtilityInsights = {
   requiredInputsMissing: string[]; // global
   /** Deterministic bill intelligence extracted from billPdfText (v1). */
   billIntelligenceV1?: BillIntelligenceV1;
+  /** Deterministic interval intelligence computed directly from interval series (v1). */
+  intervalIntelligenceV1?: IntervalIntelligenceV1;
 };
 
 export type UtilityRecommendation = {
@@ -226,4 +229,3 @@ export type UtilityRecommendation = {
 };
 
 export * from './billIntelligence/typesV1';
-

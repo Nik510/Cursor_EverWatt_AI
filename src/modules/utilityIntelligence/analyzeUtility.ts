@@ -14,6 +14,7 @@ import { extractBillPdfTouUsageV1 } from './billPdf/extractBillPdfTouUsageV1';
 import { analyzeBillIntelligenceV1 } from './billPdf/analyzeBillIntelligenceV1';
 import { analyzeBillIntelligenceIntervalInsightsV1 } from './billIntelligence/intervalInsightsV1';
 import { analyzeBillIntelligenceWeatherCorrelationV1 } from './billIntelligence/weatherCorrelationV1';
+import { analyzeIntervalIntelligenceV1 } from './intervalIntelligenceV1/analyzeIntervalIntelligenceV1';
 import type { MissingInfoItemV0 } from './missingInfo/types';
 import { runWeatherRegressionV1, type IntervalKwPointWithTemp } from './weather/regression';
 import type { WeatherProvider } from './weather/provider';
@@ -38,7 +39,7 @@ import { programMatchesToRecommendations } from '../programIntelligence/toRecomm
 
 import { loadProjectForOrg } from '../project/projectRepository';
 import { readIntervalData } from '../../utils/excel-reader';
-import { matchBillTariffToLibraryV1 } from '../tariffLibrary/matching/matchBillTariffToLibraryV1';
+import { BillTariffLibraryMatchWarningCodesV1, matchBillTariffToLibraryV1 } from '../tariffLibrary/matching/matchBillTariffToLibraryV1';
 import { loadLatestGasSnapshot } from '../tariffLibraryGas/storage';
 
 type IntervalKwPoint = IntervalKwPoint1 & IntervalKwPoint2;
@@ -390,6 +391,21 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     mergeBillIntelWarnings((billIntelligenceV1 as any).warnings, weatherRes.warnings);
   }
 
+  // Interval Intelligence v1 – Product-grade interval-derived outputs (warnings-first, deterministic).
+  const intervalIntelligenceV1 = (() => {
+    try {
+      const pts = Array.isArray(deps?.intervalPointsV1) ? (deps?.intervalPointsV1 as any[]) : null;
+      if (!pts || !pts.length) return undefined;
+      return analyzeIntervalIntelligenceV1({
+        points: pts as any,
+        timezoneHint: tz,
+        topPeakEventsCount: 7,
+      }).intervalIntelligenceV1;
+    } catch {
+      return undefined;
+    }
+  })();
+
   const billTariffCommodity: 'electric' | 'gas' =
     String(inputs.serviceType || '').toLowerCase() === 'gas' ? 'gas' : 'electric';
 
@@ -598,6 +614,10 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
             kWMax: c.demand.kWMax,
             ...(c.demand.kWMaxByTouPeriod ? { kWMaxByTouPeriod: c.demand.kWMaxByTouPeriod as any } : {}),
             billingDemandKw: c.demand.billingDemandKw ?? null,
+            ratchetDemandKw: (c.demand as any).ratchetDemandKw ?? null,
+            ratchetHistoryMaxKw: (c.demand as any).ratchetHistoryMaxKw ?? null,
+            ratchetFloorPct: (c.demand as any).ratchetFloorPct ?? null,
+            billingDemandMethod: String((c.demand as any).billingDemandMethod || '') || null,
             coveragePct: c.demand.coveragePct ?? null,
             intervalMinutes: c.demand.intervalMinutes ?? null,
           }));
@@ -711,6 +731,42 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
           details: { reasonCode: code, source: 'bill_pdf' },
         });
       }
+    }
+
+    // Bill->tariff library match ambiguity (operator action required)
+    {
+      const warnings = Array.isArray((billPdfTariffLibraryMatchRaw as any)?.warnings) ? ((billPdfTariffLibraryMatchRaw as any).warnings as any[]) : [];
+      const isAmbiguous = warnings.some((w) => String(w || '') === BillTariffLibraryMatchWarningCodesV1.BILL_TARIFF_AMBIGUOUS);
+      if (isAmbiguous) {
+        const wanted = String((billPdfTariffTruth as any)?.rateScheduleText || '').trim() || 'Unknown';
+        const cands = Array.isArray((billPdfTariffLibraryMatchRaw as any)?.candidates) ? (((billPdfTariffLibraryMatchRaw as any).candidates as any[]) || []) : [];
+        const top = cands
+          .map((c) => String((c as any)?.rateCode || '').trim())
+          .filter(Boolean)
+          .slice(0, 3);
+        const candidatesText = top.length ? ` Candidates: ${top.join(', ')}.` : '';
+        items.push({
+          id: `tariff.billPdfTariffLibraryMatch.${BillTariffLibraryMatchWarningCodesV1.BILL_TARIFF_AMBIGUOUS}`,
+          category: 'tariff',
+          severity: 'warning',
+          description: `Bill rate label "${wanted}" matches multiple tariff candidates (ambiguous). Select the correct tariff in the tariff browser or apply an override.${candidatesText}`,
+          details: {
+            reasonCode: BillTariffLibraryMatchWarningCodesV1.BILL_TARIFF_AMBIGUOUS,
+            wantedRateScheduleText: wanted,
+            candidates: top,
+          },
+        });
+      }
+    }
+
+    const hasIntervals = Boolean((deps?.intervalPointsV1 && deps.intervalPointsV1.length) || (intervalKw && intervalKw.length));
+    if (!hasIntervals) {
+      items.push({
+        id: 'interval.intervalElectricV1.missing',
+        category: 'interval',
+        severity: 'info',
+        description: 'Interval electricity data is missing; interval-derived insights (and some deterministic audit signals) will be unavailable.',
+      });
     }
 
     if (!currentRateCode) {
@@ -1009,6 +1065,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     ...(determinantsPackSummary ? { determinantsPackSummary } : {}),
     ...(billSimV2 ? { billSimV2 } : {}),
     ...(billIntelligenceV1 ? { billIntelligenceV1 } : {}),
+    ...(intervalIntelligenceV1 ? { intervalIntelligenceV1 } : {}),
     ...(behaviorInsights ? { behaviorInsights } : {}),
     ...(behaviorInsightsV2 ? { behaviorInsightsV2 } : {}),
     ...(behaviorInsightsV3 ? { behaviorInsightsV3 } : {}),
