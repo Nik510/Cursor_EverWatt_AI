@@ -15,6 +15,7 @@ import { analyzeBillIntelligenceV1 } from './billPdf/analyzeBillIntelligenceV1';
 import { analyzeBillIntelligenceIntervalInsightsV1 } from './billIntelligence/intervalInsightsV1';
 import { analyzeBillIntelligenceWeatherCorrelationV1 } from './billIntelligence/weatherCorrelationV1';
 import { analyzeIntervalIntelligenceV1 } from './intervalIntelligenceV1/analyzeIntervalIntelligenceV1';
+import { buildDailyUsageAndWeatherSeriesFromIntervalPointsV1, regressUsageVsWeatherV1 } from './weatherRegressionV1/regressUsageVsWeatherV1';
 import type { MissingInfoItemV0 } from './missingInfo/types';
 import { runWeatherRegressionV1, type IntervalKwPointWithTemp } from './weather/regression';
 import type { WeatherProvider } from './weather/provider';
@@ -401,6 +402,26 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         timezoneHint: tz,
         topPeakEventsCount: 7,
       }).intervalIntelligenceV1;
+    } catch {
+      return undefined;
+    }
+  })();
+
+  const weatherRegressionV1 = (() => {
+    try {
+      const pts = Array.isArray(deps?.intervalPointsV1) ? (deps?.intervalPointsV1 as any[]) : null;
+      if (!pts || !pts.length) return undefined;
+      const anyTemp = pts.some((p) => Number.isFinite(Number((p as any)?.temperatureF)));
+      if (!anyTemp) return undefined;
+      const daily = buildDailyUsageAndWeatherSeriesFromIntervalPointsV1({ points: pts as any, timezoneHint: tz });
+      return regressUsageVsWeatherV1({
+        usageByDay: daily.usageByDay,
+        weatherByDay: daily.weatherByDay,
+        hddBaseF: 65,
+        cddBaseF: 65,
+        minOverlapDays: 10,
+        timezoneHint: tz,
+      }).weatherRegressionV1;
     } catch {
       return undefined;
     }
@@ -1066,6 +1087,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     ...(billSimV2 ? { billSimV2 } : {}),
     ...(billIntelligenceV1 ? { billIntelligenceV1 } : {}),
     ...(intervalIntelligenceV1 ? { intervalIntelligenceV1 } : {}),
+    ...(weatherRegressionV1 ? { weatherRegressionV1 } : {}),
     ...(behaviorInsights ? { behaviorInsights } : {}),
     ...(behaviorInsightsV2 ? { behaviorInsightsV2 } : {}),
     ...(behaviorInsightsV3 ? { behaviorInsightsV3 } : {}),

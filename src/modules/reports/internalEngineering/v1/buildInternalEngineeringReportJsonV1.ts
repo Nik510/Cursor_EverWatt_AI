@@ -1,6 +1,10 @@
 import type { MissingInfoItemV0 } from '../../../utilityIntelligence/missingInfo/types';
 import { engineVersions, intervalIntakeVersion } from '../../../engineVersions';
 import { analyzeIntervalIntelligenceV1 } from '../../../utilityIntelligence/intervalIntelligenceV1/analyzeIntervalIntelligenceV1';
+import {
+  buildDailyUsageAndWeatherSeriesFromIntervalPointsV1,
+  regressUsageVsWeatherV1,
+} from '../../../utilityIntelligence/weatherRegressionV1/regressUsageVsWeatherV1';
 
 function sortMissingInfo(a: any, b: any): number {
   const sevRank = (s: any): number => {
@@ -58,6 +62,26 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
     }
   })();
 
+  const weatherRegressionV1 = (() => {
+    try {
+      if (!intervalPts.length) return null;
+      const anyTemp = intervalPts.some((p: any) => Number.isFinite(Number(p?.temperatureF)));
+      if (!anyTemp) return null;
+      const tz = String((intervalMeta as any)?.timezoneUsed || 'America/Los_Angeles');
+      const daily = buildDailyUsageAndWeatherSeriesFromIntervalPointsV1({ points: intervalPts as any, meta: intervalMeta as any, timezoneHint: tz });
+      return regressUsageVsWeatherV1({
+        usageByDay: daily.usageByDay,
+        weatherByDay: daily.weatherByDay,
+        hddBaseF: 65,
+        cddBaseF: 65,
+        minOverlapDays: 10,
+        timezoneHint: tz,
+      }).weatherRegressionV1;
+    } catch {
+      return null;
+    }
+  })();
+
   const missingFromInterval: MissingInfoItemV0[] = Array.isArray((intervalMeta as any)?.missingInfo) ? ((intervalMeta as any).missingInfo as any[]) : [];
   const missingFromInsights: MissingInfoItemV0[] = Array.isArray(args.analysisResults?.workflow?.utility?.insights?.missingInfo)
     ? (args.analysisResults.workflow.utility.insights.missingInfo as any[])
@@ -90,6 +114,7 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
       intervalElectricMetaV1: intervalMeta,
     },
     intervalInsightsV1,
+    weatherRegressionV1,
     workflow: args.analysisResults?.workflow,
     summary: args.analysisResults?.summary,
     missingInfo,

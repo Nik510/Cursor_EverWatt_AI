@@ -1,0 +1,11 @@
+{
+  "usageByDay": [
+    { "dateIso": "2026-09-01", "kwh": 100 },
+    { "dateIso": "2026-09-02", "kwh": 110 },
+    { "dateIso": "2026-09-03", "kwh": 120 },
+    { "dateIso": "2026-09-04", "kwh": 130 },
+    { "dateIso": "2026-09-05", "kwh": 140 }
+  ],
+  "weatherByDay": []
+}
+

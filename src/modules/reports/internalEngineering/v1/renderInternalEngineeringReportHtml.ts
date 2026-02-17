@@ -124,6 +124,7 @@ export function renderInternalEngineeringReportHtmlV1(args: {
   const intervalSummary = telemetry?.intervalElectricV1 || null;
   const workflow = report?.workflow || {};
   const intervalInsightsV1 = (report as any)?.intervalInsightsV1 || null;
+  const weatherRegressionV1 = (report as any)?.weatherRegressionV1 || null;
   const engineVersions = (report as any)?.engineVersions || null;
   const engineVersionsLine = (() => {
     const ev = engineVersions && typeof engineVersions === 'object' ? engineVersions : {};
@@ -181,6 +182,31 @@ export function renderInternalEngineeringReportHtmlV1(args: {
       { k: 'weekdayAvgKw', v: fmtMaybe(safeNumber(ii.weekdayAvgKw), 3) },
       { k: 'weekendAvgKw', v: fmtMaybe(safeNumber(ii.weekendAvgKw), 3) },
       { k: 'weekdayWeekendDeltaPct', v: fmtMaybe(safeNumber(ii.weekdayWeekendDeltaPct), 3) },
+      { k: 'warnings', v: warn },
+    ];
+  })();
+
+  // ---- Weather Regression (deterministic; snapshot-only) ----
+  const weatherRegressionRows: Array<{ k: string; v: string }> = (() => {
+    const wr: any = weatherRegressionV1 && typeof weatherRegressionV1 === 'object' ? weatherRegressionV1 : null;
+    if (!wr) return [{ k: 'present', v: 'false' }];
+    const warnList = Array.isArray(wr.warnings) ? (wr.warnings as any[]).map((x) => String(x || '').trim()).filter(Boolean) : [];
+    const warn = warnList.length ? warnList.slice(0, 6).join(', ') : '(none)';
+    return [
+      { k: 'present', v: 'true' },
+      { k: 'modelType', v: String(wr.modelType || '—') },
+      { k: 'coverageDays', v: fmtMaybe(safeNumber(wr.coverageDays), 0) },
+      { k: 'overlapDays', v: fmtMaybe(safeNumber(wr.overlapDays), 0) },
+      { k: 'hddBaseF', v: fmtMaybe(safeNumber(wr.hddBaseF), 0) },
+      { k: 'cddBaseF', v: fmtMaybe(safeNumber(wr.cddBaseF), 0) },
+      { k: 'intercept', v: fmtMaybe(safeNumber(wr.intercept), 3) },
+      { k: 'slopeHdd', v: fmtMaybe(safeNumber(wr.slopeHdd), 3) },
+      { k: 'slopeCdd', v: fmtMaybe(safeNumber(wr.slopeCdd), 3) },
+      { k: 'r2', v: fmtMaybe(safeNumber(wr.r2), 4) },
+      { k: 'confidenceTier', v: String(wr.confidenceTier || '—') },
+      { k: 'annualizeMethod', v: String(wr.annualization?.method || '—') },
+      { k: 'annualKwhEstimate', v: fmtMaybe(safeNumber(wr.annualization?.annualKwhEstimate), 0) },
+      { k: 'annualConfidenceTier', v: String(wr.annualization?.confidenceTier || '—') },
       { k: 'warnings', v: warn },
     ];
   })();
@@ -316,6 +342,14 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     `<div class="cardBody">`,
     `${renderKvTable(intervalInsightsRows)}`,
     `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.intervalInsightsV1 (no live recompute).</div>`,
+    `</div>`,
+    `</div>`,
+
+    `<div class="card">`,
+    `<div class="cardTitle">Weather Regression</div>`,
+    `<div class="cardBody">`,
+    `${renderKvTable(weatherRegressionRows)}`,
+    `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.weatherRegressionV1 (no live recompute).</div>`,
     `</div>`,
     `</div>`,
 

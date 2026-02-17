@@ -8,6 +8,7 @@ import type { LoadAttributionResultV1 } from '../loadAttribution/types';
 import type { BillSimV2 } from '../billingEngineV2/types';
 import type { BillIntelligenceV1 } from './billIntelligence/typesV1';
 import type { IntervalIntelligenceV1 } from './intervalIntelligenceV1/types';
+import type { WeatherRegressionV1 } from './weatherRegressionV1/types';
 
 export type UtilityServiceType = 'electric' | 'gas' | 'both';
 
@@ -216,6 +217,8 @@ export type UtilityInsights = {
   billIntelligenceV1?: BillIntelligenceV1;
   /** Deterministic interval intelligence computed directly from interval series (v1). */
   intervalIntelligenceV1?: IntervalIntelligenceV1;
+  /** Deterministic weather regression + annualization computed from interval + temperature (v1). */
+  weatherRegressionV1?: WeatherRegressionV1;
 };
 
 export type UtilityRecommendation = {

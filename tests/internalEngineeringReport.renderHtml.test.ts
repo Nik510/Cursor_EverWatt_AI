@@ -88,6 +88,25 @@ describe('renderInternalEngineeringReportHtmlV1', () => {
             topPeakEventsMethod: 'top_kw_points_v1',
             warnings: ['interval.points.large_gaps'],
           },
+          weatherRegressionV1: {
+            schemaVersion: 'weatherRegressionV1',
+            modelType: 'HDD_CDD_LINEAR_V1',
+            coverageDays: 90,
+            overlapDays: 90,
+            hddBaseF: 65,
+            cddBaseF: 65,
+            intercept: 100,
+            slopeHdd: 0,
+            slopeCdd: 5,
+            r2: 0.8123,
+            confidenceTier: 'MEDIUM',
+            annualization: {
+              annualKwhEstimate: 36500,
+              method: 'annualize_method_v1',
+              confidenceTier: 'LOW',
+            },
+            warnings: ['weather.v1.outliers_clipped'],
+          },
           workflow: {
             utility: {
               inputs: { currentRate: { utility: 'PGE', rateCode: 'E-19', capturedAt: '2026-01-15T00:00:00.000Z' } },
@@ -125,6 +144,12 @@ describe('renderInternalEngineeringReportHtmlV1', () => {
     expect(html).toContain('p10_night_v1');
     expect(html).toContain('peakTimestampIso');
     expect(html).toContain('interval.points.large_gaps');
+
+    // Weather Regression card (snapshot-only)
+    expect(html).toContain('Weather Regression');
+    expect(html).toContain('HDD_CDD_LINEAR_V1');
+    expect(html).toContain('annualKwhEstimate');
+    expect(html).toContain('weather.v1.outliers_clipped');
 
     // Deep links
     expect(html).toContain(`/project-builder/${projectId}/intake/intervals`);

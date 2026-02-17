@@ -1,0 +1,20 @@
+{
+  "usageByDay": [
+    { "dateIso": "2026-05-01", "kwh": 120 },
+    { "dateIso": "2026-05-02", "kwh": 120 },
+    { "dateIso": "2026-05-03", "kwh": 120 },
+    { "dateIso": "2026-05-04", "kwh": 120 },
+    { "dateIso": "2026-05-05", "kwh": 120 },
+    { "dateIso": "2026-05-06", "kwh": 120 },
+    { "dateIso": "2026-05-07", "kwh": 120 },
+    { "dateIso": "2026-05-08", "kwh": 120 }
+  ],
+  "weatherByDay": [
+    { "dateIso": "2026-05-01", "temperatureF": 70 },
+    { "dateIso": "2026-05-03", "temperatureF": 72 },
+    { "dateIso": "2026-05-05", "temperatureF": 74 },
+    { "dateIso": "2026-05-06", "temperatureF": 75 },
+    { "dateIso": "2026-05-08", "temperatureF": 77 }
+  ]
+}
+
