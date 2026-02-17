@@ -2,51 +2,58 @@
   {
     "fixtureFile": "tests\\fixtures\\storageEconomics\\v1\\cases\\01_strong_tou_with_demand.json",
     "expected": {
-      "confidenceTier": "LOW",
+      "confidenceTier": "MEDIUM",
       "engineVersion": "storage_econ_v1.0",
       "capexTotal": [
-        7166.25,
-        20160
+        87020.31,
+        87020.31
       ],
       "annualGrossSavings": [
-        1686.883333,
-        1686.883333
+        1775.67,
+        1775.67
       ],
       "annualNetSavings": [
-        1082.083333,
-        1615.220833
+        1723.17,
+        1723.17
       ],
       "paybackYears": [
-        4.4367,
-        18.630728
+        50.500131,
+        50.500131
       ],
       "npvUsd": [
-        -14045.987864,
-        4721.915855
+        -75961.59,
+        -75961.59
       ],
       "normalized": {
         "capexPerKwRange": [
-          1365,
-          3840
+          16575.297143,
+          16575.297143
         ],
         "capexPerKwhRange": [
-          341.25,
-          960
+          4143.824286,
+          4143.824286
         ],
         "annualNetSavingsPerKwRange": [
-          206.111111,
-          307.661111
+          328.222857,
+          328.222857
         ],
         "annualNetSavingsPerKwhRange": [
-          51.527778,
-          76.915278
+          82.055714,
+          82.055714
         ],
         "annualNetSavingsPerAnnualKwhRange": [
-          0.042352,
-          0.063218
+          0.067443,
+          0.067443
         ]
       },
-      "warnings": [],
+      "warnings": [
+        "battery.econ.capex_defaults_used",
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_capex_inputs",
+        "battery.econ.ratchet.unavailable",
+        "storage.econ.deprecated_use_batteryEconomicsV1"
+      ],
       "missingInfo": [
         "storage.econ.v1.capex_defaults_used",
         "storage.econ.v1.discount_rate_default_used"
@@ -59,24 +66,24 @@
       "confidenceTier": "NONE",
       "engineVersion": "storage_econ_v1.0",
       "capexTotal": [
-        null,
-        null
+        0,
+        0
       ],
       "annualGrossSavings": [
         0,
         0
       ],
       "annualNetSavings": [
-        null,
-        null
+        0,
+        0
       ],
       "paybackYears": [
-        null,
-        null
+        0,
+        0
       ],
       "npvUsd": [
-        null,
-        null
+        0,
+        0
       ],
       "normalized": {
         "capexPerKwRange": [
@@ -96,13 +103,22 @@
           null
         ],
         "annualNetSavingsPerAnnualKwhRange": [
-          null,
-          null
+          0,
+          0
         ]
       },
       "warnings": [
+        "battery.econ.capex_defaults_used",
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_capex_inputs",
+        "battery.econ.missing_tariff_inputs",
+        "battery.econ.net_savings_non_positive",
+        "battery.econ.savings_unavailable_no_tariffengine",
+        "storage.econ.deprecated_use_batteryEconomicsV1",
         "storage.econ.v1.missing_demand_determinants",
-        "storage.econ.v1.missing_tariff_prices"
+        "storage.econ.v1.missing_tariff_prices",
+        "storage.econ.v1.net_savings_non_positive"
       ],
       "missingInfo": [
         "storage.econ.v1.capex_defaults_used",
@@ -116,48 +132,57 @@
       "confidenceTier": "LOW",
       "engineVersion": "storage_econ_v1.0",
       "capexTotal": [
-        7166.25,
-        20160
+        87020.31,
+        87020.31
       ],
       "annualGrossSavings": [
         0,
         0
       ],
       "annualNetSavings": [
-        -604.8,
-        -71.6625
+        -52.5,
+        -52.5
       ],
       "paybackYears": [
-        null,
-        null
+        0,
+        0
       ],
       "npvUsd": [
-        -23577.25487,
-        -7693.692235
+        -87357.24,
+        -87357.24
       ],
       "normalized": {
         "capexPerKwRange": [
-          1365,
-          3840
+          16575.297143,
+          16575.297143
         ],
         "capexPerKwhRange": [
-          341.25,
-          960
+          4143.824286,
+          4143.824286
         ],
         "annualNetSavingsPerKwRange": [
-          -115.2,
-          -13.65
+          -10,
+          -10
         ],
         "annualNetSavingsPerKwhRange": [
-          -28.8,
-          -3.4125
+          -2.5,
+          -2.5
         ],
         "annualNetSavingsPerAnnualKwhRange": [
-          -0.023671,
-          -0.002805
+          -0.002055,
+          -0.002055
         ]
       },
       "warnings": [
+        "battery.econ.capex_defaults_used",
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_capex_inputs",
+        "battery.econ.missing_tariff_inputs",
+        "battery.econ.net_savings_non_positive",
+        "battery.econ.ratchet.unavailable",
+        "battery.econ.savings_unavailable_no_tariffengine",
+        "storage.econ.deprecated_use_batteryEconomicsV1",
         "storage.econ.v1.missing_tariff_prices",
         "storage.econ.v1.net_savings_non_positive"
       ],
@@ -170,52 +195,61 @@
   {
     "fixtureFile": "tests\\fixtures\\storageEconomics\\v1\\cases\\04_missing_dispatch_fallback_to_battery_opportunity.json",
     "expected": {
-      "confidenceTier": "LOW",
+      "confidenceTier": "MEDIUM",
       "engineVersion": "storage_econ_v1.0",
       "capexTotal": [
-        7166.25,
-        20160
+        87020.31,
+        87020.31
       ],
       "annualGrossSavings": [
-        1686.883333,
-        1686.883333
+        0,
+        0
       ],
       "annualNetSavings": [
-        1082.083333,
-        1615.220833
+        -52.5,
+        -52.5
       ],
       "paybackYears": [
-        4.4367,
-        18.630728
+        0,
+        0
       ],
       "npvUsd": [
-        -14045.987864,
-        4721.915855
+        -87357.24,
+        -87357.24
       ],
       "normalized": {
         "capexPerKwRange": [
-          1365,
-          3840
+          16575.297143,
+          16575.297143
         ],
         "capexPerKwhRange": [
-          341.25,
-          960
+          4143.824286,
+          4143.824286
         ],
         "annualNetSavingsPerKwRange": [
-          206.111111,
-          307.661111
+          -10,
+          -10
         ],
         "annualNetSavingsPerKwhRange": [
-          51.527778,
-          76.915278
+          -2.5,
+          -2.5
         ],
         "annualNetSavingsPerAnnualKwhRange": [
-          0.042352,
-          0.063218
+          -0.002055,
+          -0.002055
         ]
       },
       "warnings": [
-        "storage.econ.v1.missing_dispatch"
+        "battery.econ.capex_defaults_used",
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_capex_inputs",
+        "battery.econ.net_savings_non_positive",
+        "battery.econ.ratchet.unavailable",
+        "battery.econ.savings_unavailable_no_dispatch",
+        "storage.econ.deprecated_use_batteryEconomicsV1",
+        "storage.econ.v1.missing_dispatch",
+        "storage.econ.v1.net_savings_non_positive"
       ],
       "missingInfo": [
         "storage.econ.v1.capex_defaults_used",
@@ -226,53 +260,58 @@
   {
     "fixtureFile": "tests\\fixtures\\storageEconomics\\v1\\cases\\05_tou_energy_only_determinants_missing.json",
     "expected": {
-      "confidenceTier": "LOW",
+      "confidenceTier": "MEDIUM",
       "engineVersion": "storage_econ_v1.0",
       "capexTotal": [
-        7166.25,
-        20160
+        87020.31,
+        87020.31
       ],
       "annualGrossSavings": [
-        489.883333,
-        489.883333
+        515.67,
+        515.67
       ],
       "annualNetSavings": [
-        -114.916667,
-        418.220833
+        463.17,
+        463.17
       ],
       "paybackYears": [
-        null,
-        null
+        187.87985,
+        187.87985
       ],
       "npvUsd": [
-        -20809.304795,
-        -4088.108284
+        -84047.84,
+        -84047.84
       ],
       "normalized": {
         "capexPerKwRange": [
-          1365,
-          3840
+          16575.297143,
+          16575.297143
         ],
         "capexPerKwhRange": [
-          341.25,
-          960
+          4143.824286,
+          4143.824286
         ],
         "annualNetSavingsPerKwRange": [
-          -21.888889,
-          79.661111
+          88.222857,
+          88.222857
         ],
         "annualNetSavingsPerKwhRange": [
-          -5.472222,
-          19.915278
+          22.055714,
+          22.055714
         ],
         "annualNetSavingsPerAnnualKwhRange": [
-          -0.004498,
-          0.016369
+          0.018128,
+          0.018128
         ]
       },
       "warnings": [
-        "storage.econ.v1.missing_demand_determinants",
-        "storage.econ.v1.net_savings_non_positive"
+        "battery.econ.capex_defaults_used",
+        "battery.econ.demand_savings_unavailable_missing_determinants",
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_capex_inputs",
+        "storage.econ.deprecated_use_batteryEconomicsV1",
+        "storage.econ.v1.missing_demand_determinants"
       ],
       "missingInfo": [
         "storage.econ.v1.capex_defaults_used",
@@ -283,53 +322,58 @@
   {
     "fixtureFile": "tests\\fixtures\\storageEconomics\\v1\\cases\\06_weekend_heavy_tou_small_savings.json",
     "expected": {
-      "confidenceTier": "LOW",
+      "confidenceTier": "MEDIUM",
       "engineVersion": "storage_econ_v1.0",
       "capexTotal": [
-        2388.75,
-        6720
+        76673.44,
+        76673.44
       ],
       "annualGrossSavings": [
-        126.793333,
-        126.793333
+        133.47,
+        133.47
       ],
       "annualNetSavings": [
-        -74.806667,
-        102.905833
+        115.97,
+        115.97
       ],
       "paybackYears": [
-        null,
-        null
+        661.148918,
+        661.148918
       ],
       "npvUsd": [
-        -7142.67435,
-        -1631.354116
+        -75929.18,
+        -75929.18
       ],
       "normalized": {
         "capexPerKwRange": [
-          1365,
-          3840
+          43813.394286,
+          43813.394286
         ],
         "capexPerKwhRange": [
-          341.25,
-          960
+          10953.348571,
+          10953.348571
         ],
         "annualNetSavingsPerKwRange": [
-          -42.746667,
-          58.803333
+          66.268571,
+          66.268571
         ],
         "annualNetSavingsPerKwhRange": [
-          -10.686667,
-          14.700833
+          16.567143,
+          16.567143
         ],
         "annualNetSavingsPerAnnualKwhRange": [
-          -0.010247,
-          0.014097
+          0.015886,
+          0.015886
         ]
       },
       "warnings": [
-        "storage.econ.v1.missing_demand_determinants",
-        "storage.econ.v1.net_savings_non_positive"
+        "battery.econ.capex_defaults_used",
+        "battery.econ.demand_savings_unavailable_missing_determinants",
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_capex_inputs",
+        "storage.econ.deprecated_use_batteryEconomicsV1",
+        "storage.econ.v1.missing_demand_determinants"
       ],
       "missingInfo": [
         "storage.econ.v1.capex_defaults_used",
@@ -343,99 +387,110 @@
       "confidenceTier": "MEDIUM",
       "engineVersion": "storage_econ_v1.0",
       "capexTotal": [
-        4795.875,
-        9937.2
+        80740,
+        80740
       ],
       "annualGrossSavings": [
-        1686.883333,
-        1686.883333
+        1775.67,
+        1775.67
       ],
       "annualNetSavings": [
-        1488.139333,
-        1638.924583
+        564.57,
+        564.57
       ],
       "paybackYears": [
-        2.926233,
-        6.677601
+        143.011495,
+        143.011495
       ],
       "npvUsd": [
-        1381.706818,
-        10131.309154
+        -76051.68,
+        -76051.68
       ],
       "normalized": {
         "capexPerKwRange": [
-          913.5,
-          1892.8
+          15379.047619,
+          15379.047619
         ],
         "capexPerKwhRange": [
-          228.375,
-          473.2
+          3844.761905,
+          3844.761905
         ],
         "annualNetSavingsPerKwRange": [
-          283.455111,
-          312.176111
+          107.537143,
+          107.537143
         ],
         "annualNetSavingsPerKwhRange": [
-          70.863778,
-          78.044028
+          26.884286,
+          26.884286
         ],
         "annualNetSavingsPerAnnualKwhRange": [
-          0.058244,
-          0.064146
+          0.022097,
+          0.022097
         ]
       },
-      "warnings": [],
+      "warnings": [
+        "battery.econ.dr_value_unknown",
+        "battery.econ.ratchet.unavailable",
+        "storage.econ.deprecated_use_batteryEconomicsV1"
+      ],
       "missingInfo": []
     }
   },
   {
     "fixtureFile": "tests\\fixtures\\storageEconomics\\v1\\cases\\08_normalized_metrics_invariants.json",
     "expected": {
-      "confidenceTier": "LOW",
+      "confidenceTier": "MEDIUM",
       "engineVersion": "storage_econ_v1.0",
       "capexTotal": [
-        7166.25,
-        20160
+        87020.31,
+        87020.31
       ],
       "annualGrossSavings": [
-        1387.633333,
-        1387.633333
+        1460.67,
+        1460.67
       ],
       "annualNetSavings": [
-        782.833333,
-        1315.970833
+        1408.17,
+        1408.17
       ],
       "paybackYears": [
-        5.445599,
-        25.752608
+        61.796736,
+        61.796736
       ],
       "npvUsd": [
-        -15736.817097,
-        2519.40982
+        -77983.16,
+        -77983.16
       ],
       "normalized": {
         "capexPerKwRange": [
-          1365,
-          3840
+          16575.297143,
+          16575.297143
         ],
         "capexPerKwhRange": [
-          341.25,
-          960
+          4143.824286,
+          4143.824286
         ],
         "annualNetSavingsPerKwRange": [
-          149.111111,
-          250.661111
+          268.222857,
+          268.222857
         ],
         "annualNetSavingsPerKwhRange": [
-          37.277778,
-          62.665278
+          67.055714,
+          67.055714
         ],
         "annualNetSavingsPerAnnualKwhRange": [
-          0.030639,
-          0.051506
+          0.055114,
+          0.055114
         ]
       },
-      "warnings": [],
+      "warnings": [
+        "battery.econ.capex_defaults_used",
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_capex_inputs",
+        "battery.econ.ratchet.unavailable",
+        "storage.econ.deprecated_use_batteryEconomicsV1"
+      ],
       "missingInfo": [
         "storage.econ.v1.capex_defaults_used",
         "storage.econ.v1.discount_rate_default_used"
@@ -443,3 +498,4 @@
     }
   }
 ]
+

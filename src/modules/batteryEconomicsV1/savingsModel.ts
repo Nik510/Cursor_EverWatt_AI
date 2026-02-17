@@ -49,7 +49,16 @@ export function runSavingsModelV1(args: {
   dispatch: BatteryEconomicsDispatchSignalsV1 | null;
   dr: BatteryEconomicsDrSignalsV1 | null;
   batteryPowerKw: number | null;
+  /**
+   * Optional battery energy size (kWh). Used only for audit and future dispatch modeling;
+   * v1 savings uses dispatch signals when provided (warnings-first, no guessing).
+   */
+  batteryEnergyKwh?: number | null;
   roundTripEff: number | null;
+  /**
+   * Optional eligibility signal (e.g., from drReadinessV1). If explicitly false, DR value is forced to 0 with a reason.
+   */
+  drEligible?: boolean | null;
 }): SavingsModelResultV1 {
   const warnings: string[] = [];
   const assumptions: BatteryEconomicsAssumptionV1[] = [];
@@ -69,82 +78,128 @@ export function runSavingsModelV1(args: {
   const peakReduction = safeNum(dispatch?.peakReductionKwAssumed);
   const shiftedKwhAnnual = safeNum(dispatch?.shiftedKwhAnnual);
   const powerKw = safeNum(args.batteryPowerKw);
+  const billingDemandKw = safeNum(det?.billingDemandKw);
+  const ratchetDemandKw = safeNum(det?.ratchetDemandKw);
 
-  // Demand savings (conservative): min(batteryPowerKw, peakReductionKwAssumed) * demandRate($/kW-month) * 12
+  const touPrices = Array.isArray((tariff as any)?.touEnergyPrices) ? (((tariff as any).touEnergyPrices as any[]) || []) : [];
+  const touPriceVals = touPrices.map((w) => Number((w as any)?.pricePerKwh)).filter((n) => Number.isFinite(n) && n >= 0);
+  const touPeak = touPriceVals.length ? Math.max(...touPriceVals) : null;
+  const touOff = touPriceVals.length ? Math.min(...touPriceVals) : null;
+
+  // Demand savings (warnings-first): reduce billed demand (kW) with cap from dispatch peak reduction and battery power.
   const demandUsdRaw = (() => {
-    if (demandRate === null || peakReduction === null || powerKw === null) return null;
-    const kw = Math.max(0, Math.min(powerKw, peakReduction));
-    return kw * demandRate * 12;
+    if (demandRate === null) return null;
+    if (billingDemandKw === null) return null;
+    if (peakReduction === null || powerKw === null) return null;
+    const reducKw = Math.max(0, Math.min(powerKw, peakReduction, billingDemandKw));
+    const postUnfloored = Math.max(0, billingDemandKw - reducKw);
+    const post = ratchetDemandKw === null ? postUnfloored : Math.max(ratchetDemandKw, postUnfloored);
+    const actualReduc = Math.max(0, billingDemandKw - post);
+    return actualReduc * demandRate * 12;
   })();
-  if (demandUsdRaw === null) warnings.push(BatteryEconomicsReasonCodesV1.BATTERY_ECON_MISSING_TARIFF_INPUTS);
+  if (demandRate === null) warnings.push(BatteryEconomicsReasonCodesV1.BATTERY_ECON_MISSING_TARIFF_INPUTS);
+  else if (billingDemandKw === null) warnings.push(BatteryEconomicsReasonCodesV1.BATTERY_ECON_DEMAND_SAVINGS_UNAVAILABLE_MISSING_DETERMINANTS);
+  else if (peakReduction === null || powerKw === null) warnings.push(BatteryEconomicsReasonCodesV1.BATTERY_ECON_SAVINGS_UNAVAILABLE_NO_DISPATCH);
   audit.push(
     mkLineItem({
       id: 'savings.demandAnnual',
       label: 'Demand charge savings (annual)',
       amountUsdRaw: demandUsdRaw,
-      basis: demandUsdRaw === null ? 'unavailable' : `min(${powerKw},${peakReduction})kW*${demandRate}$/kW-mo*12`,
+      basis:
+        demandUsdRaw === null
+          ? 'unavailable'
+          : `baseline=${billingDemandKw}kW, post=max(ratchet=${ratchetDemandKw ?? '—'}, baseline-min(P=${powerKw},reduc=${peakReduction})), rate=${demandRate}$/kW-mo*12`,
       sourceEngine: demandRate !== null ? 'tariffEngine' : 'assumption',
       sourcePath: demandRate !== null ? 'inputs.tariffs.demandChargePerKwMonthUsd' : 'inputs.tariffs',
       snapshotId,
     }),
   );
 
-  // Energy savings (conservative): shiftedKwhAnnual * (on - off*(1/rte))
+  // Energy arbitrage savings (warnings-first): use TOU windows when present; otherwise fall back to on/off proxy.
   const energyUsdRaw = (() => {
-    if (shiftedKwhAnnual === null || priceOn === null || priceOff === null || rte === null || !(rte > 0 && rte <= 1)) return null;
-    const netPerKwh = priceOn - priceOff * (1 / rte);
+    const peak = touPeak !== null ? touPeak : priceOn;
+    const off = touOff !== null ? touOff : priceOff;
+    if (shiftedKwhAnnual === null) return null;
+    if (peak === null || off === null) return null;
+    if (rte === null || !(rte > 0 && rte <= 1)) return null;
+    const netPerKwh = peak - off * (1 / rte);
     return Math.max(0, shiftedKwhAnnual * netPerKwh);
   })();
-  if (energyUsdRaw === null) warnings.push(BatteryEconomicsReasonCodesV1.BATTERY_ECON_SAVINGS_UNAVAILABLE_NO_TARIFFENGINE);
-  assumptions.push(mkAssumption({ id: 'energySavings.netPerKwhFormula', value: 'priceOn - priceOff*(1/rte), floored at 0', sourcePath: 'savingsModelV1.energy' }));
+  if (shiftedKwhAnnual === null) warnings.push(BatteryEconomicsReasonCodesV1.BATTERY_ECON_SAVINGS_UNAVAILABLE_NO_DISPATCH);
+  if ((touPeak === null || touOff === null) && (priceOn === null || priceOff === null)) warnings.push(BatteryEconomicsReasonCodesV1.BATTERY_ECON_SAVINGS_UNAVAILABLE_NO_TARIFFENGINE);
+  assumptions.push(mkAssumption({ id: 'energySavings.netPerKwhFormula', value: 'peakPrice - offPrice*(1/rte), floored at 0', sourcePath: 'savingsModelV1.energy' }));
   audit.push(
     mkLineItem({
       id: 'savings.energyAnnual',
       label: 'Energy TOU arbitrage savings (annual)',
       amountUsdRaw: energyUsdRaw,
-      basis: energyUsdRaw === null ? 'unavailable' : `${shiftedKwhAnnual}kWh*(on=${priceOn} - off=${priceOff}*(1/${rte}))`,
-      sourceEngine: priceOn !== null && priceOff !== null ? 'tariffEngine' : 'assumption',
-      sourcePath: priceOn !== null && priceOff !== null ? 'inputs.tariffs.energyPrices' : 'inputs.tariffs',
+      basis:
+        energyUsdRaw === null
+          ? 'unavailable'
+          : `${shiftedKwhAnnual}kWh*(peak=${touPeak ?? priceOn} - off=${touOff ?? priceOff}*(1/${rte}))`,
+      sourceEngine: (touPeak !== null && touOff !== null) || (priceOn !== null && priceOff !== null) ? 'tariffEngine' : 'assumption',
+      sourcePath:
+        touPeak !== null && touOff !== null
+          ? 'inputs.tariffs.touEnergyPrices'
+          : priceOn !== null && priceOff !== null
+            ? 'inputs.tariffs.energyPrices'
+            : 'inputs.tariffs',
       snapshotId,
     }),
   );
 
-  // Ratchet avoided (conservative placeholder): if ratchetDemandKw present, allow ratchet avoidance only when billingDemandKw > ratchetDemandKw.
+  // Ratchet (lite): only when determinants provides ratchet method + history (warnings-first).
   const ratchetUsdRaw = (() => {
-    if (demandRate === null || peakReduction === null) return null;
-    const ratchetKw = safeNum(det?.ratchetDemandKw);
-    const billingKw = safeNum(det?.billingDemandKw);
-    if (ratchetKw === null || billingKw === null) return null;
-    const headroom = Math.max(0, billingKw - ratchetKw);
-    const avoidableKw = Math.max(0, Math.min(headroom, peakReduction));
-    return avoidableKw * demandRate * 12;
+    if (demandRate === null) return null;
+    if (powerKw === null || peakReduction === null) return null;
+    const histMax = safeNum((det as any)?.ratchetHistoryMaxKw);
+    const floorPct = safeNum((det as any)?.ratchetFloorPct);
+    if (histMax === null || floorPct === null) return null;
+    const reducKw = Math.max(0, Math.min(powerKw, peakReduction));
+    const baseFloor = Math.max(0, floorPct) * Math.max(0, histMax);
+    const postFloor = Math.max(0, floorPct) * Math.max(0, histMax - reducKw);
+    const deltaFloorKw = Math.max(0, baseFloor - postFloor);
+    // If current cycle appears ratchet-bound, treat as binding for 12 months (lite, deterministic).
+    const bindingMonths =
+      ratchetDemandKw !== null && billingDemandKw !== null && Math.abs(billingDemandKw - ratchetDemandKw) <= 0.25 ? 12 : 0;
+    return deltaFloorKw * demandRate * bindingMonths;
   })();
-  if (ratchetUsdRaw === null) warnings.push(BatteryEconomicsReasonCodesV1.BATTERY_ECON_MISSING_TARIFF_INPUTS);
+  if (ratchetUsdRaw === null) {
+    const hasRatchetSignal = det?.ratchetDemandKw != null || (det as any)?.ratchetHistoryMaxKw != null || (det as any)?.ratchetFloorPct != null;
+    if (hasRatchetSignal) warnings.push(BatteryEconomicsReasonCodesV1.BATTERY_ECON_RATCHET_UNAVAILABLE);
+  }
   audit.push(
     mkLineItem({
       id: 'savings.ratchetAvoidedAnnual',
-      label: 'Ratchet avoided savings (annual, conservative)',
+      label: 'Ratchet savings (annual, lite)',
       amountUsdRaw: ratchetUsdRaw,
-      basis: ratchetUsdRaw === null ? 'unavailable' : `min(max(billing-ratchet,0),peakReduction) * demandRate * 12`,
+      basis:
+        ratchetUsdRaw === null
+          ? 'unavailable'
+          : `deltaRatchetFloorKw * demandRate * bindingMonths (bindingMonths=12 only when billingDemand≈ratchetDemand)`,
       sourceEngine: det ? 'determinants' : 'assumption',
-      sourcePath: det ? 'inputs.determinants.ratchetDemandKw' : 'inputs.determinants',
+      sourcePath: det ? 'inputs.determinants.ratchetHistoryMaxKw' : 'inputs.determinants',
       snapshotId,
     }),
   );
 
   const drUsdRaw = (() => {
     const v = safeNum(dr?.annualValueUsd);
-    return v === null ? null : Math.max(0, v);
+    const eligible = args.drEligible;
+    if (v === null) return null;
+    if (eligible === false) return 0;
+    return Math.max(0, v);
   })();
   if (drUsdRaw === null) warnings.push(BatteryEconomicsReasonCodesV1.BATTERY_ECON_DR_VALUE_UNKNOWN);
+  if (safeNum(dr?.annualValueUsd) !== null && args.drEligible === false) warnings.push(BatteryEconomicsReasonCodesV1.BATTERY_ECON_DR_INELIGIBLE);
   audit.push(
     mkLineItem({
       id: 'savings.drAnnual',
       label: 'Demand response value (annual)',
       amountUsdRaw: drUsdRaw,
-      basis: drUsdRaw === null ? 'unavailable' : `provided`,
-      sourceEngine: drUsdRaw === null ? 'assumption' : 'assumption',
-      sourcePath: 'inputs.dr.annualValueUsd',
+      basis: drUsdRaw === null ? 'unavailable' : args.drEligible === false ? 'ineligible (forced 0)' : `provided`,
+      sourceEngine: 'assumption',
+      sourcePath: args.drEligible === false ? 'drReadinessV1.eligible' : 'inputs.dr.annualValueUsd',
       snapshotId,
     }),
   );

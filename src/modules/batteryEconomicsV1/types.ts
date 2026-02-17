@@ -21,17 +21,37 @@ export type BatteryEconomicsCostsV1 = {
 
 export type BatteryEconomicsTariffSignalsV1 = {
   snapshotId?: string | null;
+  /**
+   * Optional timezone for interpreting TOU windows.
+   * Note: economics v1 does not itself localize intervals; this is carried for audit/provenance only.
+   */
+  timezone?: string | null;
   /** If present, treated as $/kW-month. */
   demandChargePerKwMonthUsd?: number | null;
   /** If present, treated as a representative on/off pair for arbitrage. */
   energyPriceOnPeakUsdPerKwh?: number | null;
   energyPriceOffPeakUsdPerKwh?: number | null;
+  /**
+   * Optional TOU energy price windows (preferred over on/off proxy when present).
+   * Deterministic arbitrage uses max/min prices (no guessing about dispatch schedule).
+   */
+  touEnergyPrices?: Array<{
+    periodId: string;
+    startHourLocal: number;
+    endHourLocalExclusive: number;
+    days: 'all' | 'weekday' | 'weekend';
+    pricePerKwh: number;
+  }> | null;
 };
 
 export type BatteryEconomicsDeterminantsSignalsV1 = {
   ratchetDemandKw?: number | null;
   billingDemandKw?: number | null;
   billingDemandMethod?: string | null;
+  /** Optional ratchet history maximum (kW) for annual ratchet modeling (lite). */
+  ratchetHistoryMaxKw?: number | null;
+  /** Optional ratchet floor percent (0..1) for annual ratchet modeling (lite). */
+  ratchetFloorPct?: number | null;
 };
 
 export type BatteryEconomicsDispatchSignalsV1 = {
@@ -39,6 +59,8 @@ export type BatteryEconomicsDispatchSignalsV1 = {
   shiftedKwhAnnual?: number | null;
   /** Conservative assumed peak kW reduction possible. */
   peakReductionKwAssumed?: number | null;
+  /** Optional dispatch days per year used to compute shiftedKwhAnnual, for audit. */
+  dispatchDaysPerYear?: number | null;
 };
 
 export type BatteryEconomicsDrSignalsV1 = {

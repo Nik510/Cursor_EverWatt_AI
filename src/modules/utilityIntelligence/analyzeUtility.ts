@@ -39,6 +39,8 @@ import { getDefaultCatalogForTerritory, matchPrograms } from '../programIntellig
 import { programMatchesToRecommendations } from '../programIntelligence/toRecommendations';
 import { evaluateStorageOpportunityPackV1 } from '../batteryEngineV1/evaluateBatteryOpportunityV1';
 import { evaluateBatteryEconomicsV1 } from '../batteryEconomicsV1/evaluateBatteryEconomicsV1';
+import { buildBatteryDecisionPackV1 } from '../batteryEconomicsV1/decisionPackV1';
+import type { TariffPriceSignalsV1 } from '../batteryEngineV1/types';
 
 import { loadProjectForOrg } from '../project/projectRepository';
 import { readIntervalData } from '../../utils/excel-reader';
@@ -242,6 +244,13 @@ export type AnalyzeUtilityDeps = {
   intervalKwSeries?: IntervalKwPoint[] | null;
   /** Canonical interval points (kWh/kW/temperatureF) from PG&E exports or other sources. */
   intervalPointsV1?: Array<{ timestampIso: string; intervalMinutes: number; kWh?: number; kW?: number; temperatureF?: number }> | null;
+  /**
+   * Optional deterministic tariff price signals (TOU windows + demand charge) for battery/storage engines.
+   * This must be provided by fixtures/operators; analyzeUtility does not infer or guess prices.
+   */
+  tariffPriceSignalsV1?: TariffPriceSignalsV1 | null;
+  /** Optional tariff snapshot id/version tag for audit trail. */
+  tariffSnapshotId?: string | null;
   /** Optional operator-provided deterministic economics overrides (capex/opex assumptions). */
   storageEconomicsOverridesV1?: any | null;
   weatherProvider?: WeatherProvider;
@@ -749,7 +758,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         intervalInsightsV1: (intervalIntelligenceV1 as any) || null,
         intervalPointsV1: Array.isArray(deps?.intervalPointsV1) ? (deps?.intervalPointsV1 as any) : null,
         // Tariff price signals are not inferred here (no guessing); fixture tests can supply them directly to the engine.
-        tariffPriceSignalsV1: null,
+        tariffPriceSignalsV1: (deps?.tariffPriceSignalsV1 as any) || null,
         determinantsV1,
         storageEconomicsOverridesV1,
         customerType: String((inputs as any)?.customerType || '').trim() || null,
@@ -801,6 +810,8 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
               ratchetDemandKw: Number.isFinite(Number(det0?.ratchetDemandKw)) ? Number(det0.ratchetDemandKw) : null,
               billingDemandKw: Number.isFinite(Number(det0?.billingDemandKw)) ? Number(det0.billingDemandKw) : null,
               billingDemandMethod: String(det0?.billingDemandMethod || '').trim() || null,
+              ratchetHistoryMaxKw: Number.isFinite(Number(det0?.ratchetHistoryMaxKw)) ? Number(det0.ratchetHistoryMaxKw) : null,
+              ratchetFloorPct: Number.isFinite(Number(det0?.ratchetFloorPct)) ? Number(det0.ratchetFloorPct) : null,
             }
           : null,
         dispatch: {
@@ -812,6 +823,51 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       });
     } catch {
       return evaluateBatteryEconomicsV1(null);
+    }
+  })();
+
+  // Battery Decision Pack v1 (sizing search + deterministic economics): always attach (warnings-first).
+  const batteryDecisionPackV1 = (() => {
+    try {
+      const det0: any = (determinantsPackSummary as any)?.meters?.[0]?.last12Cycles?.[0] || null;
+      const determinantsV1 = det0
+        ? {
+            billingDemandKw: Number.isFinite(Number(det0?.billingDemandKw)) ? Number(det0.billingDemandKw) : null,
+            ratchetDemandKw: Number.isFinite(Number(det0?.ratchetDemandKw)) ? Number(det0.ratchetDemandKw) : null,
+            billingDemandMethod: String(det0?.billingDemandMethod || '').trim() || null,
+            ratchetHistoryMaxKw: Number.isFinite(Number(det0?.ratchetHistoryMaxKw)) ? Number(det0.ratchetHistoryMaxKw) : null,
+            ratchetFloorPct: Number.isFinite(Number(det0?.ratchetFloorPct)) ? Number(det0.ratchetFloorPct) : null,
+          }
+        : null;
+
+      return buildBatteryDecisionPackV1({
+        intervalPointsV1: Array.isArray(deps?.intervalPointsV1) ? (deps?.intervalPointsV1 as any) : null,
+        intervalInsightsV1: (intervalIntelligenceV1 as any) || null,
+        tariffPriceSignalsV1: (deps?.tariffPriceSignalsV1 as any) || null,
+        tariffSnapshotId: String(deps?.tariffSnapshotId || '').trim() || null,
+        determinantsV1,
+        drReadinessV1: (storageOpportunityPackV1 as any)?.drReadinessV1 || null,
+        drAnnualValueUsd: null,
+        costs: null,
+        finance: null,
+        versionTags: {
+          determinantsVersionTag: String((determinantsPack as any)?.determinantsVersionTag || (determinantsPack as any)?.rulesVersionTag || 'determinants_v1'),
+          touLabelerVersionTag: String((determinantsPack as any)?.touLabelerVersionTag || 'tou_v1'),
+        },
+      });
+    } catch {
+      return buildBatteryDecisionPackV1({
+        intervalPointsV1: null,
+        intervalInsightsV1: null,
+        tariffPriceSignalsV1: null,
+        tariffSnapshotId: null,
+        determinantsV1: null,
+        drReadinessV1: null,
+        drAnnualValueUsd: null,
+        costs: null,
+        finance: null,
+        versionTags: null,
+      });
     }
   })();
 
@@ -1235,6 +1291,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     ...(intervalIntelligenceV1 ? { intervalIntelligenceV1 } : {}),
     storageOpportunityPackV1,
     batteryEconomicsV1,
+    batteryDecisionPackV1,
     ...(weatherRegressionV1 ? { weatherRegressionV1 } : {}),
     ...(behaviorInsights ? { behaviorInsights } : {}),
     ...(behaviorInsightsV2 ? { behaviorInsightsV2 } : {}),

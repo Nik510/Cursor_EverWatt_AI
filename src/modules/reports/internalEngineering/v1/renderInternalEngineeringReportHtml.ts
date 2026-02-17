@@ -127,6 +127,7 @@ export function renderInternalEngineeringReportHtmlV1(args: {
   const weatherRegressionV1 = (report as any)?.weatherRegressionV1 || null;
   const storageOpportunityPackV1 = (report as any)?.storageOpportunityPackV1 || null;
   const batteryEconomicsV1 = (report as any)?.batteryEconomicsV1 || null;
+  const batteryDecisionPackV1 = (report as any)?.batteryDecisionPackV1 || null;
   const engineVersions = (report as any)?.engineVersions || null;
   const engineVersionsLine = (() => {
     const ev = engineVersions && typeof engineVersions === 'object' ? engineVersions : {};
@@ -351,6 +352,76 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     ];
   })();
 
+  const batteryDecisionPackRows: Array<{ k: string; v: string }> = (() => {
+    const pack: any = batteryDecisionPackV1 && typeof batteryDecisionPackV1 === 'object' ? batteryDecisionPackV1 : null;
+    if (!pack) return [{ k: 'present', v: 'false' }];
+
+    const opts: any[] = Array.isArray(pack.options) ? (pack.options as any[]) : [];
+    const o0: any = opts[0] || null;
+    const o1: any = opts[1] || null;
+    const o2: any = opts[2] || null;
+
+    const warn = Array.isArray(pack.warnings) ? (pack.warnings as any[]).map((x) => String(x || '').trim()).filter(Boolean).slice(0, 10).join(', ') : '(none)';
+    const miss = Array.isArray(pack.missingInfo) ? (pack.missingInfo as any[]).map((x) => String(x || '').trim()).filter(Boolean).slice(0, 10).join(', ') : '(none)';
+    const candidateCount = safeNumber(pack?.constraints?.sizingSearchV1?.allCandidateCount);
+
+    const fmtOpt = (o: any): string => {
+      if (!o) return '—';
+      const p = fmtMaybe(safeNumber(o?.battery?.powerKw), 0);
+      const e = fmtMaybe(safeNumber(o?.battery?.energyKwh), 0);
+      const npv = fmtMaybe(safeNumber(o?.economics?.npvLiteUsd), 0);
+      const pb = fmtMaybe(safeNumber(o?.economics?.simplePaybackYears), 2);
+      const sav = fmtMaybe(safeNumber(o?.savingsAnnual?.totalUsd), 0);
+      return `${p}kW/${e}kWh • savings=$${sav}/yr • payback=${pb}y • npv=$${npv}`;
+    };
+
+    const ev = pack?.engineVersions || {};
+    const ver = String(ev?.batteryDecisionPackV1 || '—');
+
+    return [
+      { k: 'present', v: 'true' },
+      { k: 'schemaVersion', v: String(pack.schemaVersion || '—') },
+      { k: 'engineVersion', v: ver },
+      { k: 'confidenceTier', v: String(pack.confidenceTier || '—') },
+      { k: 'options.count', v: String(opts.length) },
+      { k: 'sizingSearchV1.candidateCount', v: fmtMaybe(candidateCount, 0) },
+      { k: 'option1', v: fmtOpt(o0) },
+      { k: 'option2', v: fmtOpt(o1) },
+      { k: 'option3', v: fmtOpt(o2) },
+      { k: 'warnings', v: warn || '(none)' },
+      { k: 'missingInfo', v: miss || '(none)' },
+    ];
+  })();
+
+  const batteryDecisionPackAuditHtml = (() => {
+    const pack: any = batteryDecisionPackV1 && typeof batteryDecisionPackV1 === 'object' ? batteryDecisionPackV1 : null;
+    const opts: any[] = pack && Array.isArray(pack.options) ? (pack.options as any[]) : [];
+    if (!opts.length) return `<div class="muted">(options unavailable)</div>`;
+    const top = opts.slice(0, 3);
+    return [
+      `<details style="margin-top:10px;">`,
+      `<summary style="cursor:pointer;font-weight:700;">Audit (top line items per option)</summary>`,
+      ...top.map((o) => {
+        const id = String(o?.optionId || '').trim() || '(option)';
+        const items: any[] = Array.isArray(o?.audit?.topLineItems) ? (o.audit.topLineItems as any[]) : [];
+        const rows = items.slice(0, 12).map((it) => {
+          const liId = String(it?.id || '').trim() || '(id)';
+          const label = String(it?.label || '').trim();
+          const amt = fmtMaybe(safeNumber(it?.amountUsd), 0);
+          const basis = String(it?.basis || '').trim();
+          return `<li><span style="font-family: var(--mono);">${escapeHtml(liId)}</span>${label ? ` — ${escapeHtml(label)}` : ''} — <span style="font-family: var(--mono);">$${escapeHtml(amt)}</span>${basis ? ` <span class="muted">(${escapeHtml(basis)})</span>` : ''}</li>`;
+        });
+        return [
+          `<div style="margin-top:10px;">`,
+          `<div style="font-weight:700;">${escapeHtml(id)}</div>`,
+          items.length ? `<ul style="margin:6px 0 0 18px;padding:0;">${rows.join('')}</ul>` : `<div class="muted">(audit unavailable)</div>`,
+          `</div>`,
+        ].join('\n');
+      }),
+      `</details>`,
+    ].join('\n');
+  })();
+
   const batteryEconomicsRows: Array<{ k: string; v: string }> = (() => {
     const econ: any = batteryEconomicsV1 && typeof batteryEconomicsV1 === 'object' ? batteryEconomicsV1 : null;
     if (!econ) return [{ k: 'present', v: 'false' }];
@@ -558,10 +629,10 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     `</div>`,
 
     `<div class="card">`,
-    `<div class="cardTitle">Storage Economics</div>`,
+    `<div class="cardTitle">Storage Economics (Legacy — derived)</div>`,
     `<div class="cardBody">`,
     `${renderKvTable(storageEconomicsRows)}`,
-    `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.storageOpportunityPackV1.storageEconomicsV1 (no live recompute).</div>`,
+    `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.storageOpportunityPackV1.storageEconomicsV1 (no live recompute). Deprecated: <span style="font-family: var(--mono);">storage.econ.deprecated_use_batteryEconomicsV1</span></div>`,
     `</div>`,
     `</div>`,
 
@@ -579,6 +650,15 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     `${renderKvTable(batteryEconomicsRows)}`,
     `${batteryEconomicsAuditHtml}`,
     `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.batteryEconomicsV1 (no live recompute).</div>`,
+    `</div>`,
+    `</div>`,
+
+    `<div class="card">`,
+    `<div class="cardTitle">Battery Decision Pack</div>`,
+    `<div class="cardBody">`,
+    `${renderKvTable(batteryDecisionPackRows)}`,
+    `${batteryDecisionPackAuditHtml}`,
+    `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.batteryDecisionPackV1 (no live recompute).</div>`,
     `</div>`,
     `</div>`,
 

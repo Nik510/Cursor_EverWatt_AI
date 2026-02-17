@@ -94,6 +94,18 @@ export type StorageOpportunityPackV1 = {
   dispatchSimulationV1: DispatchSimulationV1;
   drReadinessV1: DrReadinessV1;
   storageEconomicsV1: StorageEconomicsV1;
+  /**
+   * Canonical economics snapshot summary (additive).
+   * Convenience only — canonical audit lives in `insights.batteryEconomicsV1`.
+   */
+  batteryEconomicsV1Summary?: {
+    confidenceTier: ConfidenceTierV1;
+    capexTotalUsd: number | null;
+    savingsAnnualTotalUsd: number | null;
+    simplePaybackYears: number | null;
+    npvUsd: number | null;
+    warnings: string[];
+  };
   incentivesStubV1: IncentivesStubV1;
 };
 

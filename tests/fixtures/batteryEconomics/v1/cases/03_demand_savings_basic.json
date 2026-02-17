@@ -12,6 +12,7 @@
       "omPerKwYrUsd": 10
     },
     "tariffs": { "snapshotId": "snap_x", "demandChargePerKwMonthUsd": 18 },
+    "determinants": { "billingDemandKw": 240, "ratchetDemandKw": null, "billingDemandMethod": "BILLING_DEMAND_V1" },
     "dispatch": { "peakReductionKwAssumed": 40 }
   }
 }
