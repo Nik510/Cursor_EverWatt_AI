@@ -10,6 +10,7 @@ import type { BillIntelligenceV1 } from './billIntelligence/typesV1';
 import type { IntervalIntelligenceV1 } from './intervalIntelligenceV1/types';
 import type { WeatherRegressionV1 } from './weatherRegressionV1/types';
 import type { StorageOpportunityPackV1 } from '../batteryEngineV1/types';
+import type { BatteryEconomicsOutputsV1 } from '../batteryEconomicsV1/types';
 
 export type UtilityServiceType = 'electric' | 'gas' | 'both';
 
@@ -223,6 +224,11 @@ export type UtilityInsights = {
    * Always present when attached by `analyzeUtility` (warnings-first when inputs are missing).
    */
   storageOpportunityPackV1?: StorageOpportunityPackV1;
+  /**
+   * Deterministic Battery Economics (v1): CAPEX/OPEX + savings + finance (NPV/payback) + audit trail.
+   * Always attached by `analyzeUtility` (warnings-first when inputs are missing).
+   */
+  batteryEconomicsV1?: BatteryEconomicsOutputsV1;
   /** Deterministic weather regression + annualization computed from interval + temperature (v1). */
   weatherRegressionV1?: WeatherRegressionV1;
 };

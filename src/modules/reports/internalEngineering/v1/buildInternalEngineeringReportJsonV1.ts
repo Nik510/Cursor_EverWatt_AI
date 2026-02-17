@@ -98,6 +98,7 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
     .sort(sortMissingInfo);
 
   const storageOpportunityPackV1 = (args.analysisResults?.workflow as any)?.utility?.insights?.storageOpportunityPackV1 ?? null;
+  const batteryEconomicsV1 = (args.analysisResults?.workflow as any)?.utility?.insights?.batteryEconomicsV1 ?? null;
 
   return {
     schemaVersion: 'internalEngineeringReportV1',
@@ -121,6 +122,7 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
     intervalInsightsV1,
     weatherRegressionV1,
     storageOpportunityPackV1,
+    batteryEconomicsV1,
     workflow: args.analysisResults?.workflow,
     summary: args.analysisResults?.summary,
     missingInfo,

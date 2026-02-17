@@ -126,6 +126,7 @@ export function renderInternalEngineeringReportHtmlV1(args: {
   const intervalInsightsV1 = (report as any)?.intervalInsightsV1 || null;
   const weatherRegressionV1 = (report as any)?.weatherRegressionV1 || null;
   const storageOpportunityPackV1 = (report as any)?.storageOpportunityPackV1 || null;
+  const batteryEconomicsV1 = (report as any)?.batteryEconomicsV1 || null;
   const engineVersions = (report as any)?.engineVersions || null;
   const engineVersionsLine = (() => {
     const ev = engineVersions && typeof engineVersions === 'object' ? engineVersions : {};
@@ -133,7 +134,10 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     const determinants = String((ev as any)?.determinants || '').trim() || '—';
     const tariffEngine = String((ev as any)?.tariffEngine || '').trim() || '—';
     const billingEngineV1 = String((ev as any)?.billingEngineV1 || '').trim() || '—';
-    return `Engine Versions: intervalIntake=${intervalIntake} • determinants=${determinants} • tariffEngine=${tariffEngine} • billingEngineV1=${billingEngineV1}`;
+    const storageEconomics = String((ev as any)?.storageEconomics || '').trim() || '—';
+    const incentivesStub = String((ev as any)?.incentivesStub || '').trim() || '—';
+    const batteryEconomics = String((ev as any)?.batteryEconomics || '').trim() || '—';
+    return `Engine Versions: intervalIntake=${intervalIntake} • determinants=${determinants} • tariffEngine=${tariffEngine} • billingEngineV1=${billingEngineV1} • storageEconomics=${storageEconomics} • incentivesStub=${incentivesStub} • batteryEconomics=${batteryEconomics}`;
   })();
 
   // ---- Data Quality (deterministic; snapshot-only) ----
@@ -347,6 +351,46 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     ];
   })();
 
+  const batteryEconomicsRows: Array<{ k: string; v: string }> = (() => {
+    const econ: any = batteryEconomicsV1 && typeof batteryEconomicsV1 === 'object' ? batteryEconomicsV1 : null;
+    if (!econ) return [{ k: 'present', v: 'false' }];
+    const capex = econ.capex || {};
+    const savings = econ.savingsAnnual || {};
+    const cf = econ.cashflow || {};
+    const warn = Array.isArray(econ.warnings) ? (econ.warnings as any[]).map((x) => String(x || '').trim()).filter(Boolean).slice(0, 10).join(', ') : '(none)';
+    return [
+      { k: 'present', v: 'true' },
+      { k: 'confidenceTier', v: String(econ.confidenceTier || '—') },
+      { k: 'engineVersion', v: String(econ.engineVersion || '—') },
+      { k: 'capex.totalUsd', v: fmtMaybe(safeNumber(capex.totalUsd), 0) },
+      { k: 'savingsAnnual.totalUsd', v: fmtMaybe(safeNumber(savings.totalUsd), 0) },
+      { k: 'cashflow.simplePaybackYears', v: fmtMaybe(safeNumber(cf.simplePaybackYears), 2) },
+      { k: 'cashflow.npvUsd', v: fmtMaybe(safeNumber(cf.npvUsd), 0) },
+      { k: 'warnings', v: warn || '(none)' },
+    ];
+  })();
+
+  const batteryEconomicsAuditHtml = (() => {
+    const econ: any = batteryEconomicsV1 && typeof batteryEconomicsV1 === 'object' ? batteryEconomicsV1 : null;
+    const items: any[] = econ && econ.audit && Array.isArray(econ.audit.lineItems) ? (econ.audit.lineItems as any[]) : [];
+    if (!items.length) return `<div class="muted">(audit unavailable)</div>`;
+    const top10 = items.slice(0, 10);
+    return [
+      `<details style="margin-top:10px;">`,
+      `<summary style="cursor:pointer;font-weight:700;">Audit (top 10 line items)</summary>`,
+      `<ul style="margin:10px 0 0 18px;padding:0;">`,
+      ...top10.map((it) => {
+        const id = String(it?.id || '').trim() || '(id)';
+        const label = String(it?.label || '').trim();
+        const amt = fmtMaybe(safeNumber(it?.amountUsd), 0);
+        const basis = String(it?.basis || '').trim();
+        return `<li><span style="font-family: var(--mono);">${escapeHtml(id)}</span>${label ? ` — ${escapeHtml(label)}` : ''} — <span style="font-family: var(--mono);">$${escapeHtml(amt)}</span>${basis ? ` <span class="muted">(${escapeHtml(basis)})</span>` : ''}</li>`;
+      }),
+      `</ul>`,
+      `</details>`,
+    ].join('\n');
+  })();
+
   // ---- Missing Evidence / Next Actions (deterministic) ----
   const missingFromInterval = Array.isArray((intervalMeta as any)?.missingInfo) ? ((intervalMeta as any).missingInfo as any[]) : [];
   const missingFromInsights = Array.isArray(workflow?.utility?.insights?.missingInfo) ? (workflow.utility.insights.missingInfo as any[]) : [];
@@ -526,6 +570,15 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     `<div class="cardBody">`,
     `${renderKvTable(incentivesRows)}`,
     `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.storageOpportunityPackV1.incentivesStubV1 (no live recompute).</div>`,
+    `</div>`,
+    `</div>`,
+
+    `<div class="card">`,
+    `<div class="cardTitle">Battery Economics</div>`,
+    `<div class="cardBody">`,
+    `${renderKvTable(batteryEconomicsRows)}`,
+    `${batteryEconomicsAuditHtml}`,
+    `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.batteryEconomicsV1 (no live recompute).</div>`,
     `</div>`,
     `</div>`,
 

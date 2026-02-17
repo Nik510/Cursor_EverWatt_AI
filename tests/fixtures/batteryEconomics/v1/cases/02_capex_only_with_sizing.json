@@ -1,0 +1,16 @@
+{
+  "caseId": "02_capex_only_with_sizing",
+  "inputs": {
+    "battery": { "powerKw": 100, "energyKwh": 200, "roundTripEff": 0.9, "usableFraction": 0.9, "degradationPctYr": 2 },
+    "costs": {
+      "batteryCostPerKwhUsd": 300,
+      "batteryCostPerKwUsd": 600,
+      "installAdderPct": 0.2,
+      "interconnectFlatUsd": 20000,
+      "softCostsFlatUsd": 30000,
+      "contingencyPct": 0.1,
+      "omPerKwYrUsd": 8
+    }
+  }
+}
+

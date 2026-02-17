@@ -38,6 +38,7 @@ import { computeBehaviorInsightsV3 } from './behaviorV3/computeBehaviorInsightsV
 import { getDefaultCatalogForTerritory, matchPrograms } from '../programIntelligence/matchPrograms';
 import { programMatchesToRecommendations } from '../programIntelligence/toRecommendations';
 import { evaluateStorageOpportunityPackV1 } from '../batteryEngineV1/evaluateBatteryOpportunityV1';
+import { evaluateBatteryEconomicsV1 } from '../batteryEconomicsV1/evaluateBatteryEconomicsV1';
 
 import { loadProjectForOrg } from '../project/projectRepository';
 import { readIntervalData } from '../../utils/excel-reader';
@@ -770,6 +771,50 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     }
   })();
 
+  // Battery Economics v1: always attach (warnings-first). No tariff/cost guessing in analyzeUtility.
+  const batteryEconomicsV1 = (() => {
+    try {
+      const cfg0: any = (storageOpportunityPackV1 as any)?.batteryOpportunityV1?.recommendedBatteryConfigs?.[0] || null;
+      const hy: any =
+        (storageOpportunityPackV1 as any)?.dispatchSimulationV1?.strategyResults?.find((r: any) => String(r?.strategyId || '') === 'HYBRID_V1') ||
+        (storageOpportunityPackV1 as any)?.dispatchSimulationV1?.strategyResults?.[0] ||
+        null;
+      const peakReductionMin = hy?.estimatedPeakKwReduction && typeof hy.estimatedPeakKwReduction === 'object' ? Number((hy.estimatedPeakKwReduction as any).min) : null;
+      const shiftedKwhAnnual = hy?.estimatedShiftedKwhAnnual && typeof hy.estimatedShiftedKwhAnnual === 'object' ? Number((hy.estimatedShiftedKwhAnnual as any).value) : null;
+
+      const det0: any = (determinantsPackSummary as any)?.meters?.[0]?.last12Cycles?.[0] || null;
+
+      return evaluateBatteryEconomicsV1({
+        battery: cfg0
+          ? {
+              powerKw: Number(cfg0?.powerKw),
+              energyKwh: Number(cfg0?.energyKwh),
+              roundTripEff: Number(cfg0?.rte),
+              usableFraction: null,
+              degradationPctYr: null,
+            }
+          : null,
+        costs: null,
+        tariffs: null,
+        determinants: det0
+          ? {
+              ratchetDemandKw: Number.isFinite(Number(det0?.ratchetDemandKw)) ? Number(det0.ratchetDemandKw) : null,
+              billingDemandKw: Number.isFinite(Number(det0?.billingDemandKw)) ? Number(det0.billingDemandKw) : null,
+              billingDemandMethod: String(det0?.billingDemandMethod || '').trim() || null,
+            }
+          : null,
+        dispatch: {
+          shiftedKwhAnnual: Number.isFinite(shiftedKwhAnnual) ? shiftedKwhAnnual : null,
+          peakReductionKwAssumed: Number.isFinite(peakReductionMin) ? peakReductionMin : null,
+        },
+        dr: null,
+        finance: null,
+      });
+    } catch {
+      return evaluateBatteryEconomicsV1(null);
+    }
+  })();
+
   const behaviorInsights = (() => {
     try {
       return computeBehaviorInsights({
@@ -1189,6 +1234,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     ...(billIntelligenceV1 ? { billIntelligenceV1 } : {}),
     ...(intervalIntelligenceV1 ? { intervalIntelligenceV1 } : {}),
     storageOpportunityPackV1,
+    batteryEconomicsV1,
     ...(weatherRegressionV1 ? { weatherRegressionV1 } : {}),
     ...(behaviorInsights ? { behaviorInsights } : {}),
     ...(behaviorInsightsV2 ? { behaviorInsightsV2 } : {}),

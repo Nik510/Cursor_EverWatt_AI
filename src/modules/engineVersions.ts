@@ -25,6 +25,7 @@ export const tariffEngineVersion = 'tariff_engine_v1.0' as const;
 export const billingEngineV1Version = 'billing_v1.0' as const;
 export const storageEconomicsVersion = 'storage_econ_v1.0' as const;
 export const incentivesStubVersion = 'incentives_stub_v1.0' as const;
+export const batteryEconomicsVersion = 'battery_econ_v1.0' as const;
 
 export const engineVersions = {
   intervalIntake: intervalIntakeVersion,
@@ -33,6 +34,7 @@ export const engineVersions = {
   billingEngineV1: billingEngineV1Version,
   storageEconomics: storageEconomicsVersion,
   incentivesStub: incentivesStubVersion,
+  batteryEconomics: batteryEconomicsVersion,
 } as const;
 
 export type EngineVersionsV1 = typeof engineVersions;

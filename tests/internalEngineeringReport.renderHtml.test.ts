@@ -47,6 +47,9 @@ describe('renderInternalEngineeringReportHtmlV1', () => {
             determinants: 'determinants_pack_v1.0',
             tariffEngine: 'tariff_engine_v1.0',
             billingEngineV1: 'billing_v1.0',
+            storageEconomics: 'storage_econ_v1.0',
+            incentivesStub: 'incentives_stub_v1.0',
+            batteryEconomics: 'battery_econ_v1.0',
           },
           telemetry: {
             intervalElectricV1: { present: true, pointCount: 2880, warningCount: 2 },
@@ -205,6 +208,31 @@ describe('renderInternalEngineeringReportHtmlV1', () => {
               missingInfo: [],
             },
           },
+          batteryEconomicsV1: {
+            confidenceTier: 'LOW',
+            methodTag: 'battery_econ_v1',
+            engineVersion: 'battery_econ_v1.0',
+            capex: {
+              totalUsd: 123456.78,
+              batteryEquipmentUsd: 80000,
+              installUsd: 20000,
+              interconnectUsd: 15000,
+              softCostsUsd: 5000,
+              contingencyUsd: 3456.78,
+              assumptions: [{ id: 'x', value: 'y', sourceEngine: 'assumption', sourcePath: 'fixture' }],
+            },
+            opexAnnual: { omUsd: 1000, warrantyReserveUsd: 0, totalUsd: 1000, assumptions: [] },
+            savingsAnnual: { demandUsd: 5000, energyUsd: 2000, ratchetAvoidedUsd: 0, drUsd: null, otherUsd: 0, totalUsd: 7000, assumptions: [] },
+            cashflow: { year0Usd: -123456.78, years1toNUsd: [6000, 6000], npvUsd: -50000, irrApprox: null, simplePaybackYears: 20.57613, discountedPaybackYears: null },
+            sizingSanity: { cRate: 0.5, hoursAtPower: 2, violations: [] },
+            audit: {
+              lineItems: [
+                { id: 'capex.total', label: 'Total CAPEX', amountUsd: 123456.78, amountUsdRaw: 123456.781, basis: 'sum', sourceEngine: 'assumption', sourcePath: 'fixture' },
+                { id: 'savings.totalAnnual', label: 'Total savings', amountUsd: 7000, amountUsdRaw: 7000, basis: 'sum', sourceEngine: 'assumption', sourcePath: 'fixture' },
+              ],
+            },
+            warnings: ['battery.econ.dr_value_unknown'],
+          },
           workflow: {
             utility: {
               inputs: { currentRate: { utility: 'PGE', rateCode: 'E-19', capturedAt: '2026-01-15T00:00:00.000Z' } },
@@ -255,6 +283,8 @@ describe('renderInternalEngineeringReportHtmlV1', () => {
     expect(html).toContain('DR Readiness');
     expect(html).toContain('Storage Economics');
     expect(html).toContain('Incentives');
+    expect(html).toContain('Battery Economics');
+    expect(html).toContain('Audit (top 10 line items)');
     expect(html).toContain('storage_opportunity_pack_v1.0');
 
     // Deep links

@@ -1,0 +1,19 @@
+{
+  "caseId": "05_ratchet_savings_guardrail",
+  "inputs": {
+    "battery": { "powerKw": 100, "energyKwh": 300, "roundTripEff": 0.9, "usableFraction": 0.9, "degradationPctYr": 2 },
+    "costs": {
+      "batteryCostPerKwhUsd": 250,
+      "batteryCostPerKwUsd": 520,
+      "installAdderPct": 0.24,
+      "interconnectFlatUsd": 20000,
+      "softCostsFlatUsd": 30000,
+      "contingencyPct": 0.1,
+      "omPerKwYrUsd": 10
+    },
+    "tariffs": { "snapshotId": "snap_r", "demandChargePerKwMonthUsd": 22 },
+    "determinants": { "billingDemandKw": 180, "ratchetDemandKw": 150, "billingDemandMethod": "fixture" },
+    "dispatch": { "peakReductionKwAssumed": 40 }
+  }
+}
+

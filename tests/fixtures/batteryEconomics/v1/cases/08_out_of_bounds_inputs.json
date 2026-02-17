@@ -1,0 +1,8 @@
+{
+  "caseId": "08_out_of_bounds_inputs",
+  "inputs": {
+    "battery": { "powerKw": -10, "energyKwh": 100, "roundTripEff": 1.2, "usableFraction": 1.5, "degradationPctYr": -1 },
+    "costs": { "batteryCostPerKwhUsd": 300, "batteryCostPerKwUsd": 600 }
+  }
+}
+

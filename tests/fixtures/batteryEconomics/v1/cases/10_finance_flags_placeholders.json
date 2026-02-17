@@ -1,0 +1,9 @@
+{
+  "caseId": "10_finance_flags_placeholders",
+  "inputs": {
+    "battery": { "powerKw": 90, "energyKwh": 180, "roundTripEff": 0.9, "usableFraction": 0.9, "degradationPctYr": 2 },
+    "costs": { "batteryCostPerKwhUsd": 270, "batteryCostPerKwUsd": 520 },
+    "finance": { "discountRate": 0.1, "termYears": 10, "debtApr": 0.07, "debtTermMonths": 84, "itcPct": 0.3, "depreciationMethod": "MACRS_5" }
+  }
+}
+
