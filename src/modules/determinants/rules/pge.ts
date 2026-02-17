@@ -30,13 +30,27 @@ function rateFamily(rc: string): 'B19' | 'B20' | 'OTHER' {
 }
 
 /**
- * Placeholder ratchet floors (NOT authoritative).
- *
- * These constants exist to make the demand-rule slot reproducible and auditable.
- * Before using in production decisions, validate against PG&E tariff schedules.
+ * Deterministic warning codes for demand-rule decisions.
  */
-export const PGE_B19_RATCHET_FLOOR_PCT_V1 = null as null | number; // e.g., 0.9 for 90% ratchet (unknown in v1)
-export const PGE_B20_RATCHET_FLOOR_PCT_V1 = null as null | number;
+export const PgeDemandRuleWarningCodesV1 = {
+  DETERMINANT_RATCHET_UNSUPPORTED: 'DETERMINANT_RATCHET_UNSUPPORTED',
+  DETERMINANT_RATCHET_NEEDS_HISTORY: 'DETERMINANT_RATCHET_NEEDS_HISTORY',
+} as const;
+
+/**
+ * Common PG&E commercial ratchet pattern (v1 implementation).
+ *
+ * Formula (common pattern):
+ *   ratchetFloorKw = floorPct * max(priorBillingDemandKwOrKwMax over historyWindow)
+ *   billingDemandKw = max(computedKwMax, ratchetFloorKw)
+ *
+ * Notes:
+ * - This is intended as a deterministic, auditable baseline for targeted tariffs.
+ * - If history is missing, we do NOT silently apply a floor; we surface missingInfo + warning code.
+ */
+export const PGE_COMMON_RATCHET_FLOOR_PCT_V1 = 0.9;
+export const PGE_COMMON_RATCHET_HISTORY_WINDOW_CYCLES_V1 = 11;
+export const PGE_COMMON_RATCHET_METHOD_TAG_V1 = 'pge_ratchet_common_v1';
 
 export function applyPgeDemandRulesV1(input: PgeDemandRuleInputV1): DemandRuleOutputV1 {
   const because: string[] = [];
@@ -59,52 +73,74 @@ export function applyPgeDemandRulesV1(input: PgeDemandRuleInputV1): DemandRuleOu
 
   because.push(`Computed kWMax=${Number(input.computedKwMax).toFixed(3)} kW for cycle (interval-derived).`);
 
-  // Default: no ratchet modeled.
+  // Default: billing demand equals interval max.
   let billingDemandKw = Number(input.computedKwMax);
-  because.push('Applied default rule: no ratchet modeled (billingDemandKw = kWMax).');
-
-  // Rate-family placeholders: explicitly surface that ratchets are not modeled.
-  if (fam === 'B19' || fam === 'B20') {
-    const floorPct = fam === 'B19' ? PGE_B19_RATCHET_FLOOR_PCT_V1 : PGE_B20_RATCHET_FLOOR_PCT_V1;
-    if (floorPct === null) {
-      missingInfo.push({
-        id: `determinants.demandRules.pge.${fam}.ratchet.unmodeled`,
-        category: 'tariff',
-        severity: 'info',
-        description: `Demand ratchet rule is not modeled for PG&E ${fam === 'B19' ? 'B-19' : 'B-20'}; billing demand may differ from interval max demand.`,
-      });
-      warnings.push('Demand ratchet/demand-window rules are placeholders in v1; verify demand determinants before relying on billing-demand values.');
-    } else {
-      // Hook: apply a ratchet floor based on prior history maximum.
-      const histMax = Math.max(
-        0,
-        ...input.history
-          .map((h) => Number(h.billingDemandKw ?? h.kWMax))
-          .filter((n) => Number.isFinite(n) && n > 0),
-      );
-      const floor = histMax * floorPct;
-      if (Number.isFinite(floor) && floor > billingDemandKw) {
-        billingDemandKw = floor;
-        because.push(`Applied ratchet floor: billingDemandKw=max(kWMax, ${floorPct} * histMax) with histMax=${histMax.toFixed(2)}kW.`);
-        evidence.push({ kind: 'assumption', pointer: { source: 'demandRules:pge', key: 'ratchetFloorPct', value: floorPct } });
-      }
-    }
-  } else {
-    missingInfo.push({
-      id: 'determinants.demandRules.pge.rateFamily.unmodeled',
-      category: 'tariff',
-      severity: 'info',
-      description: `Demand rules not modeled for PG&E rate family (rateCode=${input.rateCode}).`,
-    });
-  }
-
-  return {
+  const out: DemandRuleOutputV1 = {
     billingDemandKw,
-    because,
+    ratchetDemandKw: null,
+    ratchetFloorPct: null,
+    ratchetHistoryMaxKw: null,
+    billingDemandMethod: 'no_ratchet_v1',
+    because: [...because, 'Applied default rule: no ratchet (billingDemandKw = kWMax).'],
     evidence,
     missingInfo,
     warnings,
     confidence: clamp01(0.65),
   };
+
+  // Apply common ratchet for the targeted families.
+  if (fam === 'B19' || fam === 'B20') {
+    const floorPct = PGE_COMMON_RATCHET_FLOOR_PCT_V1;
+    const hist = (input.history || []).slice(-PGE_COMMON_RATCHET_HISTORY_WINDOW_CYCLES_V1);
+    const histVals = hist
+      .map((h) => Number(h.billingDemandKw ?? h.kWMax))
+      .filter((n) => Number.isFinite(n) && n > 0);
+
+    if (!histVals.length) {
+      warnings.push(PgeDemandRuleWarningCodesV1.DETERMINANT_RATCHET_NEEDS_HISTORY);
+      missingInfo.push({
+        id: `determinants.demandRules.pge.ratchet.${PgeDemandRuleWarningCodesV1.DETERMINANT_RATCHET_NEEDS_HISTORY}`,
+        category: 'tariff',
+        severity: 'warning',
+        description: `PG&E demand ratchet requires prior-month demand history (${PGE_COMMON_RATCHET_HISTORY_WINDOW_CYCLES_V1} month window). Provide prior billing cycles or usage history to compute ratchet floor.`,
+        details: { reasonCode: PgeDemandRuleWarningCodesV1.DETERMINANT_RATCHET_NEEDS_HISTORY, historyWindowCycles: PGE_COMMON_RATCHET_HISTORY_WINDOW_CYCLES_V1 },
+      } as any);
+      out.because.push('Ratchet not applied due to missing history; billingDemandKw left as kWMax.');
+      out.billingDemandMethod = PGE_COMMON_RATCHET_METHOD_TAG_V1;
+      out.ratchetFloorPct = floorPct;
+      return out;
+    }
+
+    const histMax = Math.max(...histVals);
+    const ratchetFloorKw = histMax * floorPct;
+    const billing = Math.max(Number(input.computedKwMax), ratchetFloorKw);
+    out.ratchetHistoryMaxKw = histMax;
+    out.ratchetFloorPct = floorPct;
+    out.ratchetDemandKw = ratchetFloorKw;
+    out.billingDemandKw = billing;
+    out.billingDemandMethod = PGE_COMMON_RATCHET_METHOD_TAG_V1;
+    out.because.push(
+      `Applied PG&E ratchet floor (${PGE_COMMON_RATCHET_METHOD_TAG_V1}): billingDemandKw=max(kWMax, ${floorPct} * histMax) with histMax=${histMax.toFixed(3)}kW.`,
+    );
+    out.evidence.push({ kind: 'assumption', pointer: { source: 'demandRules:pge', key: 'ratchetFloorPct', value: floorPct } });
+    out.evidence.push({ kind: 'assumption', pointer: { source: 'demandRules:pge', key: 'ratchetHistoryWindowCycles', value: PGE_COMMON_RATCHET_HISTORY_WINDOW_CYCLES_V1 } });
+    out.evidence.push({ kind: 'intervalCalc', pointer: { source: 'demandRules:pge', key: 'ratchetHistoryMaxKw', value: histMax } });
+    out.evidence.push({ kind: 'intervalCalc', pointer: { source: 'demandRules:pge', key: 'ratchetDemandKw', value: ratchetFloorKw } });
+    return out;
+  }
+
+  // Unsupported for now: warnings-first.
+  warnings.push(PgeDemandRuleWarningCodesV1.DETERMINANT_RATCHET_UNSUPPORTED);
+  missingInfo.push({
+    id: `determinants.demandRules.pge.ratchet.${PgeDemandRuleWarningCodesV1.DETERMINANT_RATCHET_UNSUPPORTED}`,
+    category: 'tariff',
+    severity: 'info',
+    description: `PG&E demand ratchet not implemented for this tariff (rateCode=${input.rateCode}).`,
+    details: { reasonCode: PgeDemandRuleWarningCodesV1.DETERMINANT_RATCHET_UNSUPPORTED, rateCode: input.rateCode },
+  } as any);
+  out.billingDemandMethod = 'pge_unsupported_v1';
+  return out;
+
+  // (unreachable)
 }
 

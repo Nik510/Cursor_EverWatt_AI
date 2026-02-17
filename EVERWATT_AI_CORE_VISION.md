@@ -361,3 +361,184 @@ It replaces spreadsheets, black boxes, and vendor lock-in with **explainable, re
 
 This document is the foundation.  
 All future work must align with it.
+
+---
+
+## 17. PRODUCT SURFACES (2–3 SIDED)
+
+EverWatt.AI is ultimately a **portfolio-scale operating system** with multiple tailored experiences:
+
+### A) Internal EverWatt Cockpit (power-user)
+- Built for engineering + delivery + sales enablement.
+- Deep tools for tariff/bill decomposition, determinants, scenario modeling, opportunity discovery, and report/document generation.
+- Portfolio triage: “top sites to focus this week,” “top opportunities,” “missing data,” “highest confidence wins.”
+
+### B) Customer-Facing Building Command Center (chief engineer + ops + finance)
+- Daily operational truth: “what changed,” “what’s wrong,” “what to do next,” with evidence and guardrails.
+- High-level building and portfolio performance views (energy/cost/demand/carbon), drill-down to causes.
+- Healthcare-ready explainability: comfort/critical spaces constraints are first-class.
+
+### C) Optional Partner / API Surface (later)
+- Integrations, exports, and onboarding tools for OEMs, integrators, utilities/programs, and customer ecosystems.
+
+---
+
+## 18. CANONICAL CAPABILITY MAP (WHAT WE ARE BUILDING)
+
+This section is the canonical “say it to Cursor” capability definition.  
+It expands the North Star into concrete product scope without changing any governance rules above.
+
+### 18.1 Building Digital Twin (per site + portfolio)
+- Maintain a complete, living digital twin of every building: equipment, lighting systems, controls/BMS, zones, sequences of operation, setpoints, schedules, critical spaces, and dependencies.
+- Attach all evidence to the twin: as-builts, O&M manuals, submittals, cut sheets, TAB, commissioning, warranty info, photos, and service history.
+- Portfolio rollups: define “what good looks like,” standardize naming/tagging, and highlight drift/outliers across dozens of sites.
+
+### 18.2 Universal Data Ingestion
+- Utility bills ingestion (PDF/CSV/portals/APIs): electric/gas first; water/steam where applicable.
+- Interval / AMI ingestion: Green Button, utility APIs, and customer exports; support “thousands of lines of data” as normal.
+- Weather ingestion: degree days, humidity, and extreme events; correlation and weather-normalized modeling inputs.
+- BMS telemetry ingestion: trends, points, alarms, schedules, overrides, and equipment runtime.
+- IoT/sensors ingestion: occupancy, IAQ, temp/humidity, vibration, power quality, lighting levels (foot-candles), and life-safety test telemetry where available.
+- Document ingestion: automatically classify and attach documents to the correct building/equipment/space within the twin.
+
+### 18.3 Deterministic Engines (truth) + AI Layer (interpretation)
+- EverWatt.AI contains multiple deterministic engines that produce **auditable, reproducible outputs**.
+- AI explains, operationalizes, and teaches — but does not invent numbers.
+- Every result must support “how computed,” including: inputs used, assumptions, warnings for missing data, confidence, and reproducible steps.
+
+Required engine families (non-exhaustive):
+- Tariff engine: versioned snapshots, structured rules (TOU, demand, riders), and “what changed between snapshots.”
+- Bill engine: deep bill decomposition (supply/delivery/taxes/riders), ratchets, penalties, aggregation rules, and error detection.
+- Regression/baseline engine: weather normalization and defensible baselines for M&V.
+- Utility pattern engine: peaks/lows, load shapes, anomalies, seasonality, operational signatures.
+- Incentive/rebate engine: searchable catalog, versioned snapshots, eligibility logic (DSIRE-style).
+- Solar/battery/DR engines: behind-the-meter strategies, dispatch value, program alignment, stacking rules, and conflicts.
+- Microgrid & resiliency engine: islanding/backup value, critical-load mapping, outage exposure, and coordination between solar/storage/generators where present.
+- Measure economics engine: ROI/payback, TRC/TSB/PAC outputs where required, EULs, risk bands, and sensitivity.
+
+### 18.4 Automated Opportunity Discovery (“super-engineer” savings finding)
+- Identify opportunities from data without requiring humans to guess where to look.
+- Detect drift and faults: setpoints changed, schedules overridden, sensor failures, VFD hunting, economizers disabled, simultaneous heat/cool, short cycling, staging issues, etc.
+- Mechanical diagnostics examples (under the hood):
+  - VFD overload detection
+  - Low delta‑T detection and correction opportunities
+  - Static pressure optimization opportunities
+  - VAV/damper failure detection
+  - Chiller/boiler staging problems
+  - Excess outside air / economizer faults
+- Lighting diagnostics examples:
+  - Under/over-lighting and code compliance (foot-candle validation)
+  - Uniformity + CCT governance across a campus
+  - SKU reduction / portfolio standardization opportunities
+- Power quality / electrical diagnostics (where possible):
+  - spikes, out-of-phase power, abnormal demand events, power factor flags
+  - “what likely caused this” narratives (bounded by evidence)
+
+### 18.5 Closed-Loop Optimization (not just dashboards)
+- Recommend actions and — where allowed — push changes into control systems **only with approvals** and safe-change workflows.
+- Ongoing tuning: continuously learn behavior and improve sequences over time, without violating truth governance.
+- Vendor-neutral optimization across mixed brands/generations while keeping outcomes consistent.
+- Guardrails: comfort, critical spaces, infection control, and healthcare-ready logic are first-class constraints.
+
+### 18.6 Workflows, Tasks, and Operating System for Engineers
+- Turn findings into work orders/tasks: who/what/why/steps/safety notes/expected savings/verification steps.
+- Commissioning-style functional testing workflows: guided checklists + evidence capture.
+- Track overrides and exceptions: who changed what, when, why, and what it cost.
+- Playbooks: recurring issue knowledge that improves per client and equipment type.
+
+### 18.7 Automated Testing & Compliance (big differentiator)
+- App-based automation for:
+  - emergency exit signs
+  - emergency lights
+  - emergency drivers
+- Schedule and log monthly / 90-minute testing (or jurisdictional equivalents), reduce labor, prevent false failures, avoid unnecessary replacements.
+- Expand to broader compliance automation: inspection scheduling, evidence capture, audit-ready logs, and lighting-level compliance correction (egress, code minimums, over-lighting waste).
+
+### 18.8 Measurement & Verification (prove savings, not vibes)
+- Six-month pre/post comparisons and two-year follow-up checks (evolve into continuous M&V).
+- Weather-normalized performance reporting.
+- Functional verification tied to measured outcomes: “we changed X → load shape improved → demand dropped.”
+- Portfolio leaderboards: best sites, worst sites, where to focus next.
+
+### 18.9 Cutovers, Modernization, and De-risking Vendor Lock-In
+- Plan and execute BMS cutovers across portfolios:
+  - inventory systems/points, map sequences/graphics/trends
+  - validate critical alarms/safeties, ensure continuity
+  - define universal hardware interface strategy where needed
+- Modernization roadmap generator: stepwise plan to eliminate technical debt and reduce lock-in.
+
+### 18.10 Portfolio Standardization & Governance
+- Standardize lighting specs and controls standards across a portfolio.
+- Enforce approved CCT, fixture families, performance bands, and warranty governance.
+- Reduce SKU count materially while improving uniformity and maintainability.
+- Standardize sequences and naming conventions (points, equipment, zones) across sites.
+
+### 18.11 Financial + Program Strategy Layer (make projects financeable)
+- Generate finance-ready packages: savings estimates, risk, verification plan, and required documentation sets.
+- Support on-bill financing, performance contracting, and incentive stacking logic where applicable.
+- Decision support: “best 3 projects this quarter” by ROI, risk, ease, disruption, and compliance urgency.
+
+### 18.12 Document & Report Generation (push-button)
+- Generate: energy assessment reports, M&V reports, commissioning/functional testing reports, compliance reports.
+- Generate project docs: quotes/proposals/scopes (where appropriate), change orders, service agreements, cutover plans, validation checklists.
+- Output client-usable formats (PDF/Word/Excel) with consistent EverWatt branding.
+
+### 18.13 AI Engineer Assistant (copilot, tethered to evidence)
+- Chat interface that answers:
+  - “What’s wrong with AHU‑3 right now?”
+  - “Why did demand spike last Tuesday at 2pm?”
+  - “Which sites are failing compliance testing?”
+  - “What’s the fastest way to save 10% this quarter?”
+- Explanations are always tied to evidence, audit trails, and deterministic outputs.
+- Training accelerator: help junior engineers troubleshoot with client-specific context.
+
+### 18.14 Reliability, Security, and Auditability (enterprise-ready)
+- Deterministic outputs are versioned, testable, and reproducible.
+- Full provenance: data sources, snapshots, assumptions, and explicit missing-data warnings.
+- Role-based access controls, logs, approvals, and safe-change workflows for any control writes.
+- Clear separation between truth engines and AI interpretation to preserve trust.
+
+### 18.15 Integrations & Ecosystem
+- Integrate with CMMS/work order platforms, BMS front-ends, historians, and utility portals.
+- Integrate with design/engineering workflows (export specs, point lists, sequences, submittal packages).
+- Provide APIs so EverWatt can plug into customer ecosystems.
+
+### 18.16 Extensible Technology & Measure Library (ingest new tech to sell)
+- Maintain a versioned catalog of technologies/measures (existing and emerging): what it is, prerequisites, constraints, typical savings mechanisms, KPIs, and required data to size/verify it.
+- Enable onboarding of new product categories (sensors, controllers, batteries, DR programs, microgrid components, etc.) and map them into the twin (assets/telemetry/expected outcomes).
+- Portfolio targeting: “which customers are best fit for X and why,” with auditable value hypotheses and risk notes.
+- Ensure new technologies can be evaluated side-by-side with existing strategies (pros/cons, conflicts/synergies, confidence, and missing-data checklists).
+
+### 18.17 EverWatt Operating Model Support (how it helps the business)
+- Act as EverWatt’s internal memory of every building, project, and result.
+- Standardize how experts assess buildings and what gets captured.
+- Enable scalable nationwide delivery by turning expert intuition into repeatable engines, workflows, and playbooks.
+
+---
+
+## 19. THE “WHY” DIFFERENTIATOR (CAUSALITY, NOT JUST REACTION)
+
+Battery/DR/control platforms often react to outcomes (e.g., demand spike → discharge).  
+EverWatt.AI must explain **why the spike happened** by linking utility and interval signals to:
+- equipment runtime and staging behavior,
+- schedules, overrides, and sequence drift,
+- lighting/occupancy patterns,
+- weather context and special events,
+- power quality flags when available.
+
+This “cause chain” must be presented as an evidence-backed narrative with confidence bounds — not a guess.
+
+---
+
+## 20. DAILY CHIEF ENGINEER REPORT (CANONICAL OUTPUT)
+
+EverWatt.AI should generate a daily pre-shift report (email + in-app) including:
+- system check summary (normal vs issues to review)
+- overnight anomalies (demand spikes, baseload drift, unusual runtimes)
+- alarms and overrides (new, persistent, and “older than X days”)
+- equipment health signals (e.g., VFD overload, low delta‑T, static pressure drift, stuck dampers, short cycling)
+- IAQ/weather context (e.g., smoke day ventilation implications, humidity risk, extreme weather risk)
+- energy/demand forecast (expected peak window + confidence range)
+- prioritized actions (1–3 items) with impact estimate, risk, and verification steps
+- verification of prior actions (“improved / no change / needs investigation”)
+

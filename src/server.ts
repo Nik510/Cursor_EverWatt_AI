@@ -6021,8 +6021,44 @@ app.get('/api/projects/:id/analysis-results-v1', async (c) => {
       intervalPointsV1 = loaded.intervalPointsV1 || null;
       intervalWarnings.push(...loaded.warnings);
     } else {
+      // Prefer persisted interval intake v1 (parsed points + deterministic meta).
+      const storedPts = (project as any)?.telemetry?.intervalElectricV1;
+      const storedMeta = (project as any)?.telemetry?.intervalElectricMetaV1;
+      if (Array.isArray(storedPts) && storedPts.length) {
+        intervalPointsV1 = storedPts
+          .map((p: any) => ({
+            timestampIso: String(p?.timestampIso || '').trim(),
+            intervalMinutes: Number(p?.intervalMinutes),
+            ...(Number.isFinite(Number(p?.kWh)) ? { kWh: Number(p.kWh) } : {}),
+            ...(Number.isFinite(Number(p?.kW)) ? { kW: Number(p.kW) } : {}),
+            ...(Number.isFinite(Number(p?.temperatureF)) ? { temperatureF: Number(p.temperatureF) } : {}),
+          }))
+          .filter((p: any) => p.timestampIso && Number.isFinite(Number(p.intervalMinutes)) && Number(p.intervalMinutes) > 0);
+        intervalKwSeries =
+          intervalPointsV1
+            ?.map((p: any) => {
+              const kwExplicit = Number(p?.kW);
+              const kWh = Number(p?.kWh);
+              const mins = Number(p?.intervalMinutes);
+              const kwDerived = !Number.isFinite(kwExplicit) && Number.isFinite(kWh) && Number.isFinite(mins) && mins > 0 ? kWh * (60 / mins) : NaN;
+              const kw = Number.isFinite(kwExplicit) ? kwExplicit : kwDerived;
+              return { timestampIso: String(p?.timestampIso || '').trim(), kw };
+            })
+            .filter((x: any) => x.timestampIso && Number.isFinite(Number(x.kw))) || null;
+
+        if (storedMeta && typeof storedMeta === 'object') {
+          const ws = (storedMeta as any)?.warnings;
+          if (Array.isArray(ws) && ws.length) {
+            for (const w of ws.slice(0, 12)) {
+              const code = String((w as any)?.code || '').trim();
+              if (code) intervalWarnings.push(`interval meta: ${code}`);
+            }
+          }
+        }
+      }
+
       const intervalFilePath = String((project as any)?.telemetry?.intervalFilePath || '').trim();
-      if (intervalFilePath) {
+      if (!intervalKwSeries && intervalFilePath) {
         const loaded = await loadIntervalInputsFromFile(intervalFilePath);
         intervalKwSeries = loaded.intervalKwSeries;
         intervalPointsV1 = loaded.intervalPointsV1 || null;
@@ -8060,6 +8096,148 @@ app.delete('/api/projects/:id/decision-memory/:memoryId', async (c) => {
   } catch (error) {
     console.error('Delete decision memory error:', error);
     return c.json({ success: false, error: 'Failed to delete decision memory' }, 500);
+  }
+});
+
+/**
+ * ==========================================
+ * INTERNAL ENGINEERING REPORTS (append-only)
+ * ==========================================
+ *
+ * V1: append-only JSON revisions stored on the project record, with deterministic HTML rendering.
+ */
+
+function stableStringifyV1(value: unknown): string {
+  const seen = new WeakSet<object>();
+  const normalize = (v: any): any => {
+    if (v === null || typeof v !== 'object') return v;
+    if (seen.has(v)) return '[Circular]';
+    seen.add(v);
+    if (Array.isArray(v)) return v.map(normalize);
+    const out: Record<string, any> = {};
+    for (const k of Object.keys(v).sort()) out[k] = normalize(v[k]);
+    return out;
+  };
+  return JSON.stringify(normalize(value));
+}
+
+function sha256Hex(text: string): string {
+  return createHash('sha256').update(text).digest('hex');
+}
+
+app.get('/api/projects/:id/reports/internal-engineering', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const id = c.req.param('id');
+    const project = await loadProjectInternal(userId, id);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+    const revisions = Array.isArray((project as any)?.reportsV1?.internalEngineering)
+      ? (project as any).reportsV1.internalEngineering
+      : [];
+    return c.json({ success: true, revisions });
+  } catch (error) {
+    console.error('List internal engineering reports error:', error);
+    return c.json({ success: false, error: 'Failed to list internal reports' }, 500);
+  }
+});
+
+app.post('/api/projects/:id/reports/internal-engineering', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const id = c.req.param('id');
+    const project = await loadProjectInternal(userId, id);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const body = await c.req.json().catch(() => ({}));
+    const title = String((body as any)?.title || '').trim() || 'Internal Engineering Report (v1)';
+    const reportJsonRaw = (body as any)?.reportJson;
+    if (reportJsonRaw === null || reportJsonRaw === undefined) return c.json({ success: false, error: 'reportJson is required' }, 400);
+
+    // Hardening: enforce server-side truth for projectId inside the snapshot JSON.
+    // This guarantees stable deep links even if clients change/malfunction.
+    const reportJson = (() => {
+      const v = reportJsonRaw as any;
+      if (v && typeof v === 'object') {
+        if (Array.isArray(v)) return { projectId: id, items: v };
+        return { ...v, projectId: id };
+      }
+      return { projectId: id, value: v };
+    })();
+
+    const now = new Date().toISOString();
+    const reportHash = sha256Hex(stableStringifyV1(reportJson));
+    const revision = {
+      id: randomUUID(),
+      createdAt: now,
+      title,
+      reportHash,
+      reportJson,
+    };
+
+    const existingReports = (project as any)?.reportsV1 && typeof (project as any).reportsV1 === 'object' ? (project as any).reportsV1 : {};
+    const existingRevisions = Array.isArray(existingReports?.internalEngineering) ? existingReports.internalEngineering : [];
+    // Append-only: always create a new revision; keep a bounded history.
+    const nextRevisions = [revision, ...existingRevisions].slice(0, 200);
+    const nextReportsV1 = { ...existingReports, internalEngineering: nextRevisions };
+    const updated = await persistProjectInternal(userId, id, { reportsV1: nextReportsV1 });
+    return c.json({ success: true, revision, revisions: (updated as any)?.reportsV1?.internalEngineering || nextRevisions });
+  } catch (error) {
+    console.error('Append internal engineering report error:', error);
+    return c.json({ success: false, error: 'Failed to append internal report' }, 500);
+  }
+});
+
+app.get('/api/projects/:id/reports/internal-engineering/:revisionId.json', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const id = c.req.param('id');
+    const revisionId = c.req.param('revisionId');
+    const project = await loadProjectInternal(userId, id);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+    const revisions = Array.isArray((project as any)?.reportsV1?.internalEngineering)
+      ? (project as any).reportsV1.internalEngineering
+      : [];
+    const rev = revisions.find((r: any) => String(r?.id || '') === String(revisionId || ''));
+    if (!rev) return c.json({ success: false, error: 'Report revision not found' }, 404);
+    return c.json({ success: true, revision: rev });
+  } catch (error) {
+    console.error('Get internal engineering report json error:', error);
+    return c.json({ success: false, error: 'Failed to load report json' }, 500);
+  }
+});
+
+app.get('/api/projects/:id/reports/internal-engineering/:revisionId.html', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const id = c.req.param('id');
+    const revisionId = c.req.param('revisionId');
+    const project = await loadProjectInternal(userId, id);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+    const revisions = Array.isArray((project as any)?.reportsV1?.internalEngineering)
+      ? (project as any).reportsV1.internalEngineering
+      : [];
+    const rev = revisions.find((r: any) => String(r?.id || '') === String(revisionId || ''));
+    if (!rev) return c.json({ success: false, error: 'Report revision not found' }, 404);
+
+    const { renderInternalEngineeringReportHtmlV1 } = await import('./modules/reports/internalEngineering/v1/renderInternalEngineeringReportHtml');
+    const html = renderInternalEngineeringReportHtmlV1({
+      project: {
+        id,
+        name: String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined,
+      },
+      revision: {
+        id: String((rev as any)?.id || ''),
+        createdAt: String((rev as any)?.createdAt || ''),
+        title: String((rev as any)?.title || ''),
+        reportJson: (rev as any)?.reportJson,
+        reportHash: String((rev as any)?.reportHash || ''),
+      },
+    });
+    c.header('Content-Type', 'text/html; charset=utf-8');
+    return c.body(html);
+  } catch (error) {
+    console.error('Render internal engineering report html error:', error);
+    return c.json({ success: false, error: 'Failed to render report html' }, 500);
   }
 });
 

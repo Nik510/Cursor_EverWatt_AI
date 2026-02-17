@@ -1154,7 +1154,7 @@ export const AnalysisResultsV1Page: React.FC = () => {
                                 type="button"
                                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-semibold text-gray-700 hover:bg-gray-50"
                                 onClick={() =>
-                                  navigate(`/project-builder/${encodeURIComponent(projectId)}/billing`, {
+                                  navigate(`/project-builder/${encodeURIComponent(projectId)}/intake/intervals`, {
                                     state: { returnTo: `${location.pathname}${location.search}` },
                                   })
                                 }
@@ -1341,6 +1341,21 @@ export const AnalysisResultsV1Page: React.FC = () => {
                                     }
                                   >
                                     Add bill text
+                                  </button>
+                                );
+                              }
+                              if (id === 'interval.intervalElectricV1.missing') {
+                                return (
+                                  <button
+                                    type="button"
+                                    className="inline-flex items-center gap-2 px-2 py-1 rounded-md bg-white border border-gray-200 text-[11px] font-semibold text-gray-700 hover:bg-gray-50"
+                                    onClick={() =>
+                                      navigate(`/project-builder/${encodeURIComponent(projectId)}/intake/intervals`, {
+                                        state: { returnTo: `${location.pathname}${location.search}` },
+                                      })
+                                    }
+                                  >
+                                    Upload intervals
                                   </button>
                                 );
                               }

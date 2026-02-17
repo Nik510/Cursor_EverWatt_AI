@@ -42,6 +42,40 @@ export type ProjectRecord = {
    * Project Builder (Vault + Graph) extensions.
    * Optional so legacy callers (e.g., change orders) remain compatible.
    */
+  telemetry?: {
+    /**
+     * Billing intake (v1): extracted PDF text pasted by user.
+     */
+    billPdfText?: string;
+    /**
+     * Interval intake (electric) v1: parsed interval points (deterministic).
+     */
+    intervalElectricV1?: Array<{
+      timestampIso: string;
+      intervalMinutes: number;
+      kWh?: number;
+      kW?: number;
+      temperatureF?: number;
+    }>;
+    /**
+     * Interval intake (electric) v1: deterministic parse meta + warnings.
+     */
+    intervalElectricMetaV1?: Record<string, unknown>;
+    [k: string]: unknown;
+  };
+  /**
+   * Append-only internal reports (v1).
+   */
+  reportsV1?: {
+    internalEngineering?: Array<{
+      id: string;
+      createdAt: string;
+      title?: string;
+      reportHash?: string;
+      reportJson: unknown;
+    }>;
+    [k: string]: unknown;
+  };
   vault?: {
     files?: Array<{
       id: string;

@@ -27,6 +27,48 @@ describe('matchBillTariffToLibraryV1', () => {
     expect(out.candidates?.length || 0).toBe(0);
   });
 
+  it('normalizes common bill labels (Schedule / Rate) and matches E-19', () => {
+    const out = matchBillTariffToLibraryV1({
+      utilityId: 'PGE',
+      commodity: 'electric',
+      rateScheduleText: 'Rate Schedule: E-19',
+      snapshot: makeSnapshot([{ rateCode: 'E-19' }, { rateCode: 'B-19' }]),
+    });
+    expect(out.resolved?.rateCode).toBe('E-19');
+    expect(out.resolved?.matchType).toBe('EXACT');
+  });
+
+  it('normalizes missing dash (A10 -> A-10) and matches', () => {
+    const out = matchBillTariffToLibraryV1({
+      utilityId: 'PGE',
+      commodity: 'electric',
+      rateScheduleText: 'A10',
+      snapshot: makeSnapshot([{ rateCode: 'A-10' }, { rateCode: 'E-19' }]),
+    });
+    expect(out.resolved?.rateCode).toBe('A-10');
+    expect(out.resolved?.matchType).toBe('EXACT');
+  });
+
+  it('normalizes spaces/underscores for TOU GS 3', () => {
+    const out = matchBillTariffToLibraryV1({
+      utilityId: 'SCE',
+      commodity: 'electric',
+      rateScheduleText: 'TOU GS_3',
+      snapshot: makeSnapshot([{ rateCode: 'TOU-GS-3' }, { rateCode: 'TOU-GS-2' }]),
+    });
+    expect(out.resolved?.rateCode).toBe('TOU-GS-3');
+  });
+
+  it('handles "Schedule E 19" spacing variants', () => {
+    const out = matchBillTariffToLibraryV1({
+      utilityId: 'PGE',
+      commodity: 'electric',
+      rateScheduleText: 'Schedule E 19',
+      snapshot: makeSnapshot([{ rateCode: 'E-19' }, { rateCode: 'B-19' }]),
+    });
+    expect(out.resolved?.rateCode).toBe('E-19');
+  });
+
   it('returns candidates + BILL_TARIFF_AMBIGUOUS when ambiguous', () => {
     const out = matchBillTariffToLibraryV1({
       utilityId: 'SCE',

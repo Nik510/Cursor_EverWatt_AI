@@ -1,6 +1,244 @@
 {
   "sources": [
     {
+      "sourceId": "audit_exchange_b1f7032b-d278-4528-ac29-1c56d1f18786",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "type": "audit_exchange",
+      "createdAt": "2026-02-03T00:00:00.000Z",
+      "provenance": {
+        "exportedAt": "2026-02-02T00:00:00.000Z",
+        "exportedBy": "field-tech@example.com",
+        "tool": "Spreadsheet",
+        "toolVersion": "v1",
+        "method": "manual_entry"
+      }
+    },
+    {
+      "sourceId": "audit_exchange_18fd6ca2-f62c-4a85-b0e2-68eefabd9710",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "type": "audit_exchange",
+      "createdAt": "2026-02-03T00:00:00.000Z",
+      "provenance": {
+        "exportedAt": "2026-02-02T00:00:00.000Z",
+        "exportedBy": "field-tech@example.com",
+        "tool": "Spreadsheet",
+        "toolVersion": "v1",
+        "method": "manual_entry"
+      }
+    },
+    {
+      "sourceId": "audit_exchange_26df9b30-2be1-49af-96db-21bbbef8896a",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "type": "audit_exchange",
+      "createdAt": "2026-02-03T00:00:00.000Z",
+      "provenance": {
+        "exportedAt": "2026-02-02T00:00:00.000Z",
+        "exportedBy": "field-tech@example.com",
+        "tool": "Spreadsheet",
+        "toolVersion": "v1",
+        "method": "manual_entry"
+      }
+    },
+    {
+      "sourceId": "audit_exchange_0c3efac5-b131-4878-b4f8-0984d8c542c4",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "type": "audit_exchange",
+      "createdAt": "2026-02-03T00:00:00.000Z",
+      "provenance": {
+        "exportedAt": "2026-02-02T00:00:00.000Z",
+        "exportedBy": "field-tech@example.com",
+        "tool": "Spreadsheet",
+        "toolVersion": "v1",
+        "method": "manual_entry"
+      }
+    },
+    {
+      "sourceId": "audit_exchange_9d152884-44f8-4013-bc62-01bcae4067c9",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "type": "audit_exchange",
+      "createdAt": "2026-02-03T00:00:00.000Z",
+      "provenance": {
+        "exportedAt": "2026-02-02T00:00:00.000Z",
+        "exportedBy": "field-tech@example.com",
+        "tool": "Spreadsheet",
+        "toolVersion": "v1",
+        "method": "manual_entry"
+      }
+    },
+    {
+      "sourceId": "audit_exchange_a6719b76-1ebc-40fd-b7e1-0fe8412a64e9",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "type": "audit_exchange",
+      "createdAt": "2026-02-03T00:00:00.000Z",
+      "provenance": {
+        "exportedAt": "2026-02-02T00:00:00.000Z",
+        "exportedBy": "field-tech@example.com",
+        "tool": "Spreadsheet",
+        "toolVersion": "v1",
+        "method": "manual_entry"
+      }
+    },
+    {
+      "sourceId": "audit_exchange_3943c039-357a-42a8-beaa-0e20bf3dbb60",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "type": "audit_exchange",
+      "createdAt": "2026-02-03T00:00:00.000Z",
+      "provenance": {
+        "exportedAt": "2026-02-02T00:00:00.000Z",
+        "exportedBy": "field-tech@example.com",
+        "tool": "Spreadsheet",
+        "toolVersion": "v1",
+        "method": "manual_entry"
+      }
+    },
+    {
+      "sourceId": "audit_exchange_44f86521-5b03-49b7-bd74-4533ed328383",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "type": "audit_exchange",
+      "createdAt": "2026-02-03T00:00:00.000Z",
+      "provenance": {
+        "exportedAt": "2026-02-02T00:00:00.000Z",
+        "exportedBy": "field-tech@example.com",
+        "tool": "Spreadsheet",
+        "toolVersion": "v1",
+        "method": "manual_entry"
+      }
+    },
+    {
+      "sourceId": "audit_exchange_7e6d6de5-4270-4360-9b73-980406af28ae",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "type": "audit_exchange",
+      "createdAt": "2026-02-03T00:00:00.000Z",
+      "provenance": {
+        "exportedAt": "2026-02-02T00:00:00.000Z",
+        "exportedBy": "field-tech@example.com",
+        "tool": "Spreadsheet",
+        "toolVersion": "v1",
+        "method": "manual_entry"
+      }
+    },
+    {
+      "sourceId": "audit_exchange_8d9fbe73-5a14-4ac4-9525-7e1d6344bc18",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "type": "audit_exchange",
+      "createdAt": "2026-02-03T00:00:00.000Z",
+      "provenance": {
+        "exportedAt": "2026-02-02T00:00:00.000Z",
+        "exportedBy": "field-tech@example.com",
+        "tool": "Spreadsheet",
+        "toolVersion": "v1",
+        "method": "manual_entry"
+      }
+    },
+    {
+      "sourceId": "audit_exchange_b3283804-e948-4dfe-ae20-e0627215e596",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "type": "audit_exchange",
+      "createdAt": "2026-02-03T00:00:00.000Z",
+      "provenance": {
+        "exportedAt": "2026-02-02T00:00:00.000Z",
+        "exportedBy": "field-tech@example.com",
+        "tool": "Spreadsheet",
+        "toolVersion": "v1",
+        "method": "manual_entry"
+      }
+    },
+    {
+      "sourceId": "audit_exchange_cac8ea3b-f5fd-4c04-ab6e-146cdca0f150",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "type": "audit_exchange",
+      "createdAt": "2026-02-03T00:00:00.000Z",
+      "provenance": {
+        "exportedAt": "2026-02-02T00:00:00.000Z",
+        "exportedBy": "field-tech@example.com",
+        "tool": "Spreadsheet",
+        "toolVersion": "v1",
+        "method": "manual_entry"
+      }
+    },
+    {
+      "sourceId": "audit_exchange_7838c805-f941-4554-a55c-1dbd78dd75b8",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "type": "audit_exchange",
+      "createdAt": "2026-02-03T00:00:00.000Z",
+      "provenance": {
+        "exportedAt": "2026-02-02T00:00:00.000Z",
+        "exportedBy": "field-tech@example.com",
+        "tool": "Spreadsheet",
+        "toolVersion": "v1",
+        "method": "manual_entry"
+      }
+    },
+    {
+      "sourceId": "audit_exchange_5b95e572-2809-4b4f-b6f1-4056cc757ba5",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "type": "audit_exchange",
+      "createdAt": "2026-02-03T00:00:00.000Z",
+      "provenance": {
+        "exportedAt": "2026-02-02T00:00:00.000Z",
+        "exportedBy": "field-tech@example.com",
+        "tool": "Spreadsheet",
+        "toolVersion": "v1",
+        "method": "manual_entry"
+      }
+    },
+    {
+      "sourceId": "audit_exchange_23570fe4-2505-496f-a200-943b51b1b368",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "type": "audit_exchange",
+      "createdAt": "2026-02-03T00:00:00.000Z",
+      "provenance": {
+        "exportedAt": "2026-02-02T00:00:00.000Z",
+        "exportedBy": "field-tech@example.com",
+        "tool": "Spreadsheet",
+        "toolVersion": "v1",
+        "method": "manual_entry"
+      }
+    },
+    {
+      "sourceId": "audit_exchange_e936fb03-4ebb-45b1-bc30-6c00765ce6ba",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "type": "audit_exchange",
+      "createdAt": "2026-02-03T00:00:00.000Z",
+      "provenance": {
+        "exportedAt": "2026-02-02T00:00:00.000Z",
+        "exportedBy": "field-tech@example.com",
+        "tool": "Spreadsheet",
+        "toolVersion": "v1",
+        "method": "manual_entry"
+      }
+    },
+    {
+      "sourceId": "audit_exchange_d0d125c1-cce5-470d-8a03-5dd5f9e5fd6b",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "type": "audit_exchange",
+      "createdAt": "2026-02-03T00:00:00.000Z",
+      "provenance": {
+        "exportedAt": "2026-02-02T00:00:00.000Z",
+        "exportedBy": "field-tech@example.com",
+        "tool": "Spreadsheet",
+        "toolVersion": "v1",
+        "method": "manual_entry"
+      }
+    },
+    {
       "sourceId": "audit_exchange_76430b1f-b0e3-4ad1-8395-d843e264b35e",
       "orgId": "demo-org",
       "projectId": "p_demo",
@@ -1360,6 +1598,737 @@
     }
   ],
   "artifacts": [
+    {
+      "artifactId": "photo_ahu",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b1f7032b-d278-4528-ac29-1c56d1f18786",
+      "kind": "photo",
+      "filename": "ahu1_nameplate.jpg",
+      "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg",
+      "capturedAt": "2026-02-01T18:00:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_panel",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b1f7032b-d278-4528-ac29-1c56d1f18786",
+      "kind": "photo",
+      "filename": "panel_a_label.jpg",
+      "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg",
+      "capturedAt": "2026-02-01T18:10:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_meter",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b1f7032b-d278-4528-ac29-1c56d1f18786",
+      "kind": "photo",
+      "filename": "meter_1.jpg",
+      "uriOrPath": "file:///C:/audit/photos/meter_1.jpg",
+      "capturedAt": "2026-02-01T18:20:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "note_walkthrough",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b1f7032b-d278-4528-ac29-1c56d1f18786",
+      "kind": "note",
+      "filename": "walkthrough.txt",
+      "uriOrPath": "file:///C:/audit/notes/walkthrough.txt",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_ahu",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_18fd6ca2-f62c-4a85-b0e2-68eefabd9710",
+      "kind": "photo",
+      "filename": "ahu1_nameplate.jpg",
+      "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg",
+      "capturedAt": "2026-02-01T18:00:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_panel",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_18fd6ca2-f62c-4a85-b0e2-68eefabd9710",
+      "kind": "photo",
+      "filename": "panel_a_label.jpg",
+      "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg",
+      "capturedAt": "2026-02-01T18:10:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_meter",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_18fd6ca2-f62c-4a85-b0e2-68eefabd9710",
+      "kind": "photo",
+      "filename": "meter_1.jpg",
+      "uriOrPath": "file:///C:/audit/photos/meter_1.jpg",
+      "capturedAt": "2026-02-01T18:20:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "note_walkthrough",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_18fd6ca2-f62c-4a85-b0e2-68eefabd9710",
+      "kind": "note",
+      "filename": "walkthrough.txt",
+      "uriOrPath": "file:///C:/audit/notes/walkthrough.txt",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_ahu",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_26df9b30-2be1-49af-96db-21bbbef8896a",
+      "kind": "photo",
+      "filename": "ahu1_nameplate.jpg",
+      "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg",
+      "capturedAt": "2026-02-01T18:00:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_panel",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_26df9b30-2be1-49af-96db-21bbbef8896a",
+      "kind": "photo",
+      "filename": "panel_a_label.jpg",
+      "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg",
+      "capturedAt": "2026-02-01T18:10:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_meter",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_26df9b30-2be1-49af-96db-21bbbef8896a",
+      "kind": "photo",
+      "filename": "meter_1.jpg",
+      "uriOrPath": "file:///C:/audit/photos/meter_1.jpg",
+      "capturedAt": "2026-02-01T18:20:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "note_walkthrough",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_26df9b30-2be1-49af-96db-21bbbef8896a",
+      "kind": "note",
+      "filename": "walkthrough.txt",
+      "uriOrPath": "file:///C:/audit/notes/walkthrough.txt",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_ahu",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_0c3efac5-b131-4878-b4f8-0984d8c542c4",
+      "kind": "photo",
+      "filename": "ahu1_nameplate.jpg",
+      "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg",
+      "capturedAt": "2026-02-01T18:00:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_panel",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_0c3efac5-b131-4878-b4f8-0984d8c542c4",
+      "kind": "photo",
+      "filename": "panel_a_label.jpg",
+      "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg",
+      "capturedAt": "2026-02-01T18:10:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_meter",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_0c3efac5-b131-4878-b4f8-0984d8c542c4",
+      "kind": "photo",
+      "filename": "meter_1.jpg",
+      "uriOrPath": "file:///C:/audit/photos/meter_1.jpg",
+      "capturedAt": "2026-02-01T18:20:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "note_walkthrough",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_0c3efac5-b131-4878-b4f8-0984d8c542c4",
+      "kind": "note",
+      "filename": "walkthrough.txt",
+      "uriOrPath": "file:///C:/audit/notes/walkthrough.txt",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_ahu",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_9d152884-44f8-4013-bc62-01bcae4067c9",
+      "kind": "photo",
+      "filename": "ahu1_nameplate.jpg",
+      "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg",
+      "capturedAt": "2026-02-01T18:00:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_panel",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_9d152884-44f8-4013-bc62-01bcae4067c9",
+      "kind": "photo",
+      "filename": "panel_a_label.jpg",
+      "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg",
+      "capturedAt": "2026-02-01T18:10:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_meter",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_9d152884-44f8-4013-bc62-01bcae4067c9",
+      "kind": "photo",
+      "filename": "meter_1.jpg",
+      "uriOrPath": "file:///C:/audit/photos/meter_1.jpg",
+      "capturedAt": "2026-02-01T18:20:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "note_walkthrough",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_9d152884-44f8-4013-bc62-01bcae4067c9",
+      "kind": "note",
+      "filename": "walkthrough.txt",
+      "uriOrPath": "file:///C:/audit/notes/walkthrough.txt",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_ahu",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_a6719b76-1ebc-40fd-b7e1-0fe8412a64e9",
+      "kind": "photo",
+      "filename": "ahu1_nameplate.jpg",
+      "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg",
+      "capturedAt": "2026-02-01T18:00:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_panel",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_a6719b76-1ebc-40fd-b7e1-0fe8412a64e9",
+      "kind": "photo",
+      "filename": "panel_a_label.jpg",
+      "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg",
+      "capturedAt": "2026-02-01T18:10:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_meter",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_a6719b76-1ebc-40fd-b7e1-0fe8412a64e9",
+      "kind": "photo",
+      "filename": "meter_1.jpg",
+      "uriOrPath": "file:///C:/audit/photos/meter_1.jpg",
+      "capturedAt": "2026-02-01T18:20:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "note_walkthrough",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_a6719b76-1ebc-40fd-b7e1-0fe8412a64e9",
+      "kind": "note",
+      "filename": "walkthrough.txt",
+      "uriOrPath": "file:///C:/audit/notes/walkthrough.txt",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_ahu",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_3943c039-357a-42a8-beaa-0e20bf3dbb60",
+      "kind": "photo",
+      "filename": "ahu1_nameplate.jpg",
+      "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg",
+      "capturedAt": "2026-02-01T18:00:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_panel",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_3943c039-357a-42a8-beaa-0e20bf3dbb60",
+      "kind": "photo",
+      "filename": "panel_a_label.jpg",
+      "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg",
+      "capturedAt": "2026-02-01T18:10:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_meter",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_3943c039-357a-42a8-beaa-0e20bf3dbb60",
+      "kind": "photo",
+      "filename": "meter_1.jpg",
+      "uriOrPath": "file:///C:/audit/photos/meter_1.jpg",
+      "capturedAt": "2026-02-01T18:20:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "note_walkthrough",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_3943c039-357a-42a8-beaa-0e20bf3dbb60",
+      "kind": "note",
+      "filename": "walkthrough.txt",
+      "uriOrPath": "file:///C:/audit/notes/walkthrough.txt",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_ahu",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_44f86521-5b03-49b7-bd74-4533ed328383",
+      "kind": "photo",
+      "filename": "ahu1_nameplate.jpg",
+      "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg",
+      "capturedAt": "2026-02-01T18:00:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_panel",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_44f86521-5b03-49b7-bd74-4533ed328383",
+      "kind": "photo",
+      "filename": "panel_a_label.jpg",
+      "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg",
+      "capturedAt": "2026-02-01T18:10:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_meter",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_44f86521-5b03-49b7-bd74-4533ed328383",
+      "kind": "photo",
+      "filename": "meter_1.jpg",
+      "uriOrPath": "file:///C:/audit/photos/meter_1.jpg",
+      "capturedAt": "2026-02-01T18:20:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "note_walkthrough",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_44f86521-5b03-49b7-bd74-4533ed328383",
+      "kind": "note",
+      "filename": "walkthrough.txt",
+      "uriOrPath": "file:///C:/audit/notes/walkthrough.txt",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_ahu",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7e6d6de5-4270-4360-9b73-980406af28ae",
+      "kind": "photo",
+      "filename": "ahu1_nameplate.jpg",
+      "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg",
+      "capturedAt": "2026-02-01T18:00:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_panel",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7e6d6de5-4270-4360-9b73-980406af28ae",
+      "kind": "photo",
+      "filename": "panel_a_label.jpg",
+      "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg",
+      "capturedAt": "2026-02-01T18:10:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_meter",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7e6d6de5-4270-4360-9b73-980406af28ae",
+      "kind": "photo",
+      "filename": "meter_1.jpg",
+      "uriOrPath": "file:///C:/audit/photos/meter_1.jpg",
+      "capturedAt": "2026-02-01T18:20:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "note_walkthrough",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7e6d6de5-4270-4360-9b73-980406af28ae",
+      "kind": "note",
+      "filename": "walkthrough.txt",
+      "uriOrPath": "file:///C:/audit/notes/walkthrough.txt",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_ahu",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_8d9fbe73-5a14-4ac4-9525-7e1d6344bc18",
+      "kind": "photo",
+      "filename": "ahu1_nameplate.jpg",
+      "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg",
+      "capturedAt": "2026-02-01T18:00:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_panel",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_8d9fbe73-5a14-4ac4-9525-7e1d6344bc18",
+      "kind": "photo",
+      "filename": "panel_a_label.jpg",
+      "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg",
+      "capturedAt": "2026-02-01T18:10:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_meter",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_8d9fbe73-5a14-4ac4-9525-7e1d6344bc18",
+      "kind": "photo",
+      "filename": "meter_1.jpg",
+      "uriOrPath": "file:///C:/audit/photos/meter_1.jpg",
+      "capturedAt": "2026-02-01T18:20:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "note_walkthrough",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_8d9fbe73-5a14-4ac4-9525-7e1d6344bc18",
+      "kind": "note",
+      "filename": "walkthrough.txt",
+      "uriOrPath": "file:///C:/audit/notes/walkthrough.txt",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_ahu",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b3283804-e948-4dfe-ae20-e0627215e596",
+      "kind": "photo",
+      "filename": "ahu1_nameplate.jpg",
+      "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg",
+      "capturedAt": "2026-02-01T18:00:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_panel",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b3283804-e948-4dfe-ae20-e0627215e596",
+      "kind": "photo",
+      "filename": "panel_a_label.jpg",
+      "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg",
+      "capturedAt": "2026-02-01T18:10:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_meter",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b3283804-e948-4dfe-ae20-e0627215e596",
+      "kind": "photo",
+      "filename": "meter_1.jpg",
+      "uriOrPath": "file:///C:/audit/photos/meter_1.jpg",
+      "capturedAt": "2026-02-01T18:20:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "note_walkthrough",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b3283804-e948-4dfe-ae20-e0627215e596",
+      "kind": "note",
+      "filename": "walkthrough.txt",
+      "uriOrPath": "file:///C:/audit/notes/walkthrough.txt",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_ahu",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_cac8ea3b-f5fd-4c04-ab6e-146cdca0f150",
+      "kind": "photo",
+      "filename": "ahu1_nameplate.jpg",
+      "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg",
+      "capturedAt": "2026-02-01T18:00:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_panel",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_cac8ea3b-f5fd-4c04-ab6e-146cdca0f150",
+      "kind": "photo",
+      "filename": "panel_a_label.jpg",
+      "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg",
+      "capturedAt": "2026-02-01T18:10:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_meter",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_cac8ea3b-f5fd-4c04-ab6e-146cdca0f150",
+      "kind": "photo",
+      "filename": "meter_1.jpg",
+      "uriOrPath": "file:///C:/audit/photos/meter_1.jpg",
+      "capturedAt": "2026-02-01T18:20:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "note_walkthrough",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_cac8ea3b-f5fd-4c04-ab6e-146cdca0f150",
+      "kind": "note",
+      "filename": "walkthrough.txt",
+      "uriOrPath": "file:///C:/audit/notes/walkthrough.txt",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_ahu",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7838c805-f941-4554-a55c-1dbd78dd75b8",
+      "kind": "photo",
+      "filename": "ahu1_nameplate.jpg",
+      "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg",
+      "capturedAt": "2026-02-01T18:00:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_panel",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7838c805-f941-4554-a55c-1dbd78dd75b8",
+      "kind": "photo",
+      "filename": "panel_a_label.jpg",
+      "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg",
+      "capturedAt": "2026-02-01T18:10:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_meter",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7838c805-f941-4554-a55c-1dbd78dd75b8",
+      "kind": "photo",
+      "filename": "meter_1.jpg",
+      "uriOrPath": "file:///C:/audit/photos/meter_1.jpg",
+      "capturedAt": "2026-02-01T18:20:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "note_walkthrough",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7838c805-f941-4554-a55c-1dbd78dd75b8",
+      "kind": "note",
+      "filename": "walkthrough.txt",
+      "uriOrPath": "file:///C:/audit/notes/walkthrough.txt",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_ahu",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_5b95e572-2809-4b4f-b6f1-4056cc757ba5",
+      "kind": "photo",
+      "filename": "ahu1_nameplate.jpg",
+      "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg",
+      "capturedAt": "2026-02-01T18:00:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_panel",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_5b95e572-2809-4b4f-b6f1-4056cc757ba5",
+      "kind": "photo",
+      "filename": "panel_a_label.jpg",
+      "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg",
+      "capturedAt": "2026-02-01T18:10:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_meter",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_5b95e572-2809-4b4f-b6f1-4056cc757ba5",
+      "kind": "photo",
+      "filename": "meter_1.jpg",
+      "uriOrPath": "file:///C:/audit/photos/meter_1.jpg",
+      "capturedAt": "2026-02-01T18:20:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "note_walkthrough",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_5b95e572-2809-4b4f-b6f1-4056cc757ba5",
+      "kind": "note",
+      "filename": "walkthrough.txt",
+      "uriOrPath": "file:///C:/audit/notes/walkthrough.txt",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_ahu",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_23570fe4-2505-496f-a200-943b51b1b368",
+      "kind": "photo",
+      "filename": "ahu1_nameplate.jpg",
+      "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg",
+      "capturedAt": "2026-02-01T18:00:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_panel",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_23570fe4-2505-496f-a200-943b51b1b368",
+      "kind": "photo",
+      "filename": "panel_a_label.jpg",
+      "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg",
+      "capturedAt": "2026-02-01T18:10:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_meter",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_23570fe4-2505-496f-a200-943b51b1b368",
+      "kind": "photo",
+      "filename": "meter_1.jpg",
+      "uriOrPath": "file:///C:/audit/photos/meter_1.jpg",
+      "capturedAt": "2026-02-01T18:20:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "note_walkthrough",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_23570fe4-2505-496f-a200-943b51b1b368",
+      "kind": "note",
+      "filename": "walkthrough.txt",
+      "uriOrPath": "file:///C:/audit/notes/walkthrough.txt",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_ahu",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_e936fb03-4ebb-45b1-bc30-6c00765ce6ba",
+      "kind": "photo",
+      "filename": "ahu1_nameplate.jpg",
+      "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg",
+      "capturedAt": "2026-02-01T18:00:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_panel",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_e936fb03-4ebb-45b1-bc30-6c00765ce6ba",
+      "kind": "photo",
+      "filename": "panel_a_label.jpg",
+      "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg",
+      "capturedAt": "2026-02-01T18:10:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_meter",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_e936fb03-4ebb-45b1-bc30-6c00765ce6ba",
+      "kind": "photo",
+      "filename": "meter_1.jpg",
+      "uriOrPath": "file:///C:/audit/photos/meter_1.jpg",
+      "capturedAt": "2026-02-01T18:20:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "note_walkthrough",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_e936fb03-4ebb-45b1-bc30-6c00765ce6ba",
+      "kind": "note",
+      "filename": "walkthrough.txt",
+      "uriOrPath": "file:///C:/audit/notes/walkthrough.txt",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_ahu",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_d0d125c1-cce5-470d-8a03-5dd5f9e5fd6b",
+      "kind": "photo",
+      "filename": "ahu1_nameplate.jpg",
+      "uriOrPath": "file:///C:/audit/photos/ahu1_nameplate.jpg",
+      "capturedAt": "2026-02-01T18:00:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_panel",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_d0d125c1-cce5-470d-8a03-5dd5f9e5fd6b",
+      "kind": "photo",
+      "filename": "panel_a_label.jpg",
+      "uriOrPath": "file:///C:/audit/photos/panel_a_label.jpg",
+      "capturedAt": "2026-02-01T18:10:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "photo_meter",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_d0d125c1-cce5-470d-8a03-5dd5f9e5fd6b",
+      "kind": "photo",
+      "filename": "meter_1.jpg",
+      "uriOrPath": "file:///C:/audit/photos/meter_1.jpg",
+      "capturedAt": "2026-02-01T18:20:00.000Z",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "artifactId": "note_walkthrough",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_d0d125c1-cce5-470d-8a03-5dd5f9e5fd6b",
+      "kind": "note",
+      "filename": "walkthrough.txt",
+      "uriOrPath": "file:///C:/audit/notes/walkthrough.txt",
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
     {
       "artifactId": "photo_ahu",
       "orgId": "demo-org",
@@ -5533,6 +6502,3134 @@
     }
   ],
   "links": [
+    {
+      "linkId": "evidenceLink_1bdf022c-eba5-4207-a4eb-c7f24c106a8d",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b1f7032b-d278-4528-ac29-1c56d1f18786",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "airflowCfm"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "f27343f5-796c-4e13-8c46-147274e6679c",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:airflowCfm"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From TAB sticker",
+      "confidence": 0.8,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_37de76aa-4b87-4a58-89d8-e78f7cddb89b",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b1f7032b-d278-4528-ac29-1c56d1f18786",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "fanHp"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "fbb2f6f8-a0e2-4380-b809-afa103dddd12",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:fanHp"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From nameplate",
+      "confidence": 0.9,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_7824dd5f-e077-42ca-84ef-d44842a3850e",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b1f7032b-d278-4528-ac29-1c56d1f18786",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "hasVfd"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "c1055f43-cadb-494c-b1b8-f46e6c9f430b",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:hasVfd"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "VFD shown in MCC photo",
+      "confidence": 0.75,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_e42ca18a-d7fb-4352-b7a7-ee945241b1ab",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b1f7032b-d278-4528-ac29-1c56d1f18786",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "voltage"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "aa0337e3-ac97-4a18-9e4e-34134154545f",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_d9fe3e4b-2e99-4ada-9eb4-37ea72b8a458",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b1f7032b-d278-4528-ac29-1c56d1f18786",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "phases"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "93ae5543-d4ab-4794-a926-c9c161e3c3e4",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_9477ed75-33a1-4037-821b-a3749465f17e",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b1f7032b-d278-4528-ac29-1c56d1f18786",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "meterType"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "c1cf29c5-3d7b-42b2-8aec-a26d4f94b2d5",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_meter",
+      "note": "Meter faceplate",
+      "confidence": 0.7,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_df3ddf31-86a7-4db5-b928-b3f511355ccd",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b1f7032b-d278-4528-ac29-1c56d1f18786",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "protocol"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "8864efd7-b0b8-4694-804c-47d6a94958d0",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Tech note",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_1b46af3c-a8ce-4a77-8168-c734be1ed667",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b1f7032b-d278-4528-ac29-1c56d1f18786",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_VAV_ZONE_1",
+        "fieldKey": "zoneName"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "e5386e8c-7816-4837-a450-6715d378ee8f",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Walkthrough notes",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_9e913a31-740f-4382-804d-cea74fd0db16",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_18fd6ca2-f62c-4a85-b0e2-68eefabd9710",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "airflowCfm"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "719e4b70-bc0e-4408-9923-8d5b41f5b3b2",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:airflowCfm"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From TAB sticker",
+      "confidence": 0.8,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_7d77bd1c-1bf7-496f-ab19-54ece6ab8c66",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_18fd6ca2-f62c-4a85-b0e2-68eefabd9710",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "fanHp"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "2fc4aa10-adc1-4519-9d8c-df4f6a8e9ac8",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:fanHp"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From nameplate",
+      "confidence": 0.9,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_2631901f-bba2-4582-ae3b-90a1a6b617db",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_18fd6ca2-f62c-4a85-b0e2-68eefabd9710",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "hasVfd"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "c2657801-f318-4402-a733-d6d69e428238",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:hasVfd"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "VFD shown in MCC photo",
+      "confidence": 0.75,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_8de9efb8-7342-4d78-9bad-fbce1ed137e3",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_18fd6ca2-f62c-4a85-b0e2-68eefabd9710",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "voltage"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "43b02de5-893d-4dca-8a67-7c2bfc54d6a3",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_b6c3d4c1-7280-47da-a032-d5dce7e26fe3",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_18fd6ca2-f62c-4a85-b0e2-68eefabd9710",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "phases"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "486fd339-139e-48f6-ad57-5af312ce15f3",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_aa888156-a15d-486f-a086-c5cb2b75280f",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_18fd6ca2-f62c-4a85-b0e2-68eefabd9710",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "meterType"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "508f68e1-b367-458d-a928-44ea93fb0d1a",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_meter",
+      "note": "Meter faceplate",
+      "confidence": 0.7,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_2d234d21-4091-4818-a725-fd38e6c7435c",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_18fd6ca2-f62c-4a85-b0e2-68eefabd9710",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "protocol"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "b3487b2a-003b-40db-9c37-120eff5b2310",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Tech note",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_3e708984-aca8-4128-9e8a-f76ad04b819c",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_18fd6ca2-f62c-4a85-b0e2-68eefabd9710",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_VAV_ZONE_1",
+        "fieldKey": "zoneName"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "d4593637-c949-4985-8820-2f375784a5a4",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Walkthrough notes",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_138bdb8a-2288-4296-a251-9e3311cdea12",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_26df9b30-2be1-49af-96db-21bbbef8896a",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "airflowCfm"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "d3bf0e9e-b19b-476d-b8cf-fa6805546a13",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:airflowCfm"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From TAB sticker",
+      "confidence": 0.8,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_53c4dfa6-87d4-41ab-bfda-921c81d96a9c",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_26df9b30-2be1-49af-96db-21bbbef8896a",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "fanHp"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "4d1e7814-e0a7-4ef9-a5f2-66a91363484b",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:fanHp"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From nameplate",
+      "confidence": 0.9,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_1241e964-0dc7-45ae-a13f-a3f84d5933ad",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_26df9b30-2be1-49af-96db-21bbbef8896a",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "hasVfd"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "468c993c-0a9f-45e3-a2ab-abd68b6f2b4b",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:hasVfd"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "VFD shown in MCC photo",
+      "confidence": 0.75,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_dc301cc0-c739-4995-8f69-02bbf41d4f88",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_26df9b30-2be1-49af-96db-21bbbef8896a",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "voltage"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "a59bb8d3-aaff-47e1-b096-5370b9f168e9",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_6832a9ac-d5ae-4bb9-8eb7-863a1ce9defc",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_26df9b30-2be1-49af-96db-21bbbef8896a",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "phases"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "6adb3b4a-14f9-450b-ab39-3fcd488a2f96",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_8142ae80-2332-4de3-95b8-de123b29ba9e",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_26df9b30-2be1-49af-96db-21bbbef8896a",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "meterType"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "cbf627ec-d181-46ac-8814-b409fe9df1e9",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_meter",
+      "note": "Meter faceplate",
+      "confidence": 0.7,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_5494ec7e-d144-4421-99e2-ce3c4038196c",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_26df9b30-2be1-49af-96db-21bbbef8896a",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "protocol"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "051fed78-216a-4a25-ab0d-7bea3dc8f6f7",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Tech note",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_3d2dcd5c-465d-4acf-8033-16e455a5a7c4",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_26df9b30-2be1-49af-96db-21bbbef8896a",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_VAV_ZONE_1",
+        "fieldKey": "zoneName"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "1f9e5a2b-645a-412c-81d7-a6434d454906",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Walkthrough notes",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_43396e81-25cc-4081-aa5c-20ce596a7b01",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_0c3efac5-b131-4878-b4f8-0984d8c542c4",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "airflowCfm"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "7ac44ca3-4013-4706-a210-635e2d3fad5c",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:airflowCfm"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From TAB sticker",
+      "confidence": 0.8,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_818e020e-6634-43f4-86d0-edab9de6cb46",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_0c3efac5-b131-4878-b4f8-0984d8c542c4",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "fanHp"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "ea95105c-a0f9-4b2e-865f-0eaab7dd2bc5",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:fanHp"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From nameplate",
+      "confidence": 0.9,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_981b40a5-acb3-44b8-ad1a-e50d483dedcd",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_0c3efac5-b131-4878-b4f8-0984d8c542c4",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "hasVfd"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "ef3bad65-249c-4d31-a85c-f7143ab06c5e",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:hasVfd"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "VFD shown in MCC photo",
+      "confidence": 0.75,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_877d281f-bce9-4620-880f-d47d3236cc5f",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_0c3efac5-b131-4878-b4f8-0984d8c542c4",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "voltage"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "ced03173-1870-442e-beaf-5b40e4a9dda6",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_411c8f8f-c77c-4294-8572-854095a03cec",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_0c3efac5-b131-4878-b4f8-0984d8c542c4",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "phases"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "1d84ad45-140e-46bd-a426-20a002f8c790",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_6ab55158-d5db-4af8-a4dd-167d47ce2811",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_0c3efac5-b131-4878-b4f8-0984d8c542c4",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "meterType"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "218c4720-6acd-43f2-bce3-443b9a6a2976",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_meter",
+      "note": "Meter faceplate",
+      "confidence": 0.7,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_fe227184-1d0f-448b-824f-89ab48abd18a",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_0c3efac5-b131-4878-b4f8-0984d8c542c4",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "protocol"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "8f9c78a9-b287-4b95-87d2-c6660864d928",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Tech note",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_c7372641-7a43-472f-ba8c-80928fce8956",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_0c3efac5-b131-4878-b4f8-0984d8c542c4",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_VAV_ZONE_1",
+        "fieldKey": "zoneName"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "dcff188c-7a95-419d-84ac-670bdf9bb6ef",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Walkthrough notes",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_c3f867a4-3db9-4adc-829f-0c7a8dae8e3b",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_9d152884-44f8-4013-bc62-01bcae4067c9",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "airflowCfm"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "1b4b1ce4-ef92-43cd-90a8-fc3edb822709",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:airflowCfm"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From TAB sticker",
+      "confidence": 0.8,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_b7b5ce83-9507-4f65-b8b9-93f2f888dbd4",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_9d152884-44f8-4013-bc62-01bcae4067c9",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "fanHp"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "5b107169-6690-48cf-96c6-3d3f5a9985b0",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:fanHp"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From nameplate",
+      "confidence": 0.9,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_13dab797-0400-4346-914f-3c6e485f1760",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_9d152884-44f8-4013-bc62-01bcae4067c9",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "hasVfd"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "63aadb5b-db02-479b-9507-69ddb3f23618",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:hasVfd"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "VFD shown in MCC photo",
+      "confidence": 0.75,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_5830adf9-288e-40f5-8bdb-4d4574b31b53",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_9d152884-44f8-4013-bc62-01bcae4067c9",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "voltage"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "2dc93c13-6b09-48ce-a51e-e06b7dde5d86",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_3bbe3043-5d8f-43e5-870f-c584b60e38bd",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_9d152884-44f8-4013-bc62-01bcae4067c9",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "phases"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "5f6c257a-eecb-434a-a3db-91f82184a261",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_ac66d040-c272-4a4d-9c0d-da2eafae346b",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_9d152884-44f8-4013-bc62-01bcae4067c9",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "meterType"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "944177d1-350c-4f88-b02c-6cb4c33e4004",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_meter",
+      "note": "Meter faceplate",
+      "confidence": 0.7,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_e06a7b91-9d78-477a-872a-b8ef34247cb2",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_9d152884-44f8-4013-bc62-01bcae4067c9",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "protocol"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "ebb34e46-7829-44b7-ae02-1256777c11ee",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Tech note",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_f833d2fa-0d92-46b1-b711-184b96192c03",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_9d152884-44f8-4013-bc62-01bcae4067c9",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_VAV_ZONE_1",
+        "fieldKey": "zoneName"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "37346f5c-6bad-4f78-9131-2d3e457f0309",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Walkthrough notes",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_d17261c4-4435-47e3-9d4a-bd8bf46e4a49",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_a6719b76-1ebc-40fd-b7e1-0fe8412a64e9",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "airflowCfm"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "1920afa9-150f-403e-b856-6882d7b936bd",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:airflowCfm"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From TAB sticker",
+      "confidence": 0.8,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_1b5f9b60-59f6-4d5f-ac71-5d5f3d7536db",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_a6719b76-1ebc-40fd-b7e1-0fe8412a64e9",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "fanHp"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "38756c06-9843-416d-9333-acacf4f32afc",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:fanHp"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From nameplate",
+      "confidence": 0.9,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_a716803a-3f2f-4d10-97aa-4fa9c657c321",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_a6719b76-1ebc-40fd-b7e1-0fe8412a64e9",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "hasVfd"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "a9be07ec-ffe7-42af-9ce6-5b0715651c1e",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:hasVfd"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "VFD shown in MCC photo",
+      "confidence": 0.75,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_174f169e-c29e-44a9-b90d-7f4229755d90",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_a6719b76-1ebc-40fd-b7e1-0fe8412a64e9",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "voltage"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "beced002-8f92-4151-88a7-37dcf35a3ea8",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_74ee4edf-6298-4997-a5db-38a3feb15477",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_a6719b76-1ebc-40fd-b7e1-0fe8412a64e9",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "phases"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "d2a5fde0-c37d-4551-94d7-9a1c60f5919c",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_f08e56a8-4753-47ba-a116-206becc1d0e2",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_a6719b76-1ebc-40fd-b7e1-0fe8412a64e9",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "meterType"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "3eb16ab2-3c1b-4e05-8d0d-d61202c6e7b7",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_meter",
+      "note": "Meter faceplate",
+      "confidence": 0.7,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_a90282c8-7aaf-47da-a0f3-900f6ce0e658",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_a6719b76-1ebc-40fd-b7e1-0fe8412a64e9",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "protocol"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "f146cdae-2cd1-4250-8619-a8dd553cb515",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Tech note",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_925ab153-95e5-470a-af06-10f3915fff04",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_a6719b76-1ebc-40fd-b7e1-0fe8412a64e9",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_VAV_ZONE_1",
+        "fieldKey": "zoneName"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "1a6ba205-bb28-40f1-9bdf-77dca6e1c83e",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Walkthrough notes",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_db607b06-f390-4cb9-89b9-a62ebcade3da",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_3943c039-357a-42a8-beaa-0e20bf3dbb60",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "airflowCfm"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "b89ee1d3-4a34-4d69-8269-740c4af06a91",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:airflowCfm"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From TAB sticker",
+      "confidence": 0.8,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_efc1f6e1-303e-42d1-a422-ac1b84840592",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_3943c039-357a-42a8-beaa-0e20bf3dbb60",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "fanHp"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "82d4337a-84d6-45e2-85d8-12f07ece2cab",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:fanHp"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From nameplate",
+      "confidence": 0.9,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_51ddb288-ed6f-4df7-82c6-e75828feffd3",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_3943c039-357a-42a8-beaa-0e20bf3dbb60",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "hasVfd"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "026a47a4-2229-439f-b808-5ce7ce90824c",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:hasVfd"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "VFD shown in MCC photo",
+      "confidence": 0.75,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_60d54d79-7a03-44f3-ac73-f650a7fecc49",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_3943c039-357a-42a8-beaa-0e20bf3dbb60",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "voltage"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "f35e252f-0367-4e7b-84e5-d7cbdc5b0e16",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_f72c6afb-311c-4457-bf41-460e78fd83d5",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_3943c039-357a-42a8-beaa-0e20bf3dbb60",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "phases"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "8f334f38-32fd-4dda-b806-511611d6033d",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_ff775f79-82d3-4131-8806-9faf374867ed",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_3943c039-357a-42a8-beaa-0e20bf3dbb60",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "meterType"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "6d2a1362-4a63-40ac-af72-da98af5efdbe",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_meter",
+      "note": "Meter faceplate",
+      "confidence": 0.7,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_a960571c-1b04-40b3-a95e-ac1298598325",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_3943c039-357a-42a8-beaa-0e20bf3dbb60",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "protocol"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "542360c8-8bcb-45fe-99ec-344c6f79d0a8",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Tech note",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_d8e9bda1-1dc0-4ed6-b48d-a91e72844017",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_3943c039-357a-42a8-beaa-0e20bf3dbb60",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_VAV_ZONE_1",
+        "fieldKey": "zoneName"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "a1f47b35-c09d-4462-a872-e894d8185a74",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Walkthrough notes",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_e7d194b3-0966-4f85-b792-54ff32574b69",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_44f86521-5b03-49b7-bd74-4533ed328383",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "airflowCfm"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "c0877b03-a9ab-4229-94c4-00fd642917d9",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:airflowCfm"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From TAB sticker",
+      "confidence": 0.8,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_7a887734-be6e-49f5-b26d-1799987ada49",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_44f86521-5b03-49b7-bd74-4533ed328383",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "fanHp"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "5a09ac0c-1101-40a7-be9d-a62aac8977fd",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:fanHp"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From nameplate",
+      "confidence": 0.9,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_3b5030f7-4a17-4960-9513-bf35077c3b54",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_44f86521-5b03-49b7-bd74-4533ed328383",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "hasVfd"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "cef9787d-7b17-47c3-8b12-2a49f439487f",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:hasVfd"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "VFD shown in MCC photo",
+      "confidence": 0.75,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_f99ea984-d932-4218-adcb-742666fd83a7",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_44f86521-5b03-49b7-bd74-4533ed328383",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "voltage"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "74651ec4-6b04-4d64-9113-936f42fe0587",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_7b9e064a-4336-47df-86b7-1ddbc1d18bf9",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_44f86521-5b03-49b7-bd74-4533ed328383",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "phases"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "eedcf6da-3c4f-4754-bbba-d84cb8f88391",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_a1fc6f54-53f0-4846-a6f2-9524f35f09e2",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_44f86521-5b03-49b7-bd74-4533ed328383",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "meterType"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "2ed7378b-6caf-4014-875c-1430334e5ea9",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_meter",
+      "note": "Meter faceplate",
+      "confidence": 0.7,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_71e880d9-5d60-42d0-8620-20179c6d2b50",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_44f86521-5b03-49b7-bd74-4533ed328383",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "protocol"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "aaf0aacb-94da-47f0-9cef-a812fe8ce2c8",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Tech note",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_07873205-c5c0-4233-8bc4-37716dfd7b96",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_44f86521-5b03-49b7-bd74-4533ed328383",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_VAV_ZONE_1",
+        "fieldKey": "zoneName"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "1f3043e1-3097-4347-b107-2ba734d0a1e1",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Walkthrough notes",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_7a241185-ea46-4968-a387-8825b36c9a19",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7e6d6de5-4270-4360-9b73-980406af28ae",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "airflowCfm"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "2d0bf100-d59b-4131-b83a-b39ff7c532d9",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:airflowCfm"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From TAB sticker",
+      "confidence": 0.8,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_1552aba1-fa7e-4058-889b-4ab002b6a65f",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7e6d6de5-4270-4360-9b73-980406af28ae",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "fanHp"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "9eedfcc3-88e0-4bd4-bdb9-1859cc18c9bc",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:fanHp"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From nameplate",
+      "confidence": 0.9,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_554944fd-2fe6-44ae-a5ce-5a16bdbc7c9d",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7e6d6de5-4270-4360-9b73-980406af28ae",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "hasVfd"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "ae6c287f-2af7-44c2-af1f-3721258bd37a",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:hasVfd"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "VFD shown in MCC photo",
+      "confidence": 0.75,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_13e95eb6-7c47-4da7-9aa6-0da9a716fa5d",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7e6d6de5-4270-4360-9b73-980406af28ae",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "voltage"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "5bb1e228-430c-4d11-9146-66f5f670d7b8",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_4d511dd1-b699-4c2f-865d-17ea16293207",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7e6d6de5-4270-4360-9b73-980406af28ae",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "phases"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "ed0e61e4-e23e-4054-9c0e-0d5d02fb35ec",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_bda51f71-81dc-46b2-a8c2-0accb0a39084",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7e6d6de5-4270-4360-9b73-980406af28ae",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "meterType"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "afc82711-4fd7-4243-811e-8a1ae589032a",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_meter",
+      "note": "Meter faceplate",
+      "confidence": 0.7,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_60dcce02-5cdd-47ea-9996-e4d1a76eaa90",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7e6d6de5-4270-4360-9b73-980406af28ae",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "protocol"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "56d1c4a4-3222-40b6-9c35-f336e6428145",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Tech note",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_8fffd2df-d45a-4f61-be10-418f8b975dd7",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7e6d6de5-4270-4360-9b73-980406af28ae",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_VAV_ZONE_1",
+        "fieldKey": "zoneName"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "3fc13b2a-1776-4130-b28c-9311f0069568",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Walkthrough notes",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_28e6c49c-8175-469b-8cb1-f7e445cb8f53",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_8d9fbe73-5a14-4ac4-9525-7e1d6344bc18",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "airflowCfm"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "82a94659-9882-44f1-b294-33f16bbd0f46",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:airflowCfm"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From TAB sticker",
+      "confidence": 0.8,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_0c3d60d8-8657-4c58-aa9f-ef956b78be78",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_8d9fbe73-5a14-4ac4-9525-7e1d6344bc18",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "fanHp"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "31ad9720-e957-4462-b6ac-9bfbf644c1f1",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:fanHp"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From nameplate",
+      "confidence": 0.9,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_8f10a72b-2165-4156-b8e8-895737b157e5",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_8d9fbe73-5a14-4ac4-9525-7e1d6344bc18",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "hasVfd"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "1d80d9f1-f4ae-4295-84de-7ed9ac749c1f",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:hasVfd"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "VFD shown in MCC photo",
+      "confidence": 0.75,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_392dc51a-6d13-4d13-8b54-40421cc91332",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_8d9fbe73-5a14-4ac4-9525-7e1d6344bc18",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "voltage"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "9efafe9e-9c0d-40a2-88ac-ec98dbb7eb7b",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_504a684c-4536-44be-9a67-9cf7f4171494",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_8d9fbe73-5a14-4ac4-9525-7e1d6344bc18",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "phases"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "82a254ac-a5e1-49bf-a6de-21d88d886fbd",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_6c25b2cc-0b9b-4e33-8f9d-b6a0f36fe581",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_8d9fbe73-5a14-4ac4-9525-7e1d6344bc18",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "meterType"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "37dc1130-3cc8-4952-93c5-76971a79ca11",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_meter",
+      "note": "Meter faceplate",
+      "confidence": 0.7,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_4f8b3626-a7c3-447e-85b5-2bdabdc5a35e",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_8d9fbe73-5a14-4ac4-9525-7e1d6344bc18",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "protocol"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "6c632714-7986-483f-a2e0-06032658e496",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Tech note",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_468ebc79-030f-4881-962b-463203d1c326",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_8d9fbe73-5a14-4ac4-9525-7e1d6344bc18",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_VAV_ZONE_1",
+        "fieldKey": "zoneName"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "e4678036-27b9-4b95-aae8-23faf38afaef",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Walkthrough notes",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_2e0b63db-7a7c-45f9-89ff-2f2a3e9e6799",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b3283804-e948-4dfe-ae20-e0627215e596",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "airflowCfm"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "21a2ce01-bcae-42b8-b828-d54a4c90d134",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:airflowCfm"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From TAB sticker",
+      "confidence": 0.8,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_d30ee924-42cb-4f9a-bb8a-54a9be9abe54",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b3283804-e948-4dfe-ae20-e0627215e596",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "fanHp"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "4db235b3-c867-4b1c-8785-22de61ae264c",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:fanHp"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From nameplate",
+      "confidence": 0.9,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_c4e8c832-fe06-4c09-9463-69ac30819d6a",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b3283804-e948-4dfe-ae20-e0627215e596",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "hasVfd"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "c02dfca1-efd7-4e23-b70f-207a0e314f8e",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:hasVfd"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "VFD shown in MCC photo",
+      "confidence": 0.75,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_a27d658d-61be-4608-9658-9defc1d5ee1d",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b3283804-e948-4dfe-ae20-e0627215e596",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "voltage"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "33773a47-4f4d-4a5a-bfc8-d15f1573658b",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_ba19a468-c986-47ac-a622-2bf287228b05",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b3283804-e948-4dfe-ae20-e0627215e596",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "phases"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "b76fb726-b28e-4ece-a963-7565bb3e305f",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_1a0a98de-541b-4a0d-a143-0da0a3eb0b74",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b3283804-e948-4dfe-ae20-e0627215e596",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "meterType"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "a0d78a03-c422-45f9-a3eb-3c827d075321",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_meter",
+      "note": "Meter faceplate",
+      "confidence": 0.7,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_2c0b4aee-5f20-4dbe-85f6-c26f0aef496a",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b3283804-e948-4dfe-ae20-e0627215e596",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "protocol"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "fdb9ce43-9a0e-421f-b430-a83f3df08f16",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Tech note",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_55db5e60-3d14-4168-b72f-aeea8c71c065",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_b3283804-e948-4dfe-ae20-e0627215e596",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_VAV_ZONE_1",
+        "fieldKey": "zoneName"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "ea851b80-944c-4d8a-936e-50b510036030",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Walkthrough notes",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_c10f1770-bb94-434c-97b6-68e569f603fd",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_cac8ea3b-f5fd-4c04-ab6e-146cdca0f150",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "airflowCfm"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "de3b844a-4d4f-4f42-a09e-9a2b040b0d61",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:airflowCfm"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From TAB sticker",
+      "confidence": 0.8,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_a02418a4-4814-4b11-b2a4-f00301a21214",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_cac8ea3b-f5fd-4c04-ab6e-146cdca0f150",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "fanHp"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "622231d0-70b8-4230-aba7-c20b8ec279a0",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:fanHp"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From nameplate",
+      "confidence": 0.9,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_030df71a-55d5-4a80-887b-4dec127d044e",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_cac8ea3b-f5fd-4c04-ab6e-146cdca0f150",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "hasVfd"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "337b34f3-72ab-49d3-a924-b3a7e9d10c11",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:hasVfd"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "VFD shown in MCC photo",
+      "confidence": 0.75,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_c2de0053-515d-453a-9f02-6de046a15e24",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_cac8ea3b-f5fd-4c04-ab6e-146cdca0f150",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "voltage"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "9b38232a-8883-409d-bd2a-cbc0258be4ef",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_1fbb3a3b-3280-46e1-9927-f07bf415eb24",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_cac8ea3b-f5fd-4c04-ab6e-146cdca0f150",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "phases"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "3b0ccef1-db4f-46de-8457-2b3bdd93ebe1",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_59fc0c36-138b-40c6-af62-cba3338d0ab5",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_cac8ea3b-f5fd-4c04-ab6e-146cdca0f150",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "meterType"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "9b2e2937-29f7-4564-b204-b24a06d4127c",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_meter",
+      "note": "Meter faceplate",
+      "confidence": 0.7,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_d87330fe-f1dc-4dd3-bb53-63968525e68f",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_cac8ea3b-f5fd-4c04-ab6e-146cdca0f150",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "protocol"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "66eb1219-4ad1-4697-bba1-063c70b753d8",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Tech note",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_272606d2-6741-4703-a95a-0ca76b10485d",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_cac8ea3b-f5fd-4c04-ab6e-146cdca0f150",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_VAV_ZONE_1",
+        "fieldKey": "zoneName"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "561bf4d2-457c-4a4b-9669-a155662adbcf",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Walkthrough notes",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_54d21267-a6d3-4099-833c-7489668282cb",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7838c805-f941-4554-a55c-1dbd78dd75b8",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "airflowCfm"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "6f7692d0-9b91-4e87-9a37-ef93c13581cf",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:airflowCfm"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From TAB sticker",
+      "confidence": 0.8,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_2dffa612-c9fd-4d99-9d06-bdf842883ece",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7838c805-f941-4554-a55c-1dbd78dd75b8",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "fanHp"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "e021916c-c09a-43e9-9481-085e23f9fa73",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:fanHp"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From nameplate",
+      "confidence": 0.9,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_b1e76593-f26b-4ca2-865e-86374542157b",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7838c805-f941-4554-a55c-1dbd78dd75b8",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "hasVfd"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "6b6105bd-c0fa-4322-93f8-31fcd232eaa9",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:hasVfd"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "VFD shown in MCC photo",
+      "confidence": 0.75,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_b85c453c-e142-4fd7-81e9-20e3c00ec3a1",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7838c805-f941-4554-a55c-1dbd78dd75b8",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "voltage"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "ed919e5c-23da-4bf4-afde-3bdefa101cac",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_950e2762-d341-448b-9fa0-1a084418404c",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7838c805-f941-4554-a55c-1dbd78dd75b8",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "phases"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "f9b456a4-fb63-4684-815d-b243622b6225",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_ac78a8f7-c659-4926-8ea5-13175cdd3bfc",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7838c805-f941-4554-a55c-1dbd78dd75b8",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "meterType"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "06cdc242-3564-46e7-8db9-ac80e867cdb4",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_meter",
+      "note": "Meter faceplate",
+      "confidence": 0.7,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_a4fbb848-8de4-4de4-a18d-4f448417429d",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7838c805-f941-4554-a55c-1dbd78dd75b8",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "protocol"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "676fe8d7-998d-4357-bfd4-d5f462e83bdf",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Tech note",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_3e23cba9-5bbc-436f-b593-84a5332e9054",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_7838c805-f941-4554-a55c-1dbd78dd75b8",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_VAV_ZONE_1",
+        "fieldKey": "zoneName"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "d8e23a41-cdc7-48e1-953f-722a0cdcc2db",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Walkthrough notes",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_c7326478-1881-4c73-9367-ae78a09e2b00",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_5b95e572-2809-4b4f-b6f1-4056cc757ba5",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "airflowCfm"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "1c14a905-2101-47e1-8fc7-7b9eb5d1bab8",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:airflowCfm"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From TAB sticker",
+      "confidence": 0.8,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_acca7f2e-4318-476d-be0f-705a663b1972",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_5b95e572-2809-4b4f-b6f1-4056cc757ba5",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "fanHp"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "af41fbd1-bfde-4793-8cf2-c527aeb9834e",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:fanHp"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From nameplate",
+      "confidence": 0.9,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_cacbeb5e-9ed2-46a4-81e0-ecd2a4fe3597",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_5b95e572-2809-4b4f-b6f1-4056cc757ba5",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "hasVfd"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "04e659d9-8ff1-42b1-ab82-bcdc1b2f70ad",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:hasVfd"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "VFD shown in MCC photo",
+      "confidence": 0.75,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_b216ab08-9075-44ce-93b0-f6848685d0cd",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_5b95e572-2809-4b4f-b6f1-4056cc757ba5",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "voltage"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "13238e71-02e2-412c-a867-6bfe1fc0d4a6",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_94479947-f1bf-4017-8e30-84ca5576ae8d",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_5b95e572-2809-4b4f-b6f1-4056cc757ba5",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "phases"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "cb099392-e45c-4c2d-9c0c-3e15ea8027b5",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_338c6e48-3cdd-42f2-8da9-75c2e688a4c5",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_5b95e572-2809-4b4f-b6f1-4056cc757ba5",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "meterType"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "a59e3ab7-bdd7-4b4a-9fe5-2f63a61cfc7b",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_meter",
+      "note": "Meter faceplate",
+      "confidence": 0.7,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_5d94eb14-143e-48db-a77d-62ae5297b72f",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_5b95e572-2809-4b4f-b6f1-4056cc757ba5",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "protocol"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "44c21520-b87d-4584-9e87-50d3bf0a523d",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Tech note",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_bf082ca2-bdb1-4509-b2e6-420baaf0ebfc",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_5b95e572-2809-4b4f-b6f1-4056cc757ba5",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_VAV_ZONE_1",
+        "fieldKey": "zoneName"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "5f8e7263-c954-48e6-aa17-a04053b19238",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Walkthrough notes",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_a6b3f85a-0593-482c-aebb-66b9ebfbbb5d",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_23570fe4-2505-496f-a200-943b51b1b368",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "airflowCfm"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "80f49ce4-3ab4-45f7-a834-3fa2384d7d53",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:airflowCfm"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From TAB sticker",
+      "confidence": 0.8,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_753f7221-2a36-4b19-8691-028075060bb1",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_23570fe4-2505-496f-a200-943b51b1b368",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "fanHp"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "f6bddef4-fab2-486b-b7e7-5040717c15bf",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:fanHp"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From nameplate",
+      "confidence": 0.9,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_4e2e9058-5f28-49f8-bbda-de4a39dfb42d",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_23570fe4-2505-496f-a200-943b51b1b368",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "hasVfd"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "09bc8d2d-1f06-4468-bae0-e401f317823c",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:hasVfd"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "VFD shown in MCC photo",
+      "confidence": 0.75,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_92f0e0b5-672b-4088-938a-37dc05af143f",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_23570fe4-2505-496f-a200-943b51b1b368",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "voltage"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "4e385133-f06c-4b2e-995f-a415b8f8ecce",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_7e4900a7-a7e6-437f-856c-e112249d79e2",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_23570fe4-2505-496f-a200-943b51b1b368",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "phases"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "b9ebebff-6486-46c1-bd7e-b7caf362c539",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_177a445e-1360-4573-acb2-c4b2bea04ffc",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_23570fe4-2505-496f-a200-943b51b1b368",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "meterType"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "69a57b49-76c1-451f-8d65-674d81b7513e",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_meter",
+      "note": "Meter faceplate",
+      "confidence": 0.7,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_1ed899e4-a02b-4dce-8b52-88fc86034866",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_23570fe4-2505-496f-a200-943b51b1b368",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "protocol"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "a03ee515-b30a-4024-a244-17fac9f33512",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Tech note",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_b59de7d1-45bb-4aa2-adfd-20aff3d015ba",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_23570fe4-2505-496f-a200-943b51b1b368",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_VAV_ZONE_1",
+        "fieldKey": "zoneName"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "46bdfa6e-b372-4cd2-8690-d68079c3c101",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Walkthrough notes",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_ddc06b4c-7d85-4738-b374-193e5cb1a540",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_e936fb03-4ebb-45b1-bc30-6c00765ce6ba",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "airflowCfm"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "606759a2-75f9-45d9-aa7b-dcec8a2fec57",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:airflowCfm"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From TAB sticker",
+      "confidence": 0.8,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_22653532-b2da-4dd7-8faa-1858183ec77e",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_e936fb03-4ebb-45b1-bc30-6c00765ce6ba",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "fanHp"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "e7097f1f-74d0-4d9e-94af-547e7a6478cb",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:fanHp"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From nameplate",
+      "confidence": 0.9,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_e45dc2c1-7d92-438b-910c-30b7805c76ed",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_e936fb03-4ebb-45b1-bc30-6c00765ce6ba",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "hasVfd"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "234edca1-efa8-4096-9957-b1fa500fb0bb",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:hasVfd"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "VFD shown in MCC photo",
+      "confidence": 0.75,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_d3ca39d5-502d-4351-8e5f-e81900bba55c",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_e936fb03-4ebb-45b1-bc30-6c00765ce6ba",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "voltage"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "603bf1ea-f4ed-4ac2-96a2-41c24babe2d7",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_e2d2b308-4f39-4a0e-bf14-e713870fdea8",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_e936fb03-4ebb-45b1-bc30-6c00765ce6ba",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "phases"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "7ec27f85-a07e-40d9-83cf-702011ee787c",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_a3ff4380-ff0e-4da7-b7b8-5eac9f858e75",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_e936fb03-4ebb-45b1-bc30-6c00765ce6ba",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "meterType"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "78fc01ac-8ff1-4fca-b052-8db8f750abb5",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_meter",
+      "note": "Meter faceplate",
+      "confidence": 0.7,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_095f3b78-c912-4291-b755-668773790807",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_e936fb03-4ebb-45b1-bc30-6c00765ce6ba",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "protocol"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "f10b259c-671d-4c93-89ee-3a84fdf2c049",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Tech note",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_b447bc3c-9bd5-4aae-8323-76f6b00d64f4",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_e936fb03-4ebb-45b1-bc30-6c00765ce6ba",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_VAV_ZONE_1",
+        "fieldKey": "zoneName"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "aa7cb1ca-dec4-472f-bafa-c1a198293d70",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Walkthrough notes",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_f299fa02-cda8-44aa-8d74-8663b59c39b0",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_d0d125c1-cce5-470d-8a03-5dd5f9e5fd6b",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "airflowCfm"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "f7a83286-0892-44d6-b9bc-a209a1f07ad6",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:airflowCfm"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From TAB sticker",
+      "confidence": 0.8,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_6a2b8332-fdc1-4c62-aac9-2173c32b7ce4",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_d0d125c1-cce5-470d-8a03-5dd5f9e5fd6b",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "fanHp"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "52683b04-f9ab-44cb-8ba7-caef2a1e575c",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:fanHp"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "From nameplate",
+      "confidence": 0.9,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_17d69d47-934a-4482-a973-5970cfa7f2c8",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_d0d125c1-cce5-470d-8a03-5dd5f9e5fd6b",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_AHU_1",
+        "fieldKey": "hasVfd"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "e6f1ed12-f87c-40b7-b413-b1469e95f6f6",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:hasVfd"
+        }
+      },
+      "artifactId": "photo_ahu",
+      "note": "VFD shown in MCC photo",
+      "confidence": 0.75,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_1c0fe657-aeb6-45ac-9d89-6be780179a74",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_d0d125c1-cce5-470d-8a03-5dd5f9e5fd6b",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "voltage"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "b0ff4f8e-cc1e-47d6-96e1-bd0349ef04dc",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_acca6c10-b527-4050-9a27-8566cb989aba",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_d0d125c1-cce5-470d-8a03-5dd5f9e5fd6b",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_PANEL_A",
+        "fieldKey": "phases"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "ac5e4537-6c5e-48f4-a6a5-2d467cd9eb49",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_panel",
+      "note": "Panel label",
+      "confidence": 0.85,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_555a9199-9ad4-4dcf-9f95-65ec84ec9e14",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_d0d125c1-cce5-470d-8a03-5dd5f9e5fd6b",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "meterType"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "0df814df-f4f8-41fa-8f9c-eddc8ad8c25a",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "photo_meter",
+      "note": "Meter faceplate",
+      "confidence": 0.7,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_5880d80e-651b-466b-87ff-0d8cf1477640",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_d0d125c1-cce5-470d-8a03-5dd5f9e5fd6b",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_METER_1",
+        "fieldKey": "protocol"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "0b165553-90bc-4076-a3a4-38d7c4692d42",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Tech note",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
+    {
+      "linkId": "evidenceLink_7701cd5f-669a-4367-9543-7bbeaf131ff2",
+      "orgId": "demo-org",
+      "projectId": "p_demo",
+      "sourceId": "audit_exchange_d0d125c1-cce5-470d-8a03-5dd5f9e5fd6b",
+      "from": {
+        "kind": "audit_field",
+        "auditAssetId": "AA_VAV_ZONE_1",
+        "fieldKey": "zoneName"
+      },
+      "to": {
+        "kind": "inbox_item",
+        "inboxItemId": "5958bb73-2ea7-4e82-80b9-8d478cbc388e",
+        "suggested": {
+          "kind": "property",
+          "key": "audit_exchange:missingInfo"
+        }
+      },
+      "artifactId": "note_walkthrough",
+      "note": "Walkthrough notes",
+      "confidence": 0.6,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    },
     {
       "linkId": "evidenceLink_b3eb972f-de18-4e27-a429-16ace6e9ca48",
       "orgId": "demo-org",

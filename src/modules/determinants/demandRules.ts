@@ -14,6 +14,17 @@ export type DemandRuleInputV1 = {
 
 export type DemandRuleOutputV1 = {
   billingDemandKw: number | null;
+  /**
+   * Optional ratchet floor demand (kW) when a ratchet rule applies.
+   * When present, billingDemandKw is typically max(computedKwMax, ratchetDemandKw).
+   */
+  ratchetDemandKw?: number | null;
+  /** Optional ratchet floor percent (e.g. 0.9 for 90%). */
+  ratchetFloorPct?: number | null;
+  /** Optional history maximum used in ratchet computation. */
+  ratchetHistoryMaxKw?: number | null;
+  /** Deterministic method tag for billingDemandKw derivation. */
+  billingDemandMethod?: string;
   because: string[];
   evidence: EvidenceItemV1[];
   missingInfo: MissingInfoItemV0[];

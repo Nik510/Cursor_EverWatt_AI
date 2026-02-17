@@ -76,5 +76,30 @@ describe('utilityIntelligence: rate fit', () => {
     const withAudit = alts.find((a) => (a.because || []).some((b) => String(b).includes('BillingEngineV1')));
     expect(withAudit).toBeTruthy();
   });
+
+  test('evaluateRateFit determinism guard: status/confidence stable for known fixture', async () => {
+    const interval = loadFixture('interval_peaky_office.json');
+    const shape = analyzeLoadShape({ intervalKw: interval });
+
+    const rf = evaluateRateFit({
+      inputs: {
+        orgId: 't',
+        projectId: 'p',
+        serviceType: 'electric',
+        utilityTerritory: 'PGE',
+        currentRate: { utility: 'PGE', rateCode: 'PGE_SIM_B19_LIKE' },
+        intervalDataRef: { telemetrySeriesId: 'fixture', resolution: 'hourly', channels: ['kW'] },
+      },
+      scheduleBucket: 'business_hours',
+      loadShape: shape.metrics,
+      intervalKw: interval,
+    });
+
+    // Guardrail: exact values to catch silent drift.
+    expect(rf.status).toBe('likely_suboptimal');
+    expect(Number(rf.confidence)).toBeCloseTo(0.55, 8);
+    // Candidate set is deterministic: ensure first few alternatives remain stable.
+    expect((rf.alternatives || []).slice(0, 3).map((a) => a.rateCode)).toEqual(['B-19S', 'E-19S', 'A-10']);
+  });
 });
 

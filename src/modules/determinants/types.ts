@@ -120,6 +120,13 @@ export type BillingCycleDeterminantsV1 = {
      * In v1 this may equal kWMax with explicit MissingInfo when rules are not modeled.
      */
     billingDemandKw?: number | null;
+    /** Optional ratchet floor demand used (kW), when applicable. */
+    ratchetDemandKw?: number | null;
+    /** Optional ratchet metadata for auditability. */
+    ratchetFloorPct?: number | null;
+    ratchetHistoryMaxKw?: number | null;
+    /** Deterministic method tag for billing demand derivation. */
+    billingDemandMethod?: string;
     coincidentPeakKw?: number | null;
     /** Coverage quality for the cycle. */
     intervalCount?: number;
@@ -196,6 +203,8 @@ export type DeterminantsPackV1 = {
         kwhTotal: number | null;
         kWMax: number | null;
         billingDemandKw?: number | null;
+        ratchetDemandKw?: number | null;
+        billingDemandMethod?: string;
         coveragePct?: number | null;
       }>;
     };

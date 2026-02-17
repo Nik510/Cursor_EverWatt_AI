@@ -113,7 +113,10 @@ export function parsePgeIntervalCsvV1(args: {
 }): { meters: PgeIntervalSeriesParsedV1[]; warnings: string[] } {
   const tz = String(args.timezoneHint || 'America/Los_Angeles').trim() || 'America/Los_Angeles';
 
-  const text = Buffer.isBuffer(args.csvTextOrBuffer) ? args.csvTextOrBuffer.toString('utf-8') : String(args.csvTextOrBuffer || '');
+  // NOTE: This module is used in both Node and browser bundles.
+  // Avoid referencing Buffer when it is not available (browser).
+  const isBuf = typeof Buffer !== 'undefined' && Buffer.isBuffer(args.csvTextOrBuffer as any);
+  const text = isBuf ? (args.csvTextOrBuffer as any).toString('utf-8') : String(args.csvTextOrBuffer || '');
   const parsed = Papa.parse<Record<string, any>>(text, { header: true, skipEmptyLines: 'greedy' });
   const headers = Array.isArray(parsed?.meta?.fields) ? parsed.meta.fields : [];
 
@@ -121,8 +124,8 @@ export function parsePgeIntervalCsvV1(args: {
   if (!headers.length) return { meters: [], warnings: ['No CSV headers detected in interval export.'] };
 
   const colServiceAgreement = firstHeaderMatch(headers, ['Service Agreement', 'SA ID', 'SAID']);
-  const colStart = firstHeaderMatch(headers, ['Start Date Time', 'Start']);
-  const colEnd = firstHeaderMatch(headers, ['End Date Time', 'End']);
+  const colStart = firstHeaderMatch(headers, ['Start Date Time', 'Interval Start', 'Start']);
+  const colEnd = firstHeaderMatch(headers, ['End Date Time', 'Interval End', 'End']);
   const colUsage = firstHeaderMatch(headers, ['Usage', 'Usage (kWh)']);
   const colUsageUnit = firstHeaderMatch(headers, ['Usage Unit']);
   const colPeakDemand = firstHeaderMatch(headers, ['Peak Demand', 'Demand (kW)', 'kW', 'KW']);
@@ -140,7 +143,8 @@ export function parsePgeIntervalCsvV1(args: {
   const byMeter = new Map<string, { rows: PgeIntervalRowV1[]; intervalMinutes: number[]; hasTemp: boolean; hasKw: boolean; missing: MissingInfoItemV0[]; warnings: string[]; evidence: EvidenceItemV1[] }>();
 
   const dataRows = Array.isArray(parsed.data) ? parsed.data : [];
-  for (const row of dataRows) {
+  for (let rowIndex = 0; rowIndex < dataRows.length; rowIndex++) {
+    const row = dataRows[rowIndex];
     if (!row) continue;
     // ignore blank rows (all empty)
     const hasAny = Object.values(row).some((v) => String(v ?? '').trim() !== '');
@@ -153,7 +157,25 @@ export function parsePgeIntervalCsvV1(args: {
     const endRaw = String((colEnd ? row[colEnd] : '') || '').trim();
     const startParsed = parseUsDateTimeToUtcIso({ raw: startRaw, timeZone: tz });
     const endParsed = parseUsDateTimeToUtcIso({ raw: endRaw, timeZone: tz });
-    if (!startParsed.iso || !endParsed.iso) continue;
+    if (!startParsed.iso || !endParsed.iso) {
+      const m = byMeter.get(meterKey) || { rows: [], intervalMinutes: [], hasTemp: false, hasKw: false, missing: [], warnings: [], evidence: [...evidenceCommon] };
+      m.missing.push({
+        id: 'pge.interval.timestamp.unparseable',
+        category: 'tariff',
+        severity: 'warning',
+        description: 'Interval row has an unparseable Start/End Date Time timestamp; row was skipped.',
+        details: {
+          rowIndex,
+          startRaw,
+          endRaw,
+          startBecause: startParsed.because,
+          endBecause: endParsed.because,
+        },
+      } as any);
+      m.warnings.push(`Unparseable timestamp at rowIndex=${rowIndex} for meterKey=${meterKey}: start="${startRaw}" end="${endRaw}".`);
+      byMeter.set(meterKey, m);
+      continue;
+    }
 
     const intervalMinutes = Math.round((new Date(endParsed.iso).getTime() - new Date(startParsed.iso).getTime()) / 60_000);
     if (!Number.isFinite(intervalMinutes) || intervalMinutes <= 0 || intervalMinutes > 24 * 60) {

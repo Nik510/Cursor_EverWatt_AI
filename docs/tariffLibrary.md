@@ -38,9 +38,7 @@ This is computed deterministically using ISO timestamps.
 npm run tariffs:status
 ```
 
-Prints snapshot version + age/stale per CA IOU.
-
-## Production deployment (making snapshots available at runtime)
+Prints snapshot version + age/stale per CA IOU.## Production deployment (making snapshots available at runtime)
 
 At runtime, the app loads the **latest snapshot** from the local filesystem. Production must ensure the snapshot files exist.
 

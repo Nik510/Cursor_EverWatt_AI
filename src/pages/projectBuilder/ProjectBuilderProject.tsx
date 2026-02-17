@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { FileUp, FolderOpen, Brain, Network, CheckCircle2, XCircle, RefreshCw, Trash2, Save, ClipboardList, ListChecks } from 'lucide-react';
+import { FileUp, FileText, FolderOpen, Brain, Network, CheckCircle2, XCircle, RefreshCw, Trash2, Save, ClipboardList, ListChecks } from 'lucide-react';
 import type { ProjectRecord } from '../../types/change-order';
 import { ProjectAiChat } from '../../components/projectBuilder/ProjectAiChat';
 import { EvidenceViewer } from '../../components/projectBuilder/EvidenceViewer';
@@ -98,6 +98,36 @@ export const ProjectBuilderProject: React.FC = () => {
   const bomItems = useMemo(() => (Array.isArray(graph?.bomItems) ? graph.bomItems : []), [graph]);
   const decisions = useMemo(() => (Array.isArray(graph?.decisions) ? graph.decisions : []), [graph]);
   const hasAssets = assets.length > 0;
+
+  const intervalPts = (project as any)?.telemetry?.intervalElectricV1;
+  const intervalMeta = (project as any)?.telemetry?.intervalElectricMetaV1;
+  const hasIntervals = Array.isArray(intervalPts) && intervalPts.length > 0;
+  const intervalWarnCount = Array.isArray(intervalMeta?.warnings) ? intervalMeta.warnings.length : 0;
+  const intervalSavedAtIso = String(intervalMeta?.savedAtIso || '').trim() || '';
+
+  const internalReports = (project as any)?.reportsV1?.internalEngineering;
+  const reportCount = Array.isArray(internalReports) ? internalReports.length : 0;
+  const reportLatestAtIso = (() => {
+    const arr = Array.isArray(internalReports) ? internalReports : [];
+    const ts = arr
+      .map((r: any) => String(r?.createdAt || '').trim())
+      .filter(Boolean)
+      .sort()
+      .reverse();
+    return ts[0] || '';
+  })();
+
+  const intervalsChip = (() => {
+    if (!hasIntervals) return { label: '•', cls: 'bg-gray-50 text-gray-600 border-gray-200' };
+    if (intervalWarnCount > 0) return { label: `! ${intervalWarnCount}`, cls: 'bg-amber-50 text-amber-800 border-amber-200' };
+    return { label: '✓', cls: 'bg-emerald-50 text-emerald-800 border-emerald-200' };
+  })();
+
+  const reportChip = (() => {
+    if (!reportCount) return { label: '•', cls: 'bg-gray-50 text-gray-600 border-gray-200' };
+    const date = reportLatestAtIso ? reportLatestAtIso.slice(0, 10) : '';
+    return { label: date ? `#${reportCount} ${date}` : `#${reportCount}`, cls: 'bg-slate-50 text-slate-700 border-slate-200' };
+  })();
 
   const vaultById = useMemo(() => {
     const m = new Map<string, any>();
@@ -356,7 +386,7 @@ export const ProjectBuilderProject: React.FC = () => {
         </div>
       )}
 
-      <div className="flex gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <button
           onClick={() => setActiveTab('vault')}
           className={`px-3 py-2 rounded-lg text-sm font-semibold border ${
@@ -417,6 +447,32 @@ export const ProjectBuilderProject: React.FC = () => {
             AI (Labs)
           </button>
         ) : null}
+
+        <div className="flex-1" />
+
+        <Link
+          to={projectId ? `/project-builder/${encodeURIComponent(projectId)}/intake/intervals` : '/project-builder'}
+          state={projectId ? { returnTo: `/project-builder/${encodeURIComponent(projectId)}` } : undefined}
+          className="px-3 py-2 rounded-lg text-sm font-semibold border bg-white border-gray-200 text-gray-800 hover:bg-gray-50 inline-flex items-center gap-2"
+        >
+          <FileUp className="w-4 h-4" />
+          <span>Intervals</span>
+          <span className={`inline-flex items-center px-2 h-6 rounded-full border text-xs font-semibold ${intervalsChip.cls}`} title={hasIntervals ? `savedAt=${intervalSavedAtIso || '—'}` : 'missing'}>
+            {intervalsChip.label}
+          </span>
+        </Link>
+
+        <Link
+          to={projectId ? `/project-builder/${encodeURIComponent(projectId)}/reports/internal-engineering` : '/project-builder'}
+          state={projectId ? { returnTo: `/project-builder/${encodeURIComponent(projectId)}` } : undefined}
+          className="px-3 py-2 rounded-lg text-sm font-semibold border bg-white border-gray-200 text-gray-800 hover:bg-gray-50 inline-flex items-center gap-2"
+        >
+          <FileText className="w-4 h-4" />
+          <span>Internal report</span>
+          <span className={`inline-flex items-center px-2 h-6 rounded-full border text-xs font-semibold ${reportChip.cls}`} title={reportLatestAtIso ? `latest=${reportLatestAtIso}` : 'missing'}>
+            {reportChip.label}
+          </span>
+        </Link>
       </div>
 
       {!hasAssets && (
