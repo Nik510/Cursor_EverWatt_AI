@@ -1,0 +1,165 @@
+=== CASE: sce_tou_d_prime_rate_schedule ===
+Southern California Edison
+Account: 0000000000
+Customer: Example
+Rate Schedule: TOU-D-Prime
+
+=== CASE: sce_tou_d_prime_rate_label ===
+SCE
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate: TOU-D-Prime
+
+=== CASE: sce_tou_d_prime_schedule_spaces ===
+SCE
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Schedule: TOU D Prime
+
+=== CASE: sce_tou_d_prime_underscore ===
+Southern California Edison
+Account: 0000000000
+Customer: Example
+Rate Schedule: TOU_D_Prime
+
+=== CASE: sce_not_found_no_rate ===
+Southern California Edison
+Account: 123
+Customer: Example
+Service Type: Electric
+Statement Date: 2026-01-31
+
+=== CASE: sce_missing_utility ===
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: TOU-D-Prime
+
+=== CASE: sce_conflict_utility ===
+Southern California Edison
+San Diego Gas & Electric
+Account: 0000000000
+Customer: Example
+Rate Schedule: TOU-D-Prime
+
+=== CASE: sce_tou_d_prime_rate_schedule_code ===
+SCE
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule Code: TOU-D-Prime
+
+=== CASE: sce_tou_d_prime_tariff_label ===
+Southern California Edison
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Tariff: TOU-D-Prime
+
+=== CASE: sce_tou_d_prime_schedule_dash ===
+SCE
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Schedule - TOU-D-Prime
+
+=== CASE: sce_tou_d_prime_rate_schedule_spaces ===
+Southern California Edison
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: TOU D Prime
+
+=== CASE: sce_tou_d_prime_rate_schedule_weird_spacing ===
+Southern California Edison
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate   Schedule:    TOU   D   Prime
+
+=== CASE: sce_tou_d_prime_ambiguous ===
+Southern California Edison
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: TOU-D-Prime
+
+=== CASE: sce_not_found_no_rate_longer ===
+Southern California Edison
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Statement Date: 2026-01-31
+
+=== CASE: sce_tou_d_prime_rate_schedule_upper ===
+SCE
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+RATE SCHEDULE: TOU-D-PRIME
+
+=== CASE: sce_tou_d_prime_rate_schedule_hyphenated_words ===
+Southern California Edison
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: TOU D-Prime
+
+=== CASE: sce_tou_d_prime_schedule_colon_spaces ===
+SCE
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Schedule :  TOU   D   Prime
+
+=== CASE: sce_tou_d_prime_tariff_dash ===
+Southern California Edison
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Tariff - TOU D Prime
+
+=== CASE: sce_tou_d_prime_rate_schedule_trailing_words ===
+Southern California Edison
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: TOU-D-Prime (Billed)
+
+=== CASE: sce_missing_rate_label_but_has_utility ===
+Southern California Edison
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Energy Charges Summary
+
+=== CASE: sce_missing_utility_but_has_tariff ===
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Tariff: TOU-D-Prime
+
+=== CASE: sce_conflict_utility_ampersand ===
+Southern California Edison
+San Diego Gas & Electric
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: TOU-D-Prime
+
+=== CASE: sce_tou_d_prime_rate_schedule_underscore_caps ===
+SCE
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: TOU_D_PRIME
+
+=== CASE: sce_tou_d_prime_rate_schedule_extra_spaces ===
+SCE
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule:    TOU-D-Prime
+

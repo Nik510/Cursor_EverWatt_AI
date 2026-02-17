@@ -1,0 +1,234 @@
+=== CASE: muni_ladwp_basic ===
+Los Angeles Department of Water and Power
+Account: 0000000000
+Customer: Example
+Rate Schedule: A-1
+
+=== CASE: muni_smud_basic ===
+Sacramento Municipal Utility District
+Account: 0000000000
+Customer: Example
+Rate Schedule: GSD-1
+
+=== CASE: muni_palo_alto ===
+City of Palo Alto Utilities
+Account: 0000000000
+Customer: Example
+Rate Schedule: E-19
+
+=== CASE: muni_silicon_valley_power ===
+Silicon Valley Power
+Account: 0000000000
+Customer: Example
+Rate Schedule: TOU-GS-3
+
+=== CASE: muni_alameda_municipal_power ===
+Alameda Municipal Power
+Account: 0000000000
+Customer: Example
+Rate Schedule: AMP-1
+
+=== CASE: muni_conflict_two_munis ===
+LADWP
+SMUD
+Account: 0000000000
+Customer: Example
+Rate Schedule: A-1
+
+=== CASE: muni_conflict_muni_and_iou ===
+LADWP
+Southern California Edison
+Account: 0000000000
+Customer: Example
+Rate Schedule: TOU-D-Prime
+
+=== CASE: muni_burbank ===
+Burbank Water and Power
+Account: 0000000000
+Customer: Example
+Rate Schedule: BWP-1
+
+=== CASE: muni_glendale ===
+Glendale Water & Power
+Account: 0000000000
+Customer: Example
+Rate Schedule: GWP-2
+
+=== CASE: muni_pasadena ===
+Pasadena Water and Power
+Account: 0000000000
+Customer: Example
+Rate Schedule: PWP-1
+
+=== CASE: muni_anaheim ===
+Anaheim Public Utilities
+Account: 0000000000
+Customer: Example
+Rate Schedule: APU-1
+
+=== CASE: muni_riverside ===
+Riverside Public Utilities
+Account: 0000000000
+Customer: Example
+Rate Schedule: RPU-1
+
+=== CASE: muni_roseville ===
+Roseville Electric
+Account: 0000000000
+Customer: Example
+Rate Schedule: RE-1
+
+=== CASE: muni_modesto ===
+Modesto Irrigation District
+Account: 0000000000
+Customer: Example
+Rate Schedule: MID-1
+
+=== CASE: muni_turlock ===
+Turlock Irrigation District
+Account: 0000000000
+Customer: Example
+Rate Schedule: TID-1
+
+=== CASE: muni_svp_city_santa_clara ===
+City of Santa Clara
+Account: 0000000000
+Customer: Example
+Rate Schedule: SVP-1
+
+=== CASE: muni_muni_unknown_utility ===
+Example Water and Power
+Account: 0000000000
+Customer: Example
+Rate Schedule: EX-1
+
+=== CASE: muni_ladwp_no_rate_label ===
+LADWP
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Statement Date: 2026-01-31
+
+=== CASE: muni_smud_no_rate_label ===
+SMUD
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Statement Date: 2026-01-31
+
+=== CASE: muni_palo_alto_no_rate_label ===
+Palo Alto Utilities
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Statement Date: 2026-01-31
+
+=== CASE: muni_svp_no_rate_label ===
+Silicon Valley Power
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Statement Date: 2026-01-31
+
+=== CASE: muni_burbank_no_rate_label ===
+Burbank Water and Power
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Statement Date: 2026-01-31
+
+=== CASE: muni_glendale_no_rate_label ===
+Glendale Water and Power
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Statement Date: 2026-01-31
+
+=== CASE: muni_pasadena_no_rate_label ===
+Pasadena Water & Power
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Statement Date: 2026-01-31
+
+=== CASE: muni_anaheim_no_rate_label ===
+Anaheim Public Utilities
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Statement Date: 2026-01-31
+
+=== CASE: muni_riverside_no_rate_label ===
+Riverside Public Utilities
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Statement Date: 2026-01-31
+
+=== CASE: muni_roseville_no_rate_label ===
+Roseville Electric
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Statement Date: 2026-01-31
+
+=== CASE: muni_modesto_no_rate_label ===
+Modesto Irrigation District
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Statement Date: 2026-01-31
+
+=== CASE: muni_turlock_no_rate_label ===
+Turlock Irrigation District
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Statement Date: 2026-01-31
+
+=== CASE: muni_alameda_no_rate_label ===
+Alameda Municipal Power
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Statement Date: 2026-01-31
+
+=== CASE: muni_santa_clara_no_rate_label ===
+City of Santa Clara
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Statement Date: 2026-01-31
+
+=== CASE: muni_glendale_ampersand_name ===
+Glendale Water & Power
+Account: 0000000000
+Customer: Example
+Rate Schedule: GWP-2
+
+=== CASE: muni_pasadena_ampersand_name ===
+Pasadena Water & Power
+Account: 0000000000
+Customer: Example
+Rate Schedule: PWP-1
+
+=== CASE: muni_ladwp_full_name_alt ===
+Los Angeles Dept of Water and Power
+Account: 0000000000
+Customer: Example
+Rate Schedule: A-1
+
+=== CASE: muni_smud_abbrev_alt ===
+Sacramento MUD
+Account: 0000000000
+Customer: Example
+Rate Schedule: GSD-1
+
+=== CASE: muni_conflict_three_utils ===
+SMUD
+LADWP
+PG&E
+Account: 0000000000
+Customer: Example
+Rate Schedule: A-1
+

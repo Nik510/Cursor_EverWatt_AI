@@ -1,0 +1,1195 @@
+[
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_e19_rate_schedule",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "E-19",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_e19_schedule_label",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "E-19",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_e19_tariff_label",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "E-19",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_b19_simple",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "B-19",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_b19_missing_dash",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "B19",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_e20_spaces",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "E-20",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_b20_underscore",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "B-20",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_ag_prefix",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AG-1",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_b10_extra_words",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "B-10",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_not_found_no_rate",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_ambiguous_normalized",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "E-19",
+    "expectedMatchStatus": "AMBIGUOUS",
+    "expectedTopCandidates": ["E-19", "E_19"],
+    "expectedMissingInfoIds": ["BILL_TARIFF_AMBIGUOUS"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_conflict_utility",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "E-19",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_CONFLICT", "BILL_UTILITY_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_invalid_text_too_short",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_TEXT_INSUFFICIENT", "BILL_RATE_SCHEDULE_MISSING"]
+  },
+
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_tou_d_prime_rate_schedule",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_tou_d_prime_rate_label",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_tou_d_prime_schedule_spaces",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_tou_d_prime_underscore",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_not_found_no_rate",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_missing_utility",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_conflict_utility",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_CONFLICT", "BILL_UTILITY_MISSING"]
+  },
+
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_al_tou_rate_schedule",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_al_tou_rate_label",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_al_tou_schedule_spaces",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_al_tou_underscore",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "AMBIGUOUS",
+    "expectedTopCandidates": ["AL-TOU", "AL_TOU"],
+    "expectedMissingInfoIds": ["BILL_TARIFF_AMBIGUOUS"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_not_found_no_rate",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_missing_utility",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_conflict_utility",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_CONFLICT", "BILL_UTILITY_MISSING"]
+  },
+
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_gr_rate_schedule",
+    "expectedUtility": "SOCALGAS",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "GR",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_gr_tariff",
+    "expectedUtility": "SOCALGAS",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "GR",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_g_nr1_rate_schedule",
+    "expectedUtility": "SOCALGAS",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "G-NR1",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_g_nr1_spaces",
+    "expectedUtility": "SOCALGAS",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "G-NR1",
+    "expectedMatchStatus": "AMBIGUOUS",
+    "expectedTopCandidates": ["G-NR1", "G_NR1"],
+    "expectedMissingInfoIds": ["BILL_TARIFF_AMBIGUOUS"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_g_nr1_underscore",
+    "expectedUtility": "SOCALGAS",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "G-NR1",
+    "expectedMatchStatus": "AMBIGUOUS",
+    "expectedTopCandidates": ["G-NR1", "G_NR1"],
+    "expectedMissingInfoIds": ["BILL_TARIFF_AMBIGUOUS"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_not_found_no_rate",
+    "expectedUtility": "SOCALGAS",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_missing_utility",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "GR",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_conflict_utility",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "GR",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_CONFLICT", "BILL_UTILITY_MISSING"]
+  },
+
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_ladwp_basic",
+    "expectedUtility": "LADWP",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "A-1",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_smud_basic",
+    "expectedUtility": "SMUD",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "GSD-1",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_palo_alto",
+    "expectedUtility": "Palo Alto Utilities",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "E-19",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_silicon_valley_power",
+    "expectedUtility": "Silicon Valley Power",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-GS-3",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_alameda_municipal_power",
+    "expectedUtility": "Alameda Municipal Power",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AMP-1",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_conflict_two_munis",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "A-1",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_CONFLICT", "BILL_UTILITY_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_conflict_muni_and_iou",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_CONFLICT", "BILL_UTILITY_MISSING"]
+  },
+
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_e19_rate_schedule_code",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "E-19",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_e19_rate_schedule_dash",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "E-19",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_e19_rate_schedule_underscore",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "E-19",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_e19_rate_schedule_no_dash",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "E19",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_e19_schedule_spaces",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "E-19",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_e20_no_dash",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "E20",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_b20_spaces",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "B-20",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_b19_tariff_label",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "B-19",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_b19_schedule_label",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "B-19",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_b10_rate_label",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "B-10",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_b10_tariff_label",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "B-10",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_ag_rate_schedule_spaces",
+    "expectedUtility": "PGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AG-1",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_missing_utility_has_rate",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "E-19",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/pge/pack.txt#pge_conflict_utility_ampersand",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "E-19",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_CONFLICT", "BILL_UTILITY_MISSING"]
+  },
+
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_tou_d_prime_rate_schedule_code",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_tou_d_prime_tariff_label",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_tou_d_prime_schedule_dash",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_tou_d_prime_rate_schedule_spaces",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_tou_d_prime_rate_schedule_weird_spacing",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_tou_d_prime_ambiguous",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "AMBIGUOUS",
+    "expectedTopCandidates": ["TOU-D-Prime", "TOU_D_Prime"],
+    "expectedMissingInfoIds": ["BILL_TARIFF_AMBIGUOUS"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_not_found_no_rate_longer",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING"]
+  },
+
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_al_tou_rate_schedule_code",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_al_tou_tariff_label",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_al_tou_schedule_dash",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_al_tou_rate_schedule_spaces",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_al_tou_rate_schedule_weird_spacing",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_not_found_no_rate_longer",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING"]
+  },
+
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_gr_rate_schedule_code",
+    "expectedUtility": "SOCALGAS",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "GR",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_gr_schedule_label",
+    "expectedUtility": "SOCALGAS",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "GR",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_gr_rate_label",
+    "expectedUtility": "SOCALGAS",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "GR",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_g_nr1_rate_schedule_code",
+    "expectedUtility": "SOCALGAS",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "G-NR1",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_g_nr1_rate_label",
+    "expectedUtility": "SOCALGAS",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "G-NR1",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_g_nr1_tariff_label",
+    "expectedUtility": "SOCALGAS",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "G-NR1",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_g_nr1_weird_spacing",
+    "expectedUtility": "SOCALGAS",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "G-NR1",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_burbank",
+    "expectedUtility": "Burbank Water and Power",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "BWP-1",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_glendale",
+    "expectedUtility": "Glendale Water & Power",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "GWP-2",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_pasadena",
+    "expectedUtility": "Pasadena Water and Power",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "PWP-1",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_anaheim",
+    "expectedUtility": "Anaheim Public Utilities",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "APU-1",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_riverside",
+    "expectedUtility": "Riverside Public Utilities",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "RPU-1",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_roseville",
+    "expectedUtility": "Roseville Electric",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "RE-1",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_modesto",
+    "expectedUtility": "Modesto Irrigation District",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "MID-1",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_turlock",
+    "expectedUtility": "Turlock Irrigation District",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TID-1",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_svp_city_santa_clara",
+    "expectedUtility": "Silicon Valley Power",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "SVP-1",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_muni_unknown_utility",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "EX-1",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_MISSING"]
+  },
+
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_tou_d_prime_rate_schedule_upper",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_tou_d_prime_rate_schedule_hyphenated_words",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_tou_d_prime_schedule_colon_spaces",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_tou_d_prime_tariff_dash",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_tou_d_prime_rate_schedule_trailing_words",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_missing_rate_label_but_has_utility",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_missing_utility_but_has_tariff",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_conflict_utility_ampersand",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_CONFLICT", "BILL_UTILITY_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_tou_d_prime_rate_schedule_underscore_caps",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sce/pack.txt#sce_tou_d_prime_rate_schedule_extra_spaces",
+    "expectedUtility": "SCE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "TOU-D-PRIME",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_al_tou_rate_schedule_upper",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_al_tou_rate_schedule_hyphenated_words",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_al_tou_schedule_colon_spaces",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_al_tou_tariff_dash",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_missing_rate_label_but_has_utility",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_missing_utility_but_has_tariff",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_conflict_utility_ampersand",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_CONFLICT", "BILL_UTILITY_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_al_tou_rate_schedule_underscore_caps",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_al_tou_rate_schedule_extra_spaces",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_gr_rate_schedule_upper",
+    "expectedUtility": "SOCALGAS",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "GR",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_gr_schedule_extra_spaces",
+    "expectedUtility": "SOCALGAS",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "GR",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_missing_rate_label_but_has_utility",
+    "expectedUtility": "SOCALGAS",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_missing_utility_but_has_tariff",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "GR",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/gas/socalgas/pack.txt#socalgas_conflict_utility_ampersand",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "GAS",
+    "expectedExtractedRateLabel": "GR",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_CONFLICT", "BILL_UTILITY_MISSING"]
+  },
+
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_ladwp_no_rate_label",
+    "expectedUtility": "LADWP",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING", "BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_smud_no_rate_label",
+    "expectedUtility": "SMUD",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING", "BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_palo_alto_no_rate_label",
+    "expectedUtility": "Palo Alto Utilities",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING", "BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_svp_no_rate_label",
+    "expectedUtility": "Silicon Valley Power",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING", "BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_burbank_no_rate_label",
+    "expectedUtility": "Burbank Water and Power",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING", "BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_glendale_no_rate_label",
+    "expectedUtility": "Glendale Water & Power",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING", "BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_pasadena_no_rate_label",
+    "expectedUtility": "Pasadena Water and Power",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING", "BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_anaheim_no_rate_label",
+    "expectedUtility": "Anaheim Public Utilities",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING", "BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_riverside_no_rate_label",
+    "expectedUtility": "Riverside Public Utilities",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING", "BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_roseville_no_rate_label",
+    "expectedUtility": "Roseville Electric",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING", "BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_modesto_no_rate_label",
+    "expectedUtility": "Modesto Irrigation District",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING", "BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_turlock_no_rate_label",
+    "expectedUtility": "Turlock Irrigation District",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING", "BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_alameda_no_rate_label",
+    "expectedUtility": "Alameda Municipal Power",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING", "BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_santa_clara_no_rate_label",
+    "expectedUtility": "Silicon Valley Power",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": null,
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_RATE_SCHEDULE_MISSING", "BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_glendale_ampersand_name",
+    "expectedUtility": "Glendale Water & Power",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "GWP-2",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_pasadena_ampersand_name",
+    "expectedUtility": "Pasadena Water and Power",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "PWP-1",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_ladwp_full_name_alt",
+    "expectedUtility": "LADWP",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "A-1",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_smud_abbrev_alt",
+    "expectedUtility": "SMUD",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "GSD-1",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_UNSUPPORTED"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/municipal/pack.txt#muni_conflict_three_utils",
+    "expectedUtility": "UNKNOWN",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "A-1",
+    "expectedMatchStatus": "NOT_FOUND",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": ["BILL_UTILITY_CONFLICT", "BILL_UTILITY_MISSING"]
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_al_tou_rate_schedule_lowercase",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  },
+  {
+    "fixtureFile": "tests/fixtures/bills/ca/electric/sdge/pack.txt#sdge_al_tou_tariff_mixed_case",
+    "expectedUtility": "SDGE",
+    "expectedSupplyType": "ELECTRIC",
+    "expectedExtractedRateLabel": "AL-TOU",
+    "expectedMatchStatus": "EXACT",
+    "expectedTopCandidates": [],
+    "expectedMissingInfoIds": []
+  }
+]
+

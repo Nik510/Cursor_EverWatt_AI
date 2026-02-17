@@ -44,13 +44,63 @@ function normUpper(raw: unknown): string {
 }
 
 function collapseKey(raw: unknown): string {
-  // Collapse spaces + hyphens to compare equivalent forms (e.g. TOU_GS_3 == TOU-GS-3).
-  return normUpper(raw).replace(/[\s\-]/g, '');
+  // Collapse all non-alphanumerics to compare equivalent forms (e.g. TOU_GS_3 == TOU-GS-3 == "TOU GS 3").
+  return normUpper(raw).replace(/[^A-Z0-9]/g, '');
 }
 
 function clamp01(n: number): number {
   if (!Number.isFinite(n)) return 0;
   return Math.max(0, Math.min(1, n));
+}
+
+function normalizeRateScheduleWanted(raw: unknown): { wantedRaw: string; token: string; normalized: string; collapsed: string } {
+  const wantedRaw = String(raw ?? '').trim();
+  const upper = normUpper(wantedRaw);
+
+  // Strip common bill label prefixes when the entire field is passed through (e.g. "Rate Schedule: E-19").
+  const cleaned = upper.replace(/^\s*(RATE\s*SCHEDULE(?:\s*CODE)?|RATE|SCHEDULE|TARIFF)\s*[:\-]\s*/i, '').trim();
+
+  // Extract the first plausible code-like token from the string.
+  // Examples:
+  // - "Schedule E-19" -> "E-19"
+  // - "Rate: A10" -> "A10"
+  // - "TOU GS 3" -> "TOU GS 3" (then normalized to "TOU-GS-3")
+  const tokenRe = /\b([A-Z]{1,6}(?:[ \-_][A-Z0-9]{1,10}){0,4}|[A-Z]{1,3}[ \-_]?\d{1,3}[A-Z0-9]{0,6})\b/g;
+  let token = '';
+  // Prefer a token that contains at least one digit (most rate codes do; avoids matching "RATE SCHEDULE").
+  for (const text of [cleaned, upper]) {
+    tokenRe.lastIndex = 0;
+    let m: RegExpExecArray | null;
+    // eslint-disable-next-line no-cond-assign
+    while ((m = tokenRe.exec(text))) {
+      const cand = String(m[1] || '').trim();
+      if (!cand) continue;
+      if (/\d/.test(cand)) {
+        token = cand;
+        break;
+      }
+    }
+    if (token) break;
+  }
+  if (!token) token = cleaned || upper;
+
+  let normalized = token
+    .trim()
+    .toUpperCase()
+    .replace(/_/g, '-')
+    .replace(/\s+/g, '-') // collapse spaces to dashes
+    .replace(/-+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
+
+  // Insert dash between leading letters and digits when absent (A10 -> A-10, E19 -> E-19, B19S -> B-19S).
+  if (!normalized.includes('-')) {
+    const m2 = /^([A-Z]{1,3})(\d{1,3})([A-Z0-9]{0,6})$/.exec(normalized.replace(/-/g, ''));
+    if (m2) normalized = `${m2[1]}-${m2[2]}${m2[3] || ''}`;
+  }
+
+  const collapsed = collapseKey(normalized);
+  return { wantedRaw, token, normalized, collapsed };
 }
 
 export function matchBillTariffToLibraryV1(args: {
@@ -66,7 +116,8 @@ export function matchBillTariffToLibraryV1(args: {
         rates: Array<{ rateCode: string; sourceUrl: string; sourceTitle?: string }>;
       };
 }): BillTariffLibraryMatchResultV1 {
-  const wantedRaw = String(args.rateScheduleText || '').trim();
+  const wantedNorm = normalizeRateScheduleWanted(args.rateScheduleText || '');
+  const wantedRaw = wantedNorm.wantedRaw;
   const snap = args.snapshot || null;
 
   if (!wantedRaw) {
@@ -83,8 +134,8 @@ export function matchBillTariffToLibraryV1(args: {
     };
   }
 
-  const wanted = normUpper(wantedRaw);
-  const wantedCollapsed = collapseKey(wantedRaw);
+  const wanted = wantedNorm.normalized;
+  const wantedCollapsed = wantedNorm.collapsed;
 
   const rates = Array.isArray(snap.rates) ? snap.rates : [];
   const exactMatches = rates.filter((r) => normUpper(r.rateCode) === wanted);

@@ -1,0 +1,134 @@
+=== CASE: socalgas_gr_rate_schedule ===
+SoCalGas
+Account: 0000000000
+Customer: Example
+Rate Schedule: GR
+
+=== CASE: socalgas_gr_tariff ===
+Southern California Gas
+Account: 0000000000
+Customer: Example
+Tariff: GR
+
+=== CASE: socalgas_g_nr1_rate_schedule ===
+SoCalGas
+Account: 0000000000
+Customer: Example
+Rate Schedule: G-NR1
+
+=== CASE: socalgas_g_nr1_spaces ===
+SoCalGas
+Account: 0000000000
+Customer: Example
+Schedule: G NR1
+
+=== CASE: socalgas_g_nr1_underscore ===
+SoCalGas
+Account: 0000000000
+Customer: Example
+Rate Schedule: G_NR1
+
+=== CASE: socalgas_not_found_no_rate ===
+SoCalGas
+Account: 123
+Customer: Example
+Service Type: Gas
+Statement Date: 2026-01-31
+
+=== CASE: socalgas_missing_utility ===
+Account: 0000000000
+Customer: Example
+Service Type: Gas
+Rate Schedule: GR
+
+=== CASE: socalgas_conflict_utility ===
+SoCalGas
+PG&E
+Account: 0000000000
+Customer: Example
+Rate Schedule: GR
+
+=== CASE: socalgas_gr_rate_schedule_code ===
+SoCalGas
+Account: 0000000000
+Customer: Example
+Service Type: Gas
+Rate Schedule Code: GR
+
+=== CASE: socalgas_gr_schedule_label ===
+SoCalGas
+Account: 0000000000
+Customer: Example
+Service Type: Gas
+Schedule: GR
+
+=== CASE: socalgas_gr_rate_label ===
+SoCalGas
+Account: 0000000000
+Customer: Example
+Service Type: Gas
+Rate: GR
+
+=== CASE: socalgas_g_nr1_rate_schedule_code ===
+SoCalGas
+Account: 0000000000
+Customer: Example
+Service Type: Gas
+Rate Schedule Code: G-NR1
+
+=== CASE: socalgas_g_nr1_rate_label ===
+SoCalGas
+Account: 0000000000
+Customer: Example
+Service Type: Gas
+Rate: G-NR1
+
+=== CASE: socalgas_g_nr1_tariff_label ===
+Southern California Gas
+Account: 0000000000
+Customer: Example
+Service Type: Gas
+Tariff: G-NR1
+
+=== CASE: socalgas_g_nr1_weird_spacing ===
+SoCalGas
+Account: 0000000000
+Customer: Example
+Service Type: Gas
+Rate   Schedule:    G   NR1
+
+=== CASE: socalgas_gr_rate_schedule_upper ===
+SoCalGas
+Account: 0000000000
+Customer: Example
+Service Type: Gas
+RATE SCHEDULE: GR
+
+=== CASE: socalgas_gr_schedule_extra_spaces ===
+SoCalGas
+Account: 0000000000
+Customer: Example
+Service Type: Gas
+Schedule:    GR
+
+=== CASE: socalgas_missing_rate_label_but_has_utility ===
+SoCalGas
+Account: 0000000000
+Customer: Example
+Service Type: Gas
+Gas Charges Summary
+
+=== CASE: socalgas_missing_utility_but_has_tariff ===
+Account: 0000000000
+Customer: Example
+Service Type: Gas
+Tariff: GR
+
+=== CASE: socalgas_conflict_utility_ampersand ===
+SoCalGas
+San Diego Gas & Electric
+Account: 0000000000
+Customer: Example
+Service Type: Gas
+Rate Schedule: GR
+

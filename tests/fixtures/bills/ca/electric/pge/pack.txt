@@ -1,0 +1,183 @@
+=== CASE: pge_e19_rate_schedule ===
+Pacific Gas and Electric Company
+Account: 0000000000
+Customer: Example
+Rate Schedule: E-19
+
+=== CASE: pge_e19_schedule_label ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Schedule: E-19
+
+=== CASE: pge_e19_tariff_label ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Tariff: E-19
+
+=== CASE: pge_b19_simple ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: B-19
+
+=== CASE: pge_b19_missing_dash ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: B19
+
+=== CASE: pge_e20_spaces ===
+Pacific Gas and Electric
+Account: 0000000000
+Customer: Example
+Rate Schedule: E 20
+
+=== CASE: pge_b20_underscore ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: B_20
+
+=== CASE: pge_ag_prefix ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate: AG-1
+
+=== CASE: pge_b10_extra_words ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: B-10 Secondary
+
+=== CASE: pge_not_found_no_rate ===
+PG&E
+Account: 123
+Service Type: Electric
+Customer: Example
+Statement Date: 2026-01-31
+
+=== CASE: pge_ambiguous_normalized ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: E 19
+
+=== CASE: pge_conflict_utility ===
+PG&E
+Southern California Edison
+Account: 0000000000
+Customer: Example
+Rate Schedule: E-19
+
+=== CASE: pge_invalid_text_too_short ===
+PG&E E-19
+
+=== CASE: pge_e19_rate_schedule_code ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule Code: E-19
+
+=== CASE: pge_e19_rate_schedule_dash ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule - E-19
+
+=== CASE: pge_e19_rate_schedule_underscore ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: E_19
+
+=== CASE: pge_e19_rate_schedule_no_dash ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: E19
+
+=== CASE: pge_e19_schedule_spaces ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Schedule: E 19
+
+=== CASE: pge_e20_no_dash ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: E20
+
+=== CASE: pge_b20_spaces ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: B 20
+
+=== CASE: pge_b19_tariff_label ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Tariff: B-19
+
+=== CASE: pge_b19_schedule_label ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Schedule: B-19
+
+=== CASE: pge_b10_rate_label ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate: B-10
+
+=== CASE: pge_b10_tariff_label ===
+Pacific Gas & Electric
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Tariff: B-10
+
+=== CASE: pge_ag_rate_schedule_spaces ===
+PG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: AG 1
+
+=== CASE: pge_missing_utility_has_rate ===
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: E-19
+
+=== CASE: pge_conflict_utility_ampersand ===
+PG&E
+San Diego Gas & Electric
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: E-19
+

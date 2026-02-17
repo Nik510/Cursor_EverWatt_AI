@@ -1,0 +1,163 @@
+=== CASE: sdge_al_tou_rate_schedule ===
+San Diego Gas & Electric
+Account: 0000000000
+Customer: Example
+Rate Schedule: AL-TOU
+
+=== CASE: sdge_al_tou_rate_label ===
+SDG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate: AL-TOU
+
+=== CASE: sdge_al_tou_schedule_spaces ===
+SDG&E
+Account: 0000000000
+Customer: Example
+Schedule: AL TOU
+
+=== CASE: sdge_al_tou_underscore ===
+San Diego Gas and Electric
+Account: 0000000000
+Customer: Example
+Rate Schedule: AL_TOU
+
+=== CASE: sdge_not_found_no_rate ===
+SDG&E
+Service Type: Electric
+Account: 0000000000
+Customer: Example
+
+=== CASE: sdge_missing_utility ===
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: AL-TOU
+
+=== CASE: sdge_conflict_utility ===
+SDG&E
+PG&E
+Account: 0000000000
+Customer: Example
+Rate Schedule: AL-TOU
+
+=== CASE: sdge_al_tou_rate_schedule_code ===
+SDG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule Code: AL-TOU
+
+=== CASE: sdge_al_tou_tariff_label ===
+San Diego Gas & Electric
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Tariff: AL-TOU
+
+=== CASE: sdge_al_tou_schedule_dash ===
+SDG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Schedule - AL TOU
+
+=== CASE: sdge_al_tou_rate_schedule_spaces ===
+San Diego Gas & Electric
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: AL TOU
+
+=== CASE: sdge_al_tou_rate_schedule_weird_spacing ===
+San Diego Gas & Electric
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate   Schedule:    AL   TOU
+
+=== CASE: sdge_not_found_no_rate_longer ===
+SDG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Statement Date: 2026-01-31
+
+=== CASE: sdge_al_tou_rate_schedule_upper ===
+SDG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+RATE SCHEDULE: AL-TOU
+
+=== CASE: sdge_al_tou_rate_schedule_hyphenated_words ===
+San Diego Gas & Electric
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: AL TOU (ELEC)
+
+=== CASE: sdge_al_tou_schedule_colon_spaces ===
+SDG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Schedule :  AL   TOU
+
+=== CASE: sdge_al_tou_tariff_dash ===
+San Diego Gas and Electric
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Tariff - AL-TOU
+
+=== CASE: sdge_missing_rate_label_but_has_utility ===
+SDG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Energy Charges Summary
+
+=== CASE: sdge_missing_utility_but_has_tariff ===
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Tariff: AL-TOU
+
+=== CASE: sdge_conflict_utility_ampersand ===
+San Diego Gas & Electric
+Pacific Gas & Electric
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: AL-TOU
+
+=== CASE: sdge_al_tou_rate_schedule_underscore_caps ===
+SDG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule: AL_TOU
+
+=== CASE: sdge_al_tou_rate_schedule_extra_spaces ===
+SDG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Rate Schedule:    AL-TOU
+
+=== CASE: sdge_al_tou_rate_schedule_lowercase ===
+San Diego Gas & Electric
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+rate schedule: al-tou
+
+=== CASE: sdge_al_tou_tariff_mixed_case ===
+SDG&E
+Account: 0000000000
+Customer: Example
+Service Type: Electric
+Tariff: Al-ToU
+
