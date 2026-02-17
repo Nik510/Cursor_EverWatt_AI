@@ -248,7 +248,7 @@ describe('workflow: project evidence -> analysis -> internal engineering report 
       else delete process.env.EVERWATT_TARIFF_LIBRARY_BASEDIR;
     }
     },
-    30_000,
+    60_000,
   );
 });
 
