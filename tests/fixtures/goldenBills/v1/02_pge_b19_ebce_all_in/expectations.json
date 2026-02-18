@@ -1,0 +1,23 @@
+{
+  "expectedUtility": "PGE",
+  "expectedSupplyProviderType": "CCA",
+  "expectedLseName": "East Bay Community Energy",
+  "expectedRateSourceKind": "CCA_GENERATION_V0_ALL_IN",
+  "expectedMissingInfoIds": [
+    "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+    "billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+    "determinants.demandRules.pge.ratchet.DETERMINANT_RATCHET_NEEDS_HISTORY",
+    "determinants.reconcile.billingRecords.missing",
+    "determinants.reconcile.coverageLow.2026-01",
+    "determinants.reconcile.coverageLow.2026-02",
+    "determinants.reconcile.reconcilable.count",
+    "determinants.tou.energy.coverage.low.2026-01",
+    "determinants.tou.energy.coverage.low.2026-02",
+    "tariff.applicability.voltage.unknown"
+  ],
+  "expectedAuditReconcile": true,
+  "expectedTopLineNumbers": {
+    "billingDemandKw": { "value": 180, "tolAbs": 0.001 }
+  }
+}
+

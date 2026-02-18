@@ -1,0 +1,9 @@
+{
+  "projectId": "p_golden_04",
+  "utility": "SCE",
+  "supplyType": "electric",
+  "billPeriodStartYmd": "2026-01-01",
+  "intervalFixtureRef": "dispatch/v1_1/shared/intervalPoints_1day_hourly_arbitrage.json",
+  "currentRateOverride": { "utility": "SCE", "rateCode": "TOU-GS-3" }
+}
+
