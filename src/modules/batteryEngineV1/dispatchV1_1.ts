@@ -7,6 +7,8 @@ export const DispatchV1_1WarningCodes = {
   DISPATCH_TOU_UNMATCHED: 'dispatch.tou_unmatched',
   DISPATCH_INVALID_BATTERY_PARAMS: 'dispatch.invalid_battery_params',
   DISPATCH_INVALID_TIMEZONE: 'dispatch.invalid_timezone',
+  DISPATCH_SUPPLY_CCA_GENERATION_RATES_MISSING_FALLBACK: 'dispatch.supply.cca_generation_rates_missing_fallback',
+  DISPATCH_SUPPLY_DA_GENERATION_RATES_MISSING_FALLBACK: 'dispatch.supply.da_generation_rates_missing_fallback',
 } as const;
 
 export type DispatchMethodTagV1_1 = 'dispatch_v1_1';
@@ -179,6 +181,8 @@ export function dispatchV1_1(args: {
   generationTouEnergyPrices?: TouPriceWindowV1[] | null;
   /** Optional derived all-in generation TOU energy windows (energy + adders). When present, preferred for arbitrage. */
   generationAllInTouEnergyPrices?: TouPriceWindowV1[] | null;
+  /** Optional supply context (warnings-first). */
+  supplyProviderType?: 'CCA' | 'DA' | null;
   battery: DispatchBatteryParamsV1_1;
 }): { cycles: DispatchCycleResultV1_1[]; warnings: string[] } {
   const warningsAll: string[] = [];
@@ -195,14 +199,20 @@ export function dispatchV1_1(args: {
   const batteryOk = P > 0 && E > 0 && rte > 0 && maxStored > minStored + 1e-9;
   if (!batteryOk) warningsAll.push(DispatchV1_1WarningCodes.DISPATCH_INVALID_BATTERY_PARAMS);
 
-  const touEnergyPrices =
-    Array.isArray(args.generationAllInTouEnergyPrices) && args.generationAllInTouEnergyPrices.length
-      ? args.generationAllInTouEnergyPrices
-      : Array.isArray(args.generationTouEnergyPrices) && args.generationTouEnergyPrices.length
-        ? args.generationTouEnergyPrices
-        : Array.isArray(args.touEnergyPrices)
-          ? args.touEnergyPrices
-          : [];
+  const genAllIn = Array.isArray(args.generationAllInTouEnergyPrices) ? args.generationAllInTouEnergyPrices : [];
+  const genEnergyOnly = Array.isArray(args.generationTouEnergyPrices) ? args.generationTouEnergyPrices : [];
+  const delivery = Array.isArray(args.touEnergyPrices) ? args.touEnergyPrices : [];
+
+  const touEnergyPrices = genAllIn.length ? genAllIn : genEnergyOnly.length ? genEnergyOnly : delivery;
+  const supplyProviderType = args.supplyProviderType === 'CCA' || args.supplyProviderType === 'DA' ? args.supplyProviderType : null;
+  const usedDeliveryFallback = Boolean(supplyProviderType) && !genAllIn.length && !genEnergyOnly.length && delivery.length > 0;
+  if (usedDeliveryFallback) {
+    warningsAll.push(
+      supplyProviderType === 'DA'
+        ? DispatchV1_1WarningCodes.DISPATCH_SUPPLY_DA_GENERATION_RATES_MISSING_FALLBACK
+        : DispatchV1_1WarningCodes.DISPATCH_SUPPLY_CCA_GENERATION_RATES_MISSING_FALLBACK,
+    );
+  }
   const touRank = minMaxPricePeriods(touEnergyPrices);
 
   const pointsAll = Array.isArray(args.intervalPointsV1) ? args.intervalPointsV1 : [];

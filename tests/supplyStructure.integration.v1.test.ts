@@ -86,5 +86,39 @@ SF Clean Energy (San Francisco Clean Energy) generation charges.
     expect(energy).toBeTruthy();
     expect(String((energy as any)?.sourcePath || '')).toBe('inputs.tariffs.touEnergyPrices');
   });
+
+  it('batteryEconomics warns + falls back when DA detected but generation rates missing', () => {
+    const out = evaluateBatteryEconomicsV1({
+      battery: { powerKw: 100, energyKwh: 200, roundTripEff: 0.9, usableFraction: null, degradationPctYr: null },
+      costs: null,
+      finance: null,
+      dr: null,
+      tariffs: {
+        snapshotId: 'snap_delivery_1',
+        rateCode: 'E-19',
+        timezone: 'America/Los_Angeles',
+        supplyProviderType: 'DA',
+        supplyLseName: null,
+        demandChargePerKwMonthUsd: 20,
+        touEnergyPrices: [
+          { periodId: 'OFF', startHourLocal: 0, endHourLocalExclusive: 16, days: 'all', pricePerKwh: 0.12 },
+          { periodId: 'ON', startHourLocal: 16, endHourLocalExclusive: 21, days: 'all', pricePerKwh: 0.42 },
+        ],
+        generationTouEnergyPrices: null,
+        generationSnapshotId: null,
+        generationRateCode: null,
+      } as any,
+      determinants: { billingDemandKw: 250, ratchetDemandKw: null, billingDemandMethod: 'fixture' },
+      dispatch: { shiftedKwhAnnual: 5000, peakReductionKwAssumed: 20, dispatchDaysPerYear: 260 },
+    });
+
+    expect(out.warnings).toContain(BatteryEconomicsReasonCodesV1.BATTERY_ECON_SUPPLY_DA_GENERATION_RATES_MISSING_FALLBACK);
+    expect(Number(out.savingsAnnual.energyUsd || 0)).toBeGreaterThan(0);
+
+    const lineItems = Array.isArray(out.audit?.lineItems) ? out.audit.lineItems : [];
+    const energy = lineItems.find((li: any) => String(li?.id || '') === 'savings.energyAnnual');
+    expect(energy).toBeTruthy();
+    expect(String((energy as any)?.rateSource?.kind || '')).toBe('DELIVERY');
+  });
 });
 

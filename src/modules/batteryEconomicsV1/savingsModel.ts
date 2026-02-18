@@ -133,6 +133,9 @@ export function runSavingsModelV1(args: {
   if (supplyProviderType === 'CCA' && energyMode === 'DELIVERY') {
     warnings.push(BatteryEconomicsReasonCodesV1.BATTERY_ECON_SUPPLY_CCA_GENERATION_RATES_MISSING_FALLBACK);
   }
+  if (supplyProviderType === 'DA' && energyMode === 'DELIVERY') {
+    warnings.push(BatteryEconomicsReasonCodesV1.BATTERY_ECON_SUPPLY_DA_GENERATION_RATES_MISSING_FALLBACK);
+  }
 
   const touPriceVals = touPricesUsedForEnergy.map((w) => Number((w as any)?.pricePerKwh)).filter((n) => Number.isFinite(n) && n >= 0);
   const touPeak = touPriceVals.length ? Math.max(...touPriceVals) : null;

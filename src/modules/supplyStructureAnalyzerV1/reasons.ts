@@ -4,6 +4,9 @@ export const SupplyStructureAnalyzerReasonCodesV1 = {
   SUPPLY_V1_LSE_AMBIGUOUS: 'supply.v1.lse_ambiguous',
   SUPPLY_V1_LSE_UNSUPPORTED: 'supply.v1.lse_unsupported',
   SUPPLY_V1_LSE_SUPPORTED_BUT_GENERATION_RATES_MISSING: 'supply.v1.lse_supported_but_generation_rates_missing',
+  SUPPLY_V1_DA_DETECTED_GENERATION_RATES_MISSING: 'supply.v1.da_detected_generation_rates_missing',
+  SUPPLY_V1_LOW_CONFIDENCE: 'supply.v1.low_confidence',
+  SUPPLY_V1_CONFLICT_MARKERS: 'supply.v1.conflict_markers',
   SUPPLY_V1_CONFIDENCE_LOW: 'supply.v1.confidence_low',
 } as const;
 

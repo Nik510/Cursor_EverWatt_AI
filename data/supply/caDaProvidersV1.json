@@ -1,0 +1,15 @@
+{
+  "version": "ca_da_providers_v1.0",
+  "updatedAt": "2026-02-18",
+  "providers": [
+    { "canonicalName": "Shell Energy", "aliases": ["shell energy", "shell energy north america", "shell energy retail"] },
+    { "canonicalName": "Direct Energy", "aliases": ["direct energy", "direct energy business", "directenergy"] },
+    { "canonicalName": "Constellation", "aliases": ["constellation", "constellation newenergy", "constellation new energy"] },
+    { "canonicalName": "NRG", "aliases": ["nrg", "nrg business", "nrg energy"] },
+    { "canonicalName": "Calpine Energy Solutions", "aliases": ["calpine energy solutions", "calpine"] },
+    { "canonicalName": "ENGIE Resources", "aliases": ["engie resources", "engie"] },
+    { "canonicalName": "Edison Energy", "aliases": ["edison energy"] },
+    { "canonicalName": "NextEra Energy Marketing", "aliases": ["nextera energy marketing", "nextera"] },
+    { "canonicalName": "Vitol", "aliases": ["vitol"] }
+  ]
+}

@@ -19,6 +19,7 @@ export const BatteryEconomicsReasonCodesV1 = {
   BATTERY_ECON_FINANCE_DEBT_PLACEHOLDER: 'battery.econ.finance_debt_placeholder',
   BATTERY_ECON_FINANCE_DEPRECIATION_FLAG_ONLY: 'battery.econ.depreciation_flag_only',
   BATTERY_ECON_SUPPLY_CCA_GENERATION_RATES_MISSING_FALLBACK: 'battery.econ.supply.cca_generation_rates_missing_fallback',
+  BATTERY_ECON_SUPPLY_DA_GENERATION_RATES_MISSING_FALLBACK: 'battery.econ.supply.da_generation_rates_missing_fallback',
   // Decision Pack v1 (batteryDecisionPackV1) reason codes (additive).
   BATTERY_DECISION_MISSING_INTERVAL: 'battery.decision.missing_interval',
   BATTERY_DECISION_SITE_PEAK_KW_UNKNOWN: 'battery.decision.site_peak_kw_unknown',

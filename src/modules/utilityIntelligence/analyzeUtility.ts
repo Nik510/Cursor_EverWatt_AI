@@ -611,12 +611,28 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       const iouUtility = String(inputs.currentRate?.utility || inputs.utilityTerritory || '').trim() || 'unknown';
       const rateCode = String(inputs.currentRate?.rateCode || '').trim() || null;
       const snapshotId = String((tariffLibrary as any)?.snapshotVersionTag || '').trim() || null;
-      const providerType =
-        ssaV1?.serviceType === 'CCA' ? ('CCA' as const) : ssaV1?.serviceType === 'DA' ? ('DA' as const) : null;
-      const lseName = ssaV1?.lseName ?? null;
+      const providerType = ssaV1?.providerType === 'CCA' ? ('CCA' as const) : ssaV1?.providerType === 'DA' ? ('DA' as const) : null;
+      const lseName = ssaV1?.providerType === 'CCA' ? (ssaV1?.lseName ?? null) : null;
+      const daProviderName = ssaV1?.providerType === 'DA' ? (ssaV1?.daProviderName ?? null) : null;
+      const ssaConfidence = Number.isFinite(Number(ssaV1?.confidence)) ? Number(ssaV1?.confidence) : null;
+      const ssaEvidence = (ssaV1 as any)?.evidence && typeof (ssaV1 as any).evidence === 'object' ? ((ssaV1 as any).evidence as any) : null;
 
       const extraMissing: any[] = [];
       const extraWarnings: string[] = [];
+
+      const dedupMissingInfoById = (items: any[]): any[] => {
+        const out: any[] = [];
+        const seen = new Set<string>();
+        for (const it of items || []) {
+          const id = String(it?.id || '').trim();
+          if (!id) continue;
+          const k = id.toLowerCase();
+          if (seen.has(k)) continue;
+          seen.add(k);
+          out.push(it);
+        }
+        return out;
+      };
 
       const billPeriodStartYmd = (() => {
         try {
@@ -693,6 +709,9 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
           generation: {
             providerType,
             lseName,
+            daProviderName: null,
+            confidence: ssaConfidence,
+            evidence: ssaEvidence,
             rateCode: sig.generationRateCode,
             snapshotId: sig.generationSnapshotId,
             generationTouEnergyPrices: sig.generationTouEnergyPrices,
@@ -705,6 +724,26 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
           warnings,
         };
       })();
+
+      if (providerType === 'DA') {
+        extraWarnings.push(SupplyStructureAnalyzerReasonCodesV1.SUPPLY_V1_DA_DETECTED_GENERATION_RATES_MISSING);
+        extraMissing.push({
+          id: SupplyStructureAnalyzerReasonCodesV1.SUPPLY_V1_DA_DETECTED_GENERATION_RATES_MISSING,
+          category: 'tariff',
+          severity: 'warning',
+          description: 'Direct Access (DA) supply detected, but generation tariff/rates are not yet available in this repository; using IOU delivery context only.',
+        });
+      }
+
+      if (providerType === 'DA' && ssaConfidence !== null && ssaConfidence < 0.95) {
+        extraWarnings.push(SupplyStructureAnalyzerReasonCodesV1.SUPPLY_V1_LOW_CONFIDENCE);
+        extraMissing.push({
+          id: SupplyStructureAnalyzerReasonCodesV1.SUPPLY_V1_LOW_CONFIDENCE,
+          category: 'tariff',
+          severity: 'warning',
+          description: `Supply provider detection confidence is below threshold (confidence=${ssaConfidence.toFixed(3)} < 0.95).`,
+        });
+      }
 
       // If CCA is detected but generation rates are missing, surface missingInfo deterministically.
       if (providerType === 'CCA' && lseName && !gen) {
@@ -719,13 +758,23 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
 
       return {
         iou: { utility: iouUtility, rateCode, snapshotId },
-        generation: gen ? (gen.generation as any) : { providerType, lseName, rateCode: null, snapshotId: null },
+        generation: gen
+          ? (gen.generation as any)
+          : {
+              providerType,
+              lseName,
+              daProviderName,
+              confidence: ssaConfidence,
+              evidence: ssaEvidence,
+              rateCode: null,
+              snapshotId: null,
+            },
         method: 'ssa_v1' as const,
         warnings: Array.from(
           new Set([...(Array.isArray(ssaV1?.warnings) ? ssaV1!.warnings : []), ...extraWarnings, ...(gen ? gen.warnings : [])]),
         ).sort((a, b) => a.localeCompare(b)),
-        missingInfo: [...(Array.isArray(ssaV1?.missingInfo) ? ssaV1!.missingInfo : []), ...extraMissing].sort((a: any, b: any) =>
-          String(a?.id || '').localeCompare(String(b?.id || '')),
+        missingInfo: dedupMissingInfoById([...(Array.isArray(ssaV1?.missingInfo) ? ssaV1!.missingInfo : []), ...extraMissing]).sort(
+          (a: any, b: any) => String(a?.id || '').localeCompare(String(b?.id || '')),
         ),
       };
     } catch {

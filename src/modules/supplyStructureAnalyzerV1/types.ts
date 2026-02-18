@@ -1,6 +1,7 @@
 import type { MissingInfoItemV0 } from '../utilityIntelligence/missingInfo/types';
 
 export type SupplyServiceTypeV1 = 'IOU_ONLY' | 'CCA' | 'DA' | 'UNKNOWN';
+export type SupplyProviderTypeV1 = 'NONE' | 'CCA' | 'DA';
 export type CaIouUtilityV1 = 'PGE' | 'SCE' | 'SDGE' | 'UNKNOWN';
 
 export type SupplyStructureAnalyzerBillHintsV1 = {
@@ -8,11 +9,22 @@ export type SupplyStructureAnalyzerBillHintsV1 = {
   rateScheduleText?: string | null;
 };
 
+export type SupplyStructureEvidenceV1 = {
+  matchedPhrases: string[];
+};
+
 export type SupplyStructureAnalyzerOutputV1 = {
+  /** Back-compat service type tag (v1). Prefer `providerType`. */
   serviceType: SupplyServiceTypeV1;
+  /** First-class supply provider type (v1.2): NONE | CCA | DA. */
+  providerType: SupplyProviderTypeV1;
   iouUtility: CaIouUtilityV1;
+  /** CCA only. */
   lseName: string | null;
+  /** DA only. */
+  daProviderName: string | null;
   confidence: number; // 0..1
+  evidence: SupplyStructureEvidenceV1;
   warnings: string[];
   missingInfo: MissingInfoItemV0[];
 };
@@ -22,6 +34,10 @@ export type EffectiveRateContextV1 = {
   generation: {
     providerType: 'CCA' | 'DA' | null;
     lseName: string | null;
+    daProviderName?: string | null;
+    /** SSA confidence + evidence (deterministic, bounded). */
+    confidence?: number | null;
+    evidence?: SupplyStructureEvidenceV1 | null;
     /** Optional composed generation rate code (e.g. ccaId@effectiveStartYmd). */
     rateCode: string | null;
     /** Optional generation snapshot id for audit/provenance. */

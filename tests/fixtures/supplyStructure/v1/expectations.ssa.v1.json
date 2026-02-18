@@ -115,7 +115,7 @@
       "serviceType": "DA",
       "iouUtility": "PGE",
       "lseName": null,
-      "confidence": 0.8,
+      "confidence": 0.9,
       "warnings": [],
       "missingInfoIds": []
     }
@@ -126,7 +126,7 @@
       "serviceType": "DA",
       "iouUtility": "PGE",
       "lseName": null,
-      "confidence": 0.8,
+      "confidence": 0.85,
       "warnings": [],
       "missingInfoIds": []
     }
@@ -203,9 +203,9 @@
       "serviceType": "DA",
       "iouUtility": "PGE",
       "lseName": null,
-      "confidence": 0.8,
-      "warnings": [],
-      "missingInfoIds": []
+      "confidence": 0.9,
+      "warnings": ["supply.v1.conflict_markers"],
+      "missingInfoIds": ["supply.v1.conflict_markers"]
     }
   },
   {
