@@ -12,7 +12,13 @@ import { buildInternalEngineeringReportJsonV1 } from '../../src/modules/reports/
 import { renderInternalEngineeringReportHtmlV1 } from '../../src/modules/reports/internalEngineering/v1/renderInternalEngineeringReportHtml';
 
 type SupplyProviderTypeExpectation = 'NONE' | 'CCA' | 'DA';
-type RateSourceKindExpectation = 'DELIVERY' | 'CCA_GENERATION_V0_ENERGY_ONLY' | 'CCA_GENERATION_V0_ALL_IN' | 'DA_FALLBACK_DELIVERY';
+type RateSourceKindExpectation =
+  | 'DELIVERY'
+  | 'CCA_GEN_V0_ENERGY_ONLY'
+  | 'CCA_GEN_V0_ALL_IN'
+  | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
+  | 'CCA_DELIVERY_FALLBACK'
+  | 'DA_DELIVERY_FALLBACK';
 
 export type GoldenBillContextV1 = {
   projectId: string;
@@ -125,9 +131,11 @@ function toSupplyProviderTypeExpectation(raw: unknown): SupplyProviderTypeExpect
 
 function toRateSourceKindExpectation(raw: unknown): RateSourceKindExpectation {
   const s = String(raw ?? '').trim();
-  if (s === 'CCA_GENERATION_V0_ALL_IN') return 'CCA_GENERATION_V0_ALL_IN';
-  if (s === 'CCA_GENERATION_V0_ENERGY_ONLY') return 'CCA_GENERATION_V0_ENERGY_ONLY';
-  if (s === 'DA_FALLBACK_DELIVERY') return 'DA_FALLBACK_DELIVERY';
+  if (s === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES') return 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES';
+  if (s === 'CCA_GEN_V0_ALL_IN') return 'CCA_GEN_V0_ALL_IN';
+  if (s === 'CCA_GEN_V0_ENERGY_ONLY') return 'CCA_GEN_V0_ENERGY_ONLY';
+  if (s === 'CCA_DELIVERY_FALLBACK') return 'CCA_DELIVERY_FALLBACK';
+  if (s === 'DA_DELIVERY_FALLBACK') return 'DA_DELIVERY_FALLBACK';
   return 'DELIVERY';
 }
 

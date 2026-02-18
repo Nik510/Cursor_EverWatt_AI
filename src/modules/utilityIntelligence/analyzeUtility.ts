@@ -50,6 +50,7 @@ import { matchCcaFromSsaV0 } from '../ccaTariffLibraryV0/matchCcaFromSsaV0';
 import { CcaTariffLibraryReasonCodesV0 } from '../ccaTariffLibraryV0/reasons';
 import { getCcaAddersSnapshotV0 } from '../ccaAddersLibraryV0/getCcaAddersSnapshotV0';
 import { CcaAddersLibraryReasonCodesV0 } from '../ccaAddersLibraryV0/reasons';
+import { getExitFeesSnapshotV0 } from '../exitFeesLibraryV0/getExitFeesSnapshotV0';
 
 import { loadProjectForOrg } from '../project/projectRepository';
 import { readIntervalData } from '../../utils/excel-reader';
@@ -711,8 +712,29 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
               }))
             : null;
 
+        const exitFeesLookup = getExitFeesSnapshotV0({
+          iou: iouForGen,
+          effectiveYmd: billPeriodStartYmd ?? null,
+          providerType,
+        });
+        const exitFeesSnap = exitFeesLookup.ok ? exitFeesLookup.snapshot : null;
+        const nbcPerKwhTotal = exitFeesLookup.selectedCharges.nbcPerKwhTotal;
+        const pciaPerKwhApplied = exitFeesLookup.selectedCharges.pciaPerKwhApplied;
+        const otherExitFeesPerKwhTotal = exitFeesLookup.selectedCharges.otherExitFeesPerKwhTotal;
+        const exitFeesPerKwhTotal = exitFeesLookup.selectedCharges.exitFeesPerKwhTotal;
+        const generationAllInWithExitFeesTouPrices =
+          exitFeesPerKwhTotal !== null && generationAllInTouEnergyPrices && generationAllInTouEnergyPrices.length
+            ? generationAllInTouEnergyPrices.map((w) => ({
+                periodId: String((w as any)?.periodId || '').trim(),
+                startHourLocal: Number((w as any)?.startHourLocal),
+                endHourLocalExclusive: Number((w as any)?.endHourLocalExclusive),
+                days: (w as any)?.days === 'weekday' || (w as any)?.days === 'weekend' ? (w as any).days : 'all',
+                pricePerKwh: Math.round((Number((w as any)?.pricePerKwh) + exitFeesPerKwhTotal) * 1e9) / 1e9,
+              }))
+            : null;
+
         const warnings = (() => {
-          const base = [...(sig.warnings || []), ...(addersLookup.warnings || [])];
+          const base = [...(sig.warnings || []), ...(addersLookup.warnings || []), ...(exitFeesLookup.warnings || [])];
           if (addersTotal !== null && generationAllInTouEnergyPrices && generationAllInTouEnergyPrices.length) return base;
           return [CcaTariffLibraryReasonCodesV0.CCA_V0_ENERGY_ONLY_NO_EXIT_FEES, ...base, CcaAddersLibraryReasonCodesV0.CCA_ADDERS_V0_MISSING];
         })();
@@ -732,10 +754,26 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
             generationAddersSnapshotId: addersSnap ? String((addersSnap as any)?.snapshotId || '').trim() || null : null,
             generationAddersAcquisitionMethodUsed: addersSnap ? (String((addersSnap as any)?.acquisitionMethodUsed || '').trim() === 'MANUAL_SEED_V0' ? 'MANUAL_SEED_V0' : null) : null,
             generationAllInTouEnergyPrices: generationAllInTouEnergyPrices,
+            exitFeesSnapshotId: exitFeesSnap ? String((exitFeesSnap as any)?.snapshotId || '').trim() || null : null,
+            nbcPerKwhTotal,
+            pciaPerKwhApplied,
+            otherExitFeesPerKwhTotal,
+            generationAllInWithExitFeesTouPrices,
+            exitFeesWarnings: exitFeesLookup.warnings || [],
           },
           warnings,
         };
       })();
+
+      // Exit fees warnings-first: if supply is CCA/DA and IOU is known, surface selector warnings even when generation rates are missing.
+      if ((providerType === 'DA' || providerType === 'CCA') && iouForGen && (providerType === 'DA' || !gen)) {
+        const exitFeesLookup = getExitFeesSnapshotV0({
+          iou: iouForGen,
+          effectiveYmd: billPeriodStartYmd ?? null,
+          providerType: providerType as any,
+        });
+        extraWarnings.push(...(exitFeesLookup.warnings || []));
+      }
 
       if (providerType === 'DA') {
         extraWarnings.push(SupplyStructureAnalyzerReasonCodesV1.SUPPLY_V1_DA_DETECTED_GENERATION_RATES_MISSING);
@@ -772,15 +810,32 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         iou: { utility: iouUtility, rateCode, snapshotId },
         generation: gen
           ? (gen.generation as any)
-          : {
-              providerType,
-              lseName,
-              daProviderName,
-              confidence: ssaConfidence,
-              evidence: ssaEvidence,
-              rateCode: null,
-              snapshotId: null,
-            },
+          : (() => {
+              const baseGen: any = {
+                providerType,
+                lseName,
+                daProviderName,
+                confidence: ssaConfidence,
+                evidence: ssaEvidence,
+                rateCode: null,
+                snapshotId: null,
+              };
+              // v0: even when DA generation rates are missing, attach deterministic exit fees when possible.
+              if ((providerType === 'DA' || providerType === 'CCA') && iouForGen) {
+                const exitFeesLookup = getExitFeesSnapshotV0({
+                  iou: iouForGen,
+                  effectiveYmd: billPeriodStartYmd ?? null,
+                  providerType: providerType as any,
+                });
+                const exitFeesSnap = exitFeesLookup.ok ? exitFeesLookup.snapshot : null;
+                baseGen.exitFeesSnapshotId = exitFeesSnap ? String((exitFeesSnap as any)?.snapshotId || '').trim() || null : null;
+                baseGen.nbcPerKwhTotal = exitFeesLookup.selectedCharges.nbcPerKwhTotal;
+                baseGen.pciaPerKwhApplied = exitFeesLookup.selectedCharges.pciaPerKwhApplied;
+                baseGen.otherExitFeesPerKwhTotal = exitFeesLookup.selectedCharges.otherExitFeesPerKwhTotal;
+                baseGen.exitFeesWarnings = exitFeesLookup.warnings || [];
+              }
+              return baseGen;
+            })(),
         method: 'ssa_v1' as const,
         warnings: Array.from(
           new Set([...(Array.isArray(ssaV1?.warnings) ? ssaV1!.warnings : []), ...extraWarnings, ...(gen ? gen.warnings : [])]),
@@ -812,8 +867,21 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         generationAllInTouEnergyPrices: Array.isArray(gen?.generationAllInTouEnergyPrices)
           ? ((gen.generationAllInTouEnergyPrices as any[]) || [])
           : ((base as any)?.generationAllInTouEnergyPrices ?? null),
+        generationAllInWithExitFeesTouPrices: Array.isArray(gen?.generationAllInWithExitFeesTouPrices)
+          ? ((gen.generationAllInWithExitFeesTouPrices as any[]) || [])
+          : ((base as any)?.generationAllInWithExitFeesTouPrices ?? null),
         generationAddersPerKwhTotal: Number.isFinite(Number((gen as any)?.generationAddersPerKwhTotal)) ? Number((gen as any).generationAddersPerKwhTotal) : null,
         generationAddersSnapshotId: String((gen as any)?.generationAddersSnapshotId || '').trim() || null,
+        exitFeesSnapshotId: String((gen as any)?.exitFeesSnapshotId || '').trim() || null,
+        nbcPerKwhTotal: Number.isFinite(Number((gen as any)?.nbcPerKwhTotal)) ? Number((gen as any).nbcPerKwhTotal) : null,
+        pciaPerKwhApplied: Number.isFinite(Number((gen as any)?.pciaPerKwhApplied)) ? Number((gen as any).pciaPerKwhApplied) : null,
+        otherExitFeesPerKwhTotal: Number.isFinite(Number((gen as any)?.otherExitFeesPerKwhTotal)) ? Number((gen as any).otherExitFeesPerKwhTotal) : null,
+        exitFeesPerKwhTotal:
+          Number.isFinite(Number((gen as any)?.nbcPerKwhTotal)) &&
+          Number.isFinite(Number((gen as any)?.pciaPerKwhApplied)) &&
+          Number.isFinite(Number((gen as any)?.otherExitFeesPerKwhTotal))
+            ? Number((gen as any).nbcPerKwhTotal) + Number((gen as any).pciaPerKwhApplied) + Number((gen as any).otherExitFeesPerKwhTotal)
+            : null,
       };
       return merged as any;
     } catch {

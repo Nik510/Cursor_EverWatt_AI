@@ -47,6 +47,7 @@ function toEconomicsTariffSignals(args: { tariff: TariffPriceSignalsV1 | null; t
   const t = args.tariff;
   if (!t) return null;
   const tou = Array.isArray((t as any)?.touEnergyPrices) ? ((t as any).touEnergyPrices as any[]) : [];
+  const genAllInWithExitFees = Array.isArray((t as any)?.generationAllInWithExitFeesTouPrices) ? ((t as any).generationAllInWithExitFeesTouPrices as any[]) : [];
   const genAllIn = Array.isArray((t as any)?.generationAllInTouEnergyPrices) ? ((t as any).generationAllInTouEnergyPrices as any[]) : [];
   const genTou = Array.isArray((t as any)?.generationTouEnergyPrices) ? ((t as any).generationTouEnergyPrices as any[]) : [];
   return {
@@ -57,12 +58,18 @@ function toEconomicsTariffSignals(args: { tariff: TariffPriceSignalsV1 | null; t
     supplyLseName: String((t as any)?.supplyLseName || '').trim() || null,
     demandChargePerKwMonthUsd: numOrNull((t as any)?.demandChargePerKw),
     touEnergyPrices: tou.length ? (tou as any) : null,
+    generationAllInWithExitFeesTouPrices: genAllInWithExitFees.length ? (genAllInWithExitFees as any) : null,
     generationAllInTouEnergyPrices: genAllIn.length ? (genAllIn as any) : null,
     generationTouEnergyPrices: genTou.length ? (genTou as any) : null,
     generationAddersPerKwhTotal: numOrNull((t as any)?.generationAddersPerKwhTotal),
     generationAddersSnapshotId: String((t as any)?.generationAddersSnapshotId || '').trim() || null,
     generationSnapshotId: String((t as any)?.generationSnapshotId || '').trim() || null,
     generationRateCode: String((t as any)?.generationRateCode || '').trim() || null,
+    exitFeesSnapshotId: String((t as any)?.exitFeesSnapshotId || '').trim() || null,
+    exitFeesPerKwhTotal: numOrNull((t as any)?.exitFeesPerKwhTotal),
+    nbcPerKwhTotal: numOrNull((t as any)?.nbcPerKwhTotal),
+    pciaPerKwhApplied: numOrNull((t as any)?.pciaPerKwhApplied),
+    otherExitFeesPerKwhTotal: numOrNull((t as any)?.otherExitFeesPerKwhTotal),
   };
 }
 
@@ -125,7 +132,16 @@ function cycleDays(args: { startIso: string; endIso: string }): number {
   return Math.max(7, Math.min(62, d));
 }
 
-function inferRateSourceKind(args: { auditLineItems: any[]; dispatchWarnings: string[] }): 'DELIVERY' | 'CCA_GENERATION_V0_ENERGY_ONLY' | 'CCA_GENERATION_V0_ALL_IN' | 'DA_FALLBACK_DELIVERY' {
+function inferRateSourceKind(args: {
+  auditLineItems: any[];
+  dispatchWarnings: string[];
+}):
+  | 'DELIVERY'
+  | 'CCA_GEN_V0_ENERGY_ONLY'
+  | 'CCA_GEN_V0_ALL_IN'
+  | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
+  | 'CCA_DELIVERY_FALLBACK'
+  | 'DA_DELIVERY_FALLBACK' {
   const byId = new Map<string, any>();
   for (const li of Array.isArray(args.auditLineItems) ? args.auditLineItems : []) {
     const id = String(li?.id || '').trim();
@@ -134,14 +150,20 @@ function inferRateSourceKind(args: { auditLineItems: any[]; dispatchWarnings: st
   }
   const kind = String(byId.get('savings.energyAnnual')?.rateSource?.kind || '').trim();
   const base =
-    kind === 'CCA_GENERATION_V0_ALL_IN'
-      ? ('CCA_GENERATION_V0_ALL_IN' as const)
-      : kind === 'CCA_GENERATION_V0_ENERGY_ONLY'
-        ? ('CCA_GENERATION_V0_ENERGY_ONLY' as const)
-        : ('DELIVERY' as const);
+    kind === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
+      ? ('CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES' as const)
+      : kind === 'CCA_GEN_V0_ALL_IN'
+        ? ('CCA_GEN_V0_ALL_IN' as const)
+        : kind === 'CCA_GEN_V0_ENERGY_ONLY'
+          ? ('CCA_GEN_V0_ENERGY_ONLY' as const)
+          : kind === 'DA_DELIVERY_FALLBACK'
+            ? ('DA_DELIVERY_FALLBACK' as const)
+            : kind === 'CCA_DELIVERY_FALLBACK'
+              ? ('CCA_DELIVERY_FALLBACK' as const)
+              : ('DELIVERY' as const);
 
   const usedDaFallback = (args.dispatchWarnings || []).includes(DispatchV1_1WarningCodes.DISPATCH_SUPPLY_DA_GENERATION_RATES_MISSING_FALLBACK);
-  return usedDaFallback && base === 'DELIVERY' ? 'DA_FALLBACK_DELIVERY' : base;
+  return usedDaFallback && base === 'DELIVERY' ? 'DA_DELIVERY_FALLBACK' : base;
 }
 
 function confidenceTierV1_2(args: { hasIntervals: boolean; hasTariff: boolean; sitePeakKw: number | null }): ConfidenceTierV1 {
@@ -285,6 +307,7 @@ function recommendationTemplatesV1_2(): {
     demandMaterial: string;
     demandMinimal: string;
     ccaAllIn: string;
+    ccaAllInWithExitFees: string;
     ccaEnergyOnly: string;
     ccaFallbackDelivery: string;
     daFallback: string;
@@ -305,6 +328,7 @@ function recommendationTemplatesV1_2(): {
       demandMaterial: 'Demand charge savings is a primary value driver when peak reduction is achievable.',
       demandMinimal: 'Demand charge savings appears limited with current determinants/dispatch signals.',
       ccaAllIn: 'CCA detected with all-in generation pricing (energy + adders).',
+      ccaAllInWithExitFees: 'CCA detected with all-in generation pricing including exit fees (PCIA/NBC/other).',
       ccaEnergyOnly: 'CCA detected with energy-only generation pricing (adders missing).',
       ccaFallbackDelivery: 'CCA detected but generation rates missing → used IOU delivery prices (fallback).',
       daFallback: 'DA detected but generation rates missing → used IOU delivery prices (fallback).',
@@ -360,8 +384,9 @@ function buildRecommendationV1(args: {
 
   const rateKind = String(econ?.rateSourceKind || '').trim();
   if (args.providerType === 'CCA') {
-    if (rateKind === 'CCA_GENERATION_V0_ALL_IN') reasonsTop.push(t.reasons.ccaAllIn);
-    else if (rateKind === 'CCA_GENERATION_V0_ENERGY_ONLY') reasonsTop.push(t.reasons.ccaEnergyOnly);
+    if (rateKind === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES') reasonsTop.push(t.reasons.ccaAllInWithExitFees);
+    else if (rateKind === 'CCA_GEN_V0_ALL_IN') reasonsTop.push(t.reasons.ccaAllIn);
+    else if (rateKind === 'CCA_GEN_V0_ENERGY_ONLY') reasonsTop.push(t.reasons.ccaEnergyOnly);
     else reasonsTop.push(t.reasons.ccaFallbackDelivery);
   } else if (args.providerType === 'DA') {
     reasonsTop.push(t.reasons.daFallback);
@@ -402,8 +427,9 @@ function buildRecommendationV1(args: {
     const out: string[] = [];
     out.push(`rateSource.kind=${String(econ?.rateSourceKind || 'DELIVERY')}`);
     if (args.providerType === 'CCA') {
-      if (rateKind === 'CCA_GENERATION_V0_ALL_IN') out.push('CCA pricing mode: all-in (generation + adders).');
-      else if (rateKind === 'CCA_GENERATION_V0_ENERGY_ONLY') out.push('CCA pricing mode: energy-only (adders missing).');
+      if (rateKind === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES') out.push('CCA pricing mode: all-in + exit fees (preferred).');
+      else if (rateKind === 'CCA_GEN_V0_ALL_IN') out.push('CCA pricing mode: all-in (generation + adders).');
+      else if (rateKind === 'CCA_GEN_V0_ENERGY_ONLY') out.push('CCA pricing mode: energy-only (adders missing).');
       else out.push('CCA pricing mode: delivery fallback (generation rates missing).');
     }
     if (args.providerType === 'DA') out.push('Direct Access detected: delivery fallback used for generation valuation.');
@@ -483,7 +509,9 @@ export function buildBatteryDecisionPackV1_2(args: {
   const avgKw = numOrNull((ii as any)?.avgKw);
 
   const providerType = toProviderType((tariff as any)?.supplyProviderType);
-  const hasAllInGenPrices = Array.isArray((tariff as any)?.generationAllInTouEnergyPrices) && (tariff as any).generationAllInTouEnergyPrices.length > 0;
+  const hasAllInGenPrices =
+    (Array.isArray((tariff as any)?.generationAllInWithExitFeesTouPrices) && (tariff as any).generationAllInWithExitFeesTouPrices.length > 0) ||
+    (Array.isArray((tariff as any)?.generationAllInTouEnergyPrices) && (tariff as any).generationAllInTouEnergyPrices.length > 0);
 
   const confidenceTier = confidenceTierV1_2({ hasIntervals, hasTariff, sitePeakKw });
 
@@ -529,6 +557,9 @@ export function buildBatteryDecisionPackV1_2(args: {
           touEnergyPrices: Array.isArray((tariff as any)?.touEnergyPrices) ? ((tariff as any).touEnergyPrices as any) : null,
           generationTouEnergyPrices: Array.isArray((tariff as any)?.generationTouEnergyPrices) ? ((tariff as any).generationTouEnergyPrices as any) : null,
           generationAllInTouEnergyPrices: Array.isArray((tariff as any)?.generationAllInTouEnergyPrices) ? ((tariff as any).generationAllInTouEnergyPrices as any) : null,
+          generationAllInWithExitFeesTouPrices: Array.isArray((tariff as any)?.generationAllInWithExitFeesTouPrices)
+            ? ((tariff as any).generationAllInWithExitFeesTouPrices as any)
+            : null,
           supplyProviderType: (tariff as any)?.supplyProviderType === 'CCA' || (tariff as any)?.supplyProviderType === 'DA' ? ((tariff as any).supplyProviderType as any) : null,
           battery: { powerKw: c.kw, energyKwh: c.kwh, rte: 0.9, minSoc: 0.1, maxSoc: 0.9 },
         })

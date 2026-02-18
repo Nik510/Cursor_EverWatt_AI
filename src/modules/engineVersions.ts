@@ -24,6 +24,7 @@ export const determinantsVersion = 'determinants_pack_v1.0' as const;
 export const tariffEngineVersion = 'tariff_engine_v1.0' as const;
 export const billingEngineV1Version = 'billing_v1.0' as const;
 export const dispatchVersion = 'dispatch_v1_1' as const;
+export const exitFeesVersion = 'exit_fees_v0' as const;
 export const storageEconomicsVersion = 'storage_econ_v1.0' as const;
 export const incentivesStubVersion = 'incentives_stub_v1.0' as const;
 export const sgipVersion = 'sgip_v0' as const;
@@ -38,6 +39,7 @@ export const engineVersions = {
   tariffEngine: tariffEngineVersion,
   billingEngineV1: billingEngineV1Version,
   dispatch: dispatchVersion,
+  exitFees: exitFeesVersion,
   storageEconomics: storageEconomicsVersion,
   incentivesStub: incentivesStubVersion,
   sgip: sgipVersion,

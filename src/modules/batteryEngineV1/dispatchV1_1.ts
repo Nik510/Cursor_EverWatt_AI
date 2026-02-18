@@ -181,6 +181,8 @@ export function dispatchV1_1(args: {
   generationTouEnergyPrices?: TouPriceWindowV1[] | null;
   /** Optional derived all-in generation TOU energy windows (energy + adders). When present, preferred for arbitrage. */
   generationAllInTouEnergyPrices?: TouPriceWindowV1[] | null;
+  /** Optional derived all-in generation TOU energy windows including exit fees (flat adder in v0). When present, preferred for arbitrage. */
+  generationAllInWithExitFeesTouPrices?: TouPriceWindowV1[] | null;
   /** Optional supply context (warnings-first). */
   supplyProviderType?: 'CCA' | 'DA' | null;
   battery: DispatchBatteryParamsV1_1;
@@ -199,13 +201,15 @@ export function dispatchV1_1(args: {
   const batteryOk = P > 0 && E > 0 && rte > 0 && maxStored > minStored + 1e-9;
   if (!batteryOk) warningsAll.push(DispatchV1_1WarningCodes.DISPATCH_INVALID_BATTERY_PARAMS);
 
+  const genAllInWithExitFees = Array.isArray(args.generationAllInWithExitFeesTouPrices) ? args.generationAllInWithExitFeesTouPrices : [];
   const genAllIn = Array.isArray(args.generationAllInTouEnergyPrices) ? args.generationAllInTouEnergyPrices : [];
   const genEnergyOnly = Array.isArray(args.generationTouEnergyPrices) ? args.generationTouEnergyPrices : [];
   const delivery = Array.isArray(args.touEnergyPrices) ? args.touEnergyPrices : [];
 
-  const touEnergyPrices = genAllIn.length ? genAllIn : genEnergyOnly.length ? genEnergyOnly : delivery;
+  const touEnergyPrices = genAllInWithExitFees.length ? genAllInWithExitFees : genAllIn.length ? genAllIn : genEnergyOnly.length ? genEnergyOnly : delivery;
   const supplyProviderType = args.supplyProviderType === 'CCA' || args.supplyProviderType === 'DA' ? args.supplyProviderType : null;
-  const usedDeliveryFallback = Boolean(supplyProviderType) && !genAllIn.length && !genEnergyOnly.length && delivery.length > 0;
+  const usedDeliveryFallback =
+    Boolean(supplyProviderType) && !genAllInWithExitFees.length && !genAllIn.length && !genEnergyOnly.length && delivery.length > 0;
   if (usedDeliveryFallback) {
     warningsAll.push(
       supplyProviderType === 'DA'

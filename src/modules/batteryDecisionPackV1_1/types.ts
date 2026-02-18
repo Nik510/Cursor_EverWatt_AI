@@ -26,7 +26,13 @@ export type BatteryDecisionCandidateEconomicsSummaryV1_1 = {
   netAnnualUsd: number | null;
   paybackYears: number | null;
   npvLiteUsd: number | null;
-  rateSourceKind: 'DELIVERY' | 'CCA_GENERATION_V0_ENERGY_ONLY' | 'CCA_GENERATION_V0_ALL_IN' | 'DA_FALLBACK_DELIVERY';
+  rateSourceKind:
+    | 'DELIVERY'
+    | 'CCA_GEN_V0_ENERGY_ONLY'
+    | 'CCA_GEN_V0_ALL_IN'
+    | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
+    | 'CCA_DELIVERY_FALLBACK'
+    | 'DA_DELIVERY_FALLBACK';
 };
 
 export type BatteryDecisionTopCandidateV1_1 = BatteryDecisionCandidateV1_1 & {

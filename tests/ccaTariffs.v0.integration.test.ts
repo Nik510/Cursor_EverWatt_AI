@@ -77,6 +77,7 @@ describe('ccaTariffLibraryV0 integration (bill text -> effectiveRateContext -> e
           ],
           generationTouEnergyPrices: ctx.generation.generationTouEnergyPrices,
           generationAllInTouEnergyPrices: ctx.generation.generationAllInTouEnergyPrices,
+          generationAllInWithExitFeesTouPrices: ctx.generation.generationAllInWithExitFeesTouPrices,
           generationAddersPerKwhTotal: ctx.generation.generationAddersPerKwhTotal,
           generationAddersSnapshotId: ctx.generation.generationAddersSnapshotId,
           generationSnapshotId: ctx.generation.snapshotId,
@@ -92,7 +93,7 @@ describe('ccaTariffLibraryV0 integration (bill text -> effectiveRateContext -> e
       const items = Array.isArray(out.audit?.lineItems) ? out.audit.lineItems : [];
       const energyAnnual = items.find((li: any) => String(li?.id || '') === 'savings.energyAnnual') || null;
       expect(energyAnnual).toBeTruthy();
-      expect(String((energyAnnual as any)?.rateSource?.kind || '')).toBe('CCA_GENERATION_V0_ALL_IN');
+      expect(String((energyAnnual as any)?.rateSource?.kind || '')).toBe('CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES');
     }
   });
 

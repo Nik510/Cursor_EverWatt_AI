@@ -111,7 +111,16 @@ function cycleDays(args: { startIso: string; endIso: string }): number {
   return Math.max(7, Math.min(62, d));
 }
 
-function inferRateSourceKind(args: { auditLineItems: any[]; dispatchWarnings: string[] }): 'DELIVERY' | 'CCA_GENERATION_V0_ENERGY_ONLY' | 'CCA_GENERATION_V0_ALL_IN' | 'DA_FALLBACK_DELIVERY' {
+function inferRateSourceKind(args: {
+  auditLineItems: any[];
+  dispatchWarnings: string[];
+}):
+  | 'DELIVERY'
+  | 'CCA_GEN_V0_ENERGY_ONLY'
+  | 'CCA_GEN_V0_ALL_IN'
+  | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
+  | 'CCA_DELIVERY_FALLBACK'
+  | 'DA_DELIVERY_FALLBACK' {
   const byId = new Map<string, any>();
   for (const li of Array.isArray(args.auditLineItems) ? args.auditLineItems : []) {
     const id = String(li?.id || '').trim();
@@ -120,14 +129,20 @@ function inferRateSourceKind(args: { auditLineItems: any[]; dispatchWarnings: st
   }
   const kind = String(byId.get('savings.energyAnnual')?.rateSource?.kind || '').trim();
   const base =
-    kind === 'CCA_GENERATION_V0_ALL_IN'
-      ? ('CCA_GENERATION_V0_ALL_IN' as const)
-      : kind === 'CCA_GENERATION_V0_ENERGY_ONLY'
-        ? ('CCA_GENERATION_V0_ENERGY_ONLY' as const)
-        : ('DELIVERY' as const);
+    kind === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
+      ? ('CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES' as const)
+      : kind === 'CCA_GEN_V0_ALL_IN'
+        ? ('CCA_GEN_V0_ALL_IN' as const)
+        : kind === 'CCA_GEN_V0_ENERGY_ONLY'
+          ? ('CCA_GEN_V0_ENERGY_ONLY' as const)
+          : kind === 'DA_DELIVERY_FALLBACK'
+            ? ('DA_DELIVERY_FALLBACK' as const)
+            : kind === 'CCA_DELIVERY_FALLBACK'
+              ? ('CCA_DELIVERY_FALLBACK' as const)
+              : ('DELIVERY' as const);
 
   const usedDaFallback = (args.dispatchWarnings || []).includes(DispatchV1_1WarningCodes.DISPATCH_SUPPLY_DA_GENERATION_RATES_MISSING_FALLBACK);
-  return usedDaFallback && base === 'DELIVERY' ? 'DA_FALLBACK_DELIVERY' : base;
+  return usedDaFallback && base === 'DELIVERY' ? 'DA_DELIVERY_FALLBACK' : base;
 }
 
 function confidenceTierV1_1(args: { hasIntervals: boolean; hasTariff: boolean; sitePeakKw: number | null }): ConfidenceTierV1 {

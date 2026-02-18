@@ -12,6 +12,7 @@ type DispatchFixture = {
   touEnergyPrices?: Array<{ periodId: string; startHourLocal: number; endHourLocalExclusive: number; days: 'all' | 'weekday' | 'weekend'; pricePerKwh: number }>;
   generationTouEnergyPrices?: Array<{ periodId: string; startHourLocal: number; endHourLocalExclusive: number; days: 'all' | 'weekday' | 'weekend'; pricePerKwh: number }>;
   generationAllInTouEnergyPrices?: Array<{ periodId: string; startHourLocal: number; endHourLocalExclusive: number; days: 'all' | 'weekday' | 'weekend'; pricePerKwh: number }>;
+  generationAllInWithExitFeesTouPrices?: Array<{ periodId: string; startHourLocal: number; endHourLocalExclusive: number; days: 'all' | 'weekday' | 'weekend'; pricePerKwh: number }>;
   supplyProviderType?: 'CCA' | 'DA' | null;
   battery: { powerKw: number; energyKwh: number; rte: number; minSoc: number; maxSoc: number };
   expect?: {
@@ -74,6 +75,7 @@ describe('dispatch_v1_1 fixture pack (deterministic)', () => {
         touEnergyPrices: (fx.touEnergyPrices as any) || null,
         generationTouEnergyPrices: (fx.generationTouEnergyPrices as any) || null,
         generationAllInTouEnergyPrices: (fx.generationAllInTouEnergyPrices as any) || null,
+        generationAllInWithExitFeesTouPrices: (fx.generationAllInWithExitFeesTouPrices as any) || null,
         supplyProviderType: (fx.supplyProviderType as any) ?? null,
         battery: fx.battery,
       });

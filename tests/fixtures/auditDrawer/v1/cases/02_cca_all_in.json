@@ -37,7 +37,7 @@
       "savingsAnnual": { "energyUsd": 1000, "demandUsd": 700, "ratchetAvoidedUsd": 0, "drUsd": 0, "otherUsd": 0, "totalUsd": 1700, "assumptions": [] },
       "audit": {
         "lineItems": [
-          { "id": "savings.energyAnnual", "label": "Energy savings", "amountUsd": 1000, "amountUsdRaw": 1000, "basis": "fixture", "sourceEngine": "tariffEngine", "sourcePath": "fixture", "rateSource": { "snapshotId": "snap_02", "rateCode": "B-19", "kind": "CCA_GENERATION_V0_ALL_IN" } },
+          { "id": "savings.energyAnnual", "label": "Energy savings", "amountUsd": 1000, "amountUsdRaw": 1000, "basis": "fixture", "sourceEngine": "tariffEngine", "sourcePath": "fixture", "rateSource": { "snapshotId": "snap_02", "rateCode": "B-19", "kind": "CCA_GEN_V0_ALL_IN" } },
           { "id": "savings.demandAnnual", "label": "Demand savings", "amountUsd": 700, "amountUsdRaw": 700, "basis": "fixture", "sourceEngine": "tariffEngine", "sourcePath": "fixture" },
           { "id": "savings.totalAnnual", "label": "Total savings", "amountUsd": 1700, "amountUsdRaw": 1700, "basis": "fixture", "sourceEngine": "assumption", "sourcePath": "fixture" }
         ]

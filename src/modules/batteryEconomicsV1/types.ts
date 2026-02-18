@@ -50,10 +50,25 @@ export type BatteryEconomicsTariffSignalsV1 = {
     days: 'all' | 'weekday' | 'weekend';
     pricePerKwh: number;
   }> | null;
+  /** Optional derived all-in generation TOU windows including exit fees (flat adder in v0). Preferred over all-in without exit fees. */
+  generationAllInWithExitFeesTouPrices?: Array<{
+    periodId: string;
+    startHourLocal: number;
+    endHourLocalExclusive: number;
+    days: 'all' | 'weekday' | 'weekend';
+    pricePerKwh: number;
+  }> | null;
   /** Optional blended adders $/kWh used to derive `generationAllInTouEnergyPrices`. */
   generationAddersPerKwhTotal?: number | null;
   /** Optional adders snapshot id/version tag for audit trail. */
   generationAddersSnapshotId?: string | null;
+  /** Optional exit fees snapshot id/version tag for audit trail (PCIA/NBC/other). */
+  exitFeesSnapshotId?: string | null;
+  /** Optional flat exit fees total $/kWh applied (v0). */
+  exitFeesPerKwhTotal?: number | null;
+  nbcPerKwhTotal?: number | null;
+  pciaPerKwhApplied?: number | null;
+  otherExitFeesPerKwhTotal?: number | null;
   generationSnapshotId?: string | null;
   generationRateCode?: string | null;
   /**
@@ -254,7 +269,13 @@ export type BatteryEconomicsAuditLineItemV1 = {
   rateSource?: {
     snapshotId: string | null;
     rateCode: string | null;
-    kind?: 'DELIVERY' | 'CCA_GENERATION_V0' | 'CCA_GENERATION_V0_ENERGY_ONLY' | 'CCA_GENERATION_V0_ALL_IN';
+    kind?:
+      | 'DELIVERY'
+      | 'CCA_GEN_V0_ENERGY_ONLY'
+      | 'CCA_GEN_V0_ALL_IN'
+      | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
+      | 'CCA_DELIVERY_FALLBACK'
+      | 'DA_DELIVERY_FALLBACK';
   } | null;
   /**
    * Deterministic quantities used to compute the line item (stable ordering expected by callers/tests).

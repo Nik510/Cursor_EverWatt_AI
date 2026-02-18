@@ -1,0 +1,19 @@
+{
+  "snapshotId": "exitFees.v0.SCE.2026-01-01.seed",
+  "effectiveStartYmd": "2026-01-01",
+  "acquisitionMethodUsed": "MANUAL_SEED_V0",
+  "notes": [
+    "MANUAL SEED V0 (provisional): blended flat adders to approximate PCIA/NBC/exit fees for CCA/DA economics.",
+    "Values are placeholders; prefer upgrading to utility/vintage-specific datasets when available."
+  ],
+  "charges": {
+    "nbcPerKwhTotal": 0.024,
+    "pciaPerKwhDefault": 0.014,
+    "otherExitFeesPerKwhTotal": 0.003
+  },
+  "applicability": {
+    "providerType": "CCA",
+    "iou": "SCE"
+  }
+}
+

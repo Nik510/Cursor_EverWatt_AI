@@ -75,6 +75,24 @@ export type EffectiveRateContextV1 = {
       days: 'all' | 'weekday' | 'weekend';
       pricePerKwh: number;
     }> | null;
+    /** Optional exit fees snapshot id for audit/provenance (PCIA/NBC/other). */
+    exitFeesSnapshotId?: string | null;
+    /** Optional flat NBC total ($/kWh) applied to derive all-in-with-exit-fees prices (v0). */
+    nbcPerKwhTotal?: number | null;
+    /** Optional flat PCIA ($/kWh) applied (v0 applies default when vintage is unknown). */
+    pciaPerKwhApplied?: number | null;
+    /** Optional other exiting/departing-load fees total ($/kWh) applied (v0). */
+    otherExitFeesPerKwhTotal?: number | null;
+    /** Optional derived all-in generation TOU windows including exit fees (flat adder in v0). */
+    generationAllInWithExitFeesTouPrices?: Array<{
+      periodId: string;
+      startHourLocal: number;
+      endHourLocalExclusive: number;
+      days: 'all' | 'weekday' | 'weekend';
+      pricePerKwh: number;
+    }> | null;
+    /** Exit fees warnings/reason codes (warnings-first). */
+    exitFeesWarnings?: string[] | null;
   };
   method: 'ssa_v1';
   warnings: string[];

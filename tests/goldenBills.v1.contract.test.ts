@@ -10,7 +10,13 @@ type ExpectationsV1 = {
   expectedUtility: string;
   expectedSupplyProviderType: 'NONE' | 'CCA' | 'DA';
   expectedLseName: string | null;
-  expectedRateSourceKind: 'DELIVERY' | 'CCA_GENERATION_V0_ENERGY_ONLY' | 'CCA_GENERATION_V0_ALL_IN' | 'DA_FALLBACK_DELIVERY';
+  expectedRateSourceKind:
+    | 'DELIVERY'
+    | 'CCA_GEN_V0_ENERGY_ONLY'
+    | 'CCA_GEN_V0_ALL_IN'
+    | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
+    | 'CCA_DELIVERY_FALLBACK'
+    | 'DA_DELIVERY_FALLBACK';
   expectedMissingInfoIds: string[];
   expectedAuditReconcile: boolean;
   expectedTopLineNumbers: Record<

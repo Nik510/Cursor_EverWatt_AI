@@ -118,7 +118,7 @@ SF Clean Energy (San Francisco Clean Energy) generation charges.
     const lineItems = Array.isArray(out.audit?.lineItems) ? out.audit.lineItems : [];
     const energy = lineItems.find((li: any) => String(li?.id || '') === 'savings.energyAnnual');
     expect(energy).toBeTruthy();
-    expect(String((energy as any)?.rateSource?.kind || '')).toBe('DELIVERY');
+    expect(String((energy as any)?.rateSource?.kind || '')).toBe('DA_DELIVERY_FALLBACK');
   });
 });
 

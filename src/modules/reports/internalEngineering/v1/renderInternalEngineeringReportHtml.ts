@@ -137,11 +137,12 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     const determinants = String((ev as any)?.determinants || '').trim() || '—';
     const tariffEngine = String((ev as any)?.tariffEngine || '').trim() || '—';
     const billingEngineV1 = String((ev as any)?.billingEngineV1 || '').trim() || '—';
+    const exitFees = String((ev as any)?.exitFees || '').trim() || '—';
     const storageEconomics = String((ev as any)?.storageEconomics || '').trim() || '—';
     const incentivesStub = String((ev as any)?.incentivesStub || '').trim() || '—';
     const batteryEconomics = String((ev as any)?.batteryEconomics || '').trim() || '—';
     const batteryDecisionPack = String((ev as any)?.batteryDecisionPack || '').trim() || '—';
-    return `Engine Versions: intervalIntake=${intervalIntake} • determinants=${determinants} • tariffEngine=${tariffEngine} • billingEngineV1=${billingEngineV1} • storageEconomics=${storageEconomics} • incentivesStub=${incentivesStub} • batteryEconomics=${batteryEconomics} • batteryDecisionPack=${batteryDecisionPack}`;
+    return `Engine Versions: intervalIntake=${intervalIntake} • determinants=${determinants} • tariffEngine=${tariffEngine} • billingEngineV1=${billingEngineV1} • exitFees=${exitFees} • storageEconomics=${storageEconomics} • incentivesStub=${incentivesStub} • batteryEconomics=${batteryEconomics} • batteryDecisionPack=${batteryDecisionPack}`;
   })();
 
   const auditDrawerLine = (() => {

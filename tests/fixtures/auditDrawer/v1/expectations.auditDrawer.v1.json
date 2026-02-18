@@ -11,7 +11,7 @@
   {
     "fixtureFile": "tests/fixtures/auditDrawer/v1/cases/02_cca_all_in.json",
     "expected": {
-      "expectedEnergyRateSourceKind": "CCA_GENERATION_V0_ALL_IN",
+      "expectedEnergyRateSourceKind": "CCA_GEN_V0_ALL_IN",
       "expectedGenerationExplainerId": "cca_generation_pricing",
       "expectedTariffBrowserUrlPresent": true,
       "expectedWarningsIncludes": []
@@ -20,7 +20,7 @@
   {
     "fixtureFile": "tests/fixtures/auditDrawer/v1/cases/03_cca_energy_only.json",
     "expected": {
-      "expectedEnergyRateSourceKind": "CCA_GENERATION_V0_ENERGY_ONLY",
+      "expectedEnergyRateSourceKind": "CCA_GEN_V0_ENERGY_ONLY",
       "expectedGenerationExplainerId": "cca_generation_pricing",
       "expectedTariffBrowserUrlPresent": true,
       "expectedWarningsIncludes": []
@@ -29,7 +29,7 @@
   {
     "fixtureFile": "tests/fixtures/auditDrawer/v1/cases/04_da_fallback.json",
     "expected": {
-      "expectedEnergyRateSourceKind": "DELIVERY",
+      "expectedEnergyRateSourceKind": "DA_DELIVERY_FALLBACK",
       "expectedGenerationExplainerId": "da_generation_missing",
       "expectedTariffBrowserUrlPresent": true,
       "expectedWarningsIncludes": ["auditDrawerV1.generation.da_missing", "supply.v1.da_detected_generation_rates_missing"]

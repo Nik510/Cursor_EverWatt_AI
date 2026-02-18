@@ -137,6 +137,8 @@ export type TariffPriceSignalsV1 = {
   generationTouEnergyPrices?: TouPriceWindowV1[] | null;
   /** Optional derived all-in generation TOU energy windows (energy + adders). When present, preferred over energy-only generation windows. */
   generationAllInTouEnergyPrices?: TouPriceWindowV1[] | null;
+  /** Optional derived all-in generation TOU energy windows including exit fees (flat adder in v0). Preferred over all-in without exit fees. */
+  generationAllInWithExitFeesTouPrices?: TouPriceWindowV1[] | null;
   /** Optional blended adders $/kWh used to derive `generationAllInTouEnergyPrices` (PCIA/NBC/other riders). */
   generationAddersPerKwhTotal?: number | null;
   /** Optional adders snapshot id/version tag for audit trail. */
@@ -145,6 +147,14 @@ export type TariffPriceSignalsV1 = {
   generationSnapshotId?: string | null;
   /** Optional generation rate code tag for audit trail (e.g. ccaId@effectiveStartYmd). */
   generationRateCode?: string | null;
+  /** Optional exit fees snapshot id/version tag for audit trail (PCIA/NBC/other). */
+  exitFeesSnapshotId?: string | null;
+  /** Optional flat exit fees total ($/kWh) applied to derive `generationAllInWithExitFeesTouPrices` (v0). */
+  exitFeesPerKwhTotal?: number | null;
+  /** Optional component fields (v0). */
+  nbcPerKwhTotal?: number | null;
+  pciaPerKwhApplied?: number | null;
+  otherExitFeesPerKwhTotal?: number | null;
   /** Optional supply context for downstream engines. */
   supplyProviderType?: 'CCA' | 'DA' | null;
   supplyLseName?: string | null;

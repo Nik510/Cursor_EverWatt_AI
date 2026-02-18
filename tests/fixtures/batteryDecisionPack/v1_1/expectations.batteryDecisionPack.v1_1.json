@@ -19,7 +19,7 @@
     },
     "03_cca_all_in_present": {
       "expectedProviderType": "CCA",
-      "expectedRateSourceKind": "CCA_GENERATION_V0_ALL_IN",
+      "expectedRateSourceKind": "CCA_GEN_V0_ALL_IN",
       "expectedConfidenceTier": "MEDIUM",
       "expectedHasIntervals": true,
       "expectedTopCandidatesCount": 3,
@@ -27,7 +27,7 @@
     },
     "04_cca_energy_only_missing_adders": {
       "expectedProviderType": "CCA",
-      "expectedRateSourceKind": "CCA_GENERATION_V0_ENERGY_ONLY",
+      "expectedRateSourceKind": "CCA_GEN_V0_ENERGY_ONLY",
       "expectedConfidenceTier": "MEDIUM",
       "expectedHasIntervals": true,
       "expectedTopCandidatesCount": 3,
@@ -35,7 +35,7 @@
     },
     "05_da_detected_fallback_delivery": {
       "expectedProviderType": "DA",
-      "expectedRateSourceKind": "DA_FALLBACK_DELIVERY",
+      "expectedRateSourceKind": "DA_DELIVERY_FALLBACK",
       "expectedConfidenceTier": "MEDIUM",
       "expectedHasIntervals": true,
       "expectedTopCandidatesCount": 3,

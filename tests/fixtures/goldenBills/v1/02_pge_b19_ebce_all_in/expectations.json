@@ -2,7 +2,7 @@
   "expectedUtility": "PGE",
   "expectedSupplyProviderType": "CCA",
   "expectedLseName": "East Bay Community Energy",
-  "expectedRateSourceKind": "CCA_GENERATION_V0_ALL_IN",
+  "expectedRateSourceKind": "CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES",
   "expectedMissingInfoIds": [
     "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
     "billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",

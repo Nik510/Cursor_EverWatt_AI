@@ -102,28 +102,54 @@ export function runSavingsModelV1(args: {
   const ratchetDemandKw = safeNum(det?.ratchetDemandKw);
 
   const touPricesDelivery = Array.isArray((tariff as any)?.touEnergyPrices) ? (((tariff as any).touEnergyPrices as any[]) || []) : [];
+  const touPricesGenerationAllInWithExitFees = Array.isArray((tariff as any)?.generationAllInWithExitFeesTouPrices)
+    ? (((tariff as any).generationAllInWithExitFeesTouPrices as any[]) || [])
+    : [];
   const touPricesGenerationAllIn = Array.isArray((tariff as any)?.generationAllInTouEnergyPrices)
     ? (((tariff as any).generationAllInTouEnergyPrices as any[]) || [])
     : [];
   const touPricesGeneration = Array.isArray((tariff as any)?.generationTouEnergyPrices)
     ? (((tariff as any).generationTouEnergyPrices as any[]) || [])
     : [];
-  const energyMode = touPricesGenerationAllIn.length ? ('CCA_ALL_IN' as const) : touPricesGeneration.length ? ('CCA_ENERGY_ONLY' as const) : ('DELIVERY' as const);
-  const touPricesUsedForEnergy = energyMode === 'CCA_ALL_IN' ? touPricesGenerationAllIn : energyMode === 'CCA_ENERGY_ONLY' ? touPricesGeneration : touPricesDelivery;
+  const energyMode = touPricesGenerationAllInWithExitFees.length
+    ? ('CCA_ALL_IN_WITH_EXIT_FEES' as const)
+    : touPricesGenerationAllIn.length
+      ? ('CCA_ALL_IN' as const)
+      : touPricesGeneration.length
+        ? ('CCA_ENERGY_ONLY' as const)
+        : ('DELIVERY' as const);
+  const touPricesUsedForEnergy =
+    energyMode === 'CCA_ALL_IN_WITH_EXIT_FEES'
+      ? touPricesGenerationAllInWithExitFees
+      : energyMode === 'CCA_ALL_IN'
+        ? touPricesGenerationAllIn
+        : energyMode === 'CCA_ENERGY_ONLY'
+          ? touPricesGeneration
+          : touPricesDelivery;
   const energySourcePath =
-    energyMode === 'CCA_ALL_IN'
-      ? 'inputs.tariffs.generationAllInTouEnergyPrices'
-      : energyMode === 'CCA_ENERGY_ONLY'
-        ? 'inputs.tariffs.generationTouEnergyPrices'
-        : 'inputs.tariffs.touEnergyPrices';
+    energyMode === 'CCA_ALL_IN_WITH_EXIT_FEES'
+      ? 'inputs.tariffs.generationAllInWithExitFeesTouPrices'
+      : energyMode === 'CCA_ALL_IN'
+        ? 'inputs.tariffs.generationAllInTouEnergyPrices'
+        : energyMode === 'CCA_ENERGY_ONLY'
+          ? 'inputs.tariffs.generationTouEnergyPrices'
+          : 'inputs.tariffs.touEnergyPrices';
   const energyRateSource = (() => {
-    if (energyMode === 'CCA_ALL_IN' || energyMode === 'CCA_ENERGY_ONLY') {
+    if (energyMode === 'CCA_ALL_IN_WITH_EXIT_FEES' || energyMode === 'CCA_ALL_IN' || energyMode === 'CCA_ENERGY_ONLY') {
       const genSnapshotId = String((tariff as any)?.generationSnapshotId || '').trim() || null;
       const genRateCode = String((tariff as any)?.generationRateCode || '').trim() || null;
-      const kind = energyMode === 'CCA_ALL_IN' ? ('CCA_GENERATION_V0_ALL_IN' as const) : ('CCA_GENERATION_V0_ENERGY_ONLY' as const);
+      const kind =
+        energyMode === 'CCA_ALL_IN_WITH_EXIT_FEES'
+          ? ('CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES' as const)
+          : energyMode === 'CCA_ALL_IN'
+            ? ('CCA_GEN_V0_ALL_IN' as const)
+            : ('CCA_GEN_V0_ENERGY_ONLY' as const);
       return { snapshotId: genSnapshotId, rateCode: genRateCode, kind } as const;
     }
-    return rateSource;
+    // Delivery valuation (IOU TOU windows); if supply is DA/CCA, stamp explicit fallback kind.
+    if (supplyProviderType === 'DA') return { ...rateSource, kind: 'DA_DELIVERY_FALLBACK' as const } as const;
+    if (supplyProviderType === 'CCA') return { ...rateSource, kind: 'CCA_DELIVERY_FALLBACK' as const } as const;
+    return { ...rateSource, kind: 'DELIVERY' as const } as const;
   })();
 
   if (energyMode === 'CCA_ENERGY_ONLY') {
