@@ -113,7 +113,7 @@ export function getCcaGenerationSnapshotV0(args: {
   }
 
   const ccaId = String(args.ccaId || '').trim().toUpperCase() as CcaIdV0;
-  const ccaOk = ccaId === 'EBCE' || ccaId === 'SVCE' || ccaId === 'PCE' || ccaId === 'CLEANPOWERSF' || ccaId === 'CPA' || ccaId === 'SDCP';
+  const ccaOk = ccaId === 'EBCE' || ccaId === 'SVCE' || ccaId === 'PCE' || ccaId === 'CLEANPOWERSF' || ccaId === 'MCE' || ccaId === 'CPA' || ccaId === 'SDCP';
   if (!ccaOk) {
     warnings.push(CcaTariffLibraryReasonCodesV0.CCA_V0_CCA_UNSUPPORTED);
     return { ok: false, snapshot: null, billPeriodStartYmdUsed: safeYmd(args.billPeriodStartYmd) ?? null, warnings: uniqSorted(warnings) };

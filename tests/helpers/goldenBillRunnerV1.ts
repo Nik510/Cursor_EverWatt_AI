@@ -17,6 +17,7 @@ type RateSourceKindExpectation =
   | 'CCA_GEN_V0_ENERGY_ONLY'
   | 'CCA_GEN_V0_ALL_IN'
   | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
+  | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED'
   | 'CCA_DELIVERY_FALLBACK'
   | 'DA_DELIVERY_FALLBACK';
 
@@ -52,6 +53,7 @@ export type GoldenBillRunnerResultV1 = {
       generationAllInTouEnergyPricesCount: number;
       generationAddersPerKwhTotal: number | null;
       generationAddersSnapshotId: string | null;
+      exitFeesSnapshotId: string | null;
     };
     warnings: string[];
     missingInfoIds: string[];
@@ -70,6 +72,7 @@ export type GoldenBillRunnerResultV1 = {
       };
   batteryEconomics: null | {
     rateSourceKind: RateSourceKindExpectation;
+    rateSourceMeta: null | { generationEnergySnapshotId: string | null; addersSnapshotId: string | null; exitFeesSnapshotId: string | null };
     annualSavingsUsd: number | null;
     auditSavings: null | {
       totalRounded: number | null;
@@ -131,6 +134,7 @@ function toSupplyProviderTypeExpectation(raw: unknown): SupplyProviderTypeExpect
 
 function toRateSourceKindExpectation(raw: unknown): RateSourceKindExpectation {
   const s = String(raw ?? '').trim();
+  if (s === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED') return 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED';
   if (s === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES') return 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES';
   if (s === 'CCA_GEN_V0_ALL_IN') return 'CCA_GEN_V0_ALL_IN';
   if (s === 'CCA_GEN_V0_ENERGY_ONLY') return 'CCA_GEN_V0_ENERGY_ONLY';
@@ -168,7 +172,14 @@ function pickLatestBillSimCycle(sim: any): any | null {
   }
 }
 
-function batteryAuditReconcileFromLineItems(lineItems: any[]): { auditSavings: GoldenBillRunnerResultV1['batteryEconomics'] extends infer X ? any : any; ok: boolean; deltaAbs: number | null; kind: RateSourceKindExpectation; annualSavingsUsd: number | null } {
+function batteryAuditReconcileFromLineItems(lineItems: any[]): {
+  auditSavings: GoldenBillRunnerResultV1['batteryEconomics'] extends infer X ? any : any;
+  ok: boolean;
+  deltaAbs: number | null;
+  kind: RateSourceKindExpectation;
+  meta: null | { generationEnergySnapshotId: string | null; addersSnapshotId: string | null; exitFeesSnapshotId: string | null };
+  annualSavingsUsd: number | null;
+} {
   const byId = new Map<string, any>();
   for (const li of Array.isArray(lineItems) ? lineItems : []) {
     const id = String(li?.id || '').trim();
@@ -204,6 +215,15 @@ function batteryAuditReconcileFromLineItems(lineItems: any[]): { auditSavings: G
   const ok = deltaAbs !== null && deltaAbs <= 0.01;
 
   const kind = toRateSourceKindExpectation(byId.get('savings.energyAnnual')?.rateSource?.kind);
+  const metaRaw = byId.get('savings.energyAnnual')?.rateSource?.meta ?? null;
+  const meta =
+    metaRaw && typeof metaRaw === 'object'
+      ? {
+          generationEnergySnapshotId: String((metaRaw as any)?.generationEnergySnapshotId || '').trim() || null,
+          addersSnapshotId: String((metaRaw as any)?.addersSnapshotId || '').trim() || null,
+          exitFeesSnapshotId: String((metaRaw as any)?.exitFeesSnapshotId || '').trim() || null,
+        }
+      : null;
   const annualSavingsUsd = (() => {
     const n = Number(total?.amountUsd);
     if (!Number.isFinite(n)) return null;
@@ -215,6 +235,7 @@ function batteryAuditReconcileFromLineItems(lineItems: any[]): { auditSavings: G
     ok,
     deltaAbs,
     kind,
+    meta,
     annualSavingsUsd,
   };
 }
@@ -482,6 +503,7 @@ export async function runGoldenBillCaseV1(args: { caseDir: string; tariffLibrary
             generationAllInTouEnergyPricesCount: Array.isArray(erc?.generation?.generationAllInTouEnergyPrices) ? erc.generation.generationAllInTouEnergyPrices.length : 0,
             generationAddersPerKwhTotal: Number.isFinite(Number(erc?.generation?.generationAddersPerKwhTotal)) ? Number(erc.generation.generationAddersPerKwhTotal) : null,
             generationAddersSnapshotId: erc?.generation?.generationAddersSnapshotId ? String(erc.generation.generationAddersSnapshotId) : null,
+            exitFeesSnapshotId: erc?.generation?.exitFeesSnapshotId ? String((erc as any).generation.exitFeesSnapshotId) : null,
           },
           warnings: uniqSortedStrings(erc?.warnings || []),
           missingInfoIds: uniqSortedStrings((erc?.missingInfo || []).map((it: any) => it?.id)),
@@ -522,6 +544,7 @@ export async function runGoldenBillCaseV1(args: { caseDir: string; tariffLibrary
       selected12 && batteryAudit12
         ? {
             rateSourceKind: toRateSourceKindExpectation(selected12?.economicsSummary?.rateSourceKind),
+            rateSourceMeta: (batteryAudit12 as any)?.meta ?? null,
             annualSavingsUsd: batteryAudit12.annualSavingsUsd,
             auditSavings: batteryAudit12.auditSavings,
           }

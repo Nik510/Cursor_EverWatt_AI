@@ -82,6 +82,14 @@ function normalizeBatteryAuditLineItem(li: any): AuditLineItemV1 | null {
         snapshotId: safeStr(li.rateSource.snapshotId) || null,
         rateCode: safeStr(li.rateSource.rateCode) || null,
         kind: li.rateSource.kind ? safeStr(li.rateSource.kind) : undefined,
+        meta:
+          li.rateSource.meta && typeof li.rateSource.meta === 'object'
+            ? {
+                generationEnergySnapshotId: safeStr((li.rateSource.meta as any)?.generationEnergySnapshotId) || null,
+                addersSnapshotId: safeStr((li.rateSource.meta as any)?.addersSnapshotId) || null,
+                exitFeesSnapshotId: safeStr((li.rateSource.meta as any)?.exitFeesSnapshotId) || null,
+              }
+            : undefined,
       }
     : null;
 

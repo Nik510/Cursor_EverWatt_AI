@@ -1,6 +1,6 @@
 {
-  "snapshotId": "exitFees.v0.SDGE.2026-01-01.seed",
-  "effectiveStartYmd": "2026-01-01",
+  "snapshotId": "exitFees.v0.PGE.2025-01-01.seed",
+  "effectiveStartYmd": "2025-01-01",
   "acquisitionMethodUsed": "MANUAL_SEED_V0",
   "notes": [
     "acquisitionMethodUsed: MANUAL_SEED_V0",
@@ -9,17 +9,17 @@
     "Values are placeholders; prefer upgrading to utility/vintage-specific datasets when available."
   ],
   "charges": {
-    "nbcPerKwhTotal": 0.032,
+    "nbcPerKwhTotal": 0.027,
     "pciaPerKwhByVintage": {
-      "V2019": 0.018,
-      "V2020": 0.024
+      "V2019": 0.014,
+      "V2020": 0.021
     },
-    "pciaPerKwhDefault": 0.020,
-    "otherExitFeesPerKwhTotal": 0.005
+    "pciaPerKwhDefault": 0.017,
+    "otherExitFeesPerKwhTotal": 0.004
   },
   "applicability": {
     "providerType": "CCA",
-    "iou": "SDGE"
+    "iou": "PGE"
   }
 }
 

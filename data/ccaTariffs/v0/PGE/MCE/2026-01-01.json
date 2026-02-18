@@ -1,17 +1,17 @@
 {
-  "snapshotId": "cca.v0.PGE.SVCE.2026-01-01",
+  "snapshotId": "cca.v0.PGE.MCE.2026-01-01",
   "iouUtility": "PGE",
-  "ccaId": "SVCE",
-  "ccaDisplayName": "Silicon Valley Clean Energy",
+  "ccaId": "MCE",
+  "ccaDisplayName": "Marin Clean Energy",
   "effectiveStartYmd": "2026-01-01",
   "effectiveEndYmd": null,
   "timezone": "America/Los_Angeles",
   "customerClass": "COMMERCIAL_DEFAULT",
   "acquisitionMethodUsed": "MANUAL_SEED_V0",
   "touPeriods": [
-    { "periodId": "OFF", "season": "ALL", "weekdays": "ALL", "startMin": 0, "endMin": 960, "pricePerKwh": 0.105 },
+    { "periodId": "OFF", "season": "ALL", "weekdays": "ALL", "startMin": 0, "endMin": 960, "pricePerKwh": 0.108 },
     { "periodId": "ON", "season": "ALL", "weekdays": "ALL", "startMin": 960, "endMin": 1260, "pricePerKwh": 0.325 },
-    { "periodId": "OFF2", "season": "ALL", "weekdays": "ALL", "startMin": 1260, "endMin": 1440, "pricePerKwh": 0.125 }
+    { "periodId": "OFF2", "season": "ALL", "weekdays": "ALL", "startMin": 1260, "endMin": 1440, "pricePerKwh": 0.128 }
   ],
   "notes": [
     "acquisitionMethodUsed: MANUAL_SEED_V0",

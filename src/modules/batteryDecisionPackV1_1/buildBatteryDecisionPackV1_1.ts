@@ -119,6 +119,7 @@ function inferRateSourceKind(args: {
   | 'CCA_GEN_V0_ENERGY_ONLY'
   | 'CCA_GEN_V0_ALL_IN'
   | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
+  | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED'
   | 'CCA_DELIVERY_FALLBACK'
   | 'DA_DELIVERY_FALLBACK' {
   const byId = new Map<string, any>();
@@ -129,8 +130,10 @@ function inferRateSourceKind(args: {
   }
   const kind = String(byId.get('savings.energyAnnual')?.rateSource?.kind || '').trim();
   const base =
-    kind === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
-      ? ('CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES' as const)
+    kind === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED'
+      ? ('CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED' as const)
+      : kind === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
+        ? ('CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES' as const)
       : kind === 'CCA_GEN_V0_ALL_IN'
         ? ('CCA_GEN_V0_ALL_IN' as const)
         : kind === 'CCA_GEN_V0_ENERGY_ONLY'

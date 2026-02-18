@@ -40,7 +40,14 @@ export type AuditLineItemV1 = {
   sourceEngine: string;
   sourcePath: string;
   snapshotId?: string | null;
-  rateSource?: { snapshotId: string | null; rateCode: string | null; kind?: string } | null;
+  rateSource?:
+    | {
+        snapshotId: string | null;
+        rateCode: string | null;
+        kind?: string;
+        meta?: { generationEnergySnapshotId: string | null; addersSnapshotId: string | null; exitFeesSnapshotId: string | null } | null;
+      }
+    | null;
 };
 
 export type AuditSourceV1 = {

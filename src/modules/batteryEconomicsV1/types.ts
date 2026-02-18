@@ -274,8 +274,18 @@ export type BatteryEconomicsAuditLineItemV1 = {
       | 'CCA_GEN_V0_ENERGY_ONLY'
       | 'CCA_GEN_V0_ALL_IN'
       | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
+      | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED'
       | 'CCA_DELIVERY_FALLBACK'
       | 'DA_DELIVERY_FALLBACK';
+    /**
+     * Additive provenance for "all-in" generation pricing composition (v1).
+     * This is intentionally explicit so seed/placeholder data cannot be misrepresented.
+     */
+    meta?: {
+      generationEnergySnapshotId: string | null;
+      addersSnapshotId: string | null;
+      exitFeesSnapshotId: string | null;
+    } | null;
   } | null;
   /**
    * Deterministic quantities used to compute the line item (stable ordering expected by callers/tests).

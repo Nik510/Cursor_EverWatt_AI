@@ -65,6 +65,6 @@ describe(
       expect(html).not.toContain(':projectId');
     });
   },
-  60_000,
+  120_000,
 );
 

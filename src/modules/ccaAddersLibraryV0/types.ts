@@ -1,6 +1,6 @@
 export type CaIouUtilityV0 = 'PGE' | 'SCE' | 'SDGE';
 
-export type CcaIdV0 = 'EBCE' | 'SVCE' | 'PCE' | 'CLEANPOWERSF' | 'CPA' | 'SDCP';
+export type CcaIdV0 = 'EBCE' | 'SVCE' | 'PCE' | 'CLEANPOWERSF' | 'MCE' | 'CPA' | 'SDCP';
 
 export type CcaAddersBreakdownItemV0 = {
   id: string;
@@ -17,6 +17,23 @@ export type CcaAddersSnapshotV0 = {
   effectiveEndYmd: string | null; // YYYY-MM-DD inclusive, or null
   timezone: 'America/Los_Angeles';
   acquisitionMethodUsed: 'MANUAL_SEED_V0';
+  /**
+   * Optional structured components (v1 additive). When present, callers should prefer
+   * deterministic summation via `computeAddersPerKwhTotal()` instead of trusting a single blended total.
+   */
+  charges?: {
+    pciaPerKwhDefault?: number | null;
+    pciaPerKwhByVintageKey?: Record<string, number> | null;
+    nbcPerKwhTotal?: number | null;
+    indifferenceAdjustmentPerKwh?: number | null;
+    otherPerKwhTotal?: number | null;
+    notes?: string;
+  } | null;
+  /**
+   * Optional explicit signal (v0.1): when true, indicates this snapshot is a complete "ccaAdders bundle"
+   * for non-exit-fee adders (still may overlap with exit fees; upstream should dedupe deterministically).
+   */
+  isCompleteBundle?: boolean | null;
   /** Blended $/kWh adder (PCIA/NBC/other riders as applicable). */
   addersPerKwhTotal: number;
   /** Optional line-item view; may be partial/incomplete in v0. */

@@ -5,6 +5,10 @@ export const CcaAddersLibraryReasonCodesV0 = {
   CCA_ADDERS_V0_MISSING: 'ccaAdders.v0.missing',
   /** Snapshot exists but some fields are missing/derived or inconsistent. */
   CCA_ADDERS_V0_PARTIAL: 'ccaAdders.v0.partial',
+  /** PCIA vintage breakdown exists but no/unknown vintage was supplied; default used. */
+  CCA_ADDERS_V0_VINTAGE_UNKNOWN_DEFAULT_USED: 'ccaAdders.v0.vintage_unknown_default_used',
+  /** One or more charge components were missing and treated as 0 (truthful warning). */
+  CCA_ADDERS_V0_COMPONENTS_MISSING: 'ccaAdders.v0.components_missing',
 } as const;
 
 export function uniqSorted(arr: string[]): string[] {

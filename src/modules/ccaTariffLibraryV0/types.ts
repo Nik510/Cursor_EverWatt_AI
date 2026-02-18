@@ -1,6 +1,6 @@
 export type CaIouUtilityV0 = 'PGE' | 'SCE' | 'SDGE';
 
-export type CcaIdV0 = 'EBCE' | 'SVCE' | 'PCE' | 'CLEANPOWERSF' | 'CPA' | 'SDCP';
+export type CcaIdV0 = 'EBCE' | 'SVCE' | 'PCE' | 'CLEANPOWERSF' | 'MCE' | 'CPA' | 'SDCP';
 
 export type CcaTouPeriodSnapshotV0 = {
   periodId: string;

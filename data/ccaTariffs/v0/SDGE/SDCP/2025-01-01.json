@@ -1,17 +1,17 @@
 {
-  "snapshotId": "cca.v0.PGE.CLEANPOWERSF.2026-01-01",
-  "iouUtility": "PGE",
-  "ccaId": "CLEANPOWERSF",
-  "ccaDisplayName": "CleanPowerSF",
-  "effectiveStartYmd": "2026-01-01",
-  "effectiveEndYmd": null,
+  "snapshotId": "cca.v0.SDGE.SDCP.2025-01-01",
+  "iouUtility": "SDGE",
+  "ccaId": "SDCP",
+  "ccaDisplayName": "San Diego Community Power",
+  "effectiveStartYmd": "2025-01-01",
+  "effectiveEndYmd": "2025-12-31",
   "timezone": "America/Los_Angeles",
   "customerClass": "COMMERCIAL_DEFAULT",
   "acquisitionMethodUsed": "MANUAL_SEED_V0",
   "touPeriods": [
     { "periodId": "OFF", "season": "ALL", "weekdays": "ALL", "startMin": 0, "endMin": 960, "pricePerKwh": 0.115 },
-    { "periodId": "ON", "season": "ALL", "weekdays": "ALL", "startMin": 960, "endMin": 1260, "pricePerKwh": 0.345 },
-    { "periodId": "OFF2", "season": "ALL", "weekdays": "ALL", "startMin": 1260, "endMin": 1440, "pricePerKwh": 0.135 }
+    { "periodId": "ON", "season": "ALL", "weekdays": "ALL", "startMin": 960, "endMin": 1260, "pricePerKwh": 0.335 },
+    { "periodId": "OFF2", "season": "ALL", "weekdays": "ALL", "startMin": 1260, "endMin": 1440, "pricePerKwh": 0.140 }
   ],
   "notes": [
     "acquisitionMethodUsed: MANUAL_SEED_V0",

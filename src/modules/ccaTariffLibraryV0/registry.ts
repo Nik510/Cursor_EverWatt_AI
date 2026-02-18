@@ -41,6 +41,13 @@ export const CCA_REGISTRY_V0: CcaRegistryEntryV0[] = [
     iouUtilities: ['PGE'],
   },
   {
+    ccaId: 'MCE',
+    ccaDisplayName: 'Marin Clean Energy',
+    ssaCanonicalNames: ['Marin Clean Energy'],
+    aliases: ['mce', 'marin clean energy', 'marin cleanenergy', 'marin'],
+    iouUtilities: ['PGE'],
+  },
+  {
     ccaId: 'CPA',
     ccaDisplayName: 'Clean Power Alliance',
     ssaCanonicalNames: ['Clean Power Alliance'],

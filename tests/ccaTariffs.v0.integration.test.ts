@@ -50,6 +50,7 @@ describe('ccaTariffLibraryV0 integration (bill text -> effectiveRateContext -> e
       expect(Array.isArray(ctx.generation.generationAllInTouEnergyPrices)).toBe(true);
       expect(ctx.generation.generationAllInTouEnergyPrices.length).toBe(ctx.generation.generationTouEnergyPrices.length);
       expect(Number(ctx.generation.generationAddersPerKwhTotal)).toBeGreaterThan(0);
+      expect(ctx.warnings).toContain('generation.v1.adders_overlap_deduped');
 
       expect(Array.isArray(ctx.warnings)).toBe(true);
       expect(ctx.warnings).not.toContain(CcaTariffLibraryReasonCodesV0.CCA_V0_ENERGY_ONLY_NO_EXIT_FEES);
@@ -82,6 +83,7 @@ describe('ccaTariffLibraryV0 integration (bill text -> effectiveRateContext -> e
           generationAddersSnapshotId: ctx.generation.generationAddersSnapshotId,
           generationSnapshotId: ctx.generation.snapshotId,
           generationRateCode: ctx.generation.rateCode,
+          exitFeesSnapshotId: ctx.generation.exitFeesSnapshotId,
         } as any,
         determinants: { billingDemandKw: 250, ratchetDemandKw: null, billingDemandMethod: 'fixture' },
         dispatch: { shiftedKwhAnnual: 5000, peakReductionKwAssumed: 20, dispatchDaysPerYear: 260 },
@@ -93,38 +95,81 @@ describe('ccaTariffLibraryV0 integration (bill text -> effectiveRateContext -> e
       const items = Array.isArray(out.audit?.lineItems) ? out.audit.lineItems : [];
       const energyAnnual = items.find((li: any) => String(li?.id || '') === 'savings.energyAnnual') || null;
       expect(energyAnnual).toBeTruthy();
-      expect(String((energyAnnual as any)?.rateSource?.kind || '')).toBe('CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES');
+      expect(String((energyAnnual as any)?.rateSource?.kind || '')).toBe('CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED');
+      expect((energyAnnual as any)?.rateSource?.meta).toEqual({
+        generationEnergySnapshotId: ctx.generation.snapshotId,
+        addersSnapshotId: ctx.generation.generationAddersSnapshotId,
+        exitFeesSnapshotId: ctx.generation.exitFeesSnapshotId,
+      });
     }
   });
 
-  it('keeps energy-only warning when adders are missing', async () => {
+  it('selects PCIA by vintage key when provided (deterministic)', async () => {
     const billPdfText = loadText('bill_text_cca_ebce.txt');
 
-    const res = await analyzeUtility(
-      {
-        orgId: 'o_test',
-        projectId: 'p_EBCE_missing_adders',
-        serviceType: 'electric',
-        utilityTerritory: 'PGE',
-        currentRate: { utility: 'PGE', rateCode: 'E-19' },
-        billingRecords: [{ billStartDate: '2026-02-15', billEndDate: '2026-03-15' }],
-        billingSummary: {
-          monthly: [{ start: '2026-02-15', end: '2026-03-15', kWh: 1000, dollars: 250 }],
-        },
-        billPdfText,
-      } as any,
-      { nowIso: '2026-02-10T00:00:00.000Z', idFactory: () => 'id_fixed' },
-    );
+    const run = async (pciaVintageKey: string) => {
+      const res = await analyzeUtility(
+        {
+          orgId: 'o_test',
+          projectId: `p_EBCE_vintage_${pciaVintageKey}`,
+          serviceType: 'electric',
+          utilityTerritory: 'PGE',
+          currentRate: { utility: 'PGE', rateCode: 'E-19' },
+          billingSummary: {
+            monthly: [{ start: '2026-01-15', end: '2026-02-15', kWh: 1000, dollars: 250 }],
+          },
+          billPdfText,
+        } as any,
+        { nowIso: '2026-02-10T00:00:00.000Z', idFactory: () => 'id_fixed', pciaVintageKey },
+      );
+      const ctx: any = (res.insights as any).effectiveRateContextV1;
+      return ctx;
+    };
 
-    const ctx: any = (res.insights as any).effectiveRateContextV1;
-    expect(ctx).toBeTruthy();
-    expect(ctx.generation.providerType).toBe('CCA');
-    expect(ctx.generation.lseName).toBe('East Bay Community Energy');
-    expect(Array.isArray(ctx.generation.generationTouEnergyPrices)).toBe(true);
-    expect(ctx.generation.generationTouEnergyPrices.length).toBeGreaterThan(0);
-    expect(ctx.generation.generationAllInTouEnergyPrices == null).toBe(true);
-    expect(ctx.warnings).toContain(CcaTariffLibraryReasonCodesV0.CCA_V0_ENERGY_ONLY_NO_EXIT_FEES);
-    expect(ctx.warnings).toContain(CcaAddersLibraryReasonCodesV0.CCA_ADDERS_V0_MISSING);
+    const ctx2019 = await run('V2019');
+    const ctx2020 = await run('V2020');
+
+    expect(ctx2019).toBeTruthy();
+    expect(ctx2020).toBeTruthy();
+    expect(ctx2019.generation.providerType).toBe('CCA');
+    expect(ctx2020.generation.providerType).toBe('CCA');
+    expect(Number(ctx2019.generation.pciaPerKwhApplied)).not.toBeNaN();
+    expect(Number(ctx2020.generation.pciaPerKwhApplied)).not.toBeNaN();
+    expect(Number(ctx2019.generation.pciaPerKwhApplied)).not.toBe(Number(ctx2020.generation.pciaPerKwhApplied));
+  });
+
+  it('selects correct effective-date seeds for generation/adders/exitFees', async () => {
+    const billPdfText = loadText('bill_text_cca_ebce.txt');
+
+    const run = async (billStartYmd: string) => {
+      const res = await analyzeUtility(
+        {
+          orgId: 'o_test',
+          projectId: `p_EBCE_${billStartYmd}`,
+          serviceType: 'electric',
+          utilityTerritory: 'PGE',
+          currentRate: { utility: 'PGE', rateCode: 'E-19' },
+          billingSummary: {
+            monthly: [{ start: billStartYmd, end: billStartYmd, kWh: 1000, dollars: 250 }],
+          },
+          billPdfText,
+        } as any,
+        { nowIso: '2026-02-10T00:00:00.000Z', idFactory: () => 'id_fixed' },
+      );
+      const ctx: any = (res.insights as any).effectiveRateContextV1;
+      return ctx;
+    };
+
+    const ctx2025 = await run('2025-06-15');
+    const ctx2026 = await run('2026-06-15');
+
+    expect(String(ctx2025.generation.snapshotId || '')).toContain('2025-01-01');
+    expect(String(ctx2025.generation.generationAddersSnapshotId || '')).toContain('2025-01-01');
+    expect(String(ctx2025.generation.exitFeesSnapshotId || '')).toContain('2025-01-01');
+
+    expect(String(ctx2026.generation.snapshotId || '')).toContain('2026-01-01');
+    expect(String(ctx2026.generation.generationAddersSnapshotId || '')).toContain('2026-01-01');
+    expect(String(ctx2026.generation.exitFeesSnapshotId || '')).toContain('2026-01-01');
   });
 
   it('keeps missingInfo for unsupported CCA (no deterministic provider mapping)', async () => {

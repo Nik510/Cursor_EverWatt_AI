@@ -50,6 +50,7 @@ import { matchCcaFromSsaV0 } from '../ccaTariffLibraryV0/matchCcaFromSsaV0';
 import { CcaTariffLibraryReasonCodesV0 } from '../ccaTariffLibraryV0/reasons';
 import { getCcaAddersSnapshotV0 } from '../ccaAddersLibraryV0/getCcaAddersSnapshotV0';
 import { CcaAddersLibraryReasonCodesV0 } from '../ccaAddersLibraryV0/reasons';
+import { computeAddersPerKwhTotal } from '../ccaAddersLibraryV0/computeAddersPerKwhTotal';
 import { getExitFeesSnapshotV0 } from '../exitFeesLibraryV0/getExitFeesSnapshotV0';
 
 import { loadProjectForOrg } from '../project/projectRepository';
@@ -263,6 +264,8 @@ export type AnalyzeUtilityDeps = {
   tariffSnapshotId?: string | null;
   /** Optional operator-provided deterministic economics overrides (capex/opex assumptions). */
   storageEconomicsOverridesV1?: any | null;
+  /** Optional PCIA vintage key (when known) to select vintage-specific PCIA deterministically (no fetches). */
+  pciaVintageKey?: string | null;
   /** Optional battery decision constraints (v1). When omitted, may be read from project.telemetry when available. */
   batteryDecisionConstraintsV1?: BatteryDecisionConstraintsV1 | null;
   weatherProvider?: WeatherProvider;
@@ -352,8 +355,6 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
           ? (intervalKw as any[]).map((p) => ({ timestampIso: String((p as any)?.timestampIso || ''), kw: Number((p as any)?.kw), temperatureF: Number((p as any)?.temperatureF) }))
           : [];
       if (!ptsAll.length) return undefined;
-      const withTemp = ptsAll.filter((p) => Number.isFinite(Number(p?.temperatureF)));
-      const coverage = ptsAll.length ? withTemp.length / ptsAll.length : 0;
       return analyzeLoadAttributionV1({
         points: ptsAll.map((p) => ({ timestampIso: String(p?.timestampIso || ''), kw: Number(p?.kw), temperatureF: Number(p?.temperatureF) })),
         minPoints: 1000,
@@ -692,36 +693,74 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         if (!snap.ok || !snap.snapshot) return null;
         const sig = buildGenerationTouEnergySignalsV0({ snapshot: snap.snapshot, upstreamWarnings: snap.warnings });
 
+        const pciaVintageKey = String((deps as any)?.pciaVintageKey || '').trim() || null;
+
         const addersLookup = getCcaAddersSnapshotV0({
           iouUtility: iouForGen,
           ccaId: m.ccaId,
           billPeriodStartYmd: billPeriodStartYmd ?? null,
         });
         const addersSnap = addersLookup.ok ? addersLookup.snapshot : null;
-        const addersTotalRaw = addersSnap ? Number((addersSnap as any).addersPerKwhTotal) : null;
-        const addersTotal = addersSnap && addersTotalRaw !== null && Number.isFinite(addersTotalRaw) && addersTotalRaw >= 0 ? addersTotalRaw : null;
-
-        const generationAllInTouEnergyPrices =
-          addersTotal !== null
-            ? (sig.generationTouEnergyPrices || []).map((w) => ({
-                periodId: String((w as any)?.periodId || '').trim(),
-                startHourLocal: Number((w as any)?.startHourLocal),
-                endHourLocalExclusive: Number((w as any)?.endHourLocalExclusive),
-                days: (w as any)?.days === 'weekday' || (w as any)?.days === 'weekend' ? (w as any).days : 'all',
-                pricePerKwh: Math.round((Number((w as any)?.pricePerKwh) + addersTotal) * 1e9) / 1e9,
-              }))
-            : null;
 
         const exitFeesLookup = getExitFeesSnapshotV0({
           iou: iouForGen,
           effectiveYmd: billPeriodStartYmd ?? null,
           providerType,
+          pciaVintageKey,
         });
         const exitFeesSnap = exitFeesLookup.ok ? exitFeesLookup.snapshot : null;
         const nbcPerKwhTotal = exitFeesLookup.selectedCharges.nbcPerKwhTotal;
         const pciaPerKwhApplied = exitFeesLookup.selectedCharges.pciaPerKwhApplied;
         const otherExitFeesPerKwhTotal = exitFeesLookup.selectedCharges.otherExitFeesPerKwhTotal;
         const exitFeesPerKwhTotal = exitFeesLookup.selectedCharges.exitFeesPerKwhTotal;
+
+        const addersUsed = (() => {
+          if (!addersSnap) return { addersPerKwhTotal: null as number | null, warnings: [] as string[] };
+          const charges: any = (addersSnap as any)?.charges || null;
+          const computed = computeAddersPerKwhTotal({ snapshot: { charges }, pciaVintageKey });
+          const hasExitFees = Boolean(exitFeesSnap && String((exitFeesSnap as any)?.snapshotId || '').trim());
+
+          // If exit fees exist, treat exitFees as authoritative for NBC/PCIA; only apply non-overlapping CCA adders.
+          if (hasExitFees) {
+            const other = Number((charges as any)?.otherPerKwhTotal);
+            const otherOk = Number.isFinite(other) ? other : 0;
+            const indiff = Number((charges as any)?.indifferenceAdjustmentPerKwh);
+            const indiffOk = Number.isFinite(indiff) ? indiff : 0;
+            const isCompleteBundle = (addersSnap as any)?.isCompleteBundle === true;
+
+            // v0.1 rule: default to "other only"; if explicitly flagged complete bundle, include indifference adjustment too.
+            const addersNonExitFees = Math.round((otherOk + (isCompleteBundle ? indiffOk : 0)) * 1e9) / 1e9;
+
+            const overlapDetected = Boolean(
+              Number.isFinite(Number((charges as any)?.nbcPerKwhTotal)) ||
+                Number.isFinite(Number((charges as any)?.pciaPerKwhDefault)) ||
+                ((charges as any)?.pciaPerKwhByVintageKey && typeof (charges as any).pciaPerKwhByVintageKey === 'object' && Object.keys((charges as any).pciaPerKwhByVintageKey).length) ||
+                (Array.isArray((addersSnap as any)?.addersBreakdown) &&
+                  (addersSnap as any).addersBreakdown.some((it: any) => String(it?.id || '').toLowerCase().includes('pcia') || String(it?.id || '').toLowerCase().includes('nbc'))),
+            );
+
+            const warnings = [
+              ...(computed.warnings || []),
+              ...(overlapDetected ? (['generation.v1.adders_overlap_deduped'] as string[]) : []),
+            ];
+
+            return { addersPerKwhTotal: addersNonExitFees, warnings };
+          }
+
+          return { addersPerKwhTotal: computed.addersPerKwhTotal, warnings: computed.warnings || [] };
+        })();
+
+        const generationAllInTouEnergyPrices =
+          addersUsed.addersPerKwhTotal !== null
+            ? (sig.generationTouEnergyPrices || []).map((w) => ({
+                periodId: String((w as any)?.periodId || '').trim(),
+                startHourLocal: Number((w as any)?.startHourLocal),
+                endHourLocalExclusive: Number((w as any)?.endHourLocalExclusive),
+                days: (w as any)?.days === 'weekday' || (w as any)?.days === 'weekend' ? (w as any).days : 'all',
+                pricePerKwh: Math.round((Number((w as any)?.pricePerKwh) + Number(addersUsed.addersPerKwhTotal || 0)) * 1e9) / 1e9,
+              }))
+            : null;
+
         const generationAllInWithExitFeesTouPrices =
           exitFeesPerKwhTotal !== null && generationAllInTouEnergyPrices && generationAllInTouEnergyPrices.length
             ? generationAllInTouEnergyPrices.map((w) => ({
@@ -734,8 +773,13 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
             : null;
 
         const warnings = (() => {
-          const base = [...(sig.warnings || []), ...(addersLookup.warnings || []), ...(exitFeesLookup.warnings || [])];
-          if (addersTotal !== null && generationAllInTouEnergyPrices && generationAllInTouEnergyPrices.length) return base;
+          const base = [
+            ...(sig.warnings || []),
+            ...(addersLookup.warnings || []),
+            ...(addersUsed.warnings || []),
+            ...(exitFeesLookup.warnings || []),
+          ];
+          if (addersUsed.addersPerKwhTotal !== null && generationAllInTouEnergyPrices && generationAllInTouEnergyPrices.length) return base;
           return [CcaTariffLibraryReasonCodesV0.CCA_V0_ENERGY_ONLY_NO_EXIT_FEES, ...base, CcaAddersLibraryReasonCodesV0.CCA_ADDERS_V0_MISSING];
         })();
 
@@ -750,7 +794,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
             snapshotId: sig.generationSnapshotId,
             generationTouEnergyPrices: sig.generationTouEnergyPrices,
             generationEnergyTouPrices: sig.generationTouEnergyPrices,
-            generationAddersPerKwhTotal: addersTotal,
+            generationAddersPerKwhTotal: addersUsed.addersPerKwhTotal,
             generationAddersSnapshotId: addersSnap ? String((addersSnap as any)?.snapshotId || '').trim() || null : null,
             generationAddersAcquisitionMethodUsed: addersSnap ? (String((addersSnap as any)?.acquisitionMethodUsed || '').trim() === 'MANUAL_SEED_V0' ? 'MANUAL_SEED_V0' : null) : null,
             generationAllInTouEnergyPrices: generationAllInTouEnergyPrices,
@@ -767,10 +811,12 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
 
       // Exit fees warnings-first: if supply is CCA/DA and IOU is known, surface selector warnings even when generation rates are missing.
       if ((providerType === 'DA' || providerType === 'CCA') && iouForGen && (providerType === 'DA' || !gen)) {
+        const pciaVintageKey = String((deps as any)?.pciaVintageKey || '').trim() || null;
         const exitFeesLookup = getExitFeesSnapshotV0({
           iou: iouForGen,
           effectiveYmd: billPeriodStartYmd ?? null,
           providerType: providerType as any,
+          pciaVintageKey,
         });
         extraWarnings.push(...(exitFeesLookup.warnings || []));
       }
@@ -822,10 +868,12 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
               };
               // v0: even when DA generation rates are missing, attach deterministic exit fees when possible.
               if ((providerType === 'DA' || providerType === 'CCA') && iouForGen) {
+                const pciaVintageKey = String((deps as any)?.pciaVintageKey || '').trim() || null;
                 const exitFeesLookup = getExitFeesSnapshotV0({
                   iou: iouForGen,
                   effectiveYmd: billPeriodStartYmd ?? null,
                   providerType: providerType as any,
+                  pciaVintageKey,
                 });
                 const exitFeesSnap = exitFeesLookup.ok ? exitFeesLookup.snapshot : null;
                 baseGen.exitFeesSnapshotId = exitFeesSnap ? String((exitFeesSnap as any)?.snapshotId || '').trim() || null : null;
@@ -909,7 +957,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         supplyType: (supplyStructure as any)?.supplyType,
         territoryId: null,
         intervalKwSeries: (intervalKw || []).map((r) => ({ timestampIso: r.timestampIso, kw: r.kw })),
-        intervalResolutionMinutes: intervalResolutionMinutes === 15 || intervalResolutionMinutes === 30 ? intervalResolutionMinutes : undefined,
+        intervalResolutionMinutes: intervalResolutionMinutes ?? undefined,
       });
     } catch {
       return undefined;
@@ -1343,7 +1391,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     if (!hasIntervals) {
       items.push({
         id: 'interval.intervalElectricV1.missing',
-        category: 'interval',
+        category: 'billing',
         severity: 'info',
         description: 'Interval electricity data is missing; interval-derived insights (and some deterministic audit signals) will be unavailable.',
       });

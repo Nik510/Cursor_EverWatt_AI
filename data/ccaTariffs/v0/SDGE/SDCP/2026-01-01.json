@@ -14,6 +14,8 @@
     { "periodId": "OFF2", "season": "ALL", "weekdays": "ALL", "startMin": 1260, "endMin": 1440, "pricePerKwh": 0.145 }
   ],
   "notes": [
+    "acquisitionMethodUsed: MANUAL_SEED_V0",
+    "PROVISIONAL_SEED_DO_NOT_USE_FOR_FINAL_BILLING",
     "MANUAL_SEED_V0 provisional placeholder rates: intended to prevent IOU delivery TOU fallback in storage economics/dispatch.",
     "ENERGY ONLY: excludes PCIA/exit fees/NBCs/other bill components."
   ]

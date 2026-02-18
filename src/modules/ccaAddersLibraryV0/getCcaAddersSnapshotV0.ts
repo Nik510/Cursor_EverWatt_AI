@@ -3,6 +3,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 
 import type { CaIouUtilityV0, CcaAddersSnapshotLookupResultV0, CcaAddersSnapshotV0, CcaIdV0 } from './types';
 import { CcaAddersLibraryReasonCodesV0, uniqSorted } from './reasons';
+import { computeAddersPerKwhTotal } from './computeAddersPerKwhTotal';
 
 function safeYmd(s: unknown): string | null {
   const x = String(s ?? '').trim();
@@ -32,7 +33,7 @@ function asIouUtilityV0(raw: unknown): CaIouUtilityV0 | null {
 
 function asCcaIdV0(raw: unknown): CcaIdV0 | null {
   const ccaId = String(raw ?? '').trim().toUpperCase() as CcaIdV0;
-  const ok = ccaId === 'EBCE' || ccaId === 'SVCE' || ccaId === 'PCE' || ccaId === 'CLEANPOWERSF' || ccaId === 'CPA' || ccaId === 'SDCP';
+  const ok = ccaId === 'EBCE' || ccaId === 'SVCE' || ccaId === 'PCE' || ccaId === 'CLEANPOWERSF' || ccaId === 'MCE' || ccaId === 'CPA' || ccaId === 'SDCP';
   return ok ? ccaId : null;
 }
 
@@ -88,6 +89,42 @@ function safeNum(x: unknown): number | null {
   return n;
 }
 
+function safeNumNonNeg(x: unknown): number | null {
+  const n = safeNum(x);
+  if (n === null) return null;
+  if (n < 0) return null;
+  return n;
+}
+
+function normalizeCharges(raw: any): CcaAddersSnapshotV0['charges'] {
+  try {
+    if (!raw || typeof raw !== 'object') return null;
+    const byVintageRaw = raw?.pciaPerKwhByVintageKey;
+    const byVintage =
+      byVintageRaw && typeof byVintageRaw === 'object'
+        ? Object.fromEntries(
+            Object.entries(byVintageRaw as any).flatMap(([k, v]) => {
+              const key = String(k || '').trim();
+              const n = safeNumNonNeg(v);
+              return key && n !== null ? [[key, n]] : [];
+            }),
+          )
+        : null;
+    const notes = String(raw?.notes || '').trim() || undefined;
+    const out: any = {
+      ...(raw?.pciaPerKwhDefault !== undefined ? { pciaPerKwhDefault: safeNumNonNeg(raw.pciaPerKwhDefault) } : {}),
+      ...(byVintage && Object.keys(byVintage).length ? { pciaPerKwhByVintageKey: byVintage } : {}),
+      ...(raw?.nbcPerKwhTotal !== undefined ? { nbcPerKwhTotal: safeNumNonNeg(raw.nbcPerKwhTotal) } : {}),
+      ...(raw?.indifferenceAdjustmentPerKwh !== undefined ? { indifferenceAdjustmentPerKwh: safeNum(raw.indifferenceAdjustmentPerKwh) } : {}),
+      ...(raw?.otherPerKwhTotal !== undefined ? { otherPerKwhTotal: safeNumNonNeg(raw.otherPerKwhTotal) } : {}),
+      ...(notes ? { notes } : {}),
+    };
+    return Object.keys(out).length ? (out as any) : null;
+  } catch {
+    return null;
+  }
+}
+
 export function getCcaAddersSnapshotV0(args: {
   iouUtility: CaIouUtilityV0 | string | null | undefined;
   ccaId: CcaIdV0 | string | null | undefined;
@@ -130,6 +167,14 @@ export function getCcaAddersSnapshotV0(args: {
 
   const totalRaw = safeNum((chosen as any)?.addersPerKwhTotal);
   const breakdownSum = breakdownNorm.reduce((s, it) => s + (it.adderPerKwh ?? 0), 0);
+  const chargesNorm = normalizeCharges((chosen as any)?.charges);
+  const isCompleteBundle =
+    (chosen as any)?.isCompleteBundle === true || String((chosen as any)?.isCompleteBundle || '').trim().toLowerCase() === 'true'
+      ? true
+      : (chosen as any)?.isCompleteBundle === false ||
+          String((chosen as any)?.isCompleteBundle || '').trim().toLowerCase() === 'false'
+        ? false
+        : null;
 
   const addersPerKwhTotal = (() => {
     if (totalRaw !== null && totalRaw >= 0) return totalRaw;
@@ -137,12 +182,26 @@ export function getCcaAddersSnapshotV0(args: {
       warnings.push(CcaAddersLibraryReasonCodesV0.CCA_ADDERS_V0_PARTIAL);
       return breakdownSum;
     }
+    if (chargesNorm) {
+      const computed = computeAddersPerKwhTotal({ snapshot: { charges: chargesNorm }, pciaVintageKey: null });
+      warnings.push(...(computed.warnings || []));
+      if ((computed.warnings || []).length) warnings.push(CcaAddersLibraryReasonCodesV0.CCA_ADDERS_V0_PARTIAL);
+      return computed.addersPerKwhTotal;
+    }
     warnings.push(CcaAddersLibraryReasonCodesV0.CCA_ADDERS_V0_PARTIAL);
     return 0;
   })();
 
   if (breakdownNorm.length && totalRaw !== null && totalRaw >= 0 && Math.abs(totalRaw - breakdownSum) > 1e-9) {
     warnings.push(CcaAddersLibraryReasonCodesV0.CCA_ADDERS_V0_PARTIAL);
+  }
+  // If structured charges exist but disagree materially with blended total, surface partial warning (do not override).
+  if (chargesNorm) {
+    const computed = computeAddersPerKwhTotal({ snapshot: { charges: chargesNorm }, pciaVintageKey: null });
+    warnings.push(...(computed.warnings || []));
+    if (totalRaw !== null && totalRaw >= 0 && Math.abs(totalRaw - computed.addersPerKwhTotal) > 1e-6) {
+      warnings.push(CcaAddersLibraryReasonCodesV0.CCA_ADDERS_V0_PARTIAL);
+    }
   }
 
   const snapshot: CcaAddersSnapshotV0 = {
@@ -153,6 +212,8 @@ export function getCcaAddersSnapshotV0(args: {
     effectiveEndYmd: safeYmd((chosen as any)?.effectiveEndYmd) || null,
     timezone: 'America/Los_Angeles',
     acquisitionMethodUsed: 'MANUAL_SEED_V0',
+    ...(chargesNorm ? { charges: chargesNorm as any } : {}),
+    ...(isCompleteBundle !== null ? { isCompleteBundle } : {}),
     addersPerKwhTotal: addersPerKwhTotal,
     ...(breakdownNorm.length ? { addersBreakdown: breakdownNorm as any } : {}),
     ...(notesRaw.length ? { notes: notesRaw } : {}),

@@ -140,6 +140,7 @@ function inferRateSourceKind(args: {
   | 'CCA_GEN_V0_ENERGY_ONLY'
   | 'CCA_GEN_V0_ALL_IN'
   | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
+  | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED'
   | 'CCA_DELIVERY_FALLBACK'
   | 'DA_DELIVERY_FALLBACK' {
   const byId = new Map<string, any>();
@@ -150,8 +151,10 @@ function inferRateSourceKind(args: {
   }
   const kind = String(byId.get('savings.energyAnnual')?.rateSource?.kind || '').trim();
   const base =
-    kind === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
-      ? ('CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES' as const)
+    kind === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED'
+      ? ('CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED' as const)
+      : kind === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
+        ? ('CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES' as const)
       : kind === 'CCA_GEN_V0_ALL_IN'
         ? ('CCA_GEN_V0_ALL_IN' as const)
         : kind === 'CCA_GEN_V0_ENERGY_ONLY'
@@ -384,7 +387,7 @@ function buildRecommendationV1(args: {
 
   const rateKind = String(econ?.rateSourceKind || '').trim();
   if (args.providerType === 'CCA') {
-    if (rateKind === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES') reasonsTop.push(t.reasons.ccaAllInWithExitFees);
+    if (rateKind === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES' || rateKind === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED') reasonsTop.push(t.reasons.ccaAllInWithExitFees);
     else if (rateKind === 'CCA_GEN_V0_ALL_IN') reasonsTop.push(t.reasons.ccaAllIn);
     else if (rateKind === 'CCA_GEN_V0_ENERGY_ONLY') reasonsTop.push(t.reasons.ccaEnergyOnly);
     else reasonsTop.push(t.reasons.ccaFallbackDelivery);
@@ -427,7 +430,7 @@ function buildRecommendationV1(args: {
     const out: string[] = [];
     out.push(`rateSource.kind=${String(econ?.rateSourceKind || 'DELIVERY')}`);
     if (args.providerType === 'CCA') {
-      if (rateKind === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES') out.push('CCA pricing mode: all-in + exit fees (preferred).');
+      if (rateKind === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES' || rateKind === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED') out.push('CCA pricing mode: all-in + exit fees (preferred).');
       else if (rateKind === 'CCA_GEN_V0_ALL_IN') out.push('CCA pricing mode: all-in (generation + adders).');
       else if (rateKind === 'CCA_GEN_V0_ENERGY_ONLY') out.push('CCA pricing mode: energy-only (adders missing).');
       else out.push('CCA pricing mode: delivery fallback (generation rates missing).');

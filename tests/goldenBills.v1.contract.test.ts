@@ -15,6 +15,7 @@ type ExpectationsV1 = {
     | 'CCA_GEN_V0_ENERGY_ONLY'
     | 'CCA_GEN_V0_ALL_IN'
     | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
+    | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED'
     | 'CCA_DELIVERY_FALLBACK'
     | 'DA_DELIVERY_FALLBACK';
   expectedMissingInfoIds: string[];
@@ -74,6 +75,18 @@ describe(
           expect(out.effectiveRateContextV1?.generation?.lseName ?? null).toBe(exp.expectedLseName);
 
           expect(out.batteryEconomics?.rateSourceKind ?? 'DELIVERY').toBe(exp.expectedRateSourceKind);
+          if (exp.expectedRateSourceKind === 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED') {
+            const meta = out.batteryEconomics?.rateSourceMeta ?? null;
+            expect(meta).toBeTruthy();
+            expect(String(meta?.generationEnergySnapshotId || '')).toBeTruthy();
+            expect(String(meta?.addersSnapshotId || '')).toBeTruthy();
+            expect(String(meta?.exitFeesSnapshotId || '')).toBeTruthy();
+
+            // Cross-check against effectiveRateContextV1 provenance (deterministic).
+            expect(meta?.generationEnergySnapshotId).toBe(out.effectiveRateContextV1?.generation?.snapshotId ?? null);
+            expect(meta?.addersSnapshotId).toBe(out.effectiveRateContextV1?.generation?.generationAddersSnapshotId ?? null);
+            expect(meta?.exitFeesSnapshotId).toBe((out.effectiveRateContextV1 as any)?.generation?.exitFeesSnapshotId ?? null);
+          }
 
           expect(sortStrings(out.insights.missingInfoIds)).toEqual(sortStrings(exp.expectedMissingInfoIds));
 

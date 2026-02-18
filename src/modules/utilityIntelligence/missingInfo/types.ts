@@ -1,5 +1,5 @@
 export type MissingInfoSeverityV0 = 'info' | 'warning' | 'blocking';
-export type MissingInfoCategoryV0 = 'tariff' | 'billing' | 'supply' | 'territory' | 'program';
+export type MissingInfoCategoryV0 = 'tariff' | 'billing' | 'interval' | 'supply' | 'territory' | 'program';
 
 /**
  * Decision-safety checklist item (metadata-only).

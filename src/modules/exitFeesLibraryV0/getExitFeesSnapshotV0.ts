@@ -86,11 +86,14 @@ export function getExitFeesSnapshotV0(args: {
   iou: ExitFeesIouV0 | string | null | undefined;
   effectiveYmd: string | null | undefined;
   providerType: ExitFeesProviderTypeV0 | string | null | undefined;
+  /** Optional PCIA vintage key (when known) to select a specific PCIA value deterministically. */
+  pciaVintageKey?: string | null;
 }): ExitFeesSnapshotLookupResultV0 {
   const warnings: string[] = [];
   const iou = asIouV0(args.iou);
   const providerType = asProviderTypeV0(args.providerType);
   const effectiveYmd = safeYmd(args.effectiveYmd) ?? null;
+  const pciaVintageKey = String(args.pciaVintageKey || '').trim() || null;
 
   const emptySelected = {
     nbcPerKwhTotal: null,
@@ -139,13 +142,10 @@ export function getExitFeesSnapshotV0(args: {
   const pciaDefault = safeNumNonNeg((chosen as any)?.charges?.pciaPerKwhDefault);
 
   const pciaApplied = (() => {
-    // v0: no vintage supplied; default-only application.
     if (byVintage && Object.keys(byVintage).length) {
-      if (pciaDefault !== null) {
-        warnings.push(ExitFeesLibraryReasonCodesV0.EXIT_FEES_V0_VINTAGE_UNKNOWN_DEFAULT_USED);
-        return pciaDefault;
-      }
+      if (pciaVintageKey && Object.prototype.hasOwnProperty.call(byVintage, pciaVintageKey)) return byVintage[pciaVintageKey]!;
       warnings.push(ExitFeesLibraryReasonCodesV0.EXIT_FEES_V0_VINTAGE_UNKNOWN_DEFAULT_USED);
+      if (pciaDefault !== null) return pciaDefault;
       warnings.push(ExitFeesLibraryReasonCodesV0.EXIT_FEES_V0_PARTIAL);
       return null;
     }

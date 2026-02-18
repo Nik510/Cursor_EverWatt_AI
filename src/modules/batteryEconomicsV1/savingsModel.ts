@@ -138,13 +138,24 @@ export function runSavingsModelV1(args: {
     if (energyMode === 'CCA_ALL_IN_WITH_EXIT_FEES' || energyMode === 'CCA_ALL_IN' || energyMode === 'CCA_ENERGY_ONLY') {
       const genSnapshotId = String((tariff as any)?.generationSnapshotId || '').trim() || null;
       const genRateCode = String((tariff as any)?.generationRateCode || '').trim() || null;
+      const addersSnapshotId = String((tariff as any)?.generationAddersSnapshotId || '').trim() || null;
+      const exitFeesSnapshotId = String((tariff as any)?.exitFeesSnapshotId || '').trim() || null;
       const kind =
         energyMode === 'CCA_ALL_IN_WITH_EXIT_FEES'
-          ? ('CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES' as const)
+          ? ('CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED' as const)
           : energyMode === 'CCA_ALL_IN'
             ? ('CCA_GEN_V0_ALL_IN' as const)
             : ('CCA_GEN_V0_ENERGY_ONLY' as const);
-      return { snapshotId: genSnapshotId, rateCode: genRateCode, kind } as const;
+      return {
+        snapshotId: genSnapshotId,
+        rateCode: genRateCode,
+        kind,
+        meta: {
+          generationEnergySnapshotId: genSnapshotId,
+          addersSnapshotId,
+          exitFeesSnapshotId,
+        },
+      } as const;
     }
     // Delivery valuation (IOU TOU windows); if supply is DA/CCA, stamp explicit fallback kind.
     if (supplyProviderType === 'DA') return { ...rateSource, kind: 'DA_DELIVERY_FALLBACK' as const } as const;

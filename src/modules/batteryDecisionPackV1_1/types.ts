@@ -31,6 +31,7 @@ export type BatteryDecisionCandidateEconomicsSummaryV1_1 = {
     | 'CCA_GEN_V0_ENERGY_ONLY'
     | 'CCA_GEN_V0_ALL_IN'
     | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES'
+    | 'CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED'
     | 'CCA_DELIVERY_FALLBACK'
     | 'DA_DELIVERY_FALLBACK';
 };
