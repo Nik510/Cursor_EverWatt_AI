@@ -5,6 +5,7 @@ import path from 'node:path';
 import { analyzeUtility } from '../src/modules/utilityIntelligence/analyzeUtility';
 import { evaluateBatteryEconomicsV1 } from '../src/modules/batteryEconomicsV1/evaluateBatteryEconomicsV1';
 import { BatteryEconomicsReasonCodesV1 } from '../src/modules/batteryEconomicsV1/reasons';
+import { CcaAddersLibraryReasonCodesV0 } from '../src/modules/ccaAddersLibraryV0/reasons';
 import { CcaTariffLibraryReasonCodesV0 } from '../src/modules/ccaTariffLibraryV0/reasons';
 
 describe('SSA v1 integration (deterministic)', () => {
@@ -43,7 +44,9 @@ SF Clean Energy (San Francisco Clean Energy) generation charges.
     expect(String(ctx.generation.snapshotId || '')).toMatch(/cca\.v0\./);
     expect(String(ctx.generation.rateCode || '')).toMatch(/CLEANPOWERSF@/);
     expect(Array.isArray(ctx.generation.generationTouEnergyPrices)).toBe(true);
-    expect(ctx.warnings).toContain(CcaTariffLibraryReasonCodesV0.CCA_V0_ENERGY_ONLY_NO_EXIT_FEES);
+    expect(Array.isArray(ctx.generation.generationAllInTouEnergyPrices)).toBe(true);
+    expect(ctx.warnings).not.toContain(CcaTariffLibraryReasonCodesV0.CCA_V0_ENERGY_ONLY_NO_EXIT_FEES);
+    expect(ctx.warnings).toContain(CcaAddersLibraryReasonCodesV0.CCA_ADDERS_V0_PROVISIONAL);
 
     const missing = Array.isArray((res.insights as any).missingInfo) ? ((res.insights as any).missingInfo as any[]) : [];
     const has = missing.some((it: any) => String(it?.id || '') === 'supply.v1.lse_supported_but_generation_rates_missing');

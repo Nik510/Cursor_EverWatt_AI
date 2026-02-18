@@ -177,6 +177,8 @@ export function dispatchV1_1(args: {
   touEnergyPrices?: TouPriceWindowV1[] | null;
   /** Optional generation TOU energy windows (energy only). When present, preferred for arbitrage. */
   generationTouEnergyPrices?: TouPriceWindowV1[] | null;
+  /** Optional derived all-in generation TOU energy windows (energy + adders). When present, preferred for arbitrage. */
+  generationAllInTouEnergyPrices?: TouPriceWindowV1[] | null;
   battery: DispatchBatteryParamsV1_1;
 }): { cycles: DispatchCycleResultV1_1[]; warnings: string[] } {
   const warningsAll: string[] = [];
@@ -194,11 +196,13 @@ export function dispatchV1_1(args: {
   if (!batteryOk) warningsAll.push(DispatchV1_1WarningCodes.DISPATCH_INVALID_BATTERY_PARAMS);
 
   const touEnergyPrices =
-    Array.isArray(args.generationTouEnergyPrices) && args.generationTouEnergyPrices.length
-      ? args.generationTouEnergyPrices
-      : Array.isArray(args.touEnergyPrices)
-        ? args.touEnergyPrices
-        : [];
+    Array.isArray(args.generationAllInTouEnergyPrices) && args.generationAllInTouEnergyPrices.length
+      ? args.generationAllInTouEnergyPrices
+      : Array.isArray(args.generationTouEnergyPrices) && args.generationTouEnergyPrices.length
+        ? args.generationTouEnergyPrices
+        : Array.isArray(args.touEnergyPrices)
+          ? args.touEnergyPrices
+          : [];
   const touRank = minMaxPricePeriods(touEnergyPrices);
 
   const pointsAll = Array.isArray(args.intervalPointsV1) ? args.intervalPointsV1 : [];

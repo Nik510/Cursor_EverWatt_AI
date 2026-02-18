@@ -1,0 +1,19 @@
+{
+  "snapshotId": "ccaAdders.v0.PGE.PCE.2026-01-01",
+  "iouUtility": "PGE",
+  "ccaId": "PCE",
+  "effectiveStartYmd": "2026-01-01",
+  "effectiveEndYmd": null,
+  "timezone": "America/Los_Angeles",
+  "acquisitionMethodUsed": "MANUAL_SEED_V0",
+  "addersPerKwhTotal": 0.044,
+  "addersBreakdown": [
+    { "id": "pcia", "label": "PCIA (exit fee) blended", "adderPerKwh": 0.028 },
+    { "id": "nbc", "label": "Non-bypassable charges (NBCs) blended", "adderPerKwh": 0.015 }
+  ],
+  "notes": [
+    "MANUAL_SEED_V0 provisional placeholder adders for v0.",
+    "Note: breakdown may not reconcile exactly to total (v0 partial)."
+  ]
+}
+

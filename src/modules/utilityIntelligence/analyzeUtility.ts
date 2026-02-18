@@ -46,6 +46,8 @@ import type { TariffPriceSignalsV1 } from '../batteryEngineV1/types';
 import { buildGenerationTouEnergySignalsV0, getCcaGenerationSnapshotV0 } from '../ccaTariffLibraryV0/getCcaGenerationSnapshotV0';
 import { matchCcaFromSsaV0 } from '../ccaTariffLibraryV0/matchCcaFromSsaV0';
 import { CcaTariffLibraryReasonCodesV0 } from '../ccaTariffLibraryV0/reasons';
+import { getCcaAddersSnapshotV0 } from '../ccaAddersLibraryV0/getCcaAddersSnapshotV0';
+import { CcaAddersLibraryReasonCodesV0 } from '../ccaAddersLibraryV0/reasons';
 
 import { loadProjectForOrg } from '../project/projectRepository';
 import { readIntervalData } from '../../utils/excel-reader';
@@ -660,7 +662,33 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         const snap = getCcaGenerationSnapshotV0({ iouUtility: iouForGen, ccaId: m.ccaId, billPeriodStartYmd: billPeriodStartYmd ?? null });
         if (!snap.ok || !snap.snapshot) return null;
         const sig = buildGenerationTouEnergySignalsV0({ snapshot: snap.snapshot, upstreamWarnings: snap.warnings });
-        const warnings = [CcaTariffLibraryReasonCodesV0.CCA_V0_ENERGY_ONLY_NO_EXIT_FEES, ...(sig.warnings || [])];
+
+        const addersLookup = getCcaAddersSnapshotV0({
+          iouUtility: iouForGen,
+          ccaId: m.ccaId,
+          billPeriodStartYmd: billPeriodStartYmd ?? null,
+        });
+        const addersSnap = addersLookup.ok ? addersLookup.snapshot : null;
+        const addersTotalRaw = addersSnap ? Number((addersSnap as any).addersPerKwhTotal) : null;
+        const addersTotal = addersSnap && addersTotalRaw !== null && Number.isFinite(addersTotalRaw) && addersTotalRaw >= 0 ? addersTotalRaw : null;
+
+        const generationAllInTouEnergyPrices =
+          addersTotal !== null
+            ? (sig.generationTouEnergyPrices || []).map((w) => ({
+                periodId: String((w as any)?.periodId || '').trim(),
+                startHourLocal: Number((w as any)?.startHourLocal),
+                endHourLocalExclusive: Number((w as any)?.endHourLocalExclusive),
+                days: (w as any)?.days === 'weekday' || (w as any)?.days === 'weekend' ? (w as any).days : 'all',
+                pricePerKwh: Math.round((Number((w as any)?.pricePerKwh) + addersTotal) * 1e9) / 1e9,
+              }))
+            : null;
+
+        const warnings = (() => {
+          const base = [...(sig.warnings || []), ...(addersLookup.warnings || [])];
+          if (addersTotal !== null && generationAllInTouEnergyPrices && generationAllInTouEnergyPrices.length) return base;
+          return [CcaTariffLibraryReasonCodesV0.CCA_V0_ENERGY_ONLY_NO_EXIT_FEES, ...base, CcaAddersLibraryReasonCodesV0.CCA_ADDERS_V0_MISSING];
+        })();
+
         return {
           generation: {
             providerType,
@@ -668,6 +696,11 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
             rateCode: sig.generationRateCode,
             snapshotId: sig.generationSnapshotId,
             generationTouEnergyPrices: sig.generationTouEnergyPrices,
+            generationEnergyTouPrices: sig.generationTouEnergyPrices,
+            generationAddersPerKwhTotal: addersTotal,
+            generationAddersSnapshotId: addersSnap ? String((addersSnap as any)?.snapshotId || '').trim() || null : null,
+            generationAddersAcquisitionMethodUsed: addersSnap ? (String((addersSnap as any)?.acquisitionMethodUsed || '').trim() === 'MANUAL_SEED_V0' ? 'MANUAL_SEED_V0' : null) : null,
+            generationAllInTouEnergyPrices: generationAllInTouEnergyPrices,
           },
           warnings,
         };
@@ -710,6 +743,9 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       return {
         ...(base as any),
         generationTouEnergyPrices: genWins,
+        generationAllInTouEnergyPrices: Array.isArray(gen?.generationAllInTouEnergyPrices) ? ((gen.generationAllInTouEnergyPrices as any[]) || []) : null,
+        generationAddersPerKwhTotal: Number.isFinite(Number((gen as any)?.generationAddersPerKwhTotal)) ? Number((gen as any).generationAddersPerKwhTotal) : null,
+        generationAddersSnapshotId: String((gen as any)?.generationAddersSnapshotId || '').trim() || null,
         generationSnapshotId: String(gen?.snapshotId || '').trim() || null,
         generationRateCode: String(gen?.rateCode || '').trim() || null,
         supplyProviderType: gen?.providerType === 'CCA' || gen?.providerType === 'DA' ? gen.providerType : null,

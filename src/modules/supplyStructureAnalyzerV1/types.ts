@@ -34,6 +34,31 @@ export type EffectiveRateContextV1 = {
       days: 'all' | 'weekday' | 'weekend';
       pricePerKwh: number;
     }> | null;
+    /**
+     * Alias for `generationTouEnergyPrices` (naming clarity: energy-only component).
+     * Kept additive for backward compatibility.
+     */
+    generationEnergyTouPrices?: Array<{
+      periodId: string;
+      startHourLocal: number;
+      endHourLocalExclusive: number;
+      days: 'all' | 'weekday' | 'weekend';
+      pricePerKwh: number;
+    }> | null;
+    /** Optional blended $/kWh adders (PCIA/NBC/other riders). */
+    generationAddersPerKwhTotal?: number | null;
+    /** Optional adders snapshot id/version tag for audit trail. */
+    generationAddersSnapshotId?: string | null;
+    /** Optional method tag for adders acquisition (v0 only). */
+    generationAddersAcquisitionMethodUsed?: 'MANUAL_SEED_V0' | null;
+    /** Optional derived all-in generation TOU energy windows (energy + adders). */
+    generationAllInTouEnergyPrices?: Array<{
+      periodId: string;
+      startHourLocal: number;
+      endHourLocalExclusive: number;
+      days: 'all' | 'weekday' | 'weekend';
+      pricePerKwh: number;
+    }> | null;
   };
   method: 'ssa_v1';
   warnings: string[];

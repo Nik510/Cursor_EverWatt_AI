@@ -1,0 +1,62 @@
+{
+  "version": "ccaAdders.v0.fixturePack.2026-02-17",
+  "cases": [
+    {
+      "caseId": "01_pge_ebce_2026_01_found",
+      "expectOk": true,
+      "expectSnapshotId": "ccaAdders.v0.PGE.EBCE.2026-01-01",
+      "expectAddersPerKwhTotal": 0.048,
+      "warningsMustContain": ["ccaAdders.v0.provisional"]
+    },
+    {
+      "caseId": "02_pge_ebce_2026_02_missing",
+      "expectOk": false,
+      "expectSnapshotId": null,
+      "expectAddersPerKwhTotal": null,
+      "warningsMustContain": ["ccaAdders.v0.missing"]
+    },
+    {
+      "caseId": "03_pge_svce_latest",
+      "expectOk": true,
+      "expectSnapshotId": "ccaAdders.v0.PGE.SVCE.2026-01-01",
+      "expectAddersPerKwhTotal": 0.046,
+      "warningsMustContain": ["ccaAdders.v0.provisional"]
+    },
+    {
+      "caseId": "04_pge_pce_partial_breakdown_mismatch",
+      "expectOk": true,
+      "expectSnapshotId": "ccaAdders.v0.PGE.PCE.2026-01-01",
+      "expectAddersPerKwhTotal": 0.044,
+      "warningsMustContain": ["ccaAdders.v0.provisional", "ccaAdders.v0.partial"]
+    },
+    {
+      "caseId": "05_sce_cpa_found",
+      "expectOk": true,
+      "expectSnapshotId": "ccaAdders.v0.SCE.CPA.2026-01-01",
+      "expectAddersPerKwhTotal": 0.049,
+      "warningsMustContain": ["ccaAdders.v0.provisional"]
+    },
+    {
+      "caseId": "06_sdge_sdcp_found",
+      "expectOk": true,
+      "expectSnapshotId": "ccaAdders.v0.SDGE.SDCP.2026-01-01",
+      "expectAddersPerKwhTotal": 0.058,
+      "warningsMustContain": ["ccaAdders.v0.provisional"]
+    },
+    {
+      "caseId": "07_bad_iou",
+      "expectOk": false,
+      "expectSnapshotId": null,
+      "expectAddersPerKwhTotal": null,
+      "warningsMustContain": ["ccaAdders.v0.missing"]
+    },
+    {
+      "caseId": "08_bad_cca",
+      "expectOk": false,
+      "expectSnapshotId": null,
+      "expectAddersPerKwhTotal": null,
+      "warningsMustContain": ["ccaAdders.v0.missing"]
+    }
+  ]
+}
+

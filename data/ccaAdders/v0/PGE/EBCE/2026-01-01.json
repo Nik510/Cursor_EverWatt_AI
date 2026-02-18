@@ -1,0 +1,19 @@
+{
+  "snapshotId": "ccaAdders.v0.PGE.EBCE.2026-01-01",
+  "iouUtility": "PGE",
+  "ccaId": "EBCE",
+  "effectiveStartYmd": "2026-01-01",
+  "effectiveEndYmd": "2026-01-31",
+  "timezone": "America/Los_Angeles",
+  "acquisitionMethodUsed": "MANUAL_SEED_V0",
+  "addersPerKwhTotal": 0.048,
+  "addersBreakdown": [
+    { "id": "pcia", "label": "PCIA (exit fee) blended", "adderPerKwh": 0.031, "notes": ["Provisional placeholder for v0; not a bill-exact mapping."] },
+    { "id": "nbc", "label": "Non-bypassable charges (NBCs) blended", "adderPerKwh": 0.017, "notes": ["Provisional placeholder for v0; not a bill-exact mapping."] }
+  ],
+  "notes": [
+    "MANUAL_SEED_V0 provisional placeholder adders: intended to support 'all-in generation' TOU pricing (energy + PCIA/NBC/riders) for storage economics/dispatch.",
+    "Energy-only demand adders are excluded (v0)."
+  ]
+}
+

@@ -37,6 +37,18 @@ export type BatteryEconomicsTariffSignalsV1 = {
     days: 'all' | 'weekday' | 'weekend';
     pricePerKwh: number;
   }> | null;
+  /** Optional derived all-in generation TOU price windows (energy + adders). Preferred when present. */
+  generationAllInTouEnergyPrices?: Array<{
+    periodId: string;
+    startHourLocal: number;
+    endHourLocalExclusive: number;
+    days: 'all' | 'weekday' | 'weekend';
+    pricePerKwh: number;
+  }> | null;
+  /** Optional blended adders $/kWh used to derive `generationAllInTouEnergyPrices`. */
+  generationAddersPerKwhTotal?: number | null;
+  /** Optional adders snapshot id/version tag for audit trail. */
+  generationAddersSnapshotId?: string | null;
   generationSnapshotId?: string | null;
   generationRateCode?: string | null;
   /**
@@ -156,7 +168,11 @@ export type BatteryEconomicsAuditLineItemV1 = {
    * Audit provenance for tariff-derived line items (and null for others).
    * Kept additive for backward compatibility.
    */
-  rateSource?: { snapshotId: string | null; rateCode: string | null; kind?: 'DELIVERY' | 'CCA_GENERATION_V0' } | null;
+  rateSource?: {
+    snapshotId: string | null;
+    rateCode: string | null;
+    kind?: 'DELIVERY' | 'CCA_GENERATION_V0' | 'CCA_GENERATION_V0_ENERGY_ONLY' | 'CCA_GENERATION_V0_ALL_IN';
+  } | null;
   /**
    * Deterministic quantities used to compute the line item (stable ordering expected by callers/tests).
    * Kept additive for backward compatibility.

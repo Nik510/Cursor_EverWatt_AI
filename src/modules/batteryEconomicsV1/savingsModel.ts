@@ -102,24 +102,35 @@ export function runSavingsModelV1(args: {
   const ratchetDemandKw = safeNum(det?.ratchetDemandKw);
 
   const touPricesDelivery = Array.isArray((tariff as any)?.touEnergyPrices) ? (((tariff as any).touEnergyPrices as any[]) || []) : [];
+  const touPricesGenerationAllIn = Array.isArray((tariff as any)?.generationAllInTouEnergyPrices)
+    ? (((tariff as any).generationAllInTouEnergyPrices as any[]) || [])
+    : [];
   const touPricesGeneration = Array.isArray((tariff as any)?.generationTouEnergyPrices)
     ? (((tariff as any).generationTouEnergyPrices as any[]) || [])
     : [];
-  const touPricesUsedForEnergy = touPricesGeneration.length ? touPricesGeneration : touPricesDelivery;
+  const energyMode = touPricesGenerationAllIn.length ? ('CCA_ALL_IN' as const) : touPricesGeneration.length ? ('CCA_ENERGY_ONLY' as const) : ('DELIVERY' as const);
+  const touPricesUsedForEnergy = energyMode === 'CCA_ALL_IN' ? touPricesGenerationAllIn : energyMode === 'CCA_ENERGY_ONLY' ? touPricesGeneration : touPricesDelivery;
+  const energySourcePath =
+    energyMode === 'CCA_ALL_IN'
+      ? 'inputs.tariffs.generationAllInTouEnergyPrices'
+      : energyMode === 'CCA_ENERGY_ONLY'
+        ? 'inputs.tariffs.generationTouEnergyPrices'
+        : 'inputs.tariffs.touEnergyPrices';
   const energyRateSource = (() => {
-    if (touPricesGeneration.length) {
+    if (energyMode === 'CCA_ALL_IN' || energyMode === 'CCA_ENERGY_ONLY') {
       const genSnapshotId = String((tariff as any)?.generationSnapshotId || '').trim() || null;
       const genRateCode = String((tariff as any)?.generationRateCode || '').trim() || null;
-      return { snapshotId: genSnapshotId, rateCode: genRateCode, kind: 'CCA_GENERATION_V0' as const } as const;
+      const kind = energyMode === 'CCA_ALL_IN' ? ('CCA_GENERATION_V0_ALL_IN' as const) : ('CCA_GENERATION_V0_ENERGY_ONLY' as const);
+      return { snapshotId: genSnapshotId, rateCode: genRateCode, kind } as const;
     }
     return rateSource;
   })();
 
-  if (touPricesGeneration.length) {
+  if (energyMode === 'CCA_ENERGY_ONLY') {
     warnings.push(CcaTariffLibraryReasonCodesV0.CCA_V0_ENERGY_ONLY_NO_EXIT_FEES);
   }
 
-  if (supplyProviderType === 'CCA' && !touPricesGeneration.length) {
+  if (supplyProviderType === 'CCA' && energyMode === 'DELIVERY') {
     warnings.push(BatteryEconomicsReasonCodesV1.BATTERY_ECON_SUPPLY_CCA_GENERATION_RATES_MISSING_FALLBACK);
   }
 
@@ -203,7 +214,7 @@ export function runSavingsModelV1(args: {
             amountUsdRaw: amount,
             basis: amount === null ? 'unavailable' : `(dischargeKwh - chargeKwh) * pricePerKwh`,
             sourceEngine: dollarsAllowed ? 'tariffEngine' : 'assumption',
-            sourcePath: touPricesGeneration.length ? 'inputs.tariffs.generationTouEnergyPrices' : 'inputs.tariffs.touEnergyPrices',
+            sourcePath: energySourcePath,
             snapshotId,
             rateSource: energyRateSource,
             quantities: [
@@ -410,9 +421,7 @@ export function runSavingsModelV1(args: {
         sourceEngine: (touPeak !== null && touOff !== null) || (priceOn !== null && priceOff !== null) ? 'tariffEngine' : 'assumption',
         sourcePath:
           touPeak !== null && touOff !== null
-            ? touPricesGeneration.length
-              ? 'inputs.tariffs.generationTouEnergyPrices'
-              : 'inputs.tariffs.touEnergyPrices'
+            ? energySourcePath
             : priceOn !== null && priceOff !== null
               ? 'inputs.tariffs.energyPrices'
               : 'inputs.tariffs',

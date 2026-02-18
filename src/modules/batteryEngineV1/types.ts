@@ -135,6 +135,12 @@ export type TariffPriceSignalsV1 = {
   touEnergyPrices: TouPriceWindowV1[];
   /** Optional generation (CCA/DA) TOU energy windows (energy only). When present, preferred for arbitrage. */
   generationTouEnergyPrices?: TouPriceWindowV1[] | null;
+  /** Optional derived all-in generation TOU energy windows (energy + adders). When present, preferred over energy-only generation windows. */
+  generationAllInTouEnergyPrices?: TouPriceWindowV1[] | null;
+  /** Optional blended adders $/kWh used to derive `generationAllInTouEnergyPrices` (PCIA/NBC/other riders). */
+  generationAddersPerKwhTotal?: number | null;
+  /** Optional adders snapshot id/version tag for audit trail. */
+  generationAddersSnapshotId?: string | null;
   /** Optional generation snapshot id/version tag for audit trail. */
   generationSnapshotId?: string | null;
   /** Optional generation rate code tag for audit trail (e.g. ccaId@effectiveStartYmd). */

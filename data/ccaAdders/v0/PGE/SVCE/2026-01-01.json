@@ -1,0 +1,15 @@
+{
+  "snapshotId": "ccaAdders.v0.PGE.SVCE.2026-01-01",
+  "iouUtility": "PGE",
+  "ccaId": "SVCE",
+  "effectiveStartYmd": "2026-01-01",
+  "effectiveEndYmd": null,
+  "timezone": "America/Los_Angeles",
+  "acquisitionMethodUsed": "MANUAL_SEED_V0",
+  "addersPerKwhTotal": 0.046,
+  "notes": [
+    "MANUAL_SEED_V0 provisional placeholder adders for v0.",
+    "Blended $/kWh only (PCIA/NBC/other riders)."
+  ]
+}
+

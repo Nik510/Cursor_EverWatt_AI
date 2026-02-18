@@ -85,6 +85,7 @@ function touToEconomicsTariff(tariff: TariffPriceSignalsV1 | null, snapshotId?: 
   if (!tariff) return null;
   const demand = safeNum((tariff as any)?.demandChargePerKw);
   const tou = Array.isArray((tariff as any)?.touEnergyPrices) ? ((tariff as any).touEnergyPrices as any[]) : [];
+  const genTouAllIn = Array.isArray((tariff as any)?.generationAllInTouEnergyPrices) ? ((tariff as any).generationAllInTouEnergyPrices as any[]) : [];
   const genTou = Array.isArray((tariff as any)?.generationTouEnergyPrices) ? ((tariff as any).generationTouEnergyPrices as any[]) : [];
   const timezone = String((tariff as any)?.timezone || '').trim() || null;
   return {
@@ -94,7 +95,10 @@ function touToEconomicsTariff(tariff: TariffPriceSignalsV1 | null, snapshotId?: 
     supplyLseName: String((tariff as any)?.supplyLseName || '').trim() || null,
     demandChargePerKwMonthUsd: demand,
     touEnergyPrices: tou.length ? (tou as any) : null,
+    generationAllInTouEnergyPrices: genTouAllIn.length ? (genTouAllIn as any) : null,
     generationTouEnergyPrices: genTou.length ? (genTou as any) : null,
+    generationAddersPerKwhTotal: safeNum((tariff as any)?.generationAddersPerKwhTotal),
+    generationAddersSnapshotId: String((tariff as any)?.generationAddersSnapshotId || '').trim() || null,
     generationSnapshotId: String((tariff as any)?.generationSnapshotId || '').trim() || null,
     generationRateCode: String((tariff as any)?.generationRateCode || '').trim() || null,
   };
