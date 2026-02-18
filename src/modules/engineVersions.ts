@@ -26,7 +26,10 @@ export const billingEngineV1Version = 'billing_v1.0' as const;
 export const dispatchVersion = 'dispatch_v1_1' as const;
 export const storageEconomicsVersion = 'storage_econ_v1.0' as const;
 export const incentivesStubVersion = 'incentives_stub_v1.0' as const;
-export const batteryEconomicsVersion = 'battery_econ_v1.1' as const;
+export const sgipVersion = 'sgip_v0' as const;
+export const taxVersion = 'tax_v0' as const;
+export const degradationVersion = 'degradation_v0' as const;
+export const batteryEconomicsVersion = 'battery_econ_v1.3' as const;
 export const batteryDecisionPackVersion = 'battery_decision_pack_v1.2' as const;
 
 export const engineVersions = {
@@ -37,6 +40,9 @@ export const engineVersions = {
   dispatch: dispatchVersion,
   storageEconomics: storageEconomicsVersion,
   incentivesStub: incentivesStubVersion,
+  sgip: sgipVersion,
+  tax: taxVersion,
+  degradation: degradationVersion,
   batteryEconomics: batteryEconomicsVersion,
   batteryDecisionPack: batteryDecisionPackVersion,
 } as const;

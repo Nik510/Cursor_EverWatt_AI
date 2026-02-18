@@ -1,0 +1,21 @@
+{
+  "caseId": "08_macrs_with_tax_rate",
+  "inputs": {
+    "battery": { "powerKw": 50, "energyKwh": 200, "roundTripEff": 0.9 },
+    "costs": {
+      "batteryCostPerKwhUsd": 148.80472725,
+      "batteryCostPerKwUsd": 470,
+      "installAdderPct": 0.25,
+      "interconnectFlatUsd": 25000,
+      "softCostsFlatUsd": 35000,
+      "contingencyPct": 0.1,
+      "omPerKwYrUsd": 10
+    },
+    "tariffs": null,
+    "determinants": null,
+    "dispatch": null,
+    "finance": { "termYears": 8, "discountRate": 0.09 },
+    "taxInputsV0": { "applyItc": false, "applyMacrs": true, "taxRateCombined": 0.2, "macrsSchedule": "5yr" }
+  }
+}
+

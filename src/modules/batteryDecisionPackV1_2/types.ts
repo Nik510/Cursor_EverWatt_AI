@@ -42,6 +42,27 @@ export type BatteryDecisionCandidateEconomicsSummaryV1_2 = {
   paybackYears: number | null;
   npvLiteUsd: number | null;
   rateSourceKind: 'DELIVERY' | 'CCA_GENERATION_V0_ENERGY_ONLY' | 'CCA_GENERATION_V0_ALL_IN' | 'DA_FALLBACK_DELIVERY';
+  /**
+   * v1.3+ additive summary for report cards (explicit flags only; deterministic).
+   * Null when incentives/tax inputs were not provided.
+   */
+  incentivesAndTaxSummaryV0?: {
+    sgipAwardUsd: number | null;
+    itcUsd: number | null;
+    macrsDeprBenefitTotalUsd: number | null;
+    warnings: string[];
+  } | null;
+  /**
+   * v1.3+ additive summary for report cards (deterministic).
+   * Null when degradation inputs were not provided.
+   */
+  degradationSummaryV0?: {
+    annualCapacityFadePct: number | null;
+    augmentationStrategy: 'none' | 'augment_to_hold_usable_kwh' | 'replace_at_eol';
+    replacementYear: number | null;
+    augmentationEventCount: number;
+    warnings: string[];
+  } | null;
 };
 
 export type BatteryDecisionTopCandidateV1_2 = BatteryDecisionCandidateV1_2 & {

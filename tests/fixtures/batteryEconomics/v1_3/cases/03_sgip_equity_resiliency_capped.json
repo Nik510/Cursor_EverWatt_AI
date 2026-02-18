@@ -1,0 +1,13 @@
+{
+  "caseId": "03_sgip_equity_resiliency_capped",
+  "inputs": {
+    "battery": { "powerKw": 30, "energyKwh": 100, "roundTripEff": 0.9 },
+    "costs": null,
+    "tariffs": null,
+    "determinants": null,
+    "dispatch": null,
+    "finance": { "termYears": 5, "discountRate": 0.09 },
+    "sgipInputsV0": { "eligible": true, "category": "equity_resiliency", "requestedIncentiveCapUsd": 50000, "effectiveYmd": "2026-02-01" }
+  }
+}
+

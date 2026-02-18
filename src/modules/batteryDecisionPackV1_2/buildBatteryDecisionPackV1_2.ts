@@ -4,6 +4,7 @@ import { dispatchV1_1, DispatchV1_1WarningCodes } from '../batteryEngineV1/dispa
 import type { BatteryEconomicsDeterminantsSignalsV1, BatteryEconomicsTariffSignalsV1, ConfidenceTierV1 } from '../batteryEconomicsV1/types';
 import { evaluateBatteryEconomicsV1 } from '../batteryEconomicsV1/evaluateBatteryEconomicsV1';
 import { pvaf, roundTo, sumFixedOrder } from '../batteryEconomicsV1/helpers';
+import type { BatteryEconomicsDegradationInputsV0, BatteryEconomicsSgipInputsV0, BatteryEconomicsTaxInputsV0 } from '../batteryEconomicsV1/types';
 
 import type { IntervalIntelligenceV1 } from '../utilityIntelligence/intervalIntelligenceV1/types';
 
@@ -444,6 +445,9 @@ export function buildBatteryDecisionPackV1_2(args: {
   drReadinessV1?: DrReadinessV1 | null;
   drAnnualValueUsd?: number | null;
   batteryDecisionConstraintsV1?: BatteryDecisionConstraintsV1 | null;
+  sgipInputsV0?: BatteryEconomicsSgipInputsV0 | null;
+  taxInputsV0?: BatteryEconomicsTaxInputsV0 | null;
+  degradationInputsV0?: BatteryEconomicsDegradationInputsV0 | null;
 }): BatteryDecisionPackV1_2 {
   const warnings: string[] = [];
   const missingInfo: string[] = [];
@@ -555,10 +559,48 @@ export function buildBatteryDecisionPackV1_2(args: {
       },
       dr: numOrNull(args.drAnnualValueUsd) !== null ? { annualValueUsd: numOrNull(args.drAnnualValueUsd) } : null,
       finance: null,
+      sgipInputsV0: args.sgipInputsV0 ?? null,
+      taxInputsV0: args.taxInputsV0 ?? null,
+      degradationInputsV0: args.degradationInputsV0 ?? null,
     });
 
     const auditLineItems = Array.isArray(econ.audit?.lineItems) ? econ.audit.lineItems : [];
     const rateSourceKind = inferRateSourceKind({ auditLineItems, dispatchWarnings });
+
+    const incentivesAndTaxSummaryV0 = (() => {
+      const tax = (econ as any)?.taxV0 || null;
+      const sgip = (econ as any)?.sgipV0 || null;
+      if (!args.sgipInputsV0 && !args.taxInputsV0) return null;
+      const macrsTotal = Array.isArray(tax?.macrsV0?.deprUsdByYear) ? sumFixedOrder(tax.macrsV0.deprUsdByYear) : null;
+      const warnAll = uniqSorted([...(sgip?.warnings || []), ...(tax?.itcV0?.warnings || []), ...(tax?.macrsV0?.warnings || [])]);
+      return {
+        sgipAwardUsd: numOrNull(sgip?.awardUsd),
+        itcUsd: numOrNull(tax?.itcV0?.itcUsd),
+        macrsDeprBenefitTotalUsd: macrsTotal === null ? null : roundTo(macrsTotal, 2),
+        warnings: warnAll,
+      } as const;
+    })();
+
+    const degradationSummaryV0 = (() => {
+      if (!args.degradationInputsV0) return null;
+      const d = (econ as any)?.degradationV0 || null;
+      const w = uniqSorted(d?.warnings || []);
+      const defaultFadeUsed = w.includes('battery.degradation.v0.default_fade_used');
+      const fade = numOrNull(args.degradationInputsV0?.annualCapacityFadePct);
+      const fadeUsed = fade === null && defaultFadeUsed ? 0.02 : fade;
+      const stratRaw = String(args.degradationInputsV0?.augmentationStrategy || '').trim();
+      const strat =
+        stratRaw === 'augment_to_hold_usable_kwh' || stratRaw === 'replace_at_eol'
+          ? (stratRaw as any)
+          : ('none' as const);
+      return {
+        annualCapacityFadePct: fadeUsed,
+        augmentationStrategy: strat,
+        replacementYear: numOrNull(d?.replacementEvent?.year),
+        augmentationEventCount: Array.isArray(d?.augmentationEvents) ? d.augmentationEvents.length : 0,
+        warnings: w,
+      } as const;
+    })();
 
     const econSummary = {
       annualSavingsTotalUsd: numOrNull(econ.savingsAnnual?.totalUsd),
@@ -580,6 +622,8 @@ export function buildBatteryDecisionPackV1_2(args: {
       paybackYears: numOrNull(econ.cashflow?.simplePaybackYears),
       npvLiteUsd: numOrNull(econ.cashflow?.npvUsd),
       rateSourceKind,
+      incentivesAndTaxSummaryV0,
+      degradationSummaryV0,
     } as const;
 
     const whyThisWorks: string[] = [];

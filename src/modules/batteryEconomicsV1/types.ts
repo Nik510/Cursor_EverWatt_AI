@@ -3,6 +3,11 @@ export type ConfidenceTierV1 = 'NONE' | 'LOW' | 'MEDIUM' | 'HIGH';
 export type BatteryEconomicsBatteryV1 = {
   powerKw?: number | null;
   energyKwh?: number | null;
+  /**
+   * Optional usable energy size (kWh) for incentive/degradation basis.
+   * v1.3+ modules will fall back to explicit conservative constants when absent.
+   */
+  usableKwh?: number | null;
   roundTripEff?: number | null;
   usableFraction?: number | null;
   degradationPctYr?: number | null;
@@ -145,6 +150,81 @@ export type BatteryEconomicsFinanceV1 = {
   depreciationMethod?: string | null; // flag only in v1
 };
 
+export type BatteryEconomicsSgipInputsV0 = {
+  eligible: boolean | null;
+  category: 'general_market' | 'equity_resiliency' | 'equity' | null;
+  isStoragePairedWithSolar?: boolean | null;
+  customerIsCriticalFacility?: boolean | null;
+  requestedIncentiveCapUsd?: number | null;
+  effectiveYmd?: string | null;
+};
+
+export type BatteryEconomicsSgipOutputsV0 = {
+  ok: boolean;
+  awardUsd: number | null;
+  awardUsdPerKwh: number | null;
+  basisKwh: number | null;
+  snapshotIdUsed?: string;
+  acquisitionMethodUsed?: string;
+  warnings: string[];
+};
+
+export type BatteryEconomicsTaxInputsV0 = {
+  applyItc: boolean;
+  itcPct?: number | null;
+  itcBasisReductionPct?: number | null;
+  applyMacrs: boolean;
+  discountRate?: number | null;
+  taxRateCombined?: number | null;
+  macrsSchedule?: '5yr' | '7yr' | null;
+};
+
+export type BatteryEconomicsItcOutputsV0 = {
+  itcUsd: number | null;
+  itcPctUsed: number | null;
+  itcBasisReductionPctUsed: number | null;
+  warnings: string[];
+};
+
+export type BatteryEconomicsMacrsOutputsV0 = {
+  deprScheduleYears: number[];
+  deprUsdByYear: number[] | null;
+  warnings: string[];
+};
+
+export type BatteryEconomicsTaxOutputsV0 = {
+  itcV0: BatteryEconomicsItcOutputsV0;
+  macrsV0: BatteryEconomicsMacrsOutputsV0;
+};
+
+export type BatteryEconomicsDegradationInputsV0 = {
+  annualCapacityFadePct?: number | null;
+  endOfLifeCapacityPct?: number | null;
+  augmentationStrategy?: 'none' | 'augment_to_hold_usable_kwh' | 'replace_at_eol' | null;
+  augmentationCostUsdPerKwh?: number | null;
+  replacementCapexPctOfInitial?: number | null;
+  analysisHorizonYears?: number | null;
+};
+
+export type BatteryEconomicsDegradationEventV0 = {
+  year: number;
+  addedKwh: number | null;
+  capexUsd: number | null;
+};
+
+export type BatteryEconomicsReplacementEventV0 = {
+  year: number;
+  capexUsd: number | null;
+};
+
+export type BatteryEconomicsDegradationOutputsV0 = {
+  usableKwhByYear: number[];
+  effectiveSavingsMultiplierByYear: number[];
+  augmentationEvents: BatteryEconomicsDegradationEventV0[];
+  replacementEvent: BatteryEconomicsReplacementEventV0 | null;
+  warnings: string[];
+};
+
 export type BatteryEconomicsInputsV1 = {
   battery?: BatteryEconomicsBatteryV1 | null;
   costs?: BatteryEconomicsCostsV1 | null;
@@ -153,6 +233,9 @@ export type BatteryEconomicsInputsV1 = {
   dispatch?: BatteryEconomicsDispatchSignalsV1 | null;
   dr?: BatteryEconomicsDrSignalsV1 | null;
   finance?: BatteryEconomicsFinanceV1 | null;
+  sgipInputsV0?: BatteryEconomicsSgipInputsV0 | null;
+  taxInputsV0?: BatteryEconomicsTaxInputsV0 | null;
+  degradationInputsV0?: BatteryEconomicsDegradationInputsV0 | null;
 };
 
 export type BatteryEconomicsAuditLineItemV1 = {
@@ -225,6 +308,9 @@ export type BatteryEconomicsOutputsV1 = {
     simplePaybackYears: number | null;
     discountedPaybackYears: number | null;
   };
+  sgipV0?: BatteryEconomicsSgipOutputsV0 | null;
+  taxV0?: BatteryEconomicsTaxOutputsV0 | null;
+  degradationV0?: BatteryEconomicsDegradationOutputsV0 | null;
   sizingSanity: {
     cRate: number | null;
     hoursAtPower: number | null;
