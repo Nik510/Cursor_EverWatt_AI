@@ -159,7 +159,10 @@ export function evaluateStorageOpportunityPackV1(args: EvaluateStorageOpportunit
   if (!hasIntervalPoints) missingInfo.push(BatteryOpportunityReasonCodesV1.BATTERY_V1_MISSING_INTERVALS);
 
   const tariff = args.tariffPriceSignalsV1 || null;
-  const hasTariffPrices = Boolean(Array.isArray((tariff as any)?.touEnergyPrices) && (tariff as any).touEnergyPrices.length);
+  const hasTariffPrices = Boolean(
+    (Array.isArray((tariff as any)?.generationTouEnergyPrices) && (tariff as any).generationTouEnergyPrices.length) ||
+      (Array.isArray((tariff as any)?.touEnergyPrices) && (tariff as any).touEnergyPrices.length),
+  );
   if (!hasTariffPrices) missingInfo.push(BatteryOpportunityReasonCodesV1.BATTERY_V1_MISSING_TARIFF_PRICES);
 
   const det = args.determinantsV1 || null;

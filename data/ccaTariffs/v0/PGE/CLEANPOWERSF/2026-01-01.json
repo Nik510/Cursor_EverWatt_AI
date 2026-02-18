@@ -1,0 +1,21 @@
+{
+  "snapshotId": "cca.v0.PGE.CLEANPOWERSF.2026-01-01",
+  "iouUtility": "PGE",
+  "ccaId": "CLEANPOWERSF",
+  "ccaDisplayName": "CleanPowerSF",
+  "effectiveStartYmd": "2026-01-01",
+  "effectiveEndYmd": null,
+  "timezone": "America/Los_Angeles",
+  "customerClass": "COMMERCIAL_DEFAULT",
+  "acquisitionMethodUsed": "MANUAL_SEED_V0",
+  "touPeriods": [
+    { "periodId": "OFF", "season": "ALL", "weekdays": "ALL", "startMin": 0, "endMin": 960, "pricePerKwh": 0.115 },
+    { "periodId": "ON", "season": "ALL", "weekdays": "ALL", "startMin": 960, "endMin": 1260, "pricePerKwh": 0.345 },
+    { "periodId": "OFF2", "season": "ALL", "weekdays": "ALL", "startMin": 1260, "endMin": 1440, "pricePerKwh": 0.135 }
+  ],
+  "notes": [
+    "MANUAL_SEED_V0 provisional placeholder rates: intended to prevent IOU delivery TOU fallback in storage economics/dispatch.",
+    "ENERGY ONLY: excludes PCIA/exit fees/NBCs/other bill components."
+  ]
+}
+

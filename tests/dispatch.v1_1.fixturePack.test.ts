@@ -10,6 +10,7 @@ type DispatchFixture = {
   intervalPointsFile?: string;
   dailyProfileBuckets?: Array<{ bucketStartHourLocal: number; avgKw: number }>;
   touEnergyPrices?: Array<{ periodId: string; startHourLocal: number; endHourLocalExclusive: number; days: 'all' | 'weekday' | 'weekend'; pricePerKwh: number }>;
+  generationTouEnergyPrices?: Array<{ periodId: string; startHourLocal: number; endHourLocalExclusive: number; days: 'all' | 'weekday' | 'weekend'; pricePerKwh: number }>;
   battery: { powerKw: number; energyKwh: number; rte: number; minSoc: number; maxSoc: number };
   expect?: {
     okAllCycles?: boolean;
@@ -49,8 +50,9 @@ describe('dispatch_v1_1 fixture pack (deterministic)', () => {
       '04_missing_interval.json',
       '05_bucket_only_shape.json',
       '06_ambiguous_tou_windows.json',
+      '07_generation_prices_preferred.json',
     ];
-    expect(files.length).toBeGreaterThanOrEqual(6);
+    expect(files.length).toBeGreaterThanOrEqual(7);
 
     for (const f of files) {
       const fixturePath = path.join(casesDir, f);
@@ -67,6 +69,7 @@ describe('dispatch_v1_1 fixture pack (deterministic)', () => {
         intervalPointsV1: points as any,
         dailyProfileBuckets: fx.dailyProfileBuckets || null,
         touEnergyPrices: (fx.touEnergyPrices as any) || null,
+        generationTouEnergyPrices: (fx.generationTouEnergyPrices as any) || null,
         battery: fx.battery,
       });
 

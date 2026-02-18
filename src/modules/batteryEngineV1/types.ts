@@ -133,6 +133,15 @@ export type TouPriceWindowV1 = {
 export type TariffPriceSignalsV1 = {
   timezone: string;
   touEnergyPrices: TouPriceWindowV1[];
+  /** Optional generation (CCA/DA) TOU energy windows (energy only). When present, preferred for arbitrage. */
+  generationTouEnergyPrices?: TouPriceWindowV1[] | null;
+  /** Optional generation snapshot id/version tag for audit trail. */
+  generationSnapshotId?: string | null;
+  /** Optional generation rate code tag for audit trail (e.g. ccaId@effectiveStartYmd). */
+  generationRateCode?: string | null;
+  /** Optional supply context for downstream engines. */
+  supplyProviderType?: 'CCA' | 'DA' | null;
+  supplyLseName?: string | null;
   demandChargePerKw?: number | null;
 };
 

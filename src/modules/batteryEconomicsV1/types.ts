@@ -156,7 +156,7 @@ export type BatteryEconomicsAuditLineItemV1 = {
    * Audit provenance for tariff-derived line items (and null for others).
    * Kept additive for backward compatibility.
    */
-  rateSource?: { snapshotId: string | null; rateCode: string | null } | null;
+  rateSource?: { snapshotId: string | null; rateCode: string | null; kind?: 'DELIVERY' | 'CCA_GENERATION_V0' } | null;
   /**
    * Deterministic quantities used to compute the line item (stable ordering expected by callers/tests).
    * Kept additive for backward compatibility.

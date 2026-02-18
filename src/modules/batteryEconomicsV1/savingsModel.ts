@@ -1,5 +1,6 @@
 import { roundTo, safeNum, sumFixedOrder } from './helpers';
 import { BatteryEconomicsReasonCodesV1 } from './reasons';
+import { CcaTariffLibraryReasonCodesV0 } from '../ccaTariffLibraryV0/reasons';
 import type {
   BatteryEconomicsAssumptionV1,
   BatteryEconomicsAuditLineItemV1,
@@ -83,7 +84,7 @@ export function runSavingsModelV1(args: {
   const dr = args.dr || null;
   const snapshotId = String(tariff?.snapshotId || '').trim() || null;
   const rateCode = String((tariff as any)?.rateCode || '').trim() || null;
-  const rateSource = { snapshotId, rateCode } as const;
+  const rateSource = { snapshotId, rateCode, kind: 'DELIVERY' as const } as const;
   const supplyProviderType =
     (tariff as any)?.supplyProviderType === 'CCA' || (tariff as any)?.supplyProviderType === 'DA'
       ? ((tariff as any).supplyProviderType as 'CCA' | 'DA')
@@ -109,10 +110,14 @@ export function runSavingsModelV1(args: {
     if (touPricesGeneration.length) {
       const genSnapshotId = String((tariff as any)?.generationSnapshotId || '').trim() || null;
       const genRateCode = String((tariff as any)?.generationRateCode || '').trim() || null;
-      return { snapshotId: genSnapshotId, rateCode: genRateCode } as const;
+      return { snapshotId: genSnapshotId, rateCode: genRateCode, kind: 'CCA_GENERATION_V0' as const } as const;
     }
     return rateSource;
   })();
+
+  if (touPricesGeneration.length) {
+    warnings.push(CcaTariffLibraryReasonCodesV0.CCA_V0_ENERGY_ONLY_NO_EXIT_FEES);
+  }
 
   if (supplyProviderType === 'CCA' && !touPricesGeneration.length) {
     warnings.push(BatteryEconomicsReasonCodesV1.BATTERY_ECON_SUPPLY_CCA_GENERATION_RATES_MISSING_FALLBACK);

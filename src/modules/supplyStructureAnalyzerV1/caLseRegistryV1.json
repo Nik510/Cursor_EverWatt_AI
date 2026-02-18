@@ -9,7 +9,9 @@
     { "canonicalName": "Sonoma Clean Power", "aliases": ["sonoma clean power", "scp", "sonoma cleanpower"] },
     { "canonicalName": "Marin Clean Energy", "aliases": ["marin clean energy", "mce", "marin cleanenergy"] },
     { "canonicalName": "Central Coast Community Energy", "aliases": ["central coast community energy", "3ce", "central coast communityenergy", "central coast clean energy"] },
-    { "canonicalName": "Ava Community Energy", "aliases": ["ava community energy", "ava energy", "ava communityenergy", "alameda county community energy", "ace"] }
+    { "canonicalName": "Ava Community Energy", "aliases": ["ava community energy", "ava energy", "ava communityenergy", "alameda county community energy", "ace"] },
+    { "canonicalName": "Clean Power Alliance", "aliases": ["clean power alliance", "cpa", "cleanpoweralliance"] },
+    { "canonicalName": "San Diego Community Power", "aliases": ["san diego community power", "sdcp", "san diego communitypower"] }
   ],
   "directAccessMarkers": ["direct access", "energy service provider", "electric service provider", " esp ", " esp.", "esp/"],
   "unknownMarkers": ["unknown", "n/a"]

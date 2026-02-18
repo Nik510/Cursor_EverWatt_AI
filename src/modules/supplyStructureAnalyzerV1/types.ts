@@ -19,7 +19,22 @@ export type SupplyStructureAnalyzerOutputV1 = {
 
 export type EffectiveRateContextV1 = {
   iou: { utility: string; rateCode: string | null; snapshotId: string | null };
-  generation: { providerType: 'CCA' | 'DA' | null; lseName: string | null; rateCode: string | null; snapshotId: string | null };
+  generation: {
+    providerType: 'CCA' | 'DA' | null;
+    lseName: string | null;
+    /** Optional composed generation rate code (e.g. ccaId@effectiveStartYmd). */
+    rateCode: string | null;
+    /** Optional generation snapshot id for audit/provenance. */
+    snapshotId: string | null;
+    /** Optional generation TOU energy windows (energy only) when available. */
+    generationTouEnergyPrices?: Array<{
+      periodId: string;
+      startHourLocal: number;
+      endHourLocalExclusive: number;
+      days: 'all' | 'weekday' | 'weekend';
+      pricePerKwh: number;
+    }> | null;
+  };
   method: 'ssa_v1';
   warnings: string[];
   missingInfo: MissingInfoItemV0[];

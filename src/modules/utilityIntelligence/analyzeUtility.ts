@@ -43,6 +43,9 @@ import { evaluateStorageOpportunityPackV1 } from '../batteryEngineV1/evaluateBat
 import { evaluateBatteryEconomicsV1 } from '../batteryEconomicsV1/evaluateBatteryEconomicsV1';
 import { buildBatteryDecisionPackV1 } from '../batteryEconomicsV1/decisionPackV1';
 import type { TariffPriceSignalsV1 } from '../batteryEngineV1/types';
+import { buildGenerationTouEnergySignalsV0, getCcaGenerationSnapshotV0 } from '../ccaTariffLibraryV0/getCcaGenerationSnapshotV0';
+import { matchCcaFromSsaV0 } from '../ccaTariffLibraryV0/matchCcaFromSsaV0';
+import { CcaTariffLibraryReasonCodesV0 } from '../ccaTariffLibraryV0/reasons';
 
 import { loadProjectForOrg } from '../project/projectRepository';
 import { readIntervalData } from '../../utils/excel-reader';
@@ -612,9 +615,66 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
 
       const extraMissing: any[] = [];
       const extraWarnings: string[] = [];
-      // Tariff composition (v1): we do not yet have a CCA/DA generation tariff library.
-      // When a supported LSE is detected but generation rates are missing, surface missingInfo deterministically.
-      if (providerType === 'CCA' && lseName) {
+
+      const billPeriodStartYmd = (() => {
+        try {
+          const bills: any[] = Array.isArray(inputs.billingRecords) ? (inputs.billingRecords as any[]) : [];
+          if (bills.length) {
+            const sorted = bills
+              .map((b) => ({ b, t: b?.billEndDate ? new Date(b.billEndDate as any).getTime() : 0 }))
+              .sort((a, b) => a.t - b.t);
+            const latest: any = sorted[sorted.length - 1]?.b || null;
+            const start = latest?.billStartDate ? new Date(latest.billStartDate as any) : null;
+            const iso = start && Number.isFinite(start.getTime()) ? start.toISOString() : '';
+            return iso ? iso.slice(0, 10) : null;
+          }
+          const m = Array.isArray(inputs.billingSummary?.monthly) ? (inputs.billingSummary!.monthly as any[]) : [];
+          if (m.length) {
+            const sorted = m
+              .map((r) => ({
+                start: String((r as any)?.start || '').trim(),
+                end: String((r as any)?.end || '').trim(),
+              }))
+              .filter((r) => r.start)
+              .sort((a, b) => a.end.localeCompare(b.end) || a.start.localeCompare(b.start));
+            const latest = sorted[sorted.length - 1];
+            const s = String(latest?.start || '').trim();
+            return /^\d{4}-\d{2}-\d{2}/.test(s) ? s.slice(0, 10) : null;
+          }
+          return null;
+        } catch {
+          return null;
+        }
+      })();
+
+      const iouForGen = (() => {
+        const u = (ssaV1 as any)?.iouUtility;
+        return asCaIouUtility(u) || asCaIouUtility(inputs.currentRate?.utility ?? inputs.utilityTerritory);
+      })();
+
+      const gen = (() => {
+        if (providerType !== 'CCA' || !lseName) return null;
+        const m = matchCcaFromSsaV0({ lseName });
+        if (!m.ok) return null;
+        if (!iouForGen) return null;
+        const snap = getCcaGenerationSnapshotV0({ iouUtility: iouForGen, ccaId: m.ccaId, billPeriodStartYmd: billPeriodStartYmd ?? null });
+        if (!snap.ok || !snap.snapshot) return null;
+        const sig = buildGenerationTouEnergySignalsV0({ snapshot: snap.snapshot, upstreamWarnings: snap.warnings });
+        const warnings = [CcaTariffLibraryReasonCodesV0.CCA_V0_ENERGY_ONLY_NO_EXIT_FEES, ...(sig.warnings || [])];
+        return {
+          generation: {
+            providerType,
+            lseName,
+            rateCode: sig.generationRateCode,
+            snapshotId: sig.generationSnapshotId,
+            generationTouEnergyPrices: sig.generationTouEnergyPrices,
+          },
+          warnings,
+        };
+      })();
+
+      // If CCA is detected but generation rates are missing, surface missingInfo deterministically.
+      if (providerType === 'CCA' && lseName && !gen) {
         extraWarnings.push(SupplyStructureAnalyzerReasonCodesV1.SUPPLY_V1_LSE_SUPPORTED_BUT_GENERATION_RATES_MISSING);
         extraMissing.push({
           id: SupplyStructureAnalyzerReasonCodesV1.SUPPLY_V1_LSE_SUPPORTED_BUT_GENERATION_RATES_MISSING,
@@ -626,15 +686,37 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
 
       return {
         iou: { utility: iouUtility, rateCode, snapshotId },
-        generation: { providerType, lseName, rateCode: null, snapshotId: null },
+        generation: gen ? (gen.generation as any) : { providerType, lseName, rateCode: null, snapshotId: null },
         method: 'ssa_v1' as const,
-        warnings: Array.from(new Set([...(Array.isArray(ssaV1?.warnings) ? ssaV1!.warnings : []), ...extraWarnings])).sort((a, b) => a.localeCompare(b)),
+        warnings: Array.from(
+          new Set([...(Array.isArray(ssaV1?.warnings) ? ssaV1!.warnings : []), ...extraWarnings, ...(gen ? gen.warnings : [])]),
+        ).sort((a, b) => a.localeCompare(b)),
         missingInfo: [...(Array.isArray(ssaV1?.missingInfo) ? ssaV1!.missingInfo : []), ...extraMissing].sort((a: any, b: any) =>
           String(a?.id || '').localeCompare(String(b?.id || '')),
         ),
       };
     } catch {
       return undefined;
+    }
+  })();
+
+  const composedTariffPriceSignalsV1: TariffPriceSignalsV1 | null = (() => {
+    try {
+      const base = (deps?.tariffPriceSignalsV1 as any) || null;
+      if (!base || typeof base !== 'object') return null;
+      const gen = (effectiveRateContextV1 as any)?.generation || null;
+      const genWins = Array.isArray(gen?.generationTouEnergyPrices) ? (gen.generationTouEnergyPrices as any[]) : [];
+      if (!genWins.length) return base as any;
+      return {
+        ...(base as any),
+        generationTouEnergyPrices: genWins,
+        generationSnapshotId: String(gen?.snapshotId || '').trim() || null,
+        generationRateCode: String(gen?.rateCode || '').trim() || null,
+        supplyProviderType: gen?.providerType === 'CCA' || gen?.providerType === 'DA' ? gen.providerType : null,
+        supplyLseName: String(gen?.lseName || '').trim() || null,
+      } as any;
+    } catch {
+      return (deps?.tariffPriceSignalsV1 as any) || null;
     }
   })();
 
@@ -811,7 +893,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         intervalInsightsV1: (intervalIntelligenceV1 as any) || null,
         intervalPointsV1: Array.isArray(deps?.intervalPointsV1) ? (deps?.intervalPointsV1 as any) : null,
         // Tariff price signals are not inferred here (no guessing); fixture tests can supply them directly to the engine.
-        tariffPriceSignalsV1: (deps?.tariffPriceSignalsV1 as any) || null,
+        tariffPriceSignalsV1: (composedTariffPriceSignalsV1 as any) || null,
         determinantsV1,
         storageEconomicsOverridesV1,
         customerType: String((inputs as any)?.customerType || '').trim() || null,
@@ -896,7 +978,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       return buildBatteryDecisionPackV1({
         intervalPointsV1: Array.isArray(deps?.intervalPointsV1) ? (deps?.intervalPointsV1 as any) : null,
         intervalInsightsV1: (intervalIntelligenceV1 as any) || null,
-        tariffPriceSignalsV1: (deps?.tariffPriceSignalsV1 as any) || null,
+        tariffPriceSignalsV1: (composedTariffPriceSignalsV1 as any) || null,
         tariffSnapshotId: String(deps?.tariffSnapshotId || '').trim() || null,
         determinantsV1,
         drReadinessV1: (storageOpportunityPackV1 as any)?.drReadinessV1 || null,
