@@ -12,7 +12,7 @@ import type { WeatherRegressionV1 } from './weatherRegressionV1/types';
 import type { StorageOpportunityPackV1 } from '../batteryEngineV1/types';
 import type { BatteryEconomicsOutputsV1 } from '../batteryEconomicsV1/types';
 import type { BatteryDecisionPackV1 } from '../batteryEconomicsV1/decisionPackV1';
-import type { BatteryDecisionPackV1_1 } from '../batteryDecisionPackV1_1/types';
+import type { BatteryDecisionPackV1_2 } from '../batteryDecisionPackV1_2/types';
 import type { EffectiveRateContextV1 } from '../supplyStructureAnalyzerV1/types';
 
 export type UtilityServiceType = 'electric' | 'gas' | 'both';
@@ -243,10 +243,10 @@ export type UtilityInsights = {
    */
   batteryDecisionPackV1?: BatteryDecisionPackV1;
   /**
-   * Deterministic Battery Decision Pack (v1.1): sizing + selection + constraints + bounded audit.
+   * Deterministic Battery Decision Pack (v1.2): constraints + sensitivity + deterministic recommendation narrative.
    * Always attached by `analyzeUtility` (confidence NONE when key inputs are missing).
    */
-  batteryDecisionPackV1_1?: BatteryDecisionPackV1_1;
+  batteryDecisionPackV1_2?: BatteryDecisionPackV1_2;
   /** Deterministic weather regression + annualization computed from interval + temperature (v1). */
   weatherRegressionV1?: WeatherRegressionV1;
 };

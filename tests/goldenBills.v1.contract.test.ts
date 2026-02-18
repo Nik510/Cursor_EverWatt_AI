@@ -85,7 +85,9 @@ describe(
           expect(out.report.html).not.toContain(':projectId');
           expect(out.report.engineVersionsLine).toBeTruthy();
           expect(out.report.engineVersionsLine!).toContain('Engine Versions:');
+          expect(out.report.engineVersionsLine!).toContain('battery_decision_pack_v1.2');
           expect(out.report.html).toContain('Audit Drawer Payload: present (audit_drawer_v1.0)');
+          expect(out.report.html).toContain('Battery Decision (v1.2)');
 
           // Audit Drawer Payload contract (snapshot-only; deterministic)
           expect(out.report.auditDrawerV1).toBeTruthy();

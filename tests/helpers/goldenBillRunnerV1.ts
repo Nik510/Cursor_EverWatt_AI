@@ -503,23 +503,23 @@ export async function runGoldenBillCaseV1(args: { caseDir: string; tariffLibrary
         }
       : null;
 
-    const decision11 = (analysis.insights as any)?.batteryDecisionPackV1_1 ?? null;
-    const top11: any[] = decision11 && Array.isArray(decision11.topCandidates) ? (decision11.topCandidates as any[]) : [];
-    const selId11 = String(decision11?.selected?.candidateId || '').trim() || null;
-    const selected11 = selId11 ? top11.find((c) => String(c?.id || '').trim() === selId11) || null : (top11[0] || null);
+    const decision12 = (analysis.insights as any)?.batteryDecisionPackV1_2 ?? null;
+    const top12: any[] = decision12 && Array.isArray(decision12.topCandidates) ? (decision12.topCandidates as any[]) : [];
+    const selId12 = String(decision12?.selected?.candidateId || '').trim() || null;
+    const selected12 = selId12 ? top12.find((c) => String(c?.id || '').trim() === selId12) || null : (top12[0] || null);
 
-    const auditLineItems11 = decision11 && decision11.audit && Array.isArray(decision11.audit.lineItems) ? (decision11.audit.lineItems as any[]) : [];
-    const batteryAudit11 = auditLineItems11.length ? batteryAuditReconcileFromLineItems(auditLineItems11) : null;
+    const auditLineItems12 = decision12 && decision12.audit && Array.isArray(decision12.audit.lineItems) ? (decision12.audit.lineItems as any[]) : [];
+    const batteryAudit12 = auditLineItems12.length ? batteryAuditReconcileFromLineItems(auditLineItems12) : null;
     const batteryEconomics =
-      selected11 && batteryAudit11
+      selected12 && batteryAudit12
         ? {
-            rateSourceKind: toRateSourceKindExpectation(selected11?.economicsSummary?.rateSourceKind),
-            annualSavingsUsd: batteryAudit11.annualSavingsUsd,
-            auditSavings: batteryAudit11.auditSavings,
+            rateSourceKind: toRateSourceKindExpectation(selected12?.economicsSummary?.rateSourceKind),
+            annualSavingsUsd: batteryAudit12.annualSavingsUsd,
+            auditSavings: batteryAudit12.auditSavings,
           }
         : null;
 
-    const auditReconcile = batteryAudit11 ? { ok: batteryAudit11.ok, deltaAbs: batteryAudit11.deltaAbs } : { ok: false, deltaAbs: null };
+    const auditReconcile = batteryAudit12 ? { ok: batteryAudit12.ok, deltaAbs: batteryAudit12.deltaAbs } : { ok: false, deltaAbs: null };
 
     const billingDemandKw = (() => {
       const c0 = detSummary?.meters?.[0]?.last12Cycles?.[0] || null;

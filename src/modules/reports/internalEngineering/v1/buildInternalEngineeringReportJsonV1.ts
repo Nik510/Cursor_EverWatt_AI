@@ -101,7 +101,7 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
   const storageOpportunityPackV1 = (args.analysisResults?.workflow as any)?.utility?.insights?.storageOpportunityPackV1 ?? null;
   const batteryEconomicsV1 = (args.analysisResults?.workflow as any)?.utility?.insights?.batteryEconomicsV1 ?? null;
   const batteryDecisionPackV1 = (args.analysisResults?.workflow as any)?.utility?.insights?.batteryDecisionPackV1 ?? null;
-  const batteryDecisionPackV1_1 = (args.analysisResults?.workflow as any)?.utility?.insights?.batteryDecisionPackV1_1 ?? null;
+  const batteryDecisionPackV1_2 = (args.analysisResults?.workflow as any)?.utility?.insights?.batteryDecisionPackV1_2 ?? null;
 
   const reportJson: any = {
     schemaVersion: 'internalEngineeringReportV1',
@@ -127,7 +127,7 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
     storageOpportunityPackV1,
     batteryEconomicsV1,
     batteryDecisionPackV1,
-    batteryDecisionPackV1_1,
+    batteryDecisionPackV1_2,
     workflow: args.analysisResults?.workflow,
     summary: args.analysisResults?.summary,
     missingInfo,

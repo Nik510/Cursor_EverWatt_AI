@@ -42,7 +42,8 @@ import { programMatchesToRecommendations } from '../programIntelligence/toRecomm
 import { evaluateStorageOpportunityPackV1 } from '../batteryEngineV1/evaluateBatteryOpportunityV1';
 import { evaluateBatteryEconomicsV1 } from '../batteryEconomicsV1/evaluateBatteryEconomicsV1';
 import { buildBatteryDecisionPackV1 } from '../batteryEconomicsV1/decisionPackV1';
-import { buildBatteryDecisionPackV1_1 } from '../batteryDecisionPackV1_1/buildBatteryDecisionPackV1_1';
+import { buildBatteryDecisionPackV1_2 } from '../batteryDecisionPackV1_2/buildBatteryDecisionPackV1_2';
+import type { BatteryDecisionConstraintsV1 } from '../batteryDecisionPackV1_2/types';
 import type { TariffPriceSignalsV1 } from '../batteryEngineV1/types';
 import { buildGenerationTouEnergySignalsV0, getCcaGenerationSnapshotV0 } from '../ccaTariffLibraryV0/getCcaGenerationSnapshotV0';
 import { matchCcaFromSsaV0 } from '../ccaTariffLibraryV0/matchCcaFromSsaV0';
@@ -261,6 +262,8 @@ export type AnalyzeUtilityDeps = {
   tariffSnapshotId?: string | null;
   /** Optional operator-provided deterministic economics overrides (capex/opex assumptions). */
   storageEconomicsOverridesV1?: any | null;
+  /** Optional battery decision constraints (v1). When omitted, may be read from project.telemetry when available. */
+  batteryDecisionConstraintsV1?: BatteryDecisionConstraintsV1 | null;
   weatherProvider?: WeatherProvider;
   nowIso?: string;
   idFactory?: () => string;
@@ -297,7 +300,11 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
 
   const depsHasIntervalKwSeries = Array.isArray(deps?.intervalKwSeries) ? deps?.intervalKwSeries : null;
   const depsHasEconomicsOverrides = deps && Object.prototype.hasOwnProperty.call(deps, 'storageEconomicsOverridesV1');
-  const needProjectTelemetry = Boolean((!intervalFromCanonical || !intervalFromCanonical.length) && !depsHasIntervalKwSeries) || !depsHasEconomicsOverrides;
+  const depsHasBatteryDecisionConstraints = deps && Object.prototype.hasOwnProperty.call(deps, 'batteryDecisionConstraintsV1');
+  const needProjectTelemetry =
+    Boolean((!intervalFromCanonical || !intervalFromCanonical.length) && !depsHasIntervalKwSeries) ||
+    !depsHasEconomicsOverrides ||
+    !depsHasBatteryDecisionConstraints;
   const projectTelemetry = needProjectTelemetry ? await tryLoadProjectTelemetry(inputs) : null;
 
   const intervalKw: IntervalKwPoint[] | null =
@@ -309,6 +316,10 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
   const storageEconomicsOverridesV1 = depsHasEconomicsOverrides
     ? (deps as any).storageEconomicsOverridesV1 || null
     : (projectTelemetry as any)?.storageEconomicsOverridesV1 || null;
+
+  const batteryDecisionConstraintsV1 = depsHasBatteryDecisionConstraints
+    ? ((deps as any).batteryDecisionConstraintsV1 || null)
+    : ((projectTelemetry as any)?.batteryDecisionConstraintsV1 || null);
 
   const missingGlobal = getUtilityMissingInputs(inputs);
 
@@ -1096,8 +1107,8 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     }
   })();
 
-  // Battery Decision Pack v1.1 (deterministic sizing + selection + constraints + bounded audit): always attach (warnings-first).
-  const batteryDecisionPackV1_1 = (() => {
+  // Battery Decision Pack v1.2 (decision-quality: constraints + sensitivity + deterministic narrative): always attach (warnings-first).
+  const batteryDecisionPackV1_2 = (() => {
     try {
       const det0: any = (determinantsPackSummary as any)?.meters?.[0]?.last12Cycles?.[0] || null;
       const determinantsV1 = det0
@@ -1119,7 +1130,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
             }))
           : null;
 
-      return buildBatteryDecisionPackV1_1({
+      return buildBatteryDecisionPackV1_2({
         utility: asCaIouUtility(inputs.currentRate?.utility ?? inputs.utilityTerritory) || String(inputs.currentRate?.utility || inputs.utilityTerritory || '').trim() || null,
         rate: String(inputs.currentRate?.rateCode || '').trim() || null,
         intervalPointsV1: Array.isArray(deps?.intervalPointsV1) ? (deps?.intervalPointsV1 as any) : null,
@@ -1130,9 +1141,10 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         determinantsCycles: detCycles,
         drReadinessV1: (storageOpportunityPackV1 as any)?.drReadinessV1 || null,
         drAnnualValueUsd: null,
+        batteryDecisionConstraintsV1: (batteryDecisionConstraintsV1 as any) || null,
       });
     } catch {
-      return buildBatteryDecisionPackV1_1({
+      return buildBatteryDecisionPackV1_2({
         utility: null,
         rate: null,
         intervalPointsV1: null,
@@ -1143,6 +1155,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         determinantsCycles: null,
         drReadinessV1: null,
         drAnnualValueUsd: null,
+        batteryDecisionConstraintsV1: null,
       });
     }
   })();
@@ -1580,7 +1593,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     storageOpportunityPackV1,
     batteryEconomicsV1,
     batteryDecisionPackV1,
-    batteryDecisionPackV1_1,
+    batteryDecisionPackV1_2,
     ...(weatherRegressionV1 ? { weatherRegressionV1 } : {}),
     ...(behaviorInsights ? { behaviorInsights } : {}),
     ...(behaviorInsightsV2 ? { behaviorInsightsV2 } : {}),
