@@ -128,6 +128,7 @@ export function renderInternalEngineeringReportHtmlV1(args: {
   const storageOpportunityPackV1 = (report as any)?.storageOpportunityPackV1 || null;
   const batteryEconomicsV1 = (report as any)?.batteryEconomicsV1 || null;
   const batteryDecisionPackV1 = (report as any)?.batteryDecisionPackV1 || null;
+  const auditDrawerV1 = (report as any)?.auditDrawerV1 || null;
   const engineVersions = (report as any)?.engineVersions || null;
   const engineVersionsLine = (() => {
     const ev = engineVersions && typeof engineVersions === 'object' ? engineVersions : {};
@@ -139,6 +140,17 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     const incentivesStub = String((ev as any)?.incentivesStub || '').trim() || '—';
     const batteryEconomics = String((ev as any)?.batteryEconomics || '').trim() || '—';
     return `Engine Versions: intervalIntake=${intervalIntake} • determinants=${determinants} • tariffEngine=${tariffEngine} • billingEngineV1=${billingEngineV1} • storageEconomics=${storageEconomics} • incentivesStub=${incentivesStub} • batteryEconomics=${batteryEconomics}`;
+  })();
+
+  const auditDrawerLine = (() => {
+    try {
+      const v = String(auditDrawerV1?.version || '').trim();
+      if (!v) return 'Audit Drawer Payload: missing';
+      const explainers = auditDrawerV1?.moneyExplainers && typeof auditDrawerV1.moneyExplainers === 'object' ? Object.keys(auditDrawerV1.moneyExplainers).length : 0;
+      return `Audit Drawer Payload: present (${v}) • explainers=${String(explainers)}`;
+    } catch {
+      return 'Audit Drawer Payload: missing';
+    }
   })();
 
   // ---- Data Quality (deterministic; snapshot-only) ----
@@ -585,6 +597,7 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     `${renderKvTable(dataQualityRows)}`,
     `<div class="muted" style="margin-top:10px;">Computed strictly from the stored snapshot in this report revision (no AI, no guessing).</div>`,
     `<div class="muted" style="margin-top:8px;font-family: var(--mono);">${escapeHtml(engineVersionsLine)}</div>`,
+    `<div class="muted" style="margin-top:6px;font-family: var(--mono);">${escapeHtml(auditDrawerLine)}</div>`,
     `</div>`,
     `</div>`,
 

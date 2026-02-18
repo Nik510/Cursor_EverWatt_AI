@@ -77,7 +77,7 @@ export type GoldenBillRunnerResultV1 = {
     totalEstimatedMonthlyBill: number | null;
     batteryAnnualSavingsUsd: number | null;
   };
-  report: { engineVersionsLine: string | null; html: string };
+  report: { engineVersionsLine: string | null; html: string; auditDrawerV1: any | null };
 };
 
 function safeYmd(s: unknown): string | null {
@@ -431,6 +431,8 @@ export async function runGoldenBillCaseV1(args: { caseDir: string; tariffLibrary
       },
     });
 
+    const auditDrawerV1 = (reportJson as any)?.auditDrawerV1 ?? null;
+
     const html = renderInternalEngineeringReportHtmlV1({
       project: { id: String(context?.projectId || caseId), name: `Golden ${caseId}` },
       revision: { id: `rev_${caseId}`, createdAt: generatedAtIso, title: `Golden ${caseId}`, reportJson, reportHash: 'h' },
@@ -548,7 +550,7 @@ export async function runGoldenBillCaseV1(args: { caseDir: string; tariffLibrary
       batteryEconomics,
       auditReconcile,
       topLineNumbers,
-      report: { engineVersionsLine: extractEngineVersionsLine(html), html },
+      report: { engineVersionsLine: extractEngineVersionsLine(html), html, auditDrawerV1 },
     };
   } finally {
     if (typeof prevTariffs === 'string') process.env.EVERWATT_TARIFF_LIBRARY_BASEDIR = prevTariffs;

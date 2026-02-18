@@ -5,6 +5,7 @@ import {
   buildDailyUsageAndWeatherSeriesFromIntervalPointsV1,
   regressUsageVsWeatherV1,
 } from '../../../utilityIntelligence/weatherRegressionV1/regressUsageVsWeatherV1';
+import { buildCalculationAuditDrawerV1 } from '../../../auditDrawerV1/buildAuditDrawerV1';
 
 function sortMissingInfo(a: any, b: any): number {
   const sevRank = (s: any): number => {
@@ -101,7 +102,7 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
   const batteryEconomicsV1 = (args.analysisResults?.workflow as any)?.utility?.insights?.batteryEconomicsV1 ?? null;
   const batteryDecisionPackV1 = (args.analysisResults?.workflow as any)?.utility?.insights?.batteryDecisionPackV1 ?? null;
 
-  return {
+  const reportJson: any = {
     schemaVersion: 'internalEngineeringReportV1',
     generatedAtIso: nowIso,
     projectId,
@@ -129,5 +130,14 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
     summary: args.analysisResults?.summary,
     missingInfo,
   };
+
+  // Additive: deterministic audit drawer payload (snapshot-only).
+  try {
+    reportJson.auditDrawerV1 = buildCalculationAuditDrawerV1(reportJson, args.analysisResults);
+  } catch {
+    reportJson.auditDrawerV1 = null;
+  }
+
+  return reportJson;
 }
 

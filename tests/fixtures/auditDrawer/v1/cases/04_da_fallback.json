@@ -1,0 +1,55 @@
+{
+  "caseId": "04_da_fallback",
+  "reportJson": {
+    "projectId": "p_audit_04",
+    "generatedAtIso": "2026-03-01T00:00:00.000Z",
+    "engineVersions": { "batteryEconomics": "battery_econ_v1.0", "tariffEngine": "tariff_vX" },
+    "workflow": {
+      "utility": {
+        "inputs": { "currentRate": { "utility": "PGE", "rateCode": "B-19", "capturedAt": "snap_04" } },
+        "insights": {
+          "effectiveRateContextV1": {
+            "iou": { "utility": "PGE", "rateCode": "B-19", "snapshotId": "snap_04" },
+            "generation": { "providerType": "DA", "lseName": null, "rateCode": null, "snapshotId": null },
+            "warnings": ["supply.v1.da_detected_generation_rates_missing"],
+            "missingInfo": [{ "id": "supply.v1.da_detected_generation_rates_missing" }]
+          },
+          "missingInfo": [{ "id": "supply.v1.da_detected_generation_rates_missing" }]
+        }
+      }
+    },
+    "telemetry": {
+      "intervalElectricV1": { "present": true, "pointCount": 35040, "warningCount": 1 },
+      "intervalElectricMetaV1": {
+        "schemaVersion": "intervalElectricMetaV1",
+        "parserVersion": "intervalElectricCsvV1",
+        "detectedFormat": "pge_interval_csv_v1",
+        "detection": { "type": "interval", "confidence": 0.99, "because": ["fixture"] },
+        "timezoneUsed": "America/Los_Angeles",
+        "pointCount": 35040,
+        "warnings": [{ "code": "interval.points.large_gaps", "details": { "gapsCount": 1 } }],
+        "missingInfo": [],
+        "source": { "kind": "vaultFile", "vaultFileId": "vf_04" }
+      }
+    },
+    "batteryEconomicsV1": {
+      "engineVersion": "battery_econ_v1.0",
+      "savingsAnnual": { "energyUsd": 1100, "demandUsd": 650, "ratchetAvoidedUsd": 0, "drUsd": 0, "otherUsd": 0, "totalUsd": 1750, "assumptions": [] },
+      "audit": {
+        "lineItems": [
+          { "id": "savings.energyAnnual", "label": "Energy savings", "amountUsd": 1100, "amountUsdRaw": 1100, "basis": "fixture", "sourceEngine": "tariffEngine", "sourcePath": "fixture", "rateSource": { "snapshotId": "snap_04", "rateCode": "B-19", "kind": "DELIVERY" } },
+          { "id": "savings.totalAnnual", "label": "Total savings", "amountUsd": 1750, "amountUsdRaw": 1750, "basis": "fixture", "sourceEngine": "assumption", "sourcePath": "fixture" }
+        ]
+      },
+      "warnings": [],
+      "confidenceTier": "LOW",
+      "methodTag": "battery_econ_v1",
+      "capex": { "totalUsd": null, "batteryEquipmentUsd": null, "installUsd": null, "interconnectUsd": null, "softCostsUsd": null, "contingencyUsd": null, "assumptions": [] },
+      "opexAnnual": { "omUsd": null, "warrantyReserveUsd": null, "totalUsd": null, "assumptions": [] },
+      "cashflow": { "year0Usd": null, "years1toNUsd": [], "npvUsd": null, "irrApprox": null, "simplePaybackYears": null, "discountedPaybackYears": null },
+      "sizingSanity": { "cRate": null, "hoursAtPower": null, "violations": [] }
+    },
+    "storageOpportunityPackV1": { "dispatchSimulationV1": { "assumptions": { "strategyId": "DISPATCH_MULTI_STRATEGY_V1", "rte": 0.9, "maxCyclesPerDay": 1, "dispatchDaysPerYear": 260, "demandWindowStrategy": "WINDOW_AROUND_DAILY_PEAK_V1" }, "strategyResults": [], "warnings": [] } }
+  }
+}
+

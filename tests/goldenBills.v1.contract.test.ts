@@ -85,6 +85,25 @@ describe(
           expect(out.report.html).not.toContain(':projectId');
           expect(out.report.engineVersionsLine).toBeTruthy();
           expect(out.report.engineVersionsLine!).toContain('Engine Versions:');
+          expect(out.report.html).toContain('Audit Drawer Payload: present (audit_drawer_v1.0)');
+
+          // Audit Drawer Payload contract (snapshot-only; deterministic)
+          expect(out.report.auditDrawerV1).toBeTruthy();
+          expect(out.report.auditDrawerV1?.version).toBe('audit_drawer_v1.0');
+          expect(out.report.auditDrawerV1?.moneyExplainers?.battery_economics_total).toBeTruthy();
+
+          const tariffExplainer = out.report.auditDrawerV1?.moneyExplainers?.tariff_match_and_rate_fit ?? null;
+          const tariffSources = Array.isArray(tariffExplainer?.sources) ? tariffExplainer.sources : [];
+          const anyTariffBrowserHint = tariffSources.some((s: any) => Boolean(s?.linkHints?.tariffBrowserUrl));
+          // When IOU snapshot+rate exists, a tariff browser hint must exist.
+          const hasIouTariff = Boolean(out.effectiveRateContextV1?.iou?.snapshotId && out.effectiveRateContextV1?.iou?.rateCode);
+          if (hasIouTariff) expect(anyTariffBrowserHint).toBe(true);
+
+          if (supply === 'DA') {
+            expect(out.report.auditDrawerV1?.moneyExplainers?.da_generation_missing).toBeTruthy();
+            expect(out.report.auditDrawerV1?.warnings || []).toContain('auditDrawerV1.generation.da_missing');
+            expect(out.report.auditDrawerV1?.warnings || []).toContain('supply.v1.da_detected_generation_rates_missing');
+          }
 
           for (const [k, v] of Object.entries(exp.expectedTopLineNumbers || {})) {
             const actual = (out.topLineNumbers as any)[k] ?? null;
