@@ -27,6 +27,7 @@ export const dispatchVersion = 'dispatch_v1_1' as const;
 export const storageEconomicsVersion = 'storage_econ_v1.0' as const;
 export const incentivesStubVersion = 'incentives_stub_v1.0' as const;
 export const batteryEconomicsVersion = 'battery_econ_v1.1' as const;
+export const batteryDecisionPackVersion = 'battery_decision_pack_v1_1' as const;
 
 export const engineVersions = {
   intervalIntake: intervalIntakeVersion,
@@ -37,6 +38,7 @@ export const engineVersions = {
   storageEconomics: storageEconomicsVersion,
   incentivesStub: incentivesStubVersion,
   batteryEconomics: batteryEconomicsVersion,
+  batteryDecisionPack: batteryDecisionPackVersion,
 } as const;
 
 export type EngineVersionsV1 = typeof engineVersions;

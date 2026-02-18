@@ -12,7 +12,7 @@ import { buildInternalEngineeringReportJsonV1 } from '../../src/modules/reports/
 import { renderInternalEngineeringReportHtmlV1 } from '../../src/modules/reports/internalEngineering/v1/renderInternalEngineeringReportHtml';
 
 type SupplyProviderTypeExpectation = 'NONE' | 'CCA' | 'DA';
-type RateSourceKindExpectation = 'DELIVERY' | 'CCA_GENERATION_V0_ENERGY_ONLY' | 'CCA_GENERATION_V0_ALL_IN';
+type RateSourceKindExpectation = 'DELIVERY' | 'CCA_GENERATION_V0_ENERGY_ONLY' | 'CCA_GENERATION_V0_ALL_IN' | 'DA_FALLBACK_DELIVERY';
 
 export type GoldenBillContextV1 = {
   projectId: string;
@@ -127,6 +127,7 @@ function toRateSourceKindExpectation(raw: unknown): RateSourceKindExpectation {
   const s = String(raw ?? '').trim();
   if (s === 'CCA_GENERATION_V0_ALL_IN') return 'CCA_GENERATION_V0_ALL_IN';
   if (s === 'CCA_GENERATION_V0_ENERGY_ONLY') return 'CCA_GENERATION_V0_ENERGY_ONLY';
+  if (s === 'DA_FALLBACK_DELIVERY') return 'DA_FALLBACK_DELIVERY';
   return 'DELIVERY';
 }
 
@@ -502,20 +503,23 @@ export async function runGoldenBillCaseV1(args: { caseDir: string; tariffLibrary
         }
       : null;
 
-    const decision = (analysis.insights as any)?.batteryDecisionPackV1 ?? null;
-    const opt0 = Array.isArray(decision?.options) ? decision.options[0] : null;
-    const auditLineItems = Array.isArray(opt0?.audit?.lineItems) ? opt0.audit.lineItems : [];
-    const batteryAudit = auditLineItems.length ? batteryAuditReconcileFromLineItems(auditLineItems) : null;
+    const decision11 = (analysis.insights as any)?.batteryDecisionPackV1_1 ?? null;
+    const top11: any[] = decision11 && Array.isArray(decision11.topCandidates) ? (decision11.topCandidates as any[]) : [];
+    const selId11 = String(decision11?.selected?.candidateId || '').trim() || null;
+    const selected11 = selId11 ? top11.find((c) => String(c?.id || '').trim() === selId11) || null : (top11[0] || null);
+
+    const auditLineItems11 = decision11 && decision11.audit && Array.isArray(decision11.audit.lineItems) ? (decision11.audit.lineItems as any[]) : [];
+    const batteryAudit11 = auditLineItems11.length ? batteryAuditReconcileFromLineItems(auditLineItems11) : null;
     const batteryEconomics =
-      opt0 && batteryAudit
+      selected11 && batteryAudit11
         ? {
-            rateSourceKind: batteryAudit.kind,
-            annualSavingsUsd: batteryAudit.annualSavingsUsd,
-            auditSavings: batteryAudit.auditSavings,
+            rateSourceKind: toRateSourceKindExpectation(selected11?.economicsSummary?.rateSourceKind),
+            annualSavingsUsd: batteryAudit11.annualSavingsUsd,
+            auditSavings: batteryAudit11.auditSavings,
           }
         : null;
 
-    const auditReconcile = batteryAudit ? { ok: batteryAudit.ok, deltaAbs: batteryAudit.deltaAbs } : { ok: false, deltaAbs: null };
+    const auditReconcile = batteryAudit11 ? { ok: batteryAudit11.ok, deltaAbs: batteryAudit11.deltaAbs } : { ok: false, deltaAbs: null };
 
     const billingDemandKw = (() => {
       const c0 = detSummary?.meters?.[0]?.last12Cycles?.[0] || null;

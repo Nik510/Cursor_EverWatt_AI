@@ -1,0 +1,25 @@
+{
+  "caseId": "10_flat_tou_prices",
+  "utility": "PGE",
+  "rate": "B-19",
+  "intervalPointsFixture": "tests/fixtures/goldenBills/v1/shared/intervalPoints_pge_b19_one_month.json",
+  "tariffSnapshotId": "2026-03-01T0000Z",
+  "tariffPriceSignalsV1": {
+    "timezone": "America/Los_Angeles",
+    "touEnergyPrices": [
+      { "periodId": "FLAT", "startHourLocal": 0, "endHourLocalExclusive": 24, "days": "all", "pricePerKwh": 0.18 }
+    ],
+    "demandChargePerKw": 20,
+    "supplyProviderType": null,
+    "supplyLseName": null
+  },
+  "determinantsV1": {
+    "billingDemandKw": 180,
+    "ratchetDemandKw": null,
+    "billingDemandMethod": "DETERMINANTS_V1_PLACEHOLDER"
+  },
+  "determinantsCycles": [
+    { "cycleLabel": "2026-01", "startIso": "2026-01-15T08:00:00.000Z", "endIso": "2026-01-16T08:00:00.000Z" }
+  ]
+}
+

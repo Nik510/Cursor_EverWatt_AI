@@ -2,7 +2,7 @@
   "expectedUtility": "PGE",
   "expectedSupplyProviderType": "DA",
   "expectedLseName": null,
-  "expectedRateSourceKind": "DELIVERY",
+  "expectedRateSourceKind": "DA_FALLBACK_DELIVERY",
   "expectedMissingInfoIds": [
     "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
     "billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",

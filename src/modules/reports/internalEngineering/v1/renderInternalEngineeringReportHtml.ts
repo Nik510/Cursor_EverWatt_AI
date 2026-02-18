@@ -128,6 +128,7 @@ export function renderInternalEngineeringReportHtmlV1(args: {
   const storageOpportunityPackV1 = (report as any)?.storageOpportunityPackV1 || null;
   const batteryEconomicsV1 = (report as any)?.batteryEconomicsV1 || null;
   const batteryDecisionPackV1 = (report as any)?.batteryDecisionPackV1 || null;
+  const batteryDecisionPackV1_1 = (report as any)?.batteryDecisionPackV1_1 || null;
   const auditDrawerV1 = (report as any)?.auditDrawerV1 || null;
   const engineVersions = (report as any)?.engineVersions || null;
   const engineVersionsLine = (() => {
@@ -139,7 +140,8 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     const storageEconomics = String((ev as any)?.storageEconomics || '').trim() || '—';
     const incentivesStub = String((ev as any)?.incentivesStub || '').trim() || '—';
     const batteryEconomics = String((ev as any)?.batteryEconomics || '').trim() || '—';
-    return `Engine Versions: intervalIntake=${intervalIntake} • determinants=${determinants} • tariffEngine=${tariffEngine} • billingEngineV1=${billingEngineV1} • storageEconomics=${storageEconomics} • incentivesStub=${incentivesStub} • batteryEconomics=${batteryEconomics}`;
+    const batteryDecisionPack = String((ev as any)?.batteryDecisionPack || '').trim() || '—';
+    return `Engine Versions: intervalIntake=${intervalIntake} • determinants=${determinants} • tariffEngine=${tariffEngine} • billingEngineV1=${billingEngineV1} • storageEconomics=${storageEconomics} • incentivesStub=${incentivesStub} • batteryEconomics=${batteryEconomics} • batteryDecisionPack=${batteryDecisionPack}`;
   })();
 
   const auditDrawerLine = (() => {
@@ -434,6 +436,58 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     ].join('\n');
   })();
 
+  const batteryDecisionV1_1Rows: Array<{ k: string; v: string }> = (() => {
+    const pack: any = batteryDecisionPackV1_1 && typeof batteryDecisionPackV1_1 === 'object' ? batteryDecisionPackV1_1 : null;
+    if (!pack) return [{ k: 'present', v: 'false' }];
+
+    const top: any[] = Array.isArray(pack.topCandidates) ? (pack.topCandidates as any[]) : [];
+    const selId = String(pack?.selected?.candidateId || '').trim() || null;
+    const sel = selId ? top.find((c) => String(c?.id || '').trim() === selId) || null : (top[0] || null);
+
+    const fmtC = (c: any): string => {
+      if (!c) return '—';
+      const kw = fmtMaybe(safeNumber(c?.kw), 0);
+      const kwh = fmtMaybe(safeNumber(c?.kwh), 0);
+      const dur = fmtMaybe(safeNumber(c?.durationH), 0);
+      const pb = fmtMaybe(safeNumber(c?.economicsSummary?.paybackYears), 2);
+      const npv = fmtMaybe(safeNumber(c?.economicsSummary?.npvLiteUsd), 0);
+      const sav = fmtMaybe(safeNumber(c?.economicsSummary?.annualSavingsTotalUsd), 0);
+      return `${kw}kW/${kwh}kWh@${dur}h • savings=$${sav}/yr • payback=${pb}y • npv=$${npv}`;
+    };
+
+    const warn = Array.isArray(pack.warnings) ? (pack.warnings as any[]).map((x) => String(x || '').trim()).filter(Boolean).slice(0, 12).join(', ') : '(none)';
+    const miss = Array.isArray(pack.missingInfo) ? (pack.missingInfo as any[]).map((x) => String(x || '').trim()).filter(Boolean).slice(0, 12).join(', ') : '(none)';
+
+    const rateKind = String(sel?.economicsSummary?.rateSourceKind || '').trim() || '—';
+
+    const rationale = Array.isArray(pack?.selected?.rationaleBullets) ? (pack.selected.rationaleBullets as any[]).map((x) => String(x || '').trim()).filter(Boolean).slice(0, 4).join(' • ') : '—';
+
+    return [
+      { k: 'present', v: 'true' },
+      { k: 'method', v: String(pack.method || '—') },
+      { k: 'confidenceTier', v: String(pack.confidenceTier || '—') },
+      { k: 'selected', v: fmtC(sel) },
+      { k: 'rateSource.kind', v: rateKind },
+      { k: 'top1', v: fmtC(top[0] || null) },
+      { k: 'top2', v: fmtC(top[1] || null) },
+      { k: 'top3', v: fmtC(top[2] || null) },
+      { k: 'rationale', v: rationale || '—' },
+      { k: 'warnings', v: warn || '(none)' },
+      { k: 'missingInfo', v: miss || '(none)' },
+    ];
+  })();
+
+  const batteryDecisionV1_1BadgeHtml = (() => {
+    const pack: any = batteryDecisionPackV1_1 && typeof batteryDecisionPackV1_1 === 'object' ? batteryDecisionPackV1_1 : null;
+    if (!pack) return '';
+    const top: any[] = Array.isArray(pack.topCandidates) ? (pack.topCandidates as any[]) : [];
+    const selId = String(pack?.selected?.candidateId || '').trim() || null;
+    const sel = selId ? top.find((c) => String(c?.id || '').trim() === selId) || null : (top[0] || null);
+    const rateKind = String(sel?.economicsSummary?.rateSourceKind || '').trim();
+    if (!rateKind) return '';
+    return `<div style="margin-top:10px;"><span class="pill">rateSource.kind=${escapeHtml(rateKind)}</span></div>`;
+  })();
+
   const batteryEconomicsRows: Array<{ k: string; v: string }> = (() => {
     const econ: any = batteryEconomicsV1 && typeof batteryEconomicsV1 === 'object' ? batteryEconomicsV1 : null;
     if (!econ) return [{ k: 'present', v: 'false' }];
@@ -672,6 +726,15 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     `${renderKvTable(batteryDecisionPackRows)}`,
     `${batteryDecisionPackAuditHtml}`,
     `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.batteryDecisionPackV1 (no live recompute).</div>`,
+    `</div>`,
+    `</div>`,
+
+    `<div class="card">`,
+    `<div class="cardTitle">Battery Decision (v1.1)</div>`,
+    `<div class="cardBody">`,
+    `${renderKvTable(batteryDecisionV1_1Rows)}`,
+    `${batteryDecisionV1_1BadgeHtml}`,
+    `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.batteryDecisionPackV1_1 (snapshot-only; no live recompute).</div>`,
     `</div>`,
     `</div>`,
 

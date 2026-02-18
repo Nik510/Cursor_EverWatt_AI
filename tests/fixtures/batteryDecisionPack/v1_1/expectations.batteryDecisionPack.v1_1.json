@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "batteryDecisionPackV1_1.fixtureExpectations",
+  "cases": {
+    "01_iou_b19_with_intervals": {
+      "expectedProviderType": "NONE",
+      "expectedRateSourceKind": "DELIVERY",
+      "expectedConfidenceTier": "MEDIUM",
+      "expectedHasIntervals": true,
+      "expectedTopCandidatesCount": 3,
+      "expectedMissingInfoIncludes": []
+    },
+    "02_iou_no_demand_charge": {
+      "expectedProviderType": "NONE",
+      "expectedRateSourceKind": "DELIVERY",
+      "expectedConfidenceTier": "MEDIUM",
+      "expectedHasIntervals": true,
+      "expectedTopCandidatesCount": 3,
+      "expectedMissingInfoIncludes": ["battery.decision_pack.v1_1.missing_demand_charge"]
+    },
+    "03_cca_all_in_present": {
+      "expectedProviderType": "CCA",
+      "expectedRateSourceKind": "CCA_GENERATION_V0_ALL_IN",
+      "expectedConfidenceTier": "MEDIUM",
+      "expectedHasIntervals": true,
+      "expectedTopCandidatesCount": 3,
+      "expectedMissingInfoIncludes": []
+    },
+    "04_cca_energy_only_missing_adders": {
+      "expectedProviderType": "CCA",
+      "expectedRateSourceKind": "CCA_GENERATION_V0_ENERGY_ONLY",
+      "expectedConfidenceTier": "MEDIUM",
+      "expectedHasIntervals": true,
+      "expectedTopCandidatesCount": 3,
+      "expectedMissingInfoIncludes": []
+    },
+    "05_da_detected_fallback_delivery": {
+      "expectedProviderType": "DA",
+      "expectedRateSourceKind": "DA_FALLBACK_DELIVERY",
+      "expectedConfidenceTier": "MEDIUM",
+      "expectedHasIntervals": true,
+      "expectedTopCandidatesCount": 3,
+      "expectedMissingInfoIncludes": []
+    },
+    "06_missing_intervals": {
+      "expectedProviderType": "NONE",
+      "expectedRateSourceKind": "DELIVERY",
+      "expectedConfidenceTier": "NONE",
+      "expectedHasIntervals": false,
+      "expectedTopCandidatesCount": 0,
+      "expectedMissingInfoIncludes": [
+        "battery.decision_pack.v1_1.missing_intervals",
+        "battery.decision_pack.v1_1.missing_interval_insights"
+      ]
+    },
+    "07_missing_tariff_price_signals": {
+      "expectedProviderType": "NONE",
+      "expectedRateSourceKind": "DELIVERY",
+      "expectedConfidenceTier": "NONE",
+      "expectedHasIntervals": true,
+      "expectedTopCandidatesCount": 3,
+      "expectedMissingInfoIncludes": ["battery.decision_pack.v1_1.missing_tariff_price_signals"]
+    },
+    "08_ratchet_missing_history": {
+      "expectedProviderType": "NONE",
+      "expectedRateSourceKind": "DELIVERY",
+      "expectedConfidenceTier": "MEDIUM",
+      "expectedHasIntervals": true,
+      "expectedTopCandidatesCount": 3,
+      "expectedMissingInfoIncludes": []
+    },
+    "09_ratchet_history_present": {
+      "expectedProviderType": "NONE",
+      "expectedRateSourceKind": "DELIVERY",
+      "expectedConfidenceTier": "MEDIUM",
+      "expectedHasIntervals": true,
+      "expectedTopCandidatesCount": 3,
+      "expectedMissingInfoIncludes": []
+    },
+    "10_flat_tou_prices": {
+      "expectedProviderType": "NONE",
+      "expectedRateSourceKind": "DELIVERY",
+      "expectedConfidenceTier": "MEDIUM",
+      "expectedHasIntervals": true,
+      "expectedTopCandidatesCount": 3,
+      "expectedMissingInfoIncludes": []
+    }
+  }
+}
+

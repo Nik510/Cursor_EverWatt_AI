@@ -42,6 +42,7 @@ import { programMatchesToRecommendations } from '../programIntelligence/toRecomm
 import { evaluateStorageOpportunityPackV1 } from '../batteryEngineV1/evaluateBatteryOpportunityV1';
 import { evaluateBatteryEconomicsV1 } from '../batteryEconomicsV1/evaluateBatteryEconomicsV1';
 import { buildBatteryDecisionPackV1 } from '../batteryEconomicsV1/decisionPackV1';
+import { buildBatteryDecisionPackV1_1 } from '../batteryDecisionPackV1_1/buildBatteryDecisionPackV1_1';
 import type { TariffPriceSignalsV1 } from '../batteryEngineV1/types';
 import { buildGenerationTouEnergySignalsV0, getCcaGenerationSnapshotV0 } from '../ccaTariffLibraryV0/getCcaGenerationSnapshotV0';
 import { matchCcaFromSsaV0 } from '../ccaTariffLibraryV0/matchCcaFromSsaV0';
@@ -788,18 +789,22 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       if (!base || typeof base !== 'object') return null;
       const gen = (effectiveRateContextV1 as any)?.generation || null;
       const genWins = Array.isArray(gen?.generationTouEnergyPrices) ? (gen.generationTouEnergyPrices as any[]) : [];
-      if (!genWins.length) return base as any;
-      return {
+      const merged: any = {
         ...(base as any),
-        generationTouEnergyPrices: genWins,
-        generationAllInTouEnergyPrices: Array.isArray(gen?.generationAllInTouEnergyPrices) ? ((gen.generationAllInTouEnergyPrices as any[]) || []) : null,
-        generationAddersPerKwhTotal: Number.isFinite(Number((gen as any)?.generationAddersPerKwhTotal)) ? Number((gen as any).generationAddersPerKwhTotal) : null,
-        generationAddersSnapshotId: String((gen as any)?.generationAddersSnapshotId || '').trim() || null,
-        generationSnapshotId: String(gen?.snapshotId || '').trim() || null,
-        generationRateCode: String(gen?.rateCode || '').trim() || null,
+        // Always carry supply context for downstream engines (even when generation rates are missing).
         supplyProviderType: gen?.providerType === 'CCA' || gen?.providerType === 'DA' ? gen.providerType : null,
         supplyLseName: String(gen?.lseName || '').trim() || null,
-      } as any;
+        generationSnapshotId: String(gen?.snapshotId || '').trim() || null,
+        generationRateCode: String(gen?.rateCode || '').trim() || null,
+        // Generation price windows are additive when present; otherwise downstream engines can emit "fallback used" warnings.
+        generationTouEnergyPrices: genWins.length ? genWins : ((base as any)?.generationTouEnergyPrices ?? null),
+        generationAllInTouEnergyPrices: Array.isArray(gen?.generationAllInTouEnergyPrices)
+          ? ((gen.generationAllInTouEnergyPrices as any[]) || [])
+          : ((base as any)?.generationAllInTouEnergyPrices ?? null),
+        generationAddersPerKwhTotal: Number.isFinite(Number((gen as any)?.generationAddersPerKwhTotal)) ? Number((gen as any).generationAddersPerKwhTotal) : null,
+        generationAddersSnapshotId: String((gen as any)?.generationAddersSnapshotId || '').trim() || null,
+      };
+      return merged as any;
     } catch {
       return (deps?.tariffPriceSignalsV1 as any) || null;
     }
@@ -1087,6 +1092,57 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         costs: null,
         finance: null,
         versionTags: null,
+      });
+    }
+  })();
+
+  // Battery Decision Pack v1.1 (deterministic sizing + selection + constraints + bounded audit): always attach (warnings-first).
+  const batteryDecisionPackV1_1 = (() => {
+    try {
+      const det0: any = (determinantsPackSummary as any)?.meters?.[0]?.last12Cycles?.[0] || null;
+      const determinantsV1 = det0
+        ? {
+            billingDemandKw: Number.isFinite(Number(det0?.billingDemandKw)) ? Number(det0.billingDemandKw) : null,
+            ratchetDemandKw: Number.isFinite(Number(det0?.ratchetDemandKw)) ? Number(det0.ratchetDemandKw) : null,
+            billingDemandMethod: String(det0?.billingDemandMethod || '').trim() || null,
+            ratchetHistoryMaxKw: Number.isFinite(Number(det0?.ratchetHistoryMaxKw)) ? Number(det0.ratchetHistoryMaxKw) : null,
+            ratchetFloorPct: Number.isFinite(Number(det0?.ratchetFloorPct)) ? Number(det0.ratchetFloorPct) : null,
+          }
+        : null;
+
+      const detCycles =
+        Array.isArray((determinantsPackSummary as any)?.meters?.[0]?.last12Cycles) && (determinantsPackSummary as any).meters[0].last12Cycles.length
+          ? ((determinantsPackSummary as any).meters[0].last12Cycles as any[]).map((c: any) => ({
+              cycleLabel: String(c?.cycleLabel || '').trim() || 'cycle',
+              startIso: String(c?.startIso || '').trim(),
+              endIso: String(c?.endIso || '').trim(),
+            }))
+          : null;
+
+      return buildBatteryDecisionPackV1_1({
+        utility: asCaIouUtility(inputs.currentRate?.utility ?? inputs.utilityTerritory) || String(inputs.currentRate?.utility || inputs.utilityTerritory || '').trim() || null,
+        rate: String(inputs.currentRate?.rateCode || '').trim() || null,
+        intervalPointsV1: Array.isArray(deps?.intervalPointsV1) ? (deps?.intervalPointsV1 as any) : null,
+        intervalInsightsV1: (intervalIntelligenceV1 as any) || null,
+        tariffPriceSignalsV1: (composedTariffPriceSignalsV1 as any) || null,
+        tariffSnapshotId: String(deps?.tariffSnapshotId || '').trim() || null,
+        determinantsV1,
+        determinantsCycles: detCycles,
+        drReadinessV1: (storageOpportunityPackV1 as any)?.drReadinessV1 || null,
+        drAnnualValueUsd: null,
+      });
+    } catch {
+      return buildBatteryDecisionPackV1_1({
+        utility: null,
+        rate: null,
+        intervalPointsV1: null,
+        intervalInsightsV1: null,
+        tariffPriceSignalsV1: null,
+        tariffSnapshotId: null,
+        determinantsV1: null,
+        determinantsCycles: null,
+        drReadinessV1: null,
+        drAnnualValueUsd: null,
       });
     }
   })();
@@ -1524,6 +1580,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     storageOpportunityPackV1,
     batteryEconomicsV1,
     batteryDecisionPackV1,
+    batteryDecisionPackV1_1,
     ...(weatherRegressionV1 ? { weatherRegressionV1 } : {}),
     ...(behaviorInsights ? { behaviorInsights } : {}),
     ...(behaviorInsightsV2 ? { behaviorInsightsV2 } : {}),
