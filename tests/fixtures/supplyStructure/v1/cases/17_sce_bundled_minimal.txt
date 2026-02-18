@@ -1,0 +1,5 @@
+Southern California Edison (SCE)
+Rate Schedule: TOU-GS-3
+
+Delivery charges shown below.
+

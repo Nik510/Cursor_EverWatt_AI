@@ -165,6 +165,11 @@ describe('analyzeUtility: schema stability (trimmed snapshot)', () => {
               },
               {
                 "category": "tariff",
+                "id": "supply.v1.lse_undetected",
+                "severity": "info",
+              },
+              {
+                "category": "tariff",
                 "id": "tariff.applicability.rules.missing",
                 "severity": "info",
               },

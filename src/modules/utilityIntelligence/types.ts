@@ -12,6 +12,7 @@ import type { WeatherRegressionV1 } from './weatherRegressionV1/types';
 import type { StorageOpportunityPackV1 } from '../batteryEngineV1/types';
 import type { BatteryEconomicsOutputsV1 } from '../batteryEconomicsV1/types';
 import type { BatteryDecisionPackV1 } from '../batteryEconomicsV1/decisionPackV1';
+import type { EffectiveRateContextV1 } from '../supplyStructureAnalyzerV1/types';
 
 export type UtilityServiceType = 'electric' | 'gas' | 'both';
 
@@ -143,6 +144,11 @@ export type UtilityInsights = {
       confidence: number;
     };
   };
+  /**
+   * Effective rate context (SSA v1): IOU delivery + optional CCA/DA generation context.
+   * Additive and warnings-first; does not change billing math unless explicitly plumbed downstream.
+   */
+  effectiveRateContextV1?: EffectiveRateContextV1;
   /**
    * Optional CA Tariff Library (v0) lookup for the current rate code.
    * This is metadata-only and additive; it does not affect billing math yet.

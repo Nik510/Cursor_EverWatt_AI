@@ -24,6 +24,22 @@ export type BatteryEconomicsTariffSignalsV1 = {
   /** Optional utility rate code (for audit provenance). */
   rateCode?: string | null;
   /**
+   * Optional supply context (SSA v1 / composed rate context).
+   * Used to choose correct energy prices for CCA/DA when available.
+   */
+  supplyProviderType?: 'CCA' | 'DA' | null;
+  supplyLseName?: string | null;
+  /** Optional generation (CCA/DA) TOU price windows (energy only). */
+  generationTouEnergyPrices?: Array<{
+    periodId: string;
+    startHourLocal: number;
+    endHourLocalExclusive: number;
+    days: 'all' | 'weekday' | 'weekend';
+    pricePerKwh: number;
+  }> | null;
+  generationSnapshotId?: string | null;
+  generationRateCode?: string | null;
+  /**
    * Optional timezone for interpreting TOU windows.
    * Note: economics v1 does not itself localize intervals; this is carried for audit/provenance only.
    */

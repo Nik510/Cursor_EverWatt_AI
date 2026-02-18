@@ -9,6 +9,8 @@ import { evaluateLoadShiftPotential } from './interval/loadShiftPotential';
 import { estimateAnnualKwh } from './interval/annualize';
 import { computeProvenMetricsV1 } from './interval/provenMetrics';
 import { analyzeSupplyStructure } from './supply/analyzeSupplyStructure';
+import { detectSupplyStructureV1 } from '../supplyStructureAnalyzerV1/detectSupplyStructureV1';
+import { SupplyStructureAnalyzerReasonCodesV1 } from '../supplyStructureAnalyzerV1/reasons';
 import { extractBillPdfTariffHintsV1 } from './billPdf/extractBillPdfTariffHintsV1';
 import { extractBillPdfTouUsageV1 } from './billPdf/extractBillPdfTouUsageV1';
 import { analyzeBillIntelligenceV1 } from './billPdf/analyzeBillIntelligenceV1';
@@ -440,6 +442,20 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
 
   const billPdfTariffTruth = extractBillPdfTariffHintsV1(inputs.billPdfText || null);
 
+  const ssaV1 = (() => {
+    try {
+      return detectSupplyStructureV1({
+        billPdfText: inputs.billPdfText || null,
+        billHints: {
+          utilityHint: (billPdfTariffTruth as any)?.utilityHint ?? null,
+          rateScheduleText: (billPdfTariffTruth as any)?.rateScheduleText ?? null,
+        },
+      });
+    } catch {
+      return null;
+    }
+  })();
+
   const billIntelligenceV1 = analyzeBillIntelligenceV1({
     billPdfText: inputs.billPdfText || null,
     billPdfTariffTruth,
@@ -579,6 +595,43 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         isStale,
         ...(changeSummary ? { changeSummary } : {}),
         rateMetadata: md,
+      };
+    } catch {
+      return undefined;
+    }
+  })();
+
+  const effectiveRateContextV1 = (() => {
+    try {
+      const iouUtility = String(inputs.currentRate?.utility || inputs.utilityTerritory || '').trim() || 'unknown';
+      const rateCode = String(inputs.currentRate?.rateCode || '').trim() || null;
+      const snapshotId = String((tariffLibrary as any)?.snapshotVersionTag || '').trim() || null;
+      const providerType =
+        ssaV1?.serviceType === 'CCA' ? ('CCA' as const) : ssaV1?.serviceType === 'DA' ? ('DA' as const) : null;
+      const lseName = ssaV1?.lseName ?? null;
+
+      const extraMissing: any[] = [];
+      const extraWarnings: string[] = [];
+      // Tariff composition (v1): we do not yet have a CCA/DA generation tariff library.
+      // When a supported LSE is detected but generation rates are missing, surface missingInfo deterministically.
+      if (providerType === 'CCA' && lseName) {
+        extraWarnings.push(SupplyStructureAnalyzerReasonCodesV1.SUPPLY_V1_LSE_SUPPORTED_BUT_GENERATION_RATES_MISSING);
+        extraMissing.push({
+          id: SupplyStructureAnalyzerReasonCodesV1.SUPPLY_V1_LSE_SUPPORTED_BUT_GENERATION_RATES_MISSING,
+          category: 'tariff',
+          severity: 'warning',
+          description: 'CCA detected, but generation tariff/rates are not available in this repository; using IOU delivery context only.',
+        });
+      }
+
+      return {
+        iou: { utility: iouUtility, rateCode, snapshotId },
+        generation: { providerType, lseName, rateCode: null, snapshotId: null },
+        method: 'ssa_v1' as const,
+        warnings: Array.from(new Set([...(Array.isArray(ssaV1?.warnings) ? ssaV1!.warnings : []), ...extraWarnings])).sort((a, b) => a.localeCompare(b)),
+        missingInfo: [...(Array.isArray(ssaV1?.missingInfo) ? ssaV1!.missingInfo : []), ...extraMissing].sort((a: any, b: any) =>
+          String(a?.id || '').localeCompare(String(b?.id || '')),
+        ),
       };
     } catch {
       return undefined;
@@ -1124,6 +1177,17 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       }
     }
 
+    // Supply Structure Analyzer v1 missingInfo (additive)
+    if (effectiveRateContextV1 && Array.isArray((effectiveRateContextV1 as any).missingInfo) && (effectiveRateContextV1 as any).missingInfo.length) {
+      const seen = new Set(items.map((x) => String(x.id || '')));
+      for (const it of (effectiveRateContextV1 as any).missingInfo) {
+        const id = String((it as any)?.id || '').trim();
+        if (!id || seen.has(id)) continue;
+        seen.add(id);
+        items.push(it as any);
+      }
+    }
+
     return items;
   })();
 
@@ -1281,6 +1345,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     optionSRelevance: optionS,
     programs,
     ...(supplyStructure ? { supplyStructure } : {}),
+    ...(effectiveRateContextV1 ? { effectiveRateContextV1 } : {}),
     ...(billPdfTariffTruth ? { billPdfTariffTruth } : {}),
     ...(billPdfTariffLibraryMatch ? { billPdfTariffLibraryMatch } : {}),
     ...(tariffLibrary ? { tariffLibrary } : {}),

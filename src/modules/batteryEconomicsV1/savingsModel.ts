@@ -84,6 +84,10 @@ export function runSavingsModelV1(args: {
   const snapshotId = String(tariff?.snapshotId || '').trim() || null;
   const rateCode = String((tariff as any)?.rateCode || '').trim() || null;
   const rateSource = { snapshotId, rateCode } as const;
+  const supplyProviderType =
+    (tariff as any)?.supplyProviderType === 'CCA' || (tariff as any)?.supplyProviderType === 'DA'
+      ? ((tariff as any).supplyProviderType as 'CCA' | 'DA')
+      : null;
 
   const demandRate = safeNum(tariff?.demandChargePerKwMonthUsd);
   const priceOn = safeNum(tariff?.energyPriceOnPeakUsdPerKwh);
@@ -96,8 +100,25 @@ export function runSavingsModelV1(args: {
   const billingDemandKw = safeNum(det?.billingDemandKw);
   const ratchetDemandKw = safeNum(det?.ratchetDemandKw);
 
-  const touPrices = Array.isArray((tariff as any)?.touEnergyPrices) ? (((tariff as any).touEnergyPrices as any[]) || []) : [];
-  const touPriceVals = touPrices.map((w) => Number((w as any)?.pricePerKwh)).filter((n) => Number.isFinite(n) && n >= 0);
+  const touPricesDelivery = Array.isArray((tariff as any)?.touEnergyPrices) ? (((tariff as any).touEnergyPrices as any[]) || []) : [];
+  const touPricesGeneration = Array.isArray((tariff as any)?.generationTouEnergyPrices)
+    ? (((tariff as any).generationTouEnergyPrices as any[]) || [])
+    : [];
+  const touPricesUsedForEnergy = touPricesGeneration.length ? touPricesGeneration : touPricesDelivery;
+  const energyRateSource = (() => {
+    if (touPricesGeneration.length) {
+      const genSnapshotId = String((tariff as any)?.generationSnapshotId || '').trim() || null;
+      const genRateCode = String((tariff as any)?.generationRateCode || '').trim() || null;
+      return { snapshotId: genSnapshotId, rateCode: genRateCode } as const;
+    }
+    return rateSource;
+  })();
+
+  if (supplyProviderType === 'CCA' && !touPricesGeneration.length) {
+    warnings.push(BatteryEconomicsReasonCodesV1.BATTERY_ECON_SUPPLY_CCA_GENERATION_RATES_MISSING_FALLBACK);
+  }
+
+  const touPriceVals = touPricesUsedForEnergy.map((w) => Number((w as any)?.pricePerKwh)).filter((n) => Number.isFinite(n) && n >= 0);
   const touPeak = touPriceVals.length ? Math.max(...touPriceVals) : null;
   const touOff = touPriceVals.length ? Math.min(...touPriceVals) : null;
 
@@ -115,7 +136,7 @@ export function runSavingsModelV1(args: {
     // Price map by periodId (deterministic; must be consistent).
     const priceByTou: Record<string, number> = {};
     const priceConflicts: string[] = [];
-    for (const w of touPrices) {
+    for (const w of touPricesUsedForEnergy) {
       const pid = String((w as any)?.periodId || '').trim();
       const p = Number((w as any)?.pricePerKwh);
       if (!pid || !Number.isFinite(p) || p < 0) continue;
@@ -177,9 +198,9 @@ export function runSavingsModelV1(args: {
             amountUsdRaw: amount,
             basis: amount === null ? 'unavailable' : `(dischargeKwh - chargeKwh) * pricePerKwh`,
             sourceEngine: dollarsAllowed ? 'tariffEngine' : 'assumption',
-            sourcePath: 'inputs.tariffs.touEnergyPrices',
+            sourcePath: touPricesGeneration.length ? 'inputs.tariffs.generationTouEnergyPrices' : 'inputs.tariffs.touEnergyPrices',
             snapshotId,
-            rateSource,
+            rateSource: energyRateSource,
             quantities: [
               qty('dischargeKwh', 'kWh', d),
               qty('chargeKwh', 'kWh', ch),
@@ -200,7 +221,7 @@ export function runSavingsModelV1(args: {
           sourceEngine: dollarsAllowed ? 'tariffEngine' : 'assumption',
           sourcePath: 'savingsModelV1_1.energyShift.cycleTotal',
           snapshotId,
-          rateSource,
+          rateSource: energyRateSource,
           quantities: [],
         }),
       );
@@ -300,7 +321,7 @@ export function runSavingsModelV1(args: {
         sourceEngine: pricesOk ? 'tariffEngine' : 'assumption',
         sourcePath: 'savingsModelV1_1.energyAnnual',
         snapshotId,
-        rateSource,
+        rateSource: energyRateSource,
         quantities: [],
       }),
     );
@@ -384,12 +405,14 @@ export function runSavingsModelV1(args: {
         sourceEngine: (touPeak !== null && touOff !== null) || (priceOn !== null && priceOff !== null) ? 'tariffEngine' : 'assumption',
         sourcePath:
           touPeak !== null && touOff !== null
-            ? 'inputs.tariffs.touEnergyPrices'
+            ? touPricesGeneration.length
+              ? 'inputs.tariffs.generationTouEnergyPrices'
+              : 'inputs.tariffs.touEnergyPrices'
             : priceOn !== null && priceOff !== null
               ? 'inputs.tariffs.energyPrices'
               : 'inputs.tariffs',
         snapshotId,
-        rateSource,
+        rateSource: energyRateSource,
         quantities: [
           qty('shiftedKwhAnnual', 'kWh', shiftedKwhAnnual),
           qty('peakPricePerKwh', '$/kWh', touPeak ?? priceOn),

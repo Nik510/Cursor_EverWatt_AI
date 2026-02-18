@@ -1,0 +1,17 @@
+{
+  "version": "ca_lse_registry_v1.0",
+  "updatedAt": "2026-02-18",
+  "ccaProviders": [
+    { "canonicalName": "CleanPowerSF", "aliases": ["cleanpowersf", "clean power sf", "cleanpowersf.com", "sf clean energy", "san francisco clean energy"] },
+    { "canonicalName": "Peninsula Clean Energy", "aliases": ["peninsula clean energy", "pce", "peninsula cleanenergy"] },
+    { "canonicalName": "Silicon Valley Clean Energy", "aliases": ["silicon valley clean energy", "svce", "silicon valley cleanenergy"] },
+    { "canonicalName": "East Bay Community Energy", "aliases": ["east bay community energy", "ebce", "east bay communityenergy"] },
+    { "canonicalName": "Sonoma Clean Power", "aliases": ["sonoma clean power", "scp", "sonoma cleanpower"] },
+    { "canonicalName": "Marin Clean Energy", "aliases": ["marin clean energy", "mce", "marin cleanenergy"] },
+    { "canonicalName": "Central Coast Community Energy", "aliases": ["central coast community energy", "3ce", "central coast communityenergy", "central coast clean energy"] },
+    { "canonicalName": "Ava Community Energy", "aliases": ["ava community energy", "ava energy", "ava communityenergy", "alameda county community energy", "ace"] }
+  ],
+  "directAccessMarkers": ["direct access", "energy service provider", "electric service provider", " esp ", " esp.", "esp/"],
+  "unknownMarkers": ["unknown", "n/a"]
+}
+
