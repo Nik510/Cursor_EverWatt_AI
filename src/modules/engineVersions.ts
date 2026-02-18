@@ -23,15 +23,17 @@ export const intervalIntakeVersion = 'interval_csv_v1' as const;
 export const determinantsVersion = 'determinants_pack_v1.0' as const;
 export const tariffEngineVersion = 'tariff_engine_v1.0' as const;
 export const billingEngineV1Version = 'billing_v1.0' as const;
+export const dispatchVersion = 'dispatch_v1_1' as const;
 export const storageEconomicsVersion = 'storage_econ_v1.0' as const;
 export const incentivesStubVersion = 'incentives_stub_v1.0' as const;
-export const batteryEconomicsVersion = 'battery_econ_v1.0' as const;
+export const batteryEconomicsVersion = 'battery_econ_v1.1' as const;
 
 export const engineVersions = {
   intervalIntake: intervalIntakeVersion,
   determinants: determinantsVersion,
   tariffEngine: tariffEngineVersion,
   billingEngineV1: billingEngineV1Version,
+  dispatch: dispatchVersion,
   storageEconomics: storageEconomicsVersion,
   incentivesStub: incentivesStubVersion,
   batteryEconomics: batteryEconomicsVersion,

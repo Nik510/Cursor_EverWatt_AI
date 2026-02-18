@@ -21,7 +21,18 @@ function mkAssumption(args: Omit<BatteryEconomicsAssumptionV1, 'sourceEngine'> &
   return { sourceEngine: args.sourceEngine || 'assumption', id: String(args.id), value: String(args.value), sourcePath: String(args.sourcePath), notes: args.notes ?? null };
 }
 
-function mkLineItem(args: Omit<BatteryEconomicsAuditLineItemV1, 'sourceEngine'> & { sourceEngine?: BatteryEconomicsAuditLineItemV1['sourceEngine'] }): BatteryEconomicsAuditLineItemV1 {
+function mkLineItem(args: {
+  id: string;
+  label: string;
+  amountUsdRaw: number | null;
+  basis: string;
+  sourcePath: string;
+  sourceEngine?: BatteryEconomicsAuditLineItemV1['sourceEngine'];
+  snapshotId?: string | null;
+  rateSource?: BatteryEconomicsAuditLineItemV1['rateSource'];
+  quantities?: BatteryEconomicsAuditLineItemV1['quantities'];
+  notes?: string | null;
+}): BatteryEconomicsAuditLineItemV1 {
   const raw = args.amountUsdRaw === null ? null : Number(args.amountUsdRaw);
   const rounded = raw === null || !Number.isFinite(raw) ? null : roundTo(raw, 2);
   return {
@@ -33,6 +44,8 @@ function mkLineItem(args: Omit<BatteryEconomicsAuditLineItemV1, 'sourceEngine'> 
     sourceEngine: args.sourceEngine || 'assumption',
     sourcePath: String(args.sourcePath || ''),
     snapshotId: args.snapshotId ?? null,
+    rateSource: (args as any)?.rateSource ?? null,
+    quantities: Array.isArray((args as any)?.quantities) ? ((args as any).quantities as any) : null,
     notes: args.notes ?? null,
   };
 }

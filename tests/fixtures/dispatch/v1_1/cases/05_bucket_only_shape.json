@@ -1,0 +1,36 @@
+{
+  "caseId": "05_bucket_only_shape",
+  "cycles": [
+    {
+      "cycleLabel": "2026-01",
+      "cycleStartIso": "2026-01-15T08:00:00.000Z",
+      "cycleEndIso": "2026-01-16T08:00:00.000Z",
+      "timezone": "America/Los_Angeles"
+    }
+  ],
+  "dailyProfileBuckets": [
+    { "bucketStartHourLocal": 0, "avgKw": 30 },
+    { "bucketStartHourLocal": 4, "avgKw": 25 },
+    { "bucketStartHourLocal": 8, "avgKw": 60 },
+    { "bucketStartHourLocal": 12, "avgKw": 90 },
+    { "bucketStartHourLocal": 16, "avgKw": 130 },
+    { "bucketStartHourLocal": 20, "avgKw": 70 }
+  ],
+  "touEnergyPrices": [
+    { "periodId": "OFF", "startHourLocal": 0, "endHourLocalExclusive": 16, "days": "all", "pricePerKwh": 0.1 },
+    { "periodId": "ON", "startHourLocal": 16, "endHourLocalExclusive": 21, "days": "all", "pricePerKwh": 0.3 },
+    { "periodId": "OFF2", "startHourLocal": 21, "endHourLocalExclusive": 24, "days": "all", "pricePerKwh": 0.12 }
+  ],
+  "battery": { "powerKw": 50, "energyKwh": 200, "rte": 0.9, "minSoc": 0.1, "maxSoc": 0.9 },
+  "expect": {
+    "okAllCycles": false,
+    "warningsMustContain": ["dispatch.insufficient_data"],
+    "checksByCycleLabel": {
+      "2026-01": {
+        "chargedTouMustContain": ["OFF"],
+        "dischargedTouMustContain": ["ON"]
+      }
+    }
+  }
+}
+

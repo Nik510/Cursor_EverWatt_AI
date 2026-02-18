@@ -21,6 +21,8 @@ export type BatteryEconomicsCostsV1 = {
 
 export type BatteryEconomicsTariffSignalsV1 = {
   snapshotId?: string | null;
+  /** Optional utility rate code (for audit provenance). */
+  rateCode?: string | null;
   /**
    * Optional timezone for interpreting TOU windows.
    * Note: economics v1 does not itself localize intervals; this is carried for audit/provenance only.
@@ -44,6 +46,20 @@ export type BatteryEconomicsTariffSignalsV1 = {
   }> | null;
 };
 
+export type BatteryEconomicsDeterminantsCycleV1_1 = {
+  cycleLabel: string;
+  cycleStartIso: string;
+  cycleEndIso: string;
+  /** Cycle max kW (from intervals) when available. */
+  kWMax: number | null;
+  /** Deterministic billed demand for cycle (after rules/ratchet) when available. */
+  billingDemandKw?: number | null;
+  billingDemandMethod?: string | null;
+  ratchetDemandKw?: number | null;
+  ratchetFloorPct?: number | null;
+  ratchetHistoryMaxKw?: number | null;
+};
+
 export type BatteryEconomicsDeterminantsSignalsV1 = {
   ratchetDemandKw?: number | null;
   billingDemandKw?: number | null;
@@ -52,6 +68,26 @@ export type BatteryEconomicsDeterminantsSignalsV1 = {
   ratchetHistoryMaxKw?: number | null;
   /** Optional ratchet floor percent (0..1) for annual ratchet modeling (lite). */
   ratchetFloorPct?: number | null;
+  /**
+   * Optional cycle-by-cycle determinants (billing month).
+   * When present alongside `dispatch.cycles`, savings can be computed cycle-by-cycle deterministically.
+   */
+  cycles?: BatteryEconomicsDeterminantsCycleV1_1[] | null;
+};
+
+export type BatteryEconomicsDispatchCycleV1_1 = {
+  cycleLabel: string;
+  cycleStartIso: string;
+  cycleEndIso: string;
+  dispatchMethod: 'dispatch_v1_1';
+  ok: boolean;
+  kwhChargedByTou: Record<string, number>;
+  kwhDischargedByTou: Record<string, number>;
+  netKwhShiftedByTou: Record<string, number>;
+  demandPeakBeforeKw: number | null;
+  demandPeakAfterKw: number | null;
+  peakTimestampIso: string | null;
+  warnings?: string[];
 };
 
 export type BatteryEconomicsDispatchSignalsV1 = {
@@ -61,6 +97,11 @@ export type BatteryEconomicsDispatchSignalsV1 = {
   peakReductionKwAssumed?: number | null;
   /** Optional dispatch days per year used to compute shiftedKwhAnnual, for audit. */
   dispatchDaysPerYear?: number | null;
+  /**
+   * Optional cycle-by-cycle dispatch outputs (billing month).
+   * When present, energy/demand savings can be computed per cycle and summed deterministically.
+   */
+  cycles?: BatteryEconomicsDispatchCycleV1_1[] | null;
 };
 
 export type BatteryEconomicsDrSignalsV1 = {
@@ -95,6 +136,16 @@ export type BatteryEconomicsAuditLineItemV1 = {
   sourceEngine: 'tariffEngine' | 'billingEngine' | 'determinants' | 'assumption';
   sourcePath: string;
   snapshotId?: string | null;
+  /**
+   * Audit provenance for tariff-derived line items (and null for others).
+   * Kept additive for backward compatibility.
+   */
+  rateSource?: { snapshotId: string | null; rateCode: string | null } | null;
+  /**
+   * Deterministic quantities used to compute the line item (stable ordering expected by callers/tests).
+   * Kept additive for backward compatibility.
+   */
+  quantities?: Array<{ id: string; unit: string; value: number | null }> | null;
   notes?: string | null;
 };
 
