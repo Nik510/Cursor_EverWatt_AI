@@ -6925,19 +6925,23 @@ app.post('/api/analysis-results-v1/run-and-store', async (c) => {
     const store = createAnalysisRunsStoreFsV1();
     await store.writeRun(analysisRun as any);
 
+    const analysisRunMeta = {
+      runId: analysisRun.runId,
+      createdAtIso: analysisRun.createdAtIso,
+      projectId: analysisRun.projectId,
+      inputFingerprint: analysisRun.inputFingerprint,
+      engineVersions: analysisRun.engineVersions,
+      provenance: analysisRun.provenance,
+      warningsSummary: analysisRun.warningsSummary,
+    };
+
     return c.json({
       success: true,
       runId,
       snapshot: analysisRun.snapshot,
-      analysisRun: {
-        runId: analysisRun.runId,
-        createdAtIso: analysisRun.createdAtIso,
-        projectId: analysisRun.projectId,
-        inputFingerprint: analysisRun.inputFingerprint,
-        engineVersions: analysisRun.engineVersions,
-        provenance: analysisRun.provenance,
-        warningsSummary: analysisRun.warningsSummary,
-      },
+      analysisRunMeta,
+      // Back-compat: keep the older field name.
+      analysisRun: analysisRunMeta,
     });
   } catch (error) {
     console.error('analysis-results-v1.run-and-store error:', error);

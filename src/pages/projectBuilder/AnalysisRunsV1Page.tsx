@@ -4,7 +4,7 @@ import { Download, RefreshCw, Shuffle, ArrowLeft } from 'lucide-react';
 
 import type { AnalysisRunV1 } from '../../shared/types/analysisRunsV1';
 import type { DiffSummaryV1 } from '../../shared/types/analysisRunsDiffV1';
-import { diffRunsV1, downloadRunPdfV1, listRunsV1, readRunV1, type AnalysisRunsV1IndexRow } from '../../api/analysisRunsV1';
+import { diffRunsV1, downloadRunPdfV1, listRunsV1, readRunV1, runAndStoreAnalysisV1, type AnalysisRunsV1IndexRow } from '../../shared/api/analysisRuns';
 
 function shortIso(s: unknown): string {
   const t = String(s ?? '').trim();
@@ -239,14 +239,12 @@ export const AnalysisRunsV1Page: React.FC = () => {
     setRunBusy(true);
     setRunStoreError(null);
     try {
-      const res = await fetch('/api/analysis-results-v1/run-and-store', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ projectId: runProjectId || undefined, demo: runDemo }),
-      });
-      const json: any = await res.json().catch(() => ({}));
-      if (!res.ok || json?.success === false) throw new Error(String(json?.error || json?.message || `Request failed (${res.status})`));
-      const newRunId = String(json?.runId || json?.analysisRun?.runId || '').trim();
+      if (!runDemo && !String(runProjectId || '').trim()) throw new Error('projectId is required unless demo mode is enabled');
+      const payload = runDemo
+        ? ({ demo: true, ...(runProjectId ? { projectId: runProjectId } : {}) } as any)
+        : ({ projectId: runProjectId } as any);
+      const json: any = await runAndStoreAnalysisV1(payload);
+      const newRunId = String(json?.runId || json?.analysisRunMeta?.runId || json?.analysisRun?.runId || '').trim();
       await loadIndex();
       if (newRunId) setSelectedRunId(newRunId);
     } catch (e) {
