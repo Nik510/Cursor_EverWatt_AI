@@ -6355,6 +6355,439 @@ app.get('/api/projects/:id/analysis-results-v1.pdf', async (c) => {
   }
 });
 
+/**
+ * ==========================================
+ * ANALYSIS RUNS v1 (snapshot-only persistence)
+ * ==========================================
+ *
+ * CRITICAL:
+ * - Stored runs are immutable JSON snapshots.
+ * - Reads/diffs/PDF exports must NEVER recompute engines.
+ */
+
+app.post('/api/analysis-results-v1/run-and-store', async (c) => {
+  const userId = getCurrentUserId(c);
+  const body = await c.req.json().catch(() => ({}));
+  const demo = String((body as any)?.demo || '').trim().toLowerCase() === 'true' || (body as any)?.demo === true;
+
+  async function loadIntervalInputsFromFile(filePath: string): Promise<{
+    intervalKwSeries: Array<{ timestampIso: string; kw: number }>;
+    intervalPointsV1?: Array<{ timestampIso: string; intervalMinutes: number; kWh?: number; kW?: number; temperatureF?: number }>;
+    warnings: string[];
+  }> {
+    const ext = path.extname(filePath).toLowerCase();
+    const warnings: string[] = [];
+
+    if (ext === '.json') {
+      const raw = JSON.parse(await readFile(filePath, 'utf-8')) as any;
+      const arr = Array.isArray(raw) ? raw : Array.isArray(raw?.intervals) ? raw.intervals : [];
+      const out: Array<{ timestampIso: string; kw: number }> = [];
+      for (const r of arr) {
+        const ts = String(r?.timestampIso ?? r?.timestamp ?? r?.ts ?? '').trim();
+        const kw = typeof r?.kw === 'number' ? r.kw : Number(r?.kw);
+        if (!ts || !Number.isFinite(kw)) continue;
+        out.push({ timestampIso: ts, kw });
+      }
+      return { intervalKwSeries: out, warnings };
+    }
+
+    // Spreadsheet/CSV path
+    if (ext === '.csv') {
+      try {
+        const csvText = await readFile(filePath, 'utf-8');
+        const { detectPgeCsvTypeV1 } = await import('./modules/determinants/adapters/pge/detectPgeCsvType');
+        const det = detectPgeCsvTypeV1(csvText);
+        if (det.type === 'interval' && det.confidence >= 0.6) {
+          const { parsePgeIntervalCsvV1 } = await import('./modules/determinants/adapters/pge/parsePgeIntervalCsv');
+          const parsed = parsePgeIntervalCsvV1({ csvTextOrBuffer: csvText, timezoneHint: 'America/Los_Angeles' });
+          warnings.push(...(parsed.warnings || []));
+          const firstMeter = parsed.meters?.[0];
+          const points = Array.isArray(firstMeter?.intervals) ? firstMeter.intervals : [];
+          const intervalPointsV1 = points.map((p: any) => ({
+            timestampIso: String(p?.timestampIso || '').trim(),
+            intervalMinutes: Number(p?.intervalMinutes),
+            ...(Number.isFinite(Number(p?.kWh)) ? { kWh: Number(p.kWh) } : {}),
+            ...(Number.isFinite(Number(p?.kW)) ? { kW: Number(p.kW) } : {}),
+            ...(Number.isFinite(Number(p?.temperatureF)) ? { temperatureF: Number(p.temperatureF) } : {}),
+          }));
+          const intervalKwSeries = intervalPointsV1
+            .map((p) => ({ timestampIso: p.timestampIso, kw: Number((p as any).kW) }))
+            .filter((p) => p.timestampIso && Number.isFinite(p.kw));
+          return { intervalKwSeries, intervalPointsV1, warnings };
+        }
+      } catch (e) {
+        warnings.push(`Interval CSV parse warning: ${String((e as any)?.message || e)}`);
+      }
+    }
+
+    const rows = await readIntervalData(filePath);
+    const out: Array<{ timestampIso: string; kw: number }> = [];
+    for (const r of rows as any[]) {
+      const ts = r?.timestamp ? new Date(r.timestamp).toISOString() : String(r?.timestampIso || '').trim();
+      const kw = typeof r?.kw === 'number' ? r.kw : Number(r?.kw);
+      if (!ts || !Number.isFinite(kw)) continue;
+      out.push({ timestampIso: ts, kw });
+    }
+    return { intervalKwSeries: out, warnings };
+  }
+
+  try {
+    const nowIso = new Date().toISOString();
+    const runId = randomUUID();
+    const idFactory = makeRequestScopedIdFactory({ prefix: 'analysis', runId });
+    const suggestionIdFactory = makeRequestScopedIdFactory({ prefix: 'suggestion', runId });
+    const inboxIdFactory = makeRequestScopedIdFactory({ prefix: 'inbox', runId });
+
+    const projectId = String((body as any)?.projectId || '').trim();
+    const project = demo ? null : await loadProjectInternal(userId, projectId);
+    if (!demo && !project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    // Load interval series:
+    // - demo: `samples/interval_peaky_office.json`
+    // - project: prefer persisted interval intake v1, then `project.telemetry.intervalFilePath`
+    let intervalKwSeries: Array<{ timestampIso: string; kw: number }> | null = null;
+    let intervalPointsV1:
+      | Array<{ timestampIso: string; intervalMinutes: number; kWh?: number; kW?: number; temperatureF?: number }>
+      | null = null;
+    let intervalMetaV1: any | null = null;
+    const intervalWarnings: string[] = [];
+
+    if (demo) {
+      const fp = path.join(DEFAULT_SAMPLES_DIR, 'interval_peaky_office.json');
+      const loaded = await loadIntervalInputsFromFile(fp);
+      intervalKwSeries = loaded.intervalKwSeries;
+      intervalPointsV1 = loaded.intervalPointsV1 || null;
+      intervalWarnings.push(...loaded.warnings);
+    } else {
+      const storedPts = (project as any)?.telemetry?.intervalElectricV1;
+      const storedMeta = (project as any)?.telemetry?.intervalElectricMetaV1;
+      intervalMetaV1 = storedMeta && typeof storedMeta === 'object' ? storedMeta : null;
+
+      if (Array.isArray(storedPts) && storedPts.length) {
+        intervalPointsV1 = storedPts
+          .map((p: any) => ({
+            timestampIso: String(p?.timestampIso || '').trim(),
+            intervalMinutes: Number(p?.intervalMinutes),
+            ...(Number.isFinite(Number(p?.kWh)) ? { kWh: Number(p.kWh) } : {}),
+            ...(Number.isFinite(Number(p?.kW)) ? { kW: Number(p.kW) } : {}),
+            ...(Number.isFinite(Number(p?.temperatureF)) ? { temperatureF: Number(p.temperatureF) } : {}),
+          }))
+          .filter((p: any) => p.timestampIso && Number.isFinite(Number(p.intervalMinutes)) && Number(p.intervalMinutes) > 0);
+
+        intervalKwSeries =
+          intervalPointsV1
+            ?.map((p: any) => {
+              const kwExplicit = Number(p?.kW);
+              const kWh = Number(p?.kWh);
+              const mins = Number(p?.intervalMinutes);
+              const kwDerived = !Number.isFinite(kwExplicit) && Number.isFinite(kWh) && Number.isFinite(mins) && mins > 0 ? kWh * (60 / mins) : NaN;
+              const kw = Number.isFinite(kwExplicit) ? kwExplicit : kwDerived;
+              return { timestampIso: String(p?.timestampIso || '').trim(), kw };
+            })
+            .filter((x: any) => x.timestampIso && Number.isFinite(Number(x.kw))) || null;
+
+        if (intervalMetaV1) {
+          const ws = (intervalMetaV1 as any)?.warnings;
+          if (Array.isArray(ws) && ws.length) {
+            for (const w of ws.slice(0, 12)) {
+              const code = String((w as any)?.code || '').trim();
+              if (code) intervalWarnings.push(`interval meta: ${code}`);
+            }
+          }
+        }
+      }
+
+      const intervalFilePath = String((project as any)?.telemetry?.intervalFilePath || '').trim();
+      if (!intervalKwSeries && intervalFilePath) {
+        const abs = resolveAllowlistedPath(intervalFilePath, [DEFAULT_UPLOADS_DIR]);
+        if (!abs) return c.json({ success: false, error: 'intervalFilePath rejected (outside uploads allowlist)' }, 400);
+        const loaded = await loadIntervalInputsFromFile(abs);
+        intervalKwSeries = loaded.intervalKwSeries;
+        intervalPointsV1 = loaded.intervalPointsV1 || null;
+        intervalWarnings.push(...loaded.warnings);
+      }
+    }
+    if (intervalWarnings.length) {
+      console.warn(`interval input warnings (${intervalWarnings.length}):`, intervalWarnings.slice(0, 6));
+    }
+
+    const { loadBatteryLibraryV1 } = await import('./modules/batteryLibrary/loadLibrary');
+    const { runUtilityWorkflow } = await import('./modules/workflows/runUtilityWorkflow');
+    const { generateUtilitySummaryV1 } = await import('./modules/reports/utilitySummary/v1/generateUtilitySummary');
+    const { buildInternalEngineeringReportJsonV1 } = await import('./modules/reports/internalEngineering/v1/buildInternalEngineeringReportJsonV1');
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+
+    const libPath = path.join(process.cwd(), 'samples', 'battery_library_fixture.json');
+    const lib = await loadBatteryLibraryV1(libPath);
+
+    const customer = (project as any)?.customer || {};
+    const telemetry = (project as any)?.telemetry || {};
+    const territory =
+      String((project as any)?.telemetry?.utilityTerritory || customer?.utilityCompany || (project as any)?.utilityTerritory || '').trim() ||
+      (demo ? 'PGE' : '');
+    const projectName = String(customer?.projectName || customer?.companyName || '').trim() || (demo ? 'Demo: Peaky Office' : '');
+    const siteLocation = String(customer?.siteLocation || '').trim() || (demo ? 'Oakland, CA' : '');
+    const billPdfText = String(telemetry?.billPdfText || '').trim();
+    const tariffOverrideV1 = !demo ? ((project as any)?.tariffOverrideV1 ?? null) : null;
+    const { resolveCurrentRateSelectionV1 } = await import('./modules/utilityIntelligence/currentRate/resolveCurrentRateSelectionV1');
+    const resolvedRate = await resolveCurrentRateSelectionV1({
+      demo,
+      territory,
+      customerRateCode: demo ? null : (customer?.rateCode ? String(customer.rateCode) : null),
+      billPdfText: billPdfText || null,
+      tariffOverrideV1,
+    });
+
+    const inputs: UtilityInputs = {
+      orgId: userId,
+      projectId: projectId || (demo ? 'demo' : 'unknown'),
+      serviceType: 'electric',
+      utilityTerritory: territory || undefined,
+      currentRate: resolvedRate.currentRate,
+      currentRateSelectionSource: resolvedRate.currentRateSelectionSource,
+      customerType: customer?.customerType ? String(customer.customerType) : undefined,
+      naicsCode: customer?.naicsCode ? String(customer.naicsCode) : undefined,
+      ...(siteLocation ? { address: { line1: siteLocation, city: '', state: '', zip: '', country: 'US' } } : {}),
+      ...(billPdfText ? { billPdfText } : {}),
+      ...(tariffOverrideV1 ? { tariffOverrideV1 } : {}),
+    };
+
+    const workflow = await runUtilityWorkflow({
+      inputs,
+      meterId: String((body as any)?.meterId || '').trim() || undefined,
+      intervalKwSeries,
+      intervalPointsV1,
+      batteryLibrary: lib.library.items,
+      nowIso,
+      idFactory,
+      suggestionIdFactory,
+      inboxIdFactory,
+    });
+
+    const summary = generateUtilitySummaryV1({
+      inputs,
+      insights: workflow.utility.insights,
+      utilityRecommendations: workflow.utility.recommendations,
+      batteryGate: workflow.battery.gate,
+      batterySelection: workflow.battery.selection,
+      nowIso,
+    });
+
+    const responsePayload = {
+      success: true as const,
+      demo,
+      project: {
+        id: inputs.projectId,
+        name: projectName,
+        siteLocation,
+        territory,
+        customer: customer || {},
+      },
+      workflow,
+      summary,
+    };
+
+    // Stable input fingerprint (avoid storing raw bill text; hash it).
+    const intervalCount = Array.isArray(intervalPointsV1) ? intervalPointsV1.length : Array.isArray(intervalKwSeries) ? intervalKwSeries.length : 0;
+    const tsRange = (() => {
+      const series: Array<{ timestampIso: string }> = (Array.isArray(intervalPointsV1) ? intervalPointsV1 : intervalKwSeries || []) as any;
+      let min: string | null = null;
+      let max: string | null = null;
+      for (const p of series) {
+        const ts = String((p as any)?.timestampIso || '').trim();
+        if (!ts) continue;
+        if (min === null || ts < min) min = ts;
+        if (max === null || ts > max) max = ts;
+      }
+      return { min, max };
+    })();
+
+    const fingerprintObj = {
+      schemaVersion: 'analysisRunInputsV1',
+      demo,
+      projectId: projectId || null,
+      serviceType: inputs.serviceType,
+      utilityTerritory: inputs.utilityTerritory || null,
+      currentRate: inputs.currentRate ? { utility: inputs.currentRate.utility, rateCode: inputs.currentRate.rateCode, effectiveDate: inputs.currentRate.effectiveDate || null } : null,
+      currentRateSelectionSource: inputs.currentRateSelectionSource || null,
+      tariffOverrideV1: inputs.tariffOverrideV1
+        ? {
+            commodity: (inputs.tariffOverrideV1 as any).commodity ?? null,
+            utilityId: (inputs.tariffOverrideV1 as any).utilityId ?? null,
+            snapshotId: (inputs.tariffOverrideV1 as any).snapshotId ?? null,
+            tariffIdOrRateCode: (inputs.tariffOverrideV1 as any).tariffIdOrRateCode ?? null,
+            selectionSource: (inputs.tariffOverrideV1 as any).selectionSource ?? null,
+            matchType: (inputs.tariffOverrideV1 as any).matchType ?? null,
+          }
+        : null,
+      customerType: inputs.customerType || null,
+      naicsCode: inputs.naicsCode || null,
+      billPdfTextSha256: billPdfText ? sha256Hex(billPdfText) : null,
+      interval: {
+        pointCount: intervalCount,
+        firstTimestampIso: tsRange.min,
+        lastTimestampIso: tsRange.max,
+        intervalMinutes: Array.isArray(intervalPointsV1) && intervalPointsV1.length ? Number((intervalPointsV1[0] as any)?.intervalMinutes) || null : null,
+      },
+      intervalMeta: intervalMetaV1
+        ? {
+            parserVersion: String((intervalMetaV1 as any)?.parserVersion || '').trim() || null,
+            timezoneUsed: String((intervalMetaV1 as any)?.timezoneUsed || '').trim() || null,
+          }
+        : null,
+    };
+    const inputFingerprint = sha256Hex(stableStringifyV1(fingerprintObj));
+
+    const reportJson = buildInternalEngineeringReportJsonV1({
+      projectId: inputs.projectId,
+      generatedAtIso: nowIso,
+      analysisResults: { project: responsePayload.project, workflow, summary },
+      telemetry: {
+        intervalElectricPointsV1: intervalPointsV1,
+        intervalElectricMetaV1: intervalMetaV1,
+      },
+    });
+
+    const trace = (workflow as any)?.analysisTraceV1 || null;
+    const warningsSummary = (trace as any)?.warningsSummary || { engineWarningsCount: 0, topEngineWarningCodes: [], missingInfoCount: 0, topMissingInfoCodes: [] };
+    const provenance = (trace as any)?.provenance || {};
+
+    const analysisRun = {
+      runId,
+      createdAtIso: nowIso,
+      nowIso,
+      projectId: projectId || null,
+      inputFingerprint,
+      engineVersions: (reportJson as any)?.engineVersions && typeof (reportJson as any).engineVersions === 'object' ? (reportJson as any).engineVersions : {},
+      provenance: {
+        tariffSnapshotId: (provenance as any)?.tariffSnapshotId ?? null,
+        generationEnergySnapshotId: (provenance as any)?.generationEnergySnapshotId ?? null,
+        addersSnapshotId: (provenance as any)?.addersSnapshotId ?? null,
+        exitFeesSnapshotId: (provenance as any)?.exitFeesSnapshotId ?? null,
+      },
+      warningsSummary: {
+        engineWarningsCount: Number((warningsSummary as any)?.engineWarningsCount) || 0,
+        topEngineWarningCodes: Array.isArray((warningsSummary as any)?.topEngineWarningCodes) ? (warningsSummary as any).topEngineWarningCodes.slice(0, 10).map(String) : [],
+        missingInfoCount: Number((warningsSummary as any)?.missingInfoCount) || 0,
+        topMissingInfoCodes: Array.isArray((warningsSummary as any)?.topMissingInfoCodes) ? (warningsSummary as any).topMissingInfoCodes.slice(0, 10).map(String) : [],
+      },
+      snapshot: {
+        response: responsePayload,
+        reportJson,
+      },
+    };
+
+    const store = createAnalysisRunsStoreFsV1();
+    await store.writeRun(analysisRun as any);
+
+    return c.json({
+      success: true,
+      runId,
+      snapshot: analysisRun.snapshot,
+      analysisRun: {
+        runId: analysisRun.runId,
+        createdAtIso: analysisRun.createdAtIso,
+        projectId: analysisRun.projectId,
+        inputFingerprint: analysisRun.inputFingerprint,
+        engineVersions: analysisRun.engineVersions,
+        provenance: analysisRun.provenance,
+        warningsSummary: analysisRun.warningsSummary,
+      },
+    });
+  } catch (error) {
+    console.error('analysis-results-v1.run-and-store error:', error);
+    return c.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to run and store analysis',
+      },
+      500
+    );
+  }
+});
+
+app.get('/api/analysis-results-v1/runs/:runId', async (c) => {
+  try {
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const store = createAnalysisRunsStoreFsV1();
+    const runId = c.req.param('runId');
+    const analysisRun = await store.readRun(runId);
+    return c.json({ success: true, analysisRun });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to load analysis run';
+    const status = String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/analysis-results-v1/diff', async (c) => {
+  try {
+    const body = await c.req.json().catch(() => ({}));
+    const runIdA = String((body as any)?.runIdA || '').trim();
+    const runIdB = String((body as any)?.runIdB || '').trim();
+    if (!runIdA || !runIdB) return c.json({ success: false, error: 'runIdA and runIdB are required' }, 400);
+
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { buildDiffSummaryV1 } = await import('./modules/analysisRunsV1/diffV1');
+    const store = createAnalysisRunsStoreFsV1();
+
+    const runA = await store.readRun(runIdA);
+    const runB = await store.readRun(runIdB);
+    const diff = buildDiffSummaryV1({ runA, runB });
+    return c.json({ success: true, diff });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to diff analysis runs';
+    const status = String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/analysis-results-v1/runs/:runId/pdf', async (c) => {
+  function safeFilenamePart(s: string): string {
+    const cleaned = String(s || '')
+      .trim()
+      .replace(/[^\w\-]+/g, '_')
+      .replace(/_+/g, '_')
+      .slice(0, 80);
+    return cleaned || 'analysis_run';
+  }
+
+  try {
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { renderUtilitySummaryPdf } = await import('./modules/reports/utilitySummary/v1/renderUtilitySummaryPdf');
+    const store = createAnalysisRunsStoreFsV1();
+    const runId = c.req.param('runId');
+    const analysisRun = await store.readRun(runId);
+
+    const reportJson: any = (analysisRun as any)?.snapshot?.reportJson ?? null;
+    const summaryMarkdown = String(reportJson?.summary?.markdown || '').trim();
+    const summaryJson = reportJson?.summary?.json ?? null;
+    const project = reportJson?.project ?? null;
+    const projectName = String(project?.name || project?.projectName || (analysisRun as any)?.projectId || '').trim() || runId;
+    const siteLocation = String(project?.siteLocation || project?.address || '').trim();
+    const territory = String(project?.territory || '').trim();
+
+    if (!summaryMarkdown || !summaryJson) {
+      return c.json({ success: false, error: 'Stored reportJson is missing summary markdown/json (cannot render PDF without recompute)' }, 400);
+    }
+
+    const pdf = await renderUtilitySummaryPdf({
+      project: { name: projectName, address: siteLocation || undefined, territory: territory || undefined },
+      summaryMarkdown,
+      summaryJson,
+    });
+
+    const filename = `EverWatt_AnalysisRunV1_${safeFilenamePart(projectName || runId)}.pdf`;
+    c.header('Content-Type', 'application/pdf');
+    c.header('Content-Disposition', `attachment; filename="${filename}"`);
+    return c.body(new Uint8Array(pdf));
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to render PDF';
+    const status = String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
 app.put('/api/projects/:id', async (c) => {
   const userId = getCurrentUserId(c);
   const id = c.req.param('id');

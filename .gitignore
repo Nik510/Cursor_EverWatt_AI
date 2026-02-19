@@ -41,6 +41,7 @@ data/analyses/
 data/exports/
 data/_rollback/
 data/tmp/
+.data/analysisRunsV1/
 **/*export*.csv
 **/*export*.xlsx
 
