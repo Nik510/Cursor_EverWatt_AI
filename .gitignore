@@ -42,8 +42,12 @@ data/exports/
 data/_rollback/
 data/tmp/
 .data/analysisRunsV1/
+.data/reportSessionsV1/
 **/*export*.csv
 **/*export*.xlsx
+
+# local scratch
+test-page.html
 
 # If these are generated snapshots (not hand-curated):
 data/tariffs/

@@ -4716,7 +4716,13 @@ async function persistBatteryAnalysisRun(args: {
   return { runId };
 }
 
-const PROJECTS_DIR = path.join(process.cwd(), 'data', 'projects');
+const ENV_PROJECTS_BASEDIR = 'EVERWATT_PROJECTS_BASEDIR';
+function getProjectsDir(): string {
+  const env = String(process.env[ENV_PROJECTS_BASEDIR] || '').trim();
+  if (env) return path.resolve(env);
+  return path.join(process.cwd(), 'data', 'projects');
+}
+const PROJECTS_DIR = getProjectsDir();
 if (!existsSync(PROJECTS_DIR)) {
   mkdir(PROJECTS_DIR, { recursive: true }).catch(console.error);
 }
@@ -7140,6 +7146,252 @@ app.get('/api/analysis-results-v1/runs/:runId/pdf', async (c) => {
     return c.body(new Uint8Array(pdf));
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to render PDF';
+    const status = String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+/**
+ * ==========================================
+ * REPORT SESSIONS v1 (user-facing spine)
+ * ==========================================
+ *
+ * CRITICAL:
+ * - Stored sessions are immutable-ish metadata + pointers to stored run snapshots.
+ * - Reads must NEVER recompute engines.
+ * - Run endpoints may compute, but they must persist snapshots and return ids.
+ */
+
+app.post('/api/report-sessions-v1/create', async (c) => {
+  try {
+    const body = await c.req.json().catch(() => ({}));
+    const kind = String((body as any)?.kind || '').trim() || 'CUSTOM';
+    const title = String((body as any)?.title || '').trim() || undefined;
+    const projectId = String((body as any)?.projectId || '').trim() || null;
+    const inputsSummary = ((body as any)?.inputsSummary && typeof (body as any).inputsSummary === 'object' ? (body as any).inputsSummary : {}) as any;
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const created = await store.createSession({ kind, ...(title ? { title } : {}), ...(projectId ? { projectId } : {}), inputsSummary });
+    return c.json({ success: true, reportId: created.reportId, session: created.session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to create report session';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.get('/api/report-sessions-v1', async (c) => {
+  try {
+    const limitRaw = Number(c.req.query('limit') ?? 50);
+    const limit = Math.max(1, Math.min(200, Number.isFinite(limitRaw) ? Math.trunc(limitRaw) : 50));
+    const q = String(c.req.query('q') || '').trim() || undefined;
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const sessions = await store.listSessions({ limit, ...(q ? { query: q } : {}) });
+    return c.json({ success: true, sessions, warnings: [] });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to list report sessions';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.get('/api/report-sessions-v1/:reportId', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const session = await store.getSession(reportId);
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to load report session';
+    const status = String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/run-utility', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const { createProjectShellIntakeOnlyV1 } = await import('./modules/project/createProjectShellIntakeOnlyV1');
+    const store = createReportSessionsStoreFsV1();
+    const session = await store.getSession(reportId);
+
+    const workflowInputs = ((body as any)?.workflowInputs && typeof (body as any).workflowInputs === 'object' ? (body as any).workflowInputs : {}) as any;
+    const demo = Boolean(workflowInputs?.demo === true || String(workflowInputs?.demo || '').trim().toLowerCase() === 'true');
+
+    let projectId =
+      String((body as any)?.projectId || '').trim() ||
+      String(session?.projectId || '').trim() ||
+      '';
+
+    if (!projectId) {
+      const shell = await createProjectShellIntakeOnlyV1({
+        orgId: userId,
+        reportId,
+        name: String(workflowInputs?.projectName || workflowInputs?.name || '').trim() || undefined,
+        address: String(workflowInputs?.address || '').trim() || undefined,
+        utilityCompany: String(workflowInputs?.utilityHint || workflowInputs?.utilityCompany || '').trim() || undefined,
+      });
+      projectId = shell.projectId;
+      await store.patchSession(reportId, { projectId });
+    }
+
+    // Optionally persist intake artifacts into project.telemetry (additive).
+    // This gives the engines something to work with without requiring full project builder flows.
+    const billPdfText = String(workflowInputs?.billPdfText || '').trim();
+    const intervalElectricV1 = Array.isArray(workflowInputs?.intervalElectricV1) ? workflowInputs.intervalElectricV1 : null;
+    const intervalElectricMetaV1 =
+      workflowInputs?.intervalElectricMetaV1 && typeof workflowInputs.intervalElectricMetaV1 === 'object' ? workflowInputs.intervalElectricMetaV1 : null;
+    if (billPdfText || intervalElectricV1 || intervalElectricMetaV1) {
+      const proj = await loadProjectInternal(userId, projectId);
+      if (proj) {
+        const nextTelemetry: any = { ...(proj as any)?.telemetry };
+        if (billPdfText) nextTelemetry.billPdfText = billPdfText;
+        if (intervalElectricV1) nextTelemetry.intervalElectricV1 = intervalElectricV1;
+        if (intervalElectricMetaV1) nextTelemetry.intervalElectricMetaV1 = intervalElectricMetaV1;
+        await persistProjectInternal(userId, projectId, { telemetry: nextTelemetry });
+      }
+    }
+
+    // Delegate to the existing run-and-store endpoint (single source of truth).
+    const auth = c.req.header('Authorization');
+    const runRes = await app.request('/api/analysis-results-v1/run-and-store', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-user-id': userId,
+        ...(auth ? { Authorization: auth } : {}),
+      },
+      body: JSON.stringify({
+        ...(demo ? { demo: true } : {}),
+        projectId,
+        ...(String(workflowInputs?.meterId || '').trim() ? { meterId: String(workflowInputs.meterId).trim() } : {}),
+      }),
+    });
+
+    if (!runRes.ok) {
+      const text = await runRes.text().catch(() => '');
+      return c.json({ success: false, error: `Failed to run utility workflow (${runRes.status}): ${text || runRes.statusText}` }, 400);
+    }
+    const runJson: any = await runRes.json();
+    const runId = String(runJson?.runId || runJson?.analysisRunMeta?.runId || runJson?.analysisRun?.runId || '').trim();
+    if (!runId) return c.json({ success: false, error: 'run-and-store did not return runId' }, 500);
+
+    await store.attachRun(reportId, runId);
+    return c.json({ success: true, reportId, projectId, runId });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to run utility workflow';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/generate-internal-engineering-report', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+    const requestedRunId = String((body as any)?.runId || '').trim() || null;
+    const requestedTitle = String((body as any)?.title || '').trim() || '';
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+
+    const sessionStore = createReportSessionsStoreFsV1();
+    const runStore = createAnalysisRunsStoreFsV1();
+
+    const session = await sessionStore.getSession(reportId);
+    const projectId = String(session?.projectId || '').trim();
+    if (!projectId) return c.json({ success: false, error: 'Report session is not attached to a projectId' }, 400);
+
+    const runId = requestedRunId || (Array.isArray(session.runIds) && session.runIds.length ? String(session.runIds[0] || '').trim() : '');
+    if (!runId) return c.json({ success: false, error: 'runId is required (or attach a run first)' }, 400);
+
+    const analysisRun: any = await runStore.readRun(runId);
+    const reportJson = analysisRun?.snapshot?.reportJson;
+    if (!reportJson) return c.json({ success: false, error: 'Stored analysis run is missing reportJson' }, 400);
+
+    // Persist a revision under the project record (append-only, bounded) without recompute.
+    const nowIso = new Date().toISOString();
+    const title = requestedTitle || `Internal Engineering Report • ${nowIso.slice(0, 10)}`;
+    const reportHash = sha256Hex(stableStringifyV1(reportJson));
+    const engineVersionsMeta = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : undefined;
+    const warningsSummaryMeta =
+      reportJson?.analysisTraceV1?.warningsSummary && typeof reportJson.analysisTraceV1.warningsSummary === 'object' ? reportJson.analysisTraceV1.warningsSummary : undefined;
+
+    const revisionId = randomUUID();
+    const revision: any = {
+      id: revisionId,
+      createdAt: nowIso,
+      title,
+      reportHash,
+      reportJson,
+      runId,
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+    };
+
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const existingReports = (project as any)?.reportsV1 && typeof (project as any).reportsV1 === 'object' ? (project as any).reportsV1 : {};
+    const existingRevisions = Array.isArray(existingReports?.internalEngineering) ? existingReports.internalEngineering : [];
+    const nextRevisions = [revision, ...existingRevisions].slice(0, 200);
+    const nextReportsV1 = { ...existingReports, internalEngineering: nextRevisions };
+    await persistProjectInternal(userId, projectId, { reportsV1: nextReportsV1 });
+
+    const htmlUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/internal-engineering/${encodeURIComponent(revisionId)}.html`;
+    const jsonUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/internal-engineering/${encodeURIComponent(revisionId)}.json`;
+
+    const revisionMeta = {
+      revisionId,
+      createdAtIso: nowIso,
+      runId,
+      format: 'HTML' as const,
+      downloadUrl: htmlUrl,
+    };
+    await sessionStore.attachRevision(reportId, revisionMeta);
+
+    return c.json({
+      success: true,
+      revisionMeta: {
+        ...revisionMeta,
+        download: { htmlUrl, jsonUrl },
+        projectId,
+      },
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to generate internal engineering report';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/build-wizard-output', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+    const requestedRunId = String((body as any)?.runId || '').trim() || null;
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { buildWizardOutputV1 } = await import('./modules/wizardOutputV1/buildWizardOutputV1');
+
+    const sessionStore = createReportSessionsStoreFsV1();
+    const runStore = createAnalysisRunsStoreFsV1();
+
+    const session = await sessionStore.getSession(reportId);
+    const runId = requestedRunId || (Array.isArray(session.runIds) && session.runIds.length ? String(session.runIds[0] || '').trim() : '');
+    if (!runId) return c.json({ success: false, error: 'runId is required (or attach a run first)' }, 400);
+
+    const analysisRun = await runStore.readRun(runId);
+    const wizardOutput = buildWizardOutputV1({ session, runId, analysisRunSnapshot: analysisRun });
+    return c.json({ success: true, wizardOutput });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to build wizard output';
     const status = String(message).toLowerCase().includes('not found') ? 404 : 400;
     return c.json({ success: false, error: message }, status as any);
   }
