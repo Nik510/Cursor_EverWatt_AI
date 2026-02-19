@@ -1,3 +1,5 @@
+import type { AnalyzeUtilityStepTraceItemV1 } from '../stepTraceV1';
+
 export type AnalysisTraceV1IntervalGranularity = '15m' | '60m' | 'daily' | 'unknown';
 
 export type AnalysisTraceV1TariffMatchStatus = 'FOUND' | 'AMBIGUOUS' | 'NOT_FOUND' | 'UNSUPPORTED' | 'UNKNOWN';
@@ -16,6 +18,12 @@ export type AnalysisTraceV1 = {
 
   /** Stable, sorted list of skipped modules with explicit reason codes. */
   skippedModules: Array<{ module: string; reasonCode: string }>;
+
+  /**
+   * Deterministic step boundaries for `analyzeUtility` (fixed order list).
+   * Additive: enables strict regression gating without changing heuristics.
+   */
+  steps?: AnalyzeUtilityStepTraceItemV1[];
 
   coverage: {
     hasInterval: boolean;

@@ -1,6 +1,7 @@
 import type { UtilityInputs } from '../types';
 import type { AnalysisTraceV1, AnalysisTraceV1IntervalGranularity, AnalysisTraceV1SupplyProviderType, AnalysisTraceV1TariffMatchStatus } from './types';
 import type { NormalizedIntervalV1 } from '../intervalNormalizationV1/types';
+import { ANALYZE_UTILITY_STEP_ORDER_V1, type AnalyzeUtilityStepTraceItemV1 } from '../stepTraceV1';
 
 const MS_PER_DAY = 86_400_000;
 
@@ -209,6 +210,36 @@ function sortSkipped(items: Array<{ module: string; reasonCode: string }>): Arra
     .sort((a, b) => a.module.localeCompare(b.module) || a.reasonCode.localeCompare(b.reasonCode));
 }
 
+function normalizeSteps(raw: unknown): AnalyzeUtilityStepTraceItemV1[] {
+  const items = Array.isArray(raw) ? (raw as any[]) : [];
+  const byName = new Map<string, AnalyzeUtilityStepTraceItemV1>();
+  for (const it of items) {
+    const name = safeString((it as any)?.name);
+    const statusRaw = safeString((it as any)?.status).toUpperCase();
+    const status: AnalyzeUtilityStepTraceItemV1['status'] = statusRaw === 'RAN' ? 'RAN' : 'SKIPPED';
+    const reasonCode = safeString((it as any)?.reasonCode) || undefined;
+    if (!name) continue;
+    if (byName.has(name)) continue;
+    byName.set(name, { name: name as any, status, ...(reasonCode ? { reasonCode } : {}) } as any);
+  }
+
+  const out: AnalyzeUtilityStepTraceItemV1[] = [];
+  const known = new Set<string>();
+  for (const n of ANALYZE_UTILITY_STEP_ORDER_V1) {
+    known.add(String(n));
+    const hit = byName.get(String(n));
+    if (hit) out.push(hit);
+  }
+
+  const unknown = [...byName.entries()]
+    .filter(([name]) => !known.has(name))
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([, v]) => v);
+  out.push(...unknown);
+
+  return out;
+}
+
 export function buildAnalysisTraceV1(args: {
   nowIso: string;
   inputs: UtilityInputs;
@@ -220,6 +251,8 @@ export function buildAnalysisTraceV1(args: {
   intervalMetaV1?: any | null;
   /** Utility analysis insights object (already computed). */
   insights: any;
+  /** Optional analyzeUtility step boundaries (already in fixed order). */
+  steps?: AnalyzeUtilityStepTraceItemV1[] | null;
 }): AnalysisTraceV1 {
   const generatedAtIso = safeString(args.nowIso) || new Date().toISOString();
   const intervalKw = Array.isArray(args.intervalKwSeries) ? args.intervalKwSeries : [];
@@ -349,10 +382,13 @@ export function buildAnalysisTraceV1(args: {
   const topEngineWarningCodes = summarizeTopCodes({ items: engineWarnings, getCode: (w) => (w as any)?.code, max: 10 });
   const topMissingInfoCodes = summarizeTopCodes({ items: missingInfoIds, getCode: (id) => id, max: 10 });
 
+  const steps = args.steps ? normalizeSteps(args.steps) : [];
+
   return {
     generatedAtIso,
     ranModules,
     skippedModules,
+    ...(steps.length ? { steps } : {}),
     coverage: {
       hasInterval,
       intervalGranularity,

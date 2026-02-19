@@ -1,0 +1,4222 @@
+{
+  "caseId": "10_unsupported_municipal_utility_warnings_first",
+  "reportJson": {
+    "analysisTraceV1": {
+      "coverage": {
+        "billMonths": null,
+        "hasBillText": true,
+        "hasInterval": true,
+        "hasRatchetHistory": true,
+        "hasWeatherDaily": false,
+        "intervalDays": 2,
+        "intervalGranularity": "60m",
+        "supplyConfidence": 0.2,
+        "supplyProviderType": "NONE",
+        "tariffMatchStatus": "UNSUPPORTED",
+        "weatherDays": null
+      },
+      "generatedAtIso": "2026-03-01T00:00:00.000Z",
+      "provenance": {
+        "addersSnapshotId": null,
+        "exitFeesSnapshotId": null,
+        "generationEnergySnapshotId": null,
+        "tariffSnapshotId": null
+      },
+      "ranModules": [
+        "batteryDecisionPackV1_2/buildBatteryDecisionPackV1_2",
+        "batteryEconomicsV1/decisionPackV1",
+        "batteryEconomicsV1/evaluateBatteryEconomicsV1",
+        "batteryIntelligence/selectBatteryCandidatesV1",
+        "batteryIntelligence/shouldEvaluateBattery",
+        "batteryIntelligence/toBatteryRecommendationsV1",
+        "utilityIntelligence/analyzeUtility",
+        "utilityIntelligence/billPdf/extractBillPdfTariffHintsV1",
+        "utilityIntelligence/intervalIntelligenceV1",
+        "utilityIntelligence/toInboxSuggestions",
+        "workflows/runUtilityWorkflow"
+      ],
+      "skippedModules": [
+        {
+          "module": "billingEngineV2/billSimV2",
+          "reasonCode": "MISSING_DETERMINANTS"
+        },
+        {
+          "module": "determinants/packV1",
+          "reasonCode": "OUTPUT_ABSENT"
+        },
+        {
+          "module": "tariffLibrary/metadataLookupV0",
+          "reasonCode": "NO_CURRENT_RATE"
+        },
+        {
+          "module": "utilityIntelligence/billPdf/matchBillTariffToLibraryV1",
+          "reasonCode": "NO_RATE_SCHEDULE_TEXT_OR_SNAPSHOT"
+        },
+        {
+          "module": "utilityIntelligence/weatherRegressionV1",
+          "reasonCode": "NO_TEMPERATURE_IN_INTERVALS"
+        }
+      ],
+      "steps": [
+        {
+          "name": "normalizeIntervalInputsV1",
+          "status": "RAN"
+        },
+        {
+          "name": "supplyStructureAnalyzerV1_2",
+          "status": "RAN"
+        },
+        {
+          "name": "tariffMatchAndRateContext",
+          "status": "RAN"
+        },
+        {
+          "name": "determinantsPackV1",
+          "reasonCode": "NO_CURRENT_RATE_CODE",
+          "status": "SKIPPED"
+        },
+        {
+          "name": "intervalIntelligenceV1",
+          "status": "RAN"
+        },
+        {
+          "name": "weatherRegressionV1",
+          "reasonCode": "NO_TEMPERATURE_IN_INTERVALS",
+          "status": "SKIPPED"
+        },
+        {
+          "name": "batteryOpportunityPackV1",
+          "status": "RAN"
+        },
+        {
+          "name": "batteryDecisionPackV1_2",
+          "status": "RAN"
+        },
+        {
+          "name": "programIntelligenceV1",
+          "status": "RAN"
+        },
+        {
+          "name": "recommendationsAssembly",
+          "status": "RAN"
+        },
+        {
+          "name": "missingInfoAssembly",
+          "status": "RAN"
+        }
+      ],
+      "warningsSummary": {
+        "engineWarningsCount": 0,
+        "missingInfoCount": 10,
+        "topEngineWarningCodes": [],
+        "topMissingInfoCodes": [
+          "behaviorV2.baseLoadDrift.unavailable",
+          "behaviorV2.insufficientCycles",
+          "behaviorV2.peaks.missing",
+          "behaviorV2.weekendShare.insufficientMonths",
+          "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+          "billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+          "loadAttribution.weather.missing",
+          "supply.v1.lse_undetected",
+          "tariff.currentRateCode.missing",
+          "weather.interval.temperature.missing"
+        ]
+      }
+    },
+    "auditDrawerV1": {
+      "engineVersions": {
+        "batteryDecisionPack": "battery_decision_pack_v1.2",
+        "batteryEconomics": "battery_econ_v1.3",
+        "billingEngineV1": "billing_v1.0",
+        "degradation": "degradation_v0",
+        "determinants": "determinants_pack_v1.0",
+        "dispatch": "dispatch_v1_1",
+        "exitFees": "exit_fees_v0",
+        "incentivesStub": "incentives_stub_v1.0",
+        "intervalIntake": "interval_csv_v1",
+        "sgip": "sgip_v0",
+        "storageEconomics": "storage_econ_v1.0",
+        "tariffEngine": "tariff_engine_v1.0",
+        "tax": "tax_v0"
+      },
+      "generatedAtIso": "2026-03-01T00:00:00.000Z",
+      "moneyExplainers": {
+        "battery_economics_total": {
+          "id": "battery_economics_total",
+          "lineItems": [
+            {
+              "dollars": 60200,
+              "id": "capex.batteryEquipment",
+              "label": "Battery equipment (power + energy components)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "defaults.costs"
+            },
+            {
+              "dollars": 14025,
+              "id": "capex.contingency",
+              "label": "Contingency",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "defaults.contingencyPct"
+            },
+            {
+              "dollars": 15050,
+              "id": "capex.install",
+              "label": "Install adder",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "defaults.installAdderPct"
+            },
+            {
+              "dollars": 25000,
+              "id": "capex.interconnect",
+              "label": "Interconnection / electrical",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "defaults.interconnectFlatUsd"
+            },
+            {
+              "dollars": 40000,
+              "id": "capex.softCosts",
+              "label": "Soft costs (engineering, PM, permitting)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "defaults.softCostsFlatUsd"
+            },
+            {
+              "dollars": 154275,
+              "id": "capex.total",
+              "label": "Total CAPEX",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "costModelV1"
+            },
+            {
+              "dollars": -280,
+              "id": "finance.netAnnual",
+              "label": "Net annual cashflow (savings - opex)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "financeModelV1.netAnnual"
+            },
+            {
+              "dollars": -156071.94,
+              "id": "finance.npv",
+              "label": "NPV (lite)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "financeModelV1.npv"
+            },
+            {
+              "dollars": -154275,
+              "id": "finance.year0",
+              "label": "Year 0 cashflow (CAPEX)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "financeModelV1.year0"
+            },
+            {
+              "dollars": 280,
+              "id": "opex.omAnnual",
+              "label": "O&M (annual)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "defaults.omPerKwYrUsd"
+            },
+            {
+              "dollars": 280,
+              "id": "opex.totalAnnual",
+              "label": "Total OPEX (annual)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "costModelV1"
+            },
+            {
+              "dollars": 0,
+              "id": "opex.warrantyReserveAnnual",
+              "label": "Warranty reserve (annual)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "defaults.warrantyReservePctOfCapexPerYear"
+            },
+            {
+              "dollars": 0,
+              "id": "savings.demandAnnual",
+              "label": "Demand charge savings (annual)",
+              "rateSource": {
+                "kind": "DELIVERY",
+                "rateCode": null,
+                "snapshotId": null
+              },
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "inputs.tariffs"
+            },
+            {
+              "dollars": 0,
+              "id": "savings.drAnnual",
+              "label": "Demand response value (annual)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "inputs.dr.annualValueUsd"
+            },
+            {
+              "dollars": 0,
+              "id": "savings.energyAnnual",
+              "label": "Energy TOU arbitrage savings (annual)",
+              "rateSource": {
+                "kind": "DELIVERY",
+                "rateCode": null,
+                "snapshotId": null
+              },
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "inputs.tariffs"
+            },
+            {
+              "dollars": 0,
+              "id": "savings.otherAnnual",
+              "label": "Other savings (annual)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "savingsModelV1.other"
+            },
+            {
+              "dollars": 0,
+              "id": "savings.ratchetAvoidedAnnual",
+              "label": "Ratchet savings (annual, lite)",
+              "rateSource": {
+                "kind": "DELIVERY",
+                "rateCode": null,
+                "snapshotId": null
+              },
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "inputs.determinants"
+            },
+            {
+              "dollars": 0,
+              "id": "savings.totalAnnual",
+              "label": "Total savings (annual)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "savingsModelV1.total"
+            }
+          ],
+          "missingInfo": [],
+          "sources": [
+            {
+              "kind": "ENGINE_RULE",
+              "linkHints": {
+                "analysisUrl": "/analysis/v1/p_golden_10",
+                "billingIntakeUrl": "/project-builder/p_golden_10/intake/billing",
+                "intervalIntakeUrl": "/project-builder/p_golden_10/intake/intervals"
+              },
+              "note": "Snapshot-only: reportJson.batteryEconomicsV1.audit.lineItems"
+            }
+          ],
+          "summaryLines": [
+            "Annual savings (total): $0",
+            "Engine: batteryEconomicsV1@battery_econ_v1.3",
+            "Audit line items: 18"
+          ],
+          "title": "Battery economics (total)",
+          "totals": {
+            "dollars": 0
+          }
+        },
+        "cca_generation_pricing": {
+          "id": "cca_generation_pricing",
+          "lineItems": [],
+          "missingInfo": [],
+          "sources": [
+            {
+              "kind": "ENGINE_RULE",
+              "linkHints": {
+                "analysisUrl": "/analysis/v1/p_golden_10",
+                "billingIntakeUrl": "/project-builder/p_golden_10/intake/billing",
+                "intervalIntakeUrl": "/project-builder/p_golden_10/intake/intervals"
+              },
+              "note": "Generation snapshot unavailable"
+            }
+          ],
+          "summaryLines": [],
+          "title": "CCA generation pricing",
+          "totals": {}
+        },
+        "demand_savings": {
+          "id": "demand_savings",
+          "lineItems": [
+            {
+              "dollars": 0,
+              "id": "dispatch.HYBRID_V1.demandSavingsAnnual.min",
+              "label": "Dispatch HYBRID_V1 demand savings (min)",
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=HYBRID_V1].estimatedDemandSavingsAnnual.min"
+            },
+            {
+              "dollars": 0,
+              "id": "dispatch.PEAK_SHAVE_DAILY_V1.demandSavingsAnnual.min",
+              "label": "Dispatch PEAK_SHAVE_DAILY_V1 demand savings (min)",
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=PEAK_SHAVE_DAILY_V1].estimatedDemandSavingsAnnual.min"
+            },
+            {
+              "dollars": 0,
+              "id": "dispatch.TOU_SHIFT_V1.demandSavingsAnnual.min",
+              "label": "Dispatch TOU_SHIFT_V1 demand savings (min)",
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=TOU_SHIFT_V1].estimatedDemandSavingsAnnual.min"
+            },
+            "[Circular]"
+          ],
+          "missingInfo": [],
+          "sources": [
+            {
+              "kind": "ENGINE_RULE",
+              "linkHints": {
+                "analysisUrl": "/analysis/v1/p_golden_10",
+                "billingIntakeUrl": "/project-builder/p_golden_10/intake/billing",
+                "intervalIntakeUrl": "/project-builder/p_golden_10/intake/intervals"
+              },
+              "note": "Snapshot-only: reportJson.batteryEconomicsV1.audit + dispatchSimulationV1"
+            }
+          ],
+          "summaryLines": [
+            "Annual demand savings: $0"
+          ],
+          "title": "Demand savings",
+          "totals": {
+            "dollars": 0
+          }
+        },
+        "energy_arbitrage_savings": {
+          "id": "energy_arbitrage_savings",
+          "lineItems": [
+            {
+              "dollars": 0,
+              "id": "dispatch.HYBRID_V1.energySavingsAnnual.min",
+              "label": "Dispatch HYBRID_V1 energy savings (min)",
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=HYBRID_V1].estimatedEnergySavingsAnnual.min"
+            },
+            {
+              "dollars": null,
+              "id": "dispatch.HYBRID_V1.shiftedKwhAnnual.value",
+              "label": "Dispatch HYBRID_V1 shifted energy (annual)",
+              "quantity": 14560,
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=HYBRID_V1].estimatedShiftedKwhAnnual.value",
+              "unit": "kWh/yr"
+            },
+            {
+              "dollars": 0,
+              "id": "dispatch.PEAK_SHAVE_DAILY_V1.energySavingsAnnual.min",
+              "label": "Dispatch PEAK_SHAVE_DAILY_V1 energy savings (min)",
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=PEAK_SHAVE_DAILY_V1].estimatedEnergySavingsAnnual.min"
+            },
+            {
+              "dollars": null,
+              "id": "dispatch.PEAK_SHAVE_DAILY_V1.shiftedKwhAnnual.value",
+              "label": "Dispatch PEAK_SHAVE_DAILY_V1 shifted energy (annual)",
+              "quantity": 14560,
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=PEAK_SHAVE_DAILY_V1].estimatedShiftedKwhAnnual.value",
+              "unit": "kWh/yr"
+            },
+            {
+              "dollars": 0,
+              "id": "dispatch.TOU_SHIFT_V1.energySavingsAnnual.min",
+              "label": "Dispatch TOU_SHIFT_V1 energy savings (min)",
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=TOU_SHIFT_V1].estimatedEnergySavingsAnnual.min"
+            },
+            {
+              "dollars": null,
+              "id": "dispatch.TOU_SHIFT_V1.shiftedKwhAnnual.value",
+              "label": "Dispatch TOU_SHIFT_V1 shifted energy (annual)",
+              "quantity": 14560,
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=TOU_SHIFT_V1].estimatedShiftedKwhAnnual.value",
+              "unit": "kWh/yr"
+            },
+            "[Circular]"
+          ],
+          "missingInfo": [],
+          "sources": [
+            {
+              "kind": "TARIFF_SNAPSHOT",
+              "linkHints": {
+                "analysisUrl": "/analysis/v1/p_golden_10",
+                "billingIntakeUrl": "/project-builder/p_golden_10/intake/billing",
+                "intervalIntakeUrl": "/project-builder/p_golden_10/intake/intervals",
+                "tariffBrowserUrl": "/utilities/tariffs-ca?utility=LADWP"
+              },
+              "note": "Tariff browser hint (delivery context)"
+            }
+          ],
+          "summaryLines": [
+            "Annual energy savings: $0",
+            "Rate source: DELIVERY"
+          ],
+          "title": "Energy arbitrage savings",
+          "totals": {
+            "dollars": 0
+          }
+        },
+        "interval_data_quality": {
+          "id": "interval_data_quality",
+          "lineItems": [],
+          "missingInfo": [
+            "intervalElectricMetaV1.missing"
+          ],
+          "sources": [
+            {
+              "kind": "INTERVAL_EVIDENCE",
+              "linkHints": {
+                "analysisUrl": "/analysis/v1/p_golden_10",
+                "billingIntakeUrl": "/project-builder/p_golden_10/intake/billing",
+                "intervalIntakeUrl": "/project-builder/p_golden_10/intake/intervals"
+              },
+              "note": "Interval evidence pointers (vault file id / storage key when available)"
+            }
+          ],
+          "summaryLines": [],
+          "title": "Interval data quality",
+          "totals": {}
+        },
+        "tariff_match_and_rate_fit": {
+          "id": "tariff_match_and_rate_fit",
+          "lineItems": [],
+          "missingInfo": [
+            "deliverySnapshotId.missing"
+          ],
+          "sources": [
+            {
+              "kind": "TARIFF_SNAPSHOT",
+              "linkHints": {
+                "analysisUrl": "/analysis/v1/p_golden_10",
+                "billingIntakeUrl": "/project-builder/p_golden_10/intake/billing",
+                "intervalIntakeUrl": "/project-builder/p_golden_10/intake/intervals",
+                "tariffBrowserUrl": "/utilities/tariffs-ca?utility=LADWP"
+              },
+              "note": "IOU delivery tariff snapshot hint"
+            }
+          ],
+          "summaryLines": [
+            "Utility: LADWP",
+            "Rate fit: unknown"
+          ],
+          "title": "Tariff match and rate fit",
+          "totals": {}
+        }
+      },
+      "projectId": "p_golden_10",
+      "provenance": {
+        "acquisitionMethodUsed": "delivery",
+        "evidencePointers": {
+          "billing": {
+            "billPdfTextPresent": true
+          }
+        }
+      },
+      "version": "audit_drawer_v1.0",
+      "warnings": [
+        "auditDrawerV1.missing.intervalEvidence",
+        "battery.econ.capex_defaults_used",
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_capex_inputs",
+        "battery.econ.missing_tariff_inputs",
+        "battery.econ.net_savings_non_positive",
+        "battery.econ.savings_unavailable_no_tariffengine",
+        "battery.v1.missing_demand_determinants",
+        "battery.v1.missing_tariff_prices",
+        "supply.v1.confidence_low",
+        "supply.v1.lse_undetected",
+        "supply.v1.utility_unknown"
+      ]
+    },
+    "batteryDecisionPackV1": {
+      "confidenceTier": "LOW",
+      "constraints": {
+        "sizingSearchV1": {
+          "allCandidateCount": 8,
+          "constraintsUsed": {
+            "kwhValues": [
+              100,
+              200,
+              300,
+              400,
+              600,
+              800
+            ],
+            "kwValues": [
+              50,
+              100,
+              150,
+              200
+            ],
+            "maxHours": 6,
+            "maxKwFromPeakPct": 0.8,
+            "minHours": 1
+          }
+        }
+      },
+      "engineVersions": {
+        "batteryDecisionPackV1": "battery_decision_pack_v1.0",
+        "batteryEconomicsV1": "battery_econ_v1.3",
+        "determinantsVersionTag": "determinants_v1",
+        "storageOpportunityPackV1": "storage_opportunity_pack_v1.0",
+        "tariffSnapshotId": null,
+        "touLabelerVersionTag": "tou_v1"
+      },
+      "missingInfo": [],
+      "options": [
+        {
+          "audit": {
+            "lineItems": [
+              {
+                "amountUsd": 72500,
+                "amountUsdRaw": 72500,
+                "basis": "50kW*750 + 100kWh*350",
+                "id": "capex.batteryEquipment",
+                "label": "Battery equipment (power + energy components)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.costs"
+              },
+              {
+                "amountUsd": 15562.5,
+                "amountUsdRaw": 15562.5,
+                "basis": "0.1 * subtotal",
+                "id": "capex.contingency",
+                "label": "Contingency",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.contingencyPct"
+              },
+              {
+                "amountUsd": 18125,
+                "amountUsdRaw": 18125,
+                "basis": "0.25 * batteryEquipment",
+                "id": "capex.install",
+                "label": "Install adder",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.installAdderPct"
+              },
+              {
+                "amountUsd": 25000,
+                "amountUsdRaw": 25000,
+                "basis": "flat",
+                "id": "capex.interconnect",
+                "label": "Interconnection / electrical",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.interconnectFlatUsd"
+              },
+              {
+                "amountUsd": 40000,
+                "amountUsdRaw": 40000,
+                "basis": "flat",
+                "id": "capex.softCosts",
+                "label": "Soft costs (engineering, PM, permitting)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.softCostsFlatUsd"
+              },
+              {
+                "amountUsd": 171187.5,
+                "amountUsdRaw": 171187.5,
+                "basis": "sum",
+                "id": "capex.total",
+                "label": "Total CAPEX",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "costModelV1"
+              },
+              {
+                "amountUsd": -500,
+                "amountUsdRaw": -500,
+                "basis": "annualSavingsTotal - annualOpexTotal",
+                "id": "finance.netAnnual",
+                "label": "Net annual cashflow (savings - opex)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "financeModelV1.netAnnual"
+              },
+              {
+                "amountUsd": -174396.33,
+                "amountUsdRaw": -174396.3288505795,
+                "basis": "year0 + netAnnual * PVAF(discountRate,termYears)",
+                "id": "finance.npv",
+                "label": "NPV (lite)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "financeModelV1.npv"
+              },
+              {
+                "amountUsd": -171187.5,
+                "amountUsdRaw": -171187.5,
+                "basis": "-capexTotal",
+                "id": "finance.year0",
+                "label": "Year 0 cashflow (CAPEX)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "financeModelV1.year0"
+              },
+              {
+                "amountUsd": 500,
+                "amountUsdRaw": 500,
+                "basis": "50kW*10/kW-yr",
+                "id": "opex.omAnnual",
+                "label": "O&M (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.omPerKwYrUsd"
+              },
+              {
+                "amountUsd": 500,
+                "amountUsdRaw": 500,
+                "basis": "sum",
+                "id": "opex.totalAnnual",
+                "label": "Total OPEX (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "costModelV1"
+              },
+              {
+                "amountUsd": 0,
+                "amountUsdRaw": 0,
+                "basis": "0 * capexTotal",
+                "id": "opex.warrantyReserveAnnual",
+                "label": "Warranty reserve (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.warrantyReservePctOfCapexPerYear"
+              },
+              {
+                "amountUsd": null,
+                "amountUsdRaw": null,
+                "basis": "unavailable",
+                "id": "savings.demandAnnual",
+                "label": "Demand charge savings (annual)",
+                "notes": null,
+                "quantities": [
+                  {
+                    "id": "baselineDemandKw",
+                    "unit": "kW",
+                    "value": 0
+                  },
+                  {
+                    "id": "postDemandKw",
+                    "unit": "kW",
+                    "value": 0
+                  },
+                  {
+                    "id": "demandRate",
+                    "unit": "$/kW-month",
+                    "value": 0
+                  }
+                ],
+                "rateSource": {
+                  "kind": "DELIVERY",
+                  "rateCode": null,
+                  "snapshotId": null
+                },
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "inputs.tariffs"
+              },
+              {
+                "amountUsd": null,
+                "amountUsdRaw": null,
+                "basis": "unavailable",
+                "id": "savings.drAnnual",
+                "label": "Demand response value (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "inputs.dr.annualValueUsd"
+              },
+              {
+                "amountUsd": null,
+                "amountUsdRaw": null,
+                "basis": "unavailable",
+                "id": "savings.energyAnnual",
+                "label": "Energy TOU arbitrage savings (annual)",
+                "notes": null,
+                "quantities": [
+                  {
+                    "id": "shiftedKwhAnnual",
+                    "unit": "kWh",
+                    "value": 23400
+                  },
+                  {
+                    "id": "peakPricePerKwh",
+                    "unit": "$/kWh",
+                    "value": 0
+                  },
+                  {
+                    "id": "offPricePerKwh",
+                    "unit": "$/kWh",
+                    "value": 0
+                  },
+                  {
+                    "id": "rte",
+                    "unit": "fraction",
+                    "value": 0.9
+                  }
+                ],
+                "rateSource": {
+                  "kind": "DELIVERY",
+                  "rateCode": null,
+                  "snapshotId": null
+                },
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "inputs.tariffs"
+              },
+              {
+                "amountUsd": 0,
+                "amountUsdRaw": 0,
+                "basis": "v1 placeholder (0)",
+                "id": "savings.otherAnnual",
+                "label": "Other savings (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "savingsModelV1.other"
+              },
+              {
+                "amountUsd": null,
+                "amountUsdRaw": null,
+                "basis": "unavailable",
+                "id": "savings.ratchetAvoidedAnnual",
+                "label": "Ratchet savings (annual, lite)",
+                "notes": null,
+                "quantities": [
+                  {
+                    "id": "demandRate",
+                    "unit": "$/kW-month",
+                    "value": 0
+                  },
+                  {
+                    "id": "ratchetHistoryMaxKw",
+                    "unit": "kW",
+                    "value": 0
+                  },
+                  {
+                    "id": "ratchetFloorPct",
+                    "unit": "fraction",
+                    "value": 0
+                  }
+                ],
+                "rateSource": "[Circular]",
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "inputs.determinants"
+              },
+              {
+                "amountUsd": 0,
+                "amountUsdRaw": 0,
+                "basis": "sum in fixed order",
+                "id": "savings.totalAnnual",
+                "label": "Total savings (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "savingsModelV1.total"
+              }
+            ],
+            "topLineItems": [
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]"
+            ]
+          },
+          "battery": {
+            "durationHours": 2,
+            "energyKwh": 100,
+            "maxCyclesPerDay": 1,
+            "powerKw": 50,
+            "roundTripEff": 0.9
+          },
+          "confidenceTier": "LOW",
+          "economics": {
+            "capexTotalUsd": 171187.5,
+            "netAnnualUsd": -500,
+            "npvLiteUsd": -174396.33,
+            "opexAnnualTotalUsd": 500,
+            "simplePaybackYears": 0
+          },
+          "missingInfo": [],
+          "optionId": "OPT_01",
+          "savingsAnnual": {
+            "demandUsd": 0,
+            "drUsd": 0,
+            "energyArbitrageUsd": 0,
+            "ratchetUsd": 0,
+            "reasonsByComponent": {
+              "demandUsd": [
+                "tariff.demand_charge_missing"
+              ],
+              "drUsd": [
+                "dr.value_missing",
+                "drReadinessV1.confidence_none"
+              ],
+              "energyArbitrageUsd": [
+                "tariff.tou_prices_missing"
+              ],
+              "ratchetUsd": []
+            },
+            "totalUsd": 0
+          },
+          "warnings": [
+            "battery.econ.capex_defaults_used",
+            "battery.econ.dr_value_unknown",
+            "battery.econ.finance_missing_discount_rate",
+            "battery.econ.missing_capex_inputs",
+            "battery.econ.missing_tariff_inputs",
+            "battery.econ.net_savings_non_positive",
+            "battery.econ.savings_unavailable_no_tariffengine",
+            "battery.v1.missing_demand_determinants",
+            "battery.v1.missing_tariff_prices"
+          ]
+        },
+        {
+          "audit": {
+            "lineItems": [
+              {
+                "amountUsd": 107500,
+                "amountUsdRaw": 107500,
+                "basis": "50kW*750 + 200kWh*350",
+                "id": "capex.batteryEquipment",
+                "label": "Battery equipment (power + energy components)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.costs"
+              },
+              {
+                "amountUsd": 19937.5,
+                "amountUsdRaw": 19937.5,
+                "basis": "0.1 * subtotal",
+                "id": "capex.contingency",
+                "label": "Contingency",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.contingencyPct"
+              },
+              {
+                "amountUsd": 26875,
+                "amountUsdRaw": 26875,
+                "basis": "0.25 * batteryEquipment",
+                "id": "capex.install",
+                "label": "Install adder",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.installAdderPct"
+              },
+              {
+                "amountUsd": 25000,
+                "amountUsdRaw": 25000,
+                "basis": "flat",
+                "id": "capex.interconnect",
+                "label": "Interconnection / electrical",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.interconnectFlatUsd"
+              },
+              {
+                "amountUsd": 40000,
+                "amountUsdRaw": 40000,
+                "basis": "flat",
+                "id": "capex.softCosts",
+                "label": "Soft costs (engineering, PM, permitting)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.softCostsFlatUsd"
+              },
+              {
+                "amountUsd": 219312.5,
+                "amountUsdRaw": 219312.5,
+                "basis": "sum",
+                "id": "capex.total",
+                "label": "Total CAPEX",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "costModelV1"
+              },
+              {
+                "amountUsd": -500,
+                "amountUsdRaw": -500,
+                "basis": "annualSavingsTotal - annualOpexTotal",
+                "id": "finance.netAnnual",
+                "label": "Net annual cashflow (savings - opex)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "financeModelV1.netAnnual"
+              },
+              {
+                "amountUsd": -222521.33,
+                "amountUsdRaw": -222521.3288505795,
+                "basis": "year0 + netAnnual * PVAF(discountRate,termYears)",
+                "id": "finance.npv",
+                "label": "NPV (lite)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "financeModelV1.npv"
+              },
+              {
+                "amountUsd": -219312.5,
+                "amountUsdRaw": -219312.5,
+                "basis": "-capexTotal",
+                "id": "finance.year0",
+                "label": "Year 0 cashflow (CAPEX)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "financeModelV1.year0"
+              },
+              {
+                "amountUsd": 500,
+                "amountUsdRaw": 500,
+                "basis": "50kW*10/kW-yr",
+                "id": "opex.omAnnual",
+                "label": "O&M (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.omPerKwYrUsd"
+              },
+              {
+                "amountUsd": 500,
+                "amountUsdRaw": 500,
+                "basis": "sum",
+                "id": "opex.totalAnnual",
+                "label": "Total OPEX (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "costModelV1"
+              },
+              {
+                "amountUsd": 0,
+                "amountUsdRaw": 0,
+                "basis": "0 * capexTotal",
+                "id": "opex.warrantyReserveAnnual",
+                "label": "Warranty reserve (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.warrantyReservePctOfCapexPerYear"
+              },
+              {
+                "amountUsd": null,
+                "amountUsdRaw": null,
+                "basis": "unavailable",
+                "id": "savings.demandAnnual",
+                "label": "Demand charge savings (annual)",
+                "notes": null,
+                "quantities": [
+                  {
+                    "id": "baselineDemandKw",
+                    "unit": "kW",
+                    "value": 0
+                  },
+                  {
+                    "id": "postDemandKw",
+                    "unit": "kW",
+                    "value": 0
+                  },
+                  {
+                    "id": "demandRate",
+                    "unit": "$/kW-month",
+                    "value": 0
+                  }
+                ],
+                "rateSource": {
+                  "kind": "DELIVERY",
+                  "rateCode": null,
+                  "snapshotId": null
+                },
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "inputs.tariffs"
+              },
+              {
+                "amountUsd": null,
+                "amountUsdRaw": null,
+                "basis": "unavailable",
+                "id": "savings.drAnnual",
+                "label": "Demand response value (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "inputs.dr.annualValueUsd"
+              },
+              {
+                "amountUsd": null,
+                "amountUsdRaw": null,
+                "basis": "unavailable",
+                "id": "savings.energyAnnual",
+                "label": "Energy TOU arbitrage savings (annual)",
+                "notes": null,
+                "quantities": [
+                  {
+                    "id": "shiftedKwhAnnual",
+                    "unit": "kWh",
+                    "value": 26000
+                  },
+                  {
+                    "id": "peakPricePerKwh",
+                    "unit": "$/kWh",
+                    "value": 0
+                  },
+                  {
+                    "id": "offPricePerKwh",
+                    "unit": "$/kWh",
+                    "value": 0
+                  },
+                  {
+                    "id": "rte",
+                    "unit": "fraction",
+                    "value": 0.9
+                  }
+                ],
+                "rateSource": {
+                  "kind": "DELIVERY",
+                  "rateCode": null,
+                  "snapshotId": null
+                },
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "inputs.tariffs"
+              },
+              {
+                "amountUsd": 0,
+                "amountUsdRaw": 0,
+                "basis": "v1 placeholder (0)",
+                "id": "savings.otherAnnual",
+                "label": "Other savings (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "savingsModelV1.other"
+              },
+              {
+                "amountUsd": null,
+                "amountUsdRaw": null,
+                "basis": "unavailable",
+                "id": "savings.ratchetAvoidedAnnual",
+                "label": "Ratchet savings (annual, lite)",
+                "notes": null,
+                "quantities": [
+                  {
+                    "id": "demandRate",
+                    "unit": "$/kW-month",
+                    "value": 0
+                  },
+                  {
+                    "id": "ratchetHistoryMaxKw",
+                    "unit": "kW",
+                    "value": 0
+                  },
+                  {
+                    "id": "ratchetFloorPct",
+                    "unit": "fraction",
+                    "value": 0
+                  }
+                ],
+                "rateSource": "[Circular]",
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "inputs.determinants"
+              },
+              {
+                "amountUsd": 0,
+                "amountUsdRaw": 0,
+                "basis": "sum in fixed order",
+                "id": "savings.totalAnnual",
+                "label": "Total savings (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "savingsModelV1.total"
+              }
+            ],
+            "topLineItems": [
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]"
+            ]
+          },
+          "battery": {
+            "durationHours": 4,
+            "energyKwh": 200,
+            "maxCyclesPerDay": 1,
+            "powerKw": 50,
+            "roundTripEff": 0.9
+          },
+          "confidenceTier": "LOW",
+          "economics": {
+            "capexTotalUsd": 219312.5,
+            "netAnnualUsd": -500,
+            "npvLiteUsd": -222521.33,
+            "opexAnnualTotalUsd": 500,
+            "simplePaybackYears": 0
+          },
+          "missingInfo": [],
+          "optionId": "OPT_02",
+          "savingsAnnual": {
+            "demandUsd": 0,
+            "drUsd": 0,
+            "energyArbitrageUsd": 0,
+            "ratchetUsd": 0,
+            "reasonsByComponent": {
+              "demandUsd": [
+                "tariff.demand_charge_missing"
+              ],
+              "drUsd": [
+                "dr.value_missing",
+                "drReadinessV1.confidence_none"
+              ],
+              "energyArbitrageUsd": [
+                "tariff.tou_prices_missing"
+              ],
+              "ratchetUsd": []
+            },
+            "totalUsd": 0
+          },
+          "warnings": [
+            "battery.econ.capex_defaults_used",
+            "battery.econ.dr_value_unknown",
+            "battery.econ.finance_missing_discount_rate",
+            "battery.econ.missing_capex_inputs",
+            "battery.econ.missing_tariff_inputs",
+            "battery.econ.net_savings_non_positive",
+            "battery.econ.savings_unavailable_no_tariffengine",
+            "battery.v1.missing_demand_determinants",
+            "battery.v1.missing_tariff_prices"
+          ]
+        },
+        {
+          "audit": {
+            "lineItems": [
+              {
+                "amountUsd": 110000,
+                "amountUsdRaw": 110000,
+                "basis": "100kW*750 + 100kWh*350",
+                "id": "capex.batteryEquipment",
+                "label": "Battery equipment (power + energy components)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.costs"
+              },
+              {
+                "amountUsd": 20250,
+                "amountUsdRaw": 20250,
+                "basis": "0.1 * subtotal",
+                "id": "capex.contingency",
+                "label": "Contingency",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.contingencyPct"
+              },
+              {
+                "amountUsd": 27500,
+                "amountUsdRaw": 27500,
+                "basis": "0.25 * batteryEquipment",
+                "id": "capex.install",
+                "label": "Install adder",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.installAdderPct"
+              },
+              {
+                "amountUsd": 25000,
+                "amountUsdRaw": 25000,
+                "basis": "flat",
+                "id": "capex.interconnect",
+                "label": "Interconnection / electrical",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.interconnectFlatUsd"
+              },
+              {
+                "amountUsd": 40000,
+                "amountUsdRaw": 40000,
+                "basis": "flat",
+                "id": "capex.softCosts",
+                "label": "Soft costs (engineering, PM, permitting)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.softCostsFlatUsd"
+              },
+              {
+                "amountUsd": 222750,
+                "amountUsdRaw": 222750,
+                "basis": "sum",
+                "id": "capex.total",
+                "label": "Total CAPEX",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "costModelV1"
+              },
+              {
+                "amountUsd": -1000,
+                "amountUsdRaw": -1000,
+                "basis": "annualSavingsTotal - annualOpexTotal",
+                "id": "finance.netAnnual",
+                "label": "Net annual cashflow (savings - opex)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "financeModelV1.netAnnual"
+              },
+              {
+                "amountUsd": -229167.66,
+                "amountUsdRaw": -229167.657701159,
+                "basis": "year0 + netAnnual * PVAF(discountRate,termYears)",
+                "id": "finance.npv",
+                "label": "NPV (lite)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "financeModelV1.npv"
+              },
+              {
+                "amountUsd": -222750,
+                "amountUsdRaw": -222750,
+                "basis": "-capexTotal",
+                "id": "finance.year0",
+                "label": "Year 0 cashflow (CAPEX)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "financeModelV1.year0"
+              },
+              {
+                "amountUsd": 1000,
+                "amountUsdRaw": 1000,
+                "basis": "100kW*10/kW-yr",
+                "id": "opex.omAnnual",
+                "label": "O&M (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.omPerKwYrUsd"
+              },
+              {
+                "amountUsd": 1000,
+                "amountUsdRaw": 1000,
+                "basis": "sum",
+                "id": "opex.totalAnnual",
+                "label": "Total OPEX (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "costModelV1"
+              },
+              {
+                "amountUsd": 0,
+                "amountUsdRaw": 0,
+                "basis": "0 * capexTotal",
+                "id": "opex.warrantyReserveAnnual",
+                "label": "Warranty reserve (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "defaults.warrantyReservePctOfCapexPerYear"
+              },
+              {
+                "amountUsd": null,
+                "amountUsdRaw": null,
+                "basis": "unavailable",
+                "id": "savings.demandAnnual",
+                "label": "Demand charge savings (annual)",
+                "notes": null,
+                "quantities": [
+                  {
+                    "id": "baselineDemandKw",
+                    "unit": "kW",
+                    "value": 0
+                  },
+                  {
+                    "id": "postDemandKw",
+                    "unit": "kW",
+                    "value": 0
+                  },
+                  {
+                    "id": "demandRate",
+                    "unit": "$/kW-month",
+                    "value": 0
+                  }
+                ],
+                "rateSource": {
+                  "kind": "DELIVERY",
+                  "rateCode": null,
+                  "snapshotId": null
+                },
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "inputs.tariffs"
+              },
+              {
+                "amountUsd": null,
+                "amountUsdRaw": null,
+                "basis": "unavailable",
+                "id": "savings.drAnnual",
+                "label": "Demand response value (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "inputs.dr.annualValueUsd"
+              },
+              {
+                "amountUsd": null,
+                "amountUsdRaw": null,
+                "basis": "unavailable",
+                "id": "savings.energyAnnual",
+                "label": "Energy TOU arbitrage savings (annual)",
+                "notes": null,
+                "quantities": [
+                  {
+                    "id": "shiftedKwhAnnual",
+                    "unit": "kWh",
+                    "value": 23400
+                  },
+                  {
+                    "id": "peakPricePerKwh",
+                    "unit": "$/kWh",
+                    "value": 0
+                  },
+                  {
+                    "id": "offPricePerKwh",
+                    "unit": "$/kWh",
+                    "value": 0
+                  },
+                  {
+                    "id": "rte",
+                    "unit": "fraction",
+                    "value": 0.9
+                  }
+                ],
+                "rateSource": {
+                  "kind": "DELIVERY",
+                  "rateCode": null,
+                  "snapshotId": null
+                },
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "inputs.tariffs"
+              },
+              {
+                "amountUsd": 0,
+                "amountUsdRaw": 0,
+                "basis": "v1 placeholder (0)",
+                "id": "savings.otherAnnual",
+                "label": "Other savings (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "savingsModelV1.other"
+              },
+              {
+                "amountUsd": null,
+                "amountUsdRaw": null,
+                "basis": "unavailable",
+                "id": "savings.ratchetAvoidedAnnual",
+                "label": "Ratchet savings (annual, lite)",
+                "notes": null,
+                "quantities": [
+                  {
+                    "id": "demandRate",
+                    "unit": "$/kW-month",
+                    "value": 0
+                  },
+                  {
+                    "id": "ratchetHistoryMaxKw",
+                    "unit": "kW",
+                    "value": 0
+                  },
+                  {
+                    "id": "ratchetFloorPct",
+                    "unit": "fraction",
+                    "value": 0
+                  }
+                ],
+                "rateSource": "[Circular]",
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "inputs.determinants"
+              },
+              {
+                "amountUsd": 0,
+                "amountUsdRaw": 0,
+                "basis": "sum in fixed order",
+                "id": "savings.totalAnnual",
+                "label": "Total savings (annual)",
+                "notes": null,
+                "quantities": null,
+                "rateSource": null,
+                "snapshotId": null,
+                "sourceEngine": "assumption",
+                "sourcePath": "savingsModelV1.total"
+              }
+            ],
+            "topLineItems": [
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]"
+            ]
+          },
+          "battery": {
+            "durationHours": 1,
+            "energyKwh": 100,
+            "maxCyclesPerDay": 1,
+            "powerKw": 100,
+            "roundTripEff": 0.9
+          },
+          "confidenceTier": "LOW",
+          "economics": {
+            "capexTotalUsd": 222750,
+            "netAnnualUsd": -1000,
+            "npvLiteUsd": -229167.66,
+            "opexAnnualTotalUsd": 1000,
+            "simplePaybackYears": 0
+          },
+          "missingInfo": [],
+          "optionId": "OPT_03",
+          "savingsAnnual": {
+            "demandUsd": 0,
+            "drUsd": 0,
+            "energyArbitrageUsd": 0,
+            "ratchetUsd": 0,
+            "reasonsByComponent": {
+              "demandUsd": [
+                "tariff.demand_charge_missing"
+              ],
+              "drUsd": [
+                "dr.value_missing",
+                "drReadinessV1.confidence_none"
+              ],
+              "energyArbitrageUsd": [
+                "tariff.tou_prices_missing"
+              ],
+              "ratchetUsd": []
+            },
+            "totalUsd": 0
+          },
+          "warnings": [
+            "battery.econ.capex_defaults_used",
+            "battery.econ.dr_value_unknown",
+            "battery.econ.finance_missing_discount_rate",
+            "battery.econ.missing_capex_inputs",
+            "battery.econ.missing_tariff_inputs",
+            "battery.econ.net_savings_non_positive",
+            "battery.econ.savings_unavailable_no_tariffengine",
+            "battery.v1.missing_demand_determinants",
+            "battery.v1.missing_tariff_prices"
+          ]
+        }
+      ],
+      "schemaVersion": "batteryDecisionPackV1",
+      "warnings": [
+        "battery.econ.dr.ineligible"
+      ]
+    },
+    "batteryDecisionPackV1_2": {
+      "audit": {
+        "lineItems": [
+          {
+            "amountUsd": 55000,
+            "amountUsdRaw": 55000,
+            "basis": "50kW*750 + 50kWh*350",
+            "id": "capex.batteryEquipment",
+            "label": "Battery equipment (power + energy components)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.costs"
+          },
+          {
+            "amountUsd": 13375,
+            "amountUsdRaw": 13375,
+            "basis": "0.1 * subtotal",
+            "id": "capex.contingency",
+            "label": "Contingency",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.contingencyPct"
+          },
+          {
+            "amountUsd": 13750,
+            "amountUsdRaw": 13750,
+            "basis": "0.25 * batteryEquipment",
+            "id": "capex.install",
+            "label": "Install adder",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.installAdderPct"
+          },
+          {
+            "amountUsd": 25000,
+            "amountUsdRaw": 25000,
+            "basis": "flat",
+            "id": "capex.interconnect",
+            "label": "Interconnection / electrical",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.interconnectFlatUsd"
+          },
+          {
+            "amountUsd": 40000,
+            "amountUsdRaw": 40000,
+            "basis": "flat",
+            "id": "capex.softCosts",
+            "label": "Soft costs (engineering, PM, permitting)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.softCostsFlatUsd"
+          },
+          {
+            "amountUsd": 147125,
+            "amountUsdRaw": 147125,
+            "basis": "sum",
+            "id": "capex.total",
+            "label": "Total CAPEX",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "costModelV1"
+          },
+          {
+            "amountUsd": -500,
+            "amountUsdRaw": -500,
+            "basis": "annualSavingsTotal - annualOpexTotal",
+            "id": "finance.netAnnual",
+            "label": "Net annual cashflow (savings - opex)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "financeModelV1.netAnnual"
+          },
+          {
+            "amountUsd": -150333.83,
+            "amountUsdRaw": -150333.8288505795,
+            "basis": "year0 + netAnnual * PVAF(discountRate,termYears)",
+            "id": "finance.npv",
+            "label": "NPV (lite)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "financeModelV1.npv"
+          },
+          {
+            "amountUsd": -147125,
+            "amountUsdRaw": -147125,
+            "basis": "-capexTotal",
+            "id": "finance.year0",
+            "label": "Year 0 cashflow (CAPEX)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "financeModelV1.year0"
+          },
+          {
+            "amountUsd": 500,
+            "amountUsdRaw": 500,
+            "basis": "50kW*10/kW-yr",
+            "id": "opex.omAnnual",
+            "label": "O&M (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.omPerKwYrUsd"
+          },
+          {
+            "amountUsd": 500,
+            "amountUsdRaw": 500,
+            "basis": "sum",
+            "id": "opex.totalAnnual",
+            "label": "Total OPEX (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "costModelV1"
+          },
+          {
+            "amountUsd": 0,
+            "amountUsdRaw": 0,
+            "basis": "0 * capexTotal",
+            "id": "opex.warrantyReserveAnnual",
+            "label": "Warranty reserve (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.warrantyReservePctOfCapexPerYear"
+          },
+          {
+            "amountUsd": null,
+            "amountUsdRaw": null,
+            "basis": "unavailable",
+            "id": "savings.demandAnnual",
+            "label": "Demand charge savings (annual)",
+            "notes": null,
+            "quantities": [
+              {
+                "id": "baselineDemandKw",
+                "unit": "kW",
+                "value": 0
+              },
+              {
+                "id": "postDemandKw",
+                "unit": "kW",
+                "value": 0
+              },
+              {
+                "id": "demandRate",
+                "unit": "$/kW-month",
+                "value": 0
+              }
+            ],
+            "rateSource": {
+              "kind": "DELIVERY",
+              "rateCode": null,
+              "snapshotId": null
+            },
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "inputs.tariffs"
+          },
+          {
+            "amountUsd": null,
+            "amountUsdRaw": null,
+            "basis": "unavailable",
+            "id": "savings.drAnnual",
+            "label": "Demand response value (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "inputs.dr.annualValueUsd"
+          },
+          {
+            "amountUsd": null,
+            "amountUsdRaw": null,
+            "basis": "unavailable",
+            "id": "savings.energyAnnual",
+            "label": "Energy TOU arbitrage savings (annual)",
+            "notes": null,
+            "quantities": [
+              {
+                "id": "shiftedKwhAnnual",
+                "unit": "kWh",
+                "value": 486.666667
+              },
+              {
+                "id": "peakPricePerKwh",
+                "unit": "$/kWh",
+                "value": 0
+              },
+              {
+                "id": "offPricePerKwh",
+                "unit": "$/kWh",
+                "value": 0
+              },
+              {
+                "id": "rte",
+                "unit": "fraction",
+                "value": 0.9
+              }
+            ],
+            "rateSource": {
+              "kind": "DELIVERY",
+              "rateCode": null,
+              "snapshotId": null
+            },
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "inputs.tariffs"
+          },
+          {
+            "amountUsd": 0,
+            "amountUsdRaw": 0,
+            "basis": "v1 placeholder (0)",
+            "id": "savings.otherAnnual",
+            "label": "Other savings (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "savingsModelV1.other"
+          },
+          {
+            "amountUsd": null,
+            "amountUsdRaw": null,
+            "basis": "unavailable",
+            "id": "savings.ratchetAvoidedAnnual",
+            "label": "Ratchet savings (annual, lite)",
+            "notes": null,
+            "quantities": [
+              {
+                "id": "demandRate",
+                "unit": "$/kW-month",
+                "value": 0
+              },
+              {
+                "id": "ratchetHistoryMaxKw",
+                "unit": "kW",
+                "value": 0
+              },
+              {
+                "id": "ratchetFloorPct",
+                "unit": "fraction",
+                "value": 0
+              }
+            ],
+            "rateSource": "[Circular]",
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "inputs.determinants"
+          },
+          {
+            "amountUsd": 0,
+            "amountUsdRaw": 0,
+            "basis": "sum in fixed order",
+            "id": "savings.totalAnnual",
+            "label": "Total savings (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "savingsModelV1.total"
+          }
+        ],
+        "reconcile": {
+          "delta": null,
+          "sumLineItems": null,
+          "total": 0
+        }
+      },
+      "batteryDecisionSensitivityV1": {
+        "ok": true,
+        "reasonCodes": [],
+        "scenarios": [
+          {
+            "annualSavingsTotal": 0,
+            "npvLite": -150333.83,
+            "scenarioId": "base",
+            "simplePaybackYears": null,
+            "warnings": [
+              "battery.decision.sensitivity.missing_demand_component",
+              "battery.decision.sensitivity.missing_energy_component"
+            ]
+          },
+          {
+            "annualSavingsTotal": 0,
+            "npvLite": -172402.58,
+            "scenarioId": "capex_plus_15pct",
+            "simplePaybackYears": null,
+            "warnings": [
+              "battery.decision.sensitivity.missing_demand_component",
+              "battery.decision.sensitivity.missing_energy_component"
+            ]
+          },
+          {
+            "annualSavingsTotal": 0,
+            "npvLite": -128265.08,
+            "scenarioId": "capex_minus_15pct",
+            "simplePaybackYears": null,
+            "warnings": [
+              "battery.decision.sensitivity.missing_demand_component",
+              "battery.decision.sensitivity.missing_energy_component"
+            ]
+          },
+          {
+            "annualSavingsTotal": 0,
+            "npvLite": -150333.83,
+            "scenarioId": "tou_spread_minus_20pct",
+            "simplePaybackYears": null,
+            "warnings": [
+              "battery.decision.sensitivity.missing_demand_component",
+              "battery.decision.sensitivity.missing_energy_component"
+            ]
+          },
+          {
+            "annualSavingsTotal": 0,
+            "npvLite": -150333.83,
+            "scenarioId": "demand_value_minus_20pct",
+            "simplePaybackYears": null,
+            "warnings": [
+              "battery.decision.sensitivity.missing_demand_component",
+              "battery.decision.sensitivity.missing_energy_component"
+            ]
+          }
+        ]
+      },
+      "confidenceTier": "NONE",
+      "constraints": {
+        "applied": {
+          "backupOnly": false,
+          "excludeDurationsHoursEffective": [],
+          "interconnectionLimitKw": null,
+          "maxDurationHoursEffective": null,
+          "maxKwEffective": null,
+          "maxKwhEffective": null,
+          "minDurationHoursEffective": null,
+          "minKwEffective": null,
+          "noExport": false,
+          "requireIndoorRated": false,
+          "requireNemaRating": null,
+          "siteNotes": null
+        },
+        "hardFilter": {
+          "bindingConstraintIds": [],
+          "candidatesAfter": 3,
+          "candidatesBefore": 3
+        },
+        "input": null,
+        "rejectedByGates": [
+          {
+            "candidateId": "CAND_50KW_1H",
+            "reasons": [
+              "battery.decision_pack.v1_2.reject.missing_economics",
+              "battery.decision_pack.v1_2.reject.net_annual_non_positive",
+              "battery.decision_pack.v1_2.reject.npv_too_low"
+            ]
+          },
+          {
+            "candidateId": "CAND_50KW_2H",
+            "reasons": [
+              "battery.decision_pack.v1_2.reject.missing_economics",
+              "battery.decision_pack.v1_2.reject.net_annual_non_positive",
+              "battery.decision_pack.v1_2.reject.npv_too_low"
+            ]
+          },
+          {
+            "candidateId": "CAND_50KW_4H",
+            "reasons": [
+              "battery.decision_pack.v1_2.reject.missing_economics",
+              "battery.decision_pack.v1_2.reject.net_annual_non_positive",
+              "battery.decision_pack.v1_2.reject.npv_too_low"
+            ]
+          }
+        ]
+      },
+      "inputsSummary": {
+        "hasAllInGenPrices": false,
+        "hasIntervals": true,
+        "providerType": "NONE",
+        "rate": null,
+        "utility": "LADWP"
+      },
+      "method": "battery_decision_pack_v1.2",
+      "missingInfo": [
+        "battery.decision_pack.v1_2.missing_determinants",
+        "battery.decision_pack.v1_2.missing_tariff_price_signals"
+      ],
+      "ok": false,
+      "recommendationV1": {
+        "keyAssumptions": [
+          "rateSource.kind=DELIVERY"
+        ],
+        "reasonsTop": [
+          "Demand charge savings appears limited with current determinants/dispatch signals.",
+          "Do not proceed: economics or confidence is insufficient for a decision-quality recommendation.",
+          "Energy arbitrage is enabled and contributes to annual savings under current TOU spread.",
+          "IOU delivery pricing used for energy valuation.",
+          "Sensitivity: capex ±15% does not change the recommendation tier."
+        ],
+        "recommendationTier": "DO_NOT_PROCEED",
+        "recommendedCandidateId": "CAND_50KW_1H",
+        "risks": [],
+        "whyNotOthers": [
+          {
+            "candidateId": "CAND_50KW_2H",
+            "reasons": [
+              "Higher CAPEX than the recommended option.",
+              "Lower NPV-lite than the recommended option."
+            ]
+          },
+          {
+            "candidateId": "CAND_50KW_4H",
+            "reasons": [
+              "Higher CAPEX than the recommended option.",
+              "Lower NPV-lite than the recommended option."
+            ]
+          }
+        ]
+      },
+      "selected": {
+        "candidateId": "CAND_50KW_1H",
+        "rationaleBullets": [
+          "Deterministic top-ranked option under fixed weights (v1.2).",
+          "Power covers ~35.7% of observed site peak (heuristic band).",
+          "Score=-14.200927; payback=—y; npvLite=$-150333.83."
+        ]
+      },
+      "topCandidates": [
+        {
+          "chemistryClass": "LFP_PLACEHOLDER",
+          "durationH": 1,
+          "economicsSummary": {
+            "annualSavingsTotalUsd": 0,
+            "capexTotalUsd": 147125,
+            "degradationSummaryV0": null,
+            "incentivesAndTaxSummaryV0": null,
+            "netAnnualUsd": -500,
+            "npvLiteUsd": -150333.83,
+            "opexAnnualTotalUsd": 500,
+            "paybackYears": null,
+            "rateSourceKind": "DELIVERY",
+            "savingsByCategoryUsd": {
+              "demandUsd": null,
+              "drUsd": null,
+              "energyArbitrageUsd": null,
+              "otherUsd": 0,
+              "ratchetUsd": null
+            }
+          },
+          "id": "CAND_50KW_1H",
+          "kw": 50,
+          "kwh": 50,
+          "score": -14.200927,
+          "whyNotBetter": [
+            "Rejected by gate: battery.decision_pack.v1_2.reject.missing_economics",
+            "Rejected by gate: battery.decision_pack.v1_2.reject.net_annual_non_positive",
+            "Rejected by gate: battery.decision_pack.v1_2.reject.npv_too_low"
+          ],
+          "whyThisWorks": [
+            "Demand charge savings unavailable (missing demand charge and/or billed demand determinants).",
+            "Energy arbitrage unavailable (missing dispatch and/or TOU prices)."
+          ]
+        },
+        {
+          "chemistryClass": "LFP_PLACEHOLDER",
+          "durationH": 2,
+          "economicsSummary": {
+            "annualSavingsTotalUsd": 0,
+            "capexTotalUsd": 171187.5,
+            "degradationSummaryV0": null,
+            "incentivesAndTaxSummaryV0": null,
+            "netAnnualUsd": -500,
+            "npvLiteUsd": -174396.33,
+            "opexAnnualTotalUsd": 500,
+            "paybackYears": null,
+            "rateSourceKind": "DELIVERY",
+            "savingsByCategoryUsd": {
+              "demandUsd": null,
+              "drUsd": null,
+              "energyArbitrageUsd": null,
+              "otherUsd": 0,
+              "ratchetUsd": null
+            }
+          },
+          "id": "CAND_50KW_2H",
+          "kw": 50,
+          "kwh": 100,
+          "score": -14.730302,
+          "whyNotBetter": [
+            "Rejected by gate: battery.decision_pack.v1_2.reject.missing_economics",
+            "Rejected by gate: battery.decision_pack.v1_2.reject.net_annual_non_positive",
+            "Rejected by gate: battery.decision_pack.v1_2.reject.npv_too_low"
+          ],
+          "whyThisWorks": [
+            "Demand charge savings unavailable (missing demand charge and/or billed demand determinants).",
+            "Energy arbitrage unavailable (missing dispatch and/or TOU prices)."
+          ]
+        },
+        {
+          "chemistryClass": "LFP_PLACEHOLDER",
+          "durationH": 4,
+          "economicsSummary": {
+            "annualSavingsTotalUsd": 0,
+            "capexTotalUsd": 219312.5,
+            "degradationSummaryV0": null,
+            "incentivesAndTaxSummaryV0": null,
+            "netAnnualUsd": -500,
+            "npvLiteUsd": -222521.33,
+            "opexAnnualTotalUsd": 500,
+            "paybackYears": null,
+            "rateSourceKind": "DELIVERY",
+            "savingsByCategoryUsd": {
+              "demandUsd": null,
+              "drUsd": null,
+              "energyArbitrageUsd": null,
+              "otherUsd": 0,
+              "ratchetUsd": null
+            }
+          },
+          "id": "CAND_50KW_4H",
+          "kw": 50,
+          "kwh": 200,
+          "score": -15.789052,
+          "whyNotBetter": [
+            "Rejected by gate: battery.decision_pack.v1_2.reject.missing_economics",
+            "Rejected by gate: battery.decision_pack.v1_2.reject.net_annual_non_positive",
+            "Rejected by gate: battery.decision_pack.v1_2.reject.npv_too_low"
+          ],
+          "whyThisWorks": [
+            "Demand charge savings unavailable (missing demand charge and/or billed demand determinants).",
+            "Energy arbitrage unavailable (missing dispatch and/or TOU prices)."
+          ]
+        }
+      ],
+      "warnings": [
+        "battery.econ.capex_defaults_used",
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_capex_inputs",
+        "battery.econ.missing_tariff_inputs",
+        "battery.econ.net_savings_non_positive",
+        "battery.econ.savings_unavailable_no_tariffengine"
+      ]
+    },
+    "batteryEconomicsV1": {
+      "audit": {
+        "lineItems": [
+          {
+            "amountUsd": 60200,
+            "amountUsdRaw": 60200,
+            "basis": "28kW*750 + 112kWh*350",
+            "id": "capex.batteryEquipment",
+            "label": "Battery equipment (power + energy components)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.costs"
+          },
+          {
+            "amountUsd": 14025,
+            "amountUsdRaw": 14025,
+            "basis": "0.1 * subtotal",
+            "id": "capex.contingency",
+            "label": "Contingency",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.contingencyPct"
+          },
+          {
+            "amountUsd": 15050,
+            "amountUsdRaw": 15050,
+            "basis": "0.25 * batteryEquipment",
+            "id": "capex.install",
+            "label": "Install adder",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.installAdderPct"
+          },
+          {
+            "amountUsd": 25000,
+            "amountUsdRaw": 25000,
+            "basis": "flat",
+            "id": "capex.interconnect",
+            "label": "Interconnection / electrical",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.interconnectFlatUsd"
+          },
+          {
+            "amountUsd": 40000,
+            "amountUsdRaw": 40000,
+            "basis": "flat",
+            "id": "capex.softCosts",
+            "label": "Soft costs (engineering, PM, permitting)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.softCostsFlatUsd"
+          },
+          {
+            "amountUsd": 154275,
+            "amountUsdRaw": 154275,
+            "basis": "sum",
+            "id": "capex.total",
+            "label": "Total CAPEX",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "costModelV1"
+          },
+          {
+            "amountUsd": -280,
+            "amountUsdRaw": -280,
+            "basis": "annualSavingsTotal - annualOpexTotal",
+            "id": "finance.netAnnual",
+            "label": "Net annual cashflow (savings - opex)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "financeModelV1.netAnnual"
+          },
+          {
+            "amountUsd": -156071.94,
+            "amountUsdRaw": -156071.94415632452,
+            "basis": "year0 + netAnnual * PVAF(discountRate,termYears)",
+            "id": "finance.npv",
+            "label": "NPV (lite)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "financeModelV1.npv"
+          },
+          {
+            "amountUsd": -154275,
+            "amountUsdRaw": -154275,
+            "basis": "-capexTotal",
+            "id": "finance.year0",
+            "label": "Year 0 cashflow (CAPEX)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "financeModelV1.year0"
+          },
+          {
+            "amountUsd": 280,
+            "amountUsdRaw": 280,
+            "basis": "28kW*10/kW-yr",
+            "id": "opex.omAnnual",
+            "label": "O&M (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.omPerKwYrUsd"
+          },
+          {
+            "amountUsd": 280,
+            "amountUsdRaw": 280,
+            "basis": "sum",
+            "id": "opex.totalAnnual",
+            "label": "Total OPEX (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "costModelV1"
+          },
+          {
+            "amountUsd": 0,
+            "amountUsdRaw": 0,
+            "basis": "0 * capexTotal",
+            "id": "opex.warrantyReserveAnnual",
+            "label": "Warranty reserve (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.warrantyReservePctOfCapexPerYear"
+          },
+          {
+            "amountUsd": null,
+            "amountUsdRaw": null,
+            "basis": "unavailable",
+            "id": "savings.demandAnnual",
+            "label": "Demand charge savings (annual)",
+            "notes": null,
+            "quantities": [
+              {
+                "id": "baselineDemandKw",
+                "unit": "kW",
+                "value": 0
+              },
+              {
+                "id": "postDemandKw",
+                "unit": "kW",
+                "value": 0
+              },
+              {
+                "id": "demandRate",
+                "unit": "$/kW-month",
+                "value": 0
+              }
+            ],
+            "rateSource": {
+              "kind": "DELIVERY",
+              "rateCode": null,
+              "snapshotId": null
+            },
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "inputs.tariffs"
+          },
+          {
+            "amountUsd": null,
+            "amountUsdRaw": null,
+            "basis": "unavailable",
+            "id": "savings.drAnnual",
+            "label": "Demand response value (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "inputs.dr.annualValueUsd"
+          },
+          {
+            "amountUsd": null,
+            "amountUsdRaw": null,
+            "basis": "unavailable",
+            "id": "savings.energyAnnual",
+            "label": "Energy TOU arbitrage savings (annual)",
+            "notes": null,
+            "quantities": [
+              {
+                "id": "shiftedKwhAnnual",
+                "unit": "kWh",
+                "value": 14560
+              },
+              {
+                "id": "peakPricePerKwh",
+                "unit": "$/kWh",
+                "value": 0
+              },
+              {
+                "id": "offPricePerKwh",
+                "unit": "$/kWh",
+                "value": 0
+              },
+              {
+                "id": "rte",
+                "unit": "fraction",
+                "value": 0.9
+              }
+            ],
+            "rateSource": {
+              "kind": "DELIVERY",
+              "rateCode": null,
+              "snapshotId": null
+            },
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "inputs.tariffs"
+          },
+          {
+            "amountUsd": 0,
+            "amountUsdRaw": 0,
+            "basis": "v1 placeholder (0)",
+            "id": "savings.otherAnnual",
+            "label": "Other savings (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "savingsModelV1.other"
+          },
+          {
+            "amountUsd": null,
+            "amountUsdRaw": null,
+            "basis": "unavailable",
+            "id": "savings.ratchetAvoidedAnnual",
+            "label": "Ratchet savings (annual, lite)",
+            "notes": null,
+            "quantities": [
+              {
+                "id": "demandRate",
+                "unit": "$/kW-month",
+                "value": 0
+              },
+              {
+                "id": "ratchetHistoryMaxKw",
+                "unit": "kW",
+                "value": 0
+              },
+              {
+                "id": "ratchetFloorPct",
+                "unit": "fraction",
+                "value": 0
+              }
+            ],
+            "rateSource": "[Circular]",
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "inputs.determinants"
+          },
+          {
+            "amountUsd": 0,
+            "amountUsdRaw": 0,
+            "basis": "sum in fixed order",
+            "id": "savings.totalAnnual",
+            "label": "Total savings (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "savingsModelV1.total"
+          }
+        ]
+      },
+      "capex": {
+        "assumptions": [
+          {
+            "id": "costs.batteryCostPerKwhUsd",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.batteryCostPerKwhUsd",
+            "value": "350"
+          },
+          {
+            "id": "costs.batteryCostPerKwUsd",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.batteryCostPerKwUsd",
+            "value": "750"
+          },
+          {
+            "id": "costs.contingencyPct",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.contingencyPct",
+            "value": "0.1"
+          },
+          {
+            "id": "costs.installAdderPct",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.installAdderPct",
+            "value": "0.25"
+          },
+          {
+            "id": "costs.interconnectFlatUsd",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.interconnectFlatUsd",
+            "value": "25000"
+          },
+          {
+            "id": "costs.omPerKwYrUsd",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.omPerKwYrUsd",
+            "value": "10"
+          },
+          {
+            "id": "costs.softCostsFlatUsd",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.softCostsFlatUsd",
+            "value": "40000"
+          },
+          {
+            "id": "costs.warrantyReservePctOfCapexPerYear",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.warrantyReservePctOfCapexPerYear",
+            "value": "0"
+          }
+        ],
+        "batteryEquipmentUsd": 60200,
+        "contingencyUsd": 14025,
+        "installUsd": 15050,
+        "interconnectUsd": 25000,
+        "softCostsUsd": 40000,
+        "totalUsd": 154275
+      },
+      "cashflow": {
+        "discountedPaybackYears": null,
+        "irrApprox": null,
+        "npvUsd": -156071.94,
+        "simplePaybackYears": null,
+        "year0Usd": -154275,
+        "years1toNUsd": [
+          -280,
+          -280,
+          -280,
+          -280,
+          -280,
+          -280,
+          -280,
+          -280,
+          -280,
+          -280
+        ]
+      },
+      "confidenceTier": "LOW",
+      "degradationV0": null,
+      "engineVersion": "battery_econ_v1.3",
+      "methodTag": "battery_econ_v1",
+      "opexAnnual": {
+        "assumptions": [],
+        "omUsd": 280,
+        "totalUsd": 280,
+        "warrantyReserveUsd": 0
+      },
+      "savingsAnnual": {
+        "assumptions": [
+          {
+            "id": "energySavings.netPerKwhFormula",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "savingsModelV1.energy",
+            "value": "peakPrice - offPrice*(1/rte), floored at 0"
+          }
+        ],
+        "demandUsd": null,
+        "drUsd": null,
+        "energyUsd": null,
+        "otherUsd": 0,
+        "ratchetAvoidedUsd": null,
+        "totalUsd": 0
+      },
+      "sgipV0": null,
+      "sizingSanity": {
+        "cRate": 0.25,
+        "hoursAtPower": 4,
+        "violations": []
+      },
+      "taxV0": null,
+      "warnings": [
+        "battery.econ.capex_defaults_used",
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_capex_inputs",
+        "battery.econ.missing_tariff_inputs",
+        "battery.econ.net_savings_non_positive",
+        "battery.econ.savings_unavailable_no_tariffengine"
+      ]
+    },
+    "engineVersions": "[Circular]",
+    "generatedAtIso": "2026-03-01T00:00:00.000Z",
+    "intervalInsightsV1": {
+      "available": true,
+      "avgDailyKwh": null,
+      "avgKw": null,
+      "baseloadConfidence": "low",
+      "baseloadKw": 20,
+      "baseloadMethod": "p10_night_v1",
+      "coverageDays": 1,
+      "dailyProfileBuckets": [
+        {
+          "avgKw": 20,
+          "bucketEndHourLocalExclusive": 4,
+          "bucketStartHourLocal": 0
+        },
+        {
+          "avgKw": 45,
+          "bucketEndHourLocalExclusive": 8,
+          "bucketStartHourLocal": 4
+        },
+        {
+          "avgKw": 67.5,
+          "bucketEndHourLocalExclusive": 12,
+          "bucketStartHourLocal": 8
+        },
+        {
+          "avgKw": 82.5,
+          "bucketEndHourLocalExclusive": 16,
+          "bucketStartHourLocal": 12
+        },
+        {
+          "avgKw": 117.5,
+          "bucketEndHourLocalExclusive": 20,
+          "bucketStartHourLocal": 16
+        },
+        {
+          "avgKw": 60,
+          "bucketEndHourLocalExclusive": 24,
+          "bucketStartHourLocal": 20
+        }
+      ],
+      "dailyProfileBucketsMethod": "avg_kw_by_4h_bucket_v1",
+      "granularityMinutes": 60,
+      "peakKw": 140,
+      "peakTimestampIso": "2026-01-16T00:00:00.000Z",
+      "pointsReturnedCount": 24,
+      "schemaVersion": "intervalIntelligenceV1",
+      "timezoneUsed": "America/Los_Angeles",
+      "topPeakEvents": [
+        {
+          "kw": 140,
+          "timestampIso": "2026-01-16T00:00:00.000Z"
+        },
+        {
+          "kw": 110,
+          "timestampIso": "2026-01-16T01:00:00.000Z"
+        },
+        {
+          "kw": 110,
+          "timestampIso": "2026-01-16T02:00:00.000Z"
+        },
+        {
+          "kw": 110,
+          "timestampIso": "2026-01-16T03:00:00.000Z"
+        },
+        {
+          "kw": 110,
+          "timestampIso": "2026-01-16T04:00:00.000Z"
+        },
+        {
+          "kw": 90,
+          "timestampIso": "2026-01-15T23:00:00.000Z"
+        },
+        {
+          "kw": 80,
+          "timestampIso": "2026-01-15T20:00:00.000Z"
+        }
+      ],
+      "topPeakEventsMethod": "top_kw_points_v1",
+      "totalKwh": null,
+      "warnings": [
+        "interval.intel.insufficient_days",
+        "interval.intel.missing_kwh"
+      ],
+      "weekdayAvgKw": 65.417,
+      "weekdayWeekendDeltaPct": null,
+      "weekendAvgKw": null
+    },
+    "missingInfo": [
+      {
+        "category": "tariff",
+        "description": "Current tariff/rate code is missing; tariff metadata and rate-fit comparisons cannot be audited without it.",
+        "id": "tariff.currentRateCode.missing",
+        "severity": "blocking"
+      },
+      {
+        "category": "tariff",
+        "description": "Base load drift unavailable (insufficient reconcilable months).",
+        "id": "behaviorV2.baseLoadDrift.unavailable",
+        "severity": "info"
+      },
+      {
+        "category": "tariff",
+        "description": "Insufficient reconcilable overlap cycles for multi-year behavior insights (need >= 12).",
+        "id": "behaviorV2.insufficientCycles",
+        "severity": "info"
+      },
+      {
+        "category": "tariff",
+        "description": "Peak timing unavailable (missing determinant timestamps for kW maxima).",
+        "id": "behaviorV2.peaks.missing",
+        "severity": "info"
+      },
+      {
+        "category": "tariff",
+        "description": "Weekend share comparison requires >= 24 reconcilable months.",
+        "id": "behaviorV2.weekendShare.insufficientMonths",
+        "severity": "info"
+      },
+      {
+        "category": "billing",
+        "description": "TOU kW buckets were not explicitly labeled (need at least two of: Peak/Off-Peak/Partial-Peak/Super-Off-Peak kW).",
+        "details": {
+          "reasonCode": "BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+          "source": "bill_pdf"
+        },
+        "evidence": [
+          {
+            "kind": "bill_pdf_snippet",
+            "value": "(LADWP) Commercial Electric Service Billing Period: 2026-01-01 to 2026-01-31 Statement: sanitized test fixture"
+          }
+        ],
+        "id": "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+        "severity": "info"
+      },
+      {
+        "category": "billing",
+        "description": "TOU kWh buckets were not explicitly labeled (need at least two of: Peak/Off-Peak/Partial-Peak/Super-Off-Peak kWh).",
+        "details": {
+          "reasonCode": "BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+          "source": "bill_pdf"
+        },
+        "evidence": "[Circular]",
+        "id": "billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+        "severity": "info"
+      },
+      {
+        "category": "tariff",
+        "description": "Weather data missing in interval export; load attribution unavailable.",
+        "id": "loadAttribution.weather.missing",
+        "severity": "info"
+      },
+      {
+        "category": "tariff",
+        "description": "LSE (CCA/DA provider) could not be detected from bill text.",
+        "id": "supply.v1.lse_undetected",
+        "severity": "info"
+      },
+      {
+        "category": "tariff",
+        "description": "Weather data missing in interval export; load attribution unavailable. Include Avg. Temperature in interval export when available.",
+        "id": "weather.interval.temperature.missing",
+        "severity": "info"
+      }
+    ],
+    "project": {
+      "id": "p_golden_10"
+    },
+    "projectId": "p_golden_10",
+    "schemaVersion": "internalEngineeringReportV1",
+    "storageOpportunityPackV1": {
+      "batteryEconomicsV1Summary": {
+        "capexTotalUsd": 154275,
+        "confidenceTier": "LOW",
+        "npvUsd": -156071.94,
+        "savingsAnnualTotalUsd": 0,
+        "simplePaybackYears": 0,
+        "warnings": [
+          "battery.econ.capex_defaults_used",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "battery.econ.missing_tariff_inputs",
+          "battery.econ.net_savings_non_positive",
+          "battery.econ.savings_unavailable_no_tariffengine",
+          "storage.econ.deprecated_use_batteryEconomicsV1",
+          "storage.econ.v1.missing_demand_determinants",
+          "storage.econ.v1.missing_tariff_prices",
+          "storage.econ.v1.net_savings_non_positive"
+        ]
+      },
+      "batteryOpportunityV1": {
+        "confidenceTier": "LOW",
+        "engineVersion": "storage_opportunity_pack_v1.0",
+        "missingInfo": [
+          "battery.v1.missing_demand_determinants",
+          "battery.v1.missing_tariff_prices"
+        ],
+        "recommendedBatteryConfigs": [
+          {
+            "durationHours": 4,
+            "energyKwh": 112,
+            "maxCyclesPerDay": 1,
+            "powerKw": 28,
+            "rte": 0.9
+          },
+          {
+            "durationHours": 4,
+            "energyKwh": 64,
+            "maxCyclesPerDay": 1,
+            "powerKw": 16,
+            "rte": 0.9
+          },
+          {
+            "durationHours": 4,
+            "energyKwh": 160,
+            "maxCyclesPerDay": 1,
+            "powerKw": 40,
+            "rte": 0.9
+          }
+        ],
+        "recommendedEnergyKwhRange": [
+          48,
+          160
+        ],
+        "recommendedPowerKwRange": [
+          16,
+          40
+        ],
+        "savingsEstimateAnnual": {
+          "demand": {
+            "max": 0,
+            "method": "battery_demand_savings_from_dispatch_hybrid_v1",
+            "min": 0
+          },
+          "energy": {
+            "max": 0,
+            "method": "battery_energy_savings_from_dispatch_hybrid_v1",
+            "min": 0
+          },
+          "total": {
+            "max": 0,
+            "method": "battery_total_savings_hybrid_v1",
+            "min": 0
+          }
+        },
+        "valueDrivers": [
+          "LOAD_SHIFT"
+        ],
+        "warnings": []
+      },
+      "dispatchSimulationV1": {
+        "assumptions": {
+          "demandWindowStrategy": "WINDOW_AROUND_DAILY_PEAK_V1",
+          "dispatchDaysPerYear": 260,
+          "maxCyclesPerDay": 1,
+          "rte": 0.9,
+          "strategyId": "DISPATCH_MULTI_STRATEGY_V1"
+        },
+        "strategyResults": [
+          {
+            "constraintsHit": [
+              "MISSING_DEMAND_INPUTS",
+              "MISSING_TARIFF_PRICES"
+            ],
+            "estimatedDemandSavingsAnnual": {
+              "max": 0,
+              "method": "demand_charge_simple_monthly_v1",
+              "min": 0
+            },
+            "estimatedEnergySavingsAnnual": {
+              "max": 0,
+              "method": "tou_arbitrage_simple_v1",
+              "min": 0
+            },
+            "estimatedPeakKwReduction": {
+              "max": 28,
+              "method": "dispatch_peak_kw_reduction_v1",
+              "min": 28
+            },
+            "estimatedShiftedKwhAnnual": {
+              "method": "dispatch_shifted_kwh_annual_v1",
+              "value": 14560
+            },
+            "strategyId": "PEAK_SHAVE_DAILY_V1"
+          },
+          {
+            "constraintsHit": [
+              "MISSING_DEMAND_INPUTS",
+              "MISSING_TARIFF_PRICES"
+            ],
+            "estimatedDemandSavingsAnnual": {
+              "max": 0,
+              "method": "demand_charge_simple_monthly_v1",
+              "min": 0
+            },
+            "estimatedEnergySavingsAnnual": {
+              "max": 0,
+              "method": "tou_arbitrage_simple_v1",
+              "min": 0
+            },
+            "estimatedPeakKwReduction": {
+              "max": 28,
+              "method": "dispatch_peak_kw_reduction_v1",
+              "min": 28
+            },
+            "estimatedShiftedKwhAnnual": {
+              "method": "dispatch_shifted_kwh_annual_v1",
+              "value": 14560
+            },
+            "strategyId": "TOU_SHIFT_V1"
+          },
+          {
+            "constraintsHit": [
+              "MISSING_DEMAND_INPUTS",
+              "MISSING_TARIFF_PRICES"
+            ],
+            "estimatedDemandSavingsAnnual": {
+              "max": 0,
+              "method": "demand_charge_simple_monthly_v1",
+              "min": 0
+            },
+            "estimatedEnergySavingsAnnual": {
+              "max": 0,
+              "method": "tou_arbitrage_simple_v1",
+              "min": 0
+            },
+            "estimatedPeakKwReduction": {
+              "max": 28,
+              "method": "dispatch_peak_kw_reduction_v1",
+              "min": 28
+            },
+            "estimatedShiftedKwhAnnual": {
+              "method": "dispatch_shifted_kwh_annual_v1",
+              "value": 14560
+            },
+            "strategyId": "HYBRID_V1"
+          }
+        ],
+        "warnings": [
+          "battery.v1.missing_demand_determinants",
+          "battery.v1.missing_tariff_prices"
+        ]
+      },
+      "drReadinessV1": {
+        "confidenceTier": "NONE",
+        "eventCandidateDefinition": {
+          "basis": "DAILY_PEAK_KW_V1",
+          "method": "dr_event_candidates_daily_peak_v1",
+          "topDaysCount": 10,
+          "windowDurationHours": 2
+        },
+        "missingInfo": [],
+        "topEventWindows": [
+          {
+            "avgKw": 88.75,
+            "baseloadKw": 60,
+            "dateIso": "2026-01-16",
+            "durationHours": 2,
+            "peakKw": 140,
+            "shedPotentialKw": {
+              "method": "dr_shed_potential_kw_v1",
+              "value": 80
+            },
+            "startHourLocal": 0
+          },
+          {
+            "avgKw": 53.75,
+            "baseloadKw": 60,
+            "dateIso": "2026-01-15",
+            "durationHours": 2,
+            "peakKw": 90,
+            "shedPotentialKw": {
+              "method": "dr_shed_potential_kw_v1",
+              "value": 30
+            },
+            "startHourLocal": 22
+          }
+        ],
+        "typicalShedPotentialKwRange": [
+          30,
+          30
+        ],
+        "variabilityScore": {
+          "method": "dr_variability_cv_v1",
+          "value": 0.454545
+        },
+        "warnings": [
+          "dr.v1.insufficient_coverage"
+        ]
+      },
+      "incentivesStubV1": {
+        "confidenceTier": "NONE",
+        "engineVersion": "incentives_stub_v1.0",
+        "estimatedIncentiveUsdRange": null,
+        "missingInfo": [
+          "incentives.v1.need_customer_classification",
+          "incentives.v1.program_unknown"
+        ],
+        "programsConsidered": [],
+        "warnings": []
+      },
+      "storageEconomicsV1": {
+        "assumptions": {
+          "capexModel": {
+            "energyCostPerKwhUsdRange": {
+              "max": null,
+              "method": "capex_energy_cost_unavailable_derived_v1",
+              "min": null
+            },
+            "omPctOfCapexPerYearRange": {
+              "max": null,
+              "method": "opex_om_pct_unavailable_v1",
+              "min": null
+            },
+            "powerCostPerKwUsdRange": {
+              "max": null,
+              "method": "capex_power_cost_unavailable_derived_v1",
+              "min": null
+            },
+            "softCostsPctRange": {
+              "max": null,
+              "method": "capex_soft_costs_unavailable_v1",
+              "min": null
+            }
+          },
+          "discountRateRange": {
+            "max": 0.09,
+            "method": "discount_rate_default_derived_v1",
+            "min": 0.09
+          },
+          "projectLifeYears": {
+            "method": "project_life_years_default_derived_v1",
+            "value": 10
+          }
+        },
+        "capexEstimate": {
+          "breakdown": {
+            "energyComponentRange": [
+              null,
+              null
+            ],
+            "powerComponentRange": [
+              null,
+              null
+            ],
+            "softCostsRange": [
+              94075,
+              94075
+            ]
+          },
+          "capexMethodTag": "derived_from_battery_econ_v1",
+          "totalCapexUsdRange": [
+            154275,
+            154275
+          ]
+        },
+        "cashflow": {
+          "annualGrossSavingsUsdRange": [
+            0,
+            0
+          ],
+          "annualNetSavingsUsdRange": [
+            -280,
+            -280
+          ],
+          "savingsMethodTag": "derived_from_battery_econ_v1"
+        },
+        "confidenceTier": "LOW",
+        "engineVersion": "storage_econ_v1.0",
+        "missingInfo": [
+          "storage.econ.v1.capex_defaults_used",
+          "storage.econ.v1.discount_rate_default_used"
+        ],
+        "normalizedMetrics": {
+          "annualNetSavingsPerAnnualKwhRange": [
+            null,
+            null
+          ],
+          "annualNetSavingsPerKwhRange": [
+            -2.5,
+            -2.5
+          ],
+          "annualNetSavingsPerKwRange": [
+            -10,
+            -10
+          ],
+          "capexPerKwhRange": [
+            1377.455357,
+            1377.455357
+          ],
+          "capexPerKwRange": [
+            5509.821429,
+            5509.821429
+          ]
+        },
+        "npvLite": {
+          "npvMethodTag": "derived_from_battery_econ_v1",
+          "npvUsdRange": [
+            -156071.94,
+            -156071.94
+          ]
+        },
+        "npvUsd": -156071.94,
+        "opexAnnualUsd": 280,
+        "opexEstimate": {
+          "annualOmUsdRange": [
+            280,
+            280
+          ],
+          "opexMethodTag": "derived_from_battery_econ_v1"
+        },
+        "payback": {
+          "paybackMethodTag": "derived_from_battery_econ_v1",
+          "simplePaybackYearsRange": [
+            0,
+            0
+          ]
+        },
+        "savingsAnnualUsdComponents": {
+          "demandUsd": 0,
+          "drUsd": 0,
+          "energyUsd": 0,
+          "otherUsd": 0,
+          "ratchetAvoidedUsd": 0
+        },
+        "savingsAnnualUsdTotal": 0,
+        "simplePaybackYears": 0,
+        "totalCapexUsd": 154275,
+        "warnings": "[Circular]"
+      }
+    },
+    "summary": {
+      "json": {},
+      "markdown": ""
+    },
+    "telemetry": {
+      "intervalElectricMetaV1": null,
+      "intervalElectricV1": {
+        "pointCount": 24,
+        "present": true,
+        "warningCount": 0
+      }
+    },
+    "weatherRegressionV1": null,
+    "workflow": {
+      "analysisTraceV1": "[Circular]",
+      "battery": {
+        "gate": {
+          "because": [
+            "Observed peakKw≈110.0 and baseloadKw≈20.0 (delta≈90.0 kW).",
+            "peakinessIndex≈5.50, loadFactor≈0.59, loadShiftingScore≈0.53.",
+            "Profile is sufficiently peaky with repeatable peak windows; battery evaluation is recommended."
+          ],
+          "requiredInputsMissing": [],
+          "status": "recommended"
+        },
+        "selection": {
+          "explain": [
+            "Sizing method=heuristic_v1 (no savings claims).",
+            "Ranked 5 library items; returning topN=10."
+          ],
+          "rankedCandidates": [
+            {
+              "because": [
+                "Power match score=0.97 (target≈27.0kW, item=30.0kW).",
+                "Energy match score=0.89 (target≈67.5kWh, item=60.0kWh).",
+                "Efficiency score=0.50 (RTE=0.90)."
+              ],
+              "disqualifiers": [],
+              "fitScore": 0.8489489489489489,
+              "sku": "GAMMA-LFP-30-60",
+              "vendor": "Gamma"
+            },
+            {
+              "because": [
+                "Power match score=0.82 (target≈27.0kW, item=50.0kW).",
+                "Energy match score=0.89 (target≈67.5kWh, item=100.0kWh).",
+                "Efficiency score=0.50 (RTE=0.90)."
+              ],
+              "disqualifiers": [],
+              "fitScore": 0.7833890606270898,
+              "sku": "ACME-LFP-50-100",
+              "vendor": "ACME"
+            },
+            {
+              "because": [
+                "Library notes: candidate may require utility review/interconnection screening.",
+                "Power match score=0.77 (target≈27.0kW, item=60.0kW).",
+                "Energy match score=0.84 (target≈67.5kWh, item=120.0kWh).",
+                "Efficiency score=0.40 (RTE=0.88)."
+              ],
+              "disqualifiers": [],
+              "fitScore": 0.6602877783275607,
+              "sku": "BETA-NMC-60-120",
+              "vendor": "BetaStorage"
+            },
+            {
+              "because": [
+                "Power match score=0.60 (target≈27.0kW, item=100.0kW).",
+                "Energy match score=0.65 (target≈67.5kWh, item=215.0kWh).",
+                "Efficiency score=0.50 (RTE=0.90)."
+              ],
+              "disqualifiers": [],
+              "fitScore": 0.5948555926820391,
+              "sku": "ACME-LFP-100-215",
+              "vendor": "ACME"
+            },
+            {
+              "because": [
+                "Power match score=0.38 (target≈27.0kW, item=200.0kW).",
+                "Energy match score=0.43 (target≈67.5kWh, item=430.0kWh).",
+                "Efficiency score=0.55 (RTE=0.91)."
+              ],
+              "disqualifiers": [],
+              "fitScore": 0.4323608512793102,
+              "sku": "ACME-LFP-200-430",
+              "vendor": "ACME"
+            }
+          ],
+          "requiredInputsMissing": [],
+          "sizing": {
+            "because": [
+              "Computed targetPowerKw as 30% of (peak-baseload): 0.30×90.0kW ≈ 27.0kW.",
+              "Computed targetDurationHours from candidate shift windows (fallback 2.5h): 2.5h.",
+              "Computed targetEnergyKwh = targetPowerKw×duration ≈ 67.5kWh."
+            ],
+            "method": "heuristic_v1",
+            "targetDurationHours": 2.5,
+            "targetEnergyKwh": 67.5,
+            "targetPowerKw": 27
+          }
+        }
+      },
+      "inbox": {
+        "battery": {
+          "inboxItems": [
+            {
+              "confidence": 0.65,
+              "createdAt": "2026-03-01T00:00:00.000Z",
+              "id": "inbox_20260301T000000000Z10uns_4",
+              "kind": "suggestedMeasure",
+              "needsConfirmation": true,
+              "provenance": {
+                "extractedAt": "2026-03-01T00:00:00.000Z",
+                "fileId": "batteryIntelligenceV1:o_golden:p_golden_10",
+                "snippetText": "Suggested by Battery Intelligence v1 (deterministic screening).\ngeneratedAt=2026-03-01T00:00:00.000Z\ngateStatus=recommended\npeakKw≈110.0\npeakinessIndex≈5.50\nloadShiftScore≈0.53\nWhy we suggested this:\n- Observed peakKw≈110.0 and baseloadKw≈20.0 (delta≈90.0 kW).\n- peakinessIndex≈5.50, loadFactor≈0.59, loadShiftingScore≈0.53.\n- Profile is sufficiently peaky with repeatable peak windows; battery evaluation is recommended.\nTop battery candidates (library):\n- 1. Gamma GAMMA-LFP-30-60 fitScore=0.849\n- 2. ACME ACME-LFP-50-100 fitScore=0.783\n- 3. BetaStorage BETA-NMC-60-120 fitScore=0.660\n- 4. ACME ACME-LFP-100-215 fitScore=0.595\n- 5. ACME ACME-LFP-200-430 fitScore=0.432",
+                "sourceKey": "reco:sug_20260301T000000000Z10uns_4"
+              },
+              "sourceKey": "reco:sug_20260301T000000000Z10uns_4",
+              "status": "inferred",
+              "suggestedMeasure": {
+                "category": "recommendation",
+                "id": "sug_20260301T000000000Z10uns_4",
+                "name": "Battery peak shaving (screened candidates: GAMMA-LFP-30-60, ACME-LFP-50-100, …)",
+                "notes": "Suggested by Battery Intelligence v1 (deterministic screening).\ngeneratedAt=2026-03-01T00:00:00.000Z\ngateStatus=recommended\npeakKw≈110.0\npeakinessIndex≈5.50\nloadShiftScore≈0.53\nWhy we suggested this:\n- Observed peakKw≈110.0 and baseloadKw≈20.0 (delta≈90.0 kW).\n- peakinessIndex≈5.50, loadFactor≈0.59, loadShiftingScore≈0.53.\n- Profile is sufficiently peaky with repeatable peak windows; battery evaluation is recommended.\nTop battery candidates (library):\n- 1. Gamma GAMMA-LFP-30-60 fitScore=0.849\n- 2. ACME ACME-LFP-50-100 fitScore=0.783\n- 3. BetaStorage BETA-NMC-60-120 fitScore=0.660\n- 4. ACME ACME-LFP-100-215 fitScore=0.595\n- 5. ACME ACME-LFP-200-430 fitScore=0.432"
+              }
+            }
+          ],
+          "suggestions": [
+            {
+              "confidence": 0.65,
+              "createdAt": "2026-03-01T00:00:00.000Z",
+              "explain": {
+                "because": [
+                  {
+                    "completedProjectId": "batteryIntelligenceV1",
+                    "matchedFeatures": [
+                      "gateStatus:recommended",
+                      "territory:LADWP",
+                      "peakinessIndex:5.50"
+                    ],
+                    "measuresInProject": [
+                      "BATTERY_PEAK_SHAVE"
+                    ],
+                    "similarityScore": 0.8067013400612126
+                  }
+                ],
+                "frequency": {
+                  "sampleSizeTopN": 1,
+                  "seenInCount": 1,
+                  "text": "deterministic battery screening v1"
+                },
+                "matchedFeatureSummary": [
+                  "batteryGate=recommended",
+                  "territory=LADWP"
+                ],
+                "matchingFeaturesUsed": [
+                  "territory",
+                  "scheduleBucket"
+                ],
+                "topContributors": [
+                  {
+                    "completedProjectId": "batteryIntelligenceV1",
+                    "matchedFeatures": "[Circular]",
+                    "similarityScore": 0.8067013400612126,
+                    "summary": "Suggested by Battery Intelligence v1 (deterministic screening). | generatedAt=2026-03-01T00:00:00.000Z | gateStatus=recommended | peakKw≈110.0 | peakinessIndex≈5.50 | loadShiftScore≈0.53 | Why we suggested this:"
+                  }
+                ]
+              },
+              "orgId": "o_golden",
+              "playbookAlignment": "neutral",
+              "playbookId": null,
+              "playbookRationale": null,
+              "projectId": "p_golden_10",
+              "requiredInputsMissing": [],
+              "score": 0.8067013400612126,
+              "stateId": "baseline",
+              "status": "proposed",
+              "suggestedMeasure": {
+                "label": "Battery peak shaving (screened candidates: GAMMA-LFP-30-60, ACME-LFP-50-100, …)",
+                "measureType": "BATTERY_PEAK_SHAVE",
+                "parameters": {
+                  "candidateSkus": "GAMMA-LFP-30-60,ACME-LFP-50-100,BETA-NMC-60-120,ACME-LFP-100-215,ACME-LFP-200-430",
+                  "candidateVendors": "Gamma,ACME,BetaStorage,ACME,ACME",
+                  "gateStatus": "recommended",
+                  "meterId": null,
+                  "targetDurationHours": 2.5,
+                  "targetEnergyKwh": 67.5,
+                  "targetPowerKw": 27,
+                  "territory": "LADWP",
+                  "topCandidateSku": "GAMMA-LFP-30-60"
+                },
+                "tags": [
+                  "battery",
+                  "peak_shaving",
+                  "recommended"
+                ]
+              },
+              "suggestionId": "sug_20260301T000000000Z10uns_4"
+            }
+          ]
+        },
+        "inboxItems": [
+          {
+            "confidence": 0.9,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "id": "inbox_20260301T000000000Z10uns_1",
+            "kind": "suggestedMeasure",
+            "needsConfirmation": true,
+            "provenance": {
+              "extractedAt": "2026-03-01T00:00:00.000Z",
+              "fileId": "utilityIntelligenceV1:o_golden:p_golden_10",
+              "snippetText": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=RATE_CHANGE\nscore=0.90 confidence=0.90\nWhy we suggested this:\n- Current rate code is missing; rate fit cannot be evaluated without it.\n- Collect the exact tariff schedule code from the bill/portal.\n\n\nRequires inputs:\n- Current tariff/rate code required to evaluate rate fit.",
+              "sourceKey": "reco:sug_20260301T000000000Z10uns_1"
+            },
+            "sourceKey": "reco:sug_20260301T000000000Z10uns_1",
+            "status": "inferred",
+            "suggestedMeasure": {
+              "category": "recommendation",
+              "id": "sug_20260301T000000000Z10uns_1",
+              "name": "Collect current utility rate code",
+              "notes": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=RATE_CHANGE\nscore=0.90 confidence=0.90\nWhy we suggested this:\n- Current rate code is missing; rate fit cannot be evaluated without it.\n- Collect the exact tariff schedule code from the bill/portal.\n\n\nRequires inputs:\n- Current tariff/rate code required to evaluate rate fit."
+            }
+          },
+          {
+            "confidence": 0.6634026801224253,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "id": "inbox_20260301T000000000Z10uns_2",
+            "kind": "suggestedMeasure",
+            "needsConfirmation": true,
+            "provenance": {
+              "extractedAt": "2026-03-01T00:00:00.000Z",
+              "fileId": "utilityIntelligenceV1:o_golden:p_golden_10",
+              "snippetText": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=LOAD_SHIFTING\nscore=0.53 confidence=0.66\nWhy we suggested this:\n- Load shifting appears feasible based on repeatable peak windows (deterministic heuristic v1).\n- Heuristic score based on peakiness (peakinessIndex≈5.50), concentration (top5/avg≈1.77), and evening-vs-night delta (UTC).\n- This v1 model does not assume any specific controllable end uses; it only flags candidate windows and required inputs for confirmation.",
+              "sourceKey": "reco:sug_20260301T000000000Z10uns_2"
+            },
+            "sourceKey": "reco:sug_20260301T000000000Z10uns_2",
+            "status": "inferred",
+            "suggestedMeasure": {
+              "category": "recommendation",
+              "id": "sug_20260301T000000000Z10uns_2",
+              "name": "Evaluate load shifting opportunities",
+              "notes": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=LOAD_SHIFTING\nscore=0.53 confidence=0.66\nWhy we suggested this:\n- Load shifting appears feasible based on repeatable peak windows (deterministic heuristic v1).\n- Heuristic score based on peakiness (peakinessIndex≈5.50), concentration (top5/avg≈1.77), and evening-vs-night delta (UTC).\n- This v1 model does not assume any specific controllable end uses; it only flags candidate windows and required inputs for confirmation."
+            }
+          },
+          {
+            "confidence": 0.1,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "id": "inbox_20260301T000000000Z10uns_3",
+            "kind": "suggestedMeasure",
+            "needsConfirmation": true,
+            "provenance": {
+              "extractedAt": "2026-03-01T00:00:00.000Z",
+              "fileId": "utilityIntelligenceV1:o_golden:p_golden_10",
+              "snippetText": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=OPTION_S\nscore=0.35 confidence=0.10\nWhy we suggested this:\n- Option S relevance cannot be determined with current inputs.\n- Option S relevance rules are territory-specific; v1 supports PG&E only.\n- territory=LADWP\n\n\nRequires inputs:\n- Territory-specific Option S rules not configured for this territory.",
+              "sourceKey": "reco:sug_20260301T000000000Z10uns_3"
+            },
+            "sourceKey": "reco:sug_20260301T000000000Z10uns_3",
+            "status": "inferred",
+            "suggestedMeasure": {
+              "category": "recommendation",
+              "id": "sug_20260301T000000000Z10uns_3",
+              "name": "Collect inputs to evaluate Option S",
+              "notes": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=OPTION_S\nscore=0.35 confidence=0.10\nWhy we suggested this:\n- Option S relevance cannot be determined with current inputs.\n- Option S relevance rules are territory-specific; v1 supports PG&E only.\n- territory=LADWP\n\n\nRequires inputs:\n- Territory-specific Option S rules not configured for this territory."
+            }
+          },
+          "[Circular]"
+        ],
+        "suggestions": [
+          {
+            "confidence": 0.9,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "explain": {
+              "because": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": [
+                    "recommendationType:RATE_CHANGE",
+                    "territory:LADWP"
+                  ],
+                  "measuresInProject": [
+                    "RATE_CHANGE"
+                  ],
+                  "similarityScore": 0.9
+                }
+              ],
+              "frequency": {
+                "sampleSizeTopN": 1,
+                "seenInCount": 1,
+                "text": "deterministic utility intelligence v1"
+              },
+              "matchedFeatureSummary": [
+                "territory=LADWP",
+                "recommendationType=RATE_CHANGE"
+              ],
+              "matchingFeaturesUsed": [
+                "territory",
+                "scheduleBucket"
+              ],
+              "topContributors": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": "[Circular]",
+                  "similarityScore": 0.9,
+                  "summary": "Suggested by Utility Intelligence Engine v1 (deterministic). | generatedAt=2026-03-01T00:00:00.000Z | type=RATE_CHANGE | score=0.90 confidence=0.90 | Why we suggested this: | - Current rate code is missing; rate fit cannot be evaluated with"
+                }
+              ]
+            },
+            "orgId": "o_golden",
+            "playbookAlignment": "neutral",
+            "playbookId": null,
+            "playbookRationale": null,
+            "projectId": "p_golden_10",
+            "requiredInputsMissing": [
+              "Current tariff/rate code required to evaluate rate fit."
+            ],
+            "score": 0.9,
+            "stateId": "baseline",
+            "status": "proposed",
+            "suggestedMeasure": {
+              "label": "Collect current utility rate code",
+              "measureType": "RATE_CHANGE",
+              "parameters": {
+                "territory": "LADWP",
+                "utility": "LADWP"
+              },
+              "tags": [
+                "utility",
+                "rate_code"
+              ]
+            },
+            "suggestionId": "sug_20260301T000000000Z10uns_1"
+          },
+          {
+            "confidence": 0.6634026801224253,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "explain": {
+              "because": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": [
+                    "recommendationType:LOAD_SHIFTING",
+                    "territory:LADWP"
+                  ],
+                  "measuresInProject": [
+                    "LOAD_SHIFTING_STRATEGY"
+                  ],
+                  "similarityScore": 0.5335067003060633
+                }
+              ],
+              "frequency": {
+                "sampleSizeTopN": 1,
+                "seenInCount": 1,
+                "text": "deterministic utility intelligence v1"
+              },
+              "matchedFeatureSummary": [
+                "territory=LADWP",
+                "recommendationType=LOAD_SHIFTING"
+              ],
+              "matchingFeaturesUsed": [
+                "territory",
+                "scheduleBucket"
+              ],
+              "topContributors": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": "[Circular]",
+                  "similarityScore": 0.5335067003060633,
+                  "summary": "Suggested by Utility Intelligence Engine v1 (deterministic). | generatedAt=2026-03-01T00:00:00.000Z | type=LOAD_SHIFTING | score=0.53 confidence=0.66 | Why we suggested this: | - Load shifting appears feasible based on repeatable peak windo"
+                }
+              ]
+            },
+            "orgId": "o_golden",
+            "playbookAlignment": "neutral",
+            "playbookId": null,
+            "playbookRationale": null,
+            "projectId": "p_golden_10",
+            "requiredInputsMissing": [],
+            "score": 0.5335067003060633,
+            "stateId": "baseline",
+            "status": "proposed",
+            "suggestedMeasure": {
+              "label": "Evaluate load shifting opportunities",
+              "measureType": "LOAD_SHIFTING_STRATEGY",
+              "parameters": {
+                "score": 0.5335067003060633,
+                "territory": "LADWP"
+              },
+              "tags": [
+                "utility",
+                "load_shifting"
+              ]
+            },
+            "suggestionId": "sug_20260301T000000000Z10uns_2"
+          },
+          {
+            "confidence": 0.1,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "explain": {
+              "because": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": [
+                    "recommendationType:OPTION_S",
+                    "territory:LADWP"
+                  ],
+                  "measuresInProject": [
+                    "OPTION_S_EVALUATION"
+                  ],
+                  "similarityScore": 0.35
+                }
+              ],
+              "frequency": {
+                "sampleSizeTopN": 1,
+                "seenInCount": 1,
+                "text": "deterministic utility intelligence v1"
+              },
+              "matchedFeatureSummary": [
+                "territory=LADWP",
+                "recommendationType=OPTION_S"
+              ],
+              "matchingFeaturesUsed": [
+                "territory",
+                "scheduleBucket"
+              ],
+              "topContributors": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": "[Circular]",
+                  "similarityScore": 0.35,
+                  "summary": "Suggested by Utility Intelligence Engine v1 (deterministic). | generatedAt=2026-03-01T00:00:00.000Z | type=OPTION_S | score=0.35 confidence=0.10 | Why we suggested this: | - Option S relevance cannot be determined with current inputs."
+                }
+              ]
+            },
+            "orgId": "o_golden",
+            "playbookAlignment": "neutral",
+            "playbookId": null,
+            "playbookRationale": null,
+            "projectId": "p_golden_10",
+            "requiredInputsMissing": [
+              "Territory-specific Option S rules not configured for this territory."
+            ],
+            "score": 0.35,
+            "stateId": "baseline",
+            "status": "proposed",
+            "suggestedMeasure": {
+              "label": "Collect inputs to evaluate Option S",
+              "measureType": "OPTION_S_EVALUATION",
+              "parameters": {
+                "territory": "LADWP"
+              },
+              "tags": [
+                "utility",
+                "option_s",
+                "missing_inputs"
+              ]
+            },
+            "suggestionId": "sug_20260301T000000000Z10uns_3"
+          },
+          "[Circular]"
+        ],
+        "utility": {
+          "inboxItems": [
+            "[Circular]",
+            "[Circular]",
+            "[Circular]"
+          ],
+          "suggestions": [
+            "[Circular]",
+            "[Circular]",
+            "[Circular]"
+          ]
+        }
+      },
+      "requiredInputsMissing": [
+        "Current tariff/rate code required to evaluate rate fit",
+        "Interval data reference required for load shape, load shifting, and demand response eligibility",
+        "NAICS code required to match many utility/ISO programs",
+        "Customer segment/type required to match many utility/ISO programs",
+        "Weather series not available; provide weather data or configure provider.",
+        "Territory-specific Option S rules not configured for this territory."
+      ],
+      "utility": {
+        "inputs": {
+          "billPdfText": "Los Angeles Department of Water and Power (LADWP)\r\nCommercial Electric Service\r\n\r\nBilling Period: 2026-01-01 to 2026-01-31\r\nStatement: sanitized test fixture\r\n\r\nThis is sanitized bill text for deterministic testing. No customer data.\r\n\r\n",
+          "orgId": "o_golden",
+          "projectId": "p_golden_10",
+          "serviceType": "electric",
+          "utilityTerritory": "LADWP"
+        },
+        "insights": {
+          "batteryDecisionPackV1": "[Circular]",
+          "batteryDecisionPackV1_2": "[Circular]",
+          "batteryEconomicsV1": "[Circular]",
+          "behaviorInsights": {
+            "anomalies": {},
+            "because": [
+              "Behavior insights built from months=0; reconcilable overlap=0."
+            ],
+            "confidence": 0.3,
+            "dataWindow": {
+              "monthsAvailable": 0,
+              "overlapMonthsReconcilable": 0
+            },
+            "demandTrend": {},
+            "evidence": [
+              {
+                "kind": "intervalCalc",
+                "pointer": {
+                  "key": "monthsAvailable",
+                  "source": "behaviorInsights",
+                  "value": 0
+                }
+              }
+            ],
+            "insightCards": [],
+            "loadShape": {},
+            "missingInfo": [
+              {
+                "category": "tariff",
+                "description": "Insufficient months for YoY comparisons (need >= 24 months).",
+                "id": "behavior.yoy.insufficientMonths",
+                "severity": "info"
+              },
+              {
+                "category": "tariff",
+                "description": "Peak timestamps unavailable; cannot compute peak timing histograms.",
+                "id": "behavior.peaks.missing",
+                "severity": "info"
+              },
+              {
+                "category": "tariff",
+                "description": "Insufficient months for robust multi-year behavior insights (need >= 12).",
+                "id": "behavior.months.insufficient",
+                "severity": "info"
+              },
+              {
+                "category": "tariff",
+                "description": "Weekend share change unavailable (insufficient interval months or missing timestamps).",
+                "id": "behavior.weekendShare.unavailable",
+                "severity": "info"
+              }
+            ],
+            "peaks": {
+              "topSpikes": []
+            },
+            "seasonality": {
+              "seasonalAmplitude": {},
+              "topMonthsByKw": [],
+              "topMonthsByKwh": []
+            },
+            "usageTrend": {
+              "direction": "flat"
+            }
+          },
+          "behaviorInsightsV2": {
+            "baseLoadDrift": {
+              "avgKwSlopePerMonth": null,
+              "baseLoadKwLatest": null
+            },
+            "because": [
+              "Computed from reconcilable overlap cycles only (count=0)."
+            ],
+            "confidence": 0.2,
+            "conversationCards": [],
+            "dataWindow": {
+              "cycleCount": 0,
+              "endExclusiveIso": null,
+              "notes": [
+                "No reconcilable overlap cycles available (need overlap + adequate interval coverage + usage present)."
+              ],
+              "startIso": null
+            },
+            "demandTrend": {
+              "confidence": 0,
+              "deltaPct": null,
+              "last12KwMax": null,
+              "prior12KwMax": null,
+              "slopePerMonth": null
+            },
+            "evidence": [
+              {
+                "kind": "intervalCalc",
+                "pointer": {
+                  "key": "cycleCount",
+                  "source": "behaviorV2",
+                  "value": 0
+                }
+              }
+            ],
+            "missingInfo": [
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]"
+            ],
+            "usageTrend": {
+              "confidence": 0,
+              "deltaPct": null,
+              "last12Kwh": null,
+              "prior12Kwh": null,
+              "slopePerMonth": null
+            },
+            "weekendShare": {
+              "deltaPctPts": null,
+              "last12WeekendPct": null,
+              "prior12WeekendPct": null
+            }
+          },
+          "behaviorInsightsV3": {
+            "version": "behaviorV3.v1"
+          },
+          "billIntelligenceV1": {
+            "derivedMetrics": {},
+            "extractedFacts": {
+              "utilityHint": {
+                "evidence": {
+                  "matchedText": "Los Angeles Department of Water and Power (LADWP) Commercial Electri",
+                  "ruleId": "bill_tariff_truth.utility_hint",
+                  "source": "bill_pdf"
+                },
+                "source": "bill_pdf",
+                "value": "LADWP"
+              }
+            },
+            "intervalInsightsV1": {
+              "available": true,
+              "peakDayOfWeek": "Fri",
+              "peakDayOfWeekBasis": "kW",
+              "reasons": [
+                {
+                  "code": "BILL_INTEL_INTERVAL_DATA_MISSING_KWH",
+                  "reason": "No kWh values found in interval points."
+                },
+                {
+                  "code": "BILL_INTEL_INTERVAL_DATA_INSUFFICIENT_POINTS",
+                  "reason": "Not enough weekday/weekend kW points for comparison."
+                },
+                {
+                  "code": "BILL_INTEL_MISSING_PEAK_KW",
+                  "reason": "Missing explicit peak kW from bill facts."
+                }
+              ],
+              "topHourOfDayKw": {
+                "hourOfDay": 0,
+                "value": 140
+              }
+            },
+            "warnings": [
+              {
+                "code": "BILL_INTEL_MISSING_TOTAL_KWH",
+                "reason": "Total kWh not found (requires explicit \"Total kWh\" label)."
+              },
+              {
+                "code": "BILL_INTEL_MISSING_TOTAL_DOLLARS",
+                "reason": "Total dollars / Amount Due not found (requires explicit Amount Due/Total Charges label)."
+              },
+              {
+                "code": "BILL_INTEL_MISSING_BILLING_PERIOD_DATES",
+                "reason": "Billing period dates not found (requires explicit \"Billing Period\" label)."
+              },
+              {
+                "code": "BILL_INTEL_MISSING_PEAK_KW",
+                "reason": "Peak kW / billed demand not found (requires explicit kW label)."
+              },
+              {
+                "code": "BILL_INTEL_INTERVAL_DATA_MISSING_KWH",
+                "reason": "Interval points do not include explicit kWh values."
+              },
+              {
+                "code": "BILL_INTEL_INTERVAL_DATA_INSUFFICIENT_POINTS",
+                "reason": "Insufficient kW points for weekday/weekend kW comparison (weekdayPoints=24, weekendPoints=0)."
+              },
+              {
+                "code": "BILL_INTEL_MISSING_PEAK_KW",
+                "reason": "Explicit peak kW (from bill PDF) required to compute loadFactorApprox."
+              },
+              {
+                "code": "BILL_INTEL_WEATHER_DATA_REQUIRED",
+                "reason": "Weather (OAT) is required to compute correlation metrics."
+              },
+              {
+                "code": "BILL_INTEL_WEATHER_DATA_MISSING_OAT",
+                "reason": "No temperatureF values found in interval points."
+              }
+            ],
+            "weatherCorrelationV1": {
+              "available": false,
+              "reasons": [
+                {
+                  "code": "BILL_INTEL_WEATHER_DATA_MISSING_OAT",
+                  "reason": "No temperatureF values found."
+                }
+              ],
+              "signature": "UNKNOWN"
+            }
+          },
+          "billPdfTariffTruth": {
+            "evidence": {
+              "matchedText": [
+                "Los Angeles Department of Water and Power (LADWP) Commercial Electri"
+              ],
+              "source": "bill_pdf"
+            },
+            "utilityHint": "LADWP",
+            "warnings": [
+              {
+                "code": "BILL_UTILITY_UNSUPPORTED",
+                "hint": "Utility \"LADWP\" detected, but is not supported for CA tariff-library matching in v1 fixtures."
+              },
+              {
+                "code": "BILL_RATE_SCHEDULE_MISSING",
+                "hint": "No explicit Rate Schedule / Schedule / Tariff label found in bill text."
+              }
+            ]
+          },
+          "effectiveRateContextV1": {
+            "generation": {
+              "confidence": 0.2,
+              "daProviderName": null,
+              "evidence": {
+                "matchedPhrases": []
+              },
+              "lseName": null,
+              "providerType": null,
+              "rateCode": null,
+              "snapshotId": null
+            },
+            "iou": {
+              "rateCode": null,
+              "snapshotId": null,
+              "utility": "LADWP"
+            },
+            "method": "ssa_v1",
+            "missingInfo": [
+              "[Circular]"
+            ],
+            "warnings": [
+              "supply.v1.confidence_low",
+              "supply.v1.lse_undetected",
+              "supply.v1.utility_unknown"
+            ]
+          },
+          "inferredLoadShape": {
+            "baseloadKw": 20,
+            "loadFactor": 0.5946969696969697,
+            "nightDayRatio": 2.8444444444444446,
+            "peakinessIndex": 5.5,
+            "peakKw": 110,
+            "seasonalityIndex": 0,
+            "signatureVector": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              0.5454545454545454,
+              0.36363636363636365,
+              0.2727272727272727,
+              0.18181818181818182,
+              0.18181818181818182,
+              0.18181818181818182,
+              0.18181818181818182,
+              0.2727272727272727,
+              0.2727272727272727,
+              0.5454545454545454,
+              0.5454545454545454,
+              0.5454545454545454,
+              0.6363636363636364,
+              0.6363636363636364,
+              0.6363636363636364,
+              0.7272727272727273,
+              0.7272727272727273,
+              0.7272727272727273,
+              0.8181818181818182
+            ],
+            "weekdayWeekendDelta": 1
+          },
+          "intervalIntelligenceV1": {
+            "available": true,
+            "avgDailyKwh": null,
+            "avgKw": null,
+            "baseloadConfidence": "low",
+            "baseloadKw": 60,
+            "baseloadMethod": "p10_night_v1",
+            "coverageDays": 2,
+            "dailyProfileBuckets": [
+              {
+                "avgKw": 117.5,
+                "bucketEndHourLocalExclusive": 4,
+                "bucketStartHourLocal": 0
+              },
+              {
+                "avgKw": 60,
+                "bucketEndHourLocalExclusive": 8,
+                "bucketStartHourLocal": 4
+              },
+              {
+                "avgKw": 20,
+                "bucketEndHourLocalExclusive": 12,
+                "bucketStartHourLocal": 8
+              },
+              {
+                "avgKw": 45,
+                "bucketEndHourLocalExclusive": 16,
+                "bucketStartHourLocal": 12
+              },
+              {
+                "avgKw": 67.5,
+                "bucketEndHourLocalExclusive": 20,
+                "bucketStartHourLocal": 16
+              },
+              {
+                "avgKw": 82.5,
+                "bucketEndHourLocalExclusive": 24,
+                "bucketStartHourLocal": 20
+              }
+            ],
+            "dailyProfileBucketsMethod": "avg_kw_by_4h_bucket_v1",
+            "granularityMinutes": 60,
+            "peakKw": 140,
+            "peakTimestampIso": "2026-01-16T00:00:00.000Z",
+            "pointsReturnedCount": 24,
+            "schemaVersion": "intervalIntelligenceV1",
+            "timezoneUsed": "UTC",
+            "topPeakEvents": [
+              {
+                "kw": 140,
+                "timestampIso": "2026-01-16T00:00:00.000Z"
+              },
+              {
+                "kw": 110,
+                "timestampIso": "2026-01-16T01:00:00.000Z"
+              },
+              {
+                "kw": 110,
+                "timestampIso": "2026-01-16T02:00:00.000Z"
+              },
+              {
+                "kw": 110,
+                "timestampIso": "2026-01-16T03:00:00.000Z"
+              },
+              {
+                "kw": 110,
+                "timestampIso": "2026-01-16T04:00:00.000Z"
+              },
+              {
+                "kw": 90,
+                "timestampIso": "2026-01-15T23:00:00.000Z"
+              },
+              {
+                "kw": 80,
+                "timestampIso": "2026-01-15T20:00:00.000Z"
+              }
+            ],
+            "topPeakEventsMethod": "top_kw_points_v1",
+            "totalKwh": null,
+            "warnings": [
+              "interval.intel.missing_kwh"
+            ],
+            "weekdayAvgKw": 65.417,
+            "weekdayWeekendDeltaPct": null,
+            "weekendAvgKw": null
+          },
+          "loadAttribution": {
+            "because": [
+              "No temperatureF present on interval points; cannot perform load attribution."
+            ],
+            "evidence": [],
+            "hasWeather": false,
+            "loadAttributionVersionTag": "cp_v0",
+            "missingInfo": [
+              "[Circular]"
+            ],
+            "modelType": "change_point_v0",
+            "status": "no_weather",
+            "warnings": []
+          },
+          "loadShiftingFeasibility": {
+            "candidateShiftWindows": [],
+            "constraintsDetected": [],
+            "score": 0.5335067003060633
+          },
+          "missingInfo": [
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]"
+          ],
+          "operatingPatternInference": {
+            "confidence": 0.55,
+            "reasons": [
+              "Metrics suggest mixed operating behavior (neither clearly 24/7 nor strictly business-hours)."
+            ],
+            "scheduleBucket": "mixed"
+          },
+          "optionSRelevance": {
+            "because": [
+              "Option S relevance rules are territory-specific; v1 supports PG&E only.",
+              "territory=LADWP"
+            ],
+            "confidence": 0.1,
+            "requiredInputsMissing": [
+              "Territory-specific Option S rules not configured for this territory."
+            ],
+            "status": "unknown"
+          },
+          "programs": {
+            "matches": [],
+            "topRecommendations": []
+          },
+          "provenAnnualKwhEstimate": {
+            "annualKwhEstimate": 18840,
+            "because": [
+              "Annual kWh estimated from a single monthly kWh scalar (annualized ×12)."
+            ],
+            "confidence": 0.45,
+            "monthsUsed": 1
+          },
+          "provenMonthlyKwh": 1570,
+          "provenPeakKw": 140,
+          "rateFit": {
+            "alternatives": [],
+            "because": [
+              "Current tariff/rate code is missing; cannot evaluate rate fit deterministically.",
+              "Collect the exact rate code from the utility bill or portal before comparing alternatives."
+            ],
+            "confidence": 0.1,
+            "status": "unknown"
+          },
+          "requiredInputsMissing": [
+            "Current tariff/rate code required to evaluate rate fit",
+            "Interval data reference required for load shape, load shifting, and demand response eligibility",
+            "NAICS code required to match many utility/ISO programs",
+            "Customer segment/type required to match many utility/ISO programs",
+            "Weather series not available; provide weather data or configure provider.",
+            "Territory-specific Option S rules not configured for this territory."
+          ],
+          "storageOpportunityPackV1": "[Circular]",
+          "supplyStructure": {
+            "because": [
+              "Insufficient evidence to determine supply structure (bundled vs CCA vs DA)."
+            ],
+            "confidence": 0.1,
+            "supplyType": "unknown"
+          },
+          "versionTags": {
+            "determinantsVersionTag": "determinants_v1",
+            "loadAttributionVersionTag": "cp_v0",
+            "touLabelerVersionTag": "tou_v1"
+          },
+          "weatherSensitivity": {
+            "available": false,
+            "method": "regression_v1",
+            "reasons": [
+              "Weather provider not configured."
+            ]
+          }
+        },
+        "recommendations": [
+          {
+            "because": [
+              "Current rate code is missing; rate fit cannot be evaluated without it.",
+              "Collect the exact tariff schedule code from the bill/portal."
+            ],
+            "confidence": 0.9,
+            "recommendationId": "id_20260301T000000000Z10uns_1",
+            "recommendationType": "RATE_CHANGE",
+            "requiredInputsMissing": [
+              "Current tariff/rate code required to evaluate rate fit."
+            ],
+            "score": 0.9,
+            "suggestedMeasure": "[Circular]"
+          },
+          {
+            "because": [
+              "Load shifting appears feasible based on repeatable peak windows (deterministic heuristic v1).",
+              "Heuristic score based on peakiness (peakinessIndex≈5.50), concentration (top5/avg≈1.77), and evening-vs-night delta (UTC).",
+              "This v1 model does not assume any specific controllable end uses; it only flags candidate windows and required inputs for confirmation."
+            ],
+            "confidence": 0.6634026801224253,
+            "recommendationId": "id_20260301T000000000Z10uns_2",
+            "recommendationType": "LOAD_SHIFTING",
+            "requiredInputsMissing": [],
+            "score": 0.5335067003060633,
+            "suggestedMeasure": "[Circular]"
+          },
+          {
+            "because": [
+              "Option S relevance cannot be determined with current inputs.",
+              "Option S relevance rules are territory-specific; v1 supports PG&E only.",
+              "territory=LADWP"
+            ],
+            "confidence": 0.1,
+            "recommendationId": "id_20260301T000000000Z10uns_3",
+            "recommendationType": "OPTION_S",
+            "requiredInputsMissing": [
+              "Territory-specific Option S rules not configured for this territory."
+            ],
+            "score": 0.35,
+            "suggestedMeasure": "[Circular]"
+          }
+        ]
+      }
+    }
+  },
+  "response": {
+    "project": "[Circular]",
+    "success": true,
+    "summary": "[Circular]",
+    "workflow": "[Circular]"
+  }
+}

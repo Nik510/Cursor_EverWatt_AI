@@ -6,6 +6,7 @@ import { toInboxSuggestions } from '../utilityIntelligence/toInboxSuggestions';
 import { buildAnalysisTraceV1 } from '../utilityIntelligence/analysisTraceV1/buildAnalysisTraceV1';
 import type { AnalysisTraceV1 } from '../utilityIntelligence/analysisTraceV1/types';
 import { normalizeIntervalInputsV1 } from '../utilityIntelligence/intervalNormalizationV1/normalizeIntervalInputsV1';
+import { StepTraceV1 } from '../utilityIntelligence/stepTraceV1';
 
 import { shouldEvaluateBattery } from '../batteryIntelligence/shouldEvaluateBattery';
 import { selectBatteryCandidatesV1 } from '../batteryIntelligence/selectCandidates';
@@ -71,11 +72,13 @@ export async function runUtilityWorkflow(args: {
     intervalPointsV1: args.intervalPointsV1 || null,
   });
 
+  const stepTraceV1 = new StepTraceV1();
   const utilityAnalysis = await analyzeUtility(args.inputs, {
     intervalKwSeries: args.intervalKwSeries || undefined,
     intervalPointsV1: args.intervalPointsV1 || undefined,
     nowIso,
     idFactory,
+    stepTraceV1,
   });
 
   const utility = { inputs: args.inputs, ...utilityAnalysis };
@@ -114,6 +117,7 @@ export async function runUtilityWorkflow(args: {
     intervalPointsV1: args.intervalPointsV1 || null,
     normalizedIntervalV1,
     insights: utilityAnalysis.insights as any,
+    steps: stepTraceV1.getSteps(),
   });
 
   return {

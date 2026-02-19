@@ -1,0 +1,3912 @@
+{
+  "caseId": "07_pge_missing_intervals",
+  "reportJson": {
+    "analysisTraceV1": {
+      "coverage": {
+        "billMonths": null,
+        "hasBillText": true,
+        "hasInterval": false,
+        "hasRatchetHistory": true,
+        "hasWeatherDaily": false,
+        "intervalDays": null,
+        "intervalGranularity": null,
+        "supplyConfidence": 0.6,
+        "supplyProviderType": "NONE",
+        "tariffMatchStatus": "FOUND",
+        "weatherDays": null
+      },
+      "generatedAtIso": "2026-03-01T00:00:00.000Z",
+      "provenance": {
+        "addersSnapshotId": null,
+        "exitFeesSnapshotId": null,
+        "generationEnergySnapshotId": null,
+        "tariffSnapshotId": "2026-03-01T0000Z"
+      },
+      "ranModules": [
+        "batteryDecisionPackV1_2/buildBatteryDecisionPackV1_2",
+        "batteryEconomicsV1/decisionPackV1",
+        "batteryEconomicsV1/evaluateBatteryEconomicsV1",
+        "batteryIntelligence/selectBatteryCandidatesV1",
+        "batteryIntelligence/shouldEvaluateBattery",
+        "batteryIntelligence/toBatteryRecommendationsV1",
+        "billingEngineV2/billSimV2",
+        "determinants/packV1",
+        "tariffLibrary/metadataLookupV0",
+        "utilityIntelligence/analyzeUtility",
+        "utilityIntelligence/billPdf/extractBillPdfTariffHintsV1",
+        "utilityIntelligence/billPdf/matchBillTariffToLibraryV1",
+        "utilityIntelligence/toInboxSuggestions",
+        "workflows/runUtilityWorkflow"
+      ],
+      "skippedModules": [
+        {
+          "module": "utilityIntelligence/intervalIntelligenceV1",
+          "reasonCode": "NO_INTERVAL_POINTS_V1"
+        },
+        {
+          "module": "utilityIntelligence/weatherRegressionV1",
+          "reasonCode": "NO_INTERVAL_POINTS_V1"
+        }
+      ],
+      "steps": [
+        {
+          "name": "normalizeIntervalInputsV1",
+          "status": "RAN"
+        },
+        {
+          "name": "supplyStructureAnalyzerV1_2",
+          "status": "RAN"
+        },
+        {
+          "name": "tariffMatchAndRateContext",
+          "status": "RAN"
+        },
+        {
+          "name": "determinantsPackV1",
+          "status": "RAN"
+        },
+        {
+          "name": "intervalIntelligenceV1",
+          "reasonCode": "NO_INTERVAL_POINTS_V1",
+          "status": "SKIPPED"
+        },
+        {
+          "name": "weatherRegressionV1",
+          "reasonCode": "NO_INTERVAL_POINTS_V1",
+          "status": "SKIPPED"
+        },
+        {
+          "name": "batteryOpportunityPackV1",
+          "status": "RAN"
+        },
+        {
+          "name": "batteryDecisionPackV1_2",
+          "status": "RAN"
+        },
+        {
+          "name": "programIntelligenceV1",
+          "status": "RAN"
+        },
+        {
+          "name": "recommendationsAssembly",
+          "status": "RAN"
+        },
+        {
+          "name": "missingInfoAssembly",
+          "status": "RAN"
+        }
+      ],
+      "warningsSummary": {
+        "engineWarningsCount": 0,
+        "missingInfoCount": 15,
+        "topEngineWarningCodes": [],
+        "topMissingInfoCodes": [
+          "behaviorV2.baseLoadDrift.unavailable",
+          "behaviorV2.insufficientCycles",
+          "behaviorV2.peaks.missing",
+          "behaviorV2.weekendShare.insufficientMonths",
+          "behaviorV3.electric.insufficientMonths",
+          "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+          "billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+          "determinants.reconcile.billingRecords.missing",
+          "determinants.reconcile.reconcilable.count",
+          "interval.intervalElectricV1.missing"
+        ]
+      }
+    },
+    "auditDrawerV1": {
+      "engineVersions": {
+        "batteryDecisionPack": "battery_decision_pack_v1.2",
+        "batteryEconomics": "battery_econ_v1.3",
+        "billingEngineV1": "billing_v1.0",
+        "degradation": "degradation_v0",
+        "determinants": "determinants_pack_v1.0",
+        "dispatch": "dispatch_v1_1",
+        "exitFees": "exit_fees_v0",
+        "incentivesStub": "incentives_stub_v1.0",
+        "intervalIntake": "interval_csv_v1",
+        "sgip": "sgip_v0",
+        "storageEconomics": "storage_econ_v1.0",
+        "tariffEngine": "tariff_engine_v1.0",
+        "tax": "tax_v0"
+      },
+      "generatedAtIso": "2026-03-01T00:00:00.000Z",
+      "moneyExplainers": {
+        "battery_economics_total": {
+          "id": "battery_economics_total",
+          "lineItems": [
+            {
+              "dollars": 0,
+              "id": "capex.contingency",
+              "label": "Contingency",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "defaults.contingencyPct"
+            },
+            {
+              "dollars": 0,
+              "id": "capex.install",
+              "label": "Install adder",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "defaults.installAdderPct"
+            },
+            {
+              "dollars": 0,
+              "id": "capex.interconnect",
+              "label": "Interconnection / electrical",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "defaults.interconnectFlatUsd"
+            },
+            {
+              "dollars": 0,
+              "id": "capex.softCosts",
+              "label": "Soft costs (engineering, PM, permitting)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "defaults.softCostsFlatUsd"
+            },
+            {
+              "dollars": 0,
+              "id": "capex.total",
+              "label": "Total CAPEX",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "costModelV1"
+            },
+            {
+              "dollars": 0,
+              "id": "finance.netAnnual",
+              "label": "Net annual cashflow (savings - opex)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "financeModelV1.netAnnual"
+            },
+            {
+              "dollars": 0,
+              "id": "finance.npv",
+              "label": "NPV (lite)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "financeModelV1.npv"
+            },
+            {
+              "dollars": 0,
+              "id": "finance.year0",
+              "label": "Year 0 cashflow (CAPEX)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "financeModelV1.year0"
+            },
+            {
+              "dollars": 0,
+              "id": "opex.omAnnual",
+              "label": "O&M (annual)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "defaults.omPerKwYrUsd"
+            },
+            {
+              "dollars": 0,
+              "id": "opex.totalAnnual",
+              "label": "Total OPEX (annual)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "costModelV1"
+            },
+            {
+              "dollars": 0,
+              "id": "opex.warrantyReserveAnnual",
+              "label": "Warranty reserve (annual)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "defaults.warrantyReservePctOfCapexPerYear"
+            },
+            {
+              "dollars": 0,
+              "id": "savings.demandAnnual",
+              "label": "Demand charge savings (annual)",
+              "rateSource": {
+                "kind": "DELIVERY",
+                "rateCode": null,
+                "snapshotId": null
+              },
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "inputs.tariffs"
+            },
+            {
+              "dollars": 0,
+              "id": "savings.drAnnual",
+              "label": "Demand response value (annual)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "inputs.dr.annualValueUsd"
+            },
+            {
+              "dollars": 0,
+              "id": "savings.energyAnnual",
+              "label": "Energy TOU arbitrage savings (annual)",
+              "rateSource": {
+                "kind": "DELIVERY",
+                "rateCode": null,
+                "snapshotId": null
+              },
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "inputs.tariffs"
+            },
+            {
+              "dollars": 0,
+              "id": "savings.otherAnnual",
+              "label": "Other savings (annual)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "savingsModelV1.other"
+            },
+            {
+              "dollars": 0,
+              "id": "savings.ratchetAvoidedAnnual",
+              "label": "Ratchet savings (annual, lite)",
+              "rateSource": {
+                "kind": "DELIVERY",
+                "rateCode": null,
+                "snapshotId": null
+              },
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "inputs.determinants"
+            },
+            {
+              "dollars": 0,
+              "id": "savings.totalAnnual",
+              "label": "Total savings (annual)",
+              "snapshotId": null,
+              "sourceEngine": "assumption",
+              "sourcePath": "savingsModelV1.total"
+            }
+          ],
+          "missingInfo": [],
+          "sources": [
+            {
+              "kind": "ENGINE_RULE",
+              "linkHints": {
+                "analysisUrl": "/analysis/v1/p_golden_07",
+                "billingIntakeUrl": "/project-builder/p_golden_07/intake/billing",
+                "intervalIntakeUrl": "/project-builder/p_golden_07/intake/intervals"
+              },
+              "note": "Snapshot-only: reportJson.batteryEconomicsV1.audit.lineItems"
+            }
+          ],
+          "summaryLines": [
+            "Annual savings (total): $0",
+            "Engine: batteryEconomicsV1@battery_econ_v1.3",
+            "Audit line items: 17"
+          ],
+          "title": "Battery economics (total)",
+          "totals": {
+            "dollars": 0
+          }
+        },
+        "cca_generation_pricing": {
+          "id": "cca_generation_pricing",
+          "lineItems": [],
+          "missingInfo": [],
+          "sources": [
+            {
+              "kind": "ENGINE_RULE",
+              "linkHints": {
+                "analysisUrl": "/analysis/v1/p_golden_07",
+                "billingIntakeUrl": "/project-builder/p_golden_07/intake/billing",
+                "intervalIntakeUrl": "/project-builder/p_golden_07/intake/intervals"
+              },
+              "note": "Generation snapshot unavailable"
+            }
+          ],
+          "summaryLines": [],
+          "title": "CCA generation pricing",
+          "totals": {}
+        },
+        "demand_savings": {
+          "id": "demand_savings",
+          "lineItems": [
+            {
+              "dollars": 0,
+              "id": "dispatch.HYBRID_V1.demandSavingsAnnual.min",
+              "label": "Dispatch HYBRID_V1 demand savings (min)",
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=HYBRID_V1].estimatedDemandSavingsAnnual.min"
+            },
+            {
+              "dollars": 0,
+              "id": "dispatch.PEAK_SHAVE_DAILY_V1.demandSavingsAnnual.min",
+              "label": "Dispatch PEAK_SHAVE_DAILY_V1 demand savings (min)",
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=PEAK_SHAVE_DAILY_V1].estimatedDemandSavingsAnnual.min"
+            },
+            {
+              "dollars": 0,
+              "id": "dispatch.TOU_SHIFT_V1.demandSavingsAnnual.min",
+              "label": "Dispatch TOU_SHIFT_V1 demand savings (min)",
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=TOU_SHIFT_V1].estimatedDemandSavingsAnnual.min"
+            },
+            "[Circular]"
+          ],
+          "missingInfo": [],
+          "sources": [
+            {
+              "kind": "ENGINE_RULE",
+              "linkHints": {
+                "analysisUrl": "/analysis/v1/p_golden_07",
+                "billingIntakeUrl": "/project-builder/p_golden_07/intake/billing",
+                "intervalIntakeUrl": "/project-builder/p_golden_07/intake/intervals"
+              },
+              "note": "Snapshot-only: reportJson.batteryEconomicsV1.audit + dispatchSimulationV1"
+            }
+          ],
+          "summaryLines": [
+            "Annual demand savings: $0"
+          ],
+          "title": "Demand savings",
+          "totals": {
+            "dollars": 0
+          }
+        },
+        "energy_arbitrage_savings": {
+          "id": "energy_arbitrage_savings",
+          "lineItems": [
+            {
+              "dollars": 0,
+              "id": "dispatch.HYBRID_V1.energySavingsAnnual.min",
+              "label": "Dispatch HYBRID_V1 energy savings (min)",
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=HYBRID_V1].estimatedEnergySavingsAnnual.min"
+            },
+            {
+              "dollars": null,
+              "id": "dispatch.HYBRID_V1.shiftedKwhAnnual.value",
+              "label": "Dispatch HYBRID_V1 shifted energy (annual)",
+              "quantity": 0,
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=HYBRID_V1].estimatedShiftedKwhAnnual.value",
+              "unit": "kWh/yr"
+            },
+            {
+              "dollars": 0,
+              "id": "dispatch.PEAK_SHAVE_DAILY_V1.energySavingsAnnual.min",
+              "label": "Dispatch PEAK_SHAVE_DAILY_V1 energy savings (min)",
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=PEAK_SHAVE_DAILY_V1].estimatedEnergySavingsAnnual.min"
+            },
+            {
+              "dollars": null,
+              "id": "dispatch.PEAK_SHAVE_DAILY_V1.shiftedKwhAnnual.value",
+              "label": "Dispatch PEAK_SHAVE_DAILY_V1 shifted energy (annual)",
+              "quantity": 0,
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=PEAK_SHAVE_DAILY_V1].estimatedShiftedKwhAnnual.value",
+              "unit": "kWh/yr"
+            },
+            {
+              "dollars": 0,
+              "id": "dispatch.TOU_SHIFT_V1.energySavingsAnnual.min",
+              "label": "Dispatch TOU_SHIFT_V1 energy savings (min)",
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=TOU_SHIFT_V1].estimatedEnergySavingsAnnual.min"
+            },
+            {
+              "dollars": null,
+              "id": "dispatch.TOU_SHIFT_V1.shiftedKwhAnnual.value",
+              "label": "Dispatch TOU_SHIFT_V1 shifted energy (annual)",
+              "quantity": 0,
+              "sourceEngine": "batteryEngineV1",
+              "sourcePath": "storageOpportunityPackV1.dispatchSimulationV1.strategyResults[strategyId=TOU_SHIFT_V1].estimatedShiftedKwhAnnual.value",
+              "unit": "kWh/yr"
+            },
+            "[Circular]"
+          ],
+          "missingInfo": [],
+          "sources": [
+            {
+              "kind": "TARIFF_SNAPSHOT",
+              "linkHints": {
+                "analysisUrl": "/analysis/v1/p_golden_07",
+                "billingIntakeUrl": "/project-builder/p_golden_07/intake/billing",
+                "intervalIntakeUrl": "/project-builder/p_golden_07/intake/intervals",
+                "tariffBrowserUrl": "/utilities/tariffs-ca?utility=PGE&rate=E-19&snapshot=2026-03-01T0000Z"
+              },
+              "note": "Tariff browser hint (delivery context)",
+              "rateCode": "E-19",
+              "snapshotId": "2026-03-01T0000Z"
+            }
+          ],
+          "summaryLines": [
+            "Annual energy savings: $0",
+            "Rate source: DELIVERY"
+          ],
+          "title": "Energy arbitrage savings",
+          "totals": {
+            "dollars": 0
+          }
+        },
+        "interval_data_quality": {
+          "id": "interval_data_quality",
+          "lineItems": [],
+          "missingInfo": [
+            "intervalElectricMetaV1.missing"
+          ],
+          "sources": [
+            {
+              "kind": "INTERVAL_EVIDENCE",
+              "linkHints": {
+                "analysisUrl": "/analysis/v1/p_golden_07",
+                "billingIntakeUrl": "/project-builder/p_golden_07/intake/billing",
+                "intervalIntakeUrl": "/project-builder/p_golden_07/intake/intervals"
+              },
+              "note": "Interval evidence pointers (vault file id / storage key when available)"
+            }
+          ],
+          "summaryLines": [],
+          "title": "Interval data quality",
+          "totals": {}
+        },
+        "tariff_match_and_rate_fit": {
+          "id": "tariff_match_and_rate_fit",
+          "lineItems": [],
+          "missingInfo": [],
+          "sources": [
+            {
+              "kind": "TARIFF_SNAPSHOT",
+              "linkHints": {
+                "analysisUrl": "/analysis/v1/p_golden_07",
+                "billingIntakeUrl": "/project-builder/p_golden_07/intake/billing",
+                "intervalIntakeUrl": "/project-builder/p_golden_07/intake/intervals",
+                "tariffBrowserUrl": "/utilities/tariffs-ca?utility=PGE&rate=E-19&snapshot=2026-03-01T0000Z"
+              },
+              "note": "IOU delivery tariff snapshot hint",
+              "rateCode": "E-19",
+              "snapshotId": "2026-03-01T0000Z"
+            }
+          ],
+          "summaryLines": [
+            "Utility: PGE",
+            "Rate code: E-19",
+            "Tariff snapshot: 2026-03-01T0000Z",
+            "Rate fit: unknown"
+          ],
+          "title": "Tariff match and rate fit",
+          "totals": {}
+        }
+      },
+      "projectId": "p_golden_07",
+      "provenance": {
+        "acquisitionMethodUsed": "delivery",
+        "deliverySnapshotId": "2026-03-01T0000Z",
+        "evidencePointers": {
+          "billing": {
+            "billPdfTextPresent": true
+          }
+        }
+      },
+      "version": "audit_drawer_v1.0",
+      "warnings": [
+        "auditDrawerV1.missing.intervalEvidence",
+        "battery.dispatch.v1.bucket_only_simulation",
+        "battery.dispatch.v1.missing_interval_points",
+        "battery.econ.capex_defaults_used",
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_capex_inputs",
+        "battery.econ.missing_tariff_inputs",
+        "battery.econ.net_savings_non_positive",
+        "battery.econ.savings_unavailable_no_tariffengine",
+        "battery.v1.missing_demand_determinants",
+        "battery.v1.missing_tariff_prices",
+        "supply.v1.lse_undetected"
+      ]
+    },
+    "batteryDecisionPackV1": {
+      "confidenceTier": "NONE",
+      "constraints": {
+        "sizingSearchV1": {
+          "allCandidateCount": 0,
+          "constraintsUsed": {
+            "kwhValues": [
+              100,
+              200,
+              300,
+              400,
+              600,
+              800
+            ],
+            "kwValues": [
+              50,
+              100,
+              150,
+              200
+            ],
+            "maxHours": 6,
+            "maxKwFromPeakPct": 0.8,
+            "minHours": 1
+          }
+        }
+      },
+      "engineVersions": {
+        "batteryDecisionPackV1": "battery_decision_pack_v1.0",
+        "batteryEconomicsV1": "battery_econ_v1.3",
+        "determinantsVersionTag": "determinants_v1",
+        "storageOpportunityPackV1": "storage_opportunity_pack_v1.0",
+        "tariffSnapshotId": null,
+        "touLabelerVersionTag": "tou_v1"
+      },
+      "missingInfo": [
+        "battery.decision.missing_interval"
+      ],
+      "options": [],
+      "schemaVersion": "batteryDecisionPackV1",
+      "warnings": [
+        "battery.econ.dr.ineligible"
+      ]
+    },
+    "batteryDecisionPackV1_2": {
+      "audit": {
+        "lineItems": [],
+        "reconcile": {
+          "delta": null,
+          "sumLineItems": null,
+          "total": null
+        }
+      },
+      "batteryDecisionSensitivityV1": {
+        "ok": false,
+        "reasonCodes": [
+          "battery.decision.sensitivity.unavailable"
+        ],
+        "scenarios": [
+          {
+            "annualSavingsTotal": 0,
+            "npvLite": null,
+            "scenarioId": "base",
+            "simplePaybackYears": null,
+            "warnings": [
+              "battery.decision.sensitivity.missing_capex",
+              "battery.decision.sensitivity.missing_demand_component",
+              "battery.decision.sensitivity.missing_energy_component",
+              "battery.decision.sensitivity.missing_opex"
+            ]
+          },
+          {
+            "annualSavingsTotal": 0,
+            "npvLite": null,
+            "scenarioId": "capex_plus_15pct",
+            "simplePaybackYears": null,
+            "warnings": [
+              "battery.decision.sensitivity.missing_capex",
+              "battery.decision.sensitivity.missing_demand_component",
+              "battery.decision.sensitivity.missing_energy_component",
+              "battery.decision.sensitivity.missing_opex"
+            ]
+          },
+          {
+            "annualSavingsTotal": 0,
+            "npvLite": null,
+            "scenarioId": "capex_minus_15pct",
+            "simplePaybackYears": null,
+            "warnings": [
+              "battery.decision.sensitivity.missing_capex",
+              "battery.decision.sensitivity.missing_demand_component",
+              "battery.decision.sensitivity.missing_energy_component",
+              "battery.decision.sensitivity.missing_opex"
+            ]
+          },
+          {
+            "annualSavingsTotal": 0,
+            "npvLite": null,
+            "scenarioId": "tou_spread_minus_20pct",
+            "simplePaybackYears": null,
+            "warnings": [
+              "battery.decision.sensitivity.missing_capex",
+              "battery.decision.sensitivity.missing_demand_component",
+              "battery.decision.sensitivity.missing_energy_component",
+              "battery.decision.sensitivity.missing_opex"
+            ]
+          },
+          {
+            "annualSavingsTotal": 0,
+            "npvLite": null,
+            "scenarioId": "demand_value_minus_20pct",
+            "simplePaybackYears": null,
+            "warnings": [
+              "battery.decision.sensitivity.missing_capex",
+              "battery.decision.sensitivity.missing_demand_component",
+              "battery.decision.sensitivity.missing_energy_component",
+              "battery.decision.sensitivity.missing_opex"
+            ]
+          }
+        ]
+      },
+      "confidenceTier": "NONE",
+      "constraints": {
+        "applied": {
+          "backupOnly": false,
+          "excludeDurationsHoursEffective": [],
+          "interconnectionLimitKw": null,
+          "maxDurationHoursEffective": null,
+          "maxKwEffective": null,
+          "maxKwhEffective": null,
+          "minDurationHoursEffective": null,
+          "minKwEffective": null,
+          "noExport": false,
+          "requireIndoorRated": false,
+          "requireNemaRating": null,
+          "siteNotes": null
+        },
+        "hardFilter": {
+          "bindingConstraintIds": [],
+          "candidatesAfter": 0,
+          "candidatesBefore": 0
+        },
+        "input": null,
+        "rejectedByGates": []
+      },
+      "inputsSummary": {
+        "hasAllInGenPrices": false,
+        "hasIntervals": false,
+        "providerType": "NONE",
+        "rate": "E-19",
+        "utility": "PGE"
+      },
+      "method": "battery_decision_pack_v1.2",
+      "missingInfo": [
+        "battery.decision_pack.v1_2.missing_determinants",
+        "battery.decision_pack.v1_2.missing_interval_insights",
+        "battery.decision_pack.v1_2.missing_intervals",
+        "battery.decision_pack.v1_2.missing_tariff_price_signals"
+      ],
+      "ok": false,
+      "recommendationV1": {
+        "keyAssumptions": [
+          "rateSource.kind=DELIVERY"
+        ],
+        "reasonsTop": [
+          "Demand charge savings appears limited with current determinants/dispatch signals.",
+          "Do not proceed: economics or confidence is insufficient for a decision-quality recommendation.",
+          "Energy arbitrage is enabled and contributes to annual savings under current TOU spread.",
+          "IOU delivery pricing used for energy valuation.",
+          "Sensitivity: capex ±15% does not change the recommendation tier."
+        ],
+        "recommendationTier": "DO_NOT_PROCEED",
+        "recommendedCandidateId": null,
+        "risks": [
+          "Sensitivity analysis unavailable due to missing base economics components."
+        ],
+        "whyNotOthers": []
+      },
+      "selected": {
+        "candidateId": null,
+        "rationaleBullets": []
+      },
+      "topCandidates": [],
+      "warnings": [
+        "dispatch.insufficient_data"
+      ]
+    },
+    "batteryEconomicsV1": {
+      "audit": {
+        "lineItems": [
+          {
+            "amountUsd": 0,
+            "amountUsdRaw": 0,
+            "basis": "0.1 * subtotal",
+            "id": "capex.contingency",
+            "label": "Contingency",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.contingencyPct"
+          },
+          {
+            "amountUsd": null,
+            "amountUsdRaw": null,
+            "basis": "0.25 * batteryEquipment",
+            "id": "capex.install",
+            "label": "Install adder",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.installAdderPct"
+          },
+          {
+            "amountUsd": null,
+            "amountUsdRaw": null,
+            "basis": "flat",
+            "id": "capex.interconnect",
+            "label": "Interconnection / electrical",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.interconnectFlatUsd"
+          },
+          {
+            "amountUsd": null,
+            "amountUsdRaw": null,
+            "basis": "flat",
+            "id": "capex.softCosts",
+            "label": "Soft costs (engineering, PM, permitting)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.softCostsFlatUsd"
+          },
+          {
+            "amountUsd": 0,
+            "amountUsdRaw": 0,
+            "basis": "sum",
+            "id": "capex.total",
+            "label": "Total CAPEX",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "costModelV1"
+          },
+          {
+            "amountUsd": 0,
+            "amountUsdRaw": 0,
+            "basis": "annualSavingsTotal - annualOpexTotal",
+            "id": "finance.netAnnual",
+            "label": "Net annual cashflow (savings - opex)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "financeModelV1.netAnnual"
+          },
+          {
+            "amountUsd": 0,
+            "amountUsdRaw": 0,
+            "basis": "year0 + netAnnual * PVAF(discountRate,termYears)",
+            "id": "finance.npv",
+            "label": "NPV (lite)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "financeModelV1.npv"
+          },
+          {
+            "amountUsd": 0,
+            "amountUsdRaw": 0,
+            "basis": "-capexTotal",
+            "id": "finance.year0",
+            "label": "Year 0 cashflow (CAPEX)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "financeModelV1.year0"
+          },
+          {
+            "amountUsd": null,
+            "amountUsdRaw": null,
+            "basis": "0kW*10/kW-yr",
+            "id": "opex.omAnnual",
+            "label": "O&M (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.omPerKwYrUsd"
+          },
+          {
+            "amountUsd": 0,
+            "amountUsdRaw": 0,
+            "basis": "sum",
+            "id": "opex.totalAnnual",
+            "label": "Total OPEX (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "costModelV1"
+          },
+          {
+            "amountUsd": 0,
+            "amountUsdRaw": 0,
+            "basis": "0 * capexTotal",
+            "id": "opex.warrantyReserveAnnual",
+            "label": "Warranty reserve (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.warrantyReservePctOfCapexPerYear"
+          },
+          {
+            "amountUsd": null,
+            "amountUsdRaw": null,
+            "basis": "unavailable",
+            "id": "savings.demandAnnual",
+            "label": "Demand charge savings (annual)",
+            "notes": null,
+            "quantities": [
+              {
+                "id": "baselineDemandKw",
+                "unit": "kW",
+                "value": 0
+              },
+              {
+                "id": "postDemandKw",
+                "unit": "kW",
+                "value": 0
+              },
+              {
+                "id": "demandRate",
+                "unit": "$/kW-month",
+                "value": 0
+              }
+            ],
+            "rateSource": {
+              "kind": "DELIVERY",
+              "rateCode": null,
+              "snapshotId": null
+            },
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "inputs.tariffs"
+          },
+          {
+            "amountUsd": null,
+            "amountUsdRaw": null,
+            "basis": "unavailable",
+            "id": "savings.drAnnual",
+            "label": "Demand response value (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "inputs.dr.annualValueUsd"
+          },
+          {
+            "amountUsd": null,
+            "amountUsdRaw": null,
+            "basis": "unavailable",
+            "id": "savings.energyAnnual",
+            "label": "Energy TOU arbitrage savings (annual)",
+            "notes": null,
+            "quantities": [
+              {
+                "id": "shiftedKwhAnnual",
+                "unit": "kWh",
+                "value": 0
+              },
+              {
+                "id": "peakPricePerKwh",
+                "unit": "$/kWh",
+                "value": 0
+              },
+              {
+                "id": "offPricePerKwh",
+                "unit": "$/kWh",
+                "value": 0
+              },
+              {
+                "id": "rte",
+                "unit": "fraction",
+                "value": 0.9
+              }
+            ],
+            "rateSource": {
+              "kind": "DELIVERY",
+              "rateCode": null,
+              "snapshotId": null
+            },
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "inputs.tariffs"
+          },
+          {
+            "amountUsd": 0,
+            "amountUsdRaw": 0,
+            "basis": "v1 placeholder (0)",
+            "id": "savings.otherAnnual",
+            "label": "Other savings (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "savingsModelV1.other"
+          },
+          {
+            "amountUsd": null,
+            "amountUsdRaw": null,
+            "basis": "unavailable",
+            "id": "savings.ratchetAvoidedAnnual",
+            "label": "Ratchet savings (annual, lite)",
+            "notes": null,
+            "quantities": [
+              {
+                "id": "demandRate",
+                "unit": "$/kW-month",
+                "value": 0
+              },
+              {
+                "id": "ratchetHistoryMaxKw",
+                "unit": "kW",
+                "value": 0
+              },
+              {
+                "id": "ratchetFloorPct",
+                "unit": "fraction",
+                "value": 0
+              }
+            ],
+            "rateSource": "[Circular]",
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "inputs.determinants"
+          },
+          {
+            "amountUsd": 0,
+            "amountUsdRaw": 0,
+            "basis": "sum in fixed order",
+            "id": "savings.totalAnnual",
+            "label": "Total savings (annual)",
+            "notes": null,
+            "quantities": null,
+            "rateSource": null,
+            "snapshotId": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "savingsModelV1.total"
+          }
+        ]
+      },
+      "capex": {
+        "assumptions": [
+          {
+            "id": "costs.batteryCostPerKwhUsd",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.batteryCostPerKwhUsd",
+            "value": "350"
+          },
+          {
+            "id": "costs.batteryCostPerKwUsd",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.batteryCostPerKwUsd",
+            "value": "750"
+          },
+          {
+            "id": "costs.contingencyPct",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.contingencyPct",
+            "value": "0.1"
+          },
+          {
+            "id": "costs.installAdderPct",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.installAdderPct",
+            "value": "0.25"
+          },
+          {
+            "id": "costs.interconnectFlatUsd",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.interconnectFlatUsd",
+            "value": "25000"
+          },
+          {
+            "id": "costs.omPerKwYrUsd",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.omPerKwYrUsd",
+            "value": "10"
+          },
+          {
+            "id": "costs.softCostsFlatUsd",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.softCostsFlatUsd",
+            "value": "40000"
+          },
+          {
+            "id": "costs.warrantyReservePctOfCapexPerYear",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "defaults.warrantyReservePctOfCapexPerYear",
+            "value": "0"
+          }
+        ],
+        "batteryEquipmentUsd": null,
+        "contingencyUsd": 0,
+        "installUsd": null,
+        "interconnectUsd": null,
+        "softCostsUsd": null,
+        "totalUsd": 0
+      },
+      "cashflow": {
+        "discountedPaybackYears": null,
+        "irrApprox": null,
+        "npvUsd": 0,
+        "simplePaybackYears": null,
+        "year0Usd": 0,
+        "years1toNUsd": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "confidenceTier": "NONE",
+      "degradationV0": null,
+      "engineVersion": "battery_econ_v1.3",
+      "methodTag": "battery_econ_v1",
+      "opexAnnual": {
+        "assumptions": [],
+        "omUsd": null,
+        "totalUsd": 0,
+        "warrantyReserveUsd": 0
+      },
+      "savingsAnnual": {
+        "assumptions": [
+          {
+            "id": "energySavings.netPerKwhFormula",
+            "notes": null,
+            "sourceEngine": "assumption",
+            "sourcePath": "savingsModelV1.energy",
+            "value": "peakPrice - offPrice*(1/rte), floored at 0"
+          }
+        ],
+        "demandUsd": null,
+        "drUsd": null,
+        "energyUsd": null,
+        "otherUsd": 0,
+        "ratchetAvoidedUsd": null,
+        "totalUsd": 0
+      },
+      "sgipV0": null,
+      "sizingSanity": {
+        "cRate": null,
+        "hoursAtPower": null,
+        "violations": [
+          "battery.econ.sizing.missing"
+        ]
+      },
+      "taxV0": null,
+      "warnings": [
+        "battery.econ.capex_defaults_used",
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_capex_inputs",
+        "battery.econ.missing_tariff_inputs",
+        "battery.econ.net_savings_non_positive",
+        "battery.econ.savings_unavailable_no_tariffengine"
+      ]
+    },
+    "engineVersions": "[Circular]",
+    "generatedAtIso": "2026-03-01T00:00:00.000Z",
+    "intervalInsightsV1": null,
+    "missingInfo": [
+      {
+        "category": "tariff",
+        "description": "Max demand (kW) is missing. Provide billing records with measured demand or interval data.",
+        "id": "tariff.applicability.demand.missing",
+        "severity": "warning"
+      },
+      {
+        "category": "tariff",
+        "description": "Base load drift unavailable (insufficient reconcilable months).",
+        "id": "behaviorV2.baseLoadDrift.unavailable",
+        "severity": "info"
+      },
+      {
+        "category": "tariff",
+        "description": "Insufficient reconcilable overlap cycles for multi-year behavior insights (need >= 12).",
+        "id": "behaviorV2.insufficientCycles",
+        "severity": "info"
+      },
+      {
+        "category": "tariff",
+        "description": "Peak timing unavailable (missing determinant timestamps for kW maxima).",
+        "id": "behaviorV2.peaks.missing",
+        "severity": "info"
+      },
+      {
+        "category": "tariff",
+        "description": "Weekend share comparison requires >= 24 reconcilable months.",
+        "id": "behaviorV2.weekendShare.insufficientMonths",
+        "severity": "info"
+      },
+      {
+        "category": "tariff",
+        "description": "Insufficient reconcilable overlap months for electric behavior insights (need >= 12).",
+        "id": "behaviorV3.electric.insufficientMonths",
+        "severity": "info"
+      },
+      {
+        "category": "billing",
+        "description": "TOU kW buckets were not explicitly labeled (need at least two of: Peak/Off-Peak/Partial-Peak/Super-Off-Peak kW).",
+        "details": {
+          "reasonCode": "BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+          "source": "bill_pdf"
+        },
+        "evidence": [
+          {
+            "kind": "bill_pdf_snippet",
+            "value": "ctric Service Rate Schedule: E-19 Billing Period: 2026-01-01 to 2026-01-31 This is sanitized bill text for"
+          }
+        ],
+        "id": "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+        "severity": "info"
+      },
+      {
+        "category": "billing",
+        "description": "TOU kWh buckets were not explicitly labeled (need at least two of: Peak/Off-Peak/Partial-Peak/Super-Off-Peak kWh).",
+        "details": {
+          "reasonCode": "BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+          "source": "bill_pdf"
+        },
+        "evidence": "[Circular]",
+        "id": "billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+        "severity": "info"
+      },
+      {
+        "category": "tariff",
+        "description": "Billing records missing for reconciliation.",
+        "id": "determinants.reconcile.billingRecords.missing",
+        "meterKey": "site",
+        "severity": "info"
+      },
+      {
+        "category": "tariff",
+        "description": "Only 0 cycles were reconcilable due to limited overlap/coverage.",
+        "details": {
+          "reconciledCycleCount": 0
+        },
+        "id": "determinants.reconcile.reconcilable.count",
+        "meterKey": "site",
+        "severity": "info"
+      },
+      {
+        "category": "billing",
+        "description": "Interval electricity data is missing; interval-derived insights (and some deterministic audit signals) will be unavailable.",
+        "id": "interval.intervalElectricV1.missing",
+        "severity": "info"
+      },
+      {
+        "category": "tariff",
+        "description": "LSE (CCA/DA provider) could not be detected from bill text.",
+        "id": "supply.v1.lse_undetected",
+        "severity": "info"
+      },
+      {
+        "category": "tariff",
+        "description": "No applicability rules exist yet for rate \"E-19\". Add a rule module for this rate family.",
+        "id": "tariff.applicability.rules.missing",
+        "severity": "info"
+      },
+      {
+        "category": "tariff",
+        "description": "Tariff applicability is unknown with current inputs; see applicability panel for required missing determinants.",
+        "id": "tariff.applicability.unknown",
+        "severity": "info"
+      },
+      {
+        "category": "tariff",
+        "description": "Voltage level (secondary/primary/transmission) is unknown; provide meter metadata or bill text that indicates service voltage.",
+        "id": "tariff.applicability.voltage.unknown",
+        "severity": "info"
+      }
+    ],
+    "project": {
+      "id": "p_golden_07"
+    },
+    "projectId": "p_golden_07",
+    "schemaVersion": "internalEngineeringReportV1",
+    "storageOpportunityPackV1": {
+      "batteryEconomicsV1Summary": {
+        "capexTotalUsd": 0,
+        "confidenceTier": "NONE",
+        "npvUsd": 0,
+        "savingsAnnualTotalUsd": 0,
+        "simplePaybackYears": 0,
+        "warnings": [
+          "battery.econ.capex_defaults_used",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "battery.econ.missing_tariff_inputs",
+          "battery.econ.net_savings_non_positive",
+          "battery.econ.savings_unavailable_no_tariffengine",
+          "storage.econ.deprecated_use_batteryEconomicsV1",
+          "storage.econ.v1.missing_demand_determinants",
+          "storage.econ.v1.missing_tariff_prices",
+          "storage.econ.v1.net_savings_non_positive"
+        ]
+      },
+      "batteryOpportunityV1": {
+        "confidenceTier": "NONE",
+        "engineVersion": "storage_opportunity_pack_v1.0",
+        "missingInfo": [
+          "battery.v1.intervalInsights_missing",
+          "battery.v1.missing_demand_determinants",
+          "battery.v1.missing_intervals",
+          "battery.v1.missing_tariff_prices"
+        ],
+        "recommendedBatteryConfigs": [
+          {
+            "durationHours": 2,
+            "energyKwh": 0,
+            "maxCyclesPerDay": 1,
+            "powerKw": 0,
+            "rte": 0.9
+          }
+        ],
+        "recommendedEnergyKwhRange": [
+          0,
+          0
+        ],
+        "recommendedPowerKwRange": [
+          0,
+          0
+        ],
+        "savingsEstimateAnnual": {
+          "demand": {
+            "max": 0,
+            "method": "battery_demand_savings_from_dispatch_hybrid_v1",
+            "min": 0
+          },
+          "energy": {
+            "max": 0,
+            "method": "battery_energy_savings_from_dispatch_hybrid_v1",
+            "min": 0
+          },
+          "total": {
+            "max": 0,
+            "method": "battery_total_savings_hybrid_v1",
+            "min": 0
+          }
+        },
+        "valueDrivers": [],
+        "warnings": []
+      },
+      "dispatchSimulationV1": {
+        "assumptions": {
+          "demandWindowStrategy": "WINDOW_AROUND_DAILY_PEAK_V1",
+          "dispatchDaysPerYear": 260,
+          "maxCyclesPerDay": 1,
+          "rte": 0.9,
+          "strategyId": "DISPATCH_MULTI_STRATEGY_V1"
+        },
+        "strategyResults": [
+          {
+            "constraintsHit": [
+              "MISSING_DEMAND_INPUTS",
+              "MISSING_TARIFF_PRICES",
+              "ZERO_ENERGY",
+              "ZERO_POWER"
+            ],
+            "estimatedDemandSavingsAnnual": {
+              "max": 0,
+              "method": "demand_charge_simple_monthly_v1",
+              "min": 0
+            },
+            "estimatedEnergySavingsAnnual": {
+              "max": 0,
+              "method": "tou_arbitrage_simple_v1",
+              "min": 0
+            },
+            "estimatedPeakKwReduction": {
+              "max": 0,
+              "method": "dispatch_peak_kw_reduction_v1",
+              "min": 0
+            },
+            "estimatedShiftedKwhAnnual": {
+              "method": "dispatch_shifted_kwh_annual_v1",
+              "value": 0
+            },
+            "strategyId": "PEAK_SHAVE_DAILY_V1"
+          },
+          {
+            "constraintsHit": [
+              "MISSING_DEMAND_INPUTS",
+              "MISSING_TARIFF_PRICES",
+              "ZERO_ENERGY",
+              "ZERO_POWER"
+            ],
+            "estimatedDemandSavingsAnnual": {
+              "max": 0,
+              "method": "demand_charge_simple_monthly_v1",
+              "min": 0
+            },
+            "estimatedEnergySavingsAnnual": {
+              "max": 0,
+              "method": "tou_arbitrage_simple_v1",
+              "min": 0
+            },
+            "estimatedPeakKwReduction": {
+              "max": 0,
+              "method": "dispatch_peak_kw_reduction_v1",
+              "min": 0
+            },
+            "estimatedShiftedKwhAnnual": {
+              "method": "dispatch_shifted_kwh_annual_v1",
+              "value": 0
+            },
+            "strategyId": "TOU_SHIFT_V1"
+          },
+          {
+            "constraintsHit": [
+              "MISSING_DEMAND_INPUTS",
+              "MISSING_TARIFF_PRICES",
+              "ZERO_ENERGY",
+              "ZERO_POWER"
+            ],
+            "estimatedDemandSavingsAnnual": {
+              "max": 0,
+              "method": "demand_charge_simple_monthly_v1",
+              "min": 0
+            },
+            "estimatedEnergySavingsAnnual": {
+              "max": 0,
+              "method": "tou_arbitrage_simple_v1",
+              "min": 0
+            },
+            "estimatedPeakKwReduction": {
+              "max": 0,
+              "method": "dispatch_peak_kw_reduction_v1",
+              "min": 0
+            },
+            "estimatedShiftedKwhAnnual": {
+              "method": "dispatch_shifted_kwh_annual_v1",
+              "value": 0
+            },
+            "strategyId": "HYBRID_V1"
+          }
+        ],
+        "warnings": [
+          "battery.dispatch.v1.bucket_only_simulation",
+          "battery.dispatch.v1.missing_interval_points",
+          "battery.v1.missing_demand_determinants",
+          "battery.v1.missing_tariff_prices"
+        ]
+      },
+      "drReadinessV1": {
+        "confidenceTier": "NONE",
+        "eventCandidateDefinition": {
+          "basis": "DAILY_PEAK_KW_V1",
+          "method": "dr_event_candidates_daily_peak_v1",
+          "topDaysCount": 10,
+          "windowDurationHours": 2
+        },
+        "missingInfo": [
+          "dr.v1.timezone_unknown"
+        ],
+        "topEventWindows": [],
+        "typicalShedPotentialKwRange": [
+          null,
+          null
+        ],
+        "variabilityScore": {
+          "method": "dr_variability_cv_v1",
+          "value": 0
+        },
+        "warnings": [
+          "dr.v1.insufficient_coverage"
+        ]
+      },
+      "incentivesStubV1": {
+        "confidenceTier": "NONE",
+        "engineVersion": "incentives_stub_v1.0",
+        "estimatedIncentiveUsdRange": null,
+        "missingInfo": [
+          "incentives.v1.need_customer_classification",
+          "incentives.v1.need_technology_details",
+          "incentives.v1.program_unknown"
+        ],
+        "programsConsidered": [],
+        "warnings": []
+      },
+      "storageEconomicsV1": {
+        "assumptions": {
+          "capexModel": {
+            "energyCostPerKwhUsdRange": {
+              "max": null,
+              "method": "capex_energy_cost_unavailable_derived_v1",
+              "min": null
+            },
+            "omPctOfCapexPerYearRange": {
+              "max": null,
+              "method": "opex_om_pct_unavailable_v1",
+              "min": null
+            },
+            "powerCostPerKwUsdRange": {
+              "max": null,
+              "method": "capex_power_cost_unavailable_derived_v1",
+              "min": null
+            },
+            "softCostsPctRange": {
+              "max": null,
+              "method": "capex_soft_costs_unavailable_v1",
+              "min": null
+            }
+          },
+          "discountRateRange": {
+            "max": 0.09,
+            "method": "discount_rate_default_derived_v1",
+            "min": 0.09
+          },
+          "projectLifeYears": {
+            "method": "project_life_years_default_derived_v1",
+            "value": 10
+          }
+        },
+        "capexEstimate": {
+          "breakdown": {
+            "energyComponentRange": [
+              null,
+              null
+            ],
+            "powerComponentRange": [
+              null,
+              null
+            ],
+            "softCostsRange": [
+              0,
+              0
+            ]
+          },
+          "capexMethodTag": "derived_from_battery_econ_v1",
+          "totalCapexUsdRange": [
+            0,
+            0
+          ]
+        },
+        "cashflow": {
+          "annualGrossSavingsUsdRange": [
+            0,
+            0
+          ],
+          "annualNetSavingsUsdRange": [
+            0,
+            0
+          ],
+          "savingsMethodTag": "derived_from_battery_econ_v1"
+        },
+        "confidenceTier": "NONE",
+        "engineVersion": "storage_econ_v1.0",
+        "missingInfo": [
+          "storage.econ.v1.capex_defaults_used",
+          "storage.econ.v1.discount_rate_default_used"
+        ],
+        "normalizedMetrics": {
+          "annualNetSavingsPerAnnualKwhRange": [
+            null,
+            null
+          ],
+          "annualNetSavingsPerKwhRange": [
+            null,
+            null
+          ],
+          "annualNetSavingsPerKwRange": [
+            null,
+            null
+          ],
+          "capexPerKwhRange": [
+            null,
+            null
+          ],
+          "capexPerKwRange": [
+            null,
+            null
+          ]
+        },
+        "npvLite": {
+          "npvMethodTag": "derived_from_battery_econ_v1",
+          "npvUsdRange": [
+            0,
+            0
+          ]
+        },
+        "npvUsd": 0,
+        "opexAnnualUsd": 0,
+        "opexEstimate": {
+          "annualOmUsdRange": [
+            0,
+            0
+          ],
+          "opexMethodTag": "derived_from_battery_econ_v1"
+        },
+        "payback": {
+          "paybackMethodTag": "derived_from_battery_econ_v1",
+          "simplePaybackYearsRange": [
+            0,
+            0
+          ]
+        },
+        "savingsAnnualUsdComponents": {
+          "demandUsd": 0,
+          "drUsd": 0,
+          "energyUsd": 0,
+          "otherUsd": 0,
+          "ratchetAvoidedUsd": 0
+        },
+        "savingsAnnualUsdTotal": 0,
+        "simplePaybackYears": 0,
+        "totalCapexUsd": 0,
+        "warnings": "[Circular]"
+      }
+    },
+    "summary": {
+      "json": {},
+      "markdown": ""
+    },
+    "telemetry": {
+      "intervalElectricMetaV1": null,
+      "intervalElectricV1": {
+        "pointCount": 0,
+        "present": false,
+        "warningCount": 0
+      }
+    },
+    "weatherRegressionV1": null,
+    "workflow": {
+      "analysisTraceV1": "[Circular]",
+      "battery": {
+        "gate": {
+          "because": [
+            "Insufficient interval-derived inputs to determine whether battery evaluation is worthwhile.",
+            "Provide interval kW data (or run Utility Intelligence with interval data) to compute peakiness and peak windows.",
+            "Note: determinants pack is available but does not replace load-shape metrics in the v1 battery gate."
+          ],
+          "requiredInputsMissing": [
+            "Interval-derived peak kW required to screen battery feasibility.",
+            "Interval-derived baseload kW required to screen battery feasibility.",
+            "Interval-derived peakinessIndex required to screen battery feasibility.",
+            "Interval-derived loadFactor required to screen battery feasibility."
+          ],
+          "status": "unknown"
+        },
+        "selection": {
+          "explain": [
+            "Candidate selection skipped due to missing inputs."
+          ],
+          "rankedCandidates": [],
+          "requiredInputsMissing": [
+            "Interval-derived peak kW required to size battery power.",
+            "Interval-derived baseload kW required to size battery power.",
+            "Interval-derived peakinessIndex required to interpret peak shaving potential."
+          ],
+          "sizing": {
+            "because": [
+              "Insufficient utility insights to size battery candidates."
+            ],
+            "method": "heuristic_v1"
+          }
+        }
+      },
+      "inbox": {
+        "battery": {
+          "inboxItems": [
+            {
+              "confidence": 0.35,
+              "createdAt": "2026-03-01T00:00:00.000Z",
+              "id": "inbox_20260301T000000000Z07pge_12",
+              "kind": "suggestedMeasure",
+              "needsConfirmation": true,
+              "provenance": {
+                "extractedAt": "2026-03-01T00:00:00.000Z",
+                "fileId": "batteryIntelligenceV1:o_golden:p_golden_07",
+                "snippetText": "Suggested by Battery Intelligence v1 (deterministic screening).\ngeneratedAt=2026-03-01T00:00:00.000Z\ngateStatus=unknown\nloadShiftScore≈0.00\nWhy we suggested this:\n- Insufficient interval-derived inputs to determine whether battery evaluation is worthwhile.\n- Provide interval kW data (or run Utility Intelligence with interval data) to compute peakiness and peak windows.\n- Note: determinants pack is available but does not replace load-shape metrics in the v1 battery gate.\nTop battery candidates (library):\n- (none)\n\n\nRequires inputs:\n- Interval-derived peak kW required to screen battery feasibility.\n- Interval-derived baseload kW required to screen battery feasibility.\n- Interval-derived peakinessIndex required to screen battery feasibility.\n- Interval-derived loadFactor required to screen battery feasibility.\n- Interval-derived peak kW required to size battery power.\n- Interval-derived baseload kW required to size battery power.\n- Interval-derived peakinessIndex required to interpret peak shaving potential.",
+                "sourceKey": "reco:sug_20260301T000000000Z07pge_12"
+              },
+              "sourceKey": "reco:sug_20260301T000000000Z07pge_12",
+              "status": "inferred",
+              "suggestedMeasure": {
+                "category": "recommendation",
+                "id": "sug_20260301T000000000Z07pge_12",
+                "name": "Battery peak shaving (screening)",
+                "notes": "Suggested by Battery Intelligence v1 (deterministic screening).\ngeneratedAt=2026-03-01T00:00:00.000Z\ngateStatus=unknown\nloadShiftScore≈0.00\nWhy we suggested this:\n- Insufficient interval-derived inputs to determine whether battery evaluation is worthwhile.\n- Provide interval kW data (or run Utility Intelligence with interval data) to compute peakiness and peak windows.\n- Note: determinants pack is available but does not replace load-shape metrics in the v1 battery gate.\nTop battery candidates (library):\n- (none)\n\n\nRequires inputs:\n- Interval-derived peak kW required to screen battery feasibility.\n- Interval-derived baseload kW required to screen battery feasibility.\n- Interval-derived peakinessIndex required to screen battery feasibility.\n- Interval-derived loadFactor required to screen battery feasibility.\n- Interval-derived peak kW required to size battery power.\n- Interval-derived baseload kW required to size battery power.\n- Interval-derived peakinessIndex required to interpret peak shaving potential."
+              }
+            }
+          ],
+          "suggestions": [
+            {
+              "confidence": 0.35,
+              "createdAt": "2026-03-01T00:00:00.000Z",
+              "explain": {
+                "because": [
+                  {
+                    "completedProjectId": "batteryIntelligenceV1",
+                    "matchedFeatures": [
+                      "gateStatus:unknown",
+                      "territory:PGE"
+                    ],
+                    "measuresInProject": [
+                      "BATTERY_PEAK_SHAVE"
+                    ],
+                    "similarityScore": 0.35
+                  }
+                ],
+                "frequency": {
+                  "sampleSizeTopN": 1,
+                  "seenInCount": 1,
+                  "text": "deterministic battery screening v1"
+                },
+                "matchedFeatureSummary": [
+                  "batteryGate=unknown",
+                  "currentRate=E-19",
+                  "territory=PGE"
+                ],
+                "matchingFeaturesUsed": [
+                  "territory",
+                  "scheduleBucket"
+                ],
+                "topContributors": [
+                  {
+                    "completedProjectId": "batteryIntelligenceV1",
+                    "matchedFeatures": "[Circular]",
+                    "similarityScore": 0.35,
+                    "summary": "Suggested by Battery Intelligence v1 (deterministic screening). | generatedAt=2026-03-01T00:00:00.000Z | gateStatus=unknown | loadShiftScore≈0.00 | Why we suggested this: | - Insufficient interval-derived inputs to determine whether battery"
+                  }
+                ]
+              },
+              "orgId": "o_golden",
+              "playbookAlignment": "neutral",
+              "playbookId": null,
+              "playbookRationale": null,
+              "projectId": "p_golden_07",
+              "requiredInputsMissing": [
+                "Interval-derived peak kW required to screen battery feasibility.",
+                "Interval-derived baseload kW required to screen battery feasibility.",
+                "Interval-derived peakinessIndex required to screen battery feasibility.",
+                "Interval-derived loadFactor required to screen battery feasibility.",
+                "Interval-derived peak kW required to size battery power.",
+                "Interval-derived baseload kW required to size battery power.",
+                "Interval-derived peakinessIndex required to interpret peak shaving potential."
+              ],
+              "score": 0.35,
+              "stateId": "baseline",
+              "status": "proposed",
+              "suggestedMeasure": {
+                "label": "Battery peak shaving (screening)",
+                "measureType": "BATTERY_PEAK_SHAVE",
+                "parameters": {
+                  "candidateSkus": "",
+                  "candidateVendors": "",
+                  "gateStatus": "unknown",
+                  "meterId": null,
+                  "targetDurationHours": null,
+                  "targetEnergyKwh": null,
+                  "targetPowerKw": null,
+                  "territory": "PGE",
+                  "topCandidateSku": null
+                },
+                "tags": [
+                  "battery",
+                  "peak_shaving",
+                  "unknown"
+                ]
+              },
+              "suggestionId": "sug_20260301T000000000Z07pge_12"
+            }
+          ]
+        },
+        "inboxItems": [
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "id": "inbox_20260301T000000000Z07pge_1",
+            "kind": "suggestedMeasure",
+            "needsConfirmation": true,
+            "provenance": {
+              "extractedAt": "2026-03-01T00:00:00.000Z",
+              "fileId": "utilityIntelligenceV1:o_golden:p_golden_07",
+              "snippetText": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=RATE_CHANGE\nscore=0.55 confidence=0.35\nWhy we suggested this:\n- Evaluate alternative rate schedule (inbox-only suggestion; no changes are applied automatically).\n- Candidate generated from territory rate catalog (v1).\n- Potential improvement; needs billing periods + interval data to compute deterministic delta.\n- Potential improvement; needs additional inputs to compute deterministic savings.\n\n\nRequires inputs:\n- Interval kW series required to compute deterministic bill deltas per billing cycle.\n- Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "sourceKey": "reco:sug_20260301T000000000Z07pge_1"
+            },
+            "sourceKey": "reco:sug_20260301T000000000Z07pge_1",
+            "status": "inferred",
+            "suggestedMeasure": {
+              "category": "recommendation",
+              "id": "sug_20260301T000000000Z07pge_1",
+              "name": "Evaluate rate alternative: B-19",
+              "notes": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=RATE_CHANGE\nscore=0.55 confidence=0.35\nWhy we suggested this:\n- Evaluate alternative rate schedule (inbox-only suggestion; no changes are applied automatically).\n- Candidate generated from territory rate catalog (v1).\n- Potential improvement; needs billing periods + interval data to compute deterministic delta.\n- Potential improvement; needs additional inputs to compute deterministic savings.\n\n\nRequires inputs:\n- Interval kW series required to compute deterministic bill deltas per billing cycle.\n- Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+            }
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "id": "inbox_20260301T000000000Z07pge_2",
+            "kind": "suggestedMeasure",
+            "needsConfirmation": true,
+            "provenance": {
+              "extractedAt": "2026-03-01T00:00:00.000Z",
+              "fileId": "utilityIntelligenceV1:o_golden:p_golden_07",
+              "snippetText": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=RATE_CHANGE\nscore=0.55 confidence=0.35\nWhy we suggested this:\n- Evaluate alternative rate schedule (inbox-only suggestion; no changes are applied automatically).\n- Candidate generated from territory rate catalog (v1).\n- Potential improvement; needs billing periods + interval data to compute deterministic delta.\n- Potential improvement; needs additional inputs to compute deterministic savings.\n\n\nRequires inputs:\n- Interval kW series required to compute deterministic bill deltas per billing cycle.\n- Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "sourceKey": "reco:sug_20260301T000000000Z07pge_2"
+            },
+            "sourceKey": "reco:sug_20260301T000000000Z07pge_2",
+            "status": "inferred",
+            "suggestedMeasure": {
+              "category": "recommendation",
+              "id": "sug_20260301T000000000Z07pge_2",
+              "name": "Evaluate rate alternative: B-20",
+              "notes": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=RATE_CHANGE\nscore=0.55 confidence=0.35\nWhy we suggested this:\n- Evaluate alternative rate schedule (inbox-only suggestion; no changes are applied automatically).\n- Candidate generated from territory rate catalog (v1).\n- Potential improvement; needs billing periods + interval data to compute deterministic delta.\n- Potential improvement; needs additional inputs to compute deterministic savings.\n\n\nRequires inputs:\n- Interval kW series required to compute deterministic bill deltas per billing cycle.\n- Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+            }
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "id": "inbox_20260301T000000000Z07pge_3",
+            "kind": "suggestedMeasure",
+            "needsConfirmation": true,
+            "provenance": {
+              "extractedAt": "2026-03-01T00:00:00.000Z",
+              "fileId": "utilityIntelligenceV1:o_golden:p_golden_07",
+              "snippetText": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=RATE_CHANGE\nscore=0.55 confidence=0.35\nWhy we suggested this:\n- Evaluate alternative rate schedule (inbox-only suggestion; no changes are applied automatically).\n- Option S is storage/rider-specific; evaluate only if storage or sharp daily peaks are present.\n- Potential improvement; needs billing periods + interval data to compute deterministic delta.\n- Potential improvement; needs additional inputs to compute deterministic savings.\n\n\nRequires inputs:\n- Interval kW series required to compute deterministic bill deltas per billing cycle.\n- Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "sourceKey": "reco:sug_20260301T000000000Z07pge_3"
+            },
+            "sourceKey": "reco:sug_20260301T000000000Z07pge_3",
+            "status": "inferred",
+            "suggestedMeasure": {
+              "category": "recommendation",
+              "id": "sug_20260301T000000000Z07pge_3",
+              "name": "Evaluate rate alternative: B-19S",
+              "notes": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=RATE_CHANGE\nscore=0.55 confidence=0.35\nWhy we suggested this:\n- Evaluate alternative rate schedule (inbox-only suggestion; no changes are applied automatically).\n- Option S is storage/rider-specific; evaluate only if storage or sharp daily peaks are present.\n- Potential improvement; needs billing periods + interval data to compute deterministic delta.\n- Potential improvement; needs additional inputs to compute deterministic savings.\n\n\nRequires inputs:\n- Interval kW series required to compute deterministic bill deltas per billing cycle.\n- Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+            }
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "id": "inbox_20260301T000000000Z07pge_4",
+            "kind": "suggestedMeasure",
+            "needsConfirmation": true,
+            "provenance": {
+              "extractedAt": "2026-03-01T00:00:00.000Z",
+              "fileId": "utilityIntelligenceV1:o_golden:p_golden_07",
+              "snippetText": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=RATE_CHANGE\nscore=0.55 confidence=0.35\nWhy we suggested this:\n- Evaluate alternative rate schedule (inbox-only suggestion; no changes are applied automatically).\n- Option S is storage/rider-specific; evaluate only if storage or sharp daily peaks are present.\n- Potential improvement; needs billing periods + interval data to compute deterministic delta.\n- Potential improvement; needs additional inputs to compute deterministic savings.\n\n\nRequires inputs:\n- Interval kW series required to compute deterministic bill deltas per billing cycle.\n- Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "sourceKey": "reco:sug_20260301T000000000Z07pge_4"
+            },
+            "sourceKey": "reco:sug_20260301T000000000Z07pge_4",
+            "status": "inferred",
+            "suggestedMeasure": {
+              "category": "recommendation",
+              "id": "sug_20260301T000000000Z07pge_4",
+              "name": "Evaluate rate alternative: E-19S",
+              "notes": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=RATE_CHANGE\nscore=0.55 confidence=0.35\nWhy we suggested this:\n- Evaluate alternative rate schedule (inbox-only suggestion; no changes are applied automatically).\n- Option S is storage/rider-specific; evaluate only if storage or sharp daily peaks are present.\n- Potential improvement; needs billing periods + interval data to compute deterministic delta.\n- Potential improvement; needs additional inputs to compute deterministic savings.\n\n\nRequires inputs:\n- Interval kW series required to compute deterministic bill deltas per billing cycle.\n- Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+            }
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "id": "inbox_20260301T000000000Z07pge_5",
+            "kind": "suggestedMeasure",
+            "needsConfirmation": true,
+            "provenance": {
+              "extractedAt": "2026-03-01T00:00:00.000Z",
+              "fileId": "utilityIntelligenceV1:o_golden:p_golden_07",
+              "snippetText": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=RATE_CHANGE\nscore=0.55 confidence=0.35\nWhy we suggested this:\n- Evaluate alternative rate schedule (inbox-only suggestion; no changes are applied automatically).\n- Candidate generated from territory rate catalog (v1).\n- Potential improvement; needs billing periods + interval data to compute deterministic delta.\n- Potential improvement; needs additional inputs to compute deterministic savings.\n\n\nRequires inputs:\n- Interval kW series required to compute deterministic bill deltas per billing cycle.\n- Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "sourceKey": "reco:sug_20260301T000000000Z07pge_5"
+            },
+            "sourceKey": "reco:sug_20260301T000000000Z07pge_5",
+            "status": "inferred",
+            "suggestedMeasure": {
+              "category": "recommendation",
+              "id": "sug_20260301T000000000Z07pge_5",
+              "name": "Evaluate rate alternative: A-10",
+              "notes": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=RATE_CHANGE\nscore=0.55 confidence=0.35\nWhy we suggested this:\n- Evaluate alternative rate schedule (inbox-only suggestion; no changes are applied automatically).\n- Candidate generated from territory rate catalog (v1).\n- Potential improvement; needs billing periods + interval data to compute deterministic delta.\n- Potential improvement; needs additional inputs to compute deterministic savings.\n\n\nRequires inputs:\n- Interval kW series required to compute deterministic bill deltas per billing cycle.\n- Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+            }
+          },
+          {
+            "confidence": 0.15,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "id": "inbox_20260301T000000000Z07pge_6",
+            "kind": "suggestedMeasure",
+            "needsConfirmation": true,
+            "provenance": {
+              "extractedAt": "2026-03-01T00:00:00.000Z",
+              "fileId": "utilityIntelligenceV1:o_golden:p_golden_07",
+              "snippetText": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=OPTION_S\nscore=0.35 confidence=0.15\nWhy we suggested this:\n- Option S relevance cannot be determined with current inputs.\n- Insufficient inputs to determine Option S relevance deterministically.\n- Provide interval kW data and demand charge presence to evaluate daily-demand structures.\n\n\nRequires inputs:\n- Interval-derived peakinessIndex required to evaluate Option S relevance.\n- Interval-derived loadFactor required to evaluate Option S relevance.\n- Interval-derived peak kW required to evaluate Option S relevance.\n- Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+              "sourceKey": "reco:sug_20260301T000000000Z07pge_6"
+            },
+            "sourceKey": "reco:sug_20260301T000000000Z07pge_6",
+            "status": "inferred",
+            "suggestedMeasure": {
+              "category": "recommendation",
+              "id": "sug_20260301T000000000Z07pge_6",
+              "name": "Collect inputs to evaluate Option S",
+              "notes": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=OPTION_S\nscore=0.35 confidence=0.15\nWhy we suggested this:\n- Option S relevance cannot be determined with current inputs.\n- Insufficient inputs to determine Option S relevance deterministically.\n- Provide interval kW data and demand charge presence to evaluate daily-demand structures.\n\n\nRequires inputs:\n- Interval-derived peakinessIndex required to evaluate Option S relevance.\n- Interval-derived loadFactor required to evaluate Option S relevance.\n- Interval-derived peak kW required to evaluate Option S relevance.\n- Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance."
+            }
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "id": "inbox_20260301T000000000Z07pge_7",
+            "kind": "suggestedMeasure",
+            "needsConfirmation": true,
+            "provenance": {
+              "extractedAt": "2026-03-01T00:00:00.000Z",
+              "fileId": "utilityIntelligenceV1:o_golden:p_golden_07",
+              "snippetText": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=DEMAND_RESPONSE\nscore=0.17 confidence=0.35\nWhy we suggested this:\n- Matched program: Capacity DR (Aggregator Bid, placeholder) (pge.dr.capacity_bidder_v1)\n- Payments for committed load reduction capability during peak events.\n- Territory matched: PGE.\n- Load shifting score used to rank DR-like programs (v1 heuristic).\n- Operational fit score (DR): 0.15.\n- Load shifting feasibility score≈0.00 (deterministic heuristic).\n- Operational fit (DR): score=0.15.\n- Why not now: Interval data not available; cannot assess repeatable peaks. Operational fit score is low; address data/operational constraints before enrolling.\n- Next step: Collect interval kW data (hourly or 15-min) to evaluate DR operational fit.\n- Next step: Confirm territory and AMI/interval availability.\n- Next step: Estimate curtailable kW in 16:00–21:00 window.\n- Next step: Contact aggregator for enrollment and baseline methodology.\n\n\nRequires inputs:\n- Customer type required for this program (segment-gated).\n- Peak kW required for this program (minPeakKw gate).\n- Interval data required for this program.\n- Advanced metering (AMI) required for this program.",
+              "sourceKey": "reco:sug_20260301T000000000Z07pge_7"
+            },
+            "sourceKey": "reco:sug_20260301T000000000Z07pge_7",
+            "status": "inferred",
+            "suggestedMeasure": {
+              "category": "recommendation",
+              "id": "sug_20260301T000000000Z07pge_7",
+              "name": "Enroll in Demand Response: Capacity DR (Aggregator Bid, placeholder)",
+              "notes": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=DEMAND_RESPONSE\nscore=0.17 confidence=0.35\nWhy we suggested this:\n- Matched program: Capacity DR (Aggregator Bid, placeholder) (pge.dr.capacity_bidder_v1)\n- Payments for committed load reduction capability during peak events.\n- Territory matched: PGE.\n- Load shifting score used to rank DR-like programs (v1 heuristic).\n- Operational fit score (DR): 0.15.\n- Load shifting feasibility score≈0.00 (deterministic heuristic).\n- Operational fit (DR): score=0.15.\n- Why not now: Interval data not available; cannot assess repeatable peaks. Operational fit score is low; address data/operational constraints before enrolling.\n- Next step: Collect interval kW data (hourly or 15-min) to evaluate DR operational fit.\n- Next step: Confirm territory and AMI/interval availability.\n- Next step: Estimate curtailable kW in 16:00–21:00 window.\n- Next step: Contact aggregator for enrollment and baseline methodology.\n\n\nRequires inputs:\n- Customer type required for this program (segment-gated).\n- Peak kW required for this program (minPeakKw gate).\n- Interval data required for this program.\n- Advanced metering (AMI) required for this program."
+            }
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "id": "inbox_20260301T000000000Z07pge_8",
+            "kind": "suggestedMeasure",
+            "needsConfirmation": true,
+            "provenance": {
+              "extractedAt": "2026-03-01T00:00:00.000Z",
+              "fileId": "utilityIntelligenceV1:o_golden:p_golden_07",
+              "snippetText": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=DEMAND_RESPONSE\nscore=0.17 confidence=0.35\nWhy we suggested this:\n- Matched program: Automated Demand Response (AutoDR, placeholder) (pge.dr.automated_dr_v1)\n- Incentives for automated curtailment capability during dispatch events.\n- Territory matched: PGE.\n- Load shifting score used to rank DR-like programs (v1 heuristic).\n- Operational fit score (DR): 0.15.\n- Load shifting feasibility score≈0.00 (deterministic heuristic).\n- Operational fit (DR): score=0.15.\n- Why not now: Interval data not available; cannot assess repeatable peaks. Operational fit score is low; address data/operational constraints before enrolling.\n- Next step: Collect interval kW data (hourly or 15-min) to evaluate DR operational fit.\n- Next step: Confirm controls/BMS capability.\n- Next step: Identify controllable loads and automation approach.\n- Next step: Enroll and test event response.\n\n\nRequires inputs:\n- Customer type required for this program (segment-gated).\n- Peak kW required for this program (minPeakKw gate).\n- Interval data required for this program.\n- Advanced metering (AMI) required for this program.",
+              "sourceKey": "reco:sug_20260301T000000000Z07pge_8"
+            },
+            "sourceKey": "reco:sug_20260301T000000000Z07pge_8",
+            "status": "inferred",
+            "suggestedMeasure": {
+              "category": "recommendation",
+              "id": "sug_20260301T000000000Z07pge_8",
+              "name": "Enroll in Demand Response: Automated Demand Response (AutoDR, placeholder)",
+              "notes": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=DEMAND_RESPONSE\nscore=0.17 confidence=0.35\nWhy we suggested this:\n- Matched program: Automated Demand Response (AutoDR, placeholder) (pge.dr.automated_dr_v1)\n- Incentives for automated curtailment capability during dispatch events.\n- Territory matched: PGE.\n- Load shifting score used to rank DR-like programs (v1 heuristic).\n- Operational fit score (DR): 0.15.\n- Load shifting feasibility score≈0.00 (deterministic heuristic).\n- Operational fit (DR): score=0.15.\n- Why not now: Interval data not available; cannot assess repeatable peaks. Operational fit score is low; address data/operational constraints before enrolling.\n- Next step: Collect interval kW data (hourly or 15-min) to evaluate DR operational fit.\n- Next step: Confirm controls/BMS capability.\n- Next step: Identify controllable loads and automation approach.\n- Next step: Enroll and test event response.\n\n\nRequires inputs:\n- Customer type required for this program (segment-gated).\n- Peak kW required for this program (minPeakKw gate).\n- Interval data required for this program.\n- Advanced metering (AMI) required for this program."
+            }
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "id": "inbox_20260301T000000000Z07pge_9",
+            "kind": "suggestedMeasure",
+            "needsConfirmation": true,
+            "provenance": {
+              "extractedAt": "2026-03-01T00:00:00.000Z",
+              "fileId": "utilityIntelligenceV1:o_golden:p_golden_07",
+              "snippetText": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=DEMAND_RESPONSE\nscore=0.17 confidence=0.35\nWhy we suggested this:\n- Matched program: Critical Peak Pricing (Non-Residential CPP, placeholder) (pge.dr.nonres_cpp_v1)\n- Bill savings potential by reducing usage during critical peak price events.\n- Territory matched: PGE.\n- Load shifting score used to rank DR-like programs (v1 heuristic).\n- Operational fit score (DR): 0.15.\n- Load shifting feasibility score≈0.00 (deterministic heuristic).\n- Operational fit (DR): score=0.15.\n- Why not now: Interval data not available; cannot assess repeatable peaks. Operational fit score is low; address data/operational constraints before enrolling.\n- Next step: Collect interval kW data (hourly or 15-min) to evaluate DR operational fit.\n- Next step: Confirm current rate compatibility.\n- Next step: Identify event response strategy.\n- Next step: Estimate bill impacts with tariff modeling.\n\n\nRequires inputs:\n- Customer type required for this program (segment-gated).\n- Monthly kWh required for this program (minMonthlyKwh gate).\n- Interval data required for this program.",
+              "sourceKey": "reco:sug_20260301T000000000Z07pge_9"
+            },
+            "sourceKey": "reco:sug_20260301T000000000Z07pge_9",
+            "status": "inferred",
+            "suggestedMeasure": {
+              "category": "recommendation",
+              "id": "sug_20260301T000000000Z07pge_9",
+              "name": "Enroll in Demand Response: Critical Peak Pricing (Non-Residential CPP, placeholder)",
+              "notes": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=DEMAND_RESPONSE\nscore=0.17 confidence=0.35\nWhy we suggested this:\n- Matched program: Critical Peak Pricing (Non-Residential CPP, placeholder) (pge.dr.nonres_cpp_v1)\n- Bill savings potential by reducing usage during critical peak price events.\n- Territory matched: PGE.\n- Load shifting score used to rank DR-like programs (v1 heuristic).\n- Operational fit score (DR): 0.15.\n- Load shifting feasibility score≈0.00 (deterministic heuristic).\n- Operational fit (DR): score=0.15.\n- Why not now: Interval data not available; cannot assess repeatable peaks. Operational fit score is low; address data/operational constraints before enrolling.\n- Next step: Collect interval kW data (hourly or 15-min) to evaluate DR operational fit.\n- Next step: Confirm current rate compatibility.\n- Next step: Identify event response strategy.\n- Next step: Estimate bill impacts with tariff modeling.\n\n\nRequires inputs:\n- Customer type required for this program (segment-gated).\n- Monthly kWh required for this program (minMonthlyKwh gate).\n- Interval data required for this program."
+            }
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "id": "inbox_20260301T000000000Z07pge_10",
+            "kind": "suggestedMeasure",
+            "needsConfirmation": true,
+            "provenance": {
+              "extractedAt": "2026-03-01T00:00:00.000Z",
+              "fileId": "utilityIntelligenceV1:o_golden:p_golden_07",
+              "snippetText": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=UTILITY_PROGRAM\nscore=0.14 confidence=0.35\nWhy we suggested this:\n- Matched program: Healthcare Efficiency Incentives (placeholder) (pge.incentives.healthcare_efficiency_v1)\n- Custom incentives for efficiency projects in healthcare facilities (segment-gated).\n- Territory matched: PGE.\n- Next step: Confirm NAICS and facility type.\n- Next step: Compile project list and baseline usage.\n- Next step: Engage utility incentive administrator.\n\n\nRequires inputs:\n- Customer type required for this program (segment-gated).\n- NAICS code required for this program.\n- Annual kWh required for this program (minAnnualKwh gate).",
+              "sourceKey": "reco:sug_20260301T000000000Z07pge_10"
+            },
+            "sourceKey": "reco:sug_20260301T000000000Z07pge_10",
+            "status": "inferred",
+            "suggestedMeasure": {
+              "category": "recommendation",
+              "id": "sug_20260301T000000000Z07pge_10",
+              "name": "Enroll in Utility Program: Healthcare Efficiency Incentives (placeholder)",
+              "notes": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=UTILITY_PROGRAM\nscore=0.14 confidence=0.35\nWhy we suggested this:\n- Matched program: Healthcare Efficiency Incentives (placeholder) (pge.incentives.healthcare_efficiency_v1)\n- Custom incentives for efficiency projects in healthcare facilities (segment-gated).\n- Territory matched: PGE.\n- Next step: Confirm NAICS and facility type.\n- Next step: Compile project list and baseline usage.\n- Next step: Engage utility incentive administrator.\n\n\nRequires inputs:\n- Customer type required for this program (segment-gated).\n- NAICS code required for this program.\n- Annual kWh required for this program (minAnnualKwh gate)."
+            }
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "id": "inbox_20260301T000000000Z07pge_11",
+            "kind": "suggestedMeasure",
+            "needsConfirmation": true,
+            "provenance": {
+              "extractedAt": "2026-03-01T00:00:00.000Z",
+              "fileId": "utilityIntelligenceV1:o_golden:p_golden_07",
+              "snippetText": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=UTILITY_PROGRAM\nscore=0.14 confidence=0.35\nWhy we suggested this:\n- Matched program: K-12/Public Sector Efficiency Incentives (placeholder) (pge.incentives.k12_efficiency_v1)\n- Incentives and technical assistance for K-12/public sector retrofits (NAICS-gated).\n- Territory matched: PGE.\n- Next step: Confirm NAICS prefix 6111 (K-12).\n- Next step: Collect annual usage and measure list.\n- Next step: Submit pre-application for incentive reservation.\n\n\nRequires inputs:\n- Customer type required for this program (segment-gated).\n- NAICS code required for this program.\n- Annual kWh required for this program (minAnnualKwh gate).",
+              "sourceKey": "reco:sug_20260301T000000000Z07pge_11"
+            },
+            "sourceKey": "reco:sug_20260301T000000000Z07pge_11",
+            "status": "inferred",
+            "suggestedMeasure": {
+              "category": "recommendation",
+              "id": "sug_20260301T000000000Z07pge_11",
+              "name": "Enroll in Utility Program: K-12/Public Sector Efficiency Incentives (placeholder)",
+              "notes": "Suggested by Utility Intelligence Engine v1 (deterministic).\ngeneratedAt=2026-03-01T00:00:00.000Z\ntype=UTILITY_PROGRAM\nscore=0.14 confidence=0.35\nWhy we suggested this:\n- Matched program: K-12/Public Sector Efficiency Incentives (placeholder) (pge.incentives.k12_efficiency_v1)\n- Incentives and technical assistance for K-12/public sector retrofits (NAICS-gated).\n- Territory matched: PGE.\n- Next step: Confirm NAICS prefix 6111 (K-12).\n- Next step: Collect annual usage and measure list.\n- Next step: Submit pre-application for incentive reservation.\n\n\nRequires inputs:\n- Customer type required for this program (segment-gated).\n- NAICS code required for this program.\n- Annual kWh required for this program (minAnnualKwh gate)."
+            }
+          },
+          "[Circular]"
+        ],
+        "suggestions": [
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "explain": {
+              "because": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": [
+                    "recommendationType:RATE_CHANGE",
+                    "territory:PGE"
+                  ],
+                  "measuresInProject": [
+                    "RATE_CHANGE"
+                  ],
+                  "similarityScore": 0.55
+                }
+              ],
+              "frequency": {
+                "sampleSizeTopN": 1,
+                "seenInCount": 1,
+                "text": "deterministic utility intelligence v1"
+              },
+              "matchedFeatureSummary": [
+                "territory=PGE",
+                "currentRate=E-19",
+                "recommendationType=RATE_CHANGE"
+              ],
+              "matchingFeaturesUsed": [
+                "territory",
+                "scheduleBucket"
+              ],
+              "topContributors": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": "[Circular]",
+                  "similarityScore": 0.55,
+                  "summary": "Suggested by Utility Intelligence Engine v1 (deterministic). | generatedAt=2026-03-01T00:00:00.000Z | type=RATE_CHANGE | score=0.55 confidence=0.35 | Why we suggested this: | - Evaluate alternative rate schedule (inbox-only suggestion; no c"
+                }
+              ]
+            },
+            "orgId": "o_golden",
+            "playbookAlignment": "neutral",
+            "playbookId": null,
+            "playbookRationale": null,
+            "projectId": "p_golden_07",
+            "requiredInputsMissing": [
+              "Interval kW series required to compute deterministic bill deltas per billing cycle.",
+              "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+            ],
+            "score": 0.55,
+            "stateId": "baseline",
+            "status": "proposed",
+            "suggestedMeasure": {
+              "label": "Evaluate rate alternative: B-19",
+              "measureType": "RATE_CHANGE",
+              "parameters": {
+                "candidateRate": "B-19",
+                "currentRate": "E-19",
+                "territory": "PGE",
+                "utility": "PG&E"
+              },
+              "tags": [
+                "utility",
+                "rate_change"
+              ]
+            },
+            "suggestionId": "sug_20260301T000000000Z07pge_1"
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "explain": {
+              "because": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": [
+                    "recommendationType:RATE_CHANGE",
+                    "territory:PGE"
+                  ],
+                  "measuresInProject": [
+                    "RATE_CHANGE"
+                  ],
+                  "similarityScore": 0.55
+                }
+              ],
+              "frequency": {
+                "sampleSizeTopN": 1,
+                "seenInCount": 1,
+                "text": "deterministic utility intelligence v1"
+              },
+              "matchedFeatureSummary": [
+                "territory=PGE",
+                "currentRate=E-19",
+                "recommendationType=RATE_CHANGE"
+              ],
+              "matchingFeaturesUsed": [
+                "territory",
+                "scheduleBucket"
+              ],
+              "topContributors": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": "[Circular]",
+                  "similarityScore": 0.55,
+                  "summary": "Suggested by Utility Intelligence Engine v1 (deterministic). | generatedAt=2026-03-01T00:00:00.000Z | type=RATE_CHANGE | score=0.55 confidence=0.35 | Why we suggested this: | - Evaluate alternative rate schedule (inbox-only suggestion; no c"
+                }
+              ]
+            },
+            "orgId": "o_golden",
+            "playbookAlignment": "neutral",
+            "playbookId": null,
+            "playbookRationale": null,
+            "projectId": "p_golden_07",
+            "requiredInputsMissing": [
+              "Interval kW series required to compute deterministic bill deltas per billing cycle.",
+              "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+            ],
+            "score": 0.55,
+            "stateId": "baseline",
+            "status": "proposed",
+            "suggestedMeasure": {
+              "label": "Evaluate rate alternative: B-20",
+              "measureType": "RATE_CHANGE",
+              "parameters": {
+                "candidateRate": "B-20",
+                "currentRate": "E-19",
+                "territory": "PGE",
+                "utility": "PG&E"
+              },
+              "tags": [
+                "utility",
+                "rate_change"
+              ]
+            },
+            "suggestionId": "sug_20260301T000000000Z07pge_2"
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "explain": {
+              "because": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": [
+                    "recommendationType:RATE_CHANGE",
+                    "territory:PGE"
+                  ],
+                  "measuresInProject": [
+                    "RATE_CHANGE"
+                  ],
+                  "similarityScore": 0.55
+                }
+              ],
+              "frequency": {
+                "sampleSizeTopN": 1,
+                "seenInCount": 1,
+                "text": "deterministic utility intelligence v1"
+              },
+              "matchedFeatureSummary": [
+                "territory=PGE",
+                "currentRate=E-19",
+                "recommendationType=RATE_CHANGE"
+              ],
+              "matchingFeaturesUsed": [
+                "territory",
+                "scheduleBucket"
+              ],
+              "topContributors": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": "[Circular]",
+                  "similarityScore": 0.55,
+                  "summary": "Suggested by Utility Intelligence Engine v1 (deterministic). | generatedAt=2026-03-01T00:00:00.000Z | type=RATE_CHANGE | score=0.55 confidence=0.35 | Why we suggested this: | - Evaluate alternative rate schedule (inbox-only suggestion; no c"
+                }
+              ]
+            },
+            "orgId": "o_golden",
+            "playbookAlignment": "neutral",
+            "playbookId": null,
+            "playbookRationale": null,
+            "projectId": "p_golden_07",
+            "requiredInputsMissing": [
+              "Interval kW series required to compute deterministic bill deltas per billing cycle.",
+              "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+            ],
+            "score": 0.55,
+            "stateId": "baseline",
+            "status": "proposed",
+            "suggestedMeasure": {
+              "label": "Evaluate rate alternative: B-19S",
+              "measureType": "RATE_CHANGE",
+              "parameters": {
+                "candidateRate": "B-19S",
+                "currentRate": "E-19",
+                "territory": "PGE",
+                "utility": "PG&E"
+              },
+              "tags": [
+                "utility",
+                "rate_change"
+              ]
+            },
+            "suggestionId": "sug_20260301T000000000Z07pge_3"
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "explain": {
+              "because": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": [
+                    "recommendationType:RATE_CHANGE",
+                    "territory:PGE"
+                  ],
+                  "measuresInProject": [
+                    "RATE_CHANGE"
+                  ],
+                  "similarityScore": 0.55
+                }
+              ],
+              "frequency": {
+                "sampleSizeTopN": 1,
+                "seenInCount": 1,
+                "text": "deterministic utility intelligence v1"
+              },
+              "matchedFeatureSummary": [
+                "territory=PGE",
+                "currentRate=E-19",
+                "recommendationType=RATE_CHANGE"
+              ],
+              "matchingFeaturesUsed": [
+                "territory",
+                "scheduleBucket"
+              ],
+              "topContributors": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": "[Circular]",
+                  "similarityScore": 0.55,
+                  "summary": "Suggested by Utility Intelligence Engine v1 (deterministic). | generatedAt=2026-03-01T00:00:00.000Z | type=RATE_CHANGE | score=0.55 confidence=0.35 | Why we suggested this: | - Evaluate alternative rate schedule (inbox-only suggestion; no c"
+                }
+              ]
+            },
+            "orgId": "o_golden",
+            "playbookAlignment": "neutral",
+            "playbookId": null,
+            "playbookRationale": null,
+            "projectId": "p_golden_07",
+            "requiredInputsMissing": [
+              "Interval kW series required to compute deterministic bill deltas per billing cycle.",
+              "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+            ],
+            "score": 0.55,
+            "stateId": "baseline",
+            "status": "proposed",
+            "suggestedMeasure": {
+              "label": "Evaluate rate alternative: E-19S",
+              "measureType": "RATE_CHANGE",
+              "parameters": {
+                "candidateRate": "E-19S",
+                "currentRate": "E-19",
+                "territory": "PGE",
+                "utility": "PG&E"
+              },
+              "tags": [
+                "utility",
+                "rate_change"
+              ]
+            },
+            "suggestionId": "sug_20260301T000000000Z07pge_4"
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "explain": {
+              "because": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": [
+                    "recommendationType:RATE_CHANGE",
+                    "territory:PGE"
+                  ],
+                  "measuresInProject": [
+                    "RATE_CHANGE"
+                  ],
+                  "similarityScore": 0.55
+                }
+              ],
+              "frequency": {
+                "sampleSizeTopN": 1,
+                "seenInCount": 1,
+                "text": "deterministic utility intelligence v1"
+              },
+              "matchedFeatureSummary": [
+                "territory=PGE",
+                "currentRate=E-19",
+                "recommendationType=RATE_CHANGE"
+              ],
+              "matchingFeaturesUsed": [
+                "territory",
+                "scheduleBucket"
+              ],
+              "topContributors": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": "[Circular]",
+                  "similarityScore": 0.55,
+                  "summary": "Suggested by Utility Intelligence Engine v1 (deterministic). | generatedAt=2026-03-01T00:00:00.000Z | type=RATE_CHANGE | score=0.55 confidence=0.35 | Why we suggested this: | - Evaluate alternative rate schedule (inbox-only suggestion; no c"
+                }
+              ]
+            },
+            "orgId": "o_golden",
+            "playbookAlignment": "neutral",
+            "playbookId": null,
+            "playbookRationale": null,
+            "projectId": "p_golden_07",
+            "requiredInputsMissing": [
+              "Interval kW series required to compute deterministic bill deltas per billing cycle.",
+              "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+            ],
+            "score": 0.55,
+            "stateId": "baseline",
+            "status": "proposed",
+            "suggestedMeasure": {
+              "label": "Evaluate rate alternative: A-10",
+              "measureType": "RATE_CHANGE",
+              "parameters": {
+                "candidateRate": "A-10",
+                "currentRate": "E-19",
+                "territory": "PGE",
+                "utility": "PG&E"
+              },
+              "tags": [
+                "utility",
+                "rate_change"
+              ]
+            },
+            "suggestionId": "sug_20260301T000000000Z07pge_5"
+          },
+          {
+            "confidence": 0.15,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "explain": {
+              "because": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": [
+                    "recommendationType:OPTION_S",
+                    "territory:PGE"
+                  ],
+                  "measuresInProject": [
+                    "OPTION_S_EVALUATION"
+                  ],
+                  "similarityScore": 0.35
+                }
+              ],
+              "frequency": {
+                "sampleSizeTopN": 1,
+                "seenInCount": 1,
+                "text": "deterministic utility intelligence v1"
+              },
+              "matchedFeatureSummary": [
+                "territory=PGE",
+                "currentRate=E-19",
+                "recommendationType=OPTION_S"
+              ],
+              "matchingFeaturesUsed": [
+                "territory",
+                "scheduleBucket"
+              ],
+              "topContributors": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": "[Circular]",
+                  "similarityScore": 0.35,
+                  "summary": "Suggested by Utility Intelligence Engine v1 (deterministic). | generatedAt=2026-03-01T00:00:00.000Z | type=OPTION_S | score=0.35 confidence=0.15 | Why we suggested this: | - Option S relevance cannot be determined with current inputs."
+                }
+              ]
+            },
+            "orgId": "o_golden",
+            "playbookAlignment": "neutral",
+            "playbookId": null,
+            "playbookRationale": null,
+            "projectId": "p_golden_07",
+            "requiredInputsMissing": [
+              "Interval-derived peakinessIndex required to evaluate Option S relevance.",
+              "Interval-derived loadFactor required to evaluate Option S relevance.",
+              "Interval-derived peak kW required to evaluate Option S relevance.",
+              "Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance."
+            ],
+            "score": 0.35,
+            "stateId": "baseline",
+            "status": "proposed",
+            "suggestedMeasure": {
+              "label": "Collect inputs to evaluate Option S",
+              "measureType": "OPTION_S_EVALUATION",
+              "parameters": {
+                "territory": "PGE"
+              },
+              "tags": [
+                "utility",
+                "option_s",
+                "missing_inputs"
+              ]
+            },
+            "suggestionId": "sug_20260301T000000000Z07pge_6"
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "explain": {
+              "because": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": [
+                    "recommendationType:DEMAND_RESPONSE",
+                    "territory:PGE"
+                  ],
+                  "measuresInProject": [
+                    "DEMAND_RESPONSE_ENROLLMENT"
+                  ],
+                  "similarityScore": 0.1722875
+                }
+              ],
+              "frequency": {
+                "sampleSizeTopN": 1,
+                "seenInCount": 1,
+                "text": "deterministic utility intelligence v1"
+              },
+              "matchedFeatureSummary": [
+                "territory=PGE",
+                "currentRate=E-19",
+                "recommendationType=DEMAND_RESPONSE"
+              ],
+              "matchingFeaturesUsed": [
+                "territory",
+                "scheduleBucket"
+              ],
+              "topContributors": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": "[Circular]",
+                  "similarityScore": 0.1722875,
+                  "summary": "Suggested by Utility Intelligence Engine v1 (deterministic). | generatedAt=2026-03-01T00:00:00.000Z | type=DEMAND_RESPONSE | score=0.17 confidence=0.35 | Why we suggested this: | - Matched program: Capacity DR (Aggregator Bid, placeholder) "
+                }
+              ]
+            },
+            "orgId": "o_golden",
+            "playbookAlignment": "neutral",
+            "playbookId": null,
+            "playbookRationale": null,
+            "projectId": "p_golden_07",
+            "requiredInputsMissing": [
+              "Customer type required for this program (segment-gated).",
+              "Peak kW required for this program (minPeakKw gate).",
+              "Interval data required for this program.",
+              "Advanced metering (AMI) required for this program."
+            ],
+            "score": 0.1722875,
+            "stateId": "baseline",
+            "status": "proposed",
+            "suggestedMeasure": {
+              "label": "Enroll in Demand Response: Capacity DR (Aggregator Bid, placeholder)",
+              "measureType": "DEMAND_RESPONSE_ENROLLMENT",
+              "parameters": {
+                "administrator": "AGGREGATOR",
+                "category": "DEMAND_RESPONSE",
+                "createdAt": "2026-03-01T00:00:00.000Z",
+                "drFitScore": 0.15,
+                "drNextStepsChecklist": [
+                  "Collect interval kW data (hourly or 15-min) to evaluate DR operational fit."
+                ],
+                "drWhyNotNow": [
+                  "Interval data not available; cannot assess repeatable peaks.",
+                  "Operational fit score is low; address data/operational constraints before enrolling."
+                ],
+                "drWhyNow": [],
+                "programId": "pge.dr.capacity_bidder_v1",
+                "programName": "Capacity DR (Aggregator Bid, placeholder)",
+                "territory": "PGE"
+              },
+              "tags": [
+                "demand_response",
+                "enrollment"
+              ]
+            },
+            "suggestionId": "sug_20260301T000000000Z07pge_7"
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "explain": {
+              "because": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": [
+                    "recommendationType:DEMAND_RESPONSE",
+                    "territory:PGE"
+                  ],
+                  "measuresInProject": [
+                    "DEMAND_RESPONSE_ENROLLMENT"
+                  ],
+                  "similarityScore": 0.1722875
+                }
+              ],
+              "frequency": {
+                "sampleSizeTopN": 1,
+                "seenInCount": 1,
+                "text": "deterministic utility intelligence v1"
+              },
+              "matchedFeatureSummary": [
+                "territory=PGE",
+                "currentRate=E-19",
+                "recommendationType=DEMAND_RESPONSE"
+              ],
+              "matchingFeaturesUsed": [
+                "territory",
+                "scheduleBucket"
+              ],
+              "topContributors": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": "[Circular]",
+                  "similarityScore": 0.1722875,
+                  "summary": "Suggested by Utility Intelligence Engine v1 (deterministic). | generatedAt=2026-03-01T00:00:00.000Z | type=DEMAND_RESPONSE | score=0.17 confidence=0.35 | Why we suggested this: | - Matched program: Automated Demand Response (AutoDR, placeho"
+                }
+              ]
+            },
+            "orgId": "o_golden",
+            "playbookAlignment": "neutral",
+            "playbookId": null,
+            "playbookRationale": null,
+            "projectId": "p_golden_07",
+            "requiredInputsMissing": [
+              "Customer type required for this program (segment-gated).",
+              "Peak kW required for this program (minPeakKw gate).",
+              "Interval data required for this program.",
+              "Advanced metering (AMI) required for this program."
+            ],
+            "score": 0.1722875,
+            "stateId": "baseline",
+            "status": "proposed",
+            "suggestedMeasure": {
+              "label": "Enroll in Demand Response: Automated Demand Response (AutoDR, placeholder)",
+              "measureType": "DEMAND_RESPONSE_ENROLLMENT",
+              "parameters": {
+                "administrator": "UTILITY",
+                "category": "DEMAND_RESPONSE",
+                "createdAt": "2026-03-01T00:00:00.000Z",
+                "drFitScore": 0.15,
+                "drNextStepsChecklist": [
+                  "Collect interval kW data (hourly or 15-min) to evaluate DR operational fit."
+                ],
+                "drWhyNotNow": [
+                  "Interval data not available; cannot assess repeatable peaks.",
+                  "Operational fit score is low; address data/operational constraints before enrolling."
+                ],
+                "drWhyNow": [],
+                "programId": "pge.dr.automated_dr_v1",
+                "programName": "Automated Demand Response (AutoDR, placeholder)",
+                "territory": "PGE"
+              },
+              "tags": [
+                "demand_response",
+                "enrollment"
+              ]
+            },
+            "suggestionId": "sug_20260301T000000000Z07pge_8"
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "explain": {
+              "because": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": [
+                    "recommendationType:DEMAND_RESPONSE",
+                    "territory:PGE"
+                  ],
+                  "measuresInProject": [
+                    "DEMAND_RESPONSE_ENROLLMENT"
+                  ],
+                  "similarityScore": 0.1722875
+                }
+              ],
+              "frequency": {
+                "sampleSizeTopN": 1,
+                "seenInCount": 1,
+                "text": "deterministic utility intelligence v1"
+              },
+              "matchedFeatureSummary": [
+                "territory=PGE",
+                "currentRate=E-19",
+                "recommendationType=DEMAND_RESPONSE"
+              ],
+              "matchingFeaturesUsed": [
+                "territory",
+                "scheduleBucket"
+              ],
+              "topContributors": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": "[Circular]",
+                  "similarityScore": 0.1722875,
+                  "summary": "Suggested by Utility Intelligence Engine v1 (deterministic). | generatedAt=2026-03-01T00:00:00.000Z | type=DEMAND_RESPONSE | score=0.17 confidence=0.35 | Why we suggested this: | - Matched program: Critical Peak Pricing (Non-Residential CPP"
+                }
+              ]
+            },
+            "orgId": "o_golden",
+            "playbookAlignment": "neutral",
+            "playbookId": null,
+            "playbookRationale": null,
+            "projectId": "p_golden_07",
+            "requiredInputsMissing": [
+              "Customer type required for this program (segment-gated).",
+              "Monthly kWh required for this program (minMonthlyKwh gate).",
+              "Interval data required for this program."
+            ],
+            "score": 0.1722875,
+            "stateId": "baseline",
+            "status": "proposed",
+            "suggestedMeasure": {
+              "label": "Enroll in Demand Response: Critical Peak Pricing (Non-Residential CPP, placeholder)",
+              "measureType": "DEMAND_RESPONSE_ENROLLMENT",
+              "parameters": {
+                "administrator": "UTILITY",
+                "category": "DEMAND_RESPONSE",
+                "createdAt": "2026-03-01T00:00:00.000Z",
+                "drFitScore": 0.15,
+                "drNextStepsChecklist": [
+                  "Collect interval kW data (hourly or 15-min) to evaluate DR operational fit."
+                ],
+                "drWhyNotNow": [
+                  "Interval data not available; cannot assess repeatable peaks.",
+                  "Operational fit score is low; address data/operational constraints before enrolling."
+                ],
+                "drWhyNow": [],
+                "programId": "pge.dr.nonres_cpp_v1",
+                "programName": "Critical Peak Pricing (Non-Residential CPP, placeholder)",
+                "territory": "PGE"
+              },
+              "tags": [
+                "demand_response",
+                "enrollment"
+              ]
+            },
+            "suggestionId": "sug_20260301T000000000Z07pge_9"
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "explain": {
+              "because": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": [
+                    "recommendationType:UTILITY_PROGRAM",
+                    "territory:PGE"
+                  ],
+                  "measuresInProject": [
+                    "UTILITY_PROGRAM_ENROLLMENT"
+                  ],
+                  "similarityScore": 0.1375
+                }
+              ],
+              "frequency": {
+                "sampleSizeTopN": 1,
+                "seenInCount": 1,
+                "text": "deterministic utility intelligence v1"
+              },
+              "matchedFeatureSummary": [
+                "territory=PGE",
+                "currentRate=E-19",
+                "recommendationType=UTILITY_PROGRAM"
+              ],
+              "matchingFeaturesUsed": [
+                "territory",
+                "scheduleBucket"
+              ],
+              "topContributors": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": "[Circular]",
+                  "similarityScore": 0.1375,
+                  "summary": "Suggested by Utility Intelligence Engine v1 (deterministic). | generatedAt=2026-03-01T00:00:00.000Z | type=UTILITY_PROGRAM | score=0.14 confidence=0.35 | Why we suggested this: | - Matched program: Healthcare Efficiency Incentives (placehol"
+                }
+              ]
+            },
+            "orgId": "o_golden",
+            "playbookAlignment": "neutral",
+            "playbookId": null,
+            "playbookRationale": null,
+            "projectId": "p_golden_07",
+            "requiredInputsMissing": [
+              "Customer type required for this program (segment-gated).",
+              "NAICS code required for this program.",
+              "Annual kWh required for this program (minAnnualKwh gate)."
+            ],
+            "score": 0.1375,
+            "stateId": "baseline",
+            "status": "proposed",
+            "suggestedMeasure": {
+              "label": "Enroll in Utility Program: Healthcare Efficiency Incentives (placeholder)",
+              "measureType": "UTILITY_PROGRAM_ENROLLMENT",
+              "parameters": {
+                "administrator": "UTILITY",
+                "category": "INCENTIVE",
+                "createdAt": "2026-03-01T00:00:00.000Z",
+                "programId": "pge.incentives.healthcare_efficiency_v1",
+                "programName": "Healthcare Efficiency Incentives (placeholder)",
+                "territory": "PGE"
+              },
+              "tags": [
+                "utility_program",
+                "incentive",
+                "enrollment"
+              ]
+            },
+            "suggestionId": "sug_20260301T000000000Z07pge_10"
+          },
+          {
+            "confidence": 0.35,
+            "createdAt": "2026-03-01T00:00:00.000Z",
+            "explain": {
+              "because": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": [
+                    "recommendationType:UTILITY_PROGRAM",
+                    "territory:PGE"
+                  ],
+                  "measuresInProject": [
+                    "UTILITY_PROGRAM_ENROLLMENT"
+                  ],
+                  "similarityScore": 0.1375
+                }
+              ],
+              "frequency": {
+                "sampleSizeTopN": 1,
+                "seenInCount": 1,
+                "text": "deterministic utility intelligence v1"
+              },
+              "matchedFeatureSummary": [
+                "territory=PGE",
+                "currentRate=E-19",
+                "recommendationType=UTILITY_PROGRAM"
+              ],
+              "matchingFeaturesUsed": [
+                "territory",
+                "scheduleBucket"
+              ],
+              "topContributors": [
+                {
+                  "completedProjectId": "utilityIntelligenceV1",
+                  "matchedFeatures": "[Circular]",
+                  "similarityScore": 0.1375,
+                  "summary": "Suggested by Utility Intelligence Engine v1 (deterministic). | generatedAt=2026-03-01T00:00:00.000Z | type=UTILITY_PROGRAM | score=0.14 confidence=0.35 | Why we suggested this: | - Matched program: K-12/Public Sector Efficiency Incentives ("
+                }
+              ]
+            },
+            "orgId": "o_golden",
+            "playbookAlignment": "neutral",
+            "playbookId": null,
+            "playbookRationale": null,
+            "projectId": "p_golden_07",
+            "requiredInputsMissing": [
+              "Customer type required for this program (segment-gated).",
+              "NAICS code required for this program.",
+              "Annual kWh required for this program (minAnnualKwh gate)."
+            ],
+            "score": 0.1375,
+            "stateId": "baseline",
+            "status": "proposed",
+            "suggestedMeasure": {
+              "label": "Enroll in Utility Program: K-12/Public Sector Efficiency Incentives (placeholder)",
+              "measureType": "UTILITY_PROGRAM_ENROLLMENT",
+              "parameters": {
+                "administrator": "UTILITY",
+                "category": "INCENTIVE",
+                "createdAt": "2026-03-01T00:00:00.000Z",
+                "programId": "pge.incentives.k12_efficiency_v1",
+                "programName": "K-12/Public Sector Efficiency Incentives (placeholder)",
+                "territory": "PGE"
+              },
+              "tags": [
+                "utility_program",
+                "incentive",
+                "enrollment"
+              ]
+            },
+            "suggestionId": "sug_20260301T000000000Z07pge_11"
+          },
+          "[Circular]"
+        ],
+        "utility": {
+          "inboxItems": [
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]"
+          ],
+          "suggestions": [
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]"
+          ]
+        }
+      },
+      "requiredInputsMissing": [
+        "Interval data reference required for load shape, load shifting, and demand response eligibility",
+        "NAICS code required to match many utility/ISO programs",
+        "Customer segment/type required to match many utility/ISO programs",
+        "Interval kW series required to infer load shape (provide interval data or configure loader).",
+        "Interval kW series required to evaluate load shifting potential.",
+        "Weather series not available; provide weather data or configure provider.",
+        "Interval kW series required to compute deterministic bill deltas per billing cycle.",
+        "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+        "Interval-derived peakinessIndex required to evaluate Option S relevance.",
+        "Interval-derived loadFactor required to evaluate Option S relevance.",
+        "Interval-derived peak kW required to evaluate Option S relevance.",
+        "Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+        "Customer type required for this program (segment-gated).",
+        "Peak kW required for this program (minPeakKw gate).",
+        "Interval data required for this program.",
+        "Advanced metering (AMI) required for this program.",
+        "Monthly kWh required for this program (minMonthlyKwh gate).",
+        "NAICS code required for this program.",
+        "Annual kWh required for this program (minAnnualKwh gate).",
+        "Interval-derived peak kW required to screen battery feasibility.",
+        "Interval-derived baseload kW required to screen battery feasibility.",
+        "Interval-derived peakinessIndex required to screen battery feasibility.",
+        "Interval-derived loadFactor required to screen battery feasibility.",
+        "Interval-derived peak kW required to size battery power.",
+        "Interval-derived baseload kW required to size battery power.",
+        "Interval-derived peakinessIndex required to interpret peak shaving potential."
+      ],
+      "utility": {
+        "inputs": {
+          "billPdfText": "PG&E\r\nCommercial Electric Service\r\n\r\nRate Schedule: E-19\r\nBilling Period: 2026-01-01 to 2026-01-31\r\n\r\nThis is sanitized bill text for deterministic testing. No customer data.\r\n\r\n",
+          "currentRate": {
+            "rateCode": "E-19",
+            "utility": "PGE"
+          },
+          "orgId": "o_golden",
+          "projectId": "p_golden_07",
+          "serviceType": "electric",
+          "utilityTerritory": "PGE"
+        },
+        "insights": {
+          "batteryDecisionPackV1": "[Circular]",
+          "batteryDecisionPackV1_2": "[Circular]",
+          "batteryEconomicsV1": "[Circular]",
+          "behaviorInsights": {
+            "anomalies": {},
+            "because": [
+              "Behavior insights built from months=0; reconcilable overlap=0."
+            ],
+            "confidence": 0.3,
+            "dataWindow": {
+              "monthsAvailable": 0,
+              "overlapMonthsReconcilable": 0
+            },
+            "demandTrend": {},
+            "evidence": [
+              {
+                "kind": "intervalCalc",
+                "pointer": {
+                  "key": "monthsAvailable",
+                  "source": "behaviorInsights",
+                  "value": 0
+                }
+              }
+            ],
+            "insightCards": [],
+            "loadShape": {},
+            "missingInfo": [
+              {
+                "category": "tariff",
+                "description": "Insufficient months for YoY comparisons (need >= 24 months).",
+                "id": "behavior.yoy.insufficientMonths",
+                "severity": "info"
+              },
+              {
+                "category": "tariff",
+                "description": "Peak timestamps unavailable; cannot compute peak timing histograms.",
+                "id": "behavior.peaks.missing",
+                "severity": "info"
+              },
+              {
+                "category": "tariff",
+                "description": "Insufficient months for robust multi-year behavior insights (need >= 12).",
+                "id": "behavior.months.insufficient",
+                "severity": "info"
+              },
+              {
+                "category": "tariff",
+                "description": "Weekend share change unavailable (insufficient interval months or missing timestamps).",
+                "id": "behavior.weekendShare.unavailable",
+                "severity": "info"
+              }
+            ],
+            "peaks": {
+              "topSpikes": []
+            },
+            "seasonality": {
+              "seasonalAmplitude": {},
+              "topMonthsByKw": [],
+              "topMonthsByKwh": []
+            },
+            "usageTrend": {
+              "direction": "flat"
+            }
+          },
+          "behaviorInsightsV2": {
+            "baseLoadDrift": {
+              "avgKwSlopePerMonth": null,
+              "baseLoadKwLatest": null
+            },
+            "because": [
+              "Computed from reconcilable overlap cycles only (count=0)."
+            ],
+            "confidence": 0.2,
+            "conversationCards": [],
+            "dataWindow": {
+              "cycleCount": 0,
+              "endExclusiveIso": null,
+              "notes": [
+                "No reconcilable overlap cycles available (need overlap + adequate interval coverage + usage present)."
+              ],
+              "startIso": null
+            },
+            "demandTrend": {
+              "confidence": 0,
+              "deltaPct": null,
+              "last12KwMax": null,
+              "prior12KwMax": null,
+              "slopePerMonth": null
+            },
+            "evidence": [
+              {
+                "kind": "intervalCalc",
+                "pointer": {
+                  "key": "cycleCount",
+                  "source": "behaviorV2",
+                  "value": 0
+                }
+              }
+            ],
+            "missingInfo": [
+              "[Circular]",
+              "[Circular]",
+              "[Circular]",
+              "[Circular]"
+            ],
+            "usageTrend": {
+              "confidence": 0,
+              "deltaPct": null,
+              "last12Kwh": null,
+              "prior12Kwh": null,
+              "slopePerMonth": null
+            },
+            "weekendShare": {
+              "deltaPctPts": null,
+              "last12WeekendPct": null,
+              "prior12WeekendPct": null
+            }
+          },
+          "behaviorInsightsV3": {
+            "electric": {
+              "because": [],
+              "commodity": "electric",
+              "confidence": 0.25,
+              "conversationCards": [],
+              "dataWindow": {
+                "endExclusiveIso": null,
+                "monthCount": 0,
+                "notes": [
+                  "No reconcilable overlap months available for electric behavior insights."
+                ],
+                "startIso": null
+              },
+              "demand": {
+                "last12AvgMonthlyMax": null,
+                "peakMonth": null,
+                "prior12AvgMonthlyMax": null,
+                "slopePerMonth": null,
+                "unit": "kW",
+                "yoyDeltaPct": null
+              },
+              "evidence": [
+                {
+                  "kind": "intervalCalc",
+                  "pointer": {
+                    "key": "monthCount",
+                    "source": "behaviorV3.electric",
+                    "value": 0
+                  }
+                }
+              ],
+              "missingInfo": [
+                "[Circular]"
+              ],
+              "peakTiming": {
+                "topPeaks": []
+              },
+              "seasonality": {
+                "skewPct": null,
+                "summerAvgKwh": null,
+                "winterAvgKwh": null
+              },
+              "stepChanges": [],
+              "usage": {
+                "last12": null,
+                "last24": null,
+                "last36": null,
+                "peakMonth": null,
+                "prior12": null,
+                "slopePerMonth": null,
+                "unit": "kWh",
+                "yoyDeltaPct": null
+              }
+            },
+            "version": "behaviorV3.v1"
+          },
+          "billIntelligenceV1": {
+            "derivedMetrics": {},
+            "extractedFacts": {
+              "rateScheduleText": {
+                "evidence": {
+                  "matchedText": "PG&E Commercial Electric Servic",
+                  "ruleId": "bill_tariff_truth.rate_schedule_text",
+                  "source": "bill_pdf"
+                },
+                "source": "bill_pdf",
+                "value": "E-19"
+              },
+              "utilityHint": {
+                "evidence": {
+                  "matchedText": "PG&E Commercial Electric Servic",
+                  "ruleId": "bill_tariff_truth.utility_hint",
+                  "source": "bill_pdf"
+                },
+                "source": "bill_pdf",
+                "value": "PG&E"
+              }
+            },
+            "intervalInsightsV1": {
+              "available": false,
+              "reasons": [
+                {
+                  "code": "BILL_INTEL_INTERVAL_DATA_REQUIRED",
+                  "reason": "No interval points provided."
+                }
+              ]
+            },
+            "warnings": [
+              {
+                "code": "BILL_INTEL_MISSING_TOTAL_KWH",
+                "reason": "Total kWh not found (requires explicit \"Total kWh\" label)."
+              },
+              {
+                "code": "BILL_INTEL_MISSING_TOTAL_DOLLARS",
+                "reason": "Total dollars / Amount Due not found (requires explicit Amount Due/Total Charges label)."
+              },
+              {
+                "code": "BILL_INTEL_MISSING_BILLING_PERIOD_DATES",
+                "reason": "Billing period dates not found (requires explicit \"Billing Period\" label)."
+              },
+              {
+                "code": "BILL_INTEL_MISSING_PEAK_KW",
+                "reason": "Peak kW / billed demand not found (requires explicit kW label)."
+              },
+              {
+                "code": "BILL_INTEL_INTERVAL_DATA_REQUIRED",
+                "reason": "Interval data required for interval-derived bill intelligence insights."
+              },
+              {
+                "code": "BILL_INTEL_WEATHER_DATA_REQUIRED",
+                "reason": "Interval + weather data required to compute usage vs OAT correlation."
+              }
+            ],
+            "weatherCorrelationV1": {
+              "available": false,
+              "reasons": [
+                {
+                  "code": "BILL_INTEL_WEATHER_DATA_REQUIRED",
+                  "reason": "No interval points provided."
+                }
+              ],
+              "signature": "UNKNOWN"
+            }
+          },
+          "billPdfTariffLibraryMatch": {
+            "commodity": "electric",
+            "resolved": {
+              "matchType": "EXACT",
+              "rateCode": "E-19",
+              "sourceTitle": "Schedule E-19",
+              "sourceUrl": "https://example.com/pge/e-19"
+            },
+            "snapshotCapturedAt": "2026-03-01T00:00:00.000Z",
+            "snapshotVersionTag": "2026-03-01T0000Z",
+            "utilityId": "PGE"
+          },
+          "billPdfTariffTruth": {
+            "evidence": {
+              "matchedText": [
+                "PG&E Commercial Electric Servic",
+                "Commercial Electric Service Rate Schedule: E-19 Billing Period: 2026-01-01"
+              ],
+              "source": "bill_pdf"
+            },
+            "rateScheduleText": "E-19",
+            "utilityHint": "PG&E",
+            "warnings": []
+          },
+          "billSimV2": {
+            "businessFamilyKey": "PGE_E19_FAMILY",
+            "meters": [
+              {
+                "cycles": [],
+                "meterId": "site"
+              }
+            ],
+            "missingInfo": [],
+            "ratchetModelPlaceholder": null,
+            "ratchetModelStatus": "not_applicable",
+            "rateCatalogId": "PGE_SIM_B19_LIKE",
+            "rateCode": "E-19",
+            "utility": "PGE",
+            "version": "billSimV2.v1",
+            "warnings": []
+          },
+          "determinantsPackSummary": {
+            "determinantsVersionTag": "determinants_v1",
+            "meters": [
+              {
+                "last12Cycles": [],
+                "meterId": "site",
+                "reconciliation": {
+                  "demandMismatchCount": 0,
+                  "earliestReconcilableBillEndDate": null,
+                  "kwhMismatchCount": 0,
+                  "latestReconcilableBillEndDate": null,
+                  "overlapEndExclusiveIso": null,
+                  "overlapStartIso": null,
+                  "reconciledCycleCount": 0,
+                  "skippedCycleCountByReason": {
+                    "low_interval_coverage": 0,
+                    "no_usage": 0,
+                    "out_of_overlap_window": 0
+                  }
+                }
+              }
+            ],
+            "rulesVersionTag": "determinants:v1.0.0",
+            "touLabelerVersionTag": "tou_v1",
+            "warnings": [
+              "No billing records or interval series available to derive billing cycles."
+            ]
+          },
+          "effectiveRateContextV1": {
+            "generation": {
+              "confidence": 0.6,
+              "daProviderName": null,
+              "evidence": {
+                "matchedPhrases": []
+              },
+              "lseName": null,
+              "providerType": null,
+              "rateCode": null,
+              "snapshotId": null
+            },
+            "iou": {
+              "rateCode": "E-19",
+              "snapshotId": "2026-03-01T0000Z",
+              "utility": "PGE"
+            },
+            "method": "ssa_v1",
+            "missingInfo": [
+              "[Circular]"
+            ],
+            "warnings": [
+              "supply.v1.lse_undetected"
+            ]
+          },
+          "inferredLoadShape": {},
+          "loadShiftingFeasibility": {
+            "candidateShiftWindows": [],
+            "constraintsDetected": [],
+            "score": 0
+          },
+          "missingInfo": [
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]",
+            "[Circular]"
+          ],
+          "operatingPatternInference": {
+            "confidence": 0.15,
+            "reasons": [
+              "Insufficient load shape metrics to infer operating schedule."
+            ],
+            "scheduleBucket": "unknown"
+          },
+          "optionSRelevance": {
+            "because": [
+              "Insufficient inputs to determine Option S relevance deterministically.",
+              "Provide interval kW data and demand charge presence to evaluate daily-demand structures."
+            ],
+            "confidence": 0.15,
+            "requiredInputsMissing": [
+              "Interval-derived peakinessIndex required to evaluate Option S relevance.",
+              "Interval-derived loadFactor required to evaluate Option S relevance.",
+              "Interval-derived peak kW required to evaluate Option S relevance.",
+              "Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance."
+            ],
+            "status": "unknown"
+          },
+          "programs": {
+            "matches": [
+              {
+                "because": [
+                  "Territory matched: PGE.",
+                  "Load shifting score used to rank DR-like programs (v1 heuristic).",
+                  "Operational fit score (DR): 0.15.",
+                  "Load shifting feasibility score≈0.00 (deterministic heuristic)."
+                ],
+                "drFitScore": 0.15,
+                "drNextStepsChecklist": "[Circular]",
+                "drWhyNotNow": "[Circular]",
+                "drWhyNow": "[Circular]",
+                "flags": [
+                  "interval_required",
+                  "ami_required"
+                ],
+                "matchStatus": "unknown",
+                "programId": "pge.dr.automated_dr_v1",
+                "requiredInputsMissing": [
+                  "Customer type required for this program (segment-gated).",
+                  "Peak kW required for this program (minPeakKw gate).",
+                  "Interval data required for this program.",
+                  "Advanced metering (AMI) required for this program."
+                ],
+                "score": 0.1722875
+              },
+              {
+                "because": [
+                  "Territory matched: PGE.",
+                  "Load shifting score used to rank DR-like programs (v1 heuristic).",
+                  "Operational fit score (DR): 0.15.",
+                  "Load shifting feasibility score≈0.00 (deterministic heuristic)."
+                ],
+                "drFitScore": 0.15,
+                "drNextStepsChecklist": "[Circular]",
+                "drWhyNotNow": "[Circular]",
+                "drWhyNow": "[Circular]",
+                "flags": [
+                  "interval_required",
+                  "ami_required"
+                ],
+                "matchStatus": "unknown",
+                "programId": "pge.dr.capacity_bidder_v1",
+                "requiredInputsMissing": [
+                  "Customer type required for this program (segment-gated).",
+                  "Peak kW required for this program (minPeakKw gate).",
+                  "Interval data required for this program.",
+                  "Advanced metering (AMI) required for this program."
+                ],
+                "score": 0.1722875
+              },
+              {
+                "because": [
+                  "Territory matched: PGE.",
+                  "Load shifting score used to rank DR-like programs (v1 heuristic).",
+                  "Operational fit score (DR): 0.15.",
+                  "Load shifting feasibility score≈0.00 (deterministic heuristic)."
+                ],
+                "drFitScore": 0.15,
+                "drNextStepsChecklist": "[Circular]",
+                "drWhyNotNow": "[Circular]",
+                "drWhyNow": "[Circular]",
+                "flags": [
+                  "interval_required"
+                ],
+                "matchStatus": "unknown",
+                "programId": "pge.dr.nonres_cpp_v1",
+                "requiredInputsMissing": [
+                  "Customer type required for this program (segment-gated).",
+                  "Monthly kWh required for this program (minMonthlyKwh gate).",
+                  "Interval data required for this program."
+                ],
+                "score": 0.1722875
+              },
+              {
+                "because": [
+                  "Territory matched: PGE."
+                ],
+                "matchStatus": "unknown",
+                "programId": "pge.fin.onbill_financing_v1",
+                "requiredInputsMissing": [
+                  "Customer type required for this program (segment-gated).",
+                  "Annual kWh required for this program (minAnnualKwh gate)."
+                ],
+                "score": 0.1375
+              },
+              {
+                "because": [
+                  "Territory matched: PGE."
+                ],
+                "matchStatus": "unknown",
+                "programId": "pge.incentives.healthcare_efficiency_v1",
+                "requiredInputsMissing": [
+                  "Customer type required for this program (segment-gated).",
+                  "NAICS code required for this program.",
+                  "Annual kWh required for this program (minAnnualKwh gate)."
+                ],
+                "score": 0.1375
+              },
+              {
+                "because": [
+                  "Territory matched: PGE."
+                ],
+                "matchStatus": "unknown",
+                "programId": "pge.incentives.k12_efficiency_v1",
+                "requiredInputsMissing": [
+                  "Customer type required for this program (segment-gated).",
+                  "NAICS code required for this program.",
+                  "Annual kWh required for this program (minAnnualKwh gate)."
+                ],
+                "score": 0.1375
+              },
+              {
+                "because": [
+                  "Territory matched: PGE."
+                ],
+                "matchStatus": "unknown",
+                "programId": "pge.other.naics_exclusion_example_v1",
+                "requiredInputsMissing": [
+                  "Customer type required for this program (segment-gated).",
+                  "NAICS code required for this program.",
+                  "Peak kW required for this program (minPeakKw gate)."
+                ],
+                "score": 0.1375
+              },
+              {
+                "because": [
+                  "Territory matched: PGE."
+                ],
+                "flags": [
+                  "interval_required",
+                  "ami_required"
+                ],
+                "matchStatus": "unknown",
+                "programId": "pge.storage.interconnection_fasttrack_v1",
+                "requiredInputsMissing": [
+                  "Customer type required for this program (segment-gated).",
+                  "Peak kW required for this program (minPeakKw gate).",
+                  "Interval data required for this program.",
+                  "Advanced metering (AMI) required for this program."
+                ],
+                "score": 0.1375
+              }
+            ],
+            "topRecommendations": [
+              {
+                "because": [
+                  "Matched program: Capacity DR (Aggregator Bid, placeholder) (pge.dr.capacity_bidder_v1)",
+                  "Payments for committed load reduction capability during peak events.",
+                  "Territory matched: PGE.",
+                  "Load shifting score used to rank DR-like programs (v1 heuristic).",
+                  "Operational fit score (DR): 0.15.",
+                  "Load shifting feasibility score≈0.00 (deterministic heuristic).",
+                  "Operational fit (DR): score=0.15.",
+                  "Why not now: Interval data not available; cannot assess repeatable peaks. Operational fit score is low; address data/operational constraints before enrolling.",
+                  "Next step: Collect interval kW data (hourly or 15-min) to evaluate DR operational fit.",
+                  "Next step: Confirm territory and AMI/interval availability.",
+                  "Next step: Estimate curtailable kW in 16:00–21:00 window.",
+                  "Next step: Contact aggregator for enrollment and baseline methodology."
+                ],
+                "confidence": 0.35,
+                "recommendationId": "id_20260301T000000000Z07pge_1",
+                "recommendationType": "DEMAND_RESPONSE",
+                "requiredInputsMissing": [
+                  "Customer type required for this program (segment-gated).",
+                  "Peak kW required for this program (minPeakKw gate).",
+                  "Interval data required for this program.",
+                  "Advanced metering (AMI) required for this program."
+                ],
+                "score": 0.1722875,
+                "suggestedMeasure": "[Circular]"
+              },
+              {
+                "because": [
+                  "Matched program: Automated Demand Response (AutoDR, placeholder) (pge.dr.automated_dr_v1)",
+                  "Incentives for automated curtailment capability during dispatch events.",
+                  "Territory matched: PGE.",
+                  "Load shifting score used to rank DR-like programs (v1 heuristic).",
+                  "Operational fit score (DR): 0.15.",
+                  "Load shifting feasibility score≈0.00 (deterministic heuristic).",
+                  "Operational fit (DR): score=0.15.",
+                  "Why not now: Interval data not available; cannot assess repeatable peaks. Operational fit score is low; address data/operational constraints before enrolling.",
+                  "Next step: Collect interval kW data (hourly or 15-min) to evaluate DR operational fit.",
+                  "Next step: Confirm controls/BMS capability.",
+                  "Next step: Identify controllable loads and automation approach.",
+                  "Next step: Enroll and test event response."
+                ],
+                "confidence": 0.35,
+                "recommendationId": "id_20260301T000000000Z07pge_2",
+                "recommendationType": "DEMAND_RESPONSE",
+                "requiredInputsMissing": [
+                  "Customer type required for this program (segment-gated).",
+                  "Peak kW required for this program (minPeakKw gate).",
+                  "Interval data required for this program.",
+                  "Advanced metering (AMI) required for this program."
+                ],
+                "score": 0.1722875,
+                "suggestedMeasure": "[Circular]"
+              },
+              {
+                "because": [
+                  "Matched program: Critical Peak Pricing (Non-Residential CPP, placeholder) (pge.dr.nonres_cpp_v1)",
+                  "Bill savings potential by reducing usage during critical peak price events.",
+                  "Territory matched: PGE.",
+                  "Load shifting score used to rank DR-like programs (v1 heuristic).",
+                  "Operational fit score (DR): 0.15.",
+                  "Load shifting feasibility score≈0.00 (deterministic heuristic).",
+                  "Operational fit (DR): score=0.15.",
+                  "Why not now: Interval data not available; cannot assess repeatable peaks. Operational fit score is low; address data/operational constraints before enrolling.",
+                  "Next step: Collect interval kW data (hourly or 15-min) to evaluate DR operational fit.",
+                  "Next step: Confirm current rate compatibility.",
+                  "Next step: Identify event response strategy.",
+                  "Next step: Estimate bill impacts with tariff modeling."
+                ],
+                "confidence": 0.35,
+                "recommendationId": "id_20260301T000000000Z07pge_3",
+                "recommendationType": "DEMAND_RESPONSE",
+                "requiredInputsMissing": [
+                  "Customer type required for this program (segment-gated).",
+                  "Monthly kWh required for this program (minMonthlyKwh gate).",
+                  "Interval data required for this program."
+                ],
+                "score": 0.1722875,
+                "suggestedMeasure": "[Circular]"
+              },
+              {
+                "because": [
+                  "Matched program: Healthcare Efficiency Incentives (placeholder) (pge.incentives.healthcare_efficiency_v1)",
+                  "Custom incentives for efficiency projects in healthcare facilities (segment-gated).",
+                  "Territory matched: PGE.",
+                  "Next step: Confirm NAICS and facility type.",
+                  "Next step: Compile project list and baseline usage.",
+                  "Next step: Engage utility incentive administrator."
+                ],
+                "confidence": 0.35,
+                "recommendationId": "id_20260301T000000000Z07pge_4",
+                "recommendationType": "UTILITY_PROGRAM",
+                "requiredInputsMissing": [
+                  "Customer type required for this program (segment-gated).",
+                  "NAICS code required for this program.",
+                  "Annual kWh required for this program (minAnnualKwh gate)."
+                ],
+                "score": 0.1375,
+                "suggestedMeasure": "[Circular]"
+              },
+              {
+                "because": [
+                  "Matched program: K-12/Public Sector Efficiency Incentives (placeholder) (pge.incentives.k12_efficiency_v1)",
+                  "Incentives and technical assistance for K-12/public sector retrofits (NAICS-gated).",
+                  "Territory matched: PGE.",
+                  "Next step: Confirm NAICS prefix 6111 (K-12).",
+                  "Next step: Collect annual usage and measure list.",
+                  "Next step: Submit pre-application for incentive reservation."
+                ],
+                "confidence": 0.35,
+                "recommendationId": "id_20260301T000000000Z07pge_5",
+                "recommendationType": "UTILITY_PROGRAM",
+                "requiredInputsMissing": [
+                  "Customer type required for this program (segment-gated).",
+                  "NAICS code required for this program.",
+                  "Annual kWh required for this program (minAnnualKwh gate)."
+                ],
+                "score": 0.1375,
+                "suggestedMeasure": "[Circular]"
+              }
+            ]
+          },
+          "rateFit": {
+            "alternatives": [
+              {
+                "because": [
+                  "Option S is storage/rider-specific; evaluate only if storage or sharp daily peaks are present.",
+                  "Potential improvement; needs billing periods + interval data to compute deterministic delta."
+                ],
+                "rateCode": "B-19S",
+                "requiredInputsMissing": [
+                  "Interval kW series required to compute deterministic bill deltas per billing cycle.",
+                  "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+                ],
+                "status": "needs_eval",
+                "utility": "PG&E"
+              },
+              {
+                "because": [
+                  "Option S is storage/rider-specific; evaluate only if storage or sharp daily peaks are present.",
+                  "Potential improvement; needs billing periods + interval data to compute deterministic delta."
+                ],
+                "rateCode": "E-19S",
+                "requiredInputsMissing": [
+                  "Interval kW series required to compute deterministic bill deltas per billing cycle.",
+                  "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+                ],
+                "status": "needs_eval",
+                "utility": "PG&E"
+              },
+              {
+                "because": [
+                  "Candidate generated from territory rate catalog (v1).",
+                  "Potential improvement; needs billing periods + interval data to compute deterministic delta."
+                ],
+                "rateCode": "A-10",
+                "requiredInputsMissing": [
+                  "Interval kW series required to compute deterministic bill deltas per billing cycle.",
+                  "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+                ],
+                "status": "needs_eval",
+                "utility": "PG&E"
+              },
+              {
+                "because": [
+                  "Candidate generated from territory rate catalog (v1).",
+                  "Potential improvement; needs billing periods + interval data to compute deterministic delta."
+                ],
+                "rateCode": "B-19",
+                "requiredInputsMissing": [
+                  "Interval kW series required to compute deterministic bill deltas per billing cycle.",
+                  "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+                ],
+                "status": "needs_eval",
+                "utility": "PG&E"
+              },
+              {
+                "because": [
+                  "Candidate generated from territory rate catalog (v1).",
+                  "Potential improvement; needs billing periods + interval data to compute deterministic delta."
+                ],
+                "rateCode": "B-20",
+                "requiredInputsMissing": [
+                  "Interval kW series required to compute deterministic bill deltas per billing cycle.",
+                  "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+                ],
+                "status": "needs_eval",
+                "utility": "PG&E"
+              }
+            ],
+            "because": [
+              "Load shape metrics missing; rate fit confidence is limited."
+            ],
+            "confidence": 0.2,
+            "currentRateCode": "E-19",
+            "status": "unknown"
+          },
+          "requiredInputsMissing": [
+            "Interval data reference required for load shape, load shifting, and demand response eligibility",
+            "NAICS code required to match many utility/ISO programs",
+            "Customer segment/type required to match many utility/ISO programs",
+            "Interval kW series required to infer load shape (provide interval data or configure loader).",
+            "Interval kW series required to evaluate load shifting potential.",
+            "Weather series not available; provide weather data or configure provider.",
+            "Interval kW series required to compute deterministic bill deltas per billing cycle.",
+            "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+            "Interval-derived peakinessIndex required to evaluate Option S relevance.",
+            "Interval-derived loadFactor required to evaluate Option S relevance.",
+            "Interval-derived peak kW required to evaluate Option S relevance.",
+            "Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+            "Customer type required for this program (segment-gated).",
+            "Peak kW required for this program (minPeakKw gate).",
+            "Interval data required for this program.",
+            "Advanced metering (AMI) required for this program.",
+            "Monthly kWh required for this program (minMonthlyKwh gate).",
+            "NAICS code required for this program.",
+            "Annual kWh required for this program (minAnnualKwh gate)."
+          ],
+          "storageOpportunityPackV1": "[Circular]",
+          "supplyStructure": {
+            "because": [
+              "Insufficient evidence to determine supply structure (bundled vs CCA vs DA)."
+            ],
+            "confidence": 0.1,
+            "supplyType": "unknown"
+          },
+          "tariffApplicability": {
+            "because": [
+              "Applicability evaluation v1 (deterministic rules) for utility=PGE, rateCode=E-19.",
+              "Unable to determine max demand kW from billing records or intervals.",
+              "Voltage level could not be inferred from meter metadata, tariff metadata, or bill text.",
+              "Rate family \"E-19\" matches E-*; inferred commercial/industrial.",
+              "No PG&E applicability rules registered for rateCode=\"E-19\"."
+            ],
+            "confidence": 0.175,
+            "determinants": {
+              "customerClass": "commercial",
+              "demandSource": "unknown",
+              "hasIntervalData": false,
+              "maxDemandKwObserved": null,
+              "rateCode": "E-19",
+              "supplyType": "unknown",
+              "territoryId": null,
+              "utility": "PGE",
+              "voltage": "unknown"
+            },
+            "missingInfo": [
+              "[Circular]",
+              "[Circular]",
+              "[Circular]"
+            ],
+            "status": "unknown",
+            "warnings": [
+              "Customer supply structure is not bundled; generation charges may differ even if the delivery tariff is applicable."
+            ]
+          },
+          "tariffLibrary": {
+            "isStale": false,
+            "lastUpdatedAt": "2026-03-01T00:00:00.000Z",
+            "rateMetadata": {
+              "businessFamilyKey": "PGE_E19_FAMILY",
+              "businessFamilySource": "inferred",
+              "chargeDeterminantsVNext": {
+                "demandChargeTypes": [
+                  "max_kw"
+                ],
+                "determinantsSource": "inferred",
+                "hasDemandCharges": true,
+                "hasTouEnergy": true,
+                "touPeriodsObserved": null
+              },
+              "customerSegment": "commercial",
+              "customerSegmentSource": "inferred",
+              "effectiveStatus": "UNKNOWN",
+              "evidence": [
+                {
+                  "fieldName": "customerSegment",
+                  "inferenceRuleId": "infer.segment.rateCodePrefix.E-*",
+                  "kind": "meta",
+                  "matchedText": "E-19",
+                  "sourceUrl": "https://example.com/pge/e-19",
+                  "value": "segment:commercial"
+                },
+                {
+                  "fieldName": "chargeDeterminantsVNext.hasDemandCharges",
+                  "inferenceRuleId": "infer.readiness.commonBusinessFamilies",
+                  "kind": "meta",
+                  "matchedText": "E-19",
+                  "sourceUrl": "https://example.com/pge/e-19",
+                  "value": "true"
+                },
+                {
+                  "fieldName": "chargeDeterminantsVNext.demandChargeTypes",
+                  "inferenceRuleId": "infer.readiness.commonBusinessFamilies",
+                  "kind": "meta",
+                  "matchedText": "E-19",
+                  "sourceUrl": "https://example.com/pge/e-19",
+                  "value": "max_kw"
+                },
+                {
+                  "fieldName": "chargeDeterminantsVNext.hasTouEnergy",
+                  "inferenceRuleId": "infer.readiness.commonBusinessFamilies",
+                  "kind": "meta",
+                  "matchedText": "E-19",
+                  "sourceUrl": "https://example.com/pge/e-19",
+                  "value": "true"
+                },
+                {
+                  "fieldName": "businessFamilyKey",
+                  "inferenceRuleId": "canon.pge.family.E-19*",
+                  "kind": "meta",
+                  "matchedText": "E-19",
+                  "sourceUrl": "https://example.com/pge/e-19",
+                  "value": "PGE_E19_FAMILY"
+                },
+                {
+                  "fieldName": "isEverWattCanonicalBusiness",
+                  "inferenceRuleId": "canon.pge.family.E-19*",
+                  "kind": "meta",
+                  "matchedText": "E-19",
+                  "sourceUrl": "https://example.com/pge/e-19",
+                  "value": "true"
+                },
+                {
+                  "fieldName": "effectiveStatus",
+                  "inferenceRuleId": "derive.effectiveStatus.v1",
+                  "kind": "meta",
+                  "matchedText": "effectiveSource:unknown",
+                  "sourceUrl": "https://example.com/pge/e-19",
+                  "value": "UNKNOWN"
+                }
+              ],
+              "isBusinessRelevant": true,
+              "isEverWattCanonicalBusiness": true,
+              "isNonResidential": true,
+              "isResidential": false,
+              "lastVerifiedAt": "2026-03-01T00:00:00.000Z",
+              "rateCode": "E-19",
+              "sectorGroup": "non_residential",
+              "segmentSource": "inferred",
+              "sourceTitle": "Schedule E-19",
+              "sourceUrl": "https://example.com/pge/e-19",
+              "utility": "PGE"
+            },
+            "snapshotCapturedAt": "2026-03-01T00:00:00.000Z",
+            "snapshotVersionTag": "2026-03-01T0000Z"
+          },
+          "versionTags": {
+            "determinantsVersionTag": "determinants_v1",
+            "loadAttributionVersionTag": "cp_v0",
+            "touLabelerVersionTag": "tou_v1"
+          },
+          "weatherSensitivity": {
+            "available": false,
+            "method": "regression_v1",
+            "reasons": [
+              "Weather provider not configured."
+            ]
+          }
+        },
+        "recommendations": [
+          {
+            "because": [
+              "Evaluate alternative rate schedule (inbox-only suggestion; no changes are applied automatically).",
+              "Candidate generated from territory rate catalog (v1).",
+              "Potential improvement; needs billing periods + interval data to compute deterministic delta.",
+              "Potential improvement; needs additional inputs to compute deterministic savings."
+            ],
+            "confidence": 0.35,
+            "recommendationId": "id_20260301T000000000Z07pge_10",
+            "recommendationType": "RATE_CHANGE",
+            "requiredInputsMissing": [
+              "Interval kW series required to compute deterministic bill deltas per billing cycle.",
+              "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+            ],
+            "score": 0.55,
+            "suggestedMeasure": "[Circular]"
+          },
+          {
+            "because": [
+              "Evaluate alternative rate schedule (inbox-only suggestion; no changes are applied automatically).",
+              "Candidate generated from territory rate catalog (v1).",
+              "Potential improvement; needs billing periods + interval data to compute deterministic delta.",
+              "Potential improvement; needs additional inputs to compute deterministic savings."
+            ],
+            "confidence": 0.35,
+            "recommendationId": "id_20260301T000000000Z07pge_11",
+            "recommendationType": "RATE_CHANGE",
+            "requiredInputsMissing": [
+              "Interval kW series required to compute deterministic bill deltas per billing cycle.",
+              "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+            ],
+            "score": 0.55,
+            "suggestedMeasure": "[Circular]"
+          },
+          {
+            "because": [
+              "Evaluate alternative rate schedule (inbox-only suggestion; no changes are applied automatically).",
+              "Option S is storage/rider-specific; evaluate only if storage or sharp daily peaks are present.",
+              "Potential improvement; needs billing periods + interval data to compute deterministic delta.",
+              "Potential improvement; needs additional inputs to compute deterministic savings."
+            ],
+            "confidence": 0.35,
+            "recommendationId": "id_20260301T000000000Z07pge_7",
+            "recommendationType": "RATE_CHANGE",
+            "requiredInputsMissing": [
+              "Interval kW series required to compute deterministic bill deltas per billing cycle.",
+              "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+            ],
+            "score": 0.55,
+            "suggestedMeasure": "[Circular]"
+          },
+          {
+            "because": [
+              "Evaluate alternative rate schedule (inbox-only suggestion; no changes are applied automatically).",
+              "Option S is storage/rider-specific; evaluate only if storage or sharp daily peaks are present.",
+              "Potential improvement; needs billing periods + interval data to compute deterministic delta.",
+              "Potential improvement; needs additional inputs to compute deterministic savings."
+            ],
+            "confidence": 0.35,
+            "recommendationId": "id_20260301T000000000Z07pge_8",
+            "recommendationType": "RATE_CHANGE",
+            "requiredInputsMissing": [
+              "Interval kW series required to compute deterministic bill deltas per billing cycle.",
+              "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+            ],
+            "score": 0.55,
+            "suggestedMeasure": "[Circular]"
+          },
+          {
+            "because": [
+              "Evaluate alternative rate schedule (inbox-only suggestion; no changes are applied automatically).",
+              "Candidate generated from territory rate catalog (v1).",
+              "Potential improvement; needs billing periods + interval data to compute deterministic delta.",
+              "Potential improvement; needs additional inputs to compute deterministic savings."
+            ],
+            "confidence": 0.35,
+            "recommendationId": "id_20260301T000000000Z07pge_9",
+            "recommendationType": "RATE_CHANGE",
+            "requiredInputsMissing": [
+              "Interval kW series required to compute deterministic bill deltas per billing cycle.",
+              "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+            ],
+            "score": 0.55,
+            "suggestedMeasure": "[Circular]"
+          },
+          {
+            "because": [
+              "Option S relevance cannot be determined with current inputs.",
+              "Insufficient inputs to determine Option S relevance deterministically.",
+              "Provide interval kW data and demand charge presence to evaluate daily-demand structures."
+            ],
+            "confidence": 0.15,
+            "recommendationId": "id_20260301T000000000Z07pge_12",
+            "recommendationType": "OPTION_S",
+            "requiredInputsMissing": [
+              "Interval-derived peakinessIndex required to evaluate Option S relevance.",
+              "Interval-derived loadFactor required to evaluate Option S relevance.",
+              "Interval-derived peak kW required to evaluate Option S relevance.",
+              "Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance."
+            ],
+            "score": 0.35,
+            "suggestedMeasure": "[Circular]"
+          },
+          {
+            "because": "[Circular]",
+            "confidence": 0.35,
+            "recommendationId": "id_20260301T000000000Z07pge_1",
+            "recommendationType": "DEMAND_RESPONSE",
+            "requiredInputsMissing": [
+              "Customer type required for this program (segment-gated).",
+              "Peak kW required for this program (minPeakKw gate).",
+              "Interval data required for this program.",
+              "Advanced metering (AMI) required for this program."
+            ],
+            "score": 0.1722875,
+            "suggestedMeasure": "[Circular]"
+          },
+          {
+            "because": "[Circular]",
+            "confidence": 0.35,
+            "recommendationId": "id_20260301T000000000Z07pge_2",
+            "recommendationType": "DEMAND_RESPONSE",
+            "requiredInputsMissing": [
+              "Customer type required for this program (segment-gated).",
+              "Peak kW required for this program (minPeakKw gate).",
+              "Interval data required for this program.",
+              "Advanced metering (AMI) required for this program."
+            ],
+            "score": 0.1722875,
+            "suggestedMeasure": "[Circular]"
+          },
+          {
+            "because": "[Circular]",
+            "confidence": 0.35,
+            "recommendationId": "id_20260301T000000000Z07pge_3",
+            "recommendationType": "DEMAND_RESPONSE",
+            "requiredInputsMissing": [
+              "Customer type required for this program (segment-gated).",
+              "Monthly kWh required for this program (minMonthlyKwh gate).",
+              "Interval data required for this program."
+            ],
+            "score": 0.1722875,
+            "suggestedMeasure": "[Circular]"
+          },
+          {
+            "because": "[Circular]",
+            "confidence": 0.35,
+            "recommendationId": "id_20260301T000000000Z07pge_4",
+            "recommendationType": "UTILITY_PROGRAM",
+            "requiredInputsMissing": [
+              "Customer type required for this program (segment-gated).",
+              "NAICS code required for this program.",
+              "Annual kWh required for this program (minAnnualKwh gate)."
+            ],
+            "score": 0.1375,
+            "suggestedMeasure": "[Circular]"
+          },
+          {
+            "because": "[Circular]",
+            "confidence": 0.35,
+            "recommendationId": "id_20260301T000000000Z07pge_5",
+            "recommendationType": "UTILITY_PROGRAM",
+            "requiredInputsMissing": [
+              "Customer type required for this program (segment-gated).",
+              "NAICS code required for this program.",
+              "Annual kWh required for this program (minAnnualKwh gate)."
+            ],
+            "score": 0.1375,
+            "suggestedMeasure": "[Circular]"
+          }
+        ]
+      }
+    }
+  },
+  "response": {
+    "project": "[Circular]",
+    "success": true,
+    "summary": "[Circular]",
+    "workflow": "[Circular]"
+  }
+}

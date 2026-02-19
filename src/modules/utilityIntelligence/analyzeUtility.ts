@@ -60,6 +60,7 @@ import { loadProjectForOrg } from '../project/projectRepository';
 import { readIntervalData } from '../../utils/excel-reader';
 import { BillTariffLibraryMatchWarningCodesV1, matchBillTariffToLibraryV1 } from '../tariffLibrary/matching/matchBillTariffToLibraryV1';
 import { loadLatestGasSnapshot } from '../tariffLibraryGas/storage';
+import type { AnalyzeUtilityStepNameV1, StepTraceV1 } from './stepTraceV1';
 
 type IntervalKwPoint = IntervalKwPoint1 & IntervalKwPoint2;
 
@@ -363,6 +364,8 @@ export type AnalyzeUtilityDeps = {
   weatherProvider?: WeatherProvider;
   nowIso?: string;
   idFactory?: () => string;
+  /** Optional request-scoped step trace recorder (deterministic). */
+  stepTraceV1?: StepTraceV1 | null;
 };
 
 /**
@@ -379,6 +382,9 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
   const engineWarnings: EngineWarning[] = [];
   const warn = (w: EngineWarning) => engineWarnings.push(w);
   const idFactory = deps?.idFactory || makeEphemeralIdFactory({ prefix: 'utilReco', seed: nowIso });
+  const stepTraceV1 = deps?.stepTraceV1 ?? null;
+  const beginStep = (name: AnalyzeUtilityStepNameV1) => stepTraceV1?.beginStep(name);
+  const endStep = (name: AnalyzeUtilityStepNameV1, opts?: { skipped?: boolean; reasonCode?: string }) => stepTraceV1?.endStep(name, opts);
 
   const depsHasIntervalKwSeries = Array.isArray(deps?.intervalKwSeries) ? deps?.intervalKwSeries : null;
   const depsHasEconomicsOverrides = deps && Object.prototype.hasOwnProperty.call(deps, 'storageEconomicsOverridesV1');
@@ -393,6 +399,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
           ? 1440
           : null;
 
+  beginStep('normalizeIntervalInputsV1');
   const normalizedFromCanonicalPoints: NormalizedIntervalV1 | null = normalizeIntervalInputsV1({
     intervalPointsV1: Array.isArray(deps?.intervalPointsV1) ? deps?.intervalPointsV1 : null,
     resolutionMinutesHint: intervalResolutionMinutesHint,
@@ -418,6 +425,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     });
 
   const intervalKwSeries: IntervalKwPoint[] = normalizedInterval ? normalizedInterval.seriesKw.map((p) => ({ timestampIso: p.tsIso, kw: p.kw })) : [];
+  endStep('normalizeIntervalInputsV1');
 
   const storageEconomicsOverridesV1 = depsHasEconomicsOverrides
     ? (deps as any).storageEconomicsOverridesV1 || null
@@ -512,6 +520,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
   });
 
   // Program intelligence (deterministic catalog matching)
+  beginStep('programIntelligenceV1');
   const proven = computeProvenMetricsV1({ inputs, intervalKw: intervalKwSeries.length ? intervalKwSeries : null });
   const tz =
     String(proven.provenTouExposureSummary?.timezone || '').trim() ||
@@ -586,10 +595,31 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     idFactory,
   });
 
+  // Deterministic ordering for output-only (does not affect which matches are turned into recommendations above).
+  const matchesSortedForOutput = matches
+    .slice()
+    .sort((a: any, b: any) => {
+      const rank = (s: any): number => {
+        const x = String(s ?? '');
+        if (x === 'eligible') return 0;
+        if (x === 'likely_eligible') return 1;
+        if (x === 'unknown') return 2;
+        return 3; // unlikely / other
+      };
+      const ra = rank((a as any)?.matchStatus);
+      const rb = rank((b as any)?.matchStatus);
+      if (ra !== rb) return ra - rb;
+      const sa = Number((a as any)?.score);
+      const sb = Number((b as any)?.score);
+      if (Number.isFinite(sa) && Number.isFinite(sb) && sa !== sb) return sb - sa;
+      return String((a as any)?.programId || '').localeCompare(String((b as any)?.programId || ''));
+    });
+
   const programs: UtilityInsights['programs'] = {
-    matches,
+    matches: matchesSortedForOutput as any,
     topRecommendations: programRecs.slice(0, 5),
   };
+  endStep('programIntelligenceV1');
 
   const supplyStructure = analyzeSupplyStructure({
     inputs,
@@ -599,6 +629,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
 
   const billPdfTariffTruth = extractBillPdfTariffHintsV1(inputs.billPdfText || null);
 
+  beginStep('supplyStructureAnalyzerV1_2');
   const ssaV1 = (() => {
     try {
       return detectSupplyStructureV1({
@@ -619,6 +650,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       return null;
     }
   })();
+  endStep('supplyStructureAnalyzerV1_2');
 
   const billIntelligenceV1 = analyzeBillIntelligenceV1({
     billPdfText: inputs.billPdfText || null,
@@ -647,14 +679,20 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
 
   // Interval Intelligence v1 – Product-grade interval-derived outputs (warnings-first, deterministic).
   const intervalIntelligenceV1 = (() => {
+    beginStep('intervalIntelligenceV1');
     try {
       const pts = Array.isArray(deps?.intervalPointsV1) ? (deps?.intervalPointsV1 as any[]) : null;
-      if (!pts || !pts.length) return undefined;
-      return analyzeIntervalIntelligenceV1({
+      if (!pts || !pts.length) {
+        endStep('intervalIntelligenceV1', { skipped: true, reasonCode: 'NO_INTERVAL_POINTS_V1' });
+        return undefined;
+      }
+      const out = analyzeIntervalIntelligenceV1({
         points: pts as any,
         timezoneHint: tz,
         topPeakEventsCount: 7,
       }).intervalIntelligenceV1;
+      endStep('intervalIntelligenceV1');
+      return out;
     } catch (e) {
       warn({
         code: 'UIE_INTERVAL_INTELLIGENCE_FAILED',
@@ -663,18 +701,26 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         exceptionName: exceptionName(e),
         contextKey: 'intervalIntelligenceV1',
       });
+      endStep('intervalIntelligenceV1');
       return undefined;
     }
   })();
 
   const weatherRegressionV1 = (() => {
+    beginStep('weatherRegressionV1');
     try {
       const pts = Array.isArray(deps?.intervalPointsV1) ? (deps?.intervalPointsV1 as any[]) : null;
-      if (!pts || !pts.length) return undefined;
+      if (!pts || !pts.length) {
+        endStep('weatherRegressionV1', { skipped: true, reasonCode: 'NO_INTERVAL_POINTS_V1' });
+        return undefined;
+      }
       const anyTemp = pts.some((p) => Number.isFinite(Number((p as any)?.temperatureF)));
-      if (!anyTemp) return undefined;
+      if (!anyTemp) {
+        endStep('weatherRegressionV1', { skipped: true, reasonCode: 'NO_TEMPERATURE_IN_INTERVALS' });
+        return undefined;
+      }
       const daily = buildDailyUsageAndWeatherSeriesFromIntervalPointsV1({ points: pts as any, timezoneHint: tz });
-      return regressUsageVsWeatherV1({
+      const out = regressUsageVsWeatherV1({
         usageByDay: daily.usageByDay,
         weatherByDay: daily.weatherByDay,
         hddBaseF: 65,
@@ -682,6 +728,8 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         minOverlapDays: 10,
         timezoneHint: tz,
       }).weatherRegressionV1;
+      endStep('weatherRegressionV1');
+      return out;
     } catch (e) {
       warn({
         code: 'UIE_WEATHER_REGRESSION_V1_FAILED',
@@ -690,10 +738,12 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         exceptionName: exceptionName(e),
         contextKey: 'weatherRegressionV1',
       });
+      endStep('weatherRegressionV1');
       return undefined;
     }
   })();
 
+  beginStep('tariffMatchAndRateContext');
   const billTariffCommodity: 'electric' | 'gas' =
     String(inputs.serviceType || '').toLowerCase() === 'gas' ? 'gas' : 'electric';
 
@@ -1141,7 +1191,9 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       return (deps?.tariffPriceSignalsV1 as any) || null;
     }
   })();
+  endStep('tariffMatchAndRateContext');
 
+  beginStep('determinantsPackV1');
   const tariffApplicability = (() => {
     try {
       const rateCode = String(inputs.currentRate?.rateCode || '').trim();
@@ -1319,8 +1371,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       return undefined;
     }
   })();
+  {
+    const hasRateCode = Boolean(String(inputs.currentRate?.rateCode || '').trim());
+    if (!hasRateCode) endStep('determinantsPackV1', { skipped: true, reasonCode: 'NO_CURRENT_RATE_CODE' });
+    else endStep('determinantsPackV1');
+  }
 
   // Storage Opportunity Pack v1 (battery + dispatch + DR readiness): always attach (warnings-first).
+  beginStep('batteryOpportunityPackV1');
   const storageOpportunityPackV1 = (() => {
     try {
       const det0: any = (determinantsPackSummary as any)?.meters?.[0]?.last12Cycles?.[0] || null;
@@ -1364,6 +1422,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       });
     }
   })();
+  endStep('batteryOpportunityPackV1');
 
   // Battery Economics v1: always attach (warnings-first). No tariff/cost guessing in analyzeUtility.
   const batteryEconomicsV1 = (() => {
@@ -1471,6 +1530,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
   })();
 
   // Battery Decision Pack v1.2 (decision-quality: constraints + sensitivity + deterministic narrative): always attach (warnings-first).
+  beginStep('batteryDecisionPackV1_2');
   const batteryDecisionPackV1_2 = (() => {
     try {
       const det0: any = (determinantsPackSummary as any)?.meters?.[0]?.last12Cycles?.[0] || null;
@@ -1529,6 +1589,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       });
     }
   })();
+  endStep('batteryDecisionPackV1_2');
 
   const behaviorInsights = (() => {
     try {
@@ -1606,7 +1667,24 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     }
   })();
 
+  beginStep('missingInfoAssembly');
   const missingInfo: MissingInfoItemV0[] = (() => {
+    const sortMissingInfo = (a: any, b: any): number => {
+      const sevRank = (s: any): number => {
+        const x = String(s ?? '').toLowerCase();
+        if (x === 'blocking') return 0;
+        if (x === 'warning') return 1;
+        return 2;
+      };
+      const ra = sevRank(a?.severity);
+      const rb = sevRank(b?.severity);
+      if (ra !== rb) return ra - rb;
+      const ida = String(a?.id ?? '');
+      const idb = String(b?.id ?? '');
+      if (ida !== idb) return ida.localeCompare(idb);
+      return String(a?.description ?? '').localeCompare(String(b?.description ?? ''));
+    };
+
     const items: MissingInfoItemV0[] = [];
 
     const currentRateCode = String(inputs.currentRate?.rateCode || '').trim();
@@ -1822,7 +1900,8 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       }
     }
 
-    return items;
+    // Deterministic ordering to reduce snapshot noise (content is unchanged).
+    return items.slice().sort(sortMissingInfo);
   })();
 
   const requiredInputsMissing = uniq([
@@ -1834,8 +1913,10 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     ...(optionS.requiredInputsMissing || []),
     ...(matches.flatMap((m) => m.requiredInputsMissing || []) || []),
   ]);
+  endStep('missingInfoAssembly');
 
   // Recommendations: inbox-only suggestions (do not auto-apply).
+  beginStep('recommendationsAssembly');
   const recos: UtilityRecommendation[] = [];
 
   // 1) Collect missing rate code if needed
@@ -2017,7 +2098,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       requiredInputsMissing: Array.isArray(r.requiredInputsMissing) ? uniq(r.requiredInputsMissing) : [],
     }))
     // stable ordering
-    .sort((a, b) => b.score - a.score || b.confidence - a.confidence || normText(a.recommendationType).localeCompare(normText(b.recommendationType)));
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        b.confidence - a.confidence ||
+        normText(a.recommendationType).localeCompare(normText(b.recommendationType)) ||
+        String(a.recommendationId || '').localeCompare(String(b.recommendationId || '')),
+    );
+  endStep('recommendationsAssembly');
 
   return { insights, recommendations };
 }
