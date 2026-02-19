@@ -17,6 +17,8 @@
     "type-check:ship": "tsc -p tsconfig.ship.json --noEmit",
     "test": "tsx src/scripts/test-analysis-integrity.ts",
     "test:unit": "vitest run",
+    "test:ci": "npm run test:unit && npx tsc -p tsconfig.test.json --noEmit",
+    "test:slow": "tsx src/scripts/test-slow.ts",
     "tariffs:ingest:ca": "tsx scripts/ingest-ca-tariffs-v0.ts",
     "tariffs:status": "tsx scripts/tariffs-status.ts",
     "tariffs:audit": "tsx scripts/tariffs-audit.ts",
