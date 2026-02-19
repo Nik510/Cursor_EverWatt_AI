@@ -8871,6 +8871,56 @@ app.get('/api/projects/:id/reports/internal-engineering', async (c) => {
   }
 });
 
+app.post('/api/projects/:id/reports/internal-engineering/generate', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const id = c.req.param('id');
+    const project = await loadProjectInternal(userId, id);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const body = await c.req.json().catch(() => ({}));
+    const title = String((body as any)?.title || '').trim() || 'Internal Engineering Report (v1)';
+    const analysisResults = (body as any)?.analysisResults;
+    if (!analysisResults || typeof analysisResults !== 'object') {
+      return c.json({ success: false, error: 'analysisResults is required' }, 400);
+    }
+
+    const nowIso = new Date().toISOString();
+    const intervalMeta = (project as any)?.telemetry?.intervalElectricMetaV1 || null;
+    const intervalPts = (project as any)?.telemetry?.intervalElectricV1;
+
+    const { buildInternalEngineeringReportJsonV1 } = await import('./modules/reports/internalEngineering/v1/buildInternalEngineeringReportJsonV1');
+    const reportJson = buildInternalEngineeringReportJsonV1({
+      projectId: id,
+      generatedAtIso: nowIso,
+      analysisResults: analysisResults as any,
+      telemetry: {
+        intervalElectricPointsV1: Array.isArray(intervalPts) ? intervalPts : null,
+        intervalElectricMetaV1: intervalMeta,
+      },
+    });
+
+    const reportHash = sha256Hex(stableStringifyV1(reportJson));
+    const revision = {
+      id: randomUUID(),
+      createdAt: nowIso,
+      title,
+      reportHash,
+      reportJson,
+    };
+
+    const existingReports = (project as any)?.reportsV1 && typeof (project as any).reportsV1 === 'object' ? (project as any).reportsV1 : {};
+    const existingRevisions = Array.isArray(existingReports?.internalEngineering) ? existingReports.internalEngineering : [];
+    const nextRevisions = [revision, ...existingRevisions].slice(0, 200);
+    const nextReportsV1 = { ...existingReports, internalEngineering: nextRevisions };
+    const updated = await persistProjectInternal(userId, id, { reportsV1: nextReportsV1 });
+    return c.json({ success: true, revision, revisions: (updated as any)?.reportsV1?.internalEngineering || nextRevisions });
+  } catch (error) {
+    console.error('Generate internal engineering report error:', error);
+    return c.json({ success: false, error: 'Failed to generate internal report' }, 500);
+  }
+});
+
 app.post('/api/projects/:id/reports/internal-engineering', async (c) => {
   try {
     const userId = getCurrentUserId(c);

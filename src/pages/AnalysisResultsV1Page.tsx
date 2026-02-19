@@ -5,7 +5,7 @@ import { SectionCard } from '../components/SectionCard';
 import { MarkdownViewer } from '../components/analysis/MarkdownViewer';
 import * as analysisApi from '../shared/api/analysisResults';
 import { apiRequest } from '../shared/api/client';
-import { extractBillPdfTariffHintsV1 } from '../modules/utilityIntelligence/billPdf/extractBillPdfTariffHintsV1';
+import { extractBillPdfTariffHintsV1 } from '../shared/utilityIntelligence/billPdf/extractBillPdfTariffHintsV1';
 import { getSourceLinkStatusV1 } from './tariffBrowserTruth';
 
 type TabId = 'overview' | 'rate' | 'programs' | 'battery' | 'missing' | 'inbox' | 'markdown';

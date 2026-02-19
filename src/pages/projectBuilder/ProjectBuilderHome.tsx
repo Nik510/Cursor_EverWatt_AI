@@ -37,8 +37,7 @@ export const ProjectBuilderHome: React.FC = () => {
   }
 
   useEffect(() => {
-    loadProjects();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    void loadProjects();
   }, []);
 
   const sorted = useMemo(() => {

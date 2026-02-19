@@ -551,7 +551,6 @@ export const Phase2ResultsPage: React.FC<Partial<Phase2ResultsProps>> = (props) 
     } catch (e) {
       // If persisted snapshot is malformed, fall back to legacy analysis mapping.
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [persistedRun, hasDirectProps]);
 
   // Load persisted battery run snapshot (source of truth for UI + PDFs)

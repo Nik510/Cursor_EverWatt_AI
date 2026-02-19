@@ -4,8 +4,8 @@ import { FileUp, Info, Save } from 'lucide-react';
 import { apiRequest } from '../../shared/api/client';
 import * as pbApi from '../../shared/api/projectBuilder';
 import { logger } from '../../services/logger';
-import { parseIntervalElectricCsvV1 } from '../../modules/utilityIntelligence/intake/intervalElectricV1/parseIntervalElectricCsvV1';
-import type { IntervalElectricMetaV1, IntervalElectricPointV1 } from '../../modules/utilityIntelligence/intake/intervalElectricV1/types';
+import { parseIntervalElectricCsvV1 } from '../../shared/utilityIntelligence/intake/intervalElectricV1/parseIntervalElectricCsvV1';
+import type { IntervalElectricMetaV1, IntervalElectricPointV1 } from '../../shared/utilityIntelligence/intake/intervalElectricV1/types';
 
 function shortIso(s: string | null | undefined): string {
   const x = String(s || '').trim();

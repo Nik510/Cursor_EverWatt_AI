@@ -37,7 +37,7 @@ import { computeBehaviorInsights } from '../behavior/computeBehaviorInsights';
 import { computeBehaviorInsightsV2 } from '../behaviorV2/computeBehaviorInsightsV2';
 import { computeBehaviorInsightsV3 } from '../behaviorV3/computeBehaviorInsightsV3';
 
-import { normalizeIntervalInputsV1 } from '../intervalNormalizationV1/normalizeIntervalInputsV1';
+import { normalizeIntervalInputsV1 } from '../intervalNormalizationV1/normalizeIntervalInputsV1.node';
 import type { NormalizedIntervalV1 } from '../intervalNormalizationV1/types';
 
 import { getDefaultCatalogForTerritory, matchPrograms } from '../../programIntelligence/matchPrograms';

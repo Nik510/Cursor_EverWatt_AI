@@ -1,6 +1,13 @@
+import path from 'path';
+import { existsSync } from 'fs';
+import { tmpdir } from 'os';
+
+import { readIntervalData } from '../../../utils/excel-reader';
 import type { NormalizeIntervalInputsV1Args, NormalizedIntervalV1 } from './types';
 
 const MS_PER_DAY = 86_400_000;
+
+const DEFAULT_ALLOWLIST_ROOTS = [path.join(tmpdir(), 'everwatt-uploads'), path.join(process.cwd(), 'samples')];
 
 function safeString(x: unknown): string {
   return String(x ?? '').trim();
@@ -31,6 +38,19 @@ function computeIntervalDaysFromTimestamps(timestampsIso: string[]): number | nu
   const days = (maxMs - minMs) / MS_PER_DAY;
   // keep bounded precision to avoid float noise
   return Math.round(days * 1000) / 1000;
+}
+
+function resolveAllowlistedPath(rawPath: string, allowRoots = DEFAULT_ALLOWLIST_ROOTS): string | null {
+  const fp = String(rawPath || '').trim();
+  if (!fp) return null;
+  const abs = path.resolve(path.isAbsolute(fp) ? fp : path.join(process.cwd(), fp));
+  for (const rootRaw of allowRoots) {
+    const root = path.resolve(String(rootRaw || ''));
+    if (!root) continue;
+    if (abs === root) return abs;
+    if (abs.startsWith(root + path.sep)) return abs;
+  }
+  return null;
 }
 
 function mostCommonIntervalMinutes(points: Array<{ intervalMinutes: number }>): number | null {
@@ -102,9 +122,26 @@ export function normalizeIntervalInputsV1(args: NormalizeIntervalInputsV1Args): 
   if (kwSeries && kwSeries.length) {
     seriesKwRaw = fromKwSeries(kwSeries);
   } else {
-    // Browser build intentionally does not support filesystem reads (intervalFilePath).
-    // Node workflows should import `normalizeIntervalInputsV1` from `normalizeIntervalInputsV1.node.ts`.
-    if (safeString(args.intervalFilePath)) warningsRaw.push('UIE_INTERVAL_FILE_PATH_UNSUPPORTED_IN_BROWSER');
+    const fp = safeString(args.intervalFilePath);
+    if (fp) {
+      const allowRoots = Array.isArray(args.allowlistedRoots) && args.allowlistedRoots.length ? args.allowlistedRoots : DEFAULT_ALLOWLIST_ROOTS;
+      const abs = resolveAllowlistedPath(fp, allowRoots);
+      if (!abs) {
+        warningsRaw.push('UIE_INTERVAL_FILE_PATH_REJECTED');
+      } else if (existsSync(abs)) {
+        try {
+          const data = readIntervalData(abs);
+          seriesKwRaw = data
+            .map((d: any) => ({
+              tsIso: d.timestamp instanceof Date ? d.timestamp.toISOString() : new Date(d.timestamp as any).toISOString(),
+              kw: safeNumber((d as any).demand),
+            }))
+            .filter((r) => r.tsIso && Number.isFinite((r as any).kw));
+        } catch {
+          warningsRaw.push('UIE_INTERVAL_FILE_READ_FAILED');
+        }
+      }
+    }
   }
 
   if (!seriesKwRaw || !seriesKwRaw.length) return null;

@@ -5,7 +5,7 @@ import { analyzeUtility } from '../utilityIntelligence/analyzeUtility';
 import { toInboxSuggestions } from '../utilityIntelligence/toInboxSuggestions';
 import { buildAnalysisTraceV1 } from '../utilityIntelligence/analysisTraceV1/buildAnalysisTraceV1';
 import type { AnalysisTraceV1 } from '../utilityIntelligence/analysisTraceV1/types';
-import { normalizeIntervalInputsV1 } from '../utilityIntelligence/intervalNormalizationV1/normalizeIntervalInputsV1';
+import { normalizeIntervalInputsV1 } from '../utilityIntelligence/intervalNormalizationV1/normalizeIntervalInputsV1.node';
 import { StepTraceV1 } from '../utilityIntelligence/stepTraceV1';
 
 import { shouldEvaluateBattery } from '../batteryIntelligence/shouldEvaluateBattery';

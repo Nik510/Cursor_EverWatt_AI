@@ -1,4 +1,4 @@
-import { normalizeIntervalInputsV1 } from '../../intervalNormalizationV1/normalizeIntervalInputsV1';
+import { normalizeIntervalInputsV1 } from '../../intervalNormalizationV1/normalizeIntervalInputsV1.node';
 import type { NormalizedIntervalV1 } from '../../intervalNormalizationV1/types';
 import { intervalKwFromProjectTelemetry, tryLoadIntervalKwFromProject, tryLoadProjectTelemetry } from '../internals';
 import type { AnalyzeUtilityV1Delta, AnalyzeUtilityV1State, NormalizedInputsV1, StepContextV1 } from '../types';

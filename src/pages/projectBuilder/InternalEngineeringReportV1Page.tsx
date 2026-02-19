@@ -4,7 +4,6 @@ import { FileText, RefreshCw, PlusCircle, ExternalLink } from 'lucide-react';
 import { apiRequest } from '../../shared/api/client';
 import { getAnalysisResultsV1 } from '../../shared/api/analysisResults';
 import { logger } from '../../services/logger';
-import { buildInternalEngineeringReportJsonV1 } from '../../modules/reports/internalEngineering/v1/buildInternalEngineeringReportJsonV1';
 
 function shortIso(s: string | null | undefined): string {
   const x = String(s || '').trim();
@@ -77,26 +76,14 @@ export const InternalEngineeringReportV1Page: React.FC = () => {
     setGenerating(true);
     setError(null);
     try {
-      const proj = await apiRequest<{ success: true; project: any }>({ url: `/api/projects/${encodeURIComponent(projectId)}` });
       const analysis = await getAnalysisResultsV1({ projectId });
       const nowIso = new Date().toISOString();
-      const intervalMeta = (proj as any)?.project?.telemetry?.intervalElectricMetaV1 || null;
-      const intervalPts = (proj as any)?.project?.telemetry?.intervalElectricV1;
-      const reportJson = buildInternalEngineeringReportJsonV1({
-        projectId,
-        generatedAtIso: nowIso,
-        analysisResults: analysis as any,
-        telemetry: {
-          intervalElectricPointsV1: Array.isArray(intervalPts) ? intervalPts : null,
-          intervalElectricMetaV1: intervalMeta,
-        },
-      });
       const title = `Internal Engineering Report • ${nowIso.slice(0, 10)}`;
       const appended = await apiRequest<{ success: true; revision: any; revisions: any[] }>({
-        url: `/api/projects/${encodeURIComponent(projectId)}/reports/internal-engineering`,
+        url: `/api/projects/${encodeURIComponent(projectId)}/reports/internal-engineering/generate`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, reportJson }),
+        body: JSON.stringify({ title, analysisResults: analysis }),
       });
       const list = Array.isArray((appended as any).revisions) ? (appended as any).revisions : [];
       setRevisions(list);

@@ -10,6 +10,30 @@ export type WhyMissingReasonCodeV1 =
   | 'NOT_SUPPORTED_FOR_UTILITY'
   | 'UNKNOWN';
 
+export type SourceLinkStatusV1 =
+  | { ok: true; code: 'OK'; url: string; reason: 'ok' }
+  | { ok: false; code: 'MISSING' | 'INVALID_URL' | 'UNSUPPORTED_PROTOCOL' | 'TOO_LONG'; reason: string; url?: string };
+
+export function getSourceLinkStatusV1(sourceUrl: string | null | undefined): SourceLinkStatusV1 {
+  const raw = String(sourceUrl || '').trim();
+  if (!raw) return { ok: false, code: 'MISSING', reason: 'No source URL provided.' };
+  if (raw.length > 2048) return { ok: false, code: 'TOO_LONG', reason: 'Source URL is unusually long; refusing to open.' };
+
+  let u: URL;
+  try {
+    u = new URL(raw);
+  } catch {
+    return { ok: false, code: 'INVALID_URL', reason: 'Source URL is not a valid absolute URL.' };
+  }
+
+  const protocol = String(u.protocol || '').toLowerCase();
+  if (protocol !== 'http:' && protocol !== 'https:') {
+    return { ok: false, code: 'UNSUPPORTED_PROTOCOL', reason: `Unsupported URL protocol: ${protocol || '(none)'}.` };
+  }
+
+  return { ok: true, code: 'OK', url: u.toString(), reason: 'ok' };
+}
+
 export function getTariffAcquisitionMethodForCommodityV1(
   u: UtilityRegistryItemV1 | null | undefined,
   commodity?: 'electric' | 'gas' | null

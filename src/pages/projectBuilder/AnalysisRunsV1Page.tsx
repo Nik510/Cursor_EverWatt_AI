@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Download, RefreshCw, Shuffle, ArrowLeft } from 'lucide-react';
 
-import type { AnalysisRunV1 } from '../../modules/analysisRunsV1/types';
-import type { DiffSummaryV1 } from '../../modules/analysisRunsV1/diffV1';
+import type { AnalysisRunV1 } from '../../shared/types/analysisRunsV1';
+import type { DiffSummaryV1 } from '../../shared/types/analysisRunsDiffV1';
 import { diffRunsV1, downloadRunPdfV1, listRunsV1, readRunV1, type AnalysisRunsV1IndexRow } from '../../api/analysisRunsV1';
 
 function shortIso(s: unknown): string {
@@ -150,7 +150,6 @@ export const AnalysisRunsV1Page: React.FC = () => {
 
   useEffect(() => {
     void loadIndex();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

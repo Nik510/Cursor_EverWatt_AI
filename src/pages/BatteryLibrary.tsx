@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BatteryCard } from '../components/BatteryCard';
-import type { CatalogBatteryRow } from '../utils/battery-catalog-loader';
+import type { CatalogBatteryRow } from '../shared/types/batteryCatalog';
 import { useAdmin } from '../contexts/AdminContext';
 import { useToast } from '../contexts/ToastContext';
 import { logger } from '../services/logger';
+import { createLibraryBattery, deleteLibraryBattery, listLibraryBatteries } from '../shared/api/batteries';
 import { BatteryLibraryCreateSchema } from '../validation/schemas/battery-library-schema';
 import { GetLibraryBatteriesResponseSchema, unwrap } from '../types/api-responses';
 
@@ -36,11 +37,7 @@ export const BatteryLibrary: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch('/api/library/batteries');
-      if (!response.ok) {
-        throw new Error(`Failed to load batteries: ${response.statusText}`);
-      }
-      const data = await response.json().catch(() => ({}));
+      const data = await listLibraryBatteries();
       const v = unwrap(GetLibraryBatteriesResponseSchema, data);
       setBatteries(v.batteries);
     } catch (err) {
@@ -66,16 +63,7 @@ export const BatteryLibrary: React.FC = () => {
     if (!confirm(`Are you sure you want to delete ${battery.modelName}?`)) return;
 
     try {
-      const res = await fetch(`/api/library/batteries/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'x-admin-token': session.token,
-        },
-      });
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data?.error || `Delete failed (${res.status})`);
-      }
+      await deleteLibraryBattery({ id, adminToken: session.token });
       await loadBatteries();
       toast({ type: 'success', message: 'Battery deleted.' });
     } catch (err) {
@@ -98,18 +86,7 @@ export const BatteryLibrary: React.FC = () => {
         return;
       }
 
-      const res = await fetch('/api/library/batteries', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-admin-token': session.token,
-        },
-        body: JSON.stringify(parsed.data),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data?.success) {
-        throw new Error(data?.error || `Create failed (${res.status})`);
-      }
+      await createLibraryBattery({ payload: parsed.data, adminToken: session.token });
       setShowAddModal(false);
       setForm({
         modelName: '',
