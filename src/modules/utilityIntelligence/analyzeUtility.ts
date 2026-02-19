@@ -1,3 +1,6 @@
+export { analyzeUtilityV1 as analyzeUtility } from './analyzeUtilityV1';
+export type { AnalyzeUtilityDeps } from './analyzeUtilityV1';
+
 import path from 'path';
 import { existsSync } from 'fs';
 import { tmpdir } from 'os';
@@ -344,7 +347,7 @@ function intervalKwFromProjectTelemetry(telemetry: any, warn?: (w: EngineWarning
   }
 }
 
-export type AnalyzeUtilityDeps = {
+type AnalyzeUtilityDepsLegacy = {
   intervalKwSeries?: IntervalKwPoint[] | null;
   /** Canonical interval points (kWh/kW/temperatureF) from PG&E exports or other sources. */
   intervalPointsV1?: Array<{ timestampIso: string; intervalMinutes: number; kWh?: number; kW?: number; temperatureF?: number }> | null;
@@ -374,7 +377,7 @@ export type AnalyzeUtilityDeps = {
  * Note: v1 is best-effort; it may accept interval series from deps (fixtures/telemetry adapters),
  * or attempt to load from project records when available.
  */
-export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilityDeps): Promise<{
+async function analyzeUtilityLegacy(inputs: UtilityInputs, deps?: AnalyzeUtilityDepsLegacy): Promise<{
   insights: UtilityInsights;
   recommendations: UtilityRecommendation[];
 }> {
