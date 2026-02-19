@@ -1,5 +1,6 @@
 import type { UtilityInputs } from '../types';
 import type { AnalysisTraceV1, AnalysisTraceV1IntervalGranularity, AnalysisTraceV1SupplyProviderType, AnalysisTraceV1TariffMatchStatus } from './types';
+import type { NormalizedIntervalV1 } from '../intervalNormalizationV1/types';
 
 const MS_PER_DAY = 86_400_000;
 
@@ -213,6 +214,8 @@ export function buildAnalysisTraceV1(args: {
   inputs: UtilityInputs;
   intervalKwSeries?: Array<{ timestampIso: string; kw: number }> | null;
   intervalPointsV1?: Array<{ timestampIso: string; intervalMinutes: number; kWh?: number; kW?: number; temperatureF?: number }> | null;
+  /** Optional canonical normalized interval (when available). */
+  normalizedIntervalV1?: NormalizedIntervalV1 | null;
   /** Optional interval meta snapshot (only when available). */
   intervalMetaV1?: any | null;
   /** Utility analysis insights object (already computed). */
@@ -221,9 +224,15 @@ export function buildAnalysisTraceV1(args: {
   const generatedAtIso = safeString(args.nowIso) || new Date().toISOString();
   const intervalKw = Array.isArray(args.intervalKwSeries) ? args.intervalKwSeries : [];
   const intervalPts = Array.isArray(args.intervalPointsV1) ? args.intervalPointsV1 : [];
-  const hasInterval = intervalPts.length > 0 || intervalKw.length > 0;
+  const normalized = args.normalizedIntervalV1 && typeof args.normalizedIntervalV1 === 'object' ? (args.normalizedIntervalV1 as NormalizedIntervalV1) : null;
+  const hasInterval = intervalPts.length > 0 || intervalKw.length > 0 || Boolean(normalized && normalized.seriesKw && normalized.seriesKw.length);
 
-  const intervalMinutes = intervalPts.length ? mostCommonIntervalMinutes(intervalPts as any) : null;
+  const intervalMinutes =
+    intervalPts.length
+      ? mostCommonIntervalMinutes(intervalPts as any)
+      : Number.isFinite(Number((normalized as any)?.granularityMinutes)) && Number((normalized as any).granularityMinutes) > 0
+        ? Math.round(Number((normalized as any).granularityMinutes))
+        : null;
   const intervalGranularity = hasInterval ? toGranularity(intervalMinutes) ?? 'unknown' : null;
 
   const intervalDays = (() => {
@@ -236,6 +245,9 @@ export function buildAnalysisTraceV1(args: {
 
     const iiDays = safeNumber(args.insights?.intervalIntelligenceV1?.coverageDays);
     if (iiDays !== null && iiDays >= 0) return Math.round(iiDays * 1000) / 1000;
+
+    const normalizedDays = safeNumber((normalized as any)?.coverage?.days);
+    if (normalizedDays !== null && normalizedDays >= 0) return Math.round(normalizedDays * 1000) / 1000;
 
     const ts = intervalPts.length
       ? intervalPts.map((p) => safeString((p as any)?.timestampIso)).filter(Boolean)

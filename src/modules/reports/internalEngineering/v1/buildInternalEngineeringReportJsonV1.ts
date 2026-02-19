@@ -2,6 +2,7 @@ import type { MissingInfoItemV0 } from '../../../utilityIntelligence/missingInfo
 import { engineVersions, intervalIntakeVersion } from '../../../engineVersions';
 import { analyzeIntervalIntelligenceV1 } from '../../../utilityIntelligence/intervalIntelligenceV1/analyzeIntervalIntelligenceV1';
 import { buildAnalysisTraceV1 } from '../../../utilityIntelligence/analysisTraceV1/buildAnalysisTraceV1';
+import { normalizeIntervalInputsV1 } from '../../../utilityIntelligence/intervalNormalizationV1/normalizeIntervalInputsV1';
 import {
   buildDailyUsageAndWeatherSeriesFromIntervalPointsV1,
   regressUsageVsWeatherV1,
@@ -107,6 +108,7 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
   const workflowUtilityInputs = (args.analysisResults?.workflow as any)?.utility?.inputs ?? null;
   const workflowUtilityInsights = (args.analysisResults?.workflow as any)?.utility?.insights ?? null;
   const workflowTrace = (args.analysisResults?.workflow as any)?.analysisTraceV1 ?? null;
+  const normalizedIntervalV1 = normalizeIntervalInputsV1({ intervalPointsV1: intervalPts as any });
   const analysisTraceV1 =
     workflowTrace && typeof workflowTrace === 'object'
       ? workflowTrace
@@ -115,6 +117,7 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
           inputs: (workflowUtilityInputs && typeof workflowUtilityInputs === 'object' ? workflowUtilityInputs : { orgId: 'unknown', projectId, serviceType: 'electric' }) as any,
           intervalPointsV1: intervalPts as any,
           intervalMetaV1: intervalMeta,
+          normalizedIntervalV1,
           insights: workflowUtilityInsights && typeof workflowUtilityInsights === 'object' ? workflowUtilityInsights : {},
         });
 

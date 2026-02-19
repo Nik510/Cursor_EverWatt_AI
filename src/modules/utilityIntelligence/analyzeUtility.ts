@@ -37,6 +37,9 @@ import { computeBehaviorInsights } from './behavior/computeBehaviorInsights';
 import { computeBehaviorInsightsV2 } from './behaviorV2/computeBehaviorInsightsV2';
 import { computeBehaviorInsightsV3 } from './behaviorV3/computeBehaviorInsightsV3';
 
+import { normalizeIntervalInputsV1 } from './intervalNormalizationV1/normalizeIntervalInputsV1';
+import type { NormalizedIntervalV1 } from './intervalNormalizationV1/types';
+
 import { getDefaultCatalogForTerritory, matchPrograms } from '../programIntelligence/matchPrograms';
 import { programMatchesToRecommendations } from '../programIntelligence/toRecommendations';
 import { evaluateStorageOpportunityPackV1 } from '../batteryEngineV1/evaluateBatteryOpportunityV1';
@@ -377,36 +380,44 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
   const warn = (w: EngineWarning) => engineWarnings.push(w);
   const idFactory = deps?.idFactory || makeEphemeralIdFactory({ prefix: 'utilReco', seed: nowIso });
 
-  const intervalFromCanonical =
-    Array.isArray(deps?.intervalPointsV1) && deps?.intervalPointsV1.length
-      ? deps?.intervalPointsV1
-          .map((p) => {
-            const ts = String((p as any)?.timestampIso || '').trim();
-            const mins = Number((p as any)?.intervalMinutes);
-            const kW = Number((p as any)?.kW);
-            const kWh = Number((p as any)?.kWh);
-            const derived = !Number.isFinite(kW) && Number.isFinite(kWh) && Number.isFinite(mins) && mins > 0 ? kWh * (60 / mins) : NaN;
-            const kw = Number.isFinite(kW) ? kW : derived;
-            const temperatureF = Number((p as any)?.temperatureF);
-            return { timestampIso: ts, kw, ...(Number.isFinite(temperatureF) ? { temperatureF } : {}) };
-          })
-          .filter((p) => p.timestampIso && Number.isFinite((p as any).kw))
-      : null;
-
   const depsHasIntervalKwSeries = Array.isArray(deps?.intervalKwSeries) ? deps?.intervalKwSeries : null;
   const depsHasEconomicsOverrides = deps && Object.prototype.hasOwnProperty.call(deps, 'storageEconomicsOverridesV1');
   const depsHasBatteryDecisionConstraints = deps && Object.prototype.hasOwnProperty.call(deps, 'batteryDecisionConstraintsV1');
+
+  const intervalResolutionMinutesHint =
+    inputs.intervalDataRef?.resolution === '15min'
+      ? 15
+      : inputs.intervalDataRef?.resolution === 'hourly'
+        ? 60
+        : inputs.intervalDataRef?.resolution === 'daily'
+          ? 1440
+          : null;
+
+  const normalizedFromCanonicalPoints: NormalizedIntervalV1 | null = normalizeIntervalInputsV1({
+    intervalPointsV1: Array.isArray(deps?.intervalPointsV1) ? deps?.intervalPointsV1 : null,
+    resolutionMinutesHint: intervalResolutionMinutesHint,
+  });
+
   const needProjectTelemetry =
-    Boolean((!intervalFromCanonical || !intervalFromCanonical.length) && !depsHasIntervalKwSeries) ||
+    Boolean((!normalizedFromCanonicalPoints || !normalizedFromCanonicalPoints.seriesKw.length) && !depsHasIntervalKwSeries) ||
     !depsHasEconomicsOverrides ||
     !depsHasBatteryDecisionConstraints;
   const projectTelemetry = needProjectTelemetry ? await tryLoadProjectTelemetry(inputs, warn) : null;
 
-  const intervalKw: IntervalKwPoint[] | null =
-    (intervalFromCanonical && intervalFromCanonical.length ? (intervalFromCanonical as any) : null) ??
-    (depsHasIntervalKwSeries ??
-      intervalKwFromProjectTelemetry(projectTelemetry, warn) ??
-      (projectTelemetry ? null : await tryLoadIntervalKwFromProject(inputs, warn)));
+  const intervalKwRaw: any[] | null =
+    (normalizedFromCanonicalPoints && normalizedFromCanonicalPoints.seriesKw.length
+      ? normalizedFromCanonicalPoints.seriesKw.map((p) => ({ timestampIso: p.tsIso, kw: p.kw }))
+      : null) ??
+    (depsHasIntervalKwSeries ?? intervalKwFromProjectTelemetry(projectTelemetry, warn) ?? (projectTelemetry ? null : await tryLoadIntervalKwFromProject(inputs, warn)));
+
+  const normalizedInterval: NormalizedIntervalV1 | null =
+    normalizedFromCanonicalPoints ??
+    normalizeIntervalInputsV1({
+      intervalKwSeries: Array.isArray(intervalKwRaw) ? (intervalKwRaw as any) : null,
+      resolutionMinutesHint: intervalResolutionMinutesHint,
+    });
+
+  const intervalKwSeries: IntervalKwPoint[] = normalizedInterval ? normalizedInterval.seriesKw.map((p) => ({ timestampIso: p.tsIso, kw: p.kw })) : [];
 
   const storageEconomicsOverridesV1 = depsHasEconomicsOverrides
     ? (deps as any).storageEconomicsOverridesV1 || null
@@ -419,16 +430,20 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
   const missingGlobal = getUtilityMissingInputs(inputs);
 
   // Interval analytics
-  const loadShape = analyzeLoadShape({ intervalKw: intervalKw || undefined });
-  const schedule = inferScheduleBucket({ metrics: loadShape.metrics, intervalPoints: intervalKw?.length || 0 });
-  const loadShift = evaluateLoadShiftPotential({ intervalKw: intervalKw || undefined, loadShape: loadShape.metrics, constraints: inputs.constraints });
+  const loadShape = analyzeLoadShape({ intervalKw: intervalKwSeries.length ? intervalKwSeries : undefined });
+  const schedule = inferScheduleBucket({ metrics: loadShape.metrics, intervalPoints: intervalKwSeries.length || 0 });
+  const loadShift = evaluateLoadShiftPotential({
+    intervalKw: intervalKwSeries.length ? intervalKwSeries : undefined,
+    loadShape: loadShape.metrics,
+    constraints: inputs.constraints,
+  });
 
   // Weather sensitivity (optional provider)
   const weather = await (async () => {
     try {
       return await runWeatherRegressionV1({
         inputs,
-        intervalKw: (intervalKw || []).map((r) => ({ timestampIso: r.timestampIso, kw: r.kw } satisfies IntervalKwPointWithTemp)),
+        intervalKw: intervalKwSeries.map((r) => ({ timestampIso: r.timestampIso, kw: r.kw } satisfies IntervalKwPointWithTemp)),
         provider: deps?.weatherProvider,
       });
     } catch (e) {
@@ -460,8 +475,8 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
             const kw = Number.isFinite(kW) ? kW : derived;
             return { timestampIso: ts, kw, temperatureF: Number((p as any)?.temperatureF) };
           })
-        : Array.isArray(intervalKw)
-          ? (intervalKw as any[]).map((p) => ({ timestampIso: String((p as any)?.timestampIso || ''), kw: Number((p as any)?.kw), temperatureF: Number((p as any)?.temperatureF) }))
+        : Array.isArray(intervalKwRaw)
+          ? (intervalKwRaw as any[]).map((p) => ({ timestampIso: String((p as any)?.timestampIso || ''), kw: Number((p as any)?.kw), temperatureF: Number((p as any)?.temperatureF) }))
           : [];
       if (!ptsAll.length) return undefined;
       return analyzeLoadAttributionV1({
@@ -486,7 +501,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     inputs,
     scheduleBucket: schedule.scheduleBucket,
     loadShape: loadShape.metrics,
-    intervalKw: intervalKw || undefined,
+    intervalKw: intervalKwSeries.length ? intervalKwSeries : undefined,
   });
 
   // Option S relevance
@@ -497,7 +512,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
   });
 
   // Program intelligence (deterministic catalog matching)
-  const proven = computeProvenMetricsV1({ inputs, intervalKw: intervalKw || null });
+  const proven = computeProvenMetricsV1({ inputs, intervalKw: intervalKwSeries.length ? intervalKwSeries : null });
   const tz =
     String(proven.provenTouExposureSummary?.timezone || '').trim() ||
     (normText(inputs.utilityTerritory).includes('pge') ? 'America/Los_Angeles' : 'UTC');
@@ -554,9 +569,9 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       annualKwh,
       scheduleBucket: schedule.scheduleBucket,
       loadShiftScore: loadShift.score,
-      hasIntervalData: Boolean(intervalKw && intervalKw.length),
-      hasAdvancedMetering: Boolean(intervalKw && intervalKw.length),
-      intervalKw: intervalKw || undefined,
+      hasIntervalData: Boolean(intervalKwSeries.length),
+      hasAdvancedMetering: Boolean(intervalKwSeries.length),
+      intervalKw: intervalKwSeries.length ? intervalKwSeries : undefined,
       timezone: proven.provenTouExposureSummary?.timezone || (normText(inputs.utilityTerritory).includes('pge') ? 'America/Los_Angeles' : 'UTC'),
       provenTouExposureSummary: proven.provenTouExposureSummary,
     },
@@ -1146,7 +1161,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         tariffMetadata: (tariffLibrary as any)?.rateMetadata || null,
         supplyType: (supplyStructure as any)?.supplyType,
         territoryId: null,
-        intervalKwSeries: (intervalKw || []).map((r) => ({ timestampIso: r.timestampIso, kw: r.kw })),
+        intervalKwSeries: intervalKwSeries,
         intervalResolutionMinutes: intervalResolutionMinutes ?? undefined,
       });
     } catch (e) {
@@ -1216,7 +1231,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         billPdfText: inputs.billPdfText || null,
         ...(observedTouEnergyByMeterAndCycle ? { observedTouEnergyByMeterAndCycle } : {}),
         ...(observedTouDemandByMeterAndCycle ? { observedTouDemandByMeterAndCycle } : {}),
-        intervalSeries: canonicalPoints || intervalKw
+        intervalSeries: canonicalPoints || intervalKwRaw
           ? [
               {
                 meterId: meterIdGuess,
@@ -1228,7 +1243,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
                       ...(Number.isFinite(Number((p as any)?.kW)) ? { kW: Number((p as any).kW) } : {}),
                       ...(Number.isFinite(Number((p as any)?.temperatureF)) ? { temperatureF: Number((p as any).temperatureF) } : {}),
                     }))
-                  : (intervalKw || []).map((r) => ({ timestampIso: r.timestampIso, kw: r.kw })),
+                  : intervalKwSeries,
                 intervalMinutes: canonicalPoints ? undefined : (intervalMinutes ?? undefined),
                 timezone: tz,
                 source: canonicalPoints ? 'workflow:intervalPointsV1' : 'utilityIntelligence:intervalKwSeries',
@@ -1654,7 +1669,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       }
     }
 
-    const hasIntervals = Boolean((deps?.intervalPointsV1 && deps.intervalPointsV1.length) || (intervalKw && intervalKw.length));
+    const hasIntervals = Boolean((deps?.intervalPointsV1 && deps.intervalPointsV1.length) || intervalKwSeries.length);
     if (!hasIntervals) {
       items.push({
         id: 'interval.intervalElectricV1.missing',
@@ -1726,8 +1741,8 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     }
 
     // If intervals exist but temperature is absent, surface a decision-safety note.
-    if ((deps?.intervalPointsV1 && deps.intervalPointsV1.length) || (intervalKw && intervalKw.length)) {
-      const anyTemp = (Array.isArray(deps?.intervalPointsV1) ? deps?.intervalPointsV1 : (intervalKw as any[])).some((p: any) =>
+    if ((deps?.intervalPointsV1 && deps.intervalPointsV1.length) || (Array.isArray(intervalKwRaw) && intervalKwRaw.length)) {
+      const anyTemp = (Array.isArray(deps?.intervalPointsV1) ? deps?.intervalPointsV1 : (intervalKwRaw as any[])).some((p: any) =>
         Number.isFinite(Number(p?.temperatureF)),
       );
       if (!anyTemp) {

@@ -5,6 +5,7 @@ import { analyzeUtility } from '../utilityIntelligence/analyzeUtility';
 import { toInboxSuggestions } from '../utilityIntelligence/toInboxSuggestions';
 import { buildAnalysisTraceV1 } from '../utilityIntelligence/analysisTraceV1/buildAnalysisTraceV1';
 import type { AnalysisTraceV1 } from '../utilityIntelligence/analysisTraceV1/types';
+import { normalizeIntervalInputsV1 } from '../utilityIntelligence/intervalNormalizationV1/normalizeIntervalInputsV1';
 
 import { shouldEvaluateBattery } from '../batteryIntelligence/shouldEvaluateBattery';
 import { selectBatteryCandidatesV1 } from '../batteryIntelligence/selectCandidates';
@@ -65,6 +66,11 @@ export async function runUtilityWorkflow(args: {
   const suggestionIdFactory = args.suggestionIdFactory || makeEphemeralIdFactory({ prefix: 'wfSug', seed: nowIso });
   const inboxIdFactory = args.inboxIdFactory || makeEphemeralIdFactory({ prefix: 'wfInbox', seed: nowIso });
 
+  const normalizedIntervalV1 = normalizeIntervalInputsV1({
+    intervalKwSeries: args.intervalKwSeries || null,
+    intervalPointsV1: args.intervalPointsV1 || null,
+  });
+
   const utilityAnalysis = await analyzeUtility(args.inputs, {
     intervalKwSeries: args.intervalKwSeries || undefined,
     intervalPointsV1: args.intervalPointsV1 || undefined,
@@ -106,6 +112,7 @@ export async function runUtilityWorkflow(args: {
     inputs: args.inputs,
     intervalKwSeries: args.intervalKwSeries || null,
     intervalPointsV1: args.intervalPointsV1 || null,
+    normalizedIntervalV1,
     insights: utilityAnalysis.insights as any,
   });
 
