@@ -6365,6 +6365,118 @@ app.get('/api/projects/:id/analysis-results-v1.pdf', async (c) => {
  * - Reads/diffs/PDF exports must NEVER recompute engines.
  */
 
+app.get('/api/analysis-results-v1/runs', async (c) => {
+  try {
+    const warnings: string[] = [];
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const store = createAnalysisRunsStoreFsV1();
+
+    // Use the persisted index.json (do not scan directories).
+    const { existsSync } = await import('node:fs');
+    const idxPath = path.join(store.baseDir, 'index.json');
+    if (!existsSync(idxPath)) {
+      return c.json({ success: true, runs: [], warnings: ['analysisRunsV1 index.json missing; returning empty index'] });
+    }
+
+    const rows = await store.listIndex();
+    const MAX = 200;
+    const sliced = rows.length > MAX ? rows.slice(0, MAX) : rows;
+    if (rows.length > MAX) warnings.push(`analysisRunsV1 index truncated to ${MAX} (of ${rows.length})`);
+
+    const runs: Array<{
+      runId: string;
+      createdAtIso: string;
+      inputFingerprint: string;
+      summary: {
+        utility: string;
+        utilityConfidence?: number;
+        rateCode?: string;
+        supplyProviderType?: 'CCA' | 'DA' | 'NONE';
+        lseName?: string;
+        hasIntervals?: boolean;
+        hasBillText?: boolean;
+        hasWeather?: boolean;
+        rateSourceKind?: string;
+      };
+      engineVersionsSummary?: Record<string, string>;
+    }> = [];
+
+    for (const r of sliced) {
+      const runId = String(r.runId || '').trim();
+      if (!runId) continue;
+
+      let analysisRun: any = null;
+      try {
+        analysisRun = await store.readRun(runId);
+      } catch (e) {
+        warnings.push(`Failed to read run ${runId}: ${String((e as any)?.message || e)}`);
+      }
+
+      const reportJson: any = analysisRun?.snapshot?.reportJson ?? null;
+      const workflow: any = analysisRun?.snapshot?.response && typeof analysisRun.snapshot.response === 'object' ? (analysisRun.snapshot.response as any).workflow : reportJson?.workflow ?? null;
+      const utilityInputs: any = workflow?.utility?.inputs ?? null;
+      const utilityInsights: any = workflow?.utility?.insights ?? null;
+
+      const currentRate: any = utilityInputs?.currentRate ?? null;
+      const utilityTerritory = String(currentRate?.utility || utilityInputs?.utilityTerritory || reportJson?.project?.territory || '').trim();
+      const rateCode = String(currentRate?.rateCode || currentRate?.tariffIdOrRateCode || '').trim();
+
+      const supplyStructure: any = utilityInsights?.supplyStructure ?? null;
+      const supplyType = String(supplyStructure?.supplyType || '').trim();
+      const supplyProviderType = supplyType === 'CCA' ? 'CCA' : supplyType === 'DA' ? 'DA' : supplyType ? 'NONE' : undefined;
+      const lseName = String(supplyStructure?.evidence?.serviceProvider || '').trim();
+
+      const hasIntervals = Boolean(reportJson?.telemetry?.intervalElectricV1?.present) || Number(reportJson?.telemetry?.intervalElectricV1?.pointCount) > 0;
+      const hasWeather = Boolean(reportJson?.weatherRegressionV1);
+      const hasBillText = Boolean(String(utilityInputs?.billPdfText || '').trim());
+      const rateSourceKind = String(utilityInputs?.currentRateSelectionSource || '').trim();
+
+      const engineVersions: any = analysisRun?.engineVersions ?? reportJson?.engineVersions ?? null;
+      const engineVersionsSummary = (() => {
+        if (!engineVersions || typeof engineVersions !== 'object') return undefined;
+        const pick = ['batteryEconomics', 'dispatch', 'ssa', 'exitFees', 'tariffEngine', 'intervalIntake'];
+        const out: Record<string, string> = {};
+        for (const k of pick) {
+          const v = String((engineVersions as any)[k] || '').trim();
+          if (v) out[k] = v;
+        }
+        return Object.keys(out).length ? out : undefined;
+      })();
+
+      runs.push({
+        runId,
+        createdAtIso: String(r.createdAtIso || analysisRun?.createdAtIso || '').trim(),
+        inputFingerprint: String(r.inputFingerprint || analysisRun?.inputFingerprint || '').trim(),
+        summary: {
+          utility: utilityTerritory,
+          ...(rateCode ? { rateCode } : {}),
+          ...(supplyProviderType ? { supplyProviderType } : {}),
+          ...(lseName ? { lseName } : {}),
+          ...(hasIntervals ? { hasIntervals } : {}),
+          ...(hasBillText ? { hasBillText } : {}),
+          ...(hasWeather ? { hasWeather } : {}),
+          ...(rateSourceKind ? { rateSourceKind } : {}),
+        },
+        ...(engineVersionsSummary ? { engineVersionsSummary } : {}),
+      });
+    }
+
+    // Deterministic: createdAtIso desc, then runId asc.
+    runs.sort((a, b) => String(b.createdAtIso || '').localeCompare(String(a.createdAtIso || '')) || String(a.runId || '').localeCompare(String(b.runId || '')));
+
+    return c.json({ success: true, runs, warnings });
+  } catch (error) {
+    console.error('analysis-results-v1.runs index error:', error);
+    return c.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to list analysis runs',
+      },
+      500
+    );
+  }
+});
+
 app.post('/api/analysis-results-v1/run-and-store', async (c) => {
   const userId = getCurrentUserId(c);
   const body = await c.req.json().catch(() => ({}));
