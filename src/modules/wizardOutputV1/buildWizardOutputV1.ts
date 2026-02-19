@@ -1,5 +1,39 @@
+import { createHash } from 'node:crypto';
+
 import type { ReportSessionV1 } from '../reportSessionsV1/types';
 import type { WizardFindingV1, WizardOpportunityV1, WizardOutputV1 } from './types';
+
+type JsonValue = null | boolean | number | string | JsonValue[] | { [k: string]: JsonValue };
+
+function stableNormalizeJson(value: any, seen: WeakSet<object>): JsonValue {
+  if (value === null) return null;
+  const t = typeof value;
+  if (t === 'string' || t === 'number' || t === 'boolean') return value as any;
+  if (t !== 'object') return String(value) as any;
+
+  if (seen.has(value)) return '[Circular]' as any;
+  seen.add(value);
+
+  if (Array.isArray(value)) return value.map((v) => stableNormalizeJson(v, seen));
+
+  const obj = value as Record<string, any>;
+  const out: Record<string, JsonValue> = {};
+  for (const k of Object.keys(obj).sort((a, b) => a.localeCompare(b))) {
+    const v = obj[k];
+    if (typeof v === 'undefined') continue;
+    out[k] = stableNormalizeJson(v, seen);
+  }
+  return out;
+}
+
+function stableSnapshotStringifyV1(value: any): string {
+  const norm = stableNormalizeJson(value, new WeakSet<object>());
+  return JSON.stringify(norm, null, 2) + '\n';
+}
+
+function sha256Hex(text: string): string {
+  return createHash('sha256').update(text).digest('hex');
+}
 
 function clamp01(x: number): number {
   if (!Number.isFinite(x)) return 0;
@@ -15,6 +49,20 @@ function safeString(x: unknown, max = 160): string {
   const s = String(x ?? '').trim();
   if (!s) return '';
   return s.length > max ? s.slice(0, Math.max(0, max - 12)) + '…(truncated)' : s;
+}
+
+function uniqMostRecentFirst(items: string[], max: number): string[] {
+  const out: string[] = [];
+  const seen = new Set<string>();
+  for (const it of items) {
+    const s = String(it || '').trim();
+    if (!s) continue;
+    if (seen.has(s)) continue;
+    seen.add(s);
+    out.push(s);
+    if (out.length >= max) break;
+  }
+  return out;
 }
 
 function uniqSorted(items: string[], max: number): string[] {
@@ -43,7 +91,7 @@ export function buildWizardOutputV1(args: {
   const response: any = analysisRun?.snapshot?.response ?? null;
   const workflow: any = reportJson?.workflow ?? response?.workflow ?? null;
 
-  const engineVersionsSummary: Record<string, string> = (() => {
+  const engineVersions: Record<string, string> = (() => {
     const v: any = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : reportJson?.engineVersions;
     if (!v || typeof v !== 'object') return {};
     const out: Record<string, string> = {};
@@ -53,6 +101,13 @@ export function buildWizardOutputV1(args: {
     }
     return out;
   })();
+
+  const revisionIdsUsed = uniqMostRecentFirst(
+    (Array.isArray((session as any)?.revisions) ? ((session as any).revisions as any[]) : [])
+      .filter((r) => String(r?.runId || '').trim() === runId)
+      .map((r) => String(r?.revisionId || '').trim()),
+    50,
+  ).sort((a, b) => a.localeCompare(b));
 
   const hasIntervals =
     Boolean(session?.inputsSummary?.hasIntervals) ||
@@ -99,6 +154,15 @@ export function buildWizardOutputV1(args: {
 
   const findings: WizardFindingV1[] = [];
   const pushFinding = (f: WizardFindingV1) => findings.push(f);
+
+  const boundFinding = (f: WizardFindingV1): WizardFindingV1 => ({
+    ...f,
+    id: safeString(f.id, 64),
+    title: safeString(f.title, 120),
+    confidence0to1: clamp01(f.confidence0to1),
+    evidenceRefs: uniqMostRecentFirst(Array.isArray(f.evidenceRefs) ? f.evidenceRefs : [], 12),
+    summaryBullets: uniqMostRecentFirst(Array.isArray(f.summaryBullets) ? f.summaryBullets : [], 16),
+  });
 
   pushFinding({
     id: 'dq_inputs',
@@ -184,7 +248,12 @@ export function buildWizardOutputV1(args: {
   }
 
   // Deterministic, bounded.
-  const boundedFindings = findings.slice(0, 20);
+  const severityRank: Record<WizardFindingV1['severity'], number> = { critical: 0, warning: 1, info: 2 };
+  const boundedFindings = findings
+    .map(boundFinding)
+    .slice(0, 60)
+    .sort((a, b) => severityRank[a.severity] - severityRank[b.severity] || a.id.localeCompare(b.id))
+    .slice(0, 20);
 
   const opportunities: WizardOpportunityV1[] = [];
   if (batteryTier) {
@@ -205,13 +274,28 @@ export function buildWizardOutputV1(args: {
     });
   }
 
-  const out: WizardOutputV1 = {
+  const opportunitiesBounded = opportunities
+    .map((o) => ({
+      ...o,
+      id: safeString(o.id, 64),
+      title: safeString(o.title, 140),
+      tier: o.tier ? safeString(o.tier, 60) : undefined,
+      confidence0to1: clamp01(o.confidence0to1),
+      prerequisites: uniqSorted(Array.isArray(o.prerequisites) ? o.prerequisites : [], 12),
+      expectedRange: o.expectedRange ? safeString(o.expectedRange, 160) : undefined,
+      risks: uniqSorted(Array.isArray(o.risks) ? o.risks : [], 12),
+    }))
+    .sort((a, b) => a.id.localeCompare(b.id))
+    .slice(0, 20);
+
+  const payload = {
     provenance: {
       reportId: String(session.reportId),
       projectId: session.projectId ?? null,
-      runId,
-      createdAtIso: nowIso,
-      engineVersionsSummary,
+      generatedAtIso: nowIso,
+      runIdsUsed: [runId],
+      revisionIdsUsed,
+      engineVersions,
     },
     dataQuality: {
       score0to100: score,
@@ -220,9 +304,10 @@ export function buildWizardOutputV1(args: {
     },
     findings: boundedFindings,
     charts: [],
-    opportunities: opportunities.slice(0, 20),
-  };
+    opportunities: opportunitiesBounded,
+  } satisfies Omit<WizardOutputV1, 'wizardOutputHash'>;
 
-  return out;
+  const wizardOutputHash = sha256Hex(stableSnapshotStringifyV1(payload));
+  return { ...payload, wizardOutputHash };
 }
 

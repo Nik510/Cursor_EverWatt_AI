@@ -7210,6 +7210,48 @@ app.get('/api/report-sessions-v1/:reportId', async (c) => {
   }
 });
 
+app.post('/api/report-sessions-v1/:reportId/attach-run', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+    const runId = String((body as any)?.runId || '').trim();
+    if (!runId) return c.json({ success: false, error: 'runId is required' }, 400);
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const session = await store.attachRun(reportId, runId);
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to attach run';
+    const status = String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/attach-revision', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+
+    const revisionId = String((body as any)?.revisionId || '').trim();
+    const runId = String((body as any)?.runId || '').trim();
+    const format = String((body as any)?.format || 'HTML').trim() as any;
+    const downloadUrl = String((body as any)?.downloadUrl || '').trim() || undefined;
+    const createdAtIso = String((body as any)?.createdAtIso || new Date().toISOString()).trim();
+    if (!revisionId) return c.json({ success: false, error: 'revisionId is required' }, 400);
+    if (!runId) return c.json({ success: false, error: 'runId is required' }, 400);
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const session = await store.attachRevision(reportId, { revisionId, createdAtIso, runId, format, ...(downloadUrl ? { downloadUrl } : {}) } as any);
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to attach revision';
+    const status = String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
 app.post('/api/report-sessions-v1/:reportId/run-utility', async (c) => {
   try {
     const userId = getCurrentUserId(c);
@@ -7300,16 +7342,30 @@ app.post('/api/report-sessions-v1/:reportId/generate-internal-engineering-report
 
     const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
     const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { createProjectShellIntakeOnlyV1 } = await import('./modules/project/createProjectShellIntakeOnlyV1');
 
     const sessionStore = createReportSessionsStoreFsV1();
     const runStore = createAnalysisRunsStoreFsV1();
 
-    const session = await sessionStore.getSession(reportId);
-    const projectId = String(session?.projectId || '').trim();
-    if (!projectId) return c.json({ success: false, error: 'Report session is not attached to a projectId' }, 400);
+    let session = await sessionStore.getSession(reportId);
+    let projectId = String(session?.projectId || '').trim();
+    if (!projectId) {
+      const shell = await createProjectShellIntakeOnlyV1({
+        orgId: userId,
+        reportId,
+        name: undefined,
+        address: undefined,
+        utilityCompany: undefined,
+      });
+      projectId = shell.projectId;
+      session = await sessionStore.patchSession(reportId, { projectId });
+    }
 
     const runId = requestedRunId || (Array.isArray(session.runIds) && session.runIds.length ? String(session.runIds[0] || '').trim() : '');
     if (!runId) return c.json({ success: false, error: 'runId is required (or attach a run first)' }, 400);
+    if (!Array.isArray(session.runIds) || !session.runIds.includes(runId)) {
+      return c.json({ success: false, error: 'runId must be attached to this report session (use run-utility or attach-run)' }, 400);
+    }
 
     const analysisRun: any = await runStore.readRun(runId);
     const reportJson = analysisRun?.snapshot?.reportJson;
@@ -7386,9 +7442,24 @@ app.post('/api/report-sessions-v1/:reportId/build-wizard-output', async (c) => {
     const session = await sessionStore.getSession(reportId);
     const runId = requestedRunId || (Array.isArray(session.runIds) && session.runIds.length ? String(session.runIds[0] || '').trim() : '');
     if (!runId) return c.json({ success: false, error: 'runId is required (or attach a run first)' }, 400);
+    if (!Array.isArray(session.runIds) || !session.runIds.includes(runId)) {
+      return c.json({ success: false, error: 'runId must be attached to this report session (use run-utility or attach-run)' }, 400);
+    }
 
     const analysisRun = await runStore.readRun(runId);
     const wizardOutput = buildWizardOutputV1({ session, runId, analysisRunSnapshot: analysisRun });
+    const generatedAtIso = String((wizardOutput as any)?.provenance?.generatedAtIso || '').trim() || new Date().toISOString();
+    await sessionStore.attachWizardOutput(
+      reportId,
+      {
+        wizardOutput,
+        hash: String((wizardOutput as any)?.wizardOutputHash || '').trim() || 'missing_hash',
+        generatedAtIso,
+        runIdsUsed: Array.isArray((wizardOutput as any)?.provenance?.runIdsUsed) ? (wizardOutput as any).provenance.runIdsUsed : [runId],
+        revisionIdsUsed: Array.isArray((wizardOutput as any)?.provenance?.revisionIdsUsed) ? (wizardOutput as any).provenance.revisionIdsUsed : [],
+      },
+      { nowIso: generatedAtIso },
+    );
     return c.json({ success: true, wizardOutput });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to build wizard output';

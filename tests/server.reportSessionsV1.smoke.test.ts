@@ -75,7 +75,9 @@ describe('reportSessionsV1 endpoints (smoke)', () => {
       const wizJson: any = await wizRes.json();
       expect(wizJson?.success).toBe(true);
       expect(wizJson?.wizardOutput?.provenance?.reportId).toBe(reportId);
-      expect(wizJson?.wizardOutput?.provenance?.runId).toBe(runJson.runId);
+      expect(Array.isArray(wizJson?.wizardOutput?.provenance?.runIdsUsed)).toBe(true);
+      expect(wizJson?.wizardOutput?.provenance?.runIdsUsed[0]).toBe(runJson.runId);
+      expect(typeof wizJson?.wizardOutput?.wizardOutputHash).toBe('string');
       expect(typeof wizJson?.wizardOutput?.dataQuality?.score0to100).toBe('number');
       expect(Array.isArray(wizJson?.wizardOutput?.findings)).toBe(true);
     } finally {

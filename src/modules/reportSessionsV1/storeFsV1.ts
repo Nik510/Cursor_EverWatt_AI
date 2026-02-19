@@ -3,7 +3,8 @@ import { existsSync } from 'node:fs';
 import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import { randomBytes } from 'node:crypto';
 
-import type { ReportSessionIndexRowV1, ReportSessionRevisionMetaV1, ReportSessionV1 } from './types';
+import type { ReportSessionEventV1, ReportSessionIndexRowV1, ReportSessionRevisionMetaV1, ReportSessionV1, ReportSessionWizardOutputRefV1 } from './types';
+import { assertReportSessionInvariantV1, computeReportSessionStatusV1 } from './types';
 
 const ENV_BASEDIR = 'EVERWATT_REPORT_SESSIONS_V1_BASEDIR';
 
@@ -39,7 +40,7 @@ function stableStringifyV1(value: unknown): string {
 async function writeFileAtomicLike(targetPath: string, text: string): Promise<void> {
   const dir = path.dirname(targetPath);
   await mkdir(dir, { recursive: true });
-  const tmp = `${targetPath}.tmp`;
+  const tmp = `${targetPath}.tmp.${randomBytes(6).toString('hex')}`;
   await writeFile(tmp, text, 'utf-8');
   try {
     // Windows rename won't overwrite; remove first if present.
@@ -58,6 +59,13 @@ function sessionPath(baseDir: string, reportId: string): string {
   return path.join(baseDir, `${reportId}.json`);
 }
 
+function wizardOutputPath(baseDir: string, args: { reportId: string; hash: string }): { abs: string; ref: string } {
+  const reportId = String(args.reportId || '').trim();
+  const hash = String(args.hash || '').trim();
+  const ref = path.join('wizardOutputs', `${reportId}_${hash}.json`).replace(/\\/g, '/');
+  return { ref, abs: path.join(baseDir, ref) };
+}
+
 function toIndexRow(session: ReportSessionV1): ReportSessionIndexRowV1 {
   return {
     reportId: String(session.reportId),
@@ -66,6 +74,7 @@ function toIndexRow(session: ReportSessionV1): ReportSessionIndexRowV1 {
     title: String(session.title),
     kind: session.kind,
     projectId: (session.projectId ?? null) as any,
+    status: session.status,
   };
 }
 
@@ -96,8 +105,9 @@ async function readIndexRows(baseDir: string): Promise<ReportSessionIndexRowV1[]
         title: String((r as any).title || '').trim(),
         kind: String((r as any).kind || '').trim() as any,
         projectId: (r as any).projectId ?? null,
+        status: (String((r as any).status || '').trim() || 'INTAKE_ONLY') as any,
       }))
-      .filter((r) => r.reportId && r.createdAtIso && r.updatedAtIso && r.title && r.kind);
+      .filter((r) => r.reportId && r.createdAtIso && r.updatedAtIso && r.title && r.kind && r.status);
   } catch {
     return [];
   }
@@ -132,24 +142,46 @@ function clampWarningsSortedUnique(items: string[], max: number): string[] {
   return Array.from(set).sort((a, b) => a.localeCompare(b)).slice(0, max);
 }
 
+function uniqSortedIds(items: string[], max: number): string[] {
+  const set = new Set<string>();
+  for (const it of items) {
+    const s = String(it || '').trim();
+    if (!s) continue;
+    set.add(s);
+  }
+  return Array.from(set).sort((a, b) => a.localeCompare(b)).slice(0, max);
+}
+
 function clampRevisionsUniqueMostRecentFirst(items: ReportSessionRevisionMetaV1[], max: number): ReportSessionRevisionMetaV1[] {
   const out: ReportSessionRevisionMetaV1[] = [];
   const seen = new Set<string>();
   for (const r of items) {
     const revisionId = String((r as any)?.revisionId || '').trim();
+    const runId = String((r as any)?.runId || '').trim();
     if (!revisionId) continue;
+    if (!runId) continue;
     if (seen.has(revisionId)) continue;
     seen.add(revisionId);
     out.push({
       revisionId,
       createdAtIso: String((r as any)?.createdAtIso || '').trim(),
-      runId: (r as any)?.runId === null || typeof (r as any)?.runId === 'undefined' ? undefined : String((r as any).runId || '').trim() || null,
+      runId,
       format: String((r as any)?.format || 'JSON') as any,
       ...(String((r as any)?.downloadUrl || '').trim() ? { downloadUrl: String((r as any).downloadUrl).trim() } : {}),
     });
     if (out.length >= max) break;
   }
   return out;
+}
+
+function clampEventsAppendBounded(existing: ReportSessionEventV1[] | undefined, e: ReportSessionEventV1, max: number): ReportSessionEventV1[] {
+  const base = Array.isArray(existing) ? existing.slice(0) : [];
+  base.push(e);
+  return base.length <= max ? base : base.slice(base.length - max);
+}
+
+function approxUtf8Bytes(text: string): number {
+  return Buffer.byteLength(String(text || ''), 'utf-8');
 }
 
 export function generateReportIdV1(args?: { nowIso?: string; entropyHex?: string }): string {
@@ -169,6 +201,7 @@ export function createReportSessionsStoreFsV1(args?: { baseDir?: string }) {
   const baseDir = path.resolve(String(args?.baseDir || '').trim() || getReportSessionsV1BaseDir());
 
   async function writeSession(session: ReportSessionV1): Promise<void> {
+    assertReportSessionInvariantV1(session);
     const reportId = assertValidReportIdV1(session.reportId);
     const fp = sessionPath(baseDir, reportId);
     await writeFileAtomicLike(fp, stableStringifyV1(session));
@@ -186,21 +219,39 @@ export function createReportSessionsStoreFsV1(args?: { baseDir?: string }) {
     const raw = await readFile(fp, 'utf-8');
     const parsed = JSON.parse(raw) as any;
     if (!parsed || typeof parsed !== 'object') throw new Error('Invalid stored report session');
-    return { ...(parsed as any), reportId } as ReportSessionV1;
+    const runIds = Array.isArray(parsed.runIds) ? parsed.runIds : [];
+    const revisions = Array.isArray(parsed.revisions) ? parsed.revisions : [];
+    const warnings = Array.isArray(parsed.warnings) ? parsed.warnings : [];
+    const wizardOutputV1 = parsed.wizardOutputV1 ?? null;
+    const status = String(parsed.status || '').trim() ? (parsed.status as any) : computeReportSessionStatusV1({ runIds, revisions, wizardOutputV1 } as any);
+    const events = Array.isArray(parsed.events) ? parsed.events : [];
+
+    return {
+      ...(parsed as any),
+      reportId,
+      runIds,
+      revisions,
+      warnings,
+      status,
+      events,
+      wizardOutputV1,
+    } as ReportSessionV1;
   }
 
   return {
     baseDir,
 
     async createSession(draft: {
+      reportId?: string;
       title?: string;
       kind: string;
       projectId?: string | null;
       inputsSummary?: Record<string, unknown> | null;
       nowIso?: string;
+      entropyHex?: string;
     }): Promise<{ reportId: string; session: ReportSessionV1 }> {
       const nowIso = String(draft?.nowIso || new Date().toISOString()).trim();
-      const reportId = generateReportIdV1({ nowIso });
+      const reportId = draft?.reportId ? assertValidReportIdV1(String(draft.reportId)) : generateReportIdV1({ nowIso, entropyHex: String(draft?.entropyHex || '').trim() || undefined });
 
       const kindRaw = String(draft?.kind || '').trim();
       const kind = (kindRaw || 'CUSTOM') as any;
@@ -228,6 +279,9 @@ export function createReportSessionsStoreFsV1(args?: { baseDir?: string }) {
         inputsSummary,
         runIds: [],
         revisions: [],
+        status: 'INTAKE_ONLY',
+        events: [{ type: 'CREATED', atIso: nowIso }],
+        wizardOutputV1: null,
         warnings: [],
       };
 
@@ -283,7 +337,9 @@ export function createReportSessionsStoreFsV1(args?: { baseDir?: string }) {
         ...session,
         updatedAtIso: nowIso,
         runIds: nextRunIds,
+        events: clampEventsAppendBounded(session.events, { type: 'RUN_ATTACHED', atIso: nowIso, runId }, 50),
       };
+      updated.status = computeReportSessionStatusV1(updated);
       await writeSession(updated);
       return updated;
     },
@@ -297,12 +353,18 @@ export function createReportSessionsStoreFsV1(args?: { baseDir?: string }) {
       const nowIso = String(opts?.nowIso || new Date().toISOString()).trim();
       const session = await readSession(reportId);
 
+      const runId = String((revisionMeta as any)?.runId || '').trim();
+      if (!runId) throw new Error('revisionMeta.runId is required');
+      if (!Array.isArray(session.runIds) || !session.runIds.includes(runId)) throw new Error(`revisionMeta.runId must reference an attached runId (${runId})`);
+
       const nextRevisions = clampRevisionsUniqueMostRecentFirst([revisionMeta, ...(Array.isArray(session.revisions) ? session.revisions : [])], 50);
       const updated: ReportSessionV1 = {
         ...session,
         updatedAtIso: nowIso,
         revisions: nextRevisions,
+        events: clampEventsAppendBounded(session.events, { type: 'REVISION_ATTACHED', atIso: nowIso, revisionId: String((revisionMeta as any)?.revisionId || '').trim(), runId }, 50),
       };
+      updated.status = computeReportSessionStatusV1(updated);
       await writeSession(updated);
       return updated;
     },
@@ -314,7 +376,8 @@ export function createReportSessionsStoreFsV1(args?: { baseDir?: string }) {
 
       const title = Object.prototype.hasOwnProperty.call(patch, 'title') ? String(patch.title || '').trim() || session.title : session.title;
       const kind = Object.prototype.hasOwnProperty.call(patch, 'kind') ? (String((patch as any).kind || '').trim() as any) || session.kind : session.kind;
-      const projectId = Object.prototype.hasOwnProperty.call(patch, 'projectId') ? (String((patch as any).projectId || '').trim() || null) : (session.projectId ?? null);
+      const prevProjectId = session.projectId ?? null;
+      const projectId = Object.prototype.hasOwnProperty.call(patch, 'projectId') ? (String((patch as any).projectId || '').trim() || null) : prevProjectId;
       const inputsSummary =
         Object.prototype.hasOwnProperty.call(patch, 'inputsSummary') && patch.inputsSummary && typeof patch.inputsSummary === 'object'
           ? (patch.inputsSummary as any)
@@ -322,6 +385,11 @@ export function createReportSessionsStoreFsV1(args?: { baseDir?: string }) {
       const warnings = Object.prototype.hasOwnProperty.call(patch, 'warnings')
         ? clampWarningsSortedUnique(Array.isArray((patch as any).warnings) ? (patch as any).warnings : [], 50)
         : clampWarningsSortedUnique(Array.isArray(session.warnings) ? session.warnings : [], 50);
+
+      let events = session.events;
+      if (!prevProjectId && projectId) {
+        events = clampEventsAppendBounded(events, { type: 'PROJECT_SHELL_CREATED', atIso: nowIso, projectId }, 50);
+      }
 
       const updated: ReportSessionV1 = {
         ...session,
@@ -331,8 +399,91 @@ export function createReportSessionsStoreFsV1(args?: { baseDir?: string }) {
         ...(projectId ? { projectId } : {}),
         inputsSummary,
         warnings,
+        events,
       };
+      updated.status = computeReportSessionStatusV1(updated);
 
+      await writeSession(updated);
+      return updated;
+    },
+
+    async attachWizardOutput(
+      reportIdRaw: string,
+      args: {
+        wizardOutput: unknown;
+        hash: string;
+        generatedAtIso: string;
+        runIdsUsed: string[];
+        revisionIdsUsed: string[];
+        preferInlineUnderBytes?: number;
+      },
+      opts?: { nowIso?: string },
+    ): Promise<ReportSessionV1> {
+      const reportId = assertValidReportIdV1(reportIdRaw);
+      const nowIso = String(opts?.nowIso || new Date().toISOString()).trim();
+      const session = await readSession(reportId);
+
+      const hash = String(args?.hash || '').trim();
+      if (!hash) throw new Error('hash is required');
+      const generatedAtIso = String(args?.generatedAtIso || '').trim();
+      if (!generatedAtIso) throw new Error('generatedAtIso is required');
+      const runIdsUsed = uniqSortedIds(Array.isArray(args?.runIdsUsed) ? args.runIdsUsed : [], 50);
+      const revisionIdsUsed = uniqSortedIds(Array.isArray(args?.revisionIdsUsed) ? args.revisionIdsUsed : [], 50);
+
+      const preferInlineUnderBytes = Math.max(8_000, Math.min(400_000, Math.trunc(Number(args?.preferInlineUnderBytes ?? 80_000) || 80_000)));
+      const wizardText = stableStringifyV1(args.wizardOutput);
+      const approxBytes = approxUtf8Bytes(wizardText);
+
+      let wizardOutputV1: ReportSessionWizardOutputRefV1;
+      if (approxBytes <= preferInlineUnderBytes) {
+        wizardOutputV1 = { kind: 'INLINE', hash, generatedAtIso, runIdsUsed, revisionIdsUsed, wizardOutput: args.wizardOutput, approxBytes };
+      } else {
+        const { abs, ref } = wizardOutputPath(baseDir, { reportId, hash });
+        await writeFileAtomicLike(abs, wizardText);
+        wizardOutputV1 = { kind: 'BLOB_REF', hash, generatedAtIso, runIdsUsed, revisionIdsUsed, blobRef: ref, approxBytes };
+      }
+
+      const updated: ReportSessionV1 = {
+        ...session,
+        updatedAtIso: nowIso,
+        wizardOutputV1,
+        events: clampEventsAppendBounded(session.events, { type: 'WIZARD_OUTPUT_BUILT', atIso: nowIso, hash, runIdsUsed }, 50),
+      };
+      updated.status = computeReportSessionStatusV1(updated);
+      await writeSession(updated);
+      return updated;
+    },
+
+    async readWizardOutput(reportIdRaw: string): Promise<unknown | null> {
+      const reportId = assertValidReportIdV1(reportIdRaw);
+      const session = await readSession(reportId);
+      const wiz = (session as any)?.wizardOutputV1 as any;
+      if (!wiz) return null;
+      const kind = String(wiz?.kind || '').trim();
+      if (kind === 'INLINE') return wiz?.wizardOutput ?? null;
+      if (kind === 'BLOB_REF') {
+        const ref = String(wiz?.blobRef || '').trim();
+        if (!ref) return null;
+        const abs = path.join(baseDir, ref);
+        if (!existsSync(abs)) throw new Error('Stored wizard output blob not found');
+        const raw = await readFile(abs, 'utf-8');
+        return JSON.parse(raw);
+      }
+      return null;
+    },
+
+    async recordError(reportIdRaw: string, args: { code: string; context?: Record<string, unknown> }, opts?: { nowIso?: string }): Promise<ReportSessionV1> {
+      const reportId = assertValidReportIdV1(reportIdRaw);
+      const nowIso = String(opts?.nowIso || new Date().toISOString()).trim();
+      const session = await readSession(reportId);
+      const code = String(args?.code || '').trim() || 'unknown_error';
+      const context = args?.context && typeof args.context === 'object' ? args.context : undefined;
+      const updated: ReportSessionV1 = {
+        ...session,
+        updatedAtIso: nowIso,
+        events: clampEventsAppendBounded(session.events, { type: 'ERROR_RECORDED', atIso: nowIso, code, ...(context ? { context } : {}) }, 50),
+      };
+      updated.status = computeReportSessionStatusV1(updated);
       await writeSession(updated);
       return updated;
     },

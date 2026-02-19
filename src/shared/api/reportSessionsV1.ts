@@ -77,6 +77,55 @@ export async function runUtilityInReportSessionV1(reportId: string, payload: Run
   });
 }
 
+export type AttachRunToReportSessionV1Request = { runId: string };
+export type AttachRunToReportSessionV1Response = { success: true; session: ReportSessionV1 };
+
+export async function attachRunToReportSessionV1(reportId: string, payload: AttachRunToReportSessionV1Request): Promise<AttachRunToReportSessionV1Response> {
+  const rid = String(reportId || '').trim();
+  if (!rid) throw new Error('reportId is required');
+  const runId = String(payload?.runId || '').trim();
+  if (!runId) throw new Error('runId is required');
+  return apiRequest<AttachRunToReportSessionV1Response>({
+    url: `/api/report-sessions-v1/${encodeURIComponent(rid)}/attach-run`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ runId }),
+  });
+}
+
+export type AttachRevisionToReportSessionV1Request = {
+  revisionId: string;
+  runId: string;
+  createdAtIso?: string;
+  format?: ReportSessionRevisionMetaV1['format'];
+  downloadUrl?: string;
+};
+export type AttachRevisionToReportSessionV1Response = { success: true; session: ReportSessionV1 };
+
+export async function attachRevisionToReportSessionV1(
+  reportId: string,
+  payload: AttachRevisionToReportSessionV1Request,
+): Promise<AttachRevisionToReportSessionV1Response> {
+  const rid = String(reportId || '').trim();
+  if (!rid) throw new Error('reportId is required');
+  const revisionId = String(payload?.revisionId || '').trim();
+  const runId = String(payload?.runId || '').trim();
+  if (!revisionId) throw new Error('revisionId is required');
+  if (!runId) throw new Error('runId is required');
+  return apiRequest<AttachRevisionToReportSessionV1Response>({
+    url: `/api/report-sessions-v1/${encodeURIComponent(rid)}/attach-revision`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      revisionId,
+      runId,
+      ...(payload?.createdAtIso ? { createdAtIso: payload.createdAtIso } : {}),
+      ...(payload?.format ? { format: payload.format } : {}),
+      ...(payload?.downloadUrl ? { downloadUrl: payload.downloadUrl } : {}),
+    }),
+  });
+}
+
 export type GenerateInternalEngineeringReportFromSessionV1Request = { runId?: string; title?: string };
 
 export type GenerateInternalEngineeringReportFromSessionV1Response = {

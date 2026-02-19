@@ -25,12 +25,14 @@ export type WizardOpportunityV1 = {
 };
 
 export type WizardOutputV1 = {
+  wizardOutputHash: string;
   provenance: {
     reportId: string;
     projectId?: string | null;
-    runId: string;
-    createdAtIso: string;
-    engineVersionsSummary: Record<string, string>;
+    generatedAtIso: string;
+    runIdsUsed: string[];
+    revisionIdsUsed: string[];
+    engineVersions: Record<string, string>;
   };
   dataQuality: {
     score0to100: number;

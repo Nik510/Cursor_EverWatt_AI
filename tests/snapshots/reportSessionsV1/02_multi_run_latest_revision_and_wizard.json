@@ -1,0 +1,367 @@
+{
+  "caseId": "02_multi_run_latest_revision_and_wizard",
+  "session": {
+    "createdAtIso": "2026-03-01T00:00:00.000Z",
+    "events": [
+      {
+        "atIso": "2026-03-01T00:00:00.000Z",
+        "type": "CREATED"
+      },
+      {
+        "atIso": "2026-03-01T00:00:00.000Z",
+        "runId": "run_golden_02_a",
+        "type": "RUN_ATTACHED"
+      },
+      {
+        "atIso": "2026-03-01T00:00:00.000Z",
+        "runId": "run_golden_02_b",
+        "type": "RUN_ATTACHED"
+      },
+      {
+        "atIso": "2026-03-01T00:00:00.000Z",
+        "revisionId": "rev_02_multi_run_latest_revision_and_wizard",
+        "runId": "run_golden_02_b",
+        "type": "REVISION_ATTACHED"
+      },
+      {
+        "atIso": "2026-03-01T00:00:00.000Z",
+        "hash": "d17983808df4f7bf178b06a7c98808b6f29c08fb619d34232eb6e98bfd3b777f",
+        "runIdsUsed": [
+          "run_golden_02_b"
+        ],
+        "type": "WIZARD_OUTPUT_BUILT"
+      }
+    ],
+    "inputsSummary": {},
+    "kind": "WIZARD",
+    "projectId": "p_golden_02",
+    "reportId": "rs_golden_02",
+    "revisions": [
+      {
+        "createdAtIso": "2026-03-01T00:00:00.000Z",
+        "downloadUrl": "/api/projects/p_golden_02/reports/internal-engineering/rev_02_multi_run_latest_revision_and_wizard.html",
+        "format": "HTML",
+        "revisionId": "rev_02_multi_run_latest_revision_and_wizard",
+        "runId": "run_golden_02_b"
+      }
+    ],
+    "runIds": [
+      "run_golden_02_b",
+      "run_golden_02_a"
+    ],
+    "status": "HAS_WIZARD_OUTPUT",
+    "title": "Golden Session 02",
+    "updatedAtIso": "2026-03-01T00:00:00.000Z",
+    "warnings": [],
+    "wizardOutputV1": {
+      "approxBytes": 4822,
+      "generatedAtIso": "2026-03-01T00:00:00.000Z",
+      "hash": "d17983808df4f7bf178b06a7c98808b6f29c08fb619d34232eb6e98bfd3b777f",
+      "kind": "INLINE",
+      "revisionIdsUsed": [
+        "rev_02_multi_run_latest_revision_and_wizard"
+      ],
+      "runIdsUsed": "[Circular]",
+      "wizardOutput": {
+        "charts": [],
+        "dataQuality": {
+          "missingInfoIds": [
+            "behaviorV2.baseLoadDrift.unavailable",
+            "behaviorV2.insufficientCycles",
+            "behaviorV2.peaks.missing",
+            "behaviorV2.weekendShare.insufficientMonths",
+            "behaviorV3.electric.insufficientMonths",
+            "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+            "billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+            "determinants.reconcile.billingRecords.missing",
+            "determinants.reconcile.reconcilable.count",
+            "interval.intervalElectricV1.missing",
+            "supply.v1.lse_undetected",
+            "tariff.applicability.demand.missing",
+            "tariff.applicability.rules.missing",
+            "tariff.applicability.unknown",
+            "tariff.applicability.voltage.unknown"
+          ],
+          "score0to100": 62,
+          "warnings": [
+            "missing:behaviorV2.baseLoadDrift.unavailable",
+            "missing:behaviorV2.insufficientCycles",
+            "missing:behaviorV2.peaks.missing",
+            "missing:behaviorV2.weekendShare.insufficientMonths",
+            "missing:behaviorV3.electric.insufficientMonths",
+            "missing:billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+            "missing:billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+            "missing:determinants.reconcile.billingRecords.missing",
+            "missing:determinants.reconcile.reconcilable.count",
+            "missing:interval.intervalElectricV1.missing"
+          ]
+        },
+        "findings": [
+          {
+            "confidence0to1": 0.95,
+            "evidenceRefs": [
+              "analysisRun:run_golden_02_b:session.inputsSummary"
+            ],
+            "id": "dq_inputs",
+            "severity": "warning",
+            "summaryBullets": [
+              "Score: 62/100",
+              "Intervals: missing",
+              "Bill text: present",
+              "Address: missing"
+            ],
+            "title": "Data completeness"
+          },
+          {
+            "confidence0to1": 0.9,
+            "evidenceRefs": [
+              "analysisRun:run_golden_02_b:reportJson.missingInfo"
+            ],
+            "id": "missing_info",
+            "severity": "warning",
+            "summaryBullets": [
+              "Missing IDs: behaviorV2.baseLoadDrift.unavailable, behaviorV2.insufficientCycles, behaviorV2.peaks.missing, behaviorV2.weekendShare.insufficientMonths, behaviorV3.electric.insufficientMonths, billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT, billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT, determinants.reconcile.billingRecords.missing, determinants.reconcile.reconcilable.count, interval.intervalElectricV1.missing, supply.v1.lse_undetected, tariff.applicability.demand.missing…"
+            ],
+            "title": "Missing info (reduces certainty)"
+          },
+          {
+            "confidence0to1": 0.75,
+            "evidenceRefs": [
+              "analysisRun:run_golden_02_b:reportJson.summary.json.rateFit.status"
+            ],
+            "id": "rate_fit",
+            "severity": "warning",
+            "summaryBullets": [
+              "Status: unknown"
+            ],
+            "title": "Rate fit status"
+          },
+          {
+            "confidence0to1": 0.7,
+            "evidenceRefs": [
+              "analysisRun:run_golden_02_b:reportJson.batteryDecisionPackV1_2"
+            ],
+            "id": "battery_screening",
+            "severity": "info",
+            "summaryBullets": [
+              "Recommendation tier: DO_NOT_PROCEED"
+            ],
+            "title": "Battery screening"
+          },
+          {
+            "confidence0to1": 0.8,
+            "evidenceRefs": [
+              "analysisRun:run_golden_02_b:reportJson.summary.json.building.currentRateCode"
+            ],
+            "id": "current_rate",
+            "severity": "info",
+            "summaryBullets": [
+              "Rate: E-19"
+            ],
+            "title": "Current rate code"
+          },
+          {
+            "confidence0to1": 0.1,
+            "evidenceRefs": [
+              "analysisRun:run_golden_02_b:workflow.utility.insights.supplyStructure"
+            ],
+            "id": "supply_structure",
+            "severity": "info",
+            "summaryBullets": [
+              "Supply type: unknown",
+              "Confidence: 0.1"
+            ],
+            "title": "Supply structure"
+          },
+          {
+            "confidence0to1": 0.85,
+            "evidenceRefs": [
+              "analysisRun:run_golden_02_b:reportJson.project.territory"
+            ],
+            "id": "utility_territory",
+            "severity": "info",
+            "summaryBullets": [
+              "Territory: PGE"
+            ],
+            "title": "Utility territory"
+          }
+        ],
+        "opportunities": [
+          {
+            "confidence0to1": 0.65,
+            "id": "opp_battery",
+            "prerequisites": [
+              "Provide interval data (15-min or 1-hr)"
+            ],
+            "risks": [],
+            "tier": "DO_NOT_PROCEED",
+            "title": "Battery opportunity (screening)"
+          }
+        ],
+        "provenance": {
+          "engineVersions": {},
+          "generatedAtIso": "2026-03-01T00:00:00.000Z",
+          "projectId": "p_golden_02",
+          "reportId": "rs_golden_02",
+          "revisionIdsUsed": [
+            "rev_02_multi_run_latest_revision_and_wizard"
+          ],
+          "runIdsUsed": [
+            "run_golden_02_b"
+          ]
+        },
+        "wizardOutputHash": "d17983808df4f7bf178b06a7c98808b6f29c08fb619d34232eb6e98bfd3b777f"
+      }
+    }
+  },
+  "wizardOutput": {
+    "charts": [],
+    "dataQuality": {
+      "missingInfoIds": [
+        "behaviorV2.baseLoadDrift.unavailable",
+        "behaviorV2.insufficientCycles",
+        "behaviorV2.peaks.missing",
+        "behaviorV2.weekendShare.insufficientMonths",
+        "behaviorV3.electric.insufficientMonths",
+        "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+        "billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+        "determinants.reconcile.billingRecords.missing",
+        "determinants.reconcile.reconcilable.count",
+        "interval.intervalElectricV1.missing",
+        "supply.v1.lse_undetected",
+        "tariff.applicability.demand.missing",
+        "tariff.applicability.rules.missing",
+        "tariff.applicability.unknown",
+        "tariff.applicability.voltage.unknown"
+      ],
+      "score0to100": 62,
+      "warnings": [
+        "missing:behaviorV2.baseLoadDrift.unavailable",
+        "missing:behaviorV2.insufficientCycles",
+        "missing:behaviorV2.peaks.missing",
+        "missing:behaviorV2.weekendShare.insufficientMonths",
+        "missing:behaviorV3.electric.insufficientMonths",
+        "missing:billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+        "missing:billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+        "missing:determinants.reconcile.billingRecords.missing",
+        "missing:determinants.reconcile.reconcilable.count",
+        "missing:interval.intervalElectricV1.missing"
+      ]
+    },
+    "findings": [
+      {
+        "confidence0to1": 0.95,
+        "evidenceRefs": [
+          "analysisRun:run_golden_02_b:session.inputsSummary"
+        ],
+        "id": "dq_inputs",
+        "severity": "warning",
+        "summaryBullets": [
+          "Score: 62/100",
+          "Intervals: missing",
+          "Bill text: present",
+          "Address: missing"
+        ],
+        "title": "Data completeness"
+      },
+      {
+        "confidence0to1": 0.9,
+        "evidenceRefs": [
+          "analysisRun:run_golden_02_b:reportJson.missingInfo"
+        ],
+        "id": "missing_info",
+        "severity": "warning",
+        "summaryBullets": [
+          "Missing IDs: behaviorV2.baseLoadDrift.unavailable, behaviorV2.insufficientCycles, behaviorV2.peaks.missing, behaviorV2.weekendShare.insufficientMonths, behaviorV3.electric.insufficientMonths, billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT, billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT, determinants.reconcile.billingRecords.missing, determinants.reconcile.reconcilable.count, interval.intervalElectricV1.missing, supply.v1.lse_undetected, tariff.applicability.demand.missing…"
+        ],
+        "title": "Missing info (reduces certainty)"
+      },
+      {
+        "confidence0to1": 0.75,
+        "evidenceRefs": [
+          "analysisRun:run_golden_02_b:reportJson.summary.json.rateFit.status"
+        ],
+        "id": "rate_fit",
+        "severity": "warning",
+        "summaryBullets": [
+          "Status: unknown"
+        ],
+        "title": "Rate fit status"
+      },
+      {
+        "confidence0to1": 0.7,
+        "evidenceRefs": [
+          "analysisRun:run_golden_02_b:reportJson.batteryDecisionPackV1_2"
+        ],
+        "id": "battery_screening",
+        "severity": "info",
+        "summaryBullets": [
+          "Recommendation tier: DO_NOT_PROCEED"
+        ],
+        "title": "Battery screening"
+      },
+      {
+        "confidence0to1": 0.8,
+        "evidenceRefs": [
+          "analysisRun:run_golden_02_b:reportJson.summary.json.building.currentRateCode"
+        ],
+        "id": "current_rate",
+        "severity": "info",
+        "summaryBullets": [
+          "Rate: E-19"
+        ],
+        "title": "Current rate code"
+      },
+      {
+        "confidence0to1": 0.1,
+        "evidenceRefs": [
+          "analysisRun:run_golden_02_b:workflow.utility.insights.supplyStructure"
+        ],
+        "id": "supply_structure",
+        "severity": "info",
+        "summaryBullets": [
+          "Supply type: unknown",
+          "Confidence: 0.1"
+        ],
+        "title": "Supply structure"
+      },
+      {
+        "confidence0to1": 0.85,
+        "evidenceRefs": [
+          "analysisRun:run_golden_02_b:reportJson.project.territory"
+        ],
+        "id": "utility_territory",
+        "severity": "info",
+        "summaryBullets": [
+          "Territory: PGE"
+        ],
+        "title": "Utility territory"
+      }
+    ],
+    "opportunities": [
+      {
+        "confidence0to1": 0.65,
+        "id": "opp_battery",
+        "prerequisites": [
+          "Provide interval data (15-min or 1-hr)"
+        ],
+        "risks": [],
+        "tier": "DO_NOT_PROCEED",
+        "title": "Battery opportunity (screening)"
+      }
+    ],
+    "provenance": {
+      "engineVersions": {},
+      "generatedAtIso": "2026-03-01T00:00:00.000Z",
+      "projectId": "p_golden_02",
+      "reportId": "rs_golden_02",
+      "revisionIdsUsed": [
+        "rev_02_multi_run_latest_revision_and_wizard"
+      ],
+      "runIdsUsed": [
+        "run_golden_02_b"
+      ]
+    },
+    "wizardOutputHash": "d17983808df4f7bf178b06a7c98808b6f29c08fb619d34232eb6e98bfd3b777f"
+  }
+}
