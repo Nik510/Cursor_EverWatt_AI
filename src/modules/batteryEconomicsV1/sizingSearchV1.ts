@@ -44,7 +44,7 @@ export type SizingSearchResultV1<TScore extends SizingSearchScoreKeyV1> = {
   missingInfo: string[];
 };
 
-function uniqSortedNums(xs: number[]): number[] {
+function uniqSortedNums(xs: readonly number[]): number[] {
   const out: number[] = [];
   const seen = new Set<number>();
   for (const raw of xs || []) {

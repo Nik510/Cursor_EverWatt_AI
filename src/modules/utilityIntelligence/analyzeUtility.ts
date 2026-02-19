@@ -1,8 +1,8 @@
-import { randomUUID } from 'crypto';
 import path from 'path';
 import { existsSync } from 'fs';
+import { tmpdir } from 'os';
 
-import type { UtilityInputs, UtilityInsights, UtilityRecommendation } from './types';
+import type { EngineWarning, UtilityInputs, UtilityInsights, UtilityRecommendation } from './types';
 import { getUtilityMissingInputs } from './missingInputs';
 import { analyzeLoadShape, type IntervalKwPoint as IntervalKwPoint1 } from './interval/analyzeLoadShape';
 import { evaluateLoadShiftPotential } from './interval/loadShiftPotential';
@@ -161,7 +161,39 @@ function inferScheduleBucket(args: { metrics: UtilityInsights['inferredLoadShape
   return { scheduleBucket: 'mixed', confidence: 0.55, reasons };
 }
 
-async function tryLoadIntervalKwFromProject(inputs: UtilityInputs): Promise<IntervalKwPoint[] | null> {
+function exceptionName(e: unknown): string {
+  if (e && typeof e === 'object' && 'name' in e) return String((e as any).name || 'Error');
+  if (typeof e === 'string') return 'Error';
+  return String(e === null ? 'null' : typeof e);
+}
+
+const DEFAULT_ALLOWLIST_ROOTS = [path.join(tmpdir(), 'everwatt-uploads'), path.join(process.cwd(), 'samples')];
+
+function resolveAllowlistedPath(rawPath: string, allowRoots = DEFAULT_ALLOWLIST_ROOTS): string | null {
+  const fp = String(rawPath || '').trim();
+  if (!fp) return null;
+  const abs = path.resolve(path.isAbsolute(fp) ? fp : path.join(process.cwd(), fp));
+  for (const rootRaw of allowRoots) {
+    const root = path.resolve(String(rootRaw || ''));
+    if (!root) continue;
+    if (abs === root) return abs;
+    if (abs.startsWith(root + path.sep)) return abs;
+  }
+  return null;
+}
+
+function makeEphemeralIdFactory(args: { prefix: string; seed: string }): () => string {
+  const prefix = String(args.prefix || 'id').trim() || 'id';
+  const seed =
+    String(args.seed || '')
+      .trim()
+      .replace(/[^0-9A-Za-z]/g, '')
+      .slice(0, 24) || 'seed';
+  let i = 0;
+  return () => `${prefix}_${seed}_${++i}`;
+}
+
+async function tryLoadIntervalKwFromProject(inputs: UtilityInputs, warn?: (w: EngineWarning) => void): Promise<IntervalKwPoint[] | null> {
   try {
     if (!inputs.orgId || !inputs.projectId) return null;
     const project = await loadProjectForOrg(inputs.orgId, inputs.projectId);
@@ -182,38 +214,70 @@ async function tryLoadIntervalKwFromProject(inputs: UtilityInputs): Promise<Inte
 
     const fp = String(telemetry.intervalFilePath || '').trim();
     if (fp) {
-      const abs = path.isAbsolute(fp) ? fp : path.join(process.cwd(), fp);
-      if (existsSync(abs)) {
-        const data = readIntervalData(abs);
-        const out: IntervalKwPoint[] = data
-          .map((d) => ({
-            timestampIso: d.timestamp instanceof Date ? d.timestamp.toISOString() : new Date(d.timestamp as any).toISOString(),
-            kw: Number((d as any).demand),
-            temperatureF: Number((d as any).temperatureF ?? (d as any).avgTemperature ?? (d as any).temperature),
-          }))
-          .filter((r) => r.timestampIso && Number.isFinite(r.kw));
-        if (out.length) return out;
+      const abs = resolveAllowlistedPath(fp);
+      if (!abs) {
+        warn?.({
+          code: 'UIE_INTERVAL_FILE_PATH_REJECTED',
+          module: 'utilityIntelligence/analyzeUtility',
+          operation: 'tryLoadIntervalKwFromProject',
+          exceptionName: 'PathNotAllowed',
+          contextKey: 'intervalFilePath',
+        });
+      } else if (existsSync(abs)) {
+        try {
+          const data = readIntervalData(abs);
+          const out: IntervalKwPoint[] = data
+            .map((d) => ({
+              timestampIso: d.timestamp instanceof Date ? d.timestamp.toISOString() : new Date(d.timestamp as any).toISOString(),
+              kw: Number((d as any).demand),
+              temperatureF: Number((d as any).temperatureF ?? (d as any).avgTemperature ?? (d as any).temperature),
+            }))
+            .filter((r) => r.timestampIso && Number.isFinite(r.kw));
+          if (out.length) return out;
+        } catch (e) {
+          warn?.({
+            code: 'UIE_INTERVAL_FILE_READ_FAILED',
+            module: 'utilityIntelligence/analyzeUtility',
+            operation: 'readIntervalData',
+            exceptionName: exceptionName(e),
+            contextKey: 'intervalFilePath',
+          });
+        }
       }
     }
 
     return null;
-  } catch {
+  } catch (e) {
+    warn?.({
+      code: 'UIE_INTERVAL_LOAD_FROM_PROJECT_FAILED',
+      module: 'utilityIntelligence/analyzeUtility',
+      operation: 'tryLoadIntervalKwFromProject',
+      exceptionName: exceptionName(e),
+      contextKey: 'projectTelemetry',
+    });
     return null;
   }
 }
 
-async function tryLoadProjectTelemetry(inputs: UtilityInputs): Promise<any | null> {
+async function tryLoadProjectTelemetry(inputs: UtilityInputs, warn?: (w: EngineWarning) => void): Promise<any | null> {
   try {
     if (!inputs.orgId || !inputs.projectId) return null;
     const project = await loadProjectForOrg(inputs.orgId, inputs.projectId);
     const telemetry: any = (project as any)?.telemetry || null;
     return telemetry && typeof telemetry === 'object' ? telemetry : null;
-  } catch {
+  } catch (e) {
+    warn?.({
+      code: 'UIE_PROJECT_TELEMETRY_LOAD_FAILED',
+      module: 'utilityIntelligence/analyzeUtility',
+      operation: 'tryLoadProjectTelemetry',
+      exceptionName: exceptionName(e),
+      contextKey: 'projectTelemetry',
+    });
     return null;
   }
 }
 
-function intervalKwFromProjectTelemetry(telemetry: any): IntervalKwPoint[] | null {
+function intervalKwFromProjectTelemetry(telemetry: any, warn?: (w: EngineWarning) => void): IntervalKwPoint[] | null {
   try {
     if (!telemetry || typeof telemetry !== 'object') return null;
 
@@ -231,22 +295,47 @@ function intervalKwFromProjectTelemetry(telemetry: any): IntervalKwPoint[] | nul
 
     const fp = String((telemetry as any).intervalFilePath || '').trim();
     if (fp) {
-      const abs = path.isAbsolute(fp) ? fp : path.join(process.cwd(), fp);
-      if (existsSync(abs)) {
-        const data = readIntervalData(abs);
-        const out: IntervalKwPoint[] = data
-          .map((d) => ({
-            timestampIso: d.timestamp instanceof Date ? d.timestamp.toISOString() : new Date(d.timestamp as any).toISOString(),
-            kw: Number((d as any).demand),
-            temperatureF: Number((d as any).temperatureF ?? (d as any).avgTemperature ?? (d as any).temperature),
-          }))
-          .filter((r) => r.timestampIso && Number.isFinite(r.kw));
-        if (out.length) return out;
+      const abs = resolveAllowlistedPath(fp);
+      if (!abs) {
+        warn?.({
+          code: 'UIE_INTERVAL_FILE_PATH_REJECTED',
+          module: 'utilityIntelligence/analyzeUtility',
+          operation: 'intervalKwFromProjectTelemetry',
+          exceptionName: 'PathNotAllowed',
+          contextKey: 'intervalFilePath',
+        });
+      } else if (existsSync(abs)) {
+        try {
+          const data = readIntervalData(abs);
+          const out: IntervalKwPoint[] = data
+            .map((d) => ({
+              timestampIso: d.timestamp instanceof Date ? d.timestamp.toISOString() : new Date(d.timestamp as any).toISOString(),
+              kw: Number((d as any).demand),
+              temperatureF: Number((d as any).temperatureF ?? (d as any).avgTemperature ?? (d as any).temperature),
+            }))
+            .filter((r) => r.timestampIso && Number.isFinite(r.kw));
+          if (out.length) return out;
+        } catch (e) {
+          warn?.({
+            code: 'UIE_INTERVAL_FILE_READ_FAILED',
+            module: 'utilityIntelligence/analyzeUtility',
+            operation: 'readIntervalData',
+            exceptionName: exceptionName(e),
+            contextKey: 'intervalFilePath',
+          });
+        }
       }
     }
 
     return null;
-  } catch {
+  } catch (e) {
+    warn?.({
+      code: 'UIE_INTERVAL_FROM_TELEMETRY_FAILED',
+      module: 'utilityIntelligence/analyzeUtility',
+      operation: 'intervalKwFromProjectTelemetry',
+      exceptionName: exceptionName(e),
+      contextKey: 'projectTelemetry',
+    });
     return null;
   }
 }
@@ -283,8 +372,10 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
   insights: UtilityInsights;
   recommendations: UtilityRecommendation[];
 }> {
-  const nowIso = deps?.nowIso || new Date('2026-01-01T00:00:00.000Z').toISOString();
-  const idFactory = deps?.idFactory || (() => randomUUID());
+  const nowIso = String(deps?.nowIso || new Date().toISOString());
+  const engineWarnings: EngineWarning[] = [];
+  const warn = (w: EngineWarning) => engineWarnings.push(w);
+  const idFactory = deps?.idFactory || makeEphemeralIdFactory({ prefix: 'utilReco', seed: nowIso });
 
   const intervalFromCanonical =
     Array.isArray(deps?.intervalPointsV1) && deps?.intervalPointsV1.length
@@ -309,13 +400,13 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     Boolean((!intervalFromCanonical || !intervalFromCanonical.length) && !depsHasIntervalKwSeries) ||
     !depsHasEconomicsOverrides ||
     !depsHasBatteryDecisionConstraints;
-  const projectTelemetry = needProjectTelemetry ? await tryLoadProjectTelemetry(inputs) : null;
+  const projectTelemetry = needProjectTelemetry ? await tryLoadProjectTelemetry(inputs, warn) : null;
 
   const intervalKw: IntervalKwPoint[] | null =
     (intervalFromCanonical && intervalFromCanonical.length ? (intervalFromCanonical as any) : null) ??
     (depsHasIntervalKwSeries ??
-      intervalKwFromProjectTelemetry(projectTelemetry) ??
-      (projectTelemetry ? null : await tryLoadIntervalKwFromProject(inputs)));
+      intervalKwFromProjectTelemetry(projectTelemetry, warn) ??
+      (projectTelemetry ? null : await tryLoadIntervalKwFromProject(inputs, warn)));
 
   const storageEconomicsOverridesV1 = depsHasEconomicsOverrides
     ? (deps as any).storageEconomicsOverridesV1 || null
@@ -333,11 +424,29 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
   const loadShift = evaluateLoadShiftPotential({ intervalKw: intervalKw || undefined, loadShape: loadShape.metrics, constraints: inputs.constraints });
 
   // Weather sensitivity (optional provider)
-  const weather = await runWeatherRegressionV1({
-    inputs,
-    intervalKw: (intervalKw || []).map((r) => ({ timestampIso: r.timestampIso, kw: r.kw } satisfies IntervalKwPointWithTemp)),
-    provider: deps?.weatherProvider,
-  });
+  const weather = await (async () => {
+    try {
+      return await runWeatherRegressionV1({
+        inputs,
+        intervalKw: (intervalKw || []).map((r) => ({ timestampIso: r.timestampIso, kw: r.kw } satisfies IntervalKwPointWithTemp)),
+        provider: deps?.weatherProvider,
+      });
+    } catch (e) {
+      warn({
+        code: 'UIE_WEATHER_REGRESSION_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'runWeatherRegressionV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'weatherRegressionV1',
+      });
+      return {
+        available: false,
+        method: 'regression_v1' as const,
+        reasons: ['Weather regression failed (best-effort).'],
+        requiredInputsMissing: ['Weather regression failed; see engineWarnings.'],
+      };
+    }
+  })();
 
   const loadAttribution = (() => {
     try {
@@ -360,7 +469,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         minPoints: 1000,
         minTempStddevF: 3,
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_LOAD_ATTRIBUTION_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'analyzeLoadAttributionV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'loadAttribution',
+      });
       return undefined;
     }
   })();
@@ -388,7 +504,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
   const billTou = (() => {
     try {
       return extractBillPdfTouUsageV1({ billPdfText: inputs.billPdfText || null, timezone: tz });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_BILL_PDF_TOU_EXTRACT_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'extractBillPdfTouUsageV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'billPdfTou',
+      });
       return null;
     }
   })();
@@ -470,7 +593,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
           rateScheduleText: (billPdfTariffTruth as any)?.rateScheduleText ?? null,
         },
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_SUPPLY_STRUCTURE_DETECT_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'detectSupplyStructureV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'supplyStructureAnalyzerV1',
+      });
       return null;
     }
   })();
@@ -510,7 +640,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         timezoneHint: tz,
         topPeakEventsCount: 7,
       }).intervalIntelligenceV1;
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_INTERVAL_INTELLIGENCE_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'analyzeIntervalIntelligenceV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'intervalIntelligenceV1',
+      });
       return undefined;
     }
   })();
@@ -530,7 +667,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         minOverlapDays: 10,
         timezoneHint: tz,
       }).weatherRegressionV1;
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_WEATHER_REGRESSION_V1_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'regressUsageVsWeatherV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'weatherRegressionV1',
+      });
       return undefined;
     }
   })();
@@ -545,9 +689,27 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
 
   const billTariffSnapshot =
     billTariffUtilityKey && billTariffCommodity === 'electric'
-      ? await loadLatestSnapshot(billTariffUtilityKey as any).catch(() => null)
+      ? await loadLatestSnapshot(billTariffUtilityKey as any).catch((e) => {
+          warn({
+            code: 'UIE_TARIFF_SNAPSHOT_LOAD_FAILED',
+            module: 'utilityIntelligence/analyzeUtility',
+            operation: 'loadLatestSnapshot',
+            exceptionName: exceptionName(e),
+            contextKey: 'tariffLibrarySnapshot',
+          });
+          return null;
+        })
       : billTariffUtilityKey && billTariffCommodity === 'gas'
-        ? await loadLatestGasSnapshot(billTariffUtilityKey as any).catch(() => null)
+        ? await loadLatestGasSnapshot(billTariffUtilityKey as any).catch((e) => {
+            warn({
+              code: 'UIE_GAS_TARIFF_SNAPSHOT_LOAD_FAILED',
+              module: 'utilityIntelligence/analyzeUtility',
+              operation: 'loadLatestGasSnapshot',
+              exceptionName: exceptionName(e),
+              contextKey: 'tariffLibrarySnapshot',
+            });
+            return null;
+          })
         : null;
 
   const billPdfTariffLibraryMatchRaw = matchBillTariffToLibraryV1({
@@ -615,7 +777,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         ...(changeSummary ? { changeSummary } : {}),
         rateMetadata: md,
       };
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_TARIFF_LIBRARY_METADATA_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'tariffLibraryMetadata',
+        exceptionName: exceptionName(e),
+        contextKey: 'tariffLibrary',
+      });
       return undefined;
     }
   })();
@@ -674,7 +843,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
             return /^\d{4}-\d{2}-\d{2}/.test(s) ? s.slice(0, 10) : null;
           }
           return null;
-        } catch {
+        } catch (e) {
+          warn({
+            code: 'UIE_BILL_PERIOD_DERIVE_FAILED',
+            module: 'utilityIntelligence/analyzeUtility',
+            operation: 'deriveBillPeriodStartYmd',
+            exceptionName: exceptionName(e),
+            contextKey: 'billPeriod',
+          });
           return null;
         }
       })();
@@ -892,7 +1068,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
           (a: any, b: any) => String(a?.id || '').localeCompare(String(b?.id || '')),
         ),
       };
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_EFFECTIVE_RATE_CONTEXT_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'effectiveRateContextV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'effectiveRateContextV1',
+      });
       return undefined;
     }
   })();
@@ -932,7 +1115,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
             : null,
       };
       return merged as any;
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_TARIFF_PRICE_SIGNALS_COMPOSE_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'composeTariffPriceSignalsV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'tariffPriceSignalsV1',
+      });
       return (deps?.tariffPriceSignalsV1 as any) || null;
     }
   })();
@@ -959,7 +1149,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         intervalKwSeries: (intervalKw || []).map((r) => ({ timestampIso: r.timestampIso, kw: r.kw })),
         intervalResolutionMinutes: intervalResolutionMinutes ?? undefined,
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_TARIFF_APPLICABILITY_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'evaluateTariffApplicabilityV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'tariffApplicability',
+      });
       return undefined;
     }
   })();
@@ -1039,7 +1236,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
             ]
           : null,
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_DETERMINANTS_PACK_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'buildDeterminantsPackV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'determinantsPack',
+      });
       return null;
     }
   })();
@@ -1089,7 +1293,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         meters,
         warnings: Array.isArray(determinantsPack.warnings) ? determinantsPack.warnings.slice(0, 6) : [],
       };
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_DETERMINANTS_PACK_SUMMARY_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'determinantsPackSummary',
+        exceptionName: exceptionName(e),
+        contextKey: 'determinantsPackSummary',
+      });
       return undefined;
     }
   })();
@@ -1121,7 +1332,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
           demandWindowStrategy: 'WINDOW_AROUND_DAILY_PEAK_V1',
         },
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_STORAGE_OPPORTUNITY_PACK_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'evaluateStorageOpportunityPackV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'storageOpportunityPackV1',
+      });
       // Last-resort deterministic fallback (do not throw from analyzeUtility).
       return evaluateStorageOpportunityPackV1({
         intervalInsightsV1: null,
@@ -1173,7 +1391,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         dr: null,
         finance: null,
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_BATTERY_ECONOMICS_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'evaluateBatteryEconomicsV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'batteryEconomicsV1',
+      });
       return evaluateBatteryEconomicsV1(null);
     }
   })();
@@ -1207,7 +1432,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
           touLabelerVersionTag: String((determinantsPack as any)?.touLabelerVersionTag || 'tou_v1'),
         },
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_BATTERY_DECISION_PACK_V1_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'buildBatteryDecisionPackV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'batteryDecisionPackV1',
+      });
       return buildBatteryDecisionPackV1({
         intervalPointsV1: null,
         intervalInsightsV1: null,
@@ -1259,7 +1491,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         drAnnualValueUsd: null,
         batteryDecisionConstraintsV1: (batteryDecisionConstraintsV1 as any) || null,
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_BATTERY_DECISION_PACK_V1_2_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'buildBatteryDecisionPackV1_2',
+        exceptionName: exceptionName(e),
+        contextKey: 'batteryDecisionPackV1_2',
+      });
       return buildBatteryDecisionPackV1_2({
         utility: null,
         rate: null,
@@ -1284,7 +1523,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         intervalPointsV1: Array.isArray(deps?.intervalPointsV1) ? deps?.intervalPointsV1 : null,
         loadAttribution: loadAttribution || null,
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_BEHAVIOR_INSIGHTS_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'computeBehaviorInsights',
+        exceptionName: exceptionName(e),
+        contextKey: 'behaviorInsights',
+      });
       return undefined;
     }
   })();
@@ -1297,7 +1543,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         loadAttribution: loadAttribution || null,
         nowIso,
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_BEHAVIOR_INSIGHTS_V2_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'computeBehaviorInsightsV2',
+        exceptionName: exceptionName(e),
+        contextKey: 'behaviorInsightsV2',
+      });
       return undefined;
     }
   })();
@@ -1309,7 +1562,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         determinantsPack: determinantsPack || null,
         nowIso,
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_BEHAVIOR_INSIGHTS_V3_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'computeBehaviorInsightsV3',
+        exceptionName: exceptionName(e),
+        contextKey: 'behaviorInsightsV3',
+      });
       return undefined;
     }
   })();
@@ -1319,7 +1579,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       if (!determinantsPack) return undefined;
       const md = (tariffLibrary as any)?.rateMetadata || null;
       return simulateBillSimV2({ determinantsPack, tariffMetadata: md });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_BILL_SIM_V2_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'simulateBillSimV2',
+        exceptionName: exceptionName(e),
+        contextKey: 'billSimV2',
+      });
       return undefined;
     }
   })();
@@ -1675,6 +1942,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
 
   const insights: UtilityInsights = {
     inferredLoadShape: loadShape.metrics,
+    ...(engineWarnings.length ? { engineWarnings } : {}),
     ...(Number.isFinite(proven.provenPeakKw ?? NaN) ? { provenPeakKw: proven.provenPeakKw } : {}),
     ...(Number.isFinite(proven.provenMonthlyKwh ?? NaN) ? { provenMonthlyKwh: proven.provenMonthlyKwh } : {}),
     ...(annualEstimate ? { provenAnnualKwhEstimate: annualEstimate } : {}),

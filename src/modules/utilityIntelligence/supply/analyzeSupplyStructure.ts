@@ -1,5 +1,5 @@
 import type { UtilityInputs } from '../types';
-import type { ComprehensiveBillRecord } from '../../utils/utility-data-types';
+import type { ComprehensiveBillRecord } from '../../../utils/utility-data-types';
 
 export type SupplyTypeV1 = 'bundled' | 'CCA' | 'DA' | 'unknown';
 

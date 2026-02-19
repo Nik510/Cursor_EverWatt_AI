@@ -8,6 +8,17 @@ import { shouldEvaluateBattery } from '../batteryIntelligence/shouldEvaluateBatt
 import { selectBatteryCandidatesV1 } from '../batteryIntelligence/selectCandidates';
 import { toBatteryRecommendationsV1 } from '../batteryIntelligence/toBatteryRecommendations';
 
+function makeEphemeralIdFactory(args: { prefix: string; seed: string }): () => string {
+  const prefix = String(args.prefix || 'id').trim() || 'id';
+  const seed =
+    String(args.seed || '')
+      .trim()
+      .replace(/[^0-9A-Za-z]/g, '')
+      .slice(0, 24) || 'seed';
+  let i = 0;
+  return () => `${prefix}_${seed}_${++i}`;
+}
+
 function uniq(arr: string[]): string[] {
   const out: string[] = [];
   const seen = new Set<string>();
@@ -41,13 +52,15 @@ export async function runUtilityWorkflow(args: {
   inbox: {
     utility: ReturnType<typeof toInboxSuggestions>;
     battery: ReturnType<typeof toBatteryRecommendationsV1>;
-    suggestions: Array<any>;
-    inboxItems: Array<any>;
+    suggestions: Array<ReturnType<typeof toInboxSuggestions>['suggestions'][number]>;
+    inboxItems: Array<ReturnType<typeof toInboxSuggestions>['inboxItems'][number]>;
   };
   requiredInputsMissing: string[];
 }> {
-  const nowIso = args.nowIso || new Date('2026-01-01T00:00:00.000Z').toISOString();
-  const idFactory = args.idFactory;
+  const nowIso = args.nowIso || new Date().toISOString();
+  const idFactory = args.idFactory || makeEphemeralIdFactory({ prefix: 'utilReco', seed: nowIso });
+  const suggestionIdFactory = args.suggestionIdFactory || makeEphemeralIdFactory({ prefix: 'wfSug', seed: nowIso });
+  const inboxIdFactory = args.inboxIdFactory || makeEphemeralIdFactory({ prefix: 'wfInbox', seed: nowIso });
 
   const utilityAnalysis = await analyzeUtility(args.inputs, {
     intervalKwSeries: args.intervalKwSeries || undefined,
@@ -62,8 +75,8 @@ export async function runUtilityWorkflow(args: {
     inputs: args.inputs,
     recommendations: utilityAnalysis.recommendations,
     nowIso,
-    suggestionIdFactory: args.suggestionIdFactory,
-    inboxIdFactory: args.inboxIdFactory,
+    suggestionIdFactory,
+    inboxIdFactory,
   });
 
   const gate = shouldEvaluateBattery({ insights: utilityAnalysis.insights, constraints: args.inputs.constraints });
@@ -75,8 +88,8 @@ export async function runUtilityWorkflow(args: {
     selection,
     meterId: args.meterId,
     nowIso,
-    suggestionIdFactory: args.suggestionIdFactory,
-    inboxIdFactory: args.inboxIdFactory,
+    suggestionIdFactory,
+    inboxIdFactory,
   });
 
   const requiredInputsMissing = uniq([

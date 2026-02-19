@@ -17,6 +17,21 @@ import type { EffectiveRateContextV1 } from '../supplyStructureAnalyzerV1/types'
 
 export type UtilityServiceType = 'electric' | 'gas' | 'both';
 
+export type EngineWarning = {
+  /** Stable warning code (machine-readable). */
+  code: string;
+  /** Module path or logical subsystem (no PII). */
+  module: string;
+  /** Operation name (no PII). */
+  operation: string;
+  /** Exception class name only (no stack traces in client payloads). */
+  exceptionName: string;
+  /** Short key for grouping/debugging (no PII). */
+  contextKey: string;
+};
+
+export type CurrentRateSelectionSourceV1 = 'USER_OVERRIDE' | 'BILL_MATCH' | 'DEFAULT';
+
 export type UtilityInputs = {
   orgId: string;
   projectId: string;
@@ -27,6 +42,29 @@ export type UtilityInputs = {
   customerType?: string; // e.g. "healthcare", "k12", "office", "industrial"
   naicsCode?: string;
   currentRate?: { utility: string; rateCode: string; effectiveDate?: string }; // if known
+  /**
+   * Optional source tag for how `currentRate` was determined (v1).
+   * This is additive metadata only; it must not affect pricing math.
+   */
+  currentRateSelectionSource?: CurrentRateSelectionSourceV1;
+  /**
+   * Optional tariff override metadata provided by the user/UI (v1).
+   * Keep shape minimal and non-PII.
+   */
+  tariffOverrideV1?:
+    | {
+        schemaVersion?: number;
+        commodity?: 'electric' | 'gas';
+        utilityId?: string;
+        snapshotId?: string;
+        tariffIdOrRateCode?: string;
+        selectedBy?: 'user' | 'system';
+        selectedAt?: string;
+        selectionSource?: string;
+        matchType?: string;
+        notes?: string;
+      }
+    | null;
   billingSummary?: {
     monthly: Array<{
       start: string;
@@ -62,6 +100,11 @@ export type LoadShapeMetrics = {
 
 export type UtilityInsights = {
   inferredLoadShape: LoadShapeMetrics;
+  /**
+   * Engine warnings (operability/debug truth): structured, best-effort,
+   * no stack traces, no PII.
+   */
+  engineWarnings?: EngineWarning[];
   /**
    * Proven metrics computed directly from interval data via Billing Engine v1 normalization/mapping,
    * when enough data is available. These are additive and optional.

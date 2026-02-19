@@ -18,6 +18,7 @@ import { readIntervalData, readMonthlyBills } from './utils/excel-reader';
 import { loadBatteryCatalog } from './utils/battery-catalog-loader';
 import { simulatePeakShaving, detectPeakEvents, optimizeThresholdForValue } from './modules/battery/logic';
 import type { BatterySpec, LoadProfile, SimulationResult } from './modules/battery/types';
+import type { UtilityInputs } from './modules/utilityIntelligence/types';
 import { analyzeBatteryEfficiency } from './modules/battery/efficiency-diagnostics';
 import { classifyPeakPatterns, analyzeEventFrequency } from './modules/battery/peak-pattern-analysis';
 import { buildUsageOptimization } from './modules/battery/usage-optimization';
@@ -72,6 +73,29 @@ import { applyTariffBusinessCanonV1 } from './modules/tariffLibrary/businessCano
 import { applyTariffEffectiveStatusV1 } from './modules/tariffLibrary/effectiveStatusV1';
 import { applyTariffCurationV1, loadTariffCurationV1 } from './modules/policy/curation/loadTariffCurationV1';
 import { getLatestProgramsV1 } from './modules/programLibrary/v1';
+
+const DEFAULT_UPLOADS_DIR = path.join(tmpdir(), 'everwatt-uploads');
+const DEFAULT_SAMPLES_DIR = path.join(process.cwd(), 'samples');
+
+function resolveAllowlistedPath(rawPath: string, allowRoots: string[]): string | null {
+  const fp = String(rawPath || '').trim();
+  if (!fp) return null;
+  const abs = path.resolve(path.isAbsolute(fp) ? fp : path.join(process.cwd(), fp));
+  for (const rootRaw of allowRoots) {
+    const root = path.resolve(String(rootRaw || ''));
+    if (!root) continue;
+    if (abs === root) return abs;
+    if (abs.startsWith(root + path.sep)) return abs;
+  }
+  return null;
+}
+
+function makeRequestScopedIdFactory(args: { prefix: string; runId: string }): () => string {
+  const prefix = String(args.prefix || 'id').trim() || 'id';
+  const runId = String(args.runId || '').trim() || 'run';
+  let i = 0;
+  return () => `${prefix}_${runId}_${++i}`;
+}
 
 const app = new Hono();
 
@@ -6003,6 +6027,12 @@ app.get('/api/projects/:id/analysis-results-v1', async (c) => {
   }
 
   try {
+    const nowIso = new Date().toISOString();
+    const runId = randomUUID();
+    const idFactory = makeRequestScopedIdFactory({ prefix: 'analysis', runId });
+    const suggestionIdFactory = makeRequestScopedIdFactory({ prefix: 'suggestion', runId });
+    const inboxIdFactory = makeRequestScopedIdFactory({ prefix: 'inbox', runId });
+
     const project = demo ? null : await loadProjectInternal(userId, projectId);
     if (!demo && !project) return c.json({ success: false, error: 'Project not found' }, 404);
 
@@ -6015,7 +6045,7 @@ app.get('/api/projects/:id/analysis-results-v1', async (c) => {
       | null = null;
     const intervalWarnings: string[] = [];
     if (demo) {
-      const fp = path.join(process.cwd(), 'samples', 'interval_peaky_office.json');
+      const fp = path.join(DEFAULT_SAMPLES_DIR, 'interval_peaky_office.json');
       const loaded = await loadIntervalInputsFromFile(fp);
       intervalKwSeries = loaded.intervalKwSeries;
       intervalPointsV1 = loaded.intervalPointsV1 || null;
@@ -6059,7 +6089,9 @@ app.get('/api/projects/:id/analysis-results-v1', async (c) => {
 
       const intervalFilePath = String((project as any)?.telemetry?.intervalFilePath || '').trim();
       if (!intervalKwSeries && intervalFilePath) {
-        const loaded = await loadIntervalInputsFromFile(intervalFilePath);
+        const abs = resolveAllowlistedPath(intervalFilePath, [DEFAULT_UPLOADS_DIR]);
+        if (!abs) return c.json({ success: false, error: 'intervalFilePath rejected (outside uploads allowlist)' }, 400);
+        const loaded = await loadIntervalInputsFromFile(abs);
         intervalKwSeries = loaded.intervalKwSeries;
         intervalPointsV1 = loaded.intervalPointsV1 || null;
         intervalWarnings.push(...loaded.warnings);
@@ -6094,7 +6126,7 @@ app.get('/api/projects/:id/analysis-results-v1', async (c) => {
       tariffOverrideV1,
     });
 
-    const inputs = {
+    const inputs: UtilityInputs = {
       orgId: userId,
       projectId,
       serviceType: 'electric',
@@ -6109,22 +6141,27 @@ app.get('/api/projects/:id/analysis-results-v1', async (c) => {
         : {}),
       ...(billPdfText ? { billPdfText } : {}),
       ...(tariffOverrideV1 ? { tariffOverrideV1 } : {}),
-    } as const;
+    };
 
     const workflow = await runUtilityWorkflow({
-      inputs: inputs as any,
+      inputs,
       meterId: String(c.req.query('meterId') || '').trim() || undefined,
       intervalKwSeries,
       intervalPointsV1,
       batteryLibrary: lib.library.items,
+      nowIso,
+      idFactory,
+      suggestionIdFactory,
+      inboxIdFactory,
     });
 
     const summary = generateUtilitySummaryV1({
-      inputs: inputs as any,
+      inputs,
       insights: workflow.utility.insights,
       utilityRecommendations: workflow.utility.recommendations,
       batteryGate: workflow.battery.gate,
       batterySelection: workflow.battery.selection,
+      nowIso,
     });
 
     return c.json({
@@ -6208,6 +6245,12 @@ app.get('/api/projects/:id/analysis-results-v1.pdf', async (c) => {
   }
 
   try {
+    const nowIso = new Date().toISOString();
+    const runId = randomUUID();
+    const idFactory = makeRequestScopedIdFactory({ prefix: 'analysis', runId });
+    const suggestionIdFactory = makeRequestScopedIdFactory({ prefix: 'suggestion', runId });
+    const inboxIdFactory = makeRequestScopedIdFactory({ prefix: 'inbox', runId });
+
     const project = demo ? null : await loadProjectInternal(userId, projectId);
     if (!demo && !project) return c.json({ success: false, error: 'Project not found' }, 404);
 
@@ -6216,12 +6259,16 @@ app.get('/api/projects/:id/analysis-results-v1.pdf', async (c) => {
     // - project: `project.telemetry.intervalFilePath` if present
     let intervalKwSeries: Array<{ timestampIso: string; kw: number }> | null = null;
     if (demo) {
-      const fp = path.join(process.cwd(), 'samples', 'interval_peaky_office.json');
+      const fp = path.join(DEFAULT_SAMPLES_DIR, 'interval_peaky_office.json');
       intervalKwSeries = await loadIntervalKwSeriesFromFile(fp);
     } else {
       const intervalFilePath = String((project as any)?.telemetry?.intervalFilePath || '').trim();
       if (intervalFilePath) {
-        intervalKwSeries = await loadIntervalKwSeriesFromFile(intervalFilePath);
+        const abs = resolveAllowlistedPath(intervalFilePath, [DEFAULT_UPLOADS_DIR]);
+        if (!abs) {
+          return c.json({ success: false, error: 'intervalFilePath rejected (outside uploads allowlist)' }, 400);
+        }
+        intervalKwSeries = await loadIntervalKwSeriesFromFile(abs);
       }
     }
 
@@ -6251,7 +6298,7 @@ app.get('/api/projects/:id/analysis-results-v1.pdf', async (c) => {
       tariffOverrideV1,
     });
 
-    const inputs = {
+    const inputs: UtilityInputs = {
       orgId: userId,
       projectId,
       serviceType: 'electric',
@@ -6264,21 +6311,26 @@ app.get('/api/projects/:id/analysis-results-v1.pdf', async (c) => {
       ...(siteLocation ? { address: { line1: siteLocation, city: '', state: '', zip: '', country: 'US' } } : {}),
       ...(billPdfText ? { billPdfText } : {}),
       ...(tariffOverrideV1 ? { tariffOverrideV1 } : {}),
-    } as const;
+    };
 
     const workflow = await runUtilityWorkflow({
-      inputs: inputs as any,
+      inputs,
       meterId: String(c.req.query('meterId') || '').trim() || undefined,
       intervalKwSeries,
       batteryLibrary: lib.library.items,
+      nowIso,
+      idFactory,
+      suggestionIdFactory,
+      inboxIdFactory,
     });
 
     const summary = generateUtilitySummaryV1({
-      inputs: inputs as any,
+      inputs,
       insights: workflow.utility.insights,
       utilityRecommendations: workflow.utility.recommendations,
       batteryGate: workflow.battery.gate,
       batterySelection: workflow.battery.selection,
+      nowIso,
     });
 
     const pdf = await renderUtilitySummaryPdf({
