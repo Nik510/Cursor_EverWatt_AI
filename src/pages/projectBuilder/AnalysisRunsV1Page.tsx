@@ -4,7 +4,14 @@ import { Download, RefreshCw, Shuffle, ArrowLeft } from 'lucide-react';
 
 import type { AnalysisRunV1 } from '../../shared/types/analysisRunsV1';
 import type { DiffSummaryV1 } from '../../shared/types/analysisRunsDiffV1';
-import { diffRunsV1, downloadRunPdfV1, listRunsV1, readRunV1, runAndStoreAnalysisV1, type AnalysisRunsV1IndexRow } from '../../shared/api/analysisRuns';
+import {
+  downloadRunPdfV1,
+  getRunDiffDetailedV1,
+  listProjectRunsV1,
+  readRunV1,
+  runAndStoreAnalysisV1,
+} from '../../shared/api/analysisRuns';
+import type { ProjectRunListItemV1 } from '../../shared/types/analysisRunsV1';
 
 function shortIso(s: unknown): string {
   const t = String(s ?? '').trim();
@@ -94,7 +101,7 @@ export const AnalysisRunsV1Page: React.FC = () => {
   const [loadingIndex, setLoadingIndex] = useState(false);
   const [indexError, setIndexError] = useState<string | null>(null);
   const [warnings, setWarnings] = useState<string[]>([]);
-  const [runs, setRuns] = useState<AnalysisRunsV1IndexRow[]>([]);
+  const [runs, setRuns] = useState<ProjectRunListItemV1[]>([]);
 
   const [search, setSearch] = useState('');
   const [selectedRunId, setSelectedRunId] = useState<string>('');
@@ -108,9 +115,16 @@ export const AnalysisRunsV1Page: React.FC = () => {
   const [diffBusy, setDiffBusy] = useState(false);
   const [diffError, setDiffError] = useState<string | null>(null);
   const [diff, setDiff] = useState<DiffSummaryV1 | null>(null);
+  const [diffCategory, setDiffCategory] = useState<string>('rate_and_supply');
+  const [copyOk, setCopyOk] = useState(false);
 
-  const [runProjectId, setRunProjectId] = useState(() => String(searchParams.get('projectId') || '').trim());
-  const [runDemo, setRunDemo] = useState(() => String(searchParams.get('demo') || '').trim().toLowerCase() === 'true');
+  const [runProjectId, setRunProjectId] = useState(() => String(searchParams.get('projectId') || 'demo').trim());
+  const [runDemo, setRunDemo] = useState(() => {
+    const demoParam = searchParams.get('demo');
+    if (demoParam !== null) return String(demoParam || '').trim().toLowerCase() === 'true';
+    const pid = String(searchParams.get('projectId') || '').trim();
+    return !pid;
+  });
   const [runBusy, setRunBusy] = useState(false);
   const [runStoreError, setRunStoreError] = useState<string | null>(null);
 
@@ -118,11 +132,13 @@ export const AnalysisRunsV1Page: React.FC = () => {
     setLoadingIndex(true);
     setIndexError(null);
     try {
-      const res = await listRunsV1();
+      const projectId = String(runProjectId || '').trim();
+      if (!projectId) throw new Error('projectId is required to list runs');
+      const res = await listProjectRunsV1(projectId, { limit: 25 });
       const rows = Array.isArray(res.runs) ? res.runs.slice() : [];
       rows.sort((a, b) => String(b.createdAtIso || '').localeCompare(String(a.createdAtIso || '')) || String(a.runId || '').localeCompare(String(b.runId || '')));
       setRuns(rows);
-      setWarnings(Array.isArray(res.warnings) ? res.warnings.map((w) => String(w)) : []);
+      setWarnings([]);
       setSelectedRunId((prev) => {
         if (prev && rows.some((r) => String(r.runId) === prev)) return prev;
         return rows[0]?.runId ? String(rows[0].runId) : '';
@@ -150,7 +166,8 @@ export const AnalysisRunsV1Page: React.FC = () => {
 
   useEffect(() => {
     void loadIndex();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runProjectId]);
 
   useEffect(() => {
     let cancelled = false;
@@ -187,11 +204,13 @@ export const AnalysisRunsV1Page: React.FC = () => {
         r.runId,
         r.createdAtIso,
         r.inputFingerprint,
-        r.summary?.utility,
-        r.summary?.rateCode,
-        r.summary?.lseName,
-        r.summary?.supplyProviderType,
-        r.summary?.rateSourceKind,
+        r.coverage?.tariffMatchStatus,
+        r.coverage?.supplyProviderType,
+        r.coverage?.intervalDays,
+        r.provenance?.tariffSnapshotId,
+        r.provenance?.generationEnergySnapshotId,
+        r.provenance?.addersSnapshotId,
+        r.provenance?.exitFeesSnapshotId,
       ]
         .map((x) => String(x || '').toLowerCase())
         .join(' | ');
@@ -239,10 +258,10 @@ export const AnalysisRunsV1Page: React.FC = () => {
     setRunBusy(true);
     setRunStoreError(null);
     try {
-      if (!runDemo && !String(runProjectId || '').trim()) throw new Error('projectId is required unless demo mode is enabled');
-      const payload = runDemo
-        ? ({ demo: true, ...(runProjectId ? { projectId: runProjectId } : {}) } as any)
-        : ({ projectId: runProjectId } as any);
+      const pid = String(runProjectId || '').trim() || (runDemo ? 'demo' : '');
+      if (!runDemo && !pid) throw new Error('projectId is required unless demo mode is enabled');
+      if (!pid) throw new Error('projectId is required to store and list demo runs');
+      const payload = runDemo ? ({ demo: true, projectId: pid } as any) : ({ projectId: pid } as any);
       const json: any = await runAndStoreAnalysisV1(payload);
       const newRunId = String(json?.runId || json?.analysisRunMeta?.runId || json?.analysisRun?.runId || '').trim();
       await loadIndex();
@@ -259,7 +278,7 @@ export const AnalysisRunsV1Page: React.FC = () => {
     setDiffBusy(true);
     setDiffError(null);
     try {
-      const res = await diffRunsV1(diffA, diffB);
+      const res = await getRunDiffDetailedV1(diffA, diffB);
       setDiff(res.diff);
     } catch (e) {
       setDiff(null);
@@ -269,31 +288,39 @@ export const AnalysisRunsV1Page: React.FC = () => {
     }
   }
 
-  const diffHighlights = useMemo(() => {
-    const cats = Array.isArray(diff?.categories) ? diff?.categories : [];
-    const out: Array<{ category: string; label: string; before: string; after: string }> = [];
-    for (const c of cats) {
-      for (const h of Array.isArray((c as any)?.highlights) ? (c as any).highlights : []) {
-        if (out.length >= 10) break;
-        out.push({ category: String((c as any)?.category || ''), label: String(h?.label || ''), before: String(h?.before || ''), after: String(h?.after || '') });
-      }
-      if (out.length >= 10) break;
-    }
-    return out;
+  const fixedCategoryOrder = useMemo(
+    () => ['rate_and_supply', 'interval', 'weather_determinants', 'battery', 'programs', 'warnings'] as const,
+    [],
+  );
+
+  useEffect(() => {
+    setCopyOk(false);
+    if (!diff) return;
+    const first = (Array.isArray((diff as any)?.changedSections) ? (diff as any).changedSections[0] : null) || (diff as any)?.categories?.[0]?.category || null;
+    if (first) setDiffCategory(String(first));
   }, [diff]);
 
-  const diffChangedPaths = useMemo(() => {
-    const cats = Array.isArray(diff?.categories) ? diff?.categories : [];
-    const all: string[] = [];
-    for (const c of cats) {
-      for (const p of Array.isArray((c as any)?.changedPaths) ? (c as any).changedPaths : []) {
-        const s = String(p || '').trim();
-        if (s) all.push(s);
-      }
+  const activeCategorySummary = useMemo(() => {
+    const cats = Array.isArray((diff as any)?.categories) ? ((diff as any).categories as any[]) : [];
+    return cats.find((c) => String(c?.category || '') === String(diffCategory || '')) || null;
+  }, [diff, diffCategory]);
+
+  const activeDetailedItems = useMemo(() => {
+    const all = Array.isArray((diff as any)?.changedPathsDetailed) ? ((diff as any).changedPathsDetailed as any[]) : [];
+    return all.filter((it) => String(it?.category || '') === String(diffCategory || ''));
+  }, [diff, diffCategory]);
+
+  async function onCopyDiffSummary() {
+    if (!diff) return;
+    setCopyOk(false);
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(diff, null, 2));
+      setCopyOk(true);
+      setTimeout(() => setCopyOk(false), 1500);
+    } catch {
+      // best-effort
     }
-    const uniq = Array.from(new Set(all)).sort((a, b) => a.localeCompare(b));
-    return uniq.slice(0, 25);
-  }, [diff]);
+  }
 
   const jsonRun = useMemo(() => jsonPretty(analysisRun), [analysisRun]);
   const jsonReport = useMemo(() => jsonPretty(reportJson), [reportJson]);
@@ -382,7 +409,11 @@ export const AnalysisRunsV1Page: React.FC = () => {
             {!loadingIndex && filteredRuns.length === 0 && <div className="px-4 py-6 text-sm text-gray-600">No runs found.</div>}
             {filteredRuns.map((r) => {
               const active = String(r.runId) === String(selectedRunId);
-              const provider = formatProviderType(r.summary?.supplyProviderType);
+              const provider = formatProviderType(r.coverage?.supplyProviderType);
+              const tariffStatus = String(r.coverage?.tariffMatchStatus || '').trim() || '—';
+              const intervalDays = Number.isFinite(Number(r.coverage?.intervalDays)) ? String(r.coverage?.intervalDays) : '—';
+              const engWarn = Number(r.warningsSummary?.engineWarningsCount || 0);
+              const missWarn = Number(r.warningsSummary?.missingInfoCount || 0);
               return (
                 <button
                   key={r.runId}
@@ -394,14 +425,15 @@ export const AnalysisRunsV1Page: React.FC = () => {
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
-                      <div className="text-sm font-semibold text-gray-900 truncate">{r.summary?.utility || '(unknown utility)'}</div>
+                      <div className="text-sm font-semibold text-gray-900 truncate">{String(r.runId)}</div>
                       <div className="text-xs text-gray-600 truncate">
-                        {r.summary?.rateCode ? `Rate ${r.summary.rateCode}` : 'Rate —'} • {provider} • {r.summary?.rateSourceKind || 'source —'}
+                        tariff={tariffStatus} • provider={provider} • intervalDays={intervalDays}
                       </div>
                       <div className="text-[11px] text-gray-500 mt-1 font-mono truncate">{shortIso(r.createdAtIso)} • {String(r.runId)}</div>
                     </div>
                     <div className="shrink-0 flex flex-col items-end gap-2">
-                      {r.summary?.hasIntervals ? <Pill label="interval" tone="green" /> : <Pill label="no interval" tone="gray" />}
+                      {r.coverage?.hasInterval ? <Pill label="interval" tone="green" /> : <Pill label="no interval" tone="gray" />}
+                      {engWarn || missWarn ? <Pill label={`warn ${engWarn}/${missWarn}`} tone="amber" title="engineWarnings/missingInfo" /> : <Pill label="warn 0/0" tone="gray" />}
                     </div>
                   </div>
                 </button>
@@ -434,8 +466,7 @@ export const AnalysisRunsV1Page: React.FC = () => {
               <div className="space-y-2">
                 <div className="flex flex-wrap gap-2 items-center">
                   <Pill label={rateFitStatus ? `Rate fit: ${rateFitStatus}` : 'Rate fit: —'} tone={rateFitStatus === 'good' ? 'green' : rateFitStatus ? 'amber' : 'gray'} />
-                  {selectedRow?.summary?.supplyProviderType ? <Pill label={`Provider: ${formatProviderType(selectedRow.summary.supplyProviderType)}`} /> : null}
-                  {selectedRow?.summary?.lseName ? <Pill label={`LSE: ${selectedRow.summary.lseName}`} /> : null}
+                  {selectedRow?.coverage?.supplyProviderType ? <Pill label={`Provider: ${formatProviderType(selectedRow.coverage.supplyProviderType)}`} /> : null}
                   {auditDrawerV1 ? <Pill label={`Audit drawer: ${Object.keys(auditDrawerV1?.moneyExplainers || {}).length}`} tone="blue" /> : <Pill label="Audit drawer: —" />}
                 </div>
 
@@ -477,16 +508,14 @@ export const AnalysisRunsV1Page: React.FC = () => {
                 <div className="text-sm font-semibold text-gray-900">Effective rate context (stored)</div>
                 <div className="text-sm text-gray-700">
                   <div>
-                    Utility: <span className="font-semibold">{String(selectedRow?.summary?.utility || reportJson?.project?.territory || '—')}</span>
+                    Utility: <span className="font-semibold">{String(reportJson?.project?.territory || snapshotResponse?.project?.territory || '—')}</span>
                   </div>
                   <div>
-                    Rate: <span className="font-semibold">{String(selectedRow?.summary?.rateCode || reportJson?.summary?.json?.building?.currentRateCode || '—')}</span>
+                    Rate: <span className="font-semibold">{String(reportJson?.summary?.json?.building?.currentRateCode || snapshotResponse?.summary?.json?.building?.currentRateCode || '—')}</span>
                   </div>
                   <div>
-                    Provider type: <span className="font-semibold">{formatProviderType(selectedRow?.summary?.supplyProviderType || supplyStructure?.supplyType)}</span>
-                  </div>
-                  <div>
-                    Rate source: <span className="font-mono">{String(selectedRow?.summary?.rateSourceKind || '—')}</span>
+                    Provider type:{' '}
+                    <span className="font-semibold">{formatProviderType(selectedRow?.coverage?.supplyProviderType || supplyStructure?.supplyType)}</span>
                   </div>
                 </div>
               </div>
@@ -617,42 +646,92 @@ export const AnalysisRunsV1Page: React.FC = () => {
             {!diff && <div className="text-sm text-gray-600">Select two runs and click Diff.</div>}
             {diff && (
               <>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex flex-wrap gap-2">
+                    <Pill label={`A: ${diff.runA.runId}`} />
+                    <Pill label={`B: ${diff.runB.runId}`} />
+                    <Pill label={`Sections: ${Array.isArray(diff.changedSections) ? diff.changedSections.length : 0}`} tone="blue" />
+                    {copyOk ? <Pill label="Copied" tone="green" /> : null}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => void onCopyDiffSummary()}
+                    disabled={!diff}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                  >
+                    Copy diff summary
+                  </button>
+                </div>
+
                 <div className="flex flex-wrap gap-2">
-                  <Pill label={`A: ${diff.runA.runId}`} />
-                  <Pill label={`B: ${diff.runB.runId}`} />
-                  <Pill label={`Sections: ${Array.isArray(diff.changedSections) ? diff.changedSections.length : 0}`} tone="blue" />
+                  {fixedCategoryOrder.map((cat) => {
+                    const active = String(diffCategory) === String(cat);
+                    const hasChanges = Boolean((diff as any)?.categories?.find?.((c: any) => String(c?.category || '') === String(cat))?.changedPaths?.length);
+                    return (
+                      <button
+                        key={cat}
+                        type="button"
+                        onClick={() => setDiffCategory(String(cat))}
+                        className={`px-2.5 py-1.5 rounded-lg border text-xs font-semibold ${
+                          active ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
+                        } ${hasChanges ? '' : 'opacity-60'}`}
+                        title={hasChanges ? 'Has changes' : 'No changes'}
+                      >
+                        {cat}
+                      </button>
+                    );
+                  })}
                 </div>
 
                 <div>
-                  <div className="text-sm font-semibold text-gray-900">Highlights (max 10)</div>
-                  {diffHighlights.length === 0 ? (
-                    <div className="text-sm text-gray-600">No highlights.</div>
+                  <div className="text-sm font-semibold text-gray-900">Changed paths (drilldown, max 25)</div>
+                  {!activeCategorySummary || !Array.isArray((activeCategorySummary as any).changedPaths) || (activeCategorySummary as any).changedPaths.length === 0 ? (
+                    <div className="text-sm text-gray-600">No changed paths in this category.</div>
                   ) : (
                     <div className="mt-2 space-y-2">
-                      {diffHighlights.map((h, idx) => (
-                        <div key={idx} className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
-                          <div className="text-[11px] font-semibold text-gray-700">{h.category}</div>
-                          <div className="text-sm font-semibold text-gray-900">{h.label}</div>
-                          <div className="mt-1 text-xs text-gray-700">
-                            <div className="font-mono text-[11px]">before: {h.before}</div>
-                            <div className="font-mono text-[11px]">after: {h.after}</div>
-                          </div>
-                        </div>
-                      ))}
+                      {((activeCategorySummary as any).changedPaths as any[]).slice(0, 25).map((p: any) => {
+                        const path = String(p || '').trim();
+                        const d = activeDetailedItems.find((it: any) => String(it?.path || '') === path) || null;
+                        return (
+                          <details key={path} className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                            <summary className="cursor-pointer text-[11px] font-mono text-gray-800">{path}</summary>
+                            {d ? (
+                              <div className="mt-2 grid grid-cols-1 gap-2 text-[11px] font-mono text-gray-700">
+                                <div>
+                                  <div className="text-[10px] font-semibold text-gray-500 uppercase">Before</div>
+                                  <div className="break-words">{String(d.beforePreview || '')}</div>
+                                </div>
+                                <div>
+                                  <div className="text-[10px] font-semibold text-gray-500 uppercase">After</div>
+                                  <div className="break-words">{String(d.afterPreview || '')}</div>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="mt-2 text-xs text-gray-600">Preview unavailable (older diff payload).</div>
+                            )}
+                          </details>
+                        );
+                      })}
                     </div>
                   )}
                 </div>
 
                 <div>
-                  <div className="text-sm font-semibold text-gray-900">Changed paths (max 25)</div>
-                  {diffChangedPaths.length === 0 ? (
-                    <div className="text-sm text-gray-600">No changed paths.</div>
+                  <div className="text-sm font-semibold text-gray-900">Highlights (max 10)</div>
+                  {!activeCategorySummary || !Array.isArray((activeCategorySummary as any).highlights) || (activeCategorySummary as any).highlights.length === 0 ? (
+                    <div className="text-sm text-gray-600">No highlights.</div>
                   ) : (
-                    <ul className="mt-2 text-[11px] font-mono text-gray-700 list-disc pl-5 space-y-1">
-                      {diffChangedPaths.map((p) => (
-                        <li key={p}>{p}</li>
+                    <div className="mt-2 space-y-2">
+                      {((activeCategorySummary as any).highlights as any[]).slice(0, 10).map((h: any, idx: number) => (
+                        <div key={idx} className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                          <div className="text-sm font-semibold text-gray-900">{String(h?.label || '')}</div>
+                          <div className="mt-1 text-xs text-gray-700">
+                            <div className="font-mono text-[11px]">before: {String(h?.before || '')}</div>
+                            <div className="font-mono text-[11px]">after: {String(h?.after || '')}</div>
+                          </div>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   )}
                 </div>
               </>

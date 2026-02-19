@@ -12,6 +12,13 @@ export type DiffHighlightItemV1 = {
   after: string;
 };
 
+export type DiffChangedPathDetailedV1 = {
+  category: DiffCategoryIdV1;
+  path: string;
+  beforePreview: string;
+  afterPreview: string;
+};
+
 export type DiffCategorySummaryV1 = {
   category: DiffCategoryIdV1;
   changedPaths: string[]; // max 25, sorted
@@ -23,5 +30,10 @@ export type DiffSummaryV1 = {
   runB: { runId: string; createdAtIso: string };
   changedSections: DiffCategoryIdV1[];
   categories: DiffCategorySummaryV1[];
+  /**
+   * Additive drilldown: bounded previews for changed paths across categories.
+   * Deterministic ordering: fixed category order, then path asc within category.
+   */
+  changedPathsDetailed?: DiffChangedPathDetailedV1[]; // max 25
 };
 

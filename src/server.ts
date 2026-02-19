@@ -6610,6 +6610,114 @@ app.get('/api/analysis-results-v1/runs', async (c) => {
   }
 });
 
+app.get('/api/analysis-results-v1/projects/:projectId/runs', async (c) => {
+  try {
+    const projectId = String(c.req.param('projectId') || '').trim();
+    if (!projectId) return c.json({ success: false, error: 'projectId is required' }, 400);
+
+    const limitRaw = Number(c.req.query('limit') ?? 25);
+    const limit = Math.max(1, Math.min(100, Number.isFinite(limitRaw) ? Math.trunc(limitRaw) : 25));
+
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const store = createAnalysisRunsStoreFsV1();
+
+    const rows = await store.listIndex();
+    const filtered = rows.filter((r: any) => String(r?.projectId ?? '').trim() === projectId).slice(0, limit);
+
+    const runs: Array<{
+      runId: string;
+      createdAtIso: string;
+      inputFingerprint: string;
+      engineVersions: Record<string, string>;
+      provenance: { tariffSnapshotId?: string | null; generationEnergySnapshotId?: string | null; addersSnapshotId?: string | null; exitFeesSnapshotId?: string | null };
+      warningsSummary: { engineWarningsCount: number; topEngineWarningCodes: string[]; missingInfoCount: number; topMissingInfoCodes: string[] };
+      coverage?: {
+        hasInterval: boolean;
+        intervalDays: number | null;
+        tariffMatchStatus: string | null;
+        supplyProviderType: string | null;
+        supplyConfidence: number | null;
+      };
+    }> = [];
+
+    for (const r of filtered) {
+      const runId = String((r as any)?.runId || '').trim();
+      if (!runId) continue;
+
+      const analysisRun: any = await store.readRun(runId);
+      const reportJson: any = analysisRun?.snapshot?.reportJson ?? null;
+      const trace: any = reportJson?.analysisTraceV1 ?? null;
+      const coverage: any = trace?.coverage ?? null;
+
+      const workflow: any = reportJson?.workflow ?? (analysisRun?.snapshot?.response as any)?.workflow ?? null;
+      const supplyStructure: any = workflow?.utility?.insights?.supplyStructure ?? null;
+      const rateFitStatus =
+        (coverage && coverage.tariffMatchStatus !== null && typeof coverage.tariffMatchStatus !== 'undefined'
+          ? String(coverage.tariffMatchStatus)
+          : String(reportJson?.summary?.json?.rateFit?.status ?? '')) || null;
+
+      const supplyProviderType =
+        (coverage && (coverage.supplyProviderType !== null && typeof coverage.supplyProviderType !== 'undefined') ? String(coverage.supplyProviderType) : '') ||
+        (supplyStructure?.supplyType ? String(supplyStructure.supplyType) : '') ||
+        null;
+
+      const supplyConfidenceNum =
+        Number.isFinite(Number(coverage?.supplyConfidence)) ? Number(coverage.supplyConfidence) : Number.isFinite(Number(supplyStructure?.confidence)) ? Number(supplyStructure.confidence) : null;
+
+      const hasInterval =
+        Boolean(coverage?.hasInterval) ||
+        Boolean(reportJson?.telemetry?.intervalElectricV1?.present) ||
+        Number(reportJson?.telemetry?.intervalElectricV1?.pointCount) > 0;
+
+      const intervalDays = Number.isFinite(Number(coverage?.intervalDays)) ? Number(coverage.intervalDays) : null;
+
+      const engineVersions: any = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : {};
+      const provenance: any = analysisRun?.provenance && typeof analysisRun.provenance === 'object' ? analysisRun.provenance : {};
+      const warningsSummary: any = analysisRun?.warningsSummary && typeof analysisRun.warningsSummary === 'object' ? analysisRun.warningsSummary : {};
+
+      runs.push({
+        runId,
+        createdAtIso: String((r as any)?.createdAtIso || analysisRun?.createdAtIso || '').trim(),
+        inputFingerprint: String((r as any)?.inputFingerprint || analysisRun?.inputFingerprint || '').trim(),
+        engineVersions,
+        provenance: {
+          tariffSnapshotId: provenance?.tariffSnapshotId ?? null,
+          generationEnergySnapshotId: provenance?.generationEnergySnapshotId ?? null,
+          addersSnapshotId: provenance?.addersSnapshotId ?? null,
+          exitFeesSnapshotId: provenance?.exitFeesSnapshotId ?? null,
+        },
+        warningsSummary: {
+          engineWarningsCount: Number(warningsSummary?.engineWarningsCount) || 0,
+          topEngineWarningCodes: Array.isArray(warningsSummary?.topEngineWarningCodes) ? warningsSummary.topEngineWarningCodes.slice(0, 10).map(String) : [],
+          missingInfoCount: Number(warningsSummary?.missingInfoCount) || 0,
+          topMissingInfoCodes: Array.isArray(warningsSummary?.topMissingInfoCodes) ? warningsSummary.topMissingInfoCodes.slice(0, 10).map(String) : [],
+        },
+        coverage: {
+          hasInterval,
+          intervalDays,
+          tariffMatchStatus: rateFitStatus ? String(rateFitStatus) : null,
+          supplyProviderType: supplyProviderType ? String(supplyProviderType) : null,
+          supplyConfidence: supplyConfidenceNum,
+        },
+      });
+    }
+
+    // Deterministic: createdAtIso desc, then runId asc.
+    runs.sort((a, b) => String(b.createdAtIso || '').localeCompare(String(a.createdAtIso || '')) || String(a.runId || '').localeCompare(String(b.runId || '')));
+
+    return c.json({ success: true, projectId, runs });
+  } catch (error) {
+    console.error('analysis-results-v1.projects.runs list error:', error);
+    return c.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to list project analysis runs',
+      },
+      500,
+    );
+  }
+});
+
 app.post('/api/analysis-results-v1/run-and-store', async (c) => {
   const userId = getCurrentUserId(c);
   const body = await c.req.json().catch(() => ({}));
@@ -8875,6 +8983,58 @@ app.get('/api/projects/:id/reports/internal-engineering', async (c) => {
   }
 });
 
+app.get('/api/projects/:id/reports/internal-engineering/revisions', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const id = c.req.param('id');
+    const project = await loadProjectInternal(userId, id);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const revisions = Array.isArray((project as any)?.reportsV1?.internalEngineering)
+      ? (project as any).reportsV1.internalEngineering
+      : [];
+
+    const out = revisions
+      .map((rev: any) => {
+        const revisionId = String(rev?.id || '').trim();
+        const createdAtIso = String(rev?.createdAt || rev?.createdAtIso || '').trim();
+        const runId = rev?.runId === null || typeof rev?.runId === 'undefined' ? null : String(rev.runId || '').trim() || null;
+
+        const engineVersions =
+          rev?.engineVersions && typeof rev.engineVersions === 'object'
+            ? (rev.engineVersions as any)
+            : rev?.reportJson?.engineVersions && typeof rev.reportJson.engineVersions === 'object'
+              ? (rev.reportJson.engineVersions as any)
+              : null;
+
+        const warningsSummary =
+          rev?.warningsSummary && typeof rev.warningsSummary === 'object'
+            ? (rev.warningsSummary as any)
+            : rev?.reportJson?.analysisTraceV1?.warningsSummary && typeof rev.reportJson.analysisTraceV1.warningsSummary === 'object'
+              ? (rev.reportJson.analysisTraceV1.warningsSummary as any)
+              : null;
+
+        const htmlUrl = revisionId ? `/api/projects/${encodeURIComponent(id)}/reports/internal-engineering/${encodeURIComponent(revisionId)}.html` : null;
+        const jsonUrl = revisionId ? `/api/projects/${encodeURIComponent(id)}/reports/internal-engineering/${encodeURIComponent(revisionId)}.json` : null;
+
+        return {
+          revisionId,
+          createdAtIso,
+          runId,
+          engineVersions: engineVersions && typeof engineVersions === 'object' ? engineVersions : {},
+          warningsSummary,
+          download: { htmlUrl, jsonUrl },
+        };
+      })
+      .filter((x: any) => x.revisionId && x.createdAtIso);
+
+    return c.json({ success: true, projectId: id, revisions: out });
+  } catch (error) {
+    console.error('List internal engineering revisions meta error:', error);
+    return c.json({ success: false, error: 'Failed to list internal report revisions' }, 500);
+  }
+});
+
 app.post('/api/projects/:id/reports/internal-engineering/generate', async (c) => {
   try {
     const userId = getCurrentUserId(c);
@@ -8885,6 +9045,7 @@ app.post('/api/projects/:id/reports/internal-engineering/generate', async (c) =>
     const body = await c.req.json().catch(() => ({}));
     const title = String((body as any)?.title || '').trim() || 'Internal Engineering Report (v1)';
     const analysisResults = (body as any)?.analysisResults;
+    const runIdRaw = String((body as any)?.runId || '').trim();
     if (!analysisResults || typeof analysisResults !== 'object') {
       return c.json({ success: false, error: 'analysisResults is required' }, 400);
     }
@@ -8905,12 +9066,28 @@ app.post('/api/projects/:id/reports/internal-engineering/generate', async (c) =>
     });
 
     const reportHash = sha256Hex(stableStringifyV1(reportJson));
+    let runId: string | null = null;
+    if (runIdRaw) {
+      if (runIdRaw.length > 120) return c.json({ success: false, error: 'runId too long' }, 400);
+      if (!/^[A-Za-z0-9_-]+$/.test(runIdRaw)) return c.json({ success: false, error: 'Invalid runId (allowed: [A-Za-z0-9_-])' }, 400);
+      runId = runIdRaw;
+    }
+
+    const engineVersionsMeta = (reportJson as any)?.engineVersions && typeof (reportJson as any).engineVersions === 'object' ? (reportJson as any).engineVersions : undefined;
+    const warningsSummaryMeta =
+      (reportJson as any)?.analysisTraceV1?.warningsSummary && typeof (reportJson as any).analysisTraceV1.warningsSummary === 'object'
+        ? (reportJson as any).analysisTraceV1.warningsSummary
+        : undefined;
+
     const revision = {
       id: randomUUID(),
       createdAt: nowIso,
       title,
       reportHash,
       reportJson,
+      ...(runId !== null ? { runId } : {}),
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
     };
 
     const existingReports = (project as any)?.reportsV1 && typeof (project as any).reportsV1 === 'object' ? (project as any).reportsV1 : {};

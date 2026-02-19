@@ -43,7 +43,7 @@ describe('analysisRunsV1: diffV1', () => {
       project: { name: 'Proj', territory: 'PGE' },
       summary: {
         json: {
-          building: { territory: 'PGE', currentRateCode: 'B-20' },
+          building: { territory: 'PGE', currentRateCode: 'B-20_' + 'X'.repeat(500) },
           rateFit: { status: 'good', confidence: 0.8, alternatives: [{ utility: 'PGE', rateCode: 'B-20', status: 'candidate' }] },
           programs: { matches: [{ programId: 'p2', matchStatus: 'maybe', score: 0.5 }] },
           battery: { gate: { status: 'recommended' }, topCandidates: [{ vendor: 'B', sku: 'Y', fitScore: 0.2, disqualifiers: ['d'] }] },
@@ -75,6 +75,36 @@ describe('analysisRunsV1: diffV1', () => {
     for (const c of diff.categories) {
       expect(c.changedPaths.length).toBeLessThanOrEqual(25);
       expect(c.highlights.length).toBeLessThanOrEqual(10);
+    }
+
+    // Additive drilldown contract: bounded previews + deterministic ordering.
+    expect(Array.isArray((diff as any).changedPathsDetailed)).toBe(true);
+    const detailed = ((diff as any).changedPathsDetailed || []) as any[];
+    expect(detailed.length).toBeLessThanOrEqual(25);
+    for (const it of detailed) {
+      expect(typeof it.category).toBe('string');
+      expect(typeof it.path).toBe('string');
+      expect(typeof it.beforePreview).toBe('string');
+      expect(typeof it.afterPreview).toBe('string');
+      expect(it.beforePreview.length).toBeLessThanOrEqual(200);
+      expect(it.afterPreview.length).toBeLessThanOrEqual(200);
+    }
+
+    const rank: Record<string, number> = {
+      rate_and_supply: 0,
+      interval: 1,
+      weather_determinants: 2,
+      battery: 3,
+      programs: 4,
+      warnings: 5,
+    };
+    for (let i = 1; i < detailed.length; i++) {
+      const a0 = detailed[i - 1];
+      const b0 = detailed[i];
+      const ra = rank[String(a0.category)] ?? 999;
+      const rb = rank[String(b0.category)] ?? 999;
+      expect(ra).toBeLessThanOrEqual(rb);
+      if (ra === rb) expect(String(a0.path).localeCompare(String(b0.path))).toBeLessThanOrEqual(0);
     }
   });
 });

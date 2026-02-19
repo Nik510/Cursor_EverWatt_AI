@@ -37,13 +37,19 @@ describe('AnalysisRunsV1Page (UI)', () => {
       runId: 'run_a',
       createdAtIso: '2026-02-19T10:00:00.000Z',
       inputFingerprint: 'aaaaaaaaaa1111111111',
-      summary: { utility: 'PGE', rateCode: 'E-19', supplyProviderType: 'NONE', lseName: '', hasIntervals: true, hasWeather: false, rateSourceKind: 'bill_pdf' },
+      engineVersions: {},
+      provenance: { tariffSnapshotId: 't_a', generationEnergySnapshotId: null, addersSnapshotId: null, exitFeesSnapshotId: null },
+      warningsSummary: { engineWarningsCount: 0, topEngineWarningCodes: [], missingInfoCount: 0, topMissingInfoCodes: [] },
+      coverage: { hasInterval: true, intervalDays: 30, tariffMatchStatus: 'good', supplyProviderType: 'NONE', supplyConfidence: 0.9 },
     };
     const runB = {
       runId: 'run_b',
       createdAtIso: '2026-02-19T09:00:00.000Z',
       inputFingerprint: 'bbbbbbbbbb2222222222',
-      summary: { utility: 'SCE', rateCode: 'TOU-8', supplyProviderType: 'CCA', lseName: 'CleanPower', hasIntervals: false, hasWeather: true, rateSourceKind: 'override' },
+      engineVersions: {},
+      provenance: { tariffSnapshotId: 't_b', generationEnergySnapshotId: null, addersSnapshotId: null, exitFeesSnapshotId: null },
+      warningsSummary: { engineWarningsCount: 0, topEngineWarningCodes: [], missingInfoCount: 0, topMissingInfoCodes: [] },
+      coverage: { hasInterval: false, intervalDays: null, tariffMatchStatus: 'unknown', supplyProviderType: 'CCA', supplyConfidence: 0.7 },
     };
 
     const analysisRunPayload = (runId: string) => ({
@@ -87,18 +93,26 @@ describe('AnalysisRunsV1Page (UI)', () => {
           highlights: [{ label: 'currentRateCode', before: 'E-19', after: 'TOU-8' }],
         },
       ],
+      changedPathsDetailed: [
+        {
+          category: 'rate_and_supply',
+          path: '/summary/json/building/currentRateCode',
+          beforePreview: 'E-19',
+          afterPreview: 'TOU-8',
+        },
+      ],
     };
 
     const fetchMock = vi.fn(async (input: any, init?: any) => {
       const url = String(typeof input === 'string' ? input : input?.url || '');
       const method = String(init?.method || 'GET').toUpperCase();
 
-      if (url === '/api/analysis-results-v1/runs' && method === 'GET') {
+      if (url === '/api/analysis-results-v1/projects/demo/runs?limit=25' && method === 'GET') {
         return {
           ok: true,
           status: 200,
           headers: new Headers({ 'content-type': 'application/json' }),
-          json: async () => ({ success: true, runs: [runA, runB], warnings: [] }),
+          json: async () => ({ success: true, projectId: 'demo', runs: [runA, runB] }),
         } as any;
       }
       if (url === '/api/analysis-results-v1/runs/run_a' && method === 'GET') {
@@ -129,11 +143,11 @@ describe('AnalysisRunsV1Page (UI)', () => {
 
     // List renders.
     expect(await screen.findByText('Analysis Runs (V1)')).toBeInTheDocument();
-    expect(await screen.findByText('PGE')).toBeInTheDocument();
-    expect(await screen.findByText('SCE')).toBeInTheDocument();
+    expect(await screen.findByText(/run_a/i)).toBeInTheDocument();
+    expect(await screen.findByText(/run_b/i)).toBeInTheDocument();
 
     // Clicking a row loads details.
-    await user.click(await screen.findByRole('button', { name: /SCE/i }));
+    await user.click(await screen.findByRole('button', { name: /run_b/i }));
     expect(await screen.findByText(/run_b/i)).toBeInTheDocument();
 
     // Diff only happens on explicit click.

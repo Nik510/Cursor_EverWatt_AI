@@ -1,6 +1,6 @@
 import { apiRequest } from './client';
 
-import type { AnalysisRunV1 } from '../types/analysisRunsV1';
+import type { AnalysisRunV1, ProjectRunListItemV1 } from '../types/analysisRunsV1';
 import type { DiffSummaryV1 } from '../types/analysisRunsDiffV1';
 
 export type AnalysisRunsV1IndexRow = {
@@ -58,9 +58,20 @@ export type RunAndStoreAnalysisResponseV1 = {
 export type ListRunsV1Response = { success: true; runs: AnalysisRunsV1IndexRow[]; warnings: string[] };
 export type ReadRunV1Response = { success: true; analysisRun: AnalysisRunV1 };
 export type DiffRunsV1Response = { success: true; diff: DiffSummaryV1 };
+export type ListProjectRunsV1Response = { success: true; projectId: string; runs: ProjectRunListItemV1[] };
 
 export async function listAnalysisRunsV1(): Promise<ListRunsV1Response> {
   return apiRequest<ListRunsV1Response>({ url: '/api/analysis-results-v1/runs' });
+}
+
+export async function listProjectRunsV1(projectId: string, opts?: { limit?: number }): Promise<ListProjectRunsV1Response> {
+  const pid = String(projectId || '').trim();
+  if (!pid) throw new Error('projectId is required');
+  const limit = Number(opts?.limit);
+  const qs = Number.isFinite(limit) ? `?limit=${encodeURIComponent(String(Math.trunc(limit)))}` : '';
+  return apiRequest<ListProjectRunsV1Response>({
+    url: `/api/analysis-results-v1/projects/${encodeURIComponent(pid)}/runs${qs}`,
+  });
 }
 
 export async function runAndStoreAnalysisV1(payload: RunAndStoreAnalysisRequestV1): Promise<RunAndStoreAnalysisResponseV1> {
@@ -83,6 +94,10 @@ export async function diffAnalysisRunsV1(runIdA: string, runIdB: string): Promis
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ runIdA, runIdB }),
   });
+}
+
+export async function getRunDiffDetailedV1(runIdA: string, runIdB: string): Promise<DiffRunsV1Response> {
+  return diffAnalysisRunsV1(runIdA, runIdB);
 }
 
 export function getAnalysisRunPdfUrlV1(runId: string): string {

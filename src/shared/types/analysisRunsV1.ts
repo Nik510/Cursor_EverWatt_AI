@@ -44,3 +44,31 @@ export type AnalysisRunIndexRowV1 = {
   inputFingerprint: string;
 };
 
+export type ProjectRunCoverageSummaryV1 = {
+  hasInterval: boolean;
+  intervalDays: number | null;
+  tariffMatchStatus: string | null;
+  supplyProviderType: string | null;
+  supplyConfidence: number | null;
+};
+
+export type ProjectRunListItemV1 = {
+  runId: string;
+  createdAtIso: string;
+  inputFingerprint: string;
+  engineVersions: Record<string, string>;
+  provenance: {
+    tariffSnapshotId?: string | null;
+    generationEnergySnapshotId?: string | null;
+    addersSnapshotId?: string | null;
+    exitFeesSnapshotId?: string | null;
+  };
+  warningsSummary: {
+    engineWarningsCount: number;
+    topEngineWarningCodes: string[];
+    missingInfoCount: number;
+    topMissingInfoCodes: string[];
+  };
+  coverage?: ProjectRunCoverageSummaryV1;
+};
+

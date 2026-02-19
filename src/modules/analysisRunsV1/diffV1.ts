@@ -14,6 +14,13 @@ export type DiffHighlightItemV1 = {
   after: string;
 };
 
+export type DiffChangedPathDetailedV1 = {
+  category: DiffCategoryIdV1;
+  path: string;
+  beforePreview: string;
+  afterPreview: string;
+};
+
 export type DiffCategorySummaryV1 = {
   category: DiffCategoryIdV1;
   changedPaths: string[]; // max 25, sorted
@@ -25,6 +32,7 @@ export type DiffSummaryV1 = {
   runB: { runId: string; createdAtIso: string };
   changedSections: DiffCategoryIdV1[];
   categories: DiffCategorySummaryV1[];
+  changedPathsDetailed?: DiffChangedPathDetailedV1[]; // max 25
 };
 
 function stableJsonKey(v: unknown): string {
@@ -116,6 +124,7 @@ function summarizeBatteryCandidates(v: any): string {
 function comparePaths(args: { a: any; b: any; paths: Array<{ label?: string; path: Array<string | number> }> }): {
   changedPaths: string[];
   highlights: DiffHighlightItemV1[];
+  changedItems: Array<{ ptr: string; label?: string; before: unknown; after: unknown }>;
 } {
   const changed: Array<{ ptr: string; label?: string; before: unknown; after: unknown }> = [];
   for (const p of args.paths) {
@@ -144,7 +153,7 @@ function comparePaths(args: { a: any; b: any; paths: Array<{ label?: string; pat
     });
   }
 
-  return { changedPaths, highlights };
+  return { changedPaths, highlights, changedItems: changed };
 }
 
 export function buildDiffSummaryV1(args: { runA: AnalysisRunV1; runB: AnalysisRunV1 }): DiffSummaryV1 {
@@ -153,6 +162,7 @@ export function buildDiffSummaryV1(args: { runA: AnalysisRunV1; runB: AnalysisRu
 
   const categories: DiffCategorySummaryV1[] = [];
   const changedSections: DiffCategoryIdV1[] = [];
+  const changedPathsDetailed: DiffChangedPathDetailedV1[] = [];
 
   const fixedOrder: Array<{ category: DiffCategoryIdV1; paths: Array<{ label?: string; path: Array<string | number> }> }> = [
     {
@@ -247,9 +257,23 @@ export function buildDiffSummaryV1(args: { runA: AnalysisRunV1; runB: AnalysisRu
   const bb = withDerived(b);
 
   for (const cat of fixedOrder) {
-    const { changedPaths, highlights } = comparePaths({ a: aa, b: bb, paths: cat.paths });
+    const { changedPaths, highlights, changedItems } = comparePaths({ a: aa, b: bb, paths: cat.paths });
     if (changedPaths.length) changedSections.push(cat.category);
     categories.push({ category: cat.category, changedPaths, highlights });
+
+    if (changedPathsDetailed.length < 25 && changedPaths.length) {
+      for (const ptr of changedPaths) {
+        if (changedPathsDetailed.length >= 25) break;
+        const item = changedItems.find((c) => c.ptr === ptr);
+        if (!item) continue;
+        changedPathsDetailed.push({
+          category: cat.category,
+          path: ptr,
+          beforePreview: boundedString(item.before, 200),
+          afterPreview: boundedString(item.after, 200),
+        });
+      }
+    }
   }
 
   return {
@@ -257,6 +281,7 @@ export function buildDiffSummaryV1(args: { runA: AnalysisRunV1; runB: AnalysisRu
     runB: { runId: String(args.runB.runId), createdAtIso: String(args.runB.createdAtIso) },
     changedSections,
     categories,
+    ...(changedPathsDetailed.length ? { changedPathsDetailed } : {}),
   };
 }
 
