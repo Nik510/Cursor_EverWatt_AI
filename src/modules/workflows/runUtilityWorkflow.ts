@@ -3,6 +3,8 @@ import type { BatteryLibraryItemV1 } from '../batteryLibrary/types';
 
 import { analyzeUtility } from '../utilityIntelligence/analyzeUtility';
 import { toInboxSuggestions } from '../utilityIntelligence/toInboxSuggestions';
+import { buildAnalysisTraceV1 } from '../utilityIntelligence/analysisTraceV1/buildAnalysisTraceV1';
+import type { AnalysisTraceV1 } from '../utilityIntelligence/analysisTraceV1/types';
 
 import { shouldEvaluateBattery } from '../batteryIntelligence/shouldEvaluateBattery';
 import { selectBatteryCandidatesV1 } from '../batteryIntelligence/selectCandidates';
@@ -56,6 +58,7 @@ export async function runUtilityWorkflow(args: {
     inboxItems: Array<ReturnType<typeof toInboxSuggestions>['inboxItems'][number]>;
   };
   requiredInputsMissing: string[];
+  analysisTraceV1: AnalysisTraceV1;
 }> {
   const nowIso = args.nowIso || new Date().toISOString();
   const idFactory = args.idFactory || makeEphemeralIdFactory({ prefix: 'utilReco', seed: nowIso });
@@ -98,6 +101,14 @@ export async function runUtilityWorkflow(args: {
     ...(selection.requiredInputsMissing || []),
   ]);
 
+  const analysisTraceV1 = buildAnalysisTraceV1({
+    nowIso,
+    inputs: args.inputs,
+    intervalKwSeries: args.intervalKwSeries || null,
+    intervalPointsV1: args.intervalPointsV1 || null,
+    insights: utilityAnalysis.insights as any,
+  });
+
   return {
     utility,
     battery: { gate, selection },
@@ -108,6 +119,7 @@ export async function runUtilityWorkflow(args: {
       inboxItems: [...utilityInbox.inboxItems, ...batteryInbox.inboxItems],
     },
     requiredInputsMissing,
+    analysisTraceV1,
   };
 }
 

@@ -129,6 +129,7 @@ export function renderInternalEngineeringReportHtmlV1(args: {
   const batteryEconomicsV1 = (report as any)?.batteryEconomicsV1 || null;
   const batteryDecisionPackV1 = (report as any)?.batteryDecisionPackV1 || null;
   const batteryDecisionPackV1_2 = (report as any)?.batteryDecisionPackV1_2 || null;
+  const analysisTraceV1 = (report as any)?.analysisTraceV1 || null;
   const auditDrawerV1 = (report as any)?.auditDrawerV1 || null;
   const engineVersions = (report as any)?.engineVersions || null;
   const engineVersionsLine = (() => {
@@ -182,6 +183,57 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     { k: 'gapCount', v: fmtMaybe(gapCount, 0) },
     { k: 'maxGapMinutes', v: fmtMaybe(maxGapMinutes, 0) },
   ];
+
+  const analysisTraceCardHtml = (() => {
+    try {
+      const t: any = analysisTraceV1 && typeof analysisTraceV1 === 'object' ? analysisTraceV1 : null;
+      if (!t) return `<div class="muted">(analysisTraceV1 missing)</div>`;
+
+      const cov = t.coverage && typeof t.coverage === 'object' ? t.coverage : {};
+      const warn = t.warningsSummary && typeof t.warningsSummary === 'object' ? t.warningsSummary : {};
+      const prov = t.provenance && typeof t.provenance === 'object' ? t.provenance : {};
+
+      const hasInterval = String(Boolean(cov.hasInterval));
+      const gran = String(cov.intervalGranularity ?? '—');
+      const days = fmtMaybe(safeNumber(cov.intervalDays), 3);
+
+      const hasBillText = String(Boolean(cov.hasBillText));
+      const billMonths = fmtMaybe(safeNumber(cov.billMonths), 0);
+
+      const hasWeather = String(Boolean(cov.hasWeatherDaily));
+      const weatherDays = fmtMaybe(safeNumber(cov.weatherDays), 0);
+
+      const tariffMatchStatus = String(cov.tariffMatchStatus ?? '—');
+      const supplyProviderType = String(cov.supplyProviderType ?? '—');
+      const supplyConfidence = fmtMaybe(safeNumber(cov.supplyConfidence), 3);
+      const hasRatchetHistory = cov.hasRatchetHistory === null || typeof cov.hasRatchetHistory === 'undefined' ? '—' : String(Boolean(cov.hasRatchetHistory));
+
+      const ran = Array.isArray(t.ranModules) ? t.ranModules.length : 0;
+      const skipped = Array.isArray(t.skippedModules) ? t.skippedModules.length : 0;
+
+      const engineWarningsCount = fmtMaybe(safeNumber(warn.engineWarningsCount), 0);
+      const missingInfoCount = fmtMaybe(safeNumber(warn.missingInfoCount), 0);
+
+      const tariffSnapshotId = String(prov.tariffSnapshotId ?? '').trim() || '—';
+      const genSnap = String(prov.generationEnergySnapshotId ?? '').trim() || '—';
+      const addersSnap = String(prov.addersSnapshotId ?? '').trim() || '—';
+      const exitFeesSnap = String(prov.exitFeesSnapshotId ?? '').trim() || '—';
+
+      const lines = [
+        `<ul style="margin:0;padding-left:18px;">`,
+        `<li><span style="font-family: var(--mono);">coverage</span>: interval=${escapeHtml(hasInterval)} (gran=${escapeHtml(gran)}, days=${escapeHtml(days)}) • billText=${escapeHtml(hasBillText)} (billMonths=${escapeHtml(billMonths)}) • weatherDaily=${escapeHtml(hasWeather)} (days=${escapeHtml(weatherDays)})</li>`,
+        `<li><span style="font-family: var(--mono);">tariff</span>: matchStatus=${escapeHtml(tariffMatchStatus)} • snapshot=${escapeHtml(tariffSnapshotId)}</li>`,
+        `<li><span style="font-family: var(--mono);">supply</span>: providerType=${escapeHtml(supplyProviderType)} • confidence=${escapeHtml(supplyConfidence)} • hasRatchetHistory=${escapeHtml(hasRatchetHistory)}</li>`,
+        `<li><span style="font-family: var(--mono);">modules</span>: ran=${escapeHtml(String(ran))} • skipped=${escapeHtml(String(skipped))}</li>`,
+        `<li><span style="font-family: var(--mono);">warnings</span>: engineWarnings=${escapeHtml(String(engineWarningsCount))} • missingInfo=${escapeHtml(String(missingInfoCount))}</li>`,
+        `<li><span style="font-family: var(--mono);">provenance</span>: genSnap=${escapeHtml(genSnap)} • addersSnap=${escapeHtml(addersSnap)} • exitFeesSnap=${escapeHtml(exitFeesSnap)}</li>`,
+        `</ul>`,
+      ];
+      return lines.join('\n');
+    } catch {
+      return `<div class="muted">(analysisTraceV1 failed to render)</div>`;
+    }
+  })();
 
   // ---- Interval Insights (deterministic; snapshot-only) ----
   const intervalInsightsRows: Array<{ k: string; v: string }> = (() => {
@@ -671,6 +723,14 @@ export function renderInternalEngineeringReportHtmlV1(args: {
     `<div class="muted" style="margin-top:10px;">Computed strictly from the stored snapshot in this report revision (no AI, no guessing).</div>`,
     `<div class="muted" style="margin-top:8px;font-family: var(--mono);">${escapeHtml(engineVersionsLine)}</div>`,
     `<div class="muted" style="margin-top:6px;font-family: var(--mono);">${escapeHtml(auditDrawerLine)}</div>`,
+    `</div>`,
+    `</div>`,
+
+    `<div class="card">`,
+    `<div class="cardTitle">Analysis Trace</div>`,
+    `<div class="cardBody">`,
+    `${analysisTraceCardHtml}`,
+    `<div class="muted" style="margin-top:10px;">Rendered strictly from reportJson.analysisTraceV1 (snapshot-only; no live recompute).</div>`,
     `</div>`,
     `</div>`,
 

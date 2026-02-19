@@ -15,6 +15,7 @@ describe('renderInternalEngineeringReportHtmlV1', () => {
     });
 
     expect(html).toContain('<!doctype html>');
+    expect(html).toContain('Analysis Trace');
     // Stable ordering: a should appear before b at top level
     const idxA = html.indexOf('&quot;a&quot;');
     const idxB = html.indexOf('&quot;b&quot;');

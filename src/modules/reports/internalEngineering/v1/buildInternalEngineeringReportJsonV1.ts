@@ -1,6 +1,7 @@
 import type { MissingInfoItemV0 } from '../../../utilityIntelligence/missingInfo/types';
 import { engineVersions, intervalIntakeVersion } from '../../../engineVersions';
 import { analyzeIntervalIntelligenceV1 } from '../../../utilityIntelligence/intervalIntelligenceV1/analyzeIntervalIntelligenceV1';
+import { buildAnalysisTraceV1 } from '../../../utilityIntelligence/analysisTraceV1/buildAnalysisTraceV1';
 import {
   buildDailyUsageAndWeatherSeriesFromIntervalPointsV1,
   regressUsageVsWeatherV1,
@@ -103,6 +104,20 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
   const batteryDecisionPackV1 = (args.analysisResults?.workflow as any)?.utility?.insights?.batteryDecisionPackV1 ?? null;
   const batteryDecisionPackV1_2 = (args.analysisResults?.workflow as any)?.utility?.insights?.batteryDecisionPackV1_2 ?? null;
 
+  const workflowUtilityInputs = (args.analysisResults?.workflow as any)?.utility?.inputs ?? null;
+  const workflowUtilityInsights = (args.analysisResults?.workflow as any)?.utility?.insights ?? null;
+  const workflowTrace = (args.analysisResults?.workflow as any)?.analysisTraceV1 ?? null;
+  const analysisTraceV1 =
+    workflowTrace && typeof workflowTrace === 'object'
+      ? workflowTrace
+      : buildAnalysisTraceV1({
+          nowIso: nowIso || new Date().toISOString(),
+          inputs: (workflowUtilityInputs && typeof workflowUtilityInputs === 'object' ? workflowUtilityInputs : { orgId: 'unknown', projectId, serviceType: 'electric' }) as any,
+          intervalPointsV1: intervalPts as any,
+          intervalMetaV1: intervalMeta,
+          insights: workflowUtilityInsights && typeof workflowUtilityInsights === 'object' ? workflowUtilityInsights : {},
+        });
+
   const reportJson: any = {
     schemaVersion: 'internalEngineeringReportV1',
     generatedAtIso: nowIso,
@@ -128,6 +143,7 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
     batteryEconomicsV1,
     batteryDecisionPackV1,
     batteryDecisionPackV1_2,
+    analysisTraceV1,
     workflow: args.analysisResults?.workflow,
     summary: args.analysisResults?.summary,
     missingInfo,
