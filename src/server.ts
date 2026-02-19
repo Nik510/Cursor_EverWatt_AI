@@ -47,7 +47,7 @@ import {
 } from './utils/utility-data-reader';
 import { login as adminLogin, verifySession, logout as adminLogout, hasPermission } from './backend/admin/auth';
 import type { AdminSession, UserRole } from './backend/admin/types';
-import { signJwt, verifyJwt, getBearerTokenFromAuthHeader } from './services/auth-service';
+import { signJwt, verifyJwt, getBearerTokenFromAuthHeader, assertJwtSecretConfigured } from './services/auth-service';
 import { authMiddleware, requireRole as requireJwtRole } from './middleware/auth';
 import { ensureDatabaseSchema, isDatabaseEnabled } from './db/client';
 import { isApiError } from './middleware/error-handler';
@@ -76,6 +76,9 @@ import { getLatestProgramsV1 } from './modules/programLibrary/v1';
 
 const DEFAULT_UPLOADS_DIR = path.join(tmpdir(), 'everwatt-uploads');
 const DEFAULT_SAMPLES_DIR = path.join(process.cwd(), 'samples');
+
+// Fail fast in production if JWT secret is missing.
+assertJwtSecretConfigured();
 
 function resolveAllowlistedPath(rawPath: string, allowRoots: string[]): string | null {
   const fp = String(rawPath || '').trim();
@@ -1865,6 +1868,89 @@ app.get('/api/ai/source', async (c) => {
   }
 });
 
+app.post('/api/ai/insights/section', async (c) => {
+  try {
+    const configured = !!process.env.OPENAI_API_KEY;
+    if (configured) requireEditorAccessForAi(c);
+
+    const body = await c.req.json().catch(() => ({}));
+    const sectionId = String((body as any)?.sectionId || '');
+    const sectionTitle = (body as any)?.sectionTitle ? String((body as any)?.sectionTitle) : undefined;
+    const sectionData = ((body as any)?.sectionData || {}) as Record<string, unknown>;
+    if (!sectionId) return c.json({ success: false, error: 'sectionId is required' }, 400);
+
+    const { generateSectionInsight } = await import('./services/llm-insights');
+    const insight = await generateSectionInsight(sectionId, sectionData, sectionTitle);
+    return c.json({ success: true, insight });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'AI insight request failed';
+    const status = message.includes('Unauthorized') ? 403 : message.includes('OPENAI_API_KEY') ? 501 : 500;
+    console.error('AI section insight error:', error);
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/ai/insights/battery', async (c) => {
+  try {
+    const configured = !!process.env.OPENAI_API_KEY;
+    if (configured) requireEditorAccessForAi(c);
+
+    const body = await c.req.json().catch(() => ({}));
+    const batteries = Array.isArray((body as any)?.batteries) ? (body as any).batteries : [];
+    const peakProfile = (body as any)?.peakProfile || null;
+    if (!peakProfile) return c.json({ success: false, error: 'peakProfile is required' }, 400);
+
+    const { generateBatteryInsight } = await import('./services/llm-insights');
+    const insight = await generateBatteryInsight(batteries, peakProfile);
+    return c.json({ success: true, insight });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'AI insight request failed';
+    const status = message.includes('Unauthorized') ? 403 : message.includes('OPENAI_API_KEY') ? 501 : 500;
+    console.error('AI battery insight error:', error);
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/ai/insights/weather', async (c) => {
+  try {
+    const configured = !!process.env.OPENAI_API_KEY;
+    if (configured) requireEditorAccessForAi(c);
+
+    const body = await c.req.json().catch(() => ({}));
+    const correlationData = (body as any)?.correlationData || (body as any)?.correlation || null;
+    if (!correlationData) return c.json({ success: false, error: 'correlationData is required' }, 400);
+
+    const { generateWeatherInsight } = await import('./services/llm-insights');
+    const insight = await generateWeatherInsight(correlationData);
+    return c.json({ success: true, insight });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'AI insight request failed';
+    const status = message.includes('Unauthorized') ? 403 : message.includes('OPENAI_API_KEY') ? 501 : 500;
+    console.error('AI weather insight error:', error);
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/ai/insights/executive-narrative', async (c) => {
+  try {
+    const configured = !!process.env.OPENAI_API_KEY;
+    if (configured) requireEditorAccessForAi(c);
+
+    const body = await c.req.json().catch(() => ({}));
+    const analysisData = (body as any)?.analysisData || (body as any) || null;
+    if (!analysisData) return c.json({ success: false, error: 'analysisData is required' }, 400);
+
+    const { generateExecutiveNarrative } = await import('./services/llm-insights');
+    const text = await generateExecutiveNarrative(analysisData);
+    return c.json({ success: true, text });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'AI request failed';
+    const status = message.includes('Unauthorized') ? 403 : message.includes('OPENAI_API_KEY') ? 501 : 500;
+    console.error('AI executive narrative error:', error);
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
 /**
  * GET /api/library/equipment - Comprehensive equipment database (for explorers)
  * Backed by src/data/equipment/comprehensive-equipment-database.ts
@@ -3292,6 +3378,53 @@ app.post('/api/batteries/diagnostics', async (c) => {
   } catch (error) {
     console.error('Diagnostics error:', error);
     return c.json({ success: false, error: 'Failed to compute diagnostics' }, 500);
+  }
+});
+
+/**
+ * POST /api/batteries/holistic-analysis
+ * Runs the "intelligent peak" holistic analysis on the backend.
+ * Frontend should call this instead of importing Node-only engine modules.
+ */
+app.post('/api/batteries/holistic-analysis', async (c) => {
+  try {
+    const body = (await c.req.json()) as {
+      intervals: Array<{ timestamp: string; kw: number; temperature?: number }>;
+      demandRate?: number;
+      financialParams?: { discountRate?: number; inflationRate?: number; analysisPeriod?: number };
+      maxPaybackYears?: number;
+    };
+    if (!Array.isArray(body.intervals) || body.intervals.length === 0) {
+      return c.json({ success: false, error: 'intervals are required' }, 400);
+    }
+
+    const loadProfile: LoadProfile = {
+      intervals: body.intervals.map((i) => ({
+        timestamp: new Date(i.timestamp),
+        kw: Number(i.kw) || 0,
+        temperature: typeof i.temperature === 'number' ? i.temperature : undefined,
+      })),
+    };
+
+    const demandRate = Number.isFinite(Number(body.demandRate)) ? Number(body.demandRate) : 20;
+    const financialParams = {
+      discountRate: Number(body.financialParams?.discountRate ?? 0.06),
+      inflationRate: Number(body.financialParams?.inflationRate ?? 0.02),
+      analysisPeriod: Number(body.financialParams?.analysisPeriod ?? 15),
+    };
+    const maxPaybackYears = Number.isFinite(Number(body.maxPaybackYears)) ? Number(body.maxPaybackYears) : 10;
+
+    const { performHolisticAnalysis } = await import('./modules/battery/intelligent-peak-analysis');
+    const analysis = await performHolisticAnalysis(loadProfile, {
+      demandRate,
+      financialParams,
+      maxPaybackYears,
+    });
+
+    return c.json({ success: true, analysis });
+  } catch (error) {
+    console.error('Holistic analysis error:', error);
+    return c.json({ success: false, error: 'Failed to compute holistic analysis' }, 500);
   }
 });
 

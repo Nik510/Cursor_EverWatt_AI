@@ -1,25 +1,23 @@
 /**
  * AI Configuration
  * Settings for OpenAI integration and LLM-powered insights
- * 
+ *
  * To use AI insights, set the environment variable:
- * VITE_OPENAI_API_KEY=your-api-key-here
+ * OPENAI_API_KEY=your-api-key-here
  */
 
-// Check if running in browser or Node.js environment
-const isBrowser = typeof window !== 'undefined';
+function isBrowserRuntime(): boolean {
+  // window is defined in browsers and some test environments; treat any window presence as "browser mode".
+  // This file must never expose secrets to browser bundles.
+  return typeof window !== 'undefined';
+}
 
 /**
  * Get OpenAI API key from environment
  */
-function getOpenAIKey(): string | undefined {
-  if (isBrowser) {
-    // Vite environment variable (browser)
-    return import.meta.env?.VITE_OPENAI_API_KEY;
-  } else {
-    // Node.js environment
-    return process.env.OPENAI_API_KEY || process.env.VITE_OPENAI_API_KEY;
-  }
+export function getOpenAIKey(): string | undefined {
+  if (isBrowserRuntime()) return undefined;
+  return process.env.OPENAI_API_KEY;
 }
 
 /**
@@ -29,7 +27,9 @@ export const aiConfig = {
   /**
    * OpenAI API key - loaded from environment variable
    */
-  openaiApiKey: getOpenAIKey(),
+  get openaiApiKey(): string | undefined {
+    return getOpenAIKey();
+  },
 
   /**
    * Default model to use for generating insights
@@ -56,7 +56,8 @@ export const aiConfig = {
    * Whether AI features are enabled (requires API key)
    */
   get isEnabled(): boolean {
-    return Boolean(this.openaiApiKey && this.openaiApiKey.length > 10);
+    const key = this.openaiApiKey;
+    return Boolean(key && key.length > 10);
   },
 
   /**

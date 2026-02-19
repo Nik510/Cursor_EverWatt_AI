@@ -9,7 +9,10 @@
     "strictNullChecks": false,
     "noImplicitAny": false
   },
-  "include": ["tests/analysisResultsV1.trustHardening.test.ts"],
+  "include": [
+    "tests/analysisResultsV1.trustHardening.test.ts",
+    "tests/platformHardeningP0.*.test.ts"
+  ],
   "exclude": []
 }
 
