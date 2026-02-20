@@ -93,6 +93,21 @@ function resolveAllowlistedPath(rawPath: string, allowRoots: string[]): string |
   return null;
 }
 
+function resolveUploadsRefV1(uploadsRefRaw: string): string | null {
+  const ref = String(uploadsRefRaw || '')
+    .trim()
+    .replace(/\\/g, '/');
+  if (!ref) return null;
+  if (ref.includes('\0')) return null;
+  if (ref.split('/').some((seg) => seg === '..')) return null;
+  // Always resolve relative to the uploads root (do NOT allow cwd-relative paths).
+  const root = path.resolve(DEFAULT_UPLOADS_DIR);
+  const abs = path.resolve(root, ref);
+  if (abs === root) return null;
+  if (!abs.startsWith(root + path.sep)) return null;
+  return abs;
+}
+
 function makeRequestScopedIdFactory(args: { prefix: string; runId: string }): () => string {
   const prefix = String(args.prefix || 'id').trim() || 'id';
   const runId = String(args.runId || '').trim() || 'run';
@@ -6255,6 +6270,7 @@ app.get('/api/projects/:id/analysis-results-v1', async (c) => {
     const projectName = String(customer?.projectName || customer?.companyName || '').trim() || (demo ? 'Demo: Peaky Office' : '');
     const siteLocation = String(customer?.siteLocation || '').trim() || (demo ? 'Oakland, CA' : '');
     const billPdfText = String(telemetry?.billPdfText || '').trim();
+    const pciaVintageKey = !demo ? (String((telemetry as any)?.pciaVintageKey || '').trim() || null) : null;
     const tariffOverrideV1 = !demo ? ((project as any)?.tariffOverrideV1 ?? null) : null;
     const { resolveCurrentRateSelectionV1 } = await import('./modules/utilityIntelligence/currentRate/resolveCurrentRateSelectionV1');
     const resolvedRate = await resolveCurrentRateSelectionV1({
@@ -6427,6 +6443,7 @@ app.get('/api/projects/:id/analysis-results-v1.pdf', async (c) => {
     const projectName = String(customer?.projectName || customer?.companyName || '').trim() || (demo ? 'Demo: Peaky Office' : '');
     const siteLocation = String(customer?.siteLocation || '').trim() || (demo ? 'Oakland, CA' : '');
     const billPdfText = String(telemetry?.billPdfText || '').trim();
+    const pciaVintageKey = !demo ? (String((telemetry as any)?.pciaVintageKey || '').trim() || null) : null;
     const tariffOverrideV1 = !demo ? ((project as any)?.tariffOverrideV1 ?? null) : null;
     const { resolveCurrentRateSelectionV1 } = await import('./modules/utilityIntelligence/currentRate/resolveCurrentRateSelectionV1');
     const resolvedRate = await resolveCurrentRateSelectionV1({
@@ -6887,6 +6904,7 @@ app.post('/api/analysis-results-v1/run-and-store', async (c) => {
     const projectName = String(customer?.projectName || customer?.companyName || '').trim() || (demo ? 'Demo: Peaky Office' : '');
     const siteLocation = String(customer?.siteLocation || '').trim() || (demo ? 'Oakland, CA' : '');
     const billPdfText = String(telemetry?.billPdfText || '').trim();
+    const pciaVintageKey = !demo ? (String((telemetry as any)?.pciaVintageKey || '').trim() || null) : null;
     const tariffOverrideV1 = !demo ? ((project as any)?.tariffOverrideV1 ?? null) : null;
     const { resolveCurrentRateSelectionV1 } = await import('./modules/utilityIntelligence/currentRate/resolveCurrentRateSelectionV1');
     const resolvedRate = await resolveCurrentRateSelectionV1({
@@ -6917,6 +6935,7 @@ app.post('/api/analysis-results-v1/run-and-store', async (c) => {
       intervalKwSeries,
       intervalPointsV1,
       batteryLibrary: lib.library.items,
+      pciaVintageKey,
       nowIso,
       idFactory,
       suggestionIdFactory,
@@ -7252,6 +7271,240 @@ app.post('/api/report-sessions-v1/:reportId/attach-revision', async (c) => {
   }
 });
 
+app.post('/api/report-sessions-v1/:reportId/inputs/upload-bill', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.parseBody().catch(() => ({} as any));
+    const file = (body as any)?.file || (body as any)?.billFile;
+    if (!file) return c.json({ success: false, error: 'file is required (multipart field: file)' }, 400);
+
+    // Guardrail: avoid buffering extremely large PDFs in memory.
+    const MAX_PDF_BYTES = 25 * 1024 * 1024; // 25MB
+    if (typeof (file as any).size === 'number' && (file as any).size > MAX_PDF_BYTES) {
+      return c.json({ success: false, error: `Bill PDF too large (max ${Math.round(MAX_PDF_BYTES / (1024 * 1024))}MB)` }, 413);
+    }
+
+    const uploadsDir = path.join(DEFAULT_UPLOADS_DIR, 'reportSessionsV1', reportId);
+    await mkdir(uploadsDir, { recursive: true });
+
+    const originalFilename = String((file as any)?.name || 'bill.pdf').trim().slice(0, 180) || 'bill.pdf';
+    const buf = Buffer.from(await (file as any).arrayBuffer());
+    const sha256Hex = createHash('sha256').update(buf).digest('hex');
+    const pdfName = `bill_${sha256Hex}.pdf`;
+    const uploadsRefPdf = path.join('reportSessionsV1', reportId, pdfName).replace(/\\/g, '/');
+    const absPdf = path.join(DEFAULT_UPLOADS_DIR, uploadsRefPdf);
+    await writeFile(absPdf, buf);
+
+    // Extract text snapshot (keeps session record small).
+    // If parsing fails (non-PDF/test fixture), we still store the PDF ref and proceed.
+    let text = '';
+    try {
+      const { parsePdf } = await import('./utils/pdf-parser');
+      const parsed = await parsePdf(absPdf);
+      text = String((parsed as any)?.text || '').trim();
+    } catch (e) {
+      text = '';
+      try {
+        const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+        const store = createReportSessionsStoreFsV1();
+        await store.recordError(reportId, {
+          code: 'BILL_PDF_PARSE_FAILED',
+          context: { message: String((e as any)?.message || e), sha256Hex },
+        });
+      } catch {
+        // best-effort
+      }
+    }
+    const txtName = `bill_${sha256Hex}.txt`;
+    const uploadsRefTxt = path.join('reportSessionsV1', reportId, txtName).replace(/\\/g, '/');
+    const absTxt = path.join(DEFAULT_UPLOADS_DIR, uploadsRefTxt);
+    await writeFile(absTxt, text ? text + '\n' : '');
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const nowIso = new Date().toISOString();
+    const session = await store.patchInputsV1(
+      reportId,
+      {
+        inputsV1Patch: {
+          billPdf: { uploadsRef: uploadsRefPdf, originalFilename, sha256Hex, bytes: buf.byteLength, uploadedAtIso: nowIso } as any,
+          billPdfTextRef: uploadsRefTxt,
+        },
+        inputsSummaryPatch: { hasBillText: Boolean(text) },
+        event: { type: 'INPUT_BILL_UPLOADED', atIso: nowIso, sha256Hex } as any,
+      },
+      { nowIso },
+    );
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to upload bill';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/inputs/upload-interval', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.parseBody().catch(() => ({} as any));
+    const file = (body as any)?.file || (body as any)?.intervalFile;
+    if (!file) return c.json({ success: false, error: 'file is required (multipart field: file)' }, 400);
+
+    const MAX_INTERVAL_BYTES = 50 * 1024 * 1024; // 50MB
+    if (typeof (file as any).size === 'number' && (file as any).size > MAX_INTERVAL_BYTES) {
+      return c.json({ success: false, error: `Interval file too large (max ${Math.round(MAX_INTERVAL_BYTES / (1024 * 1024))}MB)` }, 413);
+    }
+
+    const uploadsDir = path.join(DEFAULT_UPLOADS_DIR, 'reportSessionsV1', reportId);
+    await mkdir(uploadsDir, { recursive: true });
+
+    const originalFilename = String((file as any)?.name || 'interval.csv').trim().slice(0, 180) || 'interval.csv';
+    const buf = Buffer.from(await (file as any).arrayBuffer());
+    const sha256Hex = createHash('sha256').update(buf).digest('hex');
+    const ext = path.extname(originalFilename).toLowerCase() || '.csv';
+    const name = `interval_${sha256Hex}${ext}`;
+    const uploadsRef = path.join('reportSessionsV1', reportId, name).replace(/\\/g, '/');
+    const abs = path.join(DEFAULT_UPLOADS_DIR, uploadsRef);
+    await writeFile(abs, buf);
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const nowIso = new Date().toISOString();
+    const session = await store.patchInputsV1(
+      reportId,
+      {
+        inputsV1Patch: {
+          intervalFile: { uploadsRef, originalFilename, sha256Hex, bytes: buf.byteLength, uploadedAtIso: nowIso } as any,
+        },
+        inputsSummaryPatch: { hasIntervals: true },
+        event: { type: 'INPUT_INTERVAL_UPLOADED', atIso: nowIso, sha256Hex } as any,
+      },
+      { nowIso },
+    );
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to upload interval';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/inputs/set-rate-code', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+    const rateCode = String((body as any)?.rateCode || '').trim().toUpperCase().replace(/\s+/g, '');
+    if (!rateCode) return c.json({ success: false, error: 'rateCode is required' }, 400);
+    if (rateCode.length > 40) return c.json({ success: false, error: 'rateCode too long' }, 400);
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const nowIso = new Date().toISOString();
+    const session = await store.patchInputsV1(
+      reportId,
+      { inputsV1Patch: { rateCode }, event: { type: 'INPUT_RATE_CODE_SET', atIso: nowIso, rateCode } as any },
+      { nowIso },
+    );
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to set rate code';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/inputs/set-provider', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+    const providerType = String((body as any)?.providerType || '').trim().toUpperCase();
+    if (providerType !== 'CCA' && providerType !== 'DA' && providerType !== 'NONE') {
+      return c.json({ success: false, error: 'providerType must be CCA, DA, or NONE' }, 400);
+    }
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const nowIso = new Date().toISOString();
+    const session = await store.patchInputsV1(
+      reportId,
+      {
+        inputsV1Patch: { providerType: providerType as any },
+        event: { type: 'INPUT_PROVIDER_SET', atIso: nowIso, providerType } as any,
+      },
+      { nowIso },
+    );
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to set provider';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/inputs/set-pcia-vintage-key', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+    const pciaVintageKey = String((body as any)?.pciaVintageKey || '').trim();
+    if (!pciaVintageKey) return c.json({ success: false, error: 'pciaVintageKey is required' }, 400);
+    if (pciaVintageKey.length > 40) return c.json({ success: false, error: 'pciaVintageKey too long' }, 400);
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const nowIso = new Date().toISOString();
+    const session = await store.patchInputsV1(
+      reportId,
+      {
+        inputsV1Patch: { pciaVintageKey },
+        event: { type: 'INPUT_PCIA_VINTAGE_SET', atIso: nowIso, pciaVintageKey } as any,
+      },
+      { nowIso },
+    );
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to set PCIA vintage key';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/inputs/set-project-metadata', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+
+    const projectName = String((body as any)?.projectName || '').trim() || undefined;
+    const address = String((body as any)?.address || '').trim() || undefined;
+    const utilityHint = String((body as any)?.utilityHint || '').trim() || undefined;
+    const meterId = String((body as any)?.meterId || '').trim() || undefined;
+    const accountNumber = String((body as any)?.accountNumber || '').trim() || undefined;
+    const serviceAccountId = String((body as any)?.serviceAccountId || '').trim() || undefined;
+
+    const keys = Object.keys({ ...(projectName ? { projectName: true } : {}), ...(address ? { address: true } : {}), ...(utilityHint ? { utilityHint: true } : {}), ...(meterId ? { meterId: true } : {}), ...(accountNumber ? { accountNumber: true } : {}), ...(serviceAccountId ? { serviceAccountId: true } : {}) });
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const nowIso = new Date().toISOString();
+    const session = await store.patchInputsV1(
+      reportId,
+      {
+        inputsV1Patch: {
+          projectMetadata: {
+            ...(projectName ? { projectName } : {}),
+            ...(address ? { address } : {}),
+            ...(utilityHint ? { utilityHint } : {}),
+            ...(meterId ? { meterId } : {}),
+            ...(accountNumber ? { accountNumber } : {}),
+            ...(serviceAccountId ? { serviceAccountId } : {}),
+          } as any,
+        },
+        inputsSummaryPatch: { ...(address ? { hasAddress: true } : {}), ...(utilityHint ? { utilityHint } : {}) } as any,
+        event: { type: 'INPUT_PROJECT_METADATA_SET', atIso: nowIso, keys } as any,
+      },
+      { nowIso },
+    );
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to set project metadata';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
 app.post('/api/report-sessions-v1/:reportId/run-utility', async (c) => {
   try {
     const userId = getCurrentUserId(c);
@@ -7260,16 +7513,42 @@ app.post('/api/report-sessions-v1/:reportId/run-utility', async (c) => {
 
     const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
     const { createProjectShellIntakeOnlyV1 } = await import('./modules/project/createProjectShellIntakeOnlyV1');
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { computeWizardGatingV1 } = await import('./modules/wizardOutputV1/gatingV1');
+    const { buildWizardOutputV1 } = await import('./modules/wizardOutputV1/buildWizardOutputV1');
     const store = createReportSessionsStoreFsV1();
     const session = await store.getSession(reportId);
 
     const workflowInputs = ((body as any)?.workflowInputs && typeof (body as any).workflowInputs === 'object' ? (body as any).workflowInputs : {}) as any;
     const demo = Boolean(workflowInputs?.demo === true || String(workflowInputs?.demo || '').trim().toLowerCase() === 'true');
+    const runAnywayChosen = Boolean((body as any)?.runAnyway === true || String((body as any)?.runAnyway || '').trim().toLowerCase() === 'true');
 
     let projectId =
       String((body as any)?.projectId || '').trim() ||
       String(session?.projectId || '').trim() ||
       '';
+
+    // Deterministic gating (based on stored run snapshots only).
+    // If the last run indicates required missing inputs, block reruns unless explicitly overridden.
+    if (Array.isArray((session as any)?.runIds) && (session as any).runIds.length) {
+      const lastRunId = String((session as any).runIds[0] || '').trim();
+      if (lastRunId) {
+        const runStore = createAnalysisRunsStoreFsV1();
+        const lastRun: any = await runStore.readRun(lastRunId).catch(() => null);
+        const reportJson: any = lastRun?.snapshot?.reportJson ?? null;
+        const response: any = lastRun?.snapshot?.response ?? null;
+        const workflow: any = reportJson?.workflow ?? response?.workflow ?? null;
+        const requiredInputsMissing = Array.isArray(workflow?.requiredInputsMissing) ? workflow.requiredInputsMissing : [];
+        const missingInfo = Array.isArray(reportJson?.missingInfo) ? reportJson.missingInfo : [];
+        const gating = computeWizardGatingV1({ requiredInputsMissing, missingInfo, runAnywayChosen });
+        if (gating.blocked) {
+          return c.json(
+            { success: false, error: 'Run blocked: required inputs missing (choose runAnyway to proceed with partial outputs)', blockedReasons: gating.blockedReasons },
+            409,
+          );
+        }
+      }
+    }
 
     if (!projectId) {
       const shell = await createProjectShellIntakeOnlyV1({
@@ -7285,18 +7564,54 @@ app.post('/api/report-sessions-v1/:reportId/run-utility', async (c) => {
 
     // Optionally persist intake artifacts into project.telemetry (additive).
     // This gives the engines something to work with without requiring full project builder flows.
-    const billPdfText = String(workflowInputs?.billPdfText || '').trim();
+    const sessionInputs: any = (session as any)?.inputsV1 && typeof (session as any).inputsV1 === 'object' ? (session as any).inputsV1 : {};
+
+    const billPdfTextFromSession = await (async () => {
+      const ref = String(sessionInputs?.billPdfTextRef || '').trim();
+      if (!ref) return '';
+      const abs = resolveUploadsRefV1(ref);
+      if (!abs) return '';
+      try {
+        return String(await readFile(abs, 'utf-8')).trim();
+      } catch {
+        return '';
+      }
+    })();
+
+    const billPdfText = String(workflowInputs?.billPdfText || '').trim() || billPdfTextFromSession;
     const intervalElectricV1 = Array.isArray(workflowInputs?.intervalElectricV1) ? workflowInputs.intervalElectricV1 : null;
     const intervalElectricMetaV1 =
       workflowInputs?.intervalElectricMetaV1 && typeof workflowInputs.intervalElectricMetaV1 === 'object' ? workflowInputs.intervalElectricMetaV1 : null;
-    if (billPdfText || intervalElectricV1 || intervalElectricMetaV1) {
+
+    const intervalFileAbsFromSession = (() => {
+      const ref = String(sessionInputs?.intervalFile?.uploadsRef || '').trim();
+      if (!ref) return '';
+      const abs = resolveUploadsRefV1(ref);
+      return abs || '';
+    })();
+
+    const rateCodeFromSession = String(sessionInputs?.rateCode || '').trim();
+    const pciaVintageKeyFromSession = String(sessionInputs?.pciaVintageKey || '').trim();
+
+    if (billPdfText || intervalElectricV1 || intervalElectricMetaV1 || intervalFileAbsFromSession || pciaVintageKeyFromSession) {
       const proj = await loadProjectInternal(userId, projectId);
       if (proj) {
         const nextTelemetry: any = { ...(proj as any)?.telemetry };
         if (billPdfText) nextTelemetry.billPdfText = billPdfText;
         if (intervalElectricV1) nextTelemetry.intervalElectricV1 = intervalElectricV1;
         if (intervalElectricMetaV1) nextTelemetry.intervalElectricMetaV1 = intervalElectricMetaV1;
+        if (intervalFileAbsFromSession) nextTelemetry.intervalFilePath = intervalFileAbsFromSession;
+        if (pciaVintageKeyFromSession) nextTelemetry.pciaVintageKey = pciaVintageKeyFromSession;
         await persistProjectInternal(userId, projectId, { telemetry: nextTelemetry });
+      }
+    }
+
+    if (rateCodeFromSession) {
+      const proj = await loadProjectInternal(userId, projectId);
+      if (proj) {
+        const nextCustomer: any = { ...(proj as any)?.customer };
+        nextCustomer.rateCode = rateCodeFromSession;
+        await persistProjectInternal(userId, projectId, { customer: nextCustomer });
       }
     }
 
@@ -7325,6 +7640,35 @@ app.post('/api/report-sessions-v1/:reportId/run-utility', async (c) => {
     if (!runId) return c.json({ success: false, error: 'run-and-store did not return runId' }, 500);
 
     await store.attachRun(reportId, runId);
+
+    // Auto-build and attach wizard output deterministically (from stored run snapshot only).
+    try {
+      const runStore = createAnalysisRunsStoreFsV1();
+      const analysisRun = await runStore.readRun(runId);
+      const refreshed = await store.getSession(reportId);
+      const wizardOutput = buildWizardOutputV1({
+        session: refreshed,
+        runId,
+        analysisRunSnapshot: analysisRun,
+        partialRunAllowed: runAnywayChosen,
+      });
+      const generatedAtIso = String((wizardOutput as any)?.provenance?.generatedAtIso || '').trim() || new Date().toISOString();
+      await store.attachWizardOutput(
+        reportId,
+        {
+          wizardOutput,
+          hash: String((wizardOutput as any)?.wizardOutputHash || '').trim() || 'missing_hash',
+          generatedAtIso,
+          runIdsUsed: Array.isArray((wizardOutput as any)?.provenance?.runIdsUsed) ? (wizardOutput as any).provenance.runIdsUsed : [runId],
+          revisionIdsUsed: Array.isArray((wizardOutput as any)?.provenance?.revisionIdsUsed) ? (wizardOutput as any).provenance.revisionIdsUsed : [],
+        },
+        { nowIso: generatedAtIso },
+      );
+    } catch (e) {
+      // Never fail the run if wizard build fails; record error deterministically.
+      await store.recordError(reportId, { code: 'WIZARD_OUTPUT_BUILD_FAILED', context: { message: String((e as any)?.message || e), runId } }).catch(() => {});
+    }
+
     return c.json({ success: true, reportId, projectId, runId });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to run utility workflow';
@@ -7378,17 +7722,20 @@ app.post('/api/report-sessions-v1/:reportId/generate-internal-engineering-report
     const engineVersionsMeta = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : undefined;
     const warningsSummaryMeta =
       reportJson?.analysisTraceV1?.warningsSummary && typeof reportJson.analysisTraceV1.warningsSummary === 'object' ? reportJson.analysisTraceV1.warningsSummary : undefined;
+    const wizardOutputHashMeta = String((session as any)?.wizardOutputV1?.hash || '').trim() || undefined;
 
     const revisionId = randomUUID();
     const revision: any = {
       id: revisionId,
       createdAt: nowIso,
       title,
+      reportType: 'INTERNAL_ENGINEERING_V1',
       reportHash,
       reportJson,
       runId,
       ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
       ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+      ...(wizardOutputHashMeta ? { wizardOutputHash: wizardOutputHashMeta } : {}),
     };
 
     const project = await loadProjectInternal(userId, projectId);
@@ -7407,8 +7754,12 @@ app.post('/api/report-sessions-v1/:reportId/generate-internal-engineering-report
       revisionId,
       createdAtIso: nowIso,
       runId,
+      reportType: 'INTERNAL_ENGINEERING_V1' as const,
       format: 'HTML' as const,
       downloadUrl: htmlUrl,
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+      ...(wizardOutputHashMeta ? { wizardOutputHash: wizardOutputHashMeta } : {}),
     };
     await sessionStore.attachRevision(reportId, revisionMeta);
 
@@ -7422,6 +7773,268 @@ app.post('/api/report-sessions-v1/:reportId/generate-internal-engineering-report
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to generate internal engineering report';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/generate-engineering-pack', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+    const requestedRunId = String((body as any)?.runId || '').trim() || null;
+    const requestedTitle = String((body as any)?.title || '').trim() || '';
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { createProjectShellIntakeOnlyV1 } = await import('./modules/project/createProjectShellIntakeOnlyV1');
+    const { buildEngineeringPackJsonV1 } = await import('./modules/reports/engineeringPack/v1/buildEngineeringPackJsonV1');
+
+    const sessionStore = createReportSessionsStoreFsV1();
+    const runStore = createAnalysisRunsStoreFsV1();
+
+    let session = await sessionStore.getSession(reportId);
+    let projectId = String(session?.projectId || '').trim();
+    if (!projectId) {
+      const shell = await createProjectShellIntakeOnlyV1({
+        orgId: userId,
+        reportId,
+        name: undefined,
+        address: undefined,
+        utilityCompany: undefined,
+      });
+      projectId = shell.projectId;
+      session = await sessionStore.patchSession(reportId, { projectId });
+    }
+
+    const runId = requestedRunId || (Array.isArray(session.runIds) && session.runIds.length ? String(session.runIds[0] || '').trim() : '');
+    if (!runId) return c.json({ success: false, error: 'runId is required (or attach a run first)' }, 400);
+    if (!Array.isArray(session.runIds) || !session.runIds.includes(runId)) {
+      return c.json({ success: false, error: 'runId must be attached to this report session (use run-utility or attach-run)' }, 400);
+    }
+
+    const analysisRun: any = await runStore.readRun(runId);
+    const reportJson = analysisRun?.snapshot?.reportJson;
+    if (!reportJson) return c.json({ success: false, error: 'Stored analysis run is missing reportJson' }, 400);
+
+    const nowIso = new Date().toISOString();
+    const title = requestedTitle || `Engineering Pack • ${nowIso.slice(0, 10)}`;
+    const revisionId = randomUUID();
+
+    const wizardOutput = await sessionStore.readWizardOutput(reportId).catch(() => null);
+    const wizardOutputHash = String((session as any)?.wizardOutputV1?.hash || '').trim() || null;
+
+    const packJson = buildEngineeringPackJsonV1({
+      title,
+      project: {
+        projectId,
+        projectName: String((session as any)?.inputsV1?.projectMetadata?.projectName || '').trim() || undefined,
+        address: String((session as any)?.inputsV1?.projectMetadata?.address || '').trim() || undefined,
+        utilityTerritory: String((reportJson as any)?.project?.territory || '').trim() || undefined,
+        reportId,
+      },
+      revisionId,
+      runId,
+      generatedAtIso: nowIso,
+      analysisRun,
+      reportJson,
+      wizardOutput,
+      wizardOutputHash,
+    });
+
+    const packHash = sha256Hex(stableStringifyV1(packJson));
+    const engineVersionsMeta = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : undefined;
+    const warningsSummaryMeta =
+      reportJson?.analysisTraceV1?.warningsSummary && typeof reportJson.analysisTraceV1.warningsSummary === 'object' ? reportJson.analysisTraceV1.warningsSummary : undefined;
+
+    const revision: any = {
+      id: revisionId,
+      createdAt: nowIso,
+      title,
+      reportType: 'ENGINEERING_PACK_V1',
+      packHash,
+      packJson,
+      runId,
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+      ...(wizardOutputHash ? { wizardOutputHash } : {}),
+    };
+
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const existingReports = (project as any)?.reportsV1 && typeof (project as any).reportsV1 === 'object' ? (project as any).reportsV1 : {};
+    const existingRevisions = Array.isArray(existingReports?.engineeringPackV1) ? existingReports.engineeringPackV1 : [];
+    const nextRevisions = [revision, ...existingRevisions].slice(0, 200);
+    const nextReportsV1 = { ...existingReports, engineeringPackV1: nextRevisions };
+    await persistProjectInternal(userId, projectId, { reportsV1: nextReportsV1 });
+
+    const htmlUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/html`;
+    const jsonUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/json`;
+    const pdfUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/pdf`;
+
+    const revisionMeta = {
+      revisionId,
+      createdAtIso: nowIso,
+      runId,
+      reportType: 'ENGINEERING_PACK_V1' as const,
+      format: 'HTML' as const,
+      downloadUrl: htmlUrl,
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+      ...(wizardOutputHash ? { wizardOutputHash } : {}),
+    };
+    await sessionStore.attachRevision(reportId, revisionMeta);
+
+    return c.json({
+      success: true,
+      revisionMeta: {
+        ...revisionMeta,
+        download: { htmlUrl, jsonUrl, pdfUrl },
+        projectId,
+      },
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to generate engineering pack';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/generate-executive-pack', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+    const requestedRunId = String((body as any)?.runId || '').trim() || null;
+    const requestedTitle = String((body as any)?.title || '').trim() || '';
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { createProjectShellIntakeOnlyV1 } = await import('./modules/project/createProjectShellIntakeOnlyV1');
+    const { buildExecutivePackJsonV1 } = await import('./modules/reports/executivePack/v1/buildExecutivePackJsonV1');
+    const { buildDiffSummaryV1 } = await import('./modules/analysisRunsV1/diffV1');
+
+    const sessionStore = createReportSessionsStoreFsV1();
+    const runStore = createAnalysisRunsStoreFsV1();
+
+    let session = await sessionStore.getSession(reportId);
+    let projectId = String(session?.projectId || '').trim();
+    if (!projectId) {
+      const shell = await createProjectShellIntakeOnlyV1({
+        orgId: userId,
+        reportId,
+        name: undefined,
+        address: undefined,
+        utilityCompany: undefined,
+      });
+      projectId = shell.projectId;
+      session = await sessionStore.patchSession(reportId, { projectId });
+    }
+
+    const runId = requestedRunId || (Array.isArray(session.runIds) && session.runIds.length ? String(session.runIds[0] || '').trim() : '');
+    if (!runId) return c.json({ success: false, error: 'runId is required (or attach a run first)' }, 400);
+    if (!Array.isArray(session.runIds) || !session.runIds.includes(runId)) {
+      return c.json({ success: false, error: 'runId must be attached to this report session (use run-utility or attach-run)' }, 400);
+    }
+
+    const analysisRun: any = await runStore.readRun(runId);
+    const reportJson = analysisRun?.snapshot?.reportJson;
+    if (!reportJson) return c.json({ success: false, error: 'Stored analysis run is missing reportJson' }, 400);
+
+    // Optional diff since previous attached run (snapshot-only).
+    const diffSincePreviousRun = await (async () => {
+      try {
+        const runIds = Array.isArray(session.runIds) ? session.runIds : [];
+        const prev = runIds.find((x) => String(x || '').trim() && String(x || '').trim() !== runId) || null;
+        if (!prev) return null;
+        const runA = await runStore.readRun(String(prev));
+        const runB = analysisRun;
+        return buildDiffSummaryV1({ runA, runB });
+      } catch {
+        return null;
+      }
+    })();
+
+    const nowIso = new Date().toISOString();
+    const title = requestedTitle || `Executive Pack • ${nowIso.slice(0, 10)}`;
+    const revisionId = randomUUID();
+
+    const wizardOutput = await sessionStore.readWizardOutput(reportId).catch(() => null);
+    const wizardOutputHash = String((session as any)?.wizardOutputV1?.hash || '').trim() || null;
+
+    const packJson = buildExecutivePackJsonV1({
+      title,
+      project: {
+        projectId,
+        projectName: String((session as any)?.inputsV1?.projectMetadata?.projectName || '').trim() || undefined,
+        address: String((session as any)?.inputsV1?.projectMetadata?.address || '').trim() || undefined,
+        utilityTerritory: String((reportJson as any)?.project?.territory || '').trim() || undefined,
+        reportId,
+      },
+      revisionId,
+      runId,
+      generatedAtIso: nowIso,
+      analysisRun,
+      reportJson,
+      wizardOutput,
+      wizardOutputHash,
+      diffSincePreviousRun,
+    });
+
+    const packHash = sha256Hex(stableStringifyV1(packJson));
+    const engineVersionsMeta = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : undefined;
+    const warningsSummaryMeta =
+      reportJson?.analysisTraceV1?.warningsSummary && typeof reportJson.analysisTraceV1.warningsSummary === 'object' ? reportJson.analysisTraceV1.warningsSummary : undefined;
+
+    const revision: any = {
+      id: revisionId,
+      createdAt: nowIso,
+      title,
+      reportType: 'EXECUTIVE_PACK_V1',
+      packHash,
+      packJson,
+      runId,
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+      ...(wizardOutputHash ? { wizardOutputHash } : {}),
+    };
+
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const existingReports = (project as any)?.reportsV1 && typeof (project as any).reportsV1 === 'object' ? (project as any).reportsV1 : {};
+    const existingRevisions = Array.isArray(existingReports?.executivePackV1) ? existingReports.executivePackV1 : [];
+    const nextRevisions = [revision, ...existingRevisions].slice(0, 200);
+    const nextReportsV1 = { ...existingReports, executivePackV1: nextRevisions };
+    await persistProjectInternal(userId, projectId, { reportsV1: nextReportsV1 });
+
+    const htmlUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/html`;
+    const jsonUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/json`;
+    const pdfUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/pdf`;
+
+    const revisionMeta = {
+      revisionId,
+      createdAtIso: nowIso,
+      runId,
+      reportType: 'EXECUTIVE_PACK_V1' as const,
+      format: 'HTML' as const,
+      downloadUrl: htmlUrl,
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+      ...(wizardOutputHash ? { wizardOutputHash } : {}),
+    };
+    await sessionStore.attachRevision(reportId, revisionMeta);
+
+    return c.json({
+      success: true,
+      revisionMeta: {
+        ...revisionMeta,
+        download: { htmlUrl, jsonUrl, pdfUrl },
+        projectId,
+      },
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to generate executive pack';
     return c.json({ success: false, error: message }, 400);
   }
 });
@@ -7447,7 +8060,8 @@ app.post('/api/report-sessions-v1/:reportId/build-wizard-output', async (c) => {
     }
 
     const analysisRun = await runStore.readRun(runId);
-    const wizardOutput = buildWizardOutputV1({ session, runId, analysisRunSnapshot: analysisRun });
+    const partialRunAllowed = Boolean((body as any)?.partialRunAllowed === true || String((body as any)?.partialRunAllowed || '').trim().toLowerCase() === 'true');
+    const wizardOutput = buildWizardOutputV1({ session, runId, analysisRunSnapshot: analysisRun, partialRunAllowed });
     const generatedAtIso = String((wizardOutput as any)?.provenance?.generatedAtIso || '').trim() || new Date().toISOString();
     await sessionStore.attachWizardOutput(
       reportId,
@@ -9522,6 +10136,360 @@ app.get('/api/projects/:id/reports/internal-engineering/:revisionId.html', async
   } catch (error) {
     console.error('Render internal engineering report html error:', error);
     return c.json({ success: false, error: 'Failed to render report html' }, 500);
+  }
+});
+
+/**
+ * ==========================================
+ * STAKEHOLDER REPORT PACKS v1 (snapshot-only)
+ * ==========================================
+ *
+ * Stores pack JSON snapshots as project report revisions and renders HTML/PDF
+ * strictly from stored revision payloads (never recompute on GET).
+ */
+
+app.post('/api/projects/:id/reports/engineering-pack-v1/generate', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const projectId = c.req.param('id');
+    const body = await c.req.json().catch(() => ({}));
+    const runId = String((body as any)?.runId || '').trim();
+    const title = String((body as any)?.title || '').trim() || 'Engineering Pack (v1)';
+    if (!runId) return c.json({ success: false, error: 'runId is required' }, 400);
+
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { buildEngineeringPackJsonV1 } = await import('./modules/reports/engineeringPack/v1/buildEngineeringPackJsonV1');
+    const runStore = createAnalysisRunsStoreFsV1();
+
+    const analysisRun: any = await runStore.readRun(runId);
+    const reportJson = analysisRun?.snapshot?.reportJson;
+    if (!reportJson) return c.json({ success: false, error: 'Stored analysis run is missing reportJson' }, 400);
+
+    const nowIso = new Date().toISOString();
+    const revisionId = randomUUID();
+    const projectName = String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined;
+    const address = String((project as any)?.customer?.siteLocation || (project as any)?.customer?.address || '').trim() || undefined;
+    const utilityTerritory = String((reportJson as any)?.project?.territory || (project as any)?.telemetry?.utilityTerritory || '').trim() || undefined;
+
+    const packJson = buildEngineeringPackJsonV1({
+      title,
+      project: { projectId, projectName, address, utilityTerritory },
+      revisionId,
+      runId,
+      generatedAtIso: nowIso,
+      analysisRun,
+      reportJson,
+      wizardOutput: null,
+      wizardOutputHash: null,
+    });
+
+    const packHash = sha256Hex(stableStringifyV1(packJson));
+    const engineVersionsMeta = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : undefined;
+    const warningsSummaryMeta =
+      reportJson?.analysisTraceV1?.warningsSummary && typeof reportJson.analysisTraceV1.warningsSummary === 'object' ? reportJson.analysisTraceV1.warningsSummary : undefined;
+
+    const revision: any = {
+      id: revisionId,
+      createdAt: nowIso,
+      title,
+      reportType: 'ENGINEERING_PACK_V1',
+      packHash,
+      packJson,
+      runId,
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+    };
+
+    const existingReports = (project as any)?.reportsV1 && typeof (project as any).reportsV1 === 'object' ? (project as any).reportsV1 : {};
+    const existingRevisions = Array.isArray(existingReports?.engineeringPackV1) ? existingReports.engineeringPackV1 : [];
+    const nextRevisions = [revision, ...existingRevisions].slice(0, 200);
+    const nextReportsV1 = { ...existingReports, engineeringPackV1: nextRevisions };
+    await persistProjectInternal(userId, projectId, { reportsV1: nextReportsV1 });
+
+    const htmlUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/html`;
+    const jsonUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/json`;
+    const pdfUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/pdf`;
+
+    return c.json({ success: true, revisionId, reportType: 'ENGINEERING_PACK_V1', download: { htmlUrl, jsonUrl, pdfUrl } });
+  } catch (error) {
+    console.error('Generate engineering pack error:', error);
+    return c.json({ success: false, error: 'Failed to generate engineering pack' }, 500);
+  }
+});
+
+app.post('/api/projects/:id/reports/executive-pack-v1/generate', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const projectId = c.req.param('id');
+    const body = await c.req.json().catch(() => ({}));
+    const runId = String((body as any)?.runId || '').trim();
+    const title = String((body as any)?.title || '').trim() || 'Executive Pack (v1)';
+    if (!runId) return c.json({ success: false, error: 'runId is required' }, 400);
+
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { buildExecutivePackJsonV1 } = await import('./modules/reports/executivePack/v1/buildExecutivePackJsonV1');
+    const runStore = createAnalysisRunsStoreFsV1();
+
+    const analysisRun: any = await runStore.readRun(runId);
+    const reportJson = analysisRun?.snapshot?.reportJson;
+    if (!reportJson) return c.json({ success: false, error: 'Stored analysis run is missing reportJson' }, 400);
+
+    const nowIso = new Date().toISOString();
+    const revisionId = randomUUID();
+    const projectName = String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined;
+    const address = String((project as any)?.customer?.siteLocation || (project as any)?.customer?.address || '').trim() || undefined;
+    const utilityTerritory = String((reportJson as any)?.project?.territory || (project as any)?.telemetry?.utilityTerritory || '').trim() || undefined;
+
+    const packJson = buildExecutivePackJsonV1({
+      title,
+      project: { projectId, projectName, address, utilityTerritory },
+      revisionId,
+      runId,
+      generatedAtIso: nowIso,
+      analysisRun,
+      reportJson,
+      wizardOutput: null,
+      wizardOutputHash: null,
+      diffSincePreviousRun: null,
+    });
+
+    const packHash = sha256Hex(stableStringifyV1(packJson));
+    const engineVersionsMeta = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : undefined;
+    const warningsSummaryMeta =
+      reportJson?.analysisTraceV1?.warningsSummary && typeof reportJson.analysisTraceV1.warningsSummary === 'object' ? reportJson.analysisTraceV1.warningsSummary : undefined;
+
+    const revision: any = {
+      id: revisionId,
+      createdAt: nowIso,
+      title,
+      reportType: 'EXECUTIVE_PACK_V1',
+      packHash,
+      packJson,
+      runId,
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+    };
+
+    const existingReports = (project as any)?.reportsV1 && typeof (project as any).reportsV1 === 'object' ? (project as any).reportsV1 : {};
+    const existingRevisions = Array.isArray(existingReports?.executivePackV1) ? existingReports.executivePackV1 : [];
+    const nextRevisions = [revision, ...existingRevisions].slice(0, 200);
+    const nextReportsV1 = { ...existingReports, executivePackV1: nextRevisions };
+    await persistProjectInternal(userId, projectId, { reportsV1: nextReportsV1 });
+
+    const htmlUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/html`;
+    const jsonUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/json`;
+    const pdfUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/pdf`;
+
+    return c.json({ success: true, revisionId, reportType: 'EXECUTIVE_PACK_V1', download: { htmlUrl, jsonUrl, pdfUrl } });
+  } catch (error) {
+    console.error('Generate executive pack error:', error);
+    return c.json({ success: false, error: 'Failed to generate executive pack' }, 500);
+  }
+});
+
+function findProjectReportRevisionV1(project: any, revisionId: string): { reportType: string; rev: any } | null {
+  const reports = project?.reportsV1 && typeof project.reportsV1 === 'object' ? project.reportsV1 : {};
+  const buckets: Array<{ reportType: string; arr: any[] }> = [
+    { reportType: 'INTERNAL_ENGINEERING_V1', arr: Array.isArray(reports?.internalEngineering) ? reports.internalEngineering : [] },
+    { reportType: 'ENGINEERING_PACK_V1', arr: Array.isArray(reports?.engineeringPackV1) ? reports.engineeringPackV1 : [] },
+    { reportType: 'EXECUTIVE_PACK_V1', arr: Array.isArray(reports?.executivePackV1) ? reports.executivePackV1 : [] },
+  ];
+  for (const b of buckets) {
+    const found = b.arr.find((r: any) => String(r?.id || '') === String(revisionId || ''));
+    if (found) {
+      const rt = String(found?.reportType || '').trim() || b.reportType;
+      return { reportType: rt, rev: found };
+    }
+  }
+  return null;
+}
+
+app.get('/api/projects/:id/reports/revisions/:revisionId', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const projectId = c.req.param('id');
+    const revisionId = c.req.param('revisionId');
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const found = findProjectReportRevisionV1(project, revisionId);
+    if (!found) return c.json({ success: false, error: 'Report revision not found' }, 404);
+
+    const rev = found.rev;
+    const createdAtIso = String(rev?.createdAt || '').trim();
+    const runId = String(rev?.runId || '').trim() || null;
+    const engineVersions = rev?.engineVersions && typeof rev.engineVersions === 'object' ? rev.engineVersions : {};
+    const warningsSummary = rev?.warningsSummary && typeof rev.warningsSummary === 'object' ? rev.warningsSummary : null;
+    const wizardOutputHash = String(rev?.wizardOutputHash || '').trim() || null;
+
+    const htmlUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/html`;
+    const jsonUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/json`;
+    const pdfUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/pdf`;
+
+    return c.json({
+      success: true,
+      revision: {
+        revisionId,
+        reportType: found.reportType,
+        createdAtIso,
+        ...(runId ? { runId } : {}),
+        engineVersions,
+        ...(warningsSummary ? { warningsSummary } : {}),
+        ...(wizardOutputHash ? { wizardOutputHash } : {}),
+      },
+      links: { htmlUrl, jsonUrl, pdfUrl },
+    });
+  } catch (error) {
+    console.error('Get revision meta error:', error);
+    return c.json({ success: false, error: 'Failed to load revision meta' }, 500);
+  }
+});
+
+app.get('/api/projects/:id/reports/revisions/:revisionId/json', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const projectId = c.req.param('id');
+    const revisionId = c.req.param('revisionId');
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+    const found = findProjectReportRevisionV1(project, revisionId);
+    if (!found) return c.json({ success: false, error: 'Report revision not found' }, 404);
+    return c.json({ success: true, reportType: found.reportType, revision: found.rev });
+  } catch (error) {
+    console.error('Get revision json error:', error);
+    return c.json({ success: false, error: 'Failed to load revision json' }, 500);
+  }
+});
+
+app.get('/api/projects/:id/reports/revisions/:revisionId/html', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const projectId = c.req.param('id');
+    const revisionId = c.req.param('revisionId');
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+    const found = findProjectReportRevisionV1(project, revisionId);
+    if (!found) return c.json({ success: false, error: 'Report revision not found' }, 404);
+
+    const rt = String(found.reportType || '').trim();
+    const rev = found.rev;
+
+    if (rt === 'INTERNAL_ENGINEERING_V1') {
+      const { renderInternalEngineeringReportHtmlV1 } = await import('./modules/reports/internalEngineering/v1/renderInternalEngineeringReportHtml');
+      const html = renderInternalEngineeringReportHtmlV1({
+        project: {
+          id: projectId,
+          name: String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined,
+        },
+        revision: {
+          id: String((rev as any)?.id || ''),
+          createdAt: String((rev as any)?.createdAt || ''),
+          title: String((rev as any)?.title || ''),
+          reportJson: (rev as any)?.reportJson,
+          reportHash: String((rev as any)?.reportHash || ''),
+        },
+      });
+      c.header('Content-Type', 'text/html; charset=utf-8');
+      return c.body(html);
+    }
+
+    if (rt === 'ENGINEERING_PACK_V1') {
+      const { renderEngineeringPackHtmlV1 } = await import('./modules/reports/engineeringPack/v1/renderEngineeringPackHtmlV1');
+      const html = renderEngineeringPackHtmlV1({
+        project: {
+          id: projectId,
+          name: String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined,
+        },
+        revision: {
+          id: String((rev as any)?.id || ''),
+          createdAt: String((rev as any)?.createdAt || ''),
+          title: String((rev as any)?.title || ''),
+          packJson: (rev as any)?.packJson,
+          packHash: String((rev as any)?.packHash || ''),
+        },
+      });
+      c.header('Content-Type', 'text/html; charset=utf-8');
+      return c.body(html);
+    }
+
+    if (rt === 'EXECUTIVE_PACK_V1') {
+      const { renderExecutivePackHtmlV1 } = await import('./modules/reports/executivePack/v1/renderExecutivePackHtmlV1');
+      const html = renderExecutivePackHtmlV1({
+        project: {
+          id: projectId,
+          name: String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined,
+        },
+        revision: {
+          id: String((rev as any)?.id || ''),
+          createdAt: String((rev as any)?.createdAt || ''),
+          title: String((rev as any)?.title || ''),
+          packJson: (rev as any)?.packJson,
+          packHash: String((rev as any)?.packHash || ''),
+        },
+      });
+      c.header('Content-Type', 'text/html; charset=utf-8');
+      return c.body(html);
+    }
+
+    return c.json({ success: false, error: 'Unsupported reportType' }, 400);
+  } catch (error) {
+    console.error('Render revision html error:', error);
+    return c.json({ success: false, error: 'Failed to render revision html' }, 500);
+  }
+});
+
+app.get('/api/projects/:id/reports/revisions/:revisionId/pdf', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const projectId = c.req.param('id');
+    const revisionId = c.req.param('revisionId');
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+    const found = findProjectReportRevisionV1(project, revisionId);
+    if (!found) return c.json({ success: false, error: 'Report revision not found' }, 404);
+
+    const rt = String(found.reportType || '').trim();
+    const rev = found.rev;
+
+    const safeFilenamePart = (s: string): string => {
+      const cleaned = String(s || '')
+        .trim()
+        .replace(/[^\w\-]+/g, '_')
+        .replace(/_+/g, '_')
+        .slice(0, 80);
+      return cleaned || 'report';
+    };
+
+    if (rt === 'ENGINEERING_PACK_V1') {
+      const { renderEngineeringPackPdfV1 } = await import('./modules/reports/engineeringPack/v1/renderEngineeringPackPdfV1');
+      const pdf = await renderEngineeringPackPdfV1({ packJson: (rev as any)?.packJson });
+      const projectName = String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || projectId).trim() || projectId;
+      const filename = `EverWatt_EngineeringPackV1_${safeFilenamePart(projectName)}.pdf`;
+      c.header('Content-Type', 'application/pdf');
+      c.header('Content-Disposition', `attachment; filename="${filename}"`);
+      return c.body(new Uint8Array(pdf));
+    }
+
+    if (rt === 'EXECUTIVE_PACK_V1') {
+      const { renderExecutivePackPdfV1 } = await import('./modules/reports/executivePack/v1/renderExecutivePackPdfV1');
+      const pdf = await renderExecutivePackPdfV1({ packJson: (rev as any)?.packJson });
+      const projectName = String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || projectId).trim() || projectId;
+      const filename = `EverWatt_ExecutivePackV1_${safeFilenamePart(projectName)}.pdf`;
+      c.header('Content-Type', 'application/pdf');
+      c.header('Content-Disposition', `attachment; filename="${filename}"`);
+      return c.body(new Uint8Array(pdf));
+    }
+
+    return c.json({ success: false, error: 'PDF not supported for this reportType' }, 400);
+  } catch (error) {
+    console.error('Render revision pdf error:', error);
+    return c.json({ success: false, error: 'Failed to render revision pdf' }, 500);
   }
 });
 

@@ -20,7 +20,7 @@
       },
       {
         "atIso": "2026-03-01T00:00:00.000Z",
-        "hash": "a396b52bde49009d07ced9f01f968e008a7c9a7a153591d225b15177d80ff274",
+        "hash": "d413cd8b5d31c13d8d14aa6692af2edced39d385eee20e25582ccd6f9ce67b87",
         "runIdsUsed": [
           "run_golden_01"
         ],
@@ -28,6 +28,7 @@
       }
     ],
     "inputsSummary": {},
+    "inputsV1": {},
     "kind": "WIZARD",
     "projectId": "p_golden_01",
     "reportId": "rs_golden_01",
@@ -48,9 +49,9 @@
     "updatedAtIso": "2026-03-01T00:00:00.000Z",
     "warnings": [],
     "wizardOutputV1": {
-      "approxBytes": 5088,
+      "approxBytes": 17140,
       "generatedAtIso": "2026-03-01T00:00:00.000Z",
-      "hash": "a396b52bde49009d07ced9f01f968e008a7c9a7a153591d225b15177d80ff274",
+      "hash": "d413cd8b5d31c13d8d14aa6692af2edced39d385eee20e25582ccd6f9ce67b87",
       "kind": "INLINE",
       "revisionIdsUsed": [
         "rev_01_single_run_with_revision_and_wizard"
@@ -184,6 +185,169 @@
             "title": "Utility territory"
           }
         ],
+        "missingInfoSummary": {
+          "recommended": [
+            {
+              "category": "tariff",
+              "description": "Base load drift unavailable (insufficient reconcilable months).",
+              "id": "behaviorV2.baseLoadDrift.unavailable",
+              "severity": "RECOMMENDED"
+            },
+            {
+              "category": "tariff",
+              "description": "Insufficient reconcilable overlap cycles for multi-year behavior insights (need >= 12).",
+              "id": "behaviorV2.insufficientCycles",
+              "severity": "RECOMMENDED"
+            },
+            {
+              "category": "tariff",
+              "description": "Peak timing unavailable (missing determinant timestamps for kW maxima).",
+              "id": "behaviorV2.peaks.missing",
+              "severity": "RECOMMENDED"
+            },
+            {
+              "category": "tariff",
+              "description": "Weekend share comparison requires >= 24 reconcilable months.",
+              "id": "behaviorV2.weekendShare.insufficientMonths",
+              "severity": "RECOMMENDED"
+            },
+            {
+              "category": "tariff",
+              "description": "Insufficient reconcilable overlap months for electric behavior insights (need >= 12).",
+              "id": "behaviorV3.electric.insufficientMonths",
+              "severity": "RECOMMENDED"
+            },
+            {
+              "category": "billing",
+              "description": "TOU kW buckets were not explicitly labeled (need at least two of: Peak/Off-Peak/Partial-Peak/Super-Off-Peak kW).",
+              "details": {
+                "reasonCode": "BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+                "source": "bill_pdf"
+              },
+              "id": "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+              "severity": "RECOMMENDED"
+            },
+            {
+              "category": "billing",
+              "description": "TOU kWh buckets were not explicitly labeled (need at least two of: Peak/Off-Peak/Partial-Peak/Super-Off-Peak kWh).",
+              "details": {
+                "reasonCode": "BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+                "source": "bill_pdf"
+              },
+              "id": "billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+              "severity": "RECOMMENDED"
+            },
+            {
+              "category": "tariff",
+              "description": "PG&E demand ratchet requires prior-month demand history (11 month window). Provide prior billing cycles or usage history to compute ratchet floor.",
+              "details": {
+                "historyWindowCycles": 11,
+                "reasonCode": "DETERMINANT_RATCHET_NEEDS_HISTORY"
+              },
+              "id": "determinants.demandRules.pge.ratchet.DETERMINANT_RATCHET_NEEDS_HISTORY",
+              "severity": "RECOMMENDED"
+            },
+            {
+              "category": "tariff",
+              "description": "Billing records missing for reconciliation.",
+              "id": "determinants.reconcile.billingRecords.missing",
+              "severity": "RECOMMENDED"
+            },
+            {
+              "category": "tariff",
+              "description": "Insufficient interval coverage to reconcile against billing record.",
+              "details": {
+                "billedKwh": null,
+                "billedKwMax": null,
+                "coveragePct": 0.03225806451612903,
+                "expectedIntervals": 744,
+                "firstIntervalTs": "2026-01-15T08:00:00.000Z",
+                "lastIntervalTs": "2026-01-16T07:00:00.000Z",
+                "missingPointCount": 720,
+                "observedIntervals": 24
+              },
+              "id": "determinants.reconcile.coverageLow.2026-01",
+              "severity": "RECOMMENDED"
+            },
+            {
+              "category": "tariff",
+              "description": "Insufficient interval coverage to reconcile against billing record.",
+              "details": {
+                "billedKwh": null,
+                "billedKwMax": null,
+                "coveragePct": 0.03571428571428571,
+                "expectedIntervals": 672,
+                "firstIntervalTs": "2026-02-15T08:00:00.000Z",
+                "lastIntervalTs": "2026-02-16T07:00:00.000Z",
+                "missingPointCount": 648,
+                "observedIntervals": 24
+              },
+              "id": "determinants.reconcile.coverageLow.2026-02",
+              "severity": "RECOMMENDED"
+            },
+            {
+              "category": "tariff",
+              "description": "Only 0 cycles were reconcilable due to limited overlap/coverage.",
+              "details": {
+                "reconciledCycleCount": 0
+              },
+              "id": "determinants.reconcile.reconcilable.count",
+              "severity": "RECOMMENDED"
+            },
+            {
+              "category": "billing",
+              "description": "Insufficient interval coverage for TOU energy breakdown.",
+              "details": {
+                "coveragePct": 0.03225806451612903,
+                "expectedIntervals": 744,
+                "firstIntervalTs": "2026-01-15T08:00:00.000Z",
+                "lastIntervalTs": "2026-01-16T07:00:00.000Z",
+                "observedIntervals": 24
+              },
+              "id": "determinants.tou.energy.coverage.low.2026-01",
+              "severity": "RECOMMENDED"
+            },
+            {
+              "category": "billing",
+              "description": "Insufficient interval coverage for TOU energy breakdown.",
+              "details": {
+                "coveragePct": 0.03571428571428571,
+                "expectedIntervals": 672,
+                "firstIntervalTs": "2026-02-15T08:00:00.000Z",
+                "lastIntervalTs": "2026-02-16T07:00:00.000Z",
+                "observedIntervals": 24
+              },
+              "id": "determinants.tou.energy.coverage.low.2026-02",
+              "severity": "RECOMMENDED"
+            },
+            {
+              "category": "tariff",
+              "description": "Weather data missing in interval export; load attribution unavailable.",
+              "id": "loadAttribution.weather.missing",
+              "severity": "RECOMMENDED"
+            },
+            {
+              "category": "tariff",
+              "description": "LSE (CCA/DA provider) could not be detected from bill text.",
+              "id": "supply.v1.lse_undetected",
+              "severity": "RECOMMENDED"
+            },
+            {
+              "category": "tariff",
+              "description": "Voltage level (secondary/primary/transmission) is unknown; provide meter metadata or bill text that indicates service voltage.",
+              "id": "tariff.applicability.voltage.unknown",
+              "severity": "RECOMMENDED"
+            },
+            {
+              "category": "tariff",
+              "description": "Weather data missing in interval export; load attribution unavailable. Include Avg. Temperature in interval export when available.",
+              "id": "weather.interval.temperature.missing",
+              "severity": "RECOMMENDED"
+            }
+          ],
+          "required": [],
+          "warnings": []
+        },
         "opportunities": [
           {
             "confidence0to1": 0.65,
@@ -206,7 +370,192 @@
             "run_golden_01"
           ]
         },
-        "wizardOutputHash": "a396b52bde49009d07ced9f01f968e008a7c9a7a153591d225b15177d80ff274"
+        "wizardOutputHash": "d413cd8b5d31c13d8d14aa6692af2edced39d385eee20e25582ccd6f9ce67b87",
+        "wizardSteps": [
+          {
+            "evidence": {
+              "runId": "run_golden_01"
+            },
+            "helpText": "Optional context that improves auditability and downstream reporting.",
+            "id": "project_metadata",
+            "requiredActions": [
+              {
+                "actionId": "project_metadata.ADD_PROJECT_METADATA",
+                "apiHint": {
+                  "endpoint": "/api/report-sessions-v1/rs_golden_01/inputs/set-project-metadata",
+                  "method": "POST",
+                  "payloadExample": {
+                    "address": "123 Main St, City, CA",
+                    "meterId": "optional",
+                    "utilityHint": "PGE"
+                  }
+                },
+                "label": "Add address and utility account identifiers",
+                "required": false,
+                "status": "OPTIONAL",
+                "type": "ADD_PROJECT_METADATA"
+              }
+            ],
+            "status": "OPTIONAL",
+            "title": "Project metadata (optional)"
+          },
+          {
+            "evidence": {
+              "runId": "run_golden_01"
+            },
+            "helpText": "Used to extract rate labels, billing periods, and TOU hints when available.",
+            "id": "bill_pdf",
+            "requiredActions": [
+              {
+                "actionId": "bill_pdf.UPLOAD_BILL_PDF",
+                "apiHint": {
+                  "endpoint": "/api/report-sessions-v1/rs_golden_01/inputs/upload-bill",
+                  "method": "POST",
+                  "payloadExample": {
+                    "file": "<multipart/form-data field: file>"
+                  }
+                },
+                "label": "Upload bill PDF (extract bill text)",
+                "required": false,
+                "status": "DONE",
+                "type": "UPLOAD_BILL_PDF"
+              }
+            ],
+            "status": "DONE",
+            "title": "Bill PDF"
+          },
+          {
+            "evidence": {
+              "runId": "run_golden_01"
+            },
+            "helpText": "Enables interval-derived load shape, demand, and battery feasibility signals.",
+            "id": "interval_data",
+            "requiredActions": [
+              {
+                "actionId": "interval_data.UPLOAD_INTERVAL_CSV",
+                "apiHint": {
+                  "endpoint": "/api/report-sessions-v1/rs_golden_01/inputs/upload-interval",
+                  "method": "POST",
+                  "payloadExample": {
+                    "file": "<multipart/form-data field: file>"
+                  }
+                },
+                "label": "Upload interval CSV (PG&E exports supported)",
+                "required": false,
+                "status": "DONE",
+                "type": "UPLOAD_INTERVAL_CSV"
+              }
+            ],
+            "status": "DONE",
+            "title": "Interval data (CSV)"
+          },
+          {
+            "evidence": {
+              "runId": "run_golden_01"
+            },
+            "helpText": "Required to resolve tariff metadata deterministically when bill matching is unavailable/ambiguous.",
+            "id": "rate_code",
+            "requiredActions": [
+              {
+                "actionId": "rate_code.ENTER_RATE_CODE",
+                "apiHint": {
+                  "endpoint": "/api/report-sessions-v1/rs_golden_01/inputs/set-rate-code",
+                  "method": "POST",
+                  "payloadExample": {
+                    "rateCode": "E-19"
+                  }
+                },
+                "label": "Enter current rate code (e.g., E-19, B-19)",
+                "required": true,
+                "status": "DONE",
+                "type": "ENTER_RATE_CODE"
+              }
+            ],
+            "status": "DONE",
+            "title": "Current rate code"
+          },
+          {
+            "evidence": {
+              "runId": "run_golden_01"
+            },
+            "helpText": "Improves generation/exit-fee context when analyzing CCA or Direct Access supply.",
+            "id": "supply_provider",
+            "requiredActions": [
+              {
+                "actionId": "supply_provider.SELECT_PROVIDER_TYPE",
+                "apiHint": {
+                  "endpoint": "/api/report-sessions-v1/rs_golden_01/inputs/set-provider",
+                  "method": "POST",
+                  "payloadExample": {
+                    "providerType": "NONE"
+                  }
+                },
+                "label": "Select supply provider type",
+                "required": false,
+                "status": "OPTIONAL",
+                "type": "SELECT_PROVIDER_TYPE"
+              }
+            ],
+            "status": "OPTIONAL",
+            "title": "Supply provider type (CCA/DA/None)"
+          },
+          {
+            "evidence": {
+              "runId": "run_golden_01"
+            },
+            "helpText": "Selects vintage-specific PCIA deterministically when available.",
+            "id": "pcia_vintage",
+            "requiredActions": [
+              {
+                "actionId": "pcia_vintage.SET_PCIA_VINTAGE_KEY",
+                "apiHint": {
+                  "endpoint": "/api/report-sessions-v1/rs_golden_01/inputs/set-pcia-vintage-key",
+                  "method": "POST",
+                  "payloadExample": {
+                    "pciaVintageKey": "2019"
+                  }
+                },
+                "label": "Set PCIA vintage key (when known)",
+                "required": false,
+                "status": "OPTIONAL",
+                "type": "SET_PCIA_VINTAGE_KEY"
+              }
+            ],
+            "status": "OPTIONAL",
+            "title": "PCIA vintage key (optional)"
+          },
+          {
+            "evidence": {
+              "runId": "run_golden_01"
+            },
+            "helpText": "Required inputs are missing; resolve required items or explicitly choose “Run anyway” to mark outputs as partial.",
+            "id": "run_utility",
+            "requiredActions": [],
+            "status": "BLOCKED",
+            "title": "Run Utility"
+          },
+          {
+            "evidence": {
+              "runId": "run_golden_01"
+            },
+            "helpText": "Builds a deterministic wizard artifact from stored run snapshots (no engine recompute on GET).",
+            "id": "build_wizard_output",
+            "requiredActions": [],
+            "status": "DONE",
+            "title": "Build wizard output"
+          },
+          {
+            "evidence": {
+              "revisionId": "rev_01_single_run_with_revision_and_wizard",
+              "runId": "run_golden_01"
+            },
+            "helpText": "Optional: attach a rendered revision (HTML/PDF) for sharing.",
+            "id": "generate_revision",
+            "requiredActions": [],
+            "status": "DONE",
+            "title": "Generate revision"
+          }
+        ]
       }
     }
   },
@@ -338,6 +687,169 @@
         "title": "Utility territory"
       }
     ],
+    "missingInfoSummary": {
+      "recommended": [
+        {
+          "category": "tariff",
+          "description": "Base load drift unavailable (insufficient reconcilable months).",
+          "id": "behaviorV2.baseLoadDrift.unavailable",
+          "severity": "RECOMMENDED"
+        },
+        {
+          "category": "tariff",
+          "description": "Insufficient reconcilable overlap cycles for multi-year behavior insights (need >= 12).",
+          "id": "behaviorV2.insufficientCycles",
+          "severity": "RECOMMENDED"
+        },
+        {
+          "category": "tariff",
+          "description": "Peak timing unavailable (missing determinant timestamps for kW maxima).",
+          "id": "behaviorV2.peaks.missing",
+          "severity": "RECOMMENDED"
+        },
+        {
+          "category": "tariff",
+          "description": "Weekend share comparison requires >= 24 reconcilable months.",
+          "id": "behaviorV2.weekendShare.insufficientMonths",
+          "severity": "RECOMMENDED"
+        },
+        {
+          "category": "tariff",
+          "description": "Insufficient reconcilable overlap months for electric behavior insights (need >= 12).",
+          "id": "behaviorV3.electric.insufficientMonths",
+          "severity": "RECOMMENDED"
+        },
+        {
+          "category": "billing",
+          "description": "TOU kW buckets were not explicitly labeled (need at least two of: Peak/Off-Peak/Partial-Peak/Super-Off-Peak kW).",
+          "details": {
+            "reasonCode": "BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+            "source": "bill_pdf"
+          },
+          "id": "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+          "severity": "RECOMMENDED"
+        },
+        {
+          "category": "billing",
+          "description": "TOU kWh buckets were not explicitly labeled (need at least two of: Peak/Off-Peak/Partial-Peak/Super-Off-Peak kWh).",
+          "details": {
+            "reasonCode": "BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+            "source": "bill_pdf"
+          },
+          "id": "billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+          "severity": "RECOMMENDED"
+        },
+        {
+          "category": "tariff",
+          "description": "PG&E demand ratchet requires prior-month demand history (11 month window). Provide prior billing cycles or usage history to compute ratchet floor.",
+          "details": {
+            "historyWindowCycles": 11,
+            "reasonCode": "DETERMINANT_RATCHET_NEEDS_HISTORY"
+          },
+          "id": "determinants.demandRules.pge.ratchet.DETERMINANT_RATCHET_NEEDS_HISTORY",
+          "severity": "RECOMMENDED"
+        },
+        {
+          "category": "tariff",
+          "description": "Billing records missing for reconciliation.",
+          "id": "determinants.reconcile.billingRecords.missing",
+          "severity": "RECOMMENDED"
+        },
+        {
+          "category": "tariff",
+          "description": "Insufficient interval coverage to reconcile against billing record.",
+          "details": {
+            "billedKwh": null,
+            "billedKwMax": null,
+            "coveragePct": 0.03225806451612903,
+            "expectedIntervals": 744,
+            "firstIntervalTs": "2026-01-15T08:00:00.000Z",
+            "lastIntervalTs": "2026-01-16T07:00:00.000Z",
+            "missingPointCount": 720,
+            "observedIntervals": 24
+          },
+          "id": "determinants.reconcile.coverageLow.2026-01",
+          "severity": "RECOMMENDED"
+        },
+        {
+          "category": "tariff",
+          "description": "Insufficient interval coverage to reconcile against billing record.",
+          "details": {
+            "billedKwh": null,
+            "billedKwMax": null,
+            "coveragePct": 0.03571428571428571,
+            "expectedIntervals": 672,
+            "firstIntervalTs": "2026-02-15T08:00:00.000Z",
+            "lastIntervalTs": "2026-02-16T07:00:00.000Z",
+            "missingPointCount": 648,
+            "observedIntervals": 24
+          },
+          "id": "determinants.reconcile.coverageLow.2026-02",
+          "severity": "RECOMMENDED"
+        },
+        {
+          "category": "tariff",
+          "description": "Only 0 cycles were reconcilable due to limited overlap/coverage.",
+          "details": {
+            "reconciledCycleCount": 0
+          },
+          "id": "determinants.reconcile.reconcilable.count",
+          "severity": "RECOMMENDED"
+        },
+        {
+          "category": "billing",
+          "description": "Insufficient interval coverage for TOU energy breakdown.",
+          "details": {
+            "coveragePct": 0.03225806451612903,
+            "expectedIntervals": 744,
+            "firstIntervalTs": "2026-01-15T08:00:00.000Z",
+            "lastIntervalTs": "2026-01-16T07:00:00.000Z",
+            "observedIntervals": 24
+          },
+          "id": "determinants.tou.energy.coverage.low.2026-01",
+          "severity": "RECOMMENDED"
+        },
+        {
+          "category": "billing",
+          "description": "Insufficient interval coverage for TOU energy breakdown.",
+          "details": {
+            "coveragePct": 0.03571428571428571,
+            "expectedIntervals": 672,
+            "firstIntervalTs": "2026-02-15T08:00:00.000Z",
+            "lastIntervalTs": "2026-02-16T07:00:00.000Z",
+            "observedIntervals": 24
+          },
+          "id": "determinants.tou.energy.coverage.low.2026-02",
+          "severity": "RECOMMENDED"
+        },
+        {
+          "category": "tariff",
+          "description": "Weather data missing in interval export; load attribution unavailable.",
+          "id": "loadAttribution.weather.missing",
+          "severity": "RECOMMENDED"
+        },
+        {
+          "category": "tariff",
+          "description": "LSE (CCA/DA provider) could not be detected from bill text.",
+          "id": "supply.v1.lse_undetected",
+          "severity": "RECOMMENDED"
+        },
+        {
+          "category": "tariff",
+          "description": "Voltage level (secondary/primary/transmission) is unknown; provide meter metadata or bill text that indicates service voltage.",
+          "id": "tariff.applicability.voltage.unknown",
+          "severity": "RECOMMENDED"
+        },
+        {
+          "category": "tariff",
+          "description": "Weather data missing in interval export; load attribution unavailable. Include Avg. Temperature in interval export when available.",
+          "id": "weather.interval.temperature.missing",
+          "severity": "RECOMMENDED"
+        }
+      ],
+      "required": [],
+      "warnings": []
+    },
     "opportunities": [
       {
         "confidence0to1": 0.65,
@@ -360,6 +872,191 @@
         "run_golden_01"
       ]
     },
-    "wizardOutputHash": "a396b52bde49009d07ced9f01f968e008a7c9a7a153591d225b15177d80ff274"
+    "wizardOutputHash": "d413cd8b5d31c13d8d14aa6692af2edced39d385eee20e25582ccd6f9ce67b87",
+    "wizardSteps": [
+      {
+        "evidence": {
+          "runId": "run_golden_01"
+        },
+        "helpText": "Optional context that improves auditability and downstream reporting.",
+        "id": "project_metadata",
+        "requiredActions": [
+          {
+            "actionId": "project_metadata.ADD_PROJECT_METADATA",
+            "apiHint": {
+              "endpoint": "/api/report-sessions-v1/rs_golden_01/inputs/set-project-metadata",
+              "method": "POST",
+              "payloadExample": {
+                "address": "123 Main St, City, CA",
+                "meterId": "optional",
+                "utilityHint": "PGE"
+              }
+            },
+            "label": "Add address and utility account identifiers",
+            "required": false,
+            "status": "OPTIONAL",
+            "type": "ADD_PROJECT_METADATA"
+          }
+        ],
+        "status": "OPTIONAL",
+        "title": "Project metadata (optional)"
+      },
+      {
+        "evidence": {
+          "runId": "run_golden_01"
+        },
+        "helpText": "Used to extract rate labels, billing periods, and TOU hints when available.",
+        "id": "bill_pdf",
+        "requiredActions": [
+          {
+            "actionId": "bill_pdf.UPLOAD_BILL_PDF",
+            "apiHint": {
+              "endpoint": "/api/report-sessions-v1/rs_golden_01/inputs/upload-bill",
+              "method": "POST",
+              "payloadExample": {
+                "file": "<multipart/form-data field: file>"
+              }
+            },
+            "label": "Upload bill PDF (extract bill text)",
+            "required": false,
+            "status": "DONE",
+            "type": "UPLOAD_BILL_PDF"
+          }
+        ],
+        "status": "DONE",
+        "title": "Bill PDF"
+      },
+      {
+        "evidence": {
+          "runId": "run_golden_01"
+        },
+        "helpText": "Enables interval-derived load shape, demand, and battery feasibility signals.",
+        "id": "interval_data",
+        "requiredActions": [
+          {
+            "actionId": "interval_data.UPLOAD_INTERVAL_CSV",
+            "apiHint": {
+              "endpoint": "/api/report-sessions-v1/rs_golden_01/inputs/upload-interval",
+              "method": "POST",
+              "payloadExample": {
+                "file": "<multipart/form-data field: file>"
+              }
+            },
+            "label": "Upload interval CSV (PG&E exports supported)",
+            "required": false,
+            "status": "DONE",
+            "type": "UPLOAD_INTERVAL_CSV"
+          }
+        ],
+        "status": "DONE",
+        "title": "Interval data (CSV)"
+      },
+      {
+        "evidence": {
+          "runId": "run_golden_01"
+        },
+        "helpText": "Required to resolve tariff metadata deterministically when bill matching is unavailable/ambiguous.",
+        "id": "rate_code",
+        "requiredActions": [
+          {
+            "actionId": "rate_code.ENTER_RATE_CODE",
+            "apiHint": {
+              "endpoint": "/api/report-sessions-v1/rs_golden_01/inputs/set-rate-code",
+              "method": "POST",
+              "payloadExample": {
+                "rateCode": "E-19"
+              }
+            },
+            "label": "Enter current rate code (e.g., E-19, B-19)",
+            "required": true,
+            "status": "DONE",
+            "type": "ENTER_RATE_CODE"
+          }
+        ],
+        "status": "DONE",
+        "title": "Current rate code"
+      },
+      {
+        "evidence": {
+          "runId": "run_golden_01"
+        },
+        "helpText": "Improves generation/exit-fee context when analyzing CCA or Direct Access supply.",
+        "id": "supply_provider",
+        "requiredActions": [
+          {
+            "actionId": "supply_provider.SELECT_PROVIDER_TYPE",
+            "apiHint": {
+              "endpoint": "/api/report-sessions-v1/rs_golden_01/inputs/set-provider",
+              "method": "POST",
+              "payloadExample": {
+                "providerType": "NONE"
+              }
+            },
+            "label": "Select supply provider type",
+            "required": false,
+            "status": "OPTIONAL",
+            "type": "SELECT_PROVIDER_TYPE"
+          }
+        ],
+        "status": "OPTIONAL",
+        "title": "Supply provider type (CCA/DA/None)"
+      },
+      {
+        "evidence": {
+          "runId": "run_golden_01"
+        },
+        "helpText": "Selects vintage-specific PCIA deterministically when available.",
+        "id": "pcia_vintage",
+        "requiredActions": [
+          {
+            "actionId": "pcia_vintage.SET_PCIA_VINTAGE_KEY",
+            "apiHint": {
+              "endpoint": "/api/report-sessions-v1/rs_golden_01/inputs/set-pcia-vintage-key",
+              "method": "POST",
+              "payloadExample": {
+                "pciaVintageKey": "2019"
+              }
+            },
+            "label": "Set PCIA vintage key (when known)",
+            "required": false,
+            "status": "OPTIONAL",
+            "type": "SET_PCIA_VINTAGE_KEY"
+          }
+        ],
+        "status": "OPTIONAL",
+        "title": "PCIA vintage key (optional)"
+      },
+      {
+        "evidence": {
+          "runId": "run_golden_01"
+        },
+        "helpText": "Required inputs are missing; resolve required items or explicitly choose “Run anyway” to mark outputs as partial.",
+        "id": "run_utility",
+        "requiredActions": [],
+        "status": "BLOCKED",
+        "title": "Run Utility"
+      },
+      {
+        "evidence": {
+          "runId": "run_golden_01"
+        },
+        "helpText": "Builds a deterministic wizard artifact from stored run snapshots (no engine recompute on GET).",
+        "id": "build_wizard_output",
+        "requiredActions": [],
+        "status": "DONE",
+        "title": "Build wizard output"
+      },
+      {
+        "evidence": {
+          "revisionId": "rev_01_single_run_with_revision_and_wizard",
+          "runId": "run_golden_01"
+        },
+        "helpText": "Optional: attach a rendered revision (HTML/PDF) for sharing.",
+        "id": "generate_revision",
+        "requiredActions": [],
+        "status": "DONE",
+        "title": "Generate revision"
+      }
+    ]
   }
 }

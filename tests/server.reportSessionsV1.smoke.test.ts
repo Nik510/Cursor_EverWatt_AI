@@ -34,6 +34,35 @@ describe('reportSessionsV1 endpoints (smoke)', () => {
       const reportId = String(createJson?.reportId || '').trim();
       expect(reportId).toMatch(/^rs_/);
 
+      // Set some wizard inputs (snapshot-only) before running.
+      const setRate = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/inputs/set-rate-code`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        body: JSON.stringify({ rateCode: 'B-19' }),
+      });
+      expect(setRate.status).toBe(200);
+
+      const setProvider = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/inputs/set-provider`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        body: JSON.stringify({ providerType: 'NONE' }),
+      });
+      expect(setProvider.status).toBe(200);
+
+      const setPcia = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/inputs/set-pcia-vintage-key`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        body: JSON.stringify({ pciaVintageKey: '2019' }),
+      });
+      expect(setPcia.status).toBe(200);
+
+      const setMeta = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/inputs/set-project-metadata`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        body: JSON.stringify({ address: '123 Main St, Oakland, CA', utilityHint: 'PGE' }),
+      });
+      expect(setMeta.status).toBe(200);
+
       const runRes = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/run-utility`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
@@ -52,6 +81,7 @@ describe('reportSessionsV1 endpoints (smoke)', () => {
       const getJson: any = await getRes.json();
       expect(getJson?.success).toBe(true);
       expect(getJson?.session?.reportId).toBe(reportId);
+      expect(getJson?.session?.inputsV1).toBeTruthy();
       expect(Array.isArray(getJson?.session?.runIds)).toBe(true);
       expect(getJson.session.runIds[0]).toBe(runJson.runId);
 

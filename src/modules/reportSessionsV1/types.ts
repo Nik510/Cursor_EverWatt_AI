@@ -1,12 +1,60 @@
+import path from 'node:path';
+
 export type ReportSessionKindV1 = 'WIZARD' | 'REGRESSION' | 'SOLAR' | 'COST_EFFECTIVENESS' | 'CUSTOM';
 
 export type ReportRevisionFormatV1 = 'JSON' | 'HTML' | 'PDF';
 
+export type ReportTypeV1 = 'INTERNAL_ENGINEERING_V1' | 'ENGINEERING_PACK_V1' | 'EXECUTIVE_PACK_V1';
+
+export type WarningsSummaryV1 = {
+  engineWarningsCount: number;
+  topEngineWarningCodes: string[];
+  missingInfoCount: number;
+  topMissingInfoCodes: string[];
+};
+
 export type ReportSessionStatusV1 = 'INTAKE_ONLY' | 'HAS_RUNS' | 'HAS_REVISION' | 'HAS_WIZARD_OUTPUT';
+
+export type ReportSessionProviderTypeV1 = 'CCA' | 'DA' | 'NONE';
+
+export type ReportSessionUploadRefV1 = {
+  /** Upload ref stored under allowlisted uploads dir (server-resolved). */
+  uploadsRef: string;
+  originalFilename: string;
+  sha256Hex: string;
+  bytes: number;
+  uploadedAtIso: string;
+};
+
+export type ReportSessionProjectMetadataInputsV1 = {
+  projectName?: string;
+  address?: string;
+  utilityHint?: string;
+  meterId?: string;
+  accountNumber?: string;
+  serviceAccountId?: string;
+};
+
+export type ReportSessionInputsV1 = {
+  billPdf?: ReportSessionUploadRefV1 | null;
+  /** Extracted text stored as an uploadsRef (keeps session JSON small). */
+  billPdfTextRef?: string | null;
+  intervalFile?: ReportSessionUploadRefV1 | null;
+  rateCode?: string | null;
+  providerType?: ReportSessionProviderTypeV1 | null;
+  pciaVintageKey?: string | null;
+  projectMetadata?: ReportSessionProjectMetadataInputsV1 | null;
+};
 
 export type ReportSessionEventV1 =
   | { type: 'CREATED'; atIso: string }
   | { type: 'PROJECT_SHELL_CREATED'; atIso: string; projectId: string }
+  | { type: 'INPUT_BILL_UPLOADED'; atIso: string; sha256Hex: string }
+  | { type: 'INPUT_INTERVAL_UPLOADED'; atIso: string; sha256Hex: string }
+  | { type: 'INPUT_RATE_CODE_SET'; atIso: string; rateCode: string }
+  | { type: 'INPUT_PROVIDER_SET'; atIso: string; providerType: ReportSessionProviderTypeV1 }
+  | { type: 'INPUT_PCIA_VINTAGE_SET'; atIso: string; pciaVintageKey: string }
+  | { type: 'INPUT_PROJECT_METADATA_SET'; atIso: string; keys: string[] }
   | { type: 'RUN_ATTACHED'; atIso: string; runId: string }
   | { type: 'REVISION_ATTACHED'; atIso: string; revisionId: string; runId: string }
   | { type: 'WIZARD_OUTPUT_BUILT'; atIso: string; hash: string; runIdsUsed: string[] }
@@ -25,8 +73,17 @@ export type ReportSessionRevisionMetaV1 = {
   revisionId: string;
   createdAtIso: string;
   runId: string;
+  /**
+   * Additive: identifies the snapshot artifact type stored under the revisionId.
+   * Optional for back-compat with older stored sessions.
+   */
+  reportType?: ReportTypeV1;
   format: ReportRevisionFormatV1;
   downloadUrl?: string;
+  /** Additive provenance metadata for stakeholder packs + internal reports. */
+  engineVersions?: Record<string, string>;
+  warningsSummary?: WarningsSummaryV1;
+  wizardOutputHash?: string;
 };
 
 export type ReportSessionWizardOutputRefV1 =
@@ -56,6 +113,11 @@ export type ReportSessionV1 = {
   title: string;
   kind: ReportSessionKindV1;
   projectId?: string | null;
+  /**
+   * Session-scoped intake inputs (snapshot-only).
+   * These are used by POST actions (e.g. run-utility) but must not trigger any compute on GET.
+   */
+  inputsV1?: ReportSessionInputsV1 | null;
   inputsSummary: ReportSessionInputsSummaryV1;
   /** Most recent first. Bounded to 50. */
   runIds: string[];
@@ -105,6 +167,17 @@ function assertIsoLike(label: string, value: string): void {
   if (!/^\d{4}-\d{2}-\d{2}T/.test(v)) throw new Error(`Invalid ${label} (expected ISO string)`);
 }
 
+function assertUploadsRefLike(label: string, value: string): void {
+  const v = String(value || '').trim();
+  if (!v) throw new Error(`${label} is required`);
+  if (v.length > 360) throw new Error(`${label} too long`);
+  // Must be a relative-ish ref (no drive letters / absolute paths)
+  if (path.isAbsolute(v)) throw new Error(`${label} must not be absolute`);
+  if (v.includes('\\')) throw new Error(`${label} must use '/' separators`);
+  if (v.split('/').some((seg) => seg === '..')) throw new Error(`${label} must not contain '..' segments`);
+  if (v.includes('\0')) throw new Error(`${label} contains null byte`);
+}
+
 export function assertReportSessionInvariantV1(session: ReportSessionV1): void {
   if (!session || typeof session !== 'object') throw new Error('Invalid report session (not an object)');
 
@@ -131,10 +204,41 @@ export function assertReportSessionInvariantV1(session: ReportSessionV1): void {
     assertIdLike({ label: 'revisionId', value: revisionId });
     assertIdLike({ label: 'runId', value: runId });
     assertIsoLike('revision.createdAtIso', String(rr?.createdAtIso || ''));
+
+    const reportType = String(rr?.reportType || '').trim();
+    if (
+      reportType &&
+      reportType !== 'INTERNAL_ENGINEERING_V1' &&
+      reportType !== 'ENGINEERING_PACK_V1' &&
+      reportType !== 'EXECUTIVE_PACK_V1'
+    ) {
+      throw new Error(`revision.reportType invalid (${revisionId})`);
+    }
     if (!String(rr?.format || '').trim()) throw new Error(`revision.format is required (${revisionId})`);
     if (revSeen.has(revisionId)) throw new Error(`Duplicate revisionId: ${revisionId}`);
     revSeen.add(revisionId);
     if (!runSeen.has(runId)) throw new Error(`Revision references unattached runId: ${revisionId} -> ${runId}`);
+
+    const engineVersions = rr?.engineVersions;
+    if (engineVersions !== undefined && engineVersions !== null) {
+      if (!engineVersions || typeof engineVersions !== 'object' || Array.isArray(engineVersions)) throw new Error(`revision.engineVersions must be an object (${revisionId})`);
+      for (const k of Object.keys(engineVersions)) {
+        const val = String((engineVersions as any)[k] ?? '').trim();
+        if (val && val.length > 120) throw new Error(`revision.engineVersions.${k} too long (${revisionId})`);
+      }
+    }
+
+    const warningsSummary = rr?.warningsSummary;
+    if (warningsSummary !== undefined && warningsSummary !== null) {
+      if (!warningsSummary || typeof warningsSummary !== 'object' || Array.isArray(warningsSummary)) throw new Error(`revision.warningsSummary must be an object (${revisionId})`);
+      const topEngine = Array.isArray((warningsSummary as any).topEngineWarningCodes) ? ((warningsSummary as any).topEngineWarningCodes as any[]) : [];
+      const topMissing = Array.isArray((warningsSummary as any).topMissingInfoCodes) ? ((warningsSummary as any).topMissingInfoCodes as any[]) : [];
+      if (topEngine.length > 50) throw new Error(`revision.warningsSummary.topEngineWarningCodes too long (${revisionId})`);
+      if (topMissing.length > 50) throw new Error(`revision.warningsSummary.topMissingInfoCodes too long (${revisionId})`);
+    }
+
+    const wizardOutputHash = String(rr?.wizardOutputHash || '').trim();
+    if (wizardOutputHash && wizardOutputHash.length > 128) throw new Error(`revision.wizardOutputHash too long (${revisionId})`);
   }
 
   const warnings = Array.isArray((session as any).warnings) ? ((session as any).warnings as any[]) : [];
@@ -146,6 +250,36 @@ export function assertReportSessionInvariantV1(session: ReportSessionV1): void {
       if (prev.localeCompare(w) > 0) throw new Error('warnings must be sorted (deterministic)');
       if (prev === w) throw new Error('warnings must be unique');
     }
+  }
+
+  const inputsV1 = (session as any).inputsV1 as any;
+  if (inputsV1 !== undefined && inputsV1 !== null) {
+    if (typeof inputsV1 !== 'object') throw new Error('inputsV1 must be an object when present');
+    const rateCode = Object.prototype.hasOwnProperty.call(inputsV1, 'rateCode') ? String(inputsV1.rateCode ?? '').trim() : '';
+    if (rateCode && rateCode.length > 40) throw new Error('inputsV1.rateCode too long');
+    const providerType = Object.prototype.hasOwnProperty.call(inputsV1, 'providerType') ? String(inputsV1.providerType ?? '').trim() : '';
+    if (providerType && providerType !== 'CCA' && providerType !== 'DA' && providerType !== 'NONE') throw new Error('inputsV1.providerType invalid');
+    const pcia = Object.prototype.hasOwnProperty.call(inputsV1, 'pciaVintageKey') ? String(inputsV1.pciaVintageKey ?? '').trim() : '';
+    if (pcia && pcia.length > 40) throw new Error('inputsV1.pciaVintageKey too long');
+
+    const billPdfTextRef = Object.prototype.hasOwnProperty.call(inputsV1, 'billPdfTextRef') ? String(inputsV1.billPdfTextRef ?? '').trim() : '';
+    if (billPdfTextRef) assertUploadsRefLike('inputsV1.billPdfTextRef', billPdfTextRef);
+
+    const checkUpload = (label: string, v: any) => {
+      if (v === undefined || v === null) return;
+      if (!v || typeof v !== 'object') throw new Error(`${label} must be an object`);
+      assertUploadsRefLike(`${label}.uploadsRef`, String(v.uploadsRef ?? ''));
+      const originalFilename = String(v.originalFilename ?? '').trim();
+      if (!originalFilename) throw new Error(`${label}.originalFilename is required`);
+      if (originalFilename.length > 180) throw new Error(`${label}.originalFilename too long`);
+      const sha256Hex = String(v.sha256Hex ?? '').trim().toLowerCase();
+      if (!/^[a-f0-9]{64}$/.test(sha256Hex)) throw new Error(`${label}.sha256Hex invalid`);
+      const bytes = Number(v.bytes);
+      if (!Number.isFinite(bytes) || bytes < 0) throw new Error(`${label}.bytes invalid`);
+      assertIsoLike(`${label}.uploadedAtIso`, String(v.uploadedAtIso ?? ''));
+    };
+    checkUpload('inputsV1.billPdf', inputsV1.billPdf);
+    checkUpload('inputsV1.intervalFile', inputsV1.intervalFile);
   }
 
   const expectedStatus = computeReportSessionStatusV1(session);

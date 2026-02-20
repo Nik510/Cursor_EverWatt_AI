@@ -3,7 +3,15 @@ import { existsSync } from 'node:fs';
 import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import { randomBytes } from 'node:crypto';
 
-import type { ReportSessionEventV1, ReportSessionIndexRowV1, ReportSessionRevisionMetaV1, ReportSessionV1, ReportSessionWizardOutputRefV1 } from './types';
+import type {
+  ReportSessionEventV1,
+  ReportSessionIndexRowV1,
+  ReportSessionInputsV1,
+  ReportSessionProviderTypeV1,
+  ReportSessionRevisionMetaV1,
+  ReportSessionV1,
+  ReportSessionWizardOutputRefV1,
+} from './types';
 import { assertReportSessionInvariantV1, computeReportSessionStatusV1 } from './types';
 
 const ENV_BASEDIR = 'EVERWATT_REPORT_SESSIONS_V1_BASEDIR';
@@ -162,12 +170,53 @@ function clampRevisionsUniqueMostRecentFirst(items: ReportSessionRevisionMetaV1[
     if (!runId) continue;
     if (seen.has(revisionId)) continue;
     seen.add(revisionId);
+
+    const reportTypeRaw = String((r as any)?.reportType || '').trim();
+    const reportType =
+      reportTypeRaw === 'INTERNAL_ENGINEERING_V1' || reportTypeRaw === 'ENGINEERING_PACK_V1' || reportTypeRaw === 'EXECUTIVE_PACK_V1'
+        ? (reportTypeRaw as any)
+        : null;
+
+    const engineVersionsRaw = (r as any)?.engineVersions;
+    const engineVersions =
+      engineVersionsRaw && typeof engineVersionsRaw === 'object' && !Array.isArray(engineVersionsRaw)
+        ? (() => {
+            const out: Record<string, string> = {};
+            for (const k of Object.keys(engineVersionsRaw).sort((a, b) => a.localeCompare(b))) {
+              const v = String((engineVersionsRaw as any)[k] ?? '').trim();
+              if (v) out[k] = v;
+            }
+            return out;
+          })()
+        : null;
+
+    const warningsSummaryRaw = (r as any)?.warningsSummary;
+    const warningsSummary =
+      warningsSummaryRaw && typeof warningsSummaryRaw === 'object' && !Array.isArray(warningsSummaryRaw)
+        ? (() => {
+            const topEngine = Array.isArray((warningsSummaryRaw as any).topEngineWarningCodes) ? ((warningsSummaryRaw as any).topEngineWarningCodes as any[]).map(String) : [];
+            const topMissing = Array.isArray((warningsSummaryRaw as any).topMissingInfoCodes) ? ((warningsSummaryRaw as any).topMissingInfoCodes as any[]).map(String) : [];
+            return {
+              engineWarningsCount: Number((warningsSummaryRaw as any).engineWarningsCount) || topEngine.length,
+              topEngineWarningCodes: Array.from(new Set(topEngine.map((x) => String(x || '').trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b)).slice(0, 20),
+              missingInfoCount: Number((warningsSummaryRaw as any).missingInfoCount) || topMissing.length,
+              topMissingInfoCodes: Array.from(new Set(topMissing.map((x) => String(x || '').trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b)).slice(0, 20),
+            };
+          })()
+        : null;
+
+    const wizardOutputHash = String((r as any)?.wizardOutputHash || '').trim() || null;
+
     out.push({
       revisionId,
       createdAtIso: String((r as any)?.createdAtIso || '').trim(),
       runId,
+      ...(reportType ? { reportType } : {}),
       format: String((r as any)?.format || 'JSON') as any,
       ...(String((r as any)?.downloadUrl || '').trim() ? { downloadUrl: String((r as any).downloadUrl).trim() } : {}),
+      ...(engineVersions && Object.keys(engineVersions).length ? { engineVersions } : {}),
+      ...(warningsSummary ? { warningsSummary } : {}),
+      ...(wizardOutputHash ? { wizardOutputHash } : {}),
     });
     if (out.length >= max) break;
   }
@@ -178,6 +227,66 @@ function clampEventsAppendBounded(existing: ReportSessionEventV1[] | undefined, 
   const base = Array.isArray(existing) ? existing.slice(0) : [];
   base.push(e);
   return base.length <= max ? base : base.slice(base.length - max);
+}
+
+function safeString(x: unknown, max = 180): string {
+  const s = String(x ?? '').trim();
+  if (!s) return '';
+  return s.length > max ? s.slice(0, Math.max(0, max - 12)) + '…(truncated)' : s;
+}
+
+function clampKeysSortedUnique(keys: string[], max: number): string[] {
+  const set = new Set<string>();
+  for (const k of keys) {
+    const s = safeString(k, 60);
+    if (!s) continue;
+    set.add(s);
+  }
+  return Array.from(set).sort((a, b) => a.localeCompare(b)).slice(0, max);
+}
+
+function normalizeProviderTypeV1(raw: unknown): ReportSessionProviderTypeV1 | null {
+  const v = String(raw ?? '').trim().toUpperCase();
+  if (!v) return null;
+  if (v === 'CCA') return 'CCA';
+  if (v === 'DA') return 'DA';
+  if (v === 'NONE') return 'NONE';
+  return null;
+}
+
+function normalizeInputsV1Merge(prev: ReportSessionInputsV1 | null | undefined, patch: Partial<ReportSessionInputsV1> | null | undefined): ReportSessionInputsV1 | null {
+  const base = prev && typeof prev === 'object' ? (prev as any) : {};
+  const p = patch && typeof patch === 'object' ? (patch as any) : null;
+  if (!p) return Object.keys(base).length ? (base as ReportSessionInputsV1) : {};
+
+  const next: any = { ...base };
+
+  if (Object.prototype.hasOwnProperty.call(p, 'billPdf')) next.billPdf = p.billPdf ?? null;
+  if (Object.prototype.hasOwnProperty.call(p, 'billPdfTextRef')) next.billPdfTextRef = p.billPdfTextRef ?? null;
+  if (Object.prototype.hasOwnProperty.call(p, 'intervalFile')) next.intervalFile = p.intervalFile ?? null;
+  if (Object.prototype.hasOwnProperty.call(p, 'rateCode')) next.rateCode = safeString(p.rateCode, 40) || null;
+  if (Object.prototype.hasOwnProperty.call(p, 'providerType')) next.providerType = normalizeProviderTypeV1(p.providerType);
+  if (Object.prototype.hasOwnProperty.call(p, 'pciaVintageKey')) next.pciaVintageKey = safeString(p.pciaVintageKey, 40) || null;
+
+  if (Object.prototype.hasOwnProperty.call(p, 'projectMetadata')) {
+    const pm = p.projectMetadata;
+    if (pm === null) next.projectMetadata = null;
+    else if (pm && typeof pm === 'object') {
+      const prevPm = next.projectMetadata && typeof next.projectMetadata === 'object' ? (next.projectMetadata as any) : {};
+      const outPm: any = { ...prevPm };
+      if (Object.prototype.hasOwnProperty.call(pm, 'projectName')) outPm.projectName = safeString((pm as any).projectName, 120) || undefined;
+      if (Object.prototype.hasOwnProperty.call(pm, 'address')) outPm.address = safeString((pm as any).address, 240) || undefined;
+      if (Object.prototype.hasOwnProperty.call(pm, 'utilityHint')) outPm.utilityHint = safeString((pm as any).utilityHint, 60) || undefined;
+      if (Object.prototype.hasOwnProperty.call(pm, 'meterId')) outPm.meterId = safeString((pm as any).meterId, 120) || undefined;
+      if (Object.prototype.hasOwnProperty.call(pm, 'accountNumber')) outPm.accountNumber = safeString((pm as any).accountNumber, 80) || undefined;
+      if (Object.prototype.hasOwnProperty.call(pm, 'serviceAccountId')) outPm.serviceAccountId = safeString((pm as any).serviceAccountId, 80) || undefined;
+      // drop empty object
+      next.projectMetadata = Object.keys(outPm).filter((k) => outPm[k] !== undefined && outPm[k] !== null && String(outPm[k] ?? '').trim()).length ? outPm : null;
+    }
+  }
+
+  // Normalize empty object to {} (not null) to keep shape stable.
+  return next as ReportSessionInputsV1;
 }
 
 function approxUtf8Bytes(text: string): number {
@@ -223,12 +332,14 @@ export function createReportSessionsStoreFsV1(args?: { baseDir?: string }) {
     const revisions = Array.isArray(parsed.revisions) ? parsed.revisions : [];
     const warnings = Array.isArray(parsed.warnings) ? parsed.warnings : [];
     const wizardOutputV1 = parsed.wizardOutputV1 ?? null;
+    const inputsV1 = parsed.inputsV1 ?? null;
     const status = String(parsed.status || '').trim() ? (parsed.status as any) : computeReportSessionStatusV1({ runIds, revisions, wizardOutputV1 } as any);
     const events = Array.isArray(parsed.events) ? parsed.events : [];
 
     return {
       ...(parsed as any),
       reportId,
+      inputsV1,
       runIds,
       revisions,
       warnings,
@@ -276,6 +387,7 @@ export function createReportSessionsStoreFsV1(args?: { baseDir?: string }) {
         title,
         kind,
         ...(projectId ? { projectId } : {}),
+        inputsV1: {},
         inputsSummary,
         runIds: [],
         revisions: [],
@@ -403,6 +515,57 @@ export function createReportSessionsStoreFsV1(args?: { baseDir?: string }) {
       };
       updated.status = computeReportSessionStatusV1(updated);
 
+      await writeSession(updated);
+      return updated;
+    },
+
+    async patchInputsV1(
+      reportIdRaw: string,
+      args: {
+        inputsV1Patch: Partial<ReportSessionInputsV1> | null;
+        inputsSummaryPatch?: Partial<ReportSessionV1['inputsSummary']> | null;
+        event?: ReportSessionEventV1 | null;
+      },
+      opts?: { nowIso?: string },
+    ): Promise<ReportSessionV1> {
+      const reportId = assertValidReportIdV1(reportIdRaw);
+      const nowIso = String(opts?.nowIso || new Date().toISOString()).trim();
+      const session = await readSession(reportId);
+
+      const nextInputsV1 = normalizeInputsV1Merge(session.inputsV1 ?? null, args.inputsV1Patch ?? null);
+      const nextInputsSummary = (() => {
+        const base = session.inputsSummary && typeof session.inputsSummary === 'object' ? (session.inputsSummary as any) : {};
+        const p = args.inputsSummaryPatch && typeof args.inputsSummaryPatch === 'object' ? (args.inputsSummaryPatch as any) : null;
+        if (!p) return base;
+        const out: any = { ...base };
+        if (Object.prototype.hasOwnProperty.call(p, 'hasBillText')) out.hasBillText = Boolean(p.hasBillText);
+        if (Object.prototype.hasOwnProperty.call(p, 'hasIntervals')) out.hasIntervals = Boolean(p.hasIntervals);
+        if (Object.prototype.hasOwnProperty.call(p, 'hasAddress')) out.hasAddress = Boolean(p.hasAddress);
+        if (Object.prototype.hasOwnProperty.call(p, 'hasQuestionnaire')) out.hasQuestionnaire = Boolean(p.hasQuestionnaire);
+        if (Object.prototype.hasOwnProperty.call(p, 'hasNotes')) out.hasNotes = Boolean(p.hasNotes);
+        if (Object.prototype.hasOwnProperty.call(p, 'utilityHint')) out.utilityHint = safeString(p.utilityHint, 60) || undefined;
+        return out;
+      })();
+
+      let events = session.events;
+      if (args.event) {
+        // Ensure deterministic ordering inside event payloads we control.
+        if ((args.event as any).type === 'INPUT_PROJECT_METADATA_SET') {
+          const keys = Array.isArray((args.event as any).keys) ? (args.event as any).keys : [];
+          events = clampEventsAppendBounded(events, { ...(args.event as any), keys: clampKeysSortedUnique(keys, 20) }, 50);
+        } else {
+          events = clampEventsAppendBounded(events, args.event as any, 50);
+        }
+      }
+
+      const updated: ReportSessionV1 = {
+        ...session,
+        updatedAtIso: nowIso,
+        inputsV1: nextInputsV1,
+        inputsSummary: nextInputsSummary,
+        events,
+      };
+      updated.status = computeReportSessionStatusV1(updated);
       await writeSession(updated);
       return updated;
     },

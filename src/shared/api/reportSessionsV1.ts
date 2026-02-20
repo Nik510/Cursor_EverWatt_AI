@@ -45,6 +45,8 @@ export async function getReportSessionV1(reportId: string): Promise<GetReportSes
 
 export type RunUtilityInReportSessionV1Request = {
   projectId?: string;
+  /** When true, allow running despite required missing inputs (marks outputs as partial). */
+  runAnyway?: boolean;
   workflowInputs?: {
     demo?: boolean;
     meterId?: string;
@@ -74,6 +76,103 @@ export async function runUtilityInReportSessionV1(reportId: string, payload: Run
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
+  });
+}
+
+export type UploadBillInputToReportSessionV1Response = { success: true; session: ReportSessionV1 };
+
+export async function uploadBillInputToReportSessionV1(reportId: string, file: File): Promise<UploadBillInputToReportSessionV1Response> {
+  const rid = String(reportId || '').trim();
+  if (!rid) throw new Error('reportId is required');
+  if (!file) throw new Error('file is required');
+  const form = new FormData();
+  form.append('file', file);
+  return apiRequest<UploadBillInputToReportSessionV1Response>({
+    url: `/api/report-sessions-v1/${encodeURIComponent(rid)}/inputs/upload-bill`,
+    method: 'POST',
+    body: form,
+  });
+}
+
+export type UploadIntervalInputToReportSessionV1Response = { success: true; session: ReportSessionV1 };
+
+export async function uploadIntervalInputToReportSessionV1(reportId: string, file: File): Promise<UploadIntervalInputToReportSessionV1Response> {
+  const rid = String(reportId || '').trim();
+  if (!rid) throw new Error('reportId is required');
+  if (!file) throw new Error('file is required');
+  const form = new FormData();
+  form.append('file', file);
+  return apiRequest<UploadIntervalInputToReportSessionV1Response>({
+    url: `/api/report-sessions-v1/${encodeURIComponent(rid)}/inputs/upload-interval`,
+    method: 'POST',
+    body: form,
+  });
+}
+
+export type SetRateCodeInReportSessionV1Response = { success: true; session: ReportSessionV1 };
+
+export async function setRateCodeInReportSessionV1(reportId: string, payload: { rateCode: string }): Promise<SetRateCodeInReportSessionV1Response> {
+  const rid = String(reportId || '').trim();
+  if (!rid) throw new Error('reportId is required');
+  const rateCode = String(payload?.rateCode || '').trim();
+  if (!rateCode) throw new Error('rateCode is required');
+  return apiRequest<SetRateCodeInReportSessionV1Response>({
+    url: `/api/report-sessions-v1/${encodeURIComponent(rid)}/inputs/set-rate-code`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ rateCode }),
+  });
+}
+
+export type SetProviderInReportSessionV1Response = { success: true; session: ReportSessionV1 };
+
+export async function setProviderInReportSessionV1(
+  reportId: string,
+  payload: { providerType: 'CCA' | 'DA' | 'NONE' },
+): Promise<SetProviderInReportSessionV1Response> {
+  const rid = String(reportId || '').trim();
+  if (!rid) throw new Error('reportId is required');
+  const providerType = String(payload?.providerType || '').trim().toUpperCase();
+  if (providerType !== 'CCA' && providerType !== 'DA' && providerType !== 'NONE') throw new Error('providerType must be CCA, DA, or NONE');
+  return apiRequest<SetProviderInReportSessionV1Response>({
+    url: `/api/report-sessions-v1/${encodeURIComponent(rid)}/inputs/set-provider`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ providerType }),
+  });
+}
+
+export type SetPciaVintageKeyInReportSessionV1Response = { success: true; session: ReportSessionV1 };
+
+export async function setPciaVintageKeyInReportSessionV1(
+  reportId: string,
+  payload: { pciaVintageKey: string },
+): Promise<SetPciaVintageKeyInReportSessionV1Response> {
+  const rid = String(reportId || '').trim();
+  if (!rid) throw new Error('reportId is required');
+  const pciaVintageKey = String(payload?.pciaVintageKey || '').trim();
+  if (!pciaVintageKey) throw new Error('pciaVintageKey is required');
+  return apiRequest<SetPciaVintageKeyInReportSessionV1Response>({
+    url: `/api/report-sessions-v1/${encodeURIComponent(rid)}/inputs/set-pcia-vintage-key`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ pciaVintageKey }),
+  });
+}
+
+export type SetProjectMetadataInReportSessionV1Response = { success: true; session: ReportSessionV1 };
+
+export async function setProjectMetadataInReportSessionV1(
+  reportId: string,
+  payload: { projectName?: string; address?: string; utilityHint?: string; meterId?: string; accountNumber?: string; serviceAccountId?: string },
+): Promise<SetProjectMetadataInReportSessionV1Response> {
+  const rid = String(reportId || '').trim();
+  if (!rid) throw new Error('reportId is required');
+  return apiRequest<SetProjectMetadataInReportSessionV1Response>({
+    url: `/api/report-sessions-v1/${encodeURIComponent(rid)}/inputs/set-project-metadata`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload || {}),
   });
 }
 
@@ -147,9 +246,52 @@ export async function generateInternalEngineeringReportFromSessionV1(
   });
 }
 
+export type GenerateEngineeringPackFromSessionV1Request = { runId?: string; title?: string };
+export type GenerateEngineeringPackFromSessionV1Response = {
+  success: true;
+  revisionMeta: ReportSessionRevisionMetaV1 & { projectId: string; download?: { htmlUrl: string; jsonUrl: string; pdfUrl: string } };
+};
+
+export async function generateEngineeringPackFromSessionV1(
+  reportId: string,
+  payload: GenerateEngineeringPackFromSessionV1Request,
+): Promise<GenerateEngineeringPackFromSessionV1Response> {
+  const rid = String(reportId || '').trim();
+  if (!rid) throw new Error('reportId is required');
+  return apiRequest<GenerateEngineeringPackFromSessionV1Response>({
+    url: `/api/report-sessions-v1/${encodeURIComponent(rid)}/generate-engineering-pack`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload || {}),
+  });
+}
+
+export type GenerateExecutivePackFromSessionV1Request = { runId?: string; title?: string };
+export type GenerateExecutivePackFromSessionV1Response = {
+  success: true;
+  revisionMeta: ReportSessionRevisionMetaV1 & { projectId: string; download?: { htmlUrl: string; jsonUrl: string; pdfUrl: string } };
+};
+
+export async function generateExecutivePackFromSessionV1(
+  reportId: string,
+  payload: GenerateExecutivePackFromSessionV1Request,
+): Promise<GenerateExecutivePackFromSessionV1Response> {
+  const rid = String(reportId || '').trim();
+  if (!rid) throw new Error('reportId is required');
+  return apiRequest<GenerateExecutivePackFromSessionV1Response>({
+    url: `/api/report-sessions-v1/${encodeURIComponent(rid)}/generate-executive-pack`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload || {}),
+  });
+}
+
 export type BuildWizardOutputV1Response = { success: true; wizardOutput: WizardOutputV1 };
 
-export async function buildWizardOutputForReportSessionV1(reportId: string, payload?: { runId?: string }): Promise<BuildWizardOutputV1Response> {
+export async function buildWizardOutputForReportSessionV1(
+  reportId: string,
+  payload?: { runId?: string; partialRunAllowed?: boolean },
+): Promise<BuildWizardOutputV1Response> {
   const rid = String(reportId || '').trim();
   if (!rid) throw new Error('reportId is required');
   return apiRequest<BuildWizardOutputV1Response>({

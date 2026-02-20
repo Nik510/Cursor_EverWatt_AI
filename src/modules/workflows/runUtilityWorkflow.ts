@@ -43,6 +43,8 @@ export async function runUtilityWorkflow(args: {
   intervalKwSeries?: Array<{ timestampIso: string; kw: number }> | null;
   intervalPointsV1?: Array<{ timestampIso: string; intervalMinutes: number; kWh?: number; kW?: number; temperatureF?: number }> | null;
   batteryLibrary: BatteryLibraryItemV1[];
+  /** Optional operator-provided knob used by exit fees/generation context. */
+  pciaVintageKey?: string | null;
   nowIso?: string;
   idFactory?: () => string;
   suggestionIdFactory?: () => string;
@@ -76,6 +78,7 @@ export async function runUtilityWorkflow(args: {
   const utilityAnalysis = await analyzeUtility(args.inputs, {
     intervalKwSeries: args.intervalKwSeries || undefined,
     intervalPointsV1: args.intervalPointsV1 || undefined,
+    pciaVintageKey: args.pciaVintageKey ?? null,
     nowIso,
     idFactory,
     stepTraceV1,
