@@ -26,6 +26,78 @@ function stableSnapshotStringify(value: unknown): string {
 }
 
 describe('stakeholder report packs v1 (builders)', () => {
+  it('provenance header invariants (engineering + executive) are always present', async () => {
+    const nowIso = '2026-03-01T00:00:00.000Z';
+    const analysisRun = loadGoldenAnalysisRunFixtureV1({ runId: 'run_golden_01', snapshotId: '01_pge_b19_no_cca', nowIso, projectId: 'p_golden_01' });
+
+    const golden = await runGoldenReportSessionCaseV1({
+      caseId: 'builder_only_prov_01',
+      nowIso,
+      reportId: 'rs_builder_only_prov_01',
+      projectId: 'p_golden_01',
+      kind: 'WIZARD',
+      title: 'Builder-only-prov',
+      runs: [{ runId: 'run_golden_01', analysisResultsSnapshotId: '01_pge_b19_no_cca' }],
+      revisionForRunId: 'run_golden_01',
+      wizardOutputForRunId: 'run_golden_01',
+    } as any);
+    const wiz: any = golden.wizardOutput;
+
+    const eng = buildEngineeringPackJsonV1({
+      title: 'Engineering Pack • Test',
+      project: { projectId: 'p_golden_01', projectName: 'Demo', address: 'Oakland, CA', utilityTerritory: 'PGE', reportId: 'rs_builder_only_prov_01' },
+      revisionId: 'rev_test_eng_prov_01',
+      runId: 'run_golden_01',
+      generatedAtIso: nowIso,
+      analysisRun,
+      reportJson: analysisRun.snapshot.reportJson,
+      wizardOutput: wiz,
+      wizardOutputHash: String(wiz?.wizardOutputHash || ''),
+    });
+
+    const exec = buildExecutivePackJsonV1({
+      title: 'Executive Pack • Test',
+      project: { projectId: 'p_golden_01', projectName: 'Demo', address: 'Oakland, CA', utilityTerritory: 'PGE', reportId: 'rs_builder_only_prov_01' },
+      revisionId: 'rev_test_exec_prov_01',
+      runId: 'run_golden_01',
+      generatedAtIso: nowIso,
+      analysisRun,
+      reportJson: analysisRun.snapshot.reportJson,
+      wizardOutput: wiz,
+      wizardOutputHash: String(wiz?.wizardOutputHash || ''),
+      diffSincePreviousRun: null,
+    });
+
+    const assertProvHeader = (p: any) => {
+      expect(p?.provenanceHeader).toBeTruthy();
+      expect(String(p.provenanceHeader.runId || '')).toBeTruthy();
+      expect(String(p.provenanceHeader.revisionId || '')).toBeTruthy();
+      expect(String(p.provenanceHeader.generatedAtIso || '')).toMatch(/^\d{4}-\d{2}-\d{2}T/);
+      expect(p.provenanceHeader.engineVersions).toBeTruthy();
+      expect(typeof p.provenanceHeader.engineVersions).toBe('object');
+
+      expect(p.provenanceHeader.warningsSummary).toBeTruthy();
+      expect(typeof p.provenanceHeader.warningsSummary.engineWarningsCount).toBe('number');
+      expect(Array.isArray(p.provenanceHeader.warningsSummary.topEngineWarningCodes)).toBe(true);
+      expect(typeof p.provenanceHeader.warningsSummary.missingInfoCount).toBe('number');
+      expect(Array.isArray(p.provenanceHeader.warningsSummary.topMissingInfoCodes)).toBe(true);
+
+      // Snapshot IDs: keys must exist (values may be null).
+      expect(p.provenanceHeader.snapshotIds).toBeTruthy();
+      expect(Object.prototype.hasOwnProperty.call(p.provenanceHeader.snapshotIds, 'tariffSnapshotId')).toBe(true);
+      expect(Object.prototype.hasOwnProperty.call(p.provenanceHeader.snapshotIds, 'generationEnergySnapshotId')).toBe(true);
+      expect(Object.prototype.hasOwnProperty.call(p.provenanceHeader.snapshotIds, 'addersSnapshotId')).toBe(true);
+      expect(Object.prototype.hasOwnProperty.call(p.provenanceHeader.snapshotIds, 'exitFeesSnapshotId')).toBe(true);
+    };
+
+    assertProvHeader(eng);
+    assertProvHeader(exec);
+
+    // Executive pack must always include confidence/assumptions section.
+    expect(Array.isArray(exec.confidenceAndAssumptions)).toBe(true);
+    expect(exec.confidenceAndAssumptions.length).toBeGreaterThan(0);
+  });
+
   it('engineering pack builder is deterministic given stored run snapshot', async () => {
     const nowIso = '2026-03-01T00:00:00.000Z';
     const analysisRun = loadGoldenAnalysisRunFixtureV1({ runId: 'run_golden_01', snapshotId: '01_pge_b19_no_cca', nowIso, projectId: 'p_golden_01' });
@@ -107,6 +179,37 @@ describe('stakeholder report packs v1 (builders)', () => {
     } else {
       expect(pack.savings.annualUsd).toBeTruthy();
     }
+  });
+
+  it('executive pack returns PENDING_INPUTS when no deterministic savings basis exists in snapshot', async () => {
+    const nowIso = '2026-03-01T00:00:00.000Z';
+    const analysisRun = loadGoldenAnalysisRunFixtureV1({ runId: 'run_no_savings', snapshotId: '01_pge_b19_no_cca', nowIso, projectId: 'p_no_savings' });
+
+    // Minimal reportJson shell with trace only; intentionally no battery decision/econ fields.
+    const reportJsonMinimal = {
+      analysisTraceV1: {
+        warningsSummary: { engineWarningsCount: 0, topEngineWarningCodes: [], missingInfoCount: 0, topMissingInfoCodes: [] },
+        provenance: { tariffSnapshotId: null, generationEnergySnapshotId: null, addersSnapshotId: null, exitFeesSnapshotId: null },
+        coverage: { hasInterval: false, intervalDays: null, tariffMatchStatus: null, supplyProviderType: null },
+      },
+      engineVersions: (analysisRun as any)?.snapshot?.reportJson?.engineVersions ?? {},
+    };
+
+    const pack = buildExecutivePackJsonV1({
+      title: 'Executive Pack • NoSavings',
+      project: { projectId: 'p_no_savings', projectName: 'NoSavings', utilityTerritory: 'PGE', reportId: 'rs_no_savings' },
+      revisionId: 'rev_no_savings',
+      runId: 'run_no_savings',
+      generatedAtIso: nowIso,
+      analysisRun,
+      reportJson: reportJsonMinimal,
+      wizardOutput: null,
+      wizardOutputHash: null,
+      diffSincePreviousRun: null,
+    });
+
+    expect(pack.savings.status).toBe('PENDING_INPUTS');
+    expect(pack.savings.annualUsd).toBeNull();
   });
 });
 

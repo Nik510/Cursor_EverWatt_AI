@@ -11,6 +11,29 @@ type MissingInfoLike = {
 export type EngineeringPackJsonV1 = {
   schemaVersion: 'engineeringPackV1';
   generatedAtIso: string;
+  /**
+   * Provenance header: stable, required fields for downstream gating.
+   * Keys are always present; values may be null where explicitly unknown.
+   */
+  provenanceHeader: {
+    runId: string;
+    revisionId: string;
+    generatedAtIso: string;
+    engineVersions: Record<string, string>;
+    warningsSummary: {
+      engineWarningsCount: number;
+      topEngineWarningCodes: string[];
+      missingInfoCount: number;
+      topMissingInfoCodes: string[];
+    };
+    wizardOutputHash?: string;
+    snapshotIds: {
+      tariffSnapshotId: string | null;
+      generationEnergySnapshotId: string | null;
+      addersSnapshotId: string | null;
+      exitFeesSnapshotId: string | null;
+    };
+  };
   header: {
     title: string;
     projectId: string;
@@ -91,6 +114,19 @@ function stableEngineVersions(v: unknown): Record<string, string> {
     if (val) out[k] = val;
   }
   return out;
+}
+
+function normalizeWarningsSummary(v: unknown): EngineeringPackJsonV1['provenanceHeader']['warningsSummary'] {
+  const ws: any = v && typeof v === 'object' && !Array.isArray(v) ? v : {};
+  const topEngine = Array.isArray(ws?.topEngineWarningCodes) ? (ws.topEngineWarningCodes as any[]).map(String) : [];
+  const topMissing = Array.isArray(ws?.topMissingInfoCodes) ? (ws.topMissingInfoCodes as any[]).map(String) : [];
+  const clean = (arr: string[]) => Array.from(new Set(arr.map((x) => stableString(x, 120)).filter(Boolean))).sort((a, b) => a.localeCompare(b)).slice(0, 20);
+  return {
+    engineWarningsCount: Number(ws?.engineWarningsCount) || clean(topEngine).length,
+    topEngineWarningCodes: clean(topEngine),
+    missingInfoCount: Number(ws?.missingInfoCount) || clean(topMissing).length,
+    topMissingInfoCodes: clean(topMissing),
+  };
 }
 
 function sortMissingInfo(a: any, b: any): number {
@@ -219,18 +255,28 @@ export function buildEngineeringPackJsonV1(args: {
   })();
 
   const snapshotIds = {
-    tariffSnapshotId: (args.analysisRun?.provenance?.tariffSnapshotId ?? trace?.provenance?.tariffSnapshotId ?? null) as any,
-    generationEnergySnapshotId: (args.analysisRun?.provenance?.generationEnergySnapshotId ?? trace?.provenance?.generationEnergySnapshotId ?? null) as any,
-    addersSnapshotId: (args.analysisRun?.provenance?.addersSnapshotId ?? trace?.provenance?.addersSnapshotId ?? null) as any,
-    exitFeesSnapshotId: (args.analysisRun?.provenance?.exitFeesSnapshotId ?? trace?.provenance?.exitFeesSnapshotId ?? null) as any,
+    tariffSnapshotId: stableString(args.analysisRun?.provenance?.tariffSnapshotId ?? trace?.provenance?.tariffSnapshotId ?? null, 120) || null,
+    generationEnergySnapshotId: stableString(args.analysisRun?.provenance?.generationEnergySnapshotId ?? trace?.provenance?.generationEnergySnapshotId ?? null, 120) || null,
+    addersSnapshotId: stableString(args.analysisRun?.provenance?.addersSnapshotId ?? trace?.provenance?.addersSnapshotId ?? null, 120) || null,
+    exitFeesSnapshotId: stableString(args.analysisRun?.provenance?.exitFeesSnapshotId ?? trace?.provenance?.exitFeesSnapshotId ?? null, 120) || null,
   };
 
   const wizardOutputHash = stableString(args.wizardOutputHash, 128) || undefined;
   const wizardOutputRef = args.wizardOutput ? `wizardOutput:${reportId || 'session'}:${wizardOutputHash || 'missing_hash'}` : undefined;
+  const warningsSummary = normalizeWarningsSummary(trace?.warningsSummary ?? (args.analysisRun as any)?.warningsSummary ?? null);
 
   return {
     schemaVersion: 'engineeringPackV1',
     generatedAtIso: nowIso,
+    provenanceHeader: {
+      runId,
+      revisionId,
+      generatedAtIso: nowIso,
+      engineVersions,
+      warningsSummary,
+      ...(wizardOutputHash ? { wizardOutputHash } : {}),
+      snapshotIds,
+    },
     header: {
       title: stableString(args.title, 140) || 'Engineering Report Pack (v1)',
       projectId,
@@ -255,7 +301,7 @@ export function buildEngineeringPackJsonV1(args: {
         ...(trace?.steps !== undefined ? { steps: trace.steps } : {}),
         ...(trace?.ranModules !== undefined ? { ranModules: trace.ranModules } : {}),
         ...(trace?.skippedModules !== undefined ? { skippedModules: trace.skippedModules } : {}),
-        ...(trace?.warningsSummary !== undefined ? { warningsSummary: trace.warningsSummary } : {}),
+        ...(trace?.warningsSummary !== undefined ? { warningsSummary: trace.warningsSummary } : { warningsSummary }),
       },
       effectiveRateContext: {
         ...(currentRate !== undefined ? { currentRate } : {}),
