@@ -54,6 +54,7 @@ import { isApiError } from './middleware/error-handler';
 import { securityHeaders } from './middleware/security';
 import { rateLimit } from './middleware/rate-limit';
 import { parseGoogleSheetsUrl, toGoogleSheetsCsvExportUrl } from './utils/google-sheets';
+import { buildRevisionFilenameV1 } from './utils/buildRevisionFilenameV1';
 import { BillingPeriodSchema, IntervalRowSchema } from './modules/tariffEngine/schema';
 import { assignIntervalsToBillingCycles } from './modules/tariffEngine/join';
 import { calculateBillsPerCycle } from './modules/tariffEngine/billing';
@@ -7789,6 +7790,8 @@ app.post('/api/report-sessions-v1/:reportId/generate-engineering-pack', async (c
     const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
     const { createProjectShellIntakeOnlyV1 } = await import('./modules/project/createProjectShellIntakeOnlyV1');
     const { buildEngineeringPackJsonV1 } = await import('./modules/reports/engineeringPack/v1/buildEngineeringPackJsonV1');
+    const { renderEngineeringPackPdfV1 } = await import('./modules/reports/engineeringPack/v1/renderEngineeringPackPdfV1');
+    const { buildUserFileKeyAtPath, putUserFileAtKey } = await import('./services/storage-service');
 
     const sessionStore = createReportSessionsStoreFsV1();
     const runStore = createAnalysisRunsStoreFsV1();
@@ -7847,6 +7850,20 @@ app.post('/api/report-sessions-v1/:reportId/generate-engineering-pack', async (c
     const warningsSummaryMeta =
       reportJson?.analysisTraceV1?.warningsSummary && typeof reportJson.analysisTraceV1.warningsSummary === 'object' ? reportJson.analysisTraceV1.warningsSummary : undefined;
 
+    const pdfBuf = await renderEngineeringPackPdfV1({ packJson });
+    const pdfStorageKey = buildUserFileKeyAtPath({
+      userId,
+      pathPrefix: `reports/revisions/${revisionId}`,
+      filename: 'engineering-pack.pdf',
+    });
+    await putUserFileAtKey({
+      userId,
+      key: pdfStorageKey,
+      originalName: 'engineering-pack.pdf',
+      contentType: 'application/pdf',
+      body: Buffer.from(pdfBuf),
+    });
+
     const revision: any = {
       id: revisionId,
       createdAt: nowIso,
@@ -7854,6 +7871,7 @@ app.post('/api/report-sessions-v1/:reportId/generate-engineering-pack', async (c
       reportType: 'ENGINEERING_PACK_V1',
       packHash,
       packJson,
+      pdfStorageKey,
       runId,
       ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
       ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
@@ -7872,6 +7890,7 @@ app.post('/api/report-sessions-v1/:reportId/generate-engineering-pack', async (c
     const htmlUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/html`;
     const jsonUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/json`;
     const pdfUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/pdf`;
+    const bundleZipUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/bundle.zip`;
 
     const revisionMeta = {
       revisionId,
@@ -7913,6 +7932,8 @@ app.post('/api/report-sessions-v1/:reportId/generate-executive-pack', async (c) 
     const { createProjectShellIntakeOnlyV1 } = await import('./modules/project/createProjectShellIntakeOnlyV1');
     const { buildExecutivePackJsonV1 } = await import('./modules/reports/executivePack/v1/buildExecutivePackJsonV1');
     const { buildDiffSummaryV1 } = await import('./modules/analysisRunsV1/diffV1');
+    const { renderExecutivePackPdfV1 } = await import('./modules/reports/executivePack/v1/renderExecutivePackPdfV1');
+    const { buildUserFileKeyAtPath, putUserFileAtKey } = await import('./services/storage-service');
 
     const sessionStore = createReportSessionsStoreFsV1();
     const runStore = createAnalysisRunsStoreFsV1();
@@ -7986,6 +8007,20 @@ app.post('/api/report-sessions-v1/:reportId/generate-executive-pack', async (c) 
     const warningsSummaryMeta =
       reportJson?.analysisTraceV1?.warningsSummary && typeof reportJson.analysisTraceV1.warningsSummary === 'object' ? reportJson.analysisTraceV1.warningsSummary : undefined;
 
+    const pdfBuf = await renderExecutivePackPdfV1({ packJson });
+    const pdfStorageKey = buildUserFileKeyAtPath({
+      userId,
+      pathPrefix: `reports/revisions/${revisionId}`,
+      filename: 'executive-pack.pdf',
+    });
+    await putUserFileAtKey({
+      userId,
+      key: pdfStorageKey,
+      originalName: 'executive-pack.pdf',
+      contentType: 'application/pdf',
+      body: Buffer.from(pdfBuf),
+    });
+
     const revision: any = {
       id: revisionId,
       createdAt: nowIso,
@@ -7993,6 +8028,7 @@ app.post('/api/report-sessions-v1/:reportId/generate-executive-pack', async (c) 
       reportType: 'EXECUTIVE_PACK_V1',
       packHash,
       packJson,
+      pdfStorageKey,
       runId,
       ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
       ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
@@ -10343,7 +10379,7 @@ app.get('/api/projects/:id/reports/revisions/:revisionId', async (c) => {
         ...(warningsSummary ? { warningsSummary } : {}),
         ...(wizardOutputHash ? { wizardOutputHash } : {}),
       },
-      links: { htmlUrl, jsonUrl, pdfUrl },
+      links: { htmlUrl, jsonUrl, pdfUrl, bundleZipUrl },
     });
   } catch (error) {
     console.error('Get revision meta error:', error);
@@ -10360,6 +10396,9 @@ app.get('/api/projects/:id/reports/revisions/:revisionId/json', async (c) => {
     if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
     const found = findProjectReportRevisionV1(project, revisionId);
     if (!found) return c.json({ success: false, error: 'Report revision not found' }, 404);
+    const createdAtIso = String((found.rev as any)?.createdAt || (found.rev as any)?.createdAtIso || '').trim() || null;
+    const filename = buildRevisionFilenameV1({ reportType: found.reportType, projectOrReportId: projectId, revisionId, createdAtIso, ext: 'json' });
+    c.header('Content-Disposition', `attachment; filename="${filename}"`);
     return c.json({ success: true, reportType: found.reportType, revision: found.rev });
   } catch (error) {
     console.error('Get revision json error:', error);
@@ -10456,21 +10495,23 @@ app.get('/api/projects/:id/reports/revisions/:revisionId/pdf', async (c) => {
 
     const rt = String(found.reportType || '').trim();
     const rev = found.rev;
+    const createdAtIso = String((rev as any)?.createdAt || (rev as any)?.createdAtIso || '').trim() || null;
+    const filename = buildRevisionFilenameV1({ reportType: rt, projectOrReportId: projectId, revisionId, createdAtIso, ext: 'pdf' });
 
-    const safeFilenamePart = (s: string): string => {
-      const cleaned = String(s || '')
-        .trim()
-        .replace(/[^\w\-]+/g, '_')
-        .replace(/_+/g, '_')
-        .slice(0, 80);
-      return cleaned || 'report';
-    };
+    const pdfStorageKey = String((rev as any)?.pdfStorageKey || '').trim();
+    if (pdfStorageKey) {
+      const { getUserFile } = await import('./services/storage-service');
+      const obj = await getUserFile({ userId, key: pdfStorageKey });
+      if (obj?.body?.length) {
+        c.header('Content-Type', 'application/pdf');
+        c.header('Content-Disposition', `attachment; filename="${filename}"`);
+        return c.body(new Uint8Array(obj.body));
+      }
+    }
 
     if (rt === 'ENGINEERING_PACK_V1') {
       const { renderEngineeringPackPdfV1 } = await import('./modules/reports/engineeringPack/v1/renderEngineeringPackPdfV1');
       const pdf = await renderEngineeringPackPdfV1({ packJson: (rev as any)?.packJson });
-      const projectName = String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || projectId).trim() || projectId;
-      const filename = `EverWatt_EngineeringPackV1_${safeFilenamePart(projectName)}.pdf`;
       c.header('Content-Type', 'application/pdf');
       c.header('Content-Disposition', `attachment; filename="${filename}"`);
       return c.body(new Uint8Array(pdf));
@@ -10479,8 +10520,6 @@ app.get('/api/projects/:id/reports/revisions/:revisionId/pdf', async (c) => {
     if (rt === 'EXECUTIVE_PACK_V1') {
       const { renderExecutivePackPdfV1 } = await import('./modules/reports/executivePack/v1/renderExecutivePackPdfV1');
       const pdf = await renderExecutivePackPdfV1({ packJson: (rev as any)?.packJson });
-      const projectName = String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || projectId).trim() || projectId;
-      const filename = `EverWatt_ExecutivePackV1_${safeFilenamePart(projectName)}.pdf`;
       c.header('Content-Type', 'application/pdf');
       c.header('Content-Disposition', `attachment; filename="${filename}"`);
       return c.body(new Uint8Array(pdf));
@@ -10490,6 +10529,106 @@ app.get('/api/projects/:id/reports/revisions/:revisionId/pdf', async (c) => {
   } catch (error) {
     console.error('Render revision pdf error:', error);
     return c.json({ success: false, error: 'Failed to render revision pdf' }, 500);
+  }
+});
+
+app.get('/api/projects/:id/reports/revisions/:revisionId/bundle.zip', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const projectId = c.req.param('id');
+    const revisionId = c.req.param('revisionId');
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const found = findProjectReportRevisionV1(project, revisionId);
+    if (!found) return c.json({ success: false, error: 'Report revision not found' }, 404);
+
+    const primaryType = String(found.reportType || '').trim() || 'UNKNOWN';
+    const primaryRev: any = found.rev || {};
+
+    const createdAtIso = String(primaryRev?.createdAt || primaryRev?.createdAtIso || '').trim() || null;
+    const runId = String(primaryRev?.runId || '').trim() || null;
+    const engineVersions = primaryRev?.engineVersions && typeof primaryRev.engineVersions === 'object' ? primaryRev.engineVersions : {};
+    const warningsSummary = primaryRev?.warningsSummary && typeof primaryRev.warningsSummary === 'object' ? primaryRev.warningsSummary : null;
+    const wizardOutputHash = String(primaryRev?.wizardOutputHash || '').trim() || null;
+
+    const { default: JSZip } = await import('jszip');
+    const { getUserFile } = await import('./services/storage-service');
+
+    const zip = new JSZip();
+
+    const addPdfIfPresent = async (rev: any, outName: string): Promise<boolean> => {
+      const key = String(rev?.pdfStorageKey || '').trim();
+      if (!key) return false;
+      const obj = await getUserFile({ userId, key });
+      if (!obj?.body?.length) return false;
+      zip.file(outName, obj.body);
+      return true;
+    };
+
+    const chooseBestPackForRun = (rt: 'ENGINEERING_PACK_V1' | 'EXECUTIVE_PACK_V1'): any | null => {
+      if (!runId) return null;
+      const reports = project?.reportsV1 && typeof project.reportsV1 === 'object' ? project.reportsV1 : {};
+      const bucket = rt === 'ENGINEERING_PACK_V1' ? (Array.isArray(reports?.engineeringPackV1) ? reports.engineeringPackV1 : []) : (Array.isArray(reports?.executivePackV1) ? reports.executivePackV1 : []);
+      const matches = bucket.filter((r: any) => String(r?.runId || '').trim() === String(runId));
+      const narrowed = wizardOutputHash ? matches.filter((r: any) => String(r?.wizardOutputHash || '').trim() === String(wizardOutputHash)) : matches;
+      const pool = narrowed.length ? narrowed : matches;
+      if (!pool.length) return null;
+      pool.sort((a: any, b: any) => String(b?.createdAt || '').localeCompare(String(a?.createdAt || '')));
+      return pool[0] || null;
+    };
+
+    // Always include the primary revision's stored PDF if present.
+    await (async () => {
+      if (primaryType === 'ENGINEERING_PACK_V1') await addPdfIfPresent(primaryRev, 'engineering-pack.pdf');
+      if (primaryType === 'EXECUTIVE_PACK_V1') await addPdfIfPresent(primaryRev, 'executive-pack.pdf');
+    })();
+
+    // Optionally include sibling pack PDFs for the same run.
+    const engForRun = chooseBestPackForRun('ENGINEERING_PACK_V1');
+    const execForRun = chooseBestPackForRun('EXECUTIVE_PACK_V1');
+    if (engForRun) await addPdfIfPresent(engForRun, 'engineering-pack.pdf');
+    if (execForRun) await addPdfIfPresent(execForRun, 'executive-pack.pdf');
+
+    const packJson = { success: true, projectId, revisionId, reportType: primaryType, revision: primaryRev };
+    zip.file('pack.json', JSON.stringify(packJson, null, 2));
+
+    const readmeLines: string[] = [];
+    readmeLines.push('EverWatt Pack Bundle (snapshot-only)');
+    readmeLines.push('');
+    readmeLines.push(`projectId: ${projectId}`);
+    readmeLines.push(`revisionId: ${revisionId}`);
+    readmeLines.push(`reportType: ${primaryType}`);
+    if (createdAtIso) readmeLines.push(`createdAtIso: ${createdAtIso}`);
+    if (runId) readmeLines.push(`runId: ${runId}`);
+    if (wizardOutputHash) readmeLines.push(`wizardOutputHash: ${wizardOutputHash}`);
+    readmeLines.push('');
+    readmeLines.push('engineVersions:');
+    for (const k of Object.keys(engineVersions || {}).sort()) {
+      readmeLines.push(`- ${k}: ${String((engineVersions as any)[k])}`);
+    }
+    if (warningsSummary) {
+      readmeLines.push('');
+      readmeLines.push('warningsSummary:');
+      readmeLines.push(`- engineWarningsCount: ${String((warningsSummary as any)?.engineWarningsCount ?? '')}`);
+      readmeLines.push(`- missingInfoCount: ${String((warningsSummary as any)?.missingInfoCount ?? '')}`);
+      const topEngine = Array.isArray((warningsSummary as any)?.topEngineWarningCodes) ? (warningsSummary as any).topEngineWarningCodes : [];
+      const topMissing = Array.isArray((warningsSummary as any)?.topMissingInfoCodes) ? (warningsSummary as any).topMissingInfoCodes : [];
+      readmeLines.push(`- topEngineWarningCodes: ${topEngine.length ? topEngine.join(', ') : '—'}`);
+      readmeLines.push(`- topMissingInfoCodes: ${topMissing.length ? topMissing.join(', ') : '—'}`);
+    }
+    readmeLines.push('');
+    readmeLines.push('Disclaimer: snapshot-only artifact; no recompute. Savings claims are gated and must be reviewed.');
+    zip.file('README.txt', readmeLines.join('\n'));
+
+    const out = await zip.generateAsync({ type: 'nodebuffer' });
+    const filename = buildRevisionFilenameV1({ reportType: primaryType, projectOrReportId: projectId, revisionId, createdAtIso, ext: 'zip' });
+    c.header('Content-Type', 'application/zip');
+    c.header('Content-Disposition', `attachment; filename="${filename}"`);
+    return c.body(new Uint8Array(out));
+  } catch (error) {
+    console.error('Get revision bundle zip error:', error);
+    return c.json({ success: false, error: 'Failed to build revision bundle' }, 500);
   }
 });
 
