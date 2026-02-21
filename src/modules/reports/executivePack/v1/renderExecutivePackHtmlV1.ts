@@ -64,6 +64,7 @@ export function renderExecutivePackHtmlV1(args: {
   const dq: any = (pack as any)?.dataQuality || {};
   const batt: any = (pack as any)?.batteryFit || {};
   const savings: any = (pack as any)?.savings || {};
+  const lab: any = (pack as any)?.scenarioLabV1 || null;
   const verifierStatus = fmt((pack as any)?.verificationSummaryV1?.status || (pack as any)?.verifierResultV1?.status);
   const claimsStatus = fmt((pack as any)?.claimsPolicyV1?.status);
 
@@ -112,10 +113,32 @@ export function renderExecutivePackHtmlV1(args: {
 
   const jsonPretty = JSON.stringify(stableNormalize(pack), null, 2);
 
+  const scenarioLabHtml = (() => {
+    if (!lab || typeof lab !== 'object') return `<div class="muted">(scenario lab unavailable)</div>`;
+    const top: any[] = Array.isArray(lab?.topOpportunities) ? lab.topOpportunities : [];
+    const blockedTitles: string[] = Array.isArray(lab?.blockedByData?.blockedTitles) ? lab.blockedByData.blockedTitles.map((x: any) => fmt(x)).filter(Boolean) : [];
+    const requiredNext: string[] = Array.isArray(lab?.blockedByData?.requiredNextData) ? lab.blockedByData.requiredNextData.map((x: any) => fmt(x)).filter(Boolean) : [];
+    const frontierCount = Number(lab?.frontierSummary?.pointCount) || 0;
+    const topHtml = top.length
+      ? `<ol>${top
+          .slice(0, 3)
+          .map((s: any) => `<li><span class="mono">${escapeHtml(fmt(s?.scenarioId))}</span> — ${escapeHtml(fmt(s?.title))}${s?.annualUsd !== null && s?.annualUsd !== undefined ? ` • $${escapeHtml(fmtNum(s.annualUsd, 0))}/yr` : ' • usd gated'}</li>`)
+          .join('')}</ol>`
+      : `<div class="muted">(no ranked opportunities)</div>`;
+    const blockedHtml = blockedTitles.length ? `<ul>${blockedTitles.slice(0, 8).map((t) => `<li>${escapeHtml(t)}</li>`).join('')}</ul>` : `<div class="muted">(none)</div>`;
+    const reqHtml = requiredNext.length ? `<div class="muted mono">requiredNextData: ${escapeHtml(requiredNext.slice(0, 12).join(' • '))}</div>` : '';
+    return [
+      `<div><div class="subTitle">Top 3 opportunities</div>${topHtml}</div>`,
+      `<div style="margin-top:10px"><div class="subTitle">Opportunity frontier</div><div class="muted">frontierPoints=${escapeHtml(String(frontierCount))} (bounded)</div></div>`,
+      `<div style="margin-top:10px"><div class="subTitle">Blocked by data</div>${blockedHtml}${reqHtml}</div>`,
+    ].join('\n');
+  })();
+
   const bodyHtml = [
     `<div class="grid">`,
     `${card('KPIs', tiles)}`,
     `${card('Top findings (from stored wizard output)', findingsHtml)}`,
+    `${card('Scenario Lab v1 (snapshot-only)', scenarioLabHtml)}`,
     `${card('What we need to finalize', missingHtml)}`,
     `${card('Next best actions (wizard requiredActions)', actionsHtml)}`,
     `${card('Pack JSON (stable key ordering)', `<pre>${escapeHtml(jsonPretty)}</pre>`)}`,

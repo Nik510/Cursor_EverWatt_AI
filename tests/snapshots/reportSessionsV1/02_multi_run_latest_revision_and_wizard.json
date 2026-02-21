@@ -25,7 +25,7 @@
       },
       {
         "atIso": "2026-03-01T00:00:00.000Z",
-        "hash": "3ebead51bf4dd5e2c4a5daaaac108aa011ddbfe183496aff086173a41544bc3a",
+        "hash": "13966ba0f415a97769d69e8d10c759f05e6cc3d7f118088ac1262f652c1dc365",
         "runIdsUsed": [
           "run_golden_02_b"
         ],
@@ -55,9 +55,9 @@
     "updatedAtIso": "2026-03-01T00:00:00.000Z",
     "warnings": [],
     "wizardOutputV1": {
-      "approxBytes": 23233,
+      "approxBytes": 26104,
       "generatedAtIso": "2026-03-01T00:00:00.000Z",
-      "hash": "3ebead51bf4dd5e2c4a5daaaac108aa011ddbfe183496aff086173a41544bc3a",
+      "hash": "13966ba0f415a97769d69e8d10c759f05e6cc3d7f118088ac1262f652c1dc365",
       "kind": "INLINE",
       "revisionIdsUsed": [
         "rev_02_multi_run_latest_revision_and_wizard"
@@ -485,7 +485,7 @@
             "warnCount": 0
           }
         },
-        "wizardOutputHash": "3ebead51bf4dd5e2c4a5daaaac108aa011ddbfe183496aff086173a41544bc3a",
+        "wizardOutputHash": "13966ba0f415a97769d69e8d10c759f05e6cc3d7f118088ac1262f652c1dc365",
         "wizardSteps": [
           {
             "evidence": {
@@ -573,6 +573,16 @@
             "requiredActions": [],
             "status": "OPTIONAL",
             "title": "Building story (Truth Engine v1)"
+          },
+          {
+            "evidence": {
+              "runId": "run_golden_02_b"
+            },
+            "helpText": "• Frontier points: 3 (bounded)\n• Battery: DR-ready mode (requires DR inputs) — $0/yr • capex=$0 • payback≈0.0y\n• Tariff: shortlist alternatives (no switch recommendation) — $0/yr • capex=$0 • payback≈0.0y\n• Validate current tariff match (snapshot-only) — $0/yr • capex=$0 • payback≈0.0y\nBlocked scenarios:\n• Battery: demand shaving only — needs: billing_history_12_months, required:Advanced metering (AMI) required for this program., required:Annual kWh required for this program (minAnnualKwh gate)., required:Billing cycle summary (start/end dates, demand/usage) requi…(truncated)\n• Battery: hybrid (TOU + demand) — needs: interval_data, tariff_prices\n• Battery: non-export / interconnection-limited mode — needs: interval_data\n• Battery: TOU arbitrage only (energy shifting) — needs: interval_data, tariff_tou_prices\n• Battery: backup-only (medium) — resilience value not monetized — needs: interval_data\n• Battery: backup-only (small) — resilience value not monetized — needs: interval_data\nRequired next data (deduped): billing_history_12_months • interval_data • required:Advanced metering (AMI) required for this program. • required:Annual kWh required for this program (minAnnualKwh gate). • required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas. • required:Customer segment/type required to match many utility/ISO programs • required:Customer type required for this program (segment-gated). • required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance. • required:Interval data reference required for load shape, load shifting, and demand response eligibility • required:Interval data required for this program. • required:Interval kW series required to compute deterministic bill deltas per billing cycle. • required:Interval kW series required to evaluate load shifting potential. • required:Interval kW series required to infer load shape (provide interval data or configure loader). • required:Interval-derived baseload kW required to screen battery feasibility. • required:Interval-derived baseload kW required to size battery power. • required:Interval-derived loadFactor required to evaluate Option S relevance. • required:Interval-derived loadFactor required to screen battery feasibility. • required:Interval-derived peak kW required to evaluate Option S relevance. • required:Interval-derived peak kW required to screen battery feasibility. • required:Interval-derived peak kW required to size battery power.",
+            "id": "opportunity_frontier",
+            "requiredActions": [],
+            "status": "DONE",
+            "title": "Opportunity Frontier (Scenario Lab v1)"
           },
           {
             "evidence": {
@@ -1106,7 +1116,7 @@
         "warnCount": 0
       }
     },
-    "wizardOutputHash": "3ebead51bf4dd5e2c4a5daaaac108aa011ddbfe183496aff086173a41544bc3a",
+    "wizardOutputHash": "13966ba0f415a97769d69e8d10c759f05e6cc3d7f118088ac1262f652c1dc365",
     "wizardSteps": [
       {
         "evidence": {
@@ -1194,6 +1204,16 @@
         "requiredActions": [],
         "status": "OPTIONAL",
         "title": "Building story (Truth Engine v1)"
+      },
+      {
+        "evidence": {
+          "runId": "run_golden_02_b"
+        },
+        "helpText": "• Frontier points: 3 (bounded)\n• Battery: DR-ready mode (requires DR inputs) — $0/yr • capex=$0 • payback≈0.0y\n• Tariff: shortlist alternatives (no switch recommendation) — $0/yr • capex=$0 • payback≈0.0y\n• Validate current tariff match (snapshot-only) — $0/yr • capex=$0 • payback≈0.0y\nBlocked scenarios:\n• Battery: demand shaving only — needs: billing_history_12_months, required:Advanced metering (AMI) required for this program., required:Annual kWh required for this program (minAnnualKwh gate)., required:Billing cycle summary (start/end dates, demand/usage) requi…(truncated)\n• Battery: hybrid (TOU + demand) — needs: interval_data, tariff_prices\n• Battery: non-export / interconnection-limited mode — needs: interval_data\n• Battery: TOU arbitrage only (energy shifting) — needs: interval_data, tariff_tou_prices\n• Battery: backup-only (medium) — resilience value not monetized — needs: interval_data\n• Battery: backup-only (small) — resilience value not monetized — needs: interval_data\nRequired next data (deduped): billing_history_12_months • interval_data • required:Advanced metering (AMI) required for this program. • required:Annual kWh required for this program (minAnnualKwh gate). • required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas. • required:Customer segment/type required to match many utility/ISO programs • required:Customer type required for this program (segment-gated). • required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance. • required:Interval data reference required for load shape, load shifting, and demand response eligibility • required:Interval data required for this program. • required:Interval kW series required to compute deterministic bill deltas per billing cycle. • required:Interval kW series required to evaluate load shifting potential. • required:Interval kW series required to infer load shape (provide interval data or configure loader). • required:Interval-derived baseload kW required to screen battery feasibility. • required:Interval-derived baseload kW required to size battery power. • required:Interval-derived loadFactor required to evaluate Option S relevance. • required:Interval-derived loadFactor required to screen battery feasibility. • required:Interval-derived peak kW required to evaluate Option S relevance. • required:Interval-derived peak kW required to screen battery feasibility. • required:Interval-derived peak kW required to size battery power.",
+        "id": "opportunity_frontier",
+        "requiredActions": [],
+        "status": "DONE",
+        "title": "Opportunity Frontier (Scenario Lab v1)"
       },
       {
         "evidence": {

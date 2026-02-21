@@ -2934,7 +2934,7 @@
         "evidence": [
           {
             "kind": "bill_pdf_snippet",
-            "value": "lectric Service Rate Schedule: B-19 Billing Period: 2026-01-01 to 2026-01-31 Direct Access service. Electric"
+            "value": "Electric Service Rate Schedule: B-19 Billing Period: 2026-01-01 to 2026-01-31 Direct Access service. Electricity"
           }
         ],
         "id": "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
@@ -2991,6 +2991,585 @@
       "id": "p_golden_13"
     },
     "projectId": "p_golden_13",
+    "scenarioLabV1": {
+      "blockedScenarios": [
+        {
+          "blockedReasons": [
+            "LIMITED_BY_CLAIMS_POLICY"
+          ],
+          "category": "BATTERY",
+          "requiredNextData": [
+            "billing_history_12_months",
+            "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+            "required:Customer segment/type required to match many utility/ISO programs",
+            "required:Customer type required for this program (segment-gated).",
+            "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+            "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+            "required:NAICS code required for this program.",
+            "required:NAICS code required to match many utility/ISO programs",
+            "required:Weather series not available; provide weather data or configure provider."
+          ],
+          "scenarioId": "BATTERY_DEMAND_SHAVE_ONLY",
+          "title": "Battery: demand shaving only"
+        }
+      ],
+      "frontier": {
+        "axes": {
+          "capexAxis": "capexUsd",
+          "confidenceAxis": "confidenceTier",
+          "paybackAxis": "paybackYears",
+          "savingsAxis": "annualUsd"
+        },
+        "points": [
+          {
+            "annualKwh": 0,
+            "annualUsd": 0,
+            "capexUsd": 0,
+            "confidenceTier": "C",
+            "paybackYears": 0,
+            "scenarioId": "BATTERY_DR_READY_MODE",
+            "title": "Battery: DR-ready mode (requires DR inputs)"
+          },
+          {
+            "annualKwh": 0,
+            "annualUsd": 0,
+            "capexUsd": 0,
+            "confidenceTier": "C",
+            "paybackYears": 0,
+            "scenarioId": "TARIFF_LIGHT_VALIDATE_SWITCHES",
+            "title": "Tariff: shortlist alternatives (no switch recommendation)"
+          },
+          {
+            "annualKwh": 0,
+            "annualUsd": 0,
+            "capexUsd": 0,
+            "confidenceTier": "C",
+            "paybackYears": 0,
+            "scenarioId": "TARIFF_RISK_RATCHET_EXPOSURE",
+            "title": "Assess ratchet / demand-charge exposure (no optimizer)"
+          },
+          {
+            "annualKwh": 0,
+            "annualUsd": 0,
+            "capexUsd": 0,
+            "confidenceTier": "C",
+            "paybackYears": 0,
+            "scenarioId": "TARIFF_VALIDATE_CURRENT",
+            "title": "Validate current tariff match (snapshot-only)"
+          }
+        ]
+      },
+      "generatedAtIso": "2026-03-01T00:00:00.000Z",
+      "inputsSummary": {
+        "claimsStatus": "LIMITED",
+        "hasInterval": true,
+        "intervalDays": 2,
+        "providerType": "DA",
+        "tariffMatchStatus": "FOUND",
+        "truthConfidenceTier": "A",
+        "verifierStatus": "PASS"
+      },
+      "labWarnings": [
+        "battery.econ.capex_defaults_used",
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_capex_inputs",
+        "battery.econ.missing_tariff_inputs",
+        "battery.econ.net_savings_non_positive",
+        "battery.econ.ratchet.unavailable",
+        "battery.econ.savings_unavailable_no_tariffengine",
+        "LIMITED_BY_CLAIMS_POLICY"
+      ],
+      "scenarios": [
+        {
+          "category": "BATTERY",
+          "confidenceTier": "C",
+          "cons": [
+            "Blocked until required inputs are provided.",
+            "Needs: billing_history_12_months, required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas., required:Customer segment/type requ …(truncated)",
+            "Savings are gated by verifier + claims policy.",
+            "Capex not available in stored snapshot for this scenario."
+          ],
+          "gating": {
+            "blockedReasons": [
+              "LIMITED_BY_CLAIMS_POLICY"
+            ],
+            "requiredNextData": [
+              "billing_history_12_months",
+              "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "required:Customer segment/type required to match many utility/ISO programs",
+              "required:Customer type required for this program (segment-gated).",
+              "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+              "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+              "required:NAICS code required for this program.",
+              "required:NAICS code required to match many utility/ISO programs",
+              "required:Weather series not available; provide weather data or configure provider."
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": null,
+            "paybackYears": null,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Leverages deterministic battery decision pack outputs (snapshot-only)."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": "exitFees.v0.PGE.2026-01-01.seed",
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "BATTERY_DEMAND_SHAVE_ONLY",
+          "status": "BLOCKED",
+          "title": "Battery: demand shaving only"
+        },
+        {
+          "category": "BATTERY",
+          "confidenceTier": "C",
+          "cons": [
+            "Savings are gated by verifier + claims policy.",
+            "Annual savings claim suppressed (gating/claims policy)."
+          ],
+          "gating": {
+            "blockedReasons": [
+              "LIMITED_BY_CLAIMS_POLICY"
+            ],
+            "requiredNextData": [
+              "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "required:Customer segment/type required to match many utility/ISO programs",
+              "required:Customer type required for this program (segment-gated).",
+              "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+              "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+              "required:NAICS code required for this program.",
+              "required:NAICS code required to match many utility/ISO programs",
+              "required:Weather series not available; provide weather data or configure provider."
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": 147125,
+            "paybackYears": 0,
+            "peakKwReduction": null
+          },
+          "notes": {
+            "warnings": [
+              "battery.econ.capex_defaults_used",
+              "battery.econ.dr_value_unknown",
+              "battery.econ.finance_missing_discount_rate",
+              "battery.econ.missing_capex_inputs",
+              "battery.econ.missing_tariff_inputs",
+              "battery.econ.net_savings_non_positive",
+              "battery.econ.ratchet.unavailable",
+              "battery.econ.savings_unavailable_no_tariffengine"
+            ]
+          },
+          "pros": [
+            "Leverages deterministic battery decision pack outputs (snapshot-only)."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": "exitFees.v0.PGE.2026-01-01.seed",
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "BATTERY_HYBRID_TOU_PLUS_DEMAND",
+          "status": "RAN",
+          "title": "Battery: hybrid (TOU + demand)"
+        },
+        {
+          "category": "BATTERY",
+          "confidenceTier": "C",
+          "cons": [
+            "Savings are gated by verifier + claims policy.",
+            "Annual savings claim suppressed (gating/claims policy)."
+          ],
+          "gating": {
+            "blockedReasons": [
+              "LIMITED_BY_CLAIMS_POLICY",
+              "non_export_constraints_applied"
+            ],
+            "requiredNextData": [
+              "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "required:Customer segment/type required to match many utility/ISO programs",
+              "required:Customer type required for this program (segment-gated).",
+              "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+              "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+              "required:NAICS code required for this program.",
+              "required:NAICS code required to match many utility/ISO programs",
+              "required:Weather series not available; provide weather data or configure provider."
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": 147125,
+            "paybackYears": 0,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Leverages deterministic battery decision pack outputs (snapshot-only)."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": "exitFees.v0.PGE.2026-01-01.seed",
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "BATTERY_NON_EXPORT",
+          "status": "RAN",
+          "title": "Battery: non-export / interconnection-limited mode"
+        },
+        {
+          "category": "BATTERY",
+          "confidenceTier": "C",
+          "cons": [
+            "Savings are gated by verifier + claims policy.",
+            "Annual savings claim suppressed (gating/claims policy)."
+          ],
+          "gating": {
+            "blockedReasons": [
+              "LIMITED_BY_CLAIMS_POLICY"
+            ],
+            "requiredNextData": [
+              "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "required:Customer segment/type required to match many utility/ISO programs",
+              "required:Customer type required for this program (segment-gated).",
+              "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+              "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+              "required:NAICS code required for this program.",
+              "required:NAICS code required to match many utility/ISO programs",
+              "required:Weather series not available; provide weather data or configure provider."
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": 147125,
+            "paybackYears": 0,
+            "peakKwReduction": null
+          },
+          "notes": {
+            "warnings": [
+              "battery.econ.capex_defaults_used",
+              "battery.econ.dr_value_unknown",
+              "battery.econ.finance_missing_discount_rate",
+              "battery.econ.missing_capex_inputs",
+              "battery.econ.missing_tariff_inputs",
+              "battery.econ.net_savings_non_positive",
+              "battery.econ.ratchet.unavailable",
+              "battery.econ.savings_unavailable_no_tariffengine"
+            ]
+          },
+          "pros": [
+            "Leverages deterministic battery decision pack outputs (snapshot-only)."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": "exitFees.v0.PGE.2026-01-01.seed",
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "BATTERY_TOU_ARBITRAGE_ONLY",
+          "status": "RAN",
+          "title": "Battery: TOU arbitrage only (energy shifting)"
+        },
+        {
+          "category": "OPS",
+          "confidenceTier": "C",
+          "cons": [
+            "Program/DR value is not monetized in v1 templates.",
+            "Annual savings claim suppressed (gating/claims policy).",
+            "Capex not available in stored snapshot for this scenario."
+          ],
+          "gating": {
+            "blockedReasons": [
+              "dr_value_not_monetized_v1"
+            ],
+            "requiredNextData": [
+              "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "required:Customer segment/type required to match many utility/ISO programs",
+              "required:Customer type required for this program (segment-gated).",
+              "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+              "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+              "required:NAICS code required for this program.",
+              "required:NAICS code required to match many utility/ISO programs",
+              "required:Weather series not available; provide weather data or configure provider."
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": null,
+            "paybackYears": null,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Operational readiness scenario to de-risk deployment."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": "exitFees.v0.PGE.2026-01-01.seed",
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "BATTERY_DR_READY_MODE",
+          "status": "RAN",
+          "title": "Battery: DR-ready mode (requires DR inputs)"
+        },
+        {
+          "category": "RELIABILITY",
+          "confidenceTier": "C",
+          "cons": [
+            "Resilience value is not monetized in v1 templates.",
+            "Annual savings claim suppressed (gating/claims policy)."
+          ],
+          "gating": {
+            "blockedReasons": [
+              "resilience_value_not_monetized"
+            ],
+            "requiredNextData": [
+              "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "required:Customer segment/type required to match many utility/ISO programs",
+              "required:Customer type required for this program (segment-gated).",
+              "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+              "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+              "required:NAICS code required for this program.",
+              "required:NAICS code required to match many utility/ISO programs",
+              "required:Weather series not available; provide weather data or configure provider."
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": 171187.5,
+            "paybackYears": null,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Captures resilience-oriented scenarios (backup-only)."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": "exitFees.v0.PGE.2026-01-01.seed",
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "BATTERY_BACKUP_ONLY_MED",
+          "status": "RAN",
+          "title": "Battery: backup-only (medium) — resilience value not monetized"
+        },
+        {
+          "category": "RELIABILITY",
+          "confidenceTier": "C",
+          "cons": [
+            "Resilience value is not monetized in v1 templates.",
+            "Annual savings claim suppressed (gating/claims policy)."
+          ],
+          "gating": {
+            "blockedReasons": [
+              "resilience_value_not_monetized"
+            ],
+            "requiredNextData": [
+              "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "required:Customer segment/type required to match many utility/ISO programs",
+              "required:Customer type required for this program (segment-gated).",
+              "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+              "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+              "required:NAICS code required for this program.",
+              "required:NAICS code required to match many utility/ISO programs",
+              "required:Weather series not available; provide weather data or configure provider."
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": 147125,
+            "paybackYears": null,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Captures resilience-oriented scenarios (backup-only)."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": "exitFees.v0.PGE.2026-01-01.seed",
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "BATTERY_BACKUP_ONLY_SMALL",
+          "status": "RAN",
+          "title": "Battery: backup-only (small) — resilience value not monetized"
+        },
+        {
+          "category": "TARIFF",
+          "confidenceTier": "C",
+          "cons": [
+            "No tariff optimizer in v1; no switch savings computed.",
+            "Annual savings claim suppressed (gating/claims policy).",
+            "Capex not available in stored snapshot for this scenario."
+          ],
+          "gating": {
+            "blockedReasons": [],
+            "requiredNextData": [
+              "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "required:Customer segment/type required to match many utility/ISO programs",
+              "required:Customer type required for this program (segment-gated).",
+              "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+              "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+              "required:NAICS code required for this program.",
+              "required:NAICS code required to match many utility/ISO programs",
+              "required:Weather series not available; provide weather data or configure provider."
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": null,
+            "paybackYears": null,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Highlights tariff match confidence and risk flags without recompute."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": "exitFees.v0.PGE.2026-01-01.seed",
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "TARIFF_LIGHT_VALIDATE_SWITCHES",
+          "status": "RAN",
+          "title": "Tariff: shortlist alternatives (no switch recommendation)"
+        },
+        {
+          "category": "TARIFF",
+          "confidenceTier": "C",
+          "cons": [
+            "No tariff optimizer in v1; no switch savings computed.",
+            "Annual savings claim suppressed (gating/claims policy).",
+            "Capex not available in stored snapshot for this scenario."
+          ],
+          "gating": {
+            "blockedReasons": [],
+            "requiredNextData": [
+              "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "required:Customer segment/type required to match many utility/ISO programs",
+              "required:Customer type required for this program (segment-gated).",
+              "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+              "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+              "required:NAICS code required for this program.",
+              "required:NAICS code required to match many utility/ISO programs",
+              "required:Weather series not available; provide weather data or configure provider."
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": null,
+            "paybackYears": null,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Highlights tariff match confidence and risk flags without recompute."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": "exitFees.v0.PGE.2026-01-01.seed",
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "TARIFF_RISK_RATCHET_EXPOSURE",
+          "status": "RAN",
+          "title": "Assess ratchet / demand-charge exposure (no optimizer)"
+        },
+        {
+          "category": "TARIFF",
+          "confidenceTier": "C",
+          "cons": [
+            "No tariff optimizer in v1; no switch savings computed.",
+            "Annual savings claim suppressed (gating/claims policy).",
+            "Capex not available in stored snapshot for this scenario."
+          ],
+          "gating": {
+            "blockedReasons": [],
+            "requiredNextData": [
+              "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "required:Customer segment/type required to match many utility/ISO programs",
+              "required:Customer type required for this program (segment-gated).",
+              "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+              "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+              "required:NAICS code required for this program.",
+              "required:NAICS code required to match many utility/ISO programs",
+              "required:Weather series not available; provide weather data or configure provider."
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": null,
+            "paybackYears": null,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Highlights tariff match confidence and risk flags without recompute."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": "exitFees.v0.PGE.2026-01-01.seed",
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "TARIFF_VALIDATE_CURRENT",
+          "status": "RAN",
+          "title": "Validate current tariff match (snapshot-only)"
+        }
+      ],
+      "schemaVersion": "scenarioLabV1"
+    },
     "schemaVersion": "internalEngineeringReportV1",
     "storageOpportunityPackV1": {
       "batteryEconomicsV1Summary": {
@@ -4687,10 +5266,11 @@
         "Customer type required for this program (segment-gated).",
         "NAICS code required for this program."
       ],
+      "scenarioLabV1": "[Circular]",
       "truthSnapshotV1": "[Circular]",
       "utility": {
         "inputs": {
-          "billPdfText": "PG&E\r\nCommercial Electric Service\r\nRate Schedule: B-19\r\n\r\nBilling Period: 2026-01-01 to 2026-01-31\r\n\r\nDirect Access service.\r\nElectricity Provider: Shell Energy\r\n\r\n",
+          "billPdfText": "PG&E\nCommercial Electric Service\nRate Schedule: B-19\n\nBilling Period: 2026-01-01 to 2026-01-31\n\nDirect Access service.\nElectricity Provider: Shell Energy\n\n",
           "currentRate": {
             "rateCode": "B-19",
             "utility": "PGE"
@@ -5016,7 +5596,7 @@
             "extractedFacts": {
               "rateScheduleText": {
                 "evidence": {
-                  "matchedText": "PG&E Commercial Electric Servic",
+                  "matchedText": "PG&E Commercial Electric Service",
                   "ruleId": "bill_tariff_truth.rate_schedule_text",
                   "source": "bill_pdf"
                 },
@@ -5025,7 +5605,7 @@
               },
               "utilityHint": {
                 "evidence": {
-                  "matchedText": "PG&E Commercial Electric Servic",
+                  "matchedText": "PG&E Commercial Electric Service",
                   "ruleId": "bill_tariff_truth.utility_hint",
                   "source": "bill_pdf"
                 },
@@ -5115,8 +5695,8 @@
           "billPdfTariffTruth": {
             "evidence": {
               "matchedText": [
-                "PG&E Commercial Electric Servic",
-                "Commercial Electric Service Rate Schedule: B-19 Billing Period: 2026-01-"
+                "PG&E Commercial Electric Service",
+                "Commercial Electric Service Rate Schedule: B-19 Billing Period: 2026-01-01"
               ],
               "source": "bill_pdf"
             },

@@ -31,6 +31,7 @@ describe('wizardOutputV1 builder (steps + gating)', () => {
       'bill_pdf',
       'interval_data',
       'building_story',
+      'opportunity_frontier',
       'rate_code',
       'supply_provider',
       'pcia_vintage',

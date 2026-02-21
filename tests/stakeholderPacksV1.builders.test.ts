@@ -99,6 +99,11 @@ describe('stakeholder report packs v1 (builders)', () => {
     expect((exec as any)?.verificationSummaryV1).toBeTruthy();
     expect((exec as any)?.claimsPolicyV1).toBeTruthy();
 
+    // Scenario Lab should be present (snapshot-only, additive).
+    expect((eng as any)?.sections?.scenarioLabV1).toBeTruthy();
+    expect((exec as any)?.scenarioLabV1).toBeTruthy();
+    expect(Array.isArray((exec as any)?.scenarioLabV1?.topOpportunities)).toBe(true);
+
     // Executive pack must always include confidence/assumptions section.
     expect(Array.isArray(exec.confidenceAndAssumptions)).toBe(true);
     expect(exec.confidenceAndAssumptions.length).toBeGreaterThan(0);

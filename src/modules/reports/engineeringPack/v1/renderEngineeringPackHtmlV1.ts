@@ -39,6 +39,13 @@ function fmt(x: unknown): string {
   return s ? s : '—';
 }
 
+function fmtNum(x: unknown, digits = 0): string {
+  const n = Number(x);
+  if (!Number.isFinite(n)) return '—';
+  const isInt = Math.abs(n - Math.round(n)) < 1e-9;
+  return isInt ? String(Math.round(n)) : n.toFixed(digits);
+}
+
 export function renderEngineeringPackHtmlV1(args: {
   project: { id: string; name?: string };
   revision: { id: string; createdAt: string; title?: string; packJson: EngineeringPackJsonV1; packHash?: string };
@@ -72,6 +79,7 @@ export function renderEngineeringPackHtmlV1(args: {
   const warnings: any = sections?.warningsAndMissingInfo || {};
   const engineWarnings = Array.isArray(warnings.engineWarnings) ? warnings.engineWarnings : [];
   const missingInfo = Array.isArray(warnings.missingInfo) ? warnings.missingInfo : [];
+  const lab: any = sections?.scenarioLabV1 ?? null;
 
   const audit: any = sections?.auditDrawer || {};
   const auditLine = audit?.present
@@ -92,10 +100,46 @@ export function renderEngineeringPackHtmlV1(args: {
 
   const jsonPretty = JSON.stringify(stableNormalize(pack), null, 2);
 
+  const scenarioLabHtml = (() => {
+    if (!lab || typeof lab !== 'object') return `<div class="muted">(scenario lab unavailable)</div>`;
+    const scenarios: any[] = Array.isArray(lab?.scenarios) ? lab.scenarios : [];
+    const blocked: any[] = Array.isArray(lab?.blockedScenarios) ? lab.blockedScenarios : [];
+
+    const rows = scenarios
+      .slice(0, 25)
+      .map((s: any) => {
+        const id = fmt(s?.scenarioId);
+        const title = fmt(s?.title);
+        const status = fmt(s?.status);
+        const conf = fmt(s?.confidenceTier);
+        const usd = s?.kpis?.annualUsd !== null && s?.kpis?.annualUsd !== undefined ? `$${fmtNum(s.kpis.annualUsd, 0)}/yr` : 'usd n/a';
+        const capex = s?.kpis?.capexUsd !== null && s?.kpis?.capexUsd !== undefined ? `$${fmtNum(s.kpis.capexUsd, 0)}` : 'capex n/a';
+        const pb = s?.kpis?.paybackYears !== null && s?.kpis?.paybackYears !== undefined ? `${fmtNum(s.kpis.paybackYears, 1)}y` : 'pb n/a';
+        return `<tr><td class="mono">${escapeHtml(id)}</td><td>${escapeHtml(title)}</td><td>${escapeHtml(status)}</td><td>${escapeHtml(conf)}</td><td class="mono">${escapeHtml(usd)}</td><td class="mono">${escapeHtml(capex)}</td><td class="mono">${escapeHtml(pb)}</td></tr>`;
+      })
+      .join('');
+
+    const blockedReq = blocked
+      .flatMap((b: any) => (Array.isArray(b?.requiredNextData) ? b.requiredNextData : []))
+      .map((x: any) => fmt(x))
+      .filter(Boolean);
+
+    const blockedSummary = blocked.length
+      ? `<div class="muted mono">blockedCount=${escapeHtml(String(blocked.length))} • requiredNextData=${escapeHtml(blockedReq.slice(0, 16).join(' • '))}</div>`
+      : `<div class="muted">(no blocked scenarios)</div>`;
+
+    return [
+      `<div class="muted">bounded scenarios=${escapeHtml(String(scenarios.length))}</div>`,
+      `<table class="tbl"><thead><tr><th>scenarioId</th><th>title</th><th>status</th><th>conf</th><th>annualUsd</th><th>capexUsd</th><th>payback</th></tr></thead><tbody>${rows}</tbody></table>`,
+      `<div style="margin-top:10px">${blockedSummary}</div>`,
+    ].join('\n');
+  })();
+
   const bodyHtml = [
     `<div class="grid">`,
     `<div class="card"><div class="cardTitle">Header</div><div class="cardBody">${renderKv(metaRows)}</div></div>`,
     `<div class="card"><div class="cardTitle">Provenance</div><div class="cardBody">${renderKv(provRows)}<div class="muted" style="margin-top:8px;font-family: var(--mono);">auditDrawerV1: ${escapeHtml(auditLine)}</div></div></div>`,
+    `<div class="card"><div class="cardTitle">Scenario Lab v1 (snapshot-only)</div><div class="cardBody">${scenarioLabHtml}</div></div>`,
     `<div class="card"><div class="cardTitle">Warnings (engine)</div><div class="cardBody">${
       engineWarnings.length ? `<ul>${engineWarnings.slice(0, 60).map((w: any) => `<li>${escapeHtml(fmt(w?.code))}</li>`).join('')}</ul>` : `<div class="muted">(none)</div>`
     }</div></div>`,

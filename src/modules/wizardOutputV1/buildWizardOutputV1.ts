@@ -149,6 +149,59 @@ function buildAction(args: {
   };
 }
 
+function summarizeScenarioLabV1(lab: any): { topLines: string[]; blockedLines: string[]; requiredNext: string[] } {
+  if (!lab || typeof lab !== 'object') return { topLines: [], blockedLines: [], requiredNext: [] };
+  const scenarios: any[] = Array.isArray(lab?.scenarios) ? lab.scenarios : [];
+  const blocked: any[] = Array.isArray(lab?.blockedScenarios) ? lab.blockedScenarios : [];
+  const frontierPts: any[] = Array.isArray(lab?.frontier?.points) ? lab.frontier.points : [];
+
+  const numOrNull = (x: any): number | null => {
+    const n = Number(x);
+    return Number.isFinite(n) ? n : null;
+  };
+
+  const ran = scenarios.filter((s) => String(s?.status || '').toUpperCase() === 'RAN');
+  ran.sort((a, b) => {
+    const aUsd = numOrNull(a?.kpis?.annualUsd);
+    const bUsd = numOrNull(b?.kpis?.annualUsd);
+    const aPb = numOrNull(a?.kpis?.paybackYears);
+    const bPb = numOrNull(b?.kpis?.paybackYears);
+    return (
+      (bUsd ?? -Infinity) - (aUsd ?? -Infinity) ||
+      (aPb ?? Infinity) - (bPb ?? Infinity) ||
+      safeString(a?.scenarioId, 80).localeCompare(safeString(b?.scenarioId, 80))
+    );
+  });
+
+  const top = ran.slice(0, 5).map((s) => {
+    const title = safeString(s?.title, 120) || safeString(s?.scenarioId, 60) || 'scenario';
+    const usd = numOrNull(s?.kpis?.annualUsd);
+    const capex = numOrNull(s?.kpis?.capexUsd);
+    const pb = numOrNull(s?.kpis?.paybackYears);
+    const parts = [
+      usd !== null ? `$${Math.round(usd).toLocaleString('en-US')}/yr` : 'usd gated',
+      capex !== null ? `capex=$${Math.round(capex).toLocaleString('en-US')}` : 'capex n/a',
+      pb !== null ? `payback≈${pb.toFixed(1)}y` : 'payback n/a',
+    ];
+    return `${title} — ${parts.join(' • ')}`;
+  });
+
+  const blockedLines = blocked.slice(0, 8).map((b) => {
+    const title = safeString(b?.title, 120) || safeString(b?.scenarioId, 60) || 'scenario';
+    const req = Array.isArray(b?.requiredNextData) ? b.requiredNextData.map((x: any) => safeString(x, 80)).filter(Boolean) : [];
+    return req.length ? `${title} — needs: ${req.slice(0, 4).join(', ')}` : `${title} — blocked`;
+  });
+
+  const requiredNext = uniqSorted(
+    blocked.flatMap((b) => (Array.isArray(b?.requiredNextData) ? b.requiredNextData : [])).map((x: any) => safeString(x, 120)).filter(Boolean),
+    20,
+  );
+
+  const frontierLine = frontierPts.length ? [`Frontier points: ${String(frontierPts.length)} (bounded)`] : [];
+
+  return { topLines: [...frontierLine, ...top], blockedLines, requiredNext };
+}
+
 export function buildWizardOutputV1(args: {
   session: ReportSessionV1;
   runId: string;
@@ -227,6 +280,9 @@ export function buildWizardOutputV1(args: {
   const batteryDecisionPack: any = reportJson?.batteryDecisionPackV1_2 ?? null;
   const batteryTier = safeString(batteryDecisionPack?.recommendationV1?.recommendationTier || batteryDecisionPack?.confidenceTier);
   const batterySelected = safeString(batteryDecisionPack?.selected?.candidateId);
+
+  const scenarioLabV1: any = reportJson?.scenarioLabV1 ?? workflow?.scenarioLabV1 ?? null;
+  const scenarioLabSummary = summarizeScenarioLabV1(scenarioLabV1);
 
   const findings: WizardFindingV1[] = [];
   const pushFinding = (f: WizardFindingV1) => findings.push(f);
@@ -506,6 +562,22 @@ export function buildWizardOutputV1(args: {
       helpText: hasIntervals
         ? 'Derived from stored interval/weather snapshots only: baseline expectations, residual maps, changepoints, and bounded anomaly ledger.'
         : 'Optional: interval data unlocks baseline expectations, residual maps, changepoints, and bounded anomaly ledger.',
+    });
+
+    // Opportunity frontier (Scenario Lab)
+    steps.push({
+      id: 'opportunity_frontier',
+      title: 'Opportunity Frontier (Scenario Lab v1)',
+      status: scenarioLabV1 ? 'DONE' : 'OPTIONAL',
+      requiredActions: [],
+      evidence: { runId },
+      helpText: scenarioLabV1
+        ? [
+            ...scenarioLabSummary.topLines.map((x) => `• ${x}`),
+            ...(scenarioLabSummary.blockedLines.length ? ['Blocked scenarios:', ...scenarioLabSummary.blockedLines.map((x) => `• ${x}`)] : []),
+            ...(scenarioLabSummary.requiredNext.length ? [`Required next data (deduped): ${scenarioLabSummary.requiredNext.join(' • ')}`] : []),
+          ].join('\n')
+        : 'Snapshot-only bounded scenario exploration (battery-first + tariff-light), gated by verifier + claims policy.',
     });
 
     // Rate code (required for full tariff auditability)

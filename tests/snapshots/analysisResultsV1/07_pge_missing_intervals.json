@@ -1182,7 +1182,7 @@
         "evidence": [
           {
             "kind": "bill_pdf_snippet",
-            "value": "ctric Service Rate Schedule: E-19 Billing Period: 2026-01-01 to 2026-01-31 This is sanitized bill text for"
+            "value": "lectric Service Rate Schedule: E-19 Billing Period: 2026-01-01 to 2026-01-31 This is sanitized bill text for de"
           }
         ],
         "id": "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
@@ -1251,6 +1251,649 @@
       "id": "p_golden_07"
     },
     "projectId": "p_golden_07",
+    "scenarioLabV1": {
+      "blockedScenarios": [
+        {
+          "blockedReasons": [
+            "LIMITED_BY_CLAIMS_POLICY"
+          ],
+          "category": "BATTERY",
+          "requiredNextData": [
+            "billing_history_12_months",
+            "required:Advanced metering (AMI) required for this program.",
+            "required:Annual kWh required for this program (minAnnualKwh gate).",
+            "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+            "required:Customer segment/type required to match many utility/ISO programs",
+            "required:Customer type required for this program (segment-gated).",
+            "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+            "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+            "required:Interval data required for this program.",
+            "required:Interval kW series required to compute deterministic bill deltas per billing cycle.",
+            "required:Interval kW series required to evaluate load shifting potential.",
+            "required:Interval kW series required to infer load shape (provide interval data or configure loader).",
+            "required:Interval-derived baseload kW required to screen battery feasibility.",
+            "required:Interval-derived baseload kW required to size battery power.",
+            "required:Interval-derived loadFactor required to evaluate Option S relevance.",
+            "required:Interval-derived loadFactor required to screen battery feasibility.",
+            "required:Interval-derived peak kW required to evaluate Option S relevance.",
+            "required:Interval-derived peak kW required to screen battery feasibility.",
+            "required:Interval-derived peak kW required to size battery power.",
+            "required:Interval-derived peakinessIndex required to evaluate Option S relevance.",
+            "required:Interval-derived peakinessIndex required to interpret peak shaving potential.",
+            "required:Interval-derived peakinessIndex required to screen battery feasibility.",
+            "required:Monthly kWh required for this program (minMonthlyKwh gate).",
+            "required:NAICS code required for this program.",
+            "required:NAICS code required to match many utility/ISO programs"
+          ],
+          "scenarioId": "BATTERY_DEMAND_SHAVE_ONLY",
+          "title": "Battery: demand shaving only"
+        },
+        {
+          "blockedReasons": [
+            "batteryDecisionPackV1_2.economicsSummary_missing"
+          ],
+          "category": "BATTERY",
+          "requiredNextData": [
+            "interval_data",
+            "tariff_prices"
+          ],
+          "scenarioId": "BATTERY_HYBRID_TOU_PLUS_DEMAND",
+          "title": "Battery: hybrid (TOU + demand)"
+        },
+        {
+          "blockedReasons": [
+            "batteryDecisionPackV1_2.economicsSummary_missing"
+          ],
+          "category": "BATTERY",
+          "requiredNextData": [
+            "interval_data"
+          ],
+          "scenarioId": "BATTERY_NON_EXPORT",
+          "title": "Battery: non-export / interconnection-limited mode"
+        },
+        {
+          "blockedReasons": [
+            "batteryDecisionPackV1_2.economicsSummary_missing"
+          ],
+          "category": "BATTERY",
+          "requiredNextData": [
+            "interval_data",
+            "tariff_tou_prices"
+          ],
+          "scenarioId": "BATTERY_TOU_ARBITRAGE_ONLY",
+          "title": "Battery: TOU arbitrage only (energy shifting)"
+        },
+        {
+          "blockedReasons": [
+            "batteryDecisionPackV1_2.economicsSummary_missing"
+          ],
+          "category": "RELIABILITY",
+          "requiredNextData": [
+            "interval_data"
+          ],
+          "scenarioId": "BATTERY_BACKUP_ONLY_MED",
+          "title": "Battery: backup-only (medium) — resilience value not monetized"
+        },
+        {
+          "blockedReasons": [
+            "batteryDecisionPackV1_2.economicsSummary_missing"
+          ],
+          "category": "RELIABILITY",
+          "requiredNextData": [
+            "interval_data"
+          ],
+          "scenarioId": "BATTERY_BACKUP_ONLY_SMALL",
+          "title": "Battery: backup-only (small) — resilience value not monetized"
+        }
+      ],
+      "frontier": {
+        "axes": {
+          "capexAxis": "capexUsd",
+          "confidenceAxis": "confidenceTier",
+          "paybackAxis": "paybackYears",
+          "savingsAxis": "annualUsd"
+        },
+        "points": [
+          {
+            "annualKwh": 0,
+            "annualUsd": 0,
+            "capexUsd": 0,
+            "confidenceTier": "C",
+            "paybackYears": 0,
+            "scenarioId": "BATTERY_DR_READY_MODE",
+            "title": "Battery: DR-ready mode (requires DR inputs)"
+          },
+          {
+            "annualKwh": 0,
+            "annualUsd": 0,
+            "capexUsd": 0,
+            "confidenceTier": "C",
+            "paybackYears": 0,
+            "scenarioId": "TARIFF_LIGHT_VALIDATE_SWITCHES",
+            "title": "Tariff: shortlist alternatives (no switch recommendation)"
+          },
+          {
+            "annualKwh": 0,
+            "annualUsd": 0,
+            "capexUsd": 0,
+            "confidenceTier": "C",
+            "paybackYears": 0,
+            "scenarioId": "TARIFF_VALIDATE_CURRENT",
+            "title": "Validate current tariff match (snapshot-only)"
+          }
+        ]
+      },
+      "generatedAtIso": "2026-03-01T00:00:00.000Z",
+      "inputsSummary": {
+        "claimsStatus": "LIMITED",
+        "hasInterval": false,
+        "intervalDays": null,
+        "providerType": "NONE",
+        "tariffMatchStatus": "FOUND",
+        "truthConfidenceTier": "C",
+        "verifierStatus": "PASS"
+      },
+      "labWarnings": [
+        "LIMITED_BY_CLAIMS_POLICY"
+      ],
+      "scenarios": [
+        {
+          "category": "BATTERY",
+          "confidenceTier": "C",
+          "cons": [
+            "Blocked until required inputs are provided.",
+            "Needs: billing_history_12_months, required:Advanced metering (AMI) required for this program., required:Annual kWh required for this program (minAnnualKwh gate)., req …(truncated)",
+            "Savings are gated by verifier + claims policy.",
+            "Capex not available in stored snapshot for this scenario."
+          ],
+          "gating": {
+            "blockedReasons": [
+              "LIMITED_BY_CLAIMS_POLICY"
+            ],
+            "requiredNextData": [
+              "billing_history_12_months",
+              "required:Advanced metering (AMI) required for this program.",
+              "required:Annual kWh required for this program (minAnnualKwh gate).",
+              "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "required:Customer segment/type required to match many utility/ISO programs",
+              "required:Customer type required for this program (segment-gated).",
+              "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+              "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+              "required:Interval data required for this program.",
+              "required:Interval kW series required to compute deterministic bill deltas per billing cycle.",
+              "required:Interval kW series required to evaluate load shifting potential.",
+              "required:Interval kW series required to infer load shape (provide interval data or configure loader).",
+              "required:Interval-derived baseload kW required to screen battery feasibility.",
+              "required:Interval-derived baseload kW required to size battery power.",
+              "required:Interval-derived loadFactor required to evaluate Option S relevance.",
+              "required:Interval-derived loadFactor required to screen battery feasibility.",
+              "required:Interval-derived peak kW required to evaluate Option S relevance.",
+              "required:Interval-derived peak kW required to screen battery feasibility.",
+              "required:Interval-derived peak kW required to size battery power.",
+              "required:Interval-derived peakinessIndex required to evaluate Option S relevance.",
+              "required:Interval-derived peakinessIndex required to interpret peak shaving potential.",
+              "required:Interval-derived peakinessIndex required to screen battery feasibility.",
+              "required:Monthly kWh required for this program (minMonthlyKwh gate).",
+              "required:NAICS code required for this program.",
+              "required:NAICS code required to match many utility/ISO programs"
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": null,
+            "paybackYears": null,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Leverages deterministic battery decision pack outputs (snapshot-only)."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": null,
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "BATTERY_DEMAND_SHAVE_ONLY",
+          "status": "BLOCKED",
+          "title": "Battery: demand shaving only"
+        },
+        {
+          "category": "BATTERY",
+          "confidenceTier": "C",
+          "cons": [
+            "Blocked until required inputs are provided.",
+            "Needs: interval_data, tariff_prices",
+            "Savings are gated by verifier + claims policy.",
+            "Capex not available in stored snapshot for this scenario."
+          ],
+          "gating": {
+            "blockedReasons": [
+              "batteryDecisionPackV1_2.economicsSummary_missing"
+            ],
+            "requiredNextData": [
+              "interval_data",
+              "tariff_prices"
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": null,
+            "paybackYears": null,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Leverages deterministic battery decision pack outputs (snapshot-only)."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": null,
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "BATTERY_HYBRID_TOU_PLUS_DEMAND",
+          "status": "BLOCKED",
+          "title": "Battery: hybrid (TOU + demand)"
+        },
+        {
+          "category": "BATTERY",
+          "confidenceTier": "C",
+          "cons": [
+            "Blocked until required inputs are provided.",
+            "Needs: interval_data",
+            "Savings are gated by verifier + claims policy.",
+            "Capex not available in stored snapshot for this scenario."
+          ],
+          "gating": {
+            "blockedReasons": [
+              "batteryDecisionPackV1_2.economicsSummary_missing"
+            ],
+            "requiredNextData": [
+              "interval_data"
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": null,
+            "paybackYears": null,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Leverages deterministic battery decision pack outputs (snapshot-only)."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": null,
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "BATTERY_NON_EXPORT",
+          "status": "BLOCKED",
+          "title": "Battery: non-export / interconnection-limited mode"
+        },
+        {
+          "category": "BATTERY",
+          "confidenceTier": "C",
+          "cons": [
+            "Blocked until required inputs are provided.",
+            "Needs: interval_data, tariff_tou_prices",
+            "Savings are gated by verifier + claims policy.",
+            "Capex not available in stored snapshot for this scenario."
+          ],
+          "gating": {
+            "blockedReasons": [
+              "batteryDecisionPackV1_2.economicsSummary_missing"
+            ],
+            "requiredNextData": [
+              "interval_data",
+              "tariff_tou_prices"
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": null,
+            "paybackYears": null,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Leverages deterministic battery decision pack outputs (snapshot-only)."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": null,
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "BATTERY_TOU_ARBITRAGE_ONLY",
+          "status": "BLOCKED",
+          "title": "Battery: TOU arbitrage only (energy shifting)"
+        },
+        {
+          "category": "OPS",
+          "confidenceTier": "C",
+          "cons": [
+            "Program/DR value is not monetized in v1 templates.",
+            "Annual savings claim suppressed (gating/claims policy).",
+            "Capex not available in stored snapshot for this scenario."
+          ],
+          "gating": {
+            "blockedReasons": [
+              "dr_value_not_monetized_v1"
+            ],
+            "requiredNextData": [
+              "required:Advanced metering (AMI) required for this program.",
+              "required:Annual kWh required for this program (minAnnualKwh gate).",
+              "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "required:Customer segment/type required to match many utility/ISO programs",
+              "required:Customer type required for this program (segment-gated).",
+              "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+              "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+              "required:Interval data required for this program.",
+              "required:Interval kW series required to compute deterministic bill deltas per billing cycle.",
+              "required:Interval kW series required to evaluate load shifting potential.",
+              "required:Interval kW series required to infer load shape (provide interval data or configure loader).",
+              "required:Interval-derived baseload kW required to screen battery feasibility.",
+              "required:Interval-derived baseload kW required to size battery power.",
+              "required:Interval-derived loadFactor required to evaluate Option S relevance.",
+              "required:Interval-derived loadFactor required to screen battery feasibility.",
+              "required:Interval-derived peak kW required to evaluate Option S relevance.",
+              "required:Interval-derived peak kW required to screen battery feasibility.",
+              "required:Interval-derived peak kW required to size battery power.",
+              "required:Interval-derived peakinessIndex required to evaluate Option S relevance.",
+              "required:Interval-derived peakinessIndex required to interpret peak shaving potential.",
+              "required:Interval-derived peakinessIndex required to screen battery feasibility.",
+              "required:Monthly kWh required for this program (minMonthlyKwh gate).",
+              "required:NAICS code required for this program.",
+              "required:NAICS code required to match many utility/ISO programs"
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": null,
+            "paybackYears": null,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Operational readiness scenario to de-risk deployment."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": null,
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "BATTERY_DR_READY_MODE",
+          "status": "RAN",
+          "title": "Battery: DR-ready mode (requires DR inputs)"
+        },
+        {
+          "category": "RELIABILITY",
+          "confidenceTier": "C",
+          "cons": [
+            "Blocked until required inputs are provided.",
+            "Needs: interval_data",
+            "Resilience value is not monetized in v1 templates.",
+            "Capex not available in stored snapshot for this scenario."
+          ],
+          "gating": {
+            "blockedReasons": [
+              "batteryDecisionPackV1_2.economicsSummary_missing"
+            ],
+            "requiredNextData": [
+              "interval_data"
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": null,
+            "paybackYears": null,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Captures resilience-oriented scenarios (backup-only)."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": null,
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "BATTERY_BACKUP_ONLY_MED",
+          "status": "BLOCKED",
+          "title": "Battery: backup-only (medium) — resilience value not monetized"
+        },
+        {
+          "category": "RELIABILITY",
+          "confidenceTier": "C",
+          "cons": [
+            "Blocked until required inputs are provided.",
+            "Needs: interval_data",
+            "Resilience value is not monetized in v1 templates.",
+            "Capex not available in stored snapshot for this scenario."
+          ],
+          "gating": {
+            "blockedReasons": [
+              "batteryDecisionPackV1_2.economicsSummary_missing"
+            ],
+            "requiredNextData": [
+              "interval_data"
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": null,
+            "paybackYears": null,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Captures resilience-oriented scenarios (backup-only)."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": null,
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "BATTERY_BACKUP_ONLY_SMALL",
+          "status": "BLOCKED",
+          "title": "Battery: backup-only (small) — resilience value not monetized"
+        },
+        {
+          "category": "TARIFF",
+          "confidenceTier": "C",
+          "cons": [
+            "No tariff optimizer in v1; no switch savings computed.",
+            "Annual savings claim suppressed (gating/claims policy).",
+            "Capex not available in stored snapshot for this scenario."
+          ],
+          "gating": {
+            "blockedReasons": [],
+            "requiredNextData": [
+              "required:Advanced metering (AMI) required for this program.",
+              "required:Annual kWh required for this program (minAnnualKwh gate).",
+              "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "required:Customer segment/type required to match many utility/ISO programs",
+              "required:Customer type required for this program (segment-gated).",
+              "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+              "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+              "required:Interval data required for this program.",
+              "required:Interval kW series required to compute deterministic bill deltas per billing cycle.",
+              "required:Interval kW series required to evaluate load shifting potential.",
+              "required:Interval kW series required to infer load shape (provide interval data or configure loader).",
+              "required:Interval-derived baseload kW required to screen battery feasibility.",
+              "required:Interval-derived baseload kW required to size battery power.",
+              "required:Interval-derived loadFactor required to evaluate Option S relevance.",
+              "required:Interval-derived loadFactor required to screen battery feasibility.",
+              "required:Interval-derived peak kW required to evaluate Option S relevance.",
+              "required:Interval-derived peak kW required to screen battery feasibility.",
+              "required:Interval-derived peak kW required to size battery power.",
+              "required:Interval-derived peakinessIndex required to evaluate Option S relevance.",
+              "required:Interval-derived peakinessIndex required to interpret peak shaving potential.",
+              "required:Interval-derived peakinessIndex required to screen battery feasibility.",
+              "required:Monthly kWh required for this program (minMonthlyKwh gate).",
+              "required:NAICS code required for this program.",
+              "required:NAICS code required to match many utility/ISO programs"
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": null,
+            "paybackYears": null,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Highlights tariff match confidence and risk flags without recompute."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": null,
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "TARIFF_LIGHT_VALIDATE_SWITCHES",
+          "status": "RAN",
+          "title": "Tariff: shortlist alternatives (no switch recommendation)"
+        },
+        {
+          "category": "TARIFF",
+          "confidenceTier": "C",
+          "cons": [
+            "No tariff optimizer in v1; no switch savings computed.",
+            "Capex not available in stored snapshot for this scenario."
+          ],
+          "gating": {
+            "blockedReasons": [
+              "not_a_demand_tariff_detected"
+            ],
+            "requiredNextData": []
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": null,
+            "paybackYears": null,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Highlights tariff match confidence and risk flags without recompute."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": null,
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "TARIFF_RISK_RATCHET_EXPOSURE",
+          "status": "SKIPPED",
+          "title": "Assess ratchet / demand-charge exposure (no optimizer)"
+        },
+        {
+          "category": "TARIFF",
+          "confidenceTier": "C",
+          "cons": [
+            "No tariff optimizer in v1; no switch savings computed.",
+            "Annual savings claim suppressed (gating/claims policy).",
+            "Capex not available in stored snapshot for this scenario."
+          ],
+          "gating": {
+            "blockedReasons": [],
+            "requiredNextData": [
+              "required:Advanced metering (AMI) required for this program.",
+              "required:Annual kWh required for this program (minAnnualKwh gate).",
+              "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "required:Customer segment/type required to match many utility/ISO programs",
+              "required:Customer type required for this program (segment-gated).",
+              "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+              "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+              "required:Interval data required for this program.",
+              "required:Interval kW series required to compute deterministic bill deltas per billing cycle.",
+              "required:Interval kW series required to evaluate load shifting potential.",
+              "required:Interval kW series required to infer load shape (provide interval data or configure loader).",
+              "required:Interval-derived baseload kW required to screen battery feasibility.",
+              "required:Interval-derived baseload kW required to size battery power.",
+              "required:Interval-derived loadFactor required to evaluate Option S relevance.",
+              "required:Interval-derived loadFactor required to screen battery feasibility.",
+              "required:Interval-derived peak kW required to evaluate Option S relevance.",
+              "required:Interval-derived peak kW required to screen battery feasibility.",
+              "required:Interval-derived peak kW required to size battery power.",
+              "required:Interval-derived peakinessIndex required to evaluate Option S relevance.",
+              "required:Interval-derived peakinessIndex required to interpret peak shaving potential.",
+              "required:Interval-derived peakinessIndex required to screen battery feasibility.",
+              "required:Monthly kWh required for this program (minMonthlyKwh gate).",
+              "required:NAICS code required for this program.",
+              "required:NAICS code required to match many utility/ISO programs"
+            ]
+          },
+          "kpis": {
+            "annualKwh": null,
+            "annualUsd": null,
+            "capexUsd": null,
+            "paybackYears": null,
+            "peakKwReduction": null
+          },
+          "pros": [
+            "Highlights tariff match confidence and risk flags without recompute."
+          ],
+          "provenance": {
+            "engineVersions": null,
+            "runId": null,
+            "snapshotIds": {
+              "addersSnapshotId": null,
+              "exitFeesSnapshotId": null,
+              "generationEnergySnapshotId": null,
+              "tariffSnapshotId": "2026-03-01T0000Z"
+            }
+          },
+          "scenarioId": "TARIFF_VALIDATE_CURRENT",
+          "status": "RAN",
+          "title": "Validate current tariff match (snapshot-only)"
+        }
+      ],
+      "schemaVersion": "scenarioLabV1"
+    },
     "schemaVersion": "internalEngineeringReportV1",
     "storageOpportunityPackV1": {
       "batteryEconomicsV1Summary": {
@@ -3060,10 +3703,11 @@
         "Interval-derived baseload kW required to size battery power.",
         "Interval-derived peakinessIndex required to interpret peak shaving potential."
       ],
+      "scenarioLabV1": "[Circular]",
       "truthSnapshotV1": "[Circular]",
       "utility": {
         "inputs": {
-          "billPdfText": "PG&E\r\nCommercial Electric Service\r\n\r\nRate Schedule: E-19\r\nBilling Period: 2026-01-01 to 2026-01-31\r\n\r\nThis is sanitized bill text for deterministic testing. No customer data.\r\n\r\n",
+          "billPdfText": "PG&E\nCommercial Electric Service\n\nRate Schedule: E-19\nBilling Period: 2026-01-01 to 2026-01-31\n\nThis is sanitized bill text for deterministic testing. No customer data.\n\n",
           "currentRate": {
             "rateCode": "E-19",
             "utility": "PGE"
@@ -3254,7 +3898,7 @@
             "extractedFacts": {
               "rateScheduleText": {
                 "evidence": {
-                  "matchedText": "PG&E Commercial Electric Servic",
+                  "matchedText": "PG&E Commercial Electric Service",
                   "ruleId": "bill_tariff_truth.rate_schedule_text",
                   "source": "bill_pdf"
                 },
@@ -3263,7 +3907,7 @@
               },
               "utilityHint": {
                 "evidence": {
-                  "matchedText": "PG&E Commercial Electric Servic",
+                  "matchedText": "PG&E Commercial Electric Service",
                   "ruleId": "bill_tariff_truth.utility_hint",
                   "source": "bill_pdf"
                 },
@@ -3332,7 +3976,7 @@
           "billPdfTariffTruth": {
             "evidence": {
               "matchedText": [
-                "PG&E Commercial Electric Servic",
+                "PG&E Commercial Electric Service",
                 "Commercial Electric Service Rate Schedule: E-19 Billing Period: 2026-01-01"
               ],
               "source": "bill_pdf"

@@ -101,6 +101,8 @@ export type EngineeringPackJsonV1 = {
       engineWarnings: Array<{ code: string; details?: unknown }>;
       missingInfo: Array<{ id: string; category?: string; severity?: string; description?: string }>;
     };
+    /** Snapshot-only Scenario Lab v1 (bounded). */
+    scenarioLabV1?: unknown | null;
   };
   /** Full snapshot payload link-out (kept as inline ref ids, not URLs). */
   payloadRefs: {
@@ -352,6 +354,7 @@ export function buildEngineeringPackJsonV1(args: {
         engineWarnings,
         missingInfo,
       },
+      scenarioLabV1: reportJson?.scenarioLabV1 ?? reportJson?.workflow?.scenarioLabV1 ?? null,
     },
     payloadRefs: {
       internalEngineeringReportJsonRef: `analysisRun:${runId}:snapshot.reportJson`,

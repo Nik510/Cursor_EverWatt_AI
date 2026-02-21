@@ -83,6 +83,22 @@ export type ExecutivePackJsonV1 = {
   whatWeNeedToFinalize: { requiredMissingInfo: Array<{ id: string; category?: string; description?: string }>; recommendedMissingInfo: Array<{ id: string; category?: string; description?: string }> };
   nextBestActions: Array<{ actionId: string; type?: string; label?: string; status?: string; apiHint?: unknown }>;
   confidenceAndAssumptions: string[];
+  /** Snapshot-only Scenario Lab v1 summary (no recompute on GET). */
+  scenarioLabV1?:
+    | {
+        topOpportunities: Array<{
+          scenarioId: string;
+          title: string;
+          status: string;
+          confidenceTier: string;
+          annualUsd: number | null;
+          capexUsd: number | null;
+          paybackYears: number | null;
+        }>;
+        frontierSummary: { pointCount: number; axes: unknown; points: unknown[] };
+        blockedByData: { blockedCount: number; requiredNextData: string[]; blockedTitles: string[] };
+      }
+    | null;
   diffSincePreviousRun?: DiffSummaryV1;
   payloadRefs: {
     internalEngineeringReportJsonRef: string;
@@ -331,6 +347,52 @@ function extractSavingsDeterministic(reportJson: any): { annualUsd: ExecutivePac
   return { found: false, annualUsd: null };
 }
 
+function extractScenarioLabExecSummary(reportJson: any): ExecutivePackJsonV1['scenarioLabV1'] {
+  const lab: any = reportJson?.scenarioLabV1 ?? reportJson?.workflow?.scenarioLabV1 ?? null;
+  if (!lab || typeof lab !== 'object' || String(lab?.schemaVersion || '') !== 'scenarioLabV1') return null;
+
+  const scenarios: any[] = Array.isArray(lab?.scenarios) ? lab.scenarios : [];
+  const frontierPts: any[] = Array.isArray(lab?.frontier?.points) ? lab.frontier.points : [];
+  const axes = lab?.frontier?.axes ?? null;
+  const blocked: any[] = Array.isArray(lab?.blockedScenarios) ? lab.blockedScenarios : [];
+
+  const numOrNull = (x: any): number | null => {
+    const n = Number(x);
+    return Number.isFinite(n) ? n : null;
+  };
+
+  const ran = scenarios.filter((s) => String(s?.status || '').toUpperCase() === 'RAN');
+  ran.sort((a, b) => {
+    const aUsd = numOrNull(a?.kpis?.annualUsd);
+    const bUsd = numOrNull(b?.kpis?.annualUsd);
+    const aPb = numOrNull(a?.kpis?.paybackYears);
+    const bPb = numOrNull(b?.kpis?.paybackYears);
+    return (bUsd ?? -Infinity) - (aUsd ?? -Infinity) || (aPb ?? Infinity) - (bPb ?? Infinity) || stableString(a?.scenarioId, 80).localeCompare(stableString(b?.scenarioId, 80));
+  });
+
+  const topOpportunities = ran.slice(0, 3).map((s) => ({
+    scenarioId: stableString(s?.scenarioId, 80) || 'scenario',
+    title: stableString(s?.title, 140) || stableString(s?.scenarioId, 80) || 'Scenario',
+    status: stableString(s?.status, 20) || 'RAN',
+    confidenceTier: stableString(s?.confidenceTier, 10) || 'C',
+    annualUsd: numOrNull(s?.kpis?.annualUsd),
+    capexUsd: numOrNull(s?.kpis?.capexUsd),
+    paybackYears: numOrNull(s?.kpis?.paybackYears),
+  }));
+
+  const requiredNext = uniqSorted(
+    blocked.flatMap((b) => (Array.isArray(b?.requiredNextData) ? b.requiredNextData : [])).map((x) => stableString(x, 140)).filter(Boolean),
+    18,
+  );
+  const blockedTitles = uniqSorted(blocked.map((b) => stableString(b?.title, 120)).filter(Boolean), 10);
+
+  return {
+    topOpportunities,
+    frontierSummary: { pointCount: frontierPts.length, axes, points: frontierPts.slice(0, 8) },
+    blockedByData: { blockedCount: blocked.length, requiredNextData: requiredNext, blockedTitles },
+  };
+}
+
 function buildConfidenceAndAssumptions(args: {
   dataQualityTier: ExecutivePackDataQualityTierV1;
   coverage: any;
@@ -395,6 +457,7 @@ export function buildExecutivePackJsonV1(args: {
   const topFindings = wizardOutput ? parseWizardTopFindings(wizardOutput) : uniqSorted([], 10);
 
   const truthEngineV1 = extractTruthEngineExecSummary(reportJson);
+  const scenarioLabV1 = extractScenarioLabExecSummary(reportJson);
 
   const intervalInsights: any = reportJson?.intervalInsightsV1 ?? null;
   const baseloadKw = asNumber(intervalInsights?.baseloadKw);
@@ -477,6 +540,7 @@ export function buildExecutivePackJsonV1(args: {
     },
     topFindings,
     ...(truthEngineV1 !== null ? { truthEngineV1 } : {}),
+    ...(scenarioLabV1 !== null ? { scenarioLabV1 } : {}),
     kpis: {
       annualKwhEstimate: annualKwh !== null ? { value: annualKwh, ...(annualConf ? { confidenceTier: annualConf } : {}), source: 'reportJson.weatherRegressionV1.annualization.annualKwhEstimate' } : null,
       baseloadKw: baseloadKw !== null ? { value: baseloadKw, ...(baseloadConfidence ? { confidenceTier: baseloadConfidence } : {}), source: 'reportJson.intervalInsightsV1.baseloadKw' } : null,

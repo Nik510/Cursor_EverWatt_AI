@@ -20,7 +20,7 @@
       },
       {
         "atIso": "2026-03-01T00:00:00.000Z",
-        "hash": "fd722b8db1e638c93375756d7cb99d6ed2fede3fd567f7bc2b21928f98ca1900",
+        "hash": "9000530522e3d7b0ee32ff52904ab9d1f222c6fb501f12cc97bf92e0c46ff93e",
         "runIdsUsed": [
           "run_golden_01"
         ],
@@ -49,9 +49,9 @@
     "updatedAtIso": "2026-03-01T00:00:00.000Z",
     "warnings": [],
     "wizardOutputV1": {
-      "approxBytes": 21235,
+      "approxBytes": 23074,
       "generatedAtIso": "2026-03-01T00:00:00.000Z",
-      "hash": "fd722b8db1e638c93375756d7cb99d6ed2fede3fd567f7bc2b21928f98ca1900",
+      "hash": "9000530522e3d7b0ee32ff52904ab9d1f222c6fb501f12cc97bf92e0c46ff93e",
       "kind": "INLINE",
       "revisionIdsUsed": [
         "rev_01_single_run_with_revision_and_wizard"
@@ -461,7 +461,7 @@
             "warnCount": 0
           }
         },
-        "wizardOutputHash": "fd722b8db1e638c93375756d7cb99d6ed2fede3fd567f7bc2b21928f98ca1900",
+        "wizardOutputHash": "9000530522e3d7b0ee32ff52904ab9d1f222c6fb501f12cc97bf92e0c46ff93e",
         "wizardSteps": [
           {
             "evidence": {
@@ -549,6 +549,16 @@
             "requiredActions": [],
             "status": "DONE",
             "title": "Building story (Truth Engine v1)"
+          },
+          {
+            "evidence": {
+              "runId": "run_golden_01"
+            },
+            "helpText": "• Frontier points: 4 (bounded)\n• Battery: backup-only (medium) — resilience value not monetized — $0/yr • capex=$171,188 • payback≈0.0y\n• Battery: backup-only (small) — resilience value not monetized — $0/yr • capex=$147,125 • payback≈0.0y\n• Battery: DR-ready mode (requires DR inputs) — $0/yr • capex=$0 • payback≈0.0y\n• Battery: hybrid (TOU + demand) — $0/yr • capex=$147,125 • payback≈0.0y\n• Battery: non-export / interconnection-limited mode — $0/yr • capex=$147,125 • payback≈0.0y\nBlocked scenarios:\n• Battery: demand shaving only — needs: billing_history_12_months, required:Billing cycle summary (start/end dates, demand/usage) requi…(truncated), required:Customer segment/type required to match many utility/ISO programs, required:Customer type required for this program (segment-gated).\nRequired next data (deduped): billing_history_12_months • required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas. • required:Customer segment/type required to match many utility/ISO programs • required:Customer type required for this program (segment-gated). • required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance. • required:Interval data reference required for load shape, load shifting, and demand response eligibility • required:NAICS code required for this program. • required:NAICS code required to match many utility/ISO programs • required:Weather series not available; provide weather data or configure provider.",
+            "id": "opportunity_frontier",
+            "requiredActions": [],
+            "status": "DONE",
+            "title": "Opportunity Frontier (Scenario Lab v1)"
           },
           {
             "evidence": {
@@ -1064,7 +1074,7 @@
         "warnCount": 0
       }
     },
-    "wizardOutputHash": "fd722b8db1e638c93375756d7cb99d6ed2fede3fd567f7bc2b21928f98ca1900",
+    "wizardOutputHash": "9000530522e3d7b0ee32ff52904ab9d1f222c6fb501f12cc97bf92e0c46ff93e",
     "wizardSteps": [
       {
         "evidence": {
@@ -1152,6 +1162,16 @@
         "requiredActions": [],
         "status": "DONE",
         "title": "Building story (Truth Engine v1)"
+      },
+      {
+        "evidence": {
+          "runId": "run_golden_01"
+        },
+        "helpText": "• Frontier points: 4 (bounded)\n• Battery: backup-only (medium) — resilience value not monetized — $0/yr • capex=$171,188 • payback≈0.0y\n• Battery: backup-only (small) — resilience value not monetized — $0/yr • capex=$147,125 • payback≈0.0y\n• Battery: DR-ready mode (requires DR inputs) — $0/yr • capex=$0 • payback≈0.0y\n• Battery: hybrid (TOU + demand) — $0/yr • capex=$147,125 • payback≈0.0y\n• Battery: non-export / interconnection-limited mode — $0/yr • capex=$147,125 • payback≈0.0y\nBlocked scenarios:\n• Battery: demand shaving only — needs: billing_history_12_months, required:Billing cycle summary (start/end dates, demand/usage) requi…(truncated), required:Customer segment/type required to match many utility/ISO programs, required:Customer type required for this program (segment-gated).\nRequired next data (deduped): billing_history_12_months • required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas. • required:Customer segment/type required to match many utility/ISO programs • required:Customer type required for this program (segment-gated). • required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance. • required:Interval data reference required for load shape, load shifting, and demand response eligibility • required:NAICS code required for this program. • required:NAICS code required to match many utility/ISO programs • required:Weather series not available; provide weather data or configure provider.",
+        "id": "opportunity_frontier",
+        "requiredActions": [],
+        "status": "DONE",
+        "title": "Opportunity Frontier (Scenario Lab v1)"
       },
       {
         "evidence": {
