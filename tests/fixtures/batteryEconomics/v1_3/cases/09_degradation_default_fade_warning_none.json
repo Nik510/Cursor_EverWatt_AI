@@ -1,0 +1,13 @@
+{
+  "caseId": "09_degradation_default_fade_warning_none",
+  "inputs": {
+    "battery": { "powerKw": 25, "energyKwh": 100, "roundTripEff": 0.9 },
+    "costs": null,
+    "tariffs": null,
+    "determinants": null,
+    "dispatch": null,
+    "finance": { "termYears": 5, "discountRate": 0.09 },
+    "degradationInputsV0": {}
+  }
+}
+

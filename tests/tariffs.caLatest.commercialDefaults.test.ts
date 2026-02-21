@@ -1,10 +1,9 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import os from 'node:os';
 import path from 'node:path';
 import { mkdtempSync, writeFileSync } from 'node:fs';
 
-import app from '../src/server';
-import { saveSnapshot } from '../src/modules/tariffLibrary/storage';
+import './helpers/mockHeavyServerDeps';
 import type { TariffSnapshot } from '../src/modules/tariffLibrary/types';
 
 describe('tariffs endpoint: /api/tariffs/ca/latest (commercial-first defaults)', () => {
@@ -35,6 +34,7 @@ describe('tariffs endpoint: /api/tariffs/ca/latest (commercial-first defaults)',
     process.env.EVERWATT_TARIFF_CURATION_PATH = curationPath;
 
     try {
+      vi.resetModules();
       const snap: TariffSnapshot = {
         utility: 'PGE',
         capturedAt: '2026-02-05T12:00:00.000Z',
@@ -46,9 +46,11 @@ describe('tariffs endpoint: /api/tariffs/ca/latest (commercial-first defaults)',
         ],
         sourceFingerprints: [{ url: 'https://example.com/pge-index', contentHash: 'hash1' }],
       };
+      const { saveSnapshot } = await import('../src/modules/tariffLibrary/storage');
       await saveSnapshot(snap);
 
       // default: UI-only default filtering => API should return all decorated rates by default
+      const { default: app } = await import('../src/server');
       const res = await app.request('/api/tariffs/ca/latest');
       const json: any = await res.json();
       expect(json?.curationStatus?.tariffCuration?.loadedFromPath).toBeTruthy();

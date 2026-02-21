@@ -1,0 +1,263 @@
+[
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\01_pge_bundled_minimal.txt",
+    "expected": {
+      "providerType": "NONE",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "daProviderName": null,
+      "confidence": 0.6,
+      "evidenceMatchedPhrases": [],
+      "warnings": ["supply.v1.lse_undetected"],
+      "missingInfoIds": ["supply.v1.lse_undetected"]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\02_pge_ebce.txt",
+    "expected": {
+      "providerType": "CCA",
+      "iouUtility": "PGE",
+      "lseName": "East Bay Community Energy",
+      "daProviderName": null,
+      "confidence": 0.87,
+      "evidenceMatchedPhrases": ["ebce"],
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\03_pge_cleanpowersf_sf_clean_energy.txt",
+    "expected": {
+      "providerType": "CCA",
+      "iouUtility": "PGE",
+      "lseName": "CleanPowerSF",
+      "daProviderName": null,
+      "confidence": 0.87,
+      "evidenceMatchedPhrases": ["sf clean energy"],
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\04_pge_cca_keyword_unsupported.txt",
+    "expected": {
+      "providerType": "CCA",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "daProviderName": null,
+      "confidence": 0.7,
+      "evidenceMatchedPhrases": ["cca"],
+      "warnings": ["supply.v1.lse_undetected", "supply.v1.lse_unsupported"],
+      "missingInfoIds": ["supply.v1.lse_undetected", "supply.v1.lse_unsupported"]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\05_pge_da_direct_access_only.txt",
+    "expected": {
+      "providerType": "DA",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "daProviderName": null,
+      "confidence": 0.9,
+      "evidenceMatchedPhrases": ["direct access"],
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\06_pge_da_electricity_provider_only.txt",
+    "expected": {
+      "providerType": "DA",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "daProviderName": null,
+      "confidence": 0.85,
+      "evidenceMatchedPhrases": ["electricity provider"],
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\07_pge_da_shell_energy_provider_only.txt",
+    "expected": {
+      "providerType": "DA",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "daProviderName": "Shell Energy",
+      "confidence": 0.9,
+      "evidenceMatchedPhrases": ["shell energy"],
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\08_pge_da_shell_energy_electricity_provider.txt",
+    "expected": {
+      "providerType": "DA",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "daProviderName": "Shell Energy",
+      "confidence": 1,
+      "evidenceMatchedPhrases": ["electricity provider", "shell energy"],
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\09_pge_da_shell_energy_direct_access.txt",
+    "expected": {
+      "providerType": "DA",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "daProviderName": "Shell Energy",
+      "confidence": 1,
+      "evidenceMatchedPhrases": ["direct access", "electricity provider", "shell energy"],
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\10_pge_da_esp_language_marker.txt",
+    "expected": {
+      "providerType": "DA",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "daProviderName": null,
+      "confidence": 0.85,
+      "evidenceMatchedPhrases": ["energy service provider"],
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\11_pge_da_conflict_with_cca_keyword.txt",
+    "expected": {
+      "providerType": "DA",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "daProviderName": null,
+      "confidence": 0.9,
+      "evidenceMatchedPhrases": ["cca", "direct access"],
+      "warnings": ["supply.v1.conflict_markers"],
+      "missingInfoIds": ["supply.v1.conflict_markers"]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\12_pge_da_conflict_with_supported_cca_name.txt",
+    "expected": {
+      "providerType": "DA",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "daProviderName": null,
+      "confidence": 0.9,
+      "evidenceMatchedPhrases": ["direct access", "ebce"],
+      "warnings": ["supply.v1.conflict_markers"],
+      "missingInfoIds": ["supply.v1.conflict_markers"]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\13_pge_da_multiple_providers_ambiguous.txt",
+    "expected": {
+      "providerType": "DA",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "daProviderName": null,
+      "confidence": 0.85,
+      "evidenceMatchedPhrases": ["direct energy", "electricity provider", "shell energy"],
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\14_pge_cca_ambiguous_two_lses.txt",
+    "expected": {
+      "providerType": "CCA",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "daProviderName": null,
+      "confidence": 0.55,
+      "evidenceMatchedPhrases": ["ebce", "silicon valley clean energy"],
+      "warnings": ["supply.v1.lse_ambiguous"],
+      "missingInfoIds": ["supply.v1.lse_ambiguous"]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\15_unknown_utility_but_cca_present.txt",
+    "expected": {
+      "providerType": "CCA",
+      "iouUtility": "UNKNOWN",
+      "lseName": "Peninsula Clean Energy",
+      "daProviderName": null,
+      "confidence": 0.87,
+      "evidenceMatchedPhrases": ["peninsula clean energy"],
+      "warnings": ["supply.v1.utility_unknown"],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\16_no_bill_text.txt",
+    "expected": {
+      "providerType": "NONE",
+      "iouUtility": "UNKNOWN",
+      "lseName": null,
+      "daProviderName": null,
+      "confidence": 0.2,
+      "evidenceMatchedPhrases": [],
+      "warnings": ["supply.v1.confidence_low", "supply.v1.utility_unknown"],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\17_sce_bundled_false_positive_edison.txt",
+    "expected": {
+      "providerType": "NONE",
+      "iouUtility": "SCE",
+      "lseName": null,
+      "daProviderName": null,
+      "confidence": 0.6,
+      "evidenceMatchedPhrases": [],
+      "warnings": ["supply.v1.lse_undetected"],
+      "missingInfoIds": ["supply.v1.lse_undetected"]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\18_pge_da_shell_energy_and_cca_keyword_conflict.txt",
+    "expected": {
+      "providerType": "DA",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "daProviderName": "Shell Energy",
+      "confidence": 0.9,
+      "evidenceMatchedPhrases": ["cca", "shell energy"],
+      "warnings": ["supply.v1.conflict_markers"],
+      "missingInfoIds": ["supply.v1.conflict_markers"]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\19_pge_text_mentions_espm_not_esp.txt",
+    "expected": {
+      "providerType": "NONE",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "daProviderName": null,
+      "confidence": 0.6,
+      "evidenceMatchedPhrases": [],
+      "warnings": ["supply.v1.lse_undetected"],
+      "missingInfoIds": ["supply.v1.lse_undetected"]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1_2\\cases\\20_pge_da_rate_schedule_only_no_markers.txt",
+    "expected": {
+      "providerType": "NONE",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "daProviderName": null,
+      "confidence": 0.6,
+      "evidenceMatchedPhrases": [],
+      "warnings": ["supply.v1.lse_undetected"],
+      "missingInfoIds": ["supply.v1.lse_undetected"]
+    }
+  }
+]
+

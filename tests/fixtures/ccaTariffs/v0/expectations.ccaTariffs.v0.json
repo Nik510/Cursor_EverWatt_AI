@@ -1,0 +1,27 @@
+{
+  "version": "ccaTariffs.v0.fixturePack.expectations.v1",
+  "cases": [
+    {
+      "caseId": "01_pge_ebce_bill_date",
+      "expectOk": true,
+      "expectSnapshotId": "cca.v0.PGE.EBCE.2026-01-01",
+      "expectRateCode": "EBCE@2026-01-01",
+      "expectTouPeriodCount": 3
+    },
+    {
+      "caseId": "02_pge_cleanpowersf_latest",
+      "expectOk": true,
+      "expectSnapshotId": "cca.v0.PGE.CLEANPOWERSF.2026-01-01",
+      "expectRateCode": "CLEANPOWERSF@2026-01-01",
+      "expectTouPeriodCount": 3
+    },
+    {
+      "caseId": "03_unsupported_cca",
+      "expectOk": false,
+      "expectSnapshotId": null,
+      "expectRateCode": null,
+      "expectTouPeriodCount": 0
+    }
+  ]
+}
+

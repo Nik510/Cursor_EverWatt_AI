@@ -1,0 +1,164 @@
+import type { MissingInfoItemV0 } from '../../../utilityIntelligence/missingInfo/types';
+import { engineVersions, intervalIntakeVersion } from '../../../engineVersions';
+import { analyzeIntervalIntelligenceV1 } from '../../../utilityIntelligence/intervalIntelligenceV1/analyzeIntervalIntelligenceV1';
+import { buildAnalysisTraceV1 } from '../../../utilityIntelligence/analysisTraceV1/buildAnalysisTraceV1';
+import { normalizeIntervalInputsV1 } from '../../../utilityIntelligence/intervalNormalizationV1/normalizeIntervalInputsV1';
+import {
+  buildDailyUsageAndWeatherSeriesFromIntervalPointsV1,
+  regressUsageVsWeatherV1,
+} from '../../../utilityIntelligence/weatherRegressionV1/regressUsageVsWeatherV1';
+import { buildCalculationAuditDrawerV1 } from '../../../auditDrawerV1/buildAuditDrawerV1';
+
+function sortMissingInfo(a: any, b: any): number {
+  const sevRank = (s: any): number => {
+    const x = String(s ?? '').toLowerCase();
+    if (x === 'blocking') return 0;
+    if (x === 'warning') return 1;
+    return 2;
+  };
+  const ra = sevRank(a?.severity);
+  const rb = sevRank(b?.severity);
+  if (ra !== rb) return ra - rb;
+  const ida = String(a?.id ?? '');
+  const idb = String(b?.id ?? '');
+  if (ida !== idb) return ida.localeCompare(idb);
+  return String(a?.description ?? '').localeCompare(String(b?.description ?? ''));
+}
+
+export type BuildInternalEngineeringReportJsonV1Args = {
+  projectId: string;
+  generatedAtIso: string;
+  analysisResults: { project: any; workflow: any; summary: any };
+  telemetry?: {
+    intervalElectricPointsV1?: Array<{ timestampIso: string; intervalMinutes: number; kWh?: number; kW?: number; temperatureF?: number }> | null;
+    intervalElectricMetaV1?: any | null;
+    storageEconomicsOverridesV1?: any | null;
+  };
+};
+
+/**
+ * Deterministic snapshot builder for Internal Engineering Report v1.
+ *
+ * CRITICAL:
+ * - No AI, no inference, no network calls.
+ * - Purely packages already-computed analysis + stored telemetry into an append-only JSON revision.
+ * - Adds a stable, sorted `missingInfo` aggregation for operator navigation.
+ */
+export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineeringReportJsonV1Args): any {
+  const projectId = String(args.projectId || '').trim();
+  const nowIso = String(args.generatedAtIso || '').trim();
+
+  const intervalPts = Array.isArray(args.telemetry?.intervalElectricPointsV1) ? args.telemetry?.intervalElectricPointsV1 : [];
+  const intervalMeta = args.telemetry?.intervalElectricMetaV1 ?? null;
+  const storageEconomicsOverridesV1 = args.telemetry?.storageEconomicsOverridesV1 ?? null;
+  const intervalWarnCount = Array.isArray((intervalMeta as any)?.warnings) ? (intervalMeta as any).warnings.length : 0;
+
+  const intervalInsightsV1 = (() => {
+    try {
+      if (!intervalPts.length) return null;
+      return analyzeIntervalIntelligenceV1({
+        points: intervalPts as any,
+        meta: intervalMeta as any,
+        timezoneHint: String((intervalMeta as any)?.timezoneUsed || 'America/Los_Angeles'),
+        topPeakEventsCount: 7,
+      }).intervalIntelligenceV1;
+    } catch {
+      return null;
+    }
+  })();
+
+  const weatherRegressionV1 = (() => {
+    try {
+      if (!intervalPts.length) return null;
+      const anyTemp = intervalPts.some((p: any) => Number.isFinite(Number(p?.temperatureF)));
+      if (!anyTemp) return null;
+      const tz = String((intervalMeta as any)?.timezoneUsed || 'America/Los_Angeles');
+      const daily = buildDailyUsageAndWeatherSeriesFromIntervalPointsV1({ points: intervalPts as any, meta: intervalMeta as any, timezoneHint: tz });
+      return regressUsageVsWeatherV1({
+        usageByDay: daily.usageByDay,
+        weatherByDay: daily.weatherByDay,
+        hddBaseF: 65,
+        cddBaseF: 65,
+        minOverlapDays: 10,
+        timezoneHint: tz,
+      }).weatherRegressionV1;
+    } catch {
+      return null;
+    }
+  })();
+
+  const missingFromInterval: MissingInfoItemV0[] = Array.isArray((intervalMeta as any)?.missingInfo) ? ((intervalMeta as any).missingInfo as any[]) : [];
+  const missingFromInsights: MissingInfoItemV0[] = Array.isArray(args.analysisResults?.workflow?.utility?.insights?.missingInfo)
+    ? (args.analysisResults.workflow.utility.insights.missingInfo as any[])
+    : [];
+  const missingFromTariffApplicability: MissingInfoItemV0[] = Array.isArray(args.analysisResults?.workflow?.utility?.insights?.rateFit?.tariffApplicability?.missingInfo)
+    ? (args.analysisResults.workflow.utility.insights.rateFit.tariffApplicability.missingInfo as any[])
+    : [];
+
+  const missingInfo: MissingInfoItemV0[] = [...missingFromInterval, ...missingFromInsights, ...missingFromTariffApplicability]
+    .filter((it: any) => it && typeof it === 'object')
+    .slice()
+    .sort(sortMissingInfo);
+
+  const storageOpportunityPackV1 = (args.analysisResults?.workflow as any)?.utility?.insights?.storageOpportunityPackV1 ?? null;
+  const batteryEconomicsV1 = (args.analysisResults?.workflow as any)?.utility?.insights?.batteryEconomicsV1 ?? null;
+  const batteryDecisionPackV1 = (args.analysisResults?.workflow as any)?.utility?.insights?.batteryDecisionPackV1 ?? null;
+  const batteryDecisionPackV1_2 = (args.analysisResults?.workflow as any)?.utility?.insights?.batteryDecisionPackV1_2 ?? null;
+
+  const workflowUtilityInputs = (args.analysisResults?.workflow as any)?.utility?.inputs ?? null;
+  const workflowUtilityInsights = (args.analysisResults?.workflow as any)?.utility?.insights ?? null;
+  const workflowTrace = (args.analysisResults?.workflow as any)?.analysisTraceV1 ?? null;
+  const normalizedIntervalV1 = normalizeIntervalInputsV1({ intervalPointsV1: intervalPts as any });
+  const analysisTraceV1 =
+    workflowTrace && typeof workflowTrace === 'object'
+      ? workflowTrace
+      : buildAnalysisTraceV1({
+          nowIso: nowIso || new Date().toISOString(),
+          inputs: (workflowUtilityInputs && typeof workflowUtilityInputs === 'object' ? workflowUtilityInputs : { orgId: 'unknown', projectId, serviceType: 'electric' }) as any,
+          intervalPointsV1: intervalPts as any,
+          intervalMetaV1: intervalMeta,
+          normalizedIntervalV1,
+          insights: workflowUtilityInsights && typeof workflowUtilityInsights === 'object' ? workflowUtilityInsights : {},
+        });
+
+  const reportJson: any = {
+    schemaVersion: 'internalEngineeringReportV1',
+    generatedAtIso: nowIso,
+    projectId,
+    project: args.analysisResults?.project,
+    engineVersions: {
+      ...engineVersions,
+      // Prefer the parserVersion stored with the interval meta when available.
+      intervalIntake: String((intervalMeta as any)?.parserVersion || '').trim() || intervalIntakeVersion,
+    },
+    telemetry: {
+      intervalElectricV1: {
+        present: intervalPts.length > 0,
+        pointCount: intervalPts.length,
+        warningCount: intervalWarnCount,
+      },
+      intervalElectricMetaV1: intervalMeta,
+      ...(storageEconomicsOverridesV1 ? { storageEconomicsOverridesV1 } : {}),
+    },
+    intervalInsightsV1,
+    weatherRegressionV1,
+    storageOpportunityPackV1,
+    batteryEconomicsV1,
+    batteryDecisionPackV1,
+    batteryDecisionPackV1_2,
+    analysisTraceV1,
+    workflow: args.analysisResults?.workflow,
+    summary: args.analysisResults?.summary,
+    missingInfo,
+  };
+
+  // Additive: deterministic audit drawer payload (snapshot-only).
+  try {
+    reportJson.auditDrawerV1 = buildCalculationAuditDrawerV1(reportJson, args.analysisResults);
+  } catch {
+    reportJson.auditDrawerV1 = null;
+  }
+
+  return reportJson;
+}
+

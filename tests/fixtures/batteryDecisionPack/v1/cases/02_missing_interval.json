@@ -1,0 +1,19 @@
+{
+  "caseId": "02_missing_interval",
+  "intervalPointsFile": null,
+  "tariffSnapshotId": "snap_missing_interval_1",
+  "tariffPriceSignalsV1": {
+    "timezone": "America/Los_Angeles",
+    "touEnergyPrices": [
+      { "periodId": "off", "startHourLocal": 0, "endHourLocalExclusive": 16, "days": "all", "pricePerKwh": 0.12 },
+      { "periodId": "on", "startHourLocal": 16, "endHourLocalExclusive": 21, "days": "all", "pricePerKwh": 0.42 }
+    ],
+    "demandChargePerKw": 22
+  },
+  "determinantsV1": {
+    "billingDemandKw": 240,
+    "ratchetDemandKw": null,
+    "billingDemandMethod": "BILLING_DEMAND_V1"
+  }
+}
+

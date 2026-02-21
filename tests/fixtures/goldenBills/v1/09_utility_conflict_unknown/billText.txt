@@ -1,0 +1,9 @@
+PG&E
+Southern California Edison (SCE)
+Commercial Electric Service
+
+Rate Schedule: E-19
+Billing Period: 2026-01-01 to 2026-01-31
+
+This is sanitized bill text for deterministic testing. No customer data.
+

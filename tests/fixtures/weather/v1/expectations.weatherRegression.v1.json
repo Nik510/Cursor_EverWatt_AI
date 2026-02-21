@@ -1,0 +1,156 @@
+[
+  {
+    "fixtureFile": "tests/fixtures/weather/v1/strong_cooling_10d.json",
+    "timezoneHint": "America/Los_Angeles",
+    "expected": {
+      "coverageDays": 10,
+      "overlapDays": 10,
+      "hddBaseF": 65,
+      "cddBaseF": 65,
+      "intercept": 50,
+      "slopeHdd": 0,
+      "slopeCdd": 5,
+      "r2": 1,
+      "confidenceTier": "NONE",
+      "warnings": [],
+      "annualization": { "method": "unavailable", "annualKwhEstimate": null, "confidenceTier": "NONE" }
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/weather/v1/strong_heating_10d.json",
+    "timezoneHint": "America/Los_Angeles",
+    "expected": {
+      "coverageDays": 10,
+      "overlapDays": 10,
+      "hddBaseF": 65,
+      "cddBaseF": 65,
+      "intercept": 30,
+      "slopeHdd": 3,
+      "slopeCdd": 0,
+      "r2": 1,
+      "confidenceTier": "NONE",
+      "warnings": [],
+      "annualization": { "method": "unavailable", "annualKwhEstimate": null, "confidenceTier": "NONE" }
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/weather/v1/weak_flat_10d.json",
+    "timezoneHint": "America/Los_Angeles",
+    "expected": {
+      "coverageDays": 10,
+      "overlapDays": 10,
+      "hddBaseF": 65,
+      "cddBaseF": 65,
+      "intercept": 100,
+      "slopeHdd": 0,
+      "slopeCdd": 0,
+      "r2": null,
+      "confidenceTier": "NONE",
+      "warnings": ["weather.v1.insufficient_variance"],
+      "annualization": { "method": "unavailable", "annualKwhEstimate": null, "confidenceTier": "NONE" }
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/weather/v1/missing_weather_some_days.json",
+    "timezoneHint": "America/Los_Angeles",
+    "expected": {
+      "coverageDays": 8,
+      "overlapDays": 5,
+      "hddBaseF": 65,
+      "cddBaseF": 65,
+      "intercept": null,
+      "slopeHdd": null,
+      "slopeCdd": null,
+      "r2": null,
+      "confidenceTier": "NONE",
+      "warnings": ["weather.v1.insufficient_overlap_days", "weather.v1.missing_weather_days"],
+      "annualization": { "method": "unavailable", "annualKwhEstimate": null, "confidenceTier": "NONE" }
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/weather/v1/outlier_spike_10d.json",
+    "timezoneHint": "America/Los_Angeles",
+    "expected": {
+      "coverageDays": 10,
+      "overlapDays": 10,
+      "hddBaseF": 65,
+      "cddBaseF": 65,
+      "intercept": 120,
+      "slopeHdd": 0,
+      "slopeCdd": 0,
+      "r2": null,
+      "confidenceTier": "NONE",
+      "warnings": ["weather.v1.insufficient_variance", "weather.v1.outliers_clipped"],
+      "annualization": { "method": "unavailable", "annualKwhEstimate": null, "confidenceTier": "NONE" }
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/weather/v1/dst_boundary_dates_8d.json",
+    "timezoneHint": "America/Los_Angeles",
+    "expected": {
+      "coverageDays": 8,
+      "overlapDays": 8,
+      "hddBaseF": 65,
+      "cddBaseF": 65,
+      "intercept": 100,
+      "slopeHdd": 2,
+      "slopeCdd": 2,
+      "r2": 1,
+      "confidenceTier": "NONE",
+      "warnings": [],
+      "annualization": { "method": "unavailable", "annualKwhEstimate": null, "confidenceTier": "NONE" }
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/weather/v1/timezone_unknown_5d.json",
+    "timezoneHint": "PST",
+    "expected": {
+      "coverageDays": 5,
+      "overlapDays": 5,
+      "hddBaseF": 65,
+      "cddBaseF": 65,
+      "intercept": null,
+      "slopeHdd": null,
+      "slopeCdd": null,
+      "r2": null,
+      "confidenceTier": "NONE",
+      "warnings": ["weather.v1.insufficient_overlap_days", "weather.v1.timezone_unknown"],
+      "annualization": { "method": "unavailable", "annualKwhEstimate": null, "confidenceTier": "NONE" }
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/weather/v1/weather_unavailable_5d.json",
+    "timezoneHint": "America/Los_Angeles",
+    "expected": {
+      "coverageDays": 5,
+      "overlapDays": 0,
+      "hddBaseF": 65,
+      "cddBaseF": 65,
+      "intercept": null,
+      "slopeHdd": null,
+      "slopeCdd": null,
+      "r2": null,
+      "confidenceTier": "NONE",
+      "warnings": ["weather.v1.insufficient_overlap_days", "weather.v1.missing_weather_days"],
+      "annualization": { "method": "unavailable", "annualKwhEstimate": null, "confidenceTier": "NONE" }
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/weather/v1/cooling_90d_annualize.json",
+    "timezoneHint": "America/Los_Angeles",
+    "expected": {
+      "coverageDays": 90,
+      "overlapDays": 90,
+      "hddBaseF": 65,
+      "cddBaseF": 65,
+      "intercept": 50,
+      "slopeHdd": 0,
+      "slopeCdd": 5,
+      "r2": 1,
+      "confidenceTier": "MEDIUM",
+      "warnings": [],
+      "annualization": { "method": "annualize_method_v1", "annualKwhEstimate": 108588, "confidenceTier": "LOW" }
+    }
+  }
+]
+

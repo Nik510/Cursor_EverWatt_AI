@@ -4,7 +4,13 @@ import { mkdir, readFile, readdir, writeFile } from 'fs/promises';
 import { isDatabaseEnabled } from '../../db/client';
 import type { ProjectRecord } from '../../types/change-order';
 
-const PROJECTS_DIR = path.join(process.cwd(), 'data', 'projects');
+const ENV_PROJECTS_BASEDIR = 'EVERWATT_PROJECTS_BASEDIR';
+function getProjectsDir(): string {
+  const env = String(process.env[ENV_PROJECTS_BASEDIR] || '').trim();
+  if (env) return path.resolve(env);
+  return path.join(process.cwd(), 'data', 'projects');
+}
+const PROJECTS_DIR = getProjectsDir();
 
 async function ensureProjectsDir(): Promise<void> {
   if (!existsSync(PROJECTS_DIR)) await mkdir(PROJECTS_DIR, { recursive: true });

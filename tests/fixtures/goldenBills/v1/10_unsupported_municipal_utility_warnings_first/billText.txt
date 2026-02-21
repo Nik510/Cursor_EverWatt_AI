@@ -1,0 +1,8 @@
+Los Angeles Department of Water and Power (LADWP)
+Commercial Electric Service
+
+Billing Period: 2026-01-01 to 2026-01-31
+Statement: sanitized test fixture
+
+This is sanitized bill text for deterministic testing. No customer data.
+

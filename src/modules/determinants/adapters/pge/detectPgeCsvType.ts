@@ -26,7 +26,10 @@ function hasAny(headers: string[], needles: string[]): boolean {
 }
 
 export function detectPgeCsvTypeV1(csvTextOrBuffer: string | Buffer): DetectPgeCsvTypeResultV1 {
-  const text = Buffer.isBuffer(csvTextOrBuffer) ? csvTextOrBuffer.toString('utf-8') : String(csvTextOrBuffer || '');
+  // NOTE: This module is used in both Node and browser bundles.
+  // Avoid referencing Buffer when it is not available (browser).
+  const isBuf = typeof Buffer !== 'undefined' && Buffer.isBuffer(csvTextOrBuffer as any);
+  const text = isBuf ? (csvTextOrBuffer as any).toString('utf-8') : String(csvTextOrBuffer || '');
   const parsed = Papa.parse(text, { header: true, preview: 1, skipEmptyLines: true });
   const headers = Array.isArray(parsed?.meta?.fields) ? parsed.meta.fields : [];
 
@@ -38,9 +41,9 @@ export function detectPgeCsvTypeV1(csvTextOrBuffer: string | Buffer): DetectPgeC
   // Interval export signature
   const intervalSignals = [
     hasAny(headers, ['Service Agreement']),
-    hasAny(headers, ['Start Date Time']),
-    hasAny(headers, ['End Date Time']),
-    hasAny(headers, ['Usage']),
+    hasAny(headers, ['Start Date Time', 'Interval Start']),
+    hasAny(headers, ['End Date Time', 'Interval End']),
+    hasAny(headers, ['Usage', 'Usage (kWh)']),
   ].filter(Boolean).length;
 
   // Usage export signature

@@ -12,7 +12,7 @@ type ChatMessage = {
 
 export function ProjectAiChat(props: { projectId: string }) {
   const { session } = useAdmin();
-  const adminToken = session?.token || localStorage.getItem('admin_token') || '';
+  const adminToken = session?.token || '';
 
   const [messages, setMessages] = useState<ChatMessage[]>([
     { role: 'assistant', content: 'Ask me questions about this project. I will cite file/page/sheet when possible.' },

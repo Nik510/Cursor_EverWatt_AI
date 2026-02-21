@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto';
 import type { InboxItem, EvidenceRef } from '../../types/project-graph';
 import type { RecommendationSuggestion, RecommendationBecause, RecommendationTopContributor } from '../project/types';
 import type { Measure } from '../measures/types';
@@ -23,6 +22,17 @@ function uniq(arr: string[]): string[] {
     out.push(s);
   }
   return out;
+}
+
+function makeEphemeralIdFactory(args: { prefix: string; seed: string }): () => string {
+  const prefix = String(args.prefix || 'id').trim() || 'id';
+  const seed =
+    String(args.seed || '')
+      .trim()
+      .replace(/[^0-9A-Za-z]/g, '')
+      .slice(0, 24) || 'seed';
+  let i = 0;
+  return () => `${prefix}_${seed}_${++i}`;
 }
 
 function buildNotes(args: {
@@ -107,9 +117,9 @@ export function toBatteryRecommendationsV1(args: {
   suggestionIdFactory?: () => string;
   inboxIdFactory?: () => string;
 }): { suggestions: RecommendationSuggestion[]; inboxItems: InboxItem[] } {
-  const nowIso = args.nowIso || new Date('2026-01-01T00:00:00.000Z').toISOString();
-  const suggestionIdFactory = args.suggestionIdFactory || (() => randomUUID());
-  const inboxIdFactory = args.inboxIdFactory || (() => randomUUID());
+  const nowIso = args.nowIso || new Date().toISOString();
+  const suggestionIdFactory = args.suggestionIdFactory || makeEphemeralIdFactory({ prefix: 'batSug', seed: nowIso });
+  const inboxIdFactory = args.inboxIdFactory || makeEphemeralIdFactory({ prefix: 'batInbox', seed: nowIso });
 
   const suggestionId = suggestionIdFactory();
   const measure = buildMeasure({ inputs: args.inputs, gate: args.gate, selection: args.selection, meterId: args.meterId });

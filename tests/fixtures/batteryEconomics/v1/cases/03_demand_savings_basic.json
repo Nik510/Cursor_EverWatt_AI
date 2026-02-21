@@ -1,0 +1,19 @@
+{
+  "caseId": "03_demand_savings_basic",
+  "inputs": {
+    "battery": { "powerKw": 80, "energyKwh": 160, "roundTripEff": 0.9, "usableFraction": 0.9, "degradationPctYr": 2 },
+    "costs": {
+      "batteryCostPerKwhUsd": 280,
+      "batteryCostPerKwUsd": 550,
+      "installAdderPct": 0.22,
+      "interconnectFlatUsd": 20000,
+      "softCostsFlatUsd": 25000,
+      "contingencyPct": 0.1,
+      "omPerKwYrUsd": 10
+    },
+    "tariffs": { "snapshotId": "snap_x", "demandChargePerKwMonthUsd": 18 },
+    "determinants": { "billingDemandKw": 240, "ratchetDemandKw": null, "billingDemandMethod": "BILLING_DEMAND_V1" },
+    "dispatch": { "peakReductionKwAssumed": 40 }
+  }
+}
+

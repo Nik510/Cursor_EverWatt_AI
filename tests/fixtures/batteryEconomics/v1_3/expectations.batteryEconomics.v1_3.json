@@ -1,0 +1,86 @@
+[
+  {
+    "fixtureFile": "tests/fixtures/batteryEconomics/v1_3/cases/01_iou_only_no_incentives.json",
+    "expected": {
+      "warningMustInclude": [],
+      "sgipAwardUsd": null
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/batteryEconomics/v1_3/cases/02_sgip_general_market_usable_basis.json",
+    "expected": {
+      "warningMustInclude": [],
+      "sgipAwardUsd": 12000
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/batteryEconomics/v1_3/cases/03_sgip_equity_resiliency_capped.json",
+    "expected": {
+      "warningMustInclude": ["sgip.v0.energy_only_estimate"],
+      "sgipAwardUsd": 50000
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/batteryEconomics/v1_3/cases/04_sgip_eligible_category_missing.json",
+    "expected": {
+      "warningMustInclude": ["sgip.v0.eligibility_unknown"],
+      "sgipAwardUsd": null
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/batteryEconomics/v1_3/cases/05_sgip_snapshot_missing.json",
+    "expected": {
+      "warningMustInclude": ["sgip.v0.snapshot_missing"],
+      "sgipAwardUsd": null
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/batteryEconomics/v1_3/cases/06_itc_default_pct_warning.json",
+    "expected": {
+      "warningMustInclude": ["tax.itc.v0.default_pct_used"],
+      "itcUsd": 41775
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/batteryEconomics/v1_3/cases/07_macrs_tax_rate_missing.json",
+    "expected": {
+      "warningMustInclude": ["tax.macrs.v0.tax_rate_missing"]
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/batteryEconomics/v1_3/cases/08_macrs_with_tax_rate.json",
+    "expected": {
+      "warningMustInclude": [],
+      "macrsTotalBenefitUsd": 27846.76
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/batteryEconomics/v1_3/cases/09_degradation_default_fade_warning_none.json",
+    "expected": {
+      "warningMustInclude": ["battery.degradation.v0.default_fade_used"]
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/batteryEconomics/v1_3/cases/10_degradation_augment_to_hold.json",
+    "expected": {
+      "warningMustInclude": [],
+      "augmentationCapexTotalUsd": 2710
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/batteryEconomics/v1_3/cases/11_degradation_replace_at_eol.json",
+    "expected": {
+      "warningMustInclude": [],
+      "replacementYear": 4
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/batteryEconomics/v1_3/cases/12_combined_sgip_itc_macrs_degradation.json",
+    "expected": {
+      "warningMustInclude": ["battery.degradation.v0.default_fade_used"],
+      "sgipAwardUsd": 13500,
+      "itcUsd": 35634.38
+    }
+  }
+]
+

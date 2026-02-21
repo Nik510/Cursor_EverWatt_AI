@@ -1,0 +1,25 @@
+{
+  "expectedUtility": "PGE",
+  "expectedSupplyProviderType": "NONE",
+  "expectedLseName": null,
+  "expectedRateSourceKind": "DELIVERY",
+  "expectedMissingInfoIds": [
+    "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+    "billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+    "billTariffLibraryMatch.BILL_TARIFF_AMBIGUOUS",
+    "determinants.demandRules.pge.ratchet.DETERMINANT_RATCHET_UNSUPPORTED",
+    "determinants.reconcile.billingRecords.missing",
+    "determinants.reconcile.coverageLow.2026-01",
+    "determinants.reconcile.reconcilable.count",
+    "determinants.tou.energy.coverage.low.2026-01",
+    "supply.v1.lse_undetected",
+    "supplyStructure.supply.v1.lse_undetected",
+    "tariff.applicability.rules.missing",
+    "tariff.applicability.unknown",
+    "tariff.applicability.voltage.unknown",
+    "tariff.billPdfTariffLibraryMatch.BILL_TARIFF_AMBIGUOUS"
+  ],
+  "expectedAuditReconcile": true,
+  "expectedTopLineNumbers": {}
+}
+

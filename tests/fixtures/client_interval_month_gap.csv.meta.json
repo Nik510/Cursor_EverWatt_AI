@@ -1,0 +1,9 @@
+{
+  "granularityMinutes": 15,
+  "rowCount": 2872,
+  "expectedWarnings": [
+    "interval.csv.detected.pge_interval",
+    "interval.points.large_gaps",
+    "interval.pge_csv.parsed_ok"
+  ]
+}

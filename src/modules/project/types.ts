@@ -1,4 +1,4 @@
-import type { EvidenceRef, InboxItem as ProjectGraphInboxItem, ProjectGraph, AssetNode, MeasureNode, DecisionEntry } from '../../types/project-graph';
+import type { EvidenceRef, InboxItem, ProjectGraph, AssetNode, MeasureNode, DecisionEntry } from '../../types/project-graph';
 import type { ProjectRecord } from '../../types/change-order';
 import type { Measure } from '../measures/types';
 
@@ -206,7 +206,7 @@ export type ProjectInboxItem = {
   actedAt?: string;
 };
 
-export type ProjectGraphInboxItem = ProjectGraphInboxItem;
+export type ProjectGraphInboxItem = InboxItem;
 
 // ============================================================================
 // Project + Asset Schema (v1 foundation types)

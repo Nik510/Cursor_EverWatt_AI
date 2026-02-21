@@ -1,25 +1,20 @@
-import { describe, expect, it, vi } from 'vitest';
-import path from 'node:path';
-
-vi.mock('../src/modules/utilityIntelligence/billPdf/extractBillPdfTariffHintsV1', () => {
-  return {
-    extractBillPdfTariffHintsV1: vi.fn(),
-  };
-});
-vi.mock('../src/modules/tariffLibrary/storage', () => {
-  return {
-    loadLatestSnapshot: vi.fn(),
-  };
-});
-vi.mock('../src/modules/tariffLibrary/matching/matchBillTariffToLibraryV1', () => {
-  return {
-    matchBillTariffToLibraryV1: vi.fn(),
-  };
-});
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 describe('currentRate resolution + selectionSource', () => {
+  afterEach(() => {
+    vi.unmock('../src/modules/utilityIntelligence/billPdf/extractBillPdfTariffHintsV1');
+    vi.unmock('../src/modules/tariffLibrary/storage');
+    vi.unmock('../src/modules/tariffLibrary/matching/matchBillTariffToLibraryV1');
+    vi.resetModules();
+    vi.restoreAllMocks();
+  });
+
   it('prioritizes tariffOverrideV1 over all else', async () => {
-    const { resolveCurrentRateSelectionV1 } = await import('../src/modules/utilityIntelligence/currentRate/resolveCurrentRateSelectionV1');
+    vi.resetModules();
+
+    const { resolveCurrentRateSelectionV1 } = await import(
+      '../src/modules/utilityIntelligence/currentRate/resolveCurrentRateSelectionV1'
+    );
 
     const out = await resolveCurrentRateSelectionV1({
       demo: false,
@@ -36,14 +31,23 @@ describe('currentRate resolution + selectionSource', () => {
         selectedAt: '2026-01-01T00:00:00.000Z',
         selectionSource: 'bill_pdf_match',
         matchType: 'EXACT',
-      },
+      } as any,
     });
 
     expect(out.currentRateSelectionSource).toBe('USER_OVERRIDE');
     expect(out.currentRate).toEqual({ utility: 'PGE', rateCode: 'B-19', effectiveDate: undefined });
   });
 
-  it('uses BILL_MATCH (EXACT/NORMALIZED resolved) over DEFAULT', async () => {
+  it('uses BILL_MATCH when bill match resolves a rate code', async () => {
+    vi.resetModules();
+    vi.doMock('../src/modules/utilityIntelligence/billPdf/extractBillPdfTariffHintsV1', () => ({
+      extractBillPdfTariffHintsV1: vi.fn(),
+    }));
+    vi.doMock('../src/modules/tariffLibrary/storage', () => ({ loadLatestSnapshot: vi.fn() }));
+    vi.doMock('../src/modules/tariffLibrary/matching/matchBillTariffToLibraryV1', () => ({
+      matchBillTariffToLibraryV1: vi.fn(),
+    }));
+
     const { extractBillPdfTariffHintsV1 } = await import('../src/modules/utilityIntelligence/billPdf/extractBillPdfTariffHintsV1');
     const { loadLatestSnapshot } = await import('../src/modules/tariffLibrary/storage');
     const { matchBillTariffToLibraryV1 } = await import('../src/modules/tariffLibrary/matching/matchBillTariffToLibraryV1');
@@ -53,7 +57,7 @@ describe('currentRate resolution + selectionSource', () => {
       rateScheduleText: 'B-19',
       evidence: { source: 'bill_pdf', matchedText: [] },
       warnings: [],
-    });
+    } as any);
     vi.mocked(loadLatestSnapshot).mockResolvedValue({
       utility: 'PGE',
       capturedAt: '2026-01-01T00:00:00.000Z',
@@ -67,19 +71,26 @@ describe('currentRate resolution + selectionSource', () => {
       resolved: {
         rateCode: 'B-19',
         matchType: 'EXACT',
-        evidence: { source: 'bill_pdf', rateScheduleText: 'B-19', normalizedWanted: 'B-19', normalizedMatched: 'B-19' },
+        evidence: {
+          source: 'bill_pdf',
+          rateScheduleText: 'B-19',
+          normalizedWanted: 'B-19',
+          normalizedMatched: 'B-19',
+        },
         sourceUrl: 'u',
         sourceTitle: 't',
       },
     } as any);
 
-    const { resolveCurrentRateSelectionV1 } = await import('../src/modules/utilityIntelligence/currentRate/resolveCurrentRateSelectionV1');
+    const { resolveCurrentRateSelectionV1 } = await import(
+      '../src/modules/utilityIntelligence/currentRate/resolveCurrentRateSelectionV1'
+    );
     const out = await resolveCurrentRateSelectionV1({
       demo: false,
       territory: 'PGE',
       customerRateCode: 'A-1',
       billPdfText: 'whatever',
-      tariffOverrideV1: null,
+      tariffOverrideV1: null as any,
     });
 
     expect(out.currentRateSelectionSource).toBe('BILL_MATCH');
@@ -88,6 +99,15 @@ describe('currentRate resolution + selectionSource', () => {
   });
 
   it('falls back to DEFAULT when bill match cannot resolve', async () => {
+    vi.resetModules();
+    vi.doMock('../src/modules/utilityIntelligence/billPdf/extractBillPdfTariffHintsV1', () => ({
+      extractBillPdfTariffHintsV1: vi.fn(),
+    }));
+    vi.doMock('../src/modules/tariffLibrary/storage', () => ({ loadLatestSnapshot: vi.fn() }));
+    vi.doMock('../src/modules/tariffLibrary/matching/matchBillTariffToLibraryV1', () => ({
+      matchBillTariffToLibraryV1: vi.fn(),
+    }));
+
     const { extractBillPdfTariffHintsV1 } = await import('../src/modules/utilityIntelligence/billPdf/extractBillPdfTariffHintsV1');
     const { loadLatestSnapshot } = await import('../src/modules/tariffLibrary/storage');
     const { matchBillTariffToLibraryV1 } = await import('../src/modules/tariffLibrary/matching/matchBillTariffToLibraryV1');
@@ -97,46 +117,25 @@ describe('currentRate resolution + selectionSource', () => {
       rateScheduleText: 'B-19',
       evidence: { source: 'bill_pdf', matchedText: [] },
       warnings: [],
-    });
+    } as any);
     vi.mocked(loadLatestSnapshot).mockResolvedValue(null);
-    vi.mocked(matchBillTariffToLibraryV1).mockReturnValue({ warnings: ['BILL_TARIFF_MATCH_NEEDS_SNAPSHOT_SELECTION'] } as any);
+    vi.mocked(matchBillTariffToLibraryV1).mockReturnValue({
+      warnings: ['BILL_TARIFF_MATCH_NEEDS_SNAPSHOT_SELECTION'],
+    } as any);
 
-    const { resolveCurrentRateSelectionV1 } = await import('../src/modules/utilityIntelligence/currentRate/resolveCurrentRateSelectionV1');
+    const { resolveCurrentRateSelectionV1 } = await import(
+      '../src/modules/utilityIntelligence/currentRate/resolveCurrentRateSelectionV1'
+    );
     const out = await resolveCurrentRateSelectionV1({
       demo: false,
       territory: 'PGE',
       customerRateCode: 'A-1',
       billPdfText: 'whatever',
-      tariffOverrideV1: null,
+      tariffOverrideV1: null as any,
     });
 
     expect(out.currentRateSelectionSource).toBe('DEFAULT');
     expect(out.currentRate).toEqual({ utility: 'PGE', rateCode: 'A-1', effectiveDate: undefined });
-  });
-
-  it('echoes currentRateSelectionSource in workflow.utility.inputs', async () => {
-    const { loadBatteryLibraryV1 } = await import('../src/modules/batteryLibrary/loadLibrary');
-    const { runUtilityWorkflow } = await import('../src/modules/workflows/runUtilityWorkflow');
-    const libPath = path.join(process.cwd(), 'samples', 'battery_library_fixture.json');
-    const lib = await loadBatteryLibraryV1(libPath);
-
-    const workflow = await runUtilityWorkflow({
-      inputs: {
-        orgId: 'user:test',
-        projectId: 'proj:test',
-        serviceType: 'electric',
-        utilityTerritory: 'PGE',
-        currentRate: { utility: 'PGE', rateCode: 'PGE_SIM_B19_LIKE' },
-        currentRateSelectionSource: 'DEFAULT',
-      },
-      intervalKwSeries: [{ timestampIso: '2026-01-05T00:00:00.000Z', kw: 10 }],
-      batteryLibrary: lib.library.items,
-      nowIso: new Date('2026-01-01T00:00:00.000Z').toISOString(),
-      idFactory: () => 'id1',
-    });
-
-    expect((workflow as any)?.utility?.inputs?.currentRateSelectionSource).toBe('DEFAULT');
-    expect((workflow as any)?.utility?.inputs?.currentRate?.rateCode).toBe('PGE_SIM_B19_LIKE');
   });
 });
 

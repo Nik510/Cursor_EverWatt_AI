@@ -1,0 +1,25 @@
+{
+  "caseId": "07_capex_override_confidence_higher",
+  "intervalCsv": "tests/fixtures/intervals/v1/office_9to5_15m.csv",
+  "timezoneHint": "America/Los_Angeles",
+  "economicsMode": "use_dispatch",
+  "tariffPriceSignalsV1": {
+    "timezone": "America/Los_Angeles",
+    "touEnergyPrices": [
+      { "periodId": "OFF", "startHourLocal": 0, "endHourLocalExclusive": 16, "days": "all", "pricePerKwh": 0.1 },
+      { "periodId": "ON", "startHourLocal": 16, "endHourLocalExclusive": 21, "days": "all", "pricePerKwh": 0.3 },
+      { "periodId": "OFF2", "startHourLocal": 21, "endHourLocalExclusive": 24, "days": "all", "pricePerKwh": 0.12 }
+    ],
+    "demandChargePerKw": 20
+  },
+  "determinantsV1": { "billingDemandKw": 150, "ratchetDemandKw": null, "billingDemandMethod": "fixture" },
+  "storageEconomicsOverridesV1": {
+    "powerCostPerKwUsdRange": [350, 650],
+    "energyCostPerKwhUsdRange": [130, 260],
+    "softCostsPctRange": [0.05, 0.12],
+    "omPctOfCapexPerYearRange": [0.01, 0.02],
+    "projectLifeYears": 15,
+    "discountRateRange": [0.07, 0.1]
+  }
+}
+

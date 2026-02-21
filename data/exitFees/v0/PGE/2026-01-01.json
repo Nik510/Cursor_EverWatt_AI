@@ -1,0 +1,25 @@
+{
+  "snapshotId": "exitFees.v0.PGE.2026-01-01.seed",
+  "effectiveStartYmd": "2026-01-01",
+  "acquisitionMethodUsed": "MANUAL_SEED_V0",
+  "notes": [
+    "acquisitionMethodUsed: MANUAL_SEED_V0",
+    "PROVISIONAL_SEED_DO_NOT_USE_FOR_FINAL_BILLING",
+    "MANUAL SEED V0 (provisional): blended flat adders to approximate PCIA/NBC/exit fees for CCA/DA economics.",
+    "Values are placeholders; prefer upgrading to utility/vintage-specific datasets when available."
+  ],
+  "charges": {
+    "nbcPerKwhTotal": 0.028,
+    "pciaPerKwhByVintage": {
+      "V2019": 0.015,
+      "V2020": 0.022
+    },
+    "pciaPerKwhDefault": 0.018,
+    "otherExitFeesPerKwhTotal": 0.004
+  },
+  "applicability": {
+    "providerType": "CCA",
+    "iou": "PGE"
+  }
+}
+

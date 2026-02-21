@@ -1,0 +1,23 @@
+{
+  "expectedUtility": "PGE",
+  "expectedSupplyProviderType": "CCA",
+  "expectedLseName": null,
+  "expectedRateSourceKind": "CCA_DELIVERY_FALLBACK",
+  "expectedMissingInfoIds": [
+    "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+    "billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+    "determinants.demandRules.pge.ratchet.DETERMINANT_RATCHET_UNSUPPORTED",
+    "determinants.reconcile.billingRecords.missing",
+    "determinants.reconcile.coverageLow.2026-01",
+    "determinants.reconcile.reconcilable.count",
+    "determinants.tou.energy.coverage.low.2026-01",
+    "supply.v1.lse_ambiguous",
+    "supplyStructure.supply.v1.lse_ambiguous",
+    "tariff.applicability.rules.missing",
+    "tariff.applicability.unknown",
+    "tariff.applicability.voltage.unknown"
+  ],
+  "expectedAuditReconcile": true,
+  "expectedTopLineNumbers": {}
+}
+

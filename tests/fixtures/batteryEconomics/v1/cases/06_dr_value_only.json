@@ -1,0 +1,17 @@
+{
+  "caseId": "06_dr_value_only",
+  "inputs": {
+    "battery": { "powerKw": 50, "energyKwh": 100, "roundTripEff": 0.9, "usableFraction": 0.9, "degradationPctYr": 2 },
+    "costs": {
+      "batteryCostPerKwhUsd": 320,
+      "batteryCostPerKwUsd": 650,
+      "installAdderPct": 0.2,
+      "interconnectFlatUsd": 15000,
+      "softCostsFlatUsd": 20000,
+      "contingencyPct": 0.1,
+      "omPerKwYrUsd": 8
+    },
+    "dr": { "annualValueUsd": 12000 }
+  }
+}
+

@@ -1,0 +1,83 @@
+[
+  {
+    "fixtureFile": "tests\\fixtures\\batteryDecisionPack\\v1\\cases\\01_full_inputs.json",
+    "expected": {
+      "confidenceTier": "MEDIUM",
+      "optionsCount": 3,
+      "checks": {
+        "energyGt0": true,
+        "demandGt0": true,
+        "ratchetGt0": false
+      }
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\batteryDecisionPack\\v1\\cases\\02_missing_interval.json",
+    "expected": {
+      "confidenceTier": "NONE",
+      "optionsCount": 0,
+      "missingInfoMustContain": ["battery.decision.missing_interval"]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\batteryDecisionPack\\v1\\cases\\03_tou_only.json",
+    "expected": {
+      "confidenceTier": "MEDIUM",
+      "optionsCount": 3,
+      "checks": {
+        "energyGt0": true,
+        "demandGt0": false
+      }
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\batteryDecisionPack\\v1\\cases\\04_demand_only.json",
+    "expected": {
+      "confidenceTier": "MEDIUM",
+      "optionsCount": 3,
+      "checks": {
+        "energyGt0": false,
+        "demandGt0": true
+      }
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\batteryDecisionPack\\v1\\cases\\05_ratchet_supported.json",
+    "expected": {
+      "confidenceTier": "MEDIUM",
+      "optionsCount": 3,
+      "checks": {
+        "ratchetGt0": true
+      }
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\batteryDecisionPack\\v1\\cases\\06_dr_ineligible.json",
+    "expected": {
+      "confidenceTier": "MEDIUM",
+      "optionsCount": 3,
+      "checks": {
+        "drEq0": true,
+        "drReasonsMustContain": ["drReadinessV1.confidence_none"]
+      }
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\batteryDecisionPack\\v1\\cases\\07_constraints_override.json",
+    "expected": {
+      "confidenceTier": "MEDIUM",
+      "optionsCount": 3,
+      "checks": {
+        "firstOptionPowerKwEq": 50
+      }
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\batteryDecisionPack\\v1\\cases\\08_no_tariff_no_demand.json",
+    "expected": {
+      "confidenceTier": "LOW",
+      "optionsCount": 3
+    }
+  }
+]
+

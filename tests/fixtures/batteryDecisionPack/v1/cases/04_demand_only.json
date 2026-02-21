@@ -1,0 +1,16 @@
+{
+  "caseId": "04_demand_only",
+  "intervalPointsFile": "tests\\fixtures\\batteryDecisionPack\\v1\\shared\\intervalPoints_2days_hourly.json",
+  "tariffSnapshotId": "snap_demand_only_1",
+  "tariffPriceSignalsV1": {
+    "timezone": "America/Los_Angeles",
+    "touEnergyPrices": [],
+    "demandChargePerKw": 22
+  },
+  "determinantsV1": {
+    "billingDemandKw": 240,
+    "ratchetDemandKw": null,
+    "billingDemandMethod": "BILLING_DEMAND_V1"
+  }
+}
+

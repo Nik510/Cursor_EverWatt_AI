@@ -1,0 +1,25 @@
+{
+  "snapshotId": "exitFees.v0.SDGE.2025-01-01.seed",
+  "effectiveStartYmd": "2025-01-01",
+  "acquisitionMethodUsed": "MANUAL_SEED_V0",
+  "notes": [
+    "acquisitionMethodUsed: MANUAL_SEED_V0",
+    "PROVISIONAL_SEED_DO_NOT_USE_FOR_FINAL_BILLING",
+    "MANUAL SEED V0 (provisional): blended flat adders to approximate PCIA/NBC/exit fees for CCA/DA economics.",
+    "Values are placeholders; prefer upgrading to utility/vintage-specific datasets when available."
+  ],
+  "charges": {
+    "nbcPerKwhTotal": 0.031,
+    "pciaPerKwhByVintage": {
+      "V2019": 0.017,
+      "V2020": 0.023
+    },
+    "pciaPerKwhDefault": 0.019,
+    "otherExitFeesPerKwhTotal": 0.005
+  },
+  "applicability": {
+    "providerType": "CCA",
+    "iou": "SDGE"
+  }
+}
+

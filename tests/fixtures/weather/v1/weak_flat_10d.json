@@ -1,0 +1,27 @@
+{
+  "usageByDay": [
+    { "dateIso": "2026-04-01", "kwh": 100 },
+    { "dateIso": "2026-04-02", "kwh": 100 },
+    { "dateIso": "2026-04-03", "kwh": 100 },
+    { "dateIso": "2026-04-04", "kwh": 100 },
+    { "dateIso": "2026-04-05", "kwh": 100 },
+    { "dateIso": "2026-04-06", "kwh": 100 },
+    { "dateIso": "2026-04-07", "kwh": 100 },
+    { "dateIso": "2026-04-08", "kwh": 100 },
+    { "dateIso": "2026-04-09", "kwh": 100 },
+    { "dateIso": "2026-04-10", "kwh": 100 }
+  ],
+  "weatherByDay": [
+    { "dateIso": "2026-04-01", "temperatureF": 40 },
+    { "dateIso": "2026-04-02", "temperatureF": 45 },
+    { "dateIso": "2026-04-03", "temperatureF": 50 },
+    { "dateIso": "2026-04-04", "temperatureF": 55 },
+    { "dateIso": "2026-04-05", "temperatureF": 60 },
+    { "dateIso": "2026-04-06", "temperatureF": 65 },
+    { "dateIso": "2026-04-07", "temperatureF": 70 },
+    { "dateIso": "2026-04-08", "temperatureF": 75 },
+    { "dateIso": "2026-04-09", "temperatureF": 80 },
+    { "dateIso": "2026-04-10", "temperatureF": 85 }
+  ]
+}
+

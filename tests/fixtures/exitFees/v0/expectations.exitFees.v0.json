@@ -1,0 +1,34 @@
+{
+  "version": "exit_fees_v0",
+  "cases": [
+    {
+      "caseId": "01_pge_cca_2026_02_01",
+      "expectOk": true,
+      "expectSnapshotId": "exitFees.v0.PGE.2026-01-01.seed",
+      "expectExitFeesPerKwhTotal": 0.05,
+      "warningsMustContain": ["exitFees.v0.provisional_seed"]
+    },
+    {
+      "caseId": "02_sce_cca_2026_02_01",
+      "expectOk": true,
+      "expectSnapshotId": "exitFees.v0.SCE.2026-01-01.seed",
+      "expectExitFeesPerKwhTotal": 0.041,
+      "warningsMustContain": ["exitFees.v0.provisional_seed"]
+    },
+    {
+      "caseId": "03_sdge_cca_2026_02_01",
+      "expectOk": true,
+      "expectSnapshotId": "exitFees.v0.SDGE.2026-01-01.seed",
+      "expectExitFeesPerKwhTotal": 0.057,
+      "warningsMustContain": ["exitFees.v0.provisional_seed"]
+    },
+    {
+      "caseId": "04_pge_da_fallback_to_any_snapshot",
+      "expectOk": true,
+      "expectSnapshotId": "exitFees.v0.PGE.2026-01-01.seed",
+      "expectExitFeesPerKwhTotal": 0.05,
+      "warningsMustContain": ["exitFees.v0.partial"]
+    }
+  ]
+}
+

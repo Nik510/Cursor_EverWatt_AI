@@ -6,8 +6,31 @@ import type { MissingInfoItemV0 } from './missingInfo/types';
 import type { ApplicabilityResult } from '../tariffApplicability/types';
 import type { LoadAttributionResultV1 } from '../loadAttribution/types';
 import type { BillSimV2 } from '../billingEngineV2/types';
+import type { BillIntelligenceV1 } from './billIntelligence/typesV1';
+import type { IntervalIntelligenceV1 } from './intervalIntelligenceV1/types';
+import type { WeatherRegressionV1 } from './weatherRegressionV1/types';
+import type { StorageOpportunityPackV1 } from '../batteryEngineV1/types';
+import type { BatteryEconomicsOutputsV1 } from '../batteryEconomicsV1/types';
+import type { BatteryDecisionPackV1 } from '../batteryEconomicsV1/decisionPackV1';
+import type { BatteryDecisionPackV1_2 } from '../batteryDecisionPackV1_2/types';
+import type { EffectiveRateContextV1 } from '../supplyStructureAnalyzerV1/types';
 
 export type UtilityServiceType = 'electric' | 'gas' | 'both';
+
+export type EngineWarning = {
+  /** Stable warning code (machine-readable). */
+  code: string;
+  /** Module path or logical subsystem (no PII). */
+  module: string;
+  /** Operation name (no PII). */
+  operation: string;
+  /** Exception class name only (no stack traces in client payloads). */
+  exceptionName: string;
+  /** Short key for grouping/debugging (no PII). */
+  contextKey: string;
+};
+
+export type CurrentRateSelectionSourceV1 = 'USER_OVERRIDE' | 'BILL_MATCH' | 'DEFAULT';
 
 export type UtilityInputs = {
   orgId: string;
@@ -19,6 +42,29 @@ export type UtilityInputs = {
   customerType?: string; // e.g. "healthcare", "k12", "office", "industrial"
   naicsCode?: string;
   currentRate?: { utility: string; rateCode: string; effectiveDate?: string }; // if known
+  /**
+   * Optional source tag for how `currentRate` was determined (v1).
+   * This is additive metadata only; it must not affect pricing math.
+   */
+  currentRateSelectionSource?: CurrentRateSelectionSourceV1;
+  /**
+   * Optional tariff override metadata provided by the user/UI (v1).
+   * Keep shape minimal and non-PII.
+   */
+  tariffOverrideV1?:
+    | {
+        schemaVersion?: number;
+        commodity?: 'electric' | 'gas';
+        utilityId?: string;
+        snapshotId?: string;
+        tariffIdOrRateCode?: string;
+        selectedBy?: 'user' | 'system';
+        selectedAt?: string;
+        selectionSource?: string;
+        matchType?: string;
+        notes?: string;
+      }
+    | null;
   billingSummary?: {
     monthly: Array<{
       start: string;
@@ -54,6 +100,11 @@ export type LoadShapeMetrics = {
 
 export type UtilityInsights = {
   inferredLoadShape: LoadShapeMetrics;
+  /**
+   * Engine warnings (operability/debug truth): structured, best-effort,
+   * no stack traces, no PII.
+   */
+  engineWarnings?: EngineWarning[];
   /**
    * Proven metrics computed directly from interval data via Billing Engine v1 normalization/mapping,
    * when enough data is available. These are additive and optional.
@@ -138,6 +189,11 @@ export type UtilityInsights = {
     };
   };
   /**
+   * Effective rate context (SSA v1): IOU delivery + optional CCA/DA generation context.
+   * Additive and warnings-first; does not change billing math unless explicitly plumbed downstream.
+   */
+  effectiveRateContextV1?: EffectiveRateContextV1;
+  /**
    * Optional CA Tariff Library (v0) lookup for the current rate code.
    * This is metadata-only and additive; it does not affect billing math yet.
    */
@@ -212,6 +268,30 @@ export type UtilityInsights = {
   requiredInputsMissing: string[]; // global
   /** Deterministic bill intelligence extracted from billPdfText (v1). */
   billIntelligenceV1?: BillIntelligenceV1;
+  /** Deterministic interval intelligence computed directly from interval series (v1). */
+  intervalIntelligenceV1?: IntervalIntelligenceV1;
+  /**
+   * Deterministic Storage Opportunity Pack (v1): battery sizing + dispatch simulation + DR readiness.
+   * Always present when attached by `analyzeUtility` (warnings-first when inputs are missing).
+   */
+  storageOpportunityPackV1?: StorageOpportunityPackV1;
+  /**
+   * Deterministic Battery Economics (v1): CAPEX/OPEX + savings + finance (NPV/payback) + audit trail.
+   * Always attached by `analyzeUtility` (warnings-first when inputs are missing).
+   */
+  batteryEconomicsV1?: BatteryEconomicsOutputsV1;
+  /**
+   * Deterministic Battery Decision Pack (v1): sizing search + decision-ready option shortlist with audited savings.
+   * Always attached by `analyzeUtility` (confidence NONE when key inputs are missing).
+   */
+  batteryDecisionPackV1?: BatteryDecisionPackV1;
+  /**
+   * Deterministic Battery Decision Pack (v1.2): constraints + sensitivity + deterministic recommendation narrative.
+   * Always attached by `analyzeUtility` (confidence NONE when key inputs are missing).
+   */
+  batteryDecisionPackV1_2?: BatteryDecisionPackV1_2;
+  /** Deterministic weather regression + annualization computed from interval + temperature (v1). */
+  weatherRegressionV1?: WeatherRegressionV1;
 };
 
 export type UtilityRecommendation = {
@@ -224,73 +304,4 @@ export type UtilityRecommendation = {
   suggestedMeasure: Measure;
 };
 
-export const BillIntelligenceWarningCodesV1 = {
-  BILL_INTEL_MISSING_TOTAL_KWH: 'BILL_INTEL_MISSING_TOTAL_KWH',
-  BILL_INTEL_MISSING_TOTAL_DOLLARS: 'BILL_INTEL_MISSING_TOTAL_DOLLARS',
-  BILL_INTEL_MISSING_BILLING_PERIOD_DATES: 'BILL_INTEL_MISSING_BILLING_PERIOD_DATES',
-  BILL_INTEL_MISSING_PEAK_KW: 'BILL_INTEL_MISSING_PEAK_KW',
-  BILL_INTEL_INTERVAL_DATA_REQUIRED: 'BILL_INTEL_INTERVAL_DATA_REQUIRED',
-  BILL_INTEL_WEATHER_DATA_REQUIRED: 'BILL_INTEL_WEATHER_DATA_REQUIRED',
-  BILL_INTEL_BILLING_PERIOD_AMBIGUOUS_DATE_FORMAT: 'BILL_INTEL_BILLING_PERIOD_AMBIGUOUS_DATE_FORMAT',
-  BILL_INTEL_BILLING_PERIOD_INVALID_RANGE: 'BILL_INTEL_BILLING_PERIOD_INVALID_RANGE',
-  BILL_INTEL_MULTIPLE_DOLLARS_CANDIDATES: 'BILL_INTEL_MULTIPLE_DOLLARS_CANDIDATES',
-  BILL_INTEL_MULTIPLE_PEAK_KW_CANDIDATES: 'BILL_INTEL_MULTIPLE_PEAK_KW_CANDIDATES',
-  BILL_INTEL_SANITY_OUTLIER: 'BILL_INTEL_SANITY_OUTLIER',
-} as const;
-
-export type BillIntelligenceWarningCodeV1 =
-  (typeof BillIntelligenceWarningCodesV1)[keyof typeof BillIntelligenceWarningCodesV1];
-
-export type BillIntelligenceEvidence = {
-  ruleId: string;
-  matchedText: string;
-  source: 'bill_pdf';
-};
-
-export type BillIntelligenceNumberFact = {
-  value: number;
-  unit?: string;
-  source: 'bill_pdf';
-  evidence: BillIntelligenceEvidence;
-};
-
-export type BillIntelligenceStringFact = {
-  value: string;
-  source: 'bill_pdf';
-  evidence: BillIntelligenceEvidence;
-};
-
-export type BillIntelligenceBillingPeriodFact = {
-  startDateIso: string;
-  endDateIso: string;
-  days?: number;
-  source: 'bill_pdf';
-  evidence: BillIntelligenceEvidence;
-};
-
-export type BillIntelligenceDerivedMetric = {
-  value: number;
-  unit: string;
-  source: 'derived_math';
-  confidence: 'derived';
-  inputsUsed: string[];
-};
-
-export type BillIntelligenceV1 = {
-  extractedFacts: {
-    billingPeriod?: BillIntelligenceBillingPeriodFact;
-    totalKwh?: BillIntelligenceNumberFact;
-    totalDollars?: BillIntelligenceNumberFact;
-    peakKw?: BillIntelligenceNumberFact;
-    rateScheduleText?: BillIntelligenceStringFact;
-    utilityHint?: BillIntelligenceStringFact;
-  };
-  derivedMetrics: {
-    blendedRate?: BillIntelligenceDerivedMetric;
-    avgDailyKwh?: BillIntelligenceDerivedMetric;
-    avgKw?: BillIntelligenceDerivedMetric;
-    demandFactorApprox?: BillIntelligenceDerivedMetric;
-  };
-  warnings: Array<{ code: BillIntelligenceWarningCodeV1; reason: string }>;
-};
-
+export * from './billIntelligence/typesV1';

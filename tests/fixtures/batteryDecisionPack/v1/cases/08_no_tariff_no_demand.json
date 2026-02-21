@@ -1,0 +1,8 @@
+{
+  "caseId": "08_no_tariff_no_demand",
+  "intervalPointsFile": "tests\\fixtures\\batteryDecisionPack\\v1\\shared\\intervalPoints_2days_hourly.json",
+  "tariffSnapshotId": null,
+  "tariffPriceSignalsV1": null,
+  "determinantsV1": null
+}
+

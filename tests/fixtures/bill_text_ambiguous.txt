@@ -1,0 +1,8 @@
+Pacific Gas and Electric Company
+
+Customer: Example
+Account: 0000000000
+
+Rate Schedule: E-19
+Service Type: Electric
+

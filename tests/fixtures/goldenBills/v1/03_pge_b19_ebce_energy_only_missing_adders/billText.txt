@@ -1,0 +1,9 @@
+PG&E
+Commercial Electric Service
+
+Rate Schedule: B-19
+Service Provider: East Bay Community Energy
+Billing Period: 2026-02-01 to 2026-02-28
+
+This is sanitized bill text for deterministic testing. No customer data.
+

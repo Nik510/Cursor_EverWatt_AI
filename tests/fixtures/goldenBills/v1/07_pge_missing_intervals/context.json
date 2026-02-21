@@ -1,0 +1,9 @@
+{
+  "projectId": "p_golden_07",
+  "utility": "PGE",
+  "supplyType": "electric",
+  "billPeriodStartYmd": "2026-01-01",
+  "intervalFixtureRef": null,
+  "currentRateOverride": { "utility": "PGE", "rateCode": "E-19" }
+}
+

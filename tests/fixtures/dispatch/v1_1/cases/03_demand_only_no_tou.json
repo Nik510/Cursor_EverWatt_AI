@@ -1,0 +1,23 @@
+{
+  "caseId": "03_demand_only_no_tou",
+  "cycles": [
+    {
+      "cycleLabel": "2026-01",
+      "cycleStartIso": "2026-01-15T08:00:00.000Z",
+      "cycleEndIso": "2026-01-16T08:00:00.000Z",
+      "timezone": "America/Los_Angeles"
+    }
+  ],
+  "intervalPointsFile": "tests\\fixtures\\dispatch\\v1_1\\shared\\intervalPoints_1day_hourly_demand_only.json",
+  "battery": { "powerKw": 50, "energyKwh": 200, "rte": 0.9, "minSoc": 0.1, "maxSoc": 0.9 },
+  "expect": {
+    "okAllCycles": true,
+    "checksByCycleLabel": {
+      "2026-01": {
+        "demandPeakAfterLtBefore": true,
+        "dischargedTouMustContain": ["ALL"]
+      }
+    }
+  }
+}
+

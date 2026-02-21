@@ -1,0 +1,7 @@
+{
+  "caseId": "03_unsupported_cca",
+  "iouUtility": "PGE",
+  "ccaId": "NOT_A_CCA",
+  "billPeriodStartYmd": "2026-02-01"
+}
+

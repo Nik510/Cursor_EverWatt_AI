@@ -1,6 +1,7 @@
 import type { RateDefinitionV1, TouPeriodDefinitionV1 } from '../rates/types';
 import type { NormalizedIntervalV1 } from '../interval/normalizeIntervals';
 import { getZonedParts } from '../time/zonedTime';
+import { isUsHolidayYmd } from './usHolidays';
 
 export type TouMappingAuditV1 = {
   timezone: string;
@@ -33,9 +34,10 @@ function pickWindows(period: TouPeriodDefinitionV1, isWeekend: boolean): Array<{
   return isWeekend ? (wk && wk.length ? wk : []) : period.weekday;
 }
 
-function isHolidayStub(_args: { year: number; month: number; day: number; timeZone: string }): boolean {
-  // v1: no holiday set; reserved for extension.
-  return false;
+function isHolidayDeterministic(args: { year: number; month: number; day: number; timeZone: string }): boolean {
+  // Note: args.year/month/day are already computed in local time via getZonedParts(..., timeZone).
+  // We intentionally ignore timeZone here and treat the provided calendar day as authoritative.
+  return isUsHolidayYmd({ year: args.year, month: args.month, day: args.day });
 }
 
 export function mapTou(args: {
@@ -70,7 +72,7 @@ export function mapTou(args: {
     }
 
     const isWeekend = parts.weekday === 0 || parts.weekday === 6;
-    const holiday = isHolidayStub({ year: parts.year, month: parts.month, day: parts.day, timeZone: tz });
+    const holiday = isHolidayDeterministic({ year: parts.year, month: parts.month, day: parts.day, timeZone: tz });
     // Future: holiday override schedules; currently treat holiday as weekend-like.
     const dayTypeWeekend = isWeekend || holiday;
     const hour = parts.hour + parts.minute / 60;

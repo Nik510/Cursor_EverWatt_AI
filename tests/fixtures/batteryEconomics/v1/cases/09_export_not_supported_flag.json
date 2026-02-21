@@ -1,0 +1,9 @@
+{
+  "caseId": "09_export_not_supported_flag",
+  "inputs": {
+    "battery": { "powerKw": 75, "energyKwh": 150, "roundTripEff": 0.9, "usableFraction": 0.9, "degradationPctYr": 2 },
+    "costs": { "batteryCostPerKwhUsd": 280, "batteryCostPerKwUsd": 550 },
+    "tariffs": { "snapshotId": "snap_export", "exportPriceUsdPerKwh": 0.05 }
+  }
+}
+

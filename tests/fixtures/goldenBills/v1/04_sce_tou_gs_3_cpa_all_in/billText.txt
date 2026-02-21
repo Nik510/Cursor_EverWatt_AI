@@ -1,0 +1,9 @@
+Southern California Edison (SCE)
+Commercial Electric Service
+
+Rate Schedule: TOU-GS-3
+Service Provider: Clean Power Alliance
+Billing Period: 2026-01-01 to 2026-01-31
+
+This is sanitized bill text for deterministic testing. No customer data.
+

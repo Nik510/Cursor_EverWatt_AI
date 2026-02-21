@@ -9,6 +9,7 @@ import { cors } from 'hono/cors';
 import { writeFile, mkdir, unlink, readFile, readdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'node:url';
 import { tmpdir } from 'os';
 import { randomUUID } from 'crypto';
 import { createServer, type Server as HttpServer } from 'node:http';
@@ -17,6 +18,7 @@ import { readIntervalData, readMonthlyBills } from './utils/excel-reader';
 import { loadBatteryCatalog } from './utils/battery-catalog-loader';
 import { simulatePeakShaving, detectPeakEvents, optimizeThresholdForValue } from './modules/battery/logic';
 import type { BatterySpec, LoadProfile, SimulationResult } from './modules/battery/types';
+import type { UtilityInputs } from './modules/utilityIntelligence/types';
 import { analyzeBatteryEfficiency } from './modules/battery/efficiency-diagnostics';
 import { classifyPeakPatterns, analyzeEventFrequency } from './modules/battery/peak-pattern-analysis';
 import { buildUsageOptimization } from './modules/battery/usage-optimization';
@@ -45,7 +47,7 @@ import {
 } from './utils/utility-data-reader';
 import { login as adminLogin, verifySession, logout as adminLogout, hasPermission } from './backend/admin/auth';
 import type { AdminSession, UserRole } from './backend/admin/types';
-import { signJwt, verifyJwt, getBearerTokenFromAuthHeader } from './services/auth-service';
+import { signJwt, verifyJwt, getBearerTokenFromAuthHeader, assertJwtSecretConfigured } from './services/auth-service';
 import { authMiddleware, requireRole as requireJwtRole } from './middleware/auth';
 import { ensureDatabaseSchema, isDatabaseEnabled } from './db/client';
 import { isApiError } from './middleware/error-handler';
@@ -71,6 +73,47 @@ import { applyTariffBusinessCanonV1 } from './modules/tariffLibrary/businessCano
 import { applyTariffEffectiveStatusV1 } from './modules/tariffLibrary/effectiveStatusV1';
 import { applyTariffCurationV1, loadTariffCurationV1 } from './modules/policy/curation/loadTariffCurationV1';
 import { getLatestProgramsV1 } from './modules/programLibrary/v1';
+
+const DEFAULT_UPLOADS_DIR = path.join(tmpdir(), 'everwatt-uploads');
+const DEFAULT_SAMPLES_DIR = path.join(process.cwd(), 'samples');
+
+// Fail fast in production if JWT secret is missing.
+assertJwtSecretConfigured();
+
+function resolveAllowlistedPath(rawPath: string, allowRoots: string[]): string | null {
+  const fp = String(rawPath || '').trim();
+  if (!fp) return null;
+  const abs = path.resolve(path.isAbsolute(fp) ? fp : path.join(process.cwd(), fp));
+  for (const rootRaw of allowRoots) {
+    const root = path.resolve(String(rootRaw || ''));
+    if (!root) continue;
+    if (abs === root) return abs;
+    if (abs.startsWith(root + path.sep)) return abs;
+  }
+  return null;
+}
+
+function resolveUploadsRefV1(uploadsRefRaw: string): string | null {
+  const ref = String(uploadsRefRaw || '')
+    .trim()
+    .replace(/\\/g, '/');
+  if (!ref) return null;
+  if (ref.includes('\0')) return null;
+  if (ref.split('/').some((seg) => seg === '..')) return null;
+  // Always resolve relative to the uploads root (do NOT allow cwd-relative paths).
+  const root = path.resolve(DEFAULT_UPLOADS_DIR);
+  const abs = path.resolve(root, ref);
+  if (abs === root) return null;
+  if (!abs.startsWith(root + path.sep)) return null;
+  return abs;
+}
+
+function makeRequestScopedIdFactory(args: { prefix: string; runId: string }): () => string {
+  const prefix = String(args.prefix || 'id').trim() || 'id';
+  const runId = String(args.runId || '').trim() || 'run';
+  let i = 0;
+  return () => `${prefix}_${runId}_${++i}`;
+}
 
 const app = new Hono();
 
@@ -1840,6 +1883,89 @@ app.get('/api/ai/source', async (c) => {
   }
 });
 
+app.post('/api/ai/insights/section', async (c) => {
+  try {
+    const configured = !!process.env.OPENAI_API_KEY;
+    if (configured) requireEditorAccessForAi(c);
+
+    const body = await c.req.json().catch(() => ({}));
+    const sectionId = String((body as any)?.sectionId || '');
+    const sectionTitle = (body as any)?.sectionTitle ? String((body as any)?.sectionTitle) : undefined;
+    const sectionData = ((body as any)?.sectionData || {}) as Record<string, unknown>;
+    if (!sectionId) return c.json({ success: false, error: 'sectionId is required' }, 400);
+
+    const { generateSectionInsight } = await import('./services/llm-insights');
+    const insight = await generateSectionInsight(sectionId, sectionData, sectionTitle);
+    return c.json({ success: true, insight });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'AI insight request failed';
+    const status = message.includes('Unauthorized') ? 403 : message.includes('OPENAI_API_KEY') ? 501 : 500;
+    console.error('AI section insight error:', error);
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/ai/insights/battery', async (c) => {
+  try {
+    const configured = !!process.env.OPENAI_API_KEY;
+    if (configured) requireEditorAccessForAi(c);
+
+    const body = await c.req.json().catch(() => ({}));
+    const batteries = Array.isArray((body as any)?.batteries) ? (body as any).batteries : [];
+    const peakProfile = (body as any)?.peakProfile || null;
+    if (!peakProfile) return c.json({ success: false, error: 'peakProfile is required' }, 400);
+
+    const { generateBatteryInsight } = await import('./services/llm-insights');
+    const insight = await generateBatteryInsight(batteries, peakProfile);
+    return c.json({ success: true, insight });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'AI insight request failed';
+    const status = message.includes('Unauthorized') ? 403 : message.includes('OPENAI_API_KEY') ? 501 : 500;
+    console.error('AI battery insight error:', error);
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/ai/insights/weather', async (c) => {
+  try {
+    const configured = !!process.env.OPENAI_API_KEY;
+    if (configured) requireEditorAccessForAi(c);
+
+    const body = await c.req.json().catch(() => ({}));
+    const correlationData = (body as any)?.correlationData || (body as any)?.correlation || null;
+    if (!correlationData) return c.json({ success: false, error: 'correlationData is required' }, 400);
+
+    const { generateWeatherInsight } = await import('./services/llm-insights');
+    const insight = await generateWeatherInsight(correlationData);
+    return c.json({ success: true, insight });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'AI insight request failed';
+    const status = message.includes('Unauthorized') ? 403 : message.includes('OPENAI_API_KEY') ? 501 : 500;
+    console.error('AI weather insight error:', error);
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/ai/insights/executive-narrative', async (c) => {
+  try {
+    const configured = !!process.env.OPENAI_API_KEY;
+    if (configured) requireEditorAccessForAi(c);
+
+    const body = await c.req.json().catch(() => ({}));
+    const analysisData = (body as any)?.analysisData || (body as any) || null;
+    if (!analysisData) return c.json({ success: false, error: 'analysisData is required' }, 400);
+
+    const { generateExecutiveNarrative } = await import('./services/llm-insights');
+    const text = await generateExecutiveNarrative(analysisData);
+    return c.json({ success: true, text });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'AI request failed';
+    const status = message.includes('Unauthorized') ? 403 : message.includes('OPENAI_API_KEY') ? 501 : 500;
+    console.error('AI executive narrative error:', error);
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
 /**
  * GET /api/library/equipment - Comprehensive equipment database (for explorers)
  * Backed by src/data/equipment/comprehensive-equipment-database.ts
@@ -3271,6 +3397,53 @@ app.post('/api/batteries/diagnostics', async (c) => {
 });
 
 /**
+ * POST /api/batteries/holistic-analysis
+ * Runs the "intelligent peak" holistic analysis on the backend.
+ * Frontend should call this instead of importing Node-only engine modules.
+ */
+app.post('/api/batteries/holistic-analysis', async (c) => {
+  try {
+    const body = (await c.req.json()) as {
+      intervals: Array<{ timestamp: string; kw: number; temperature?: number }>;
+      demandRate?: number;
+      financialParams?: { discountRate?: number; inflationRate?: number; analysisPeriod?: number };
+      maxPaybackYears?: number;
+    };
+    if (!Array.isArray(body.intervals) || body.intervals.length === 0) {
+      return c.json({ success: false, error: 'intervals are required' }, 400);
+    }
+
+    const loadProfile: LoadProfile = {
+      intervals: body.intervals.map((i) => ({
+        timestamp: new Date(i.timestamp),
+        kw: Number(i.kw) || 0,
+        temperature: typeof i.temperature === 'number' ? i.temperature : undefined,
+      })),
+    };
+
+    const demandRate = Number.isFinite(Number(body.demandRate)) ? Number(body.demandRate) : 20;
+    const financialParams = {
+      discountRate: Number(body.financialParams?.discountRate ?? 0.06),
+      inflationRate: Number(body.financialParams?.inflationRate ?? 0.02),
+      analysisPeriod: Number(body.financialParams?.analysisPeriod ?? 15),
+    };
+    const maxPaybackYears = Number.isFinite(Number(body.maxPaybackYears)) ? Number(body.maxPaybackYears) : 10;
+
+    const { performHolisticAnalysis } = await import('./modules/battery/intelligent-peak-analysis');
+    const analysis = await performHolisticAnalysis(loadProfile, {
+      demandRate,
+      financialParams,
+      maxPaybackYears,
+    });
+
+    return c.json({ success: true, analysis });
+  } catch (error) {
+    console.error('Holistic analysis error:', error);
+    return c.json({ success: false, error: 'Failed to compute holistic analysis' }, 500);
+  }
+});
+
+/**
  * POST /api/batteries/analyze
  * Comprehensive analysis endpoint: runs all calculations on backend and returns
  * pre-computed, downsampled results for frontend rendering.
@@ -4558,7 +4731,13 @@ async function persistBatteryAnalysisRun(args: {
   return { runId };
 }
 
-const PROJECTS_DIR = path.join(process.cwd(), 'data', 'projects');
+const ENV_PROJECTS_BASEDIR = 'EVERWATT_PROJECTS_BASEDIR';
+function getProjectsDir(): string {
+  const env = String(process.env[ENV_PROJECTS_BASEDIR] || '').trim();
+  if (env) return path.resolve(env);
+  return path.join(process.cwd(), 'data', 'projects');
+}
+const PROJECTS_DIR = getProjectsDir();
 if (!existsSync(PROJECTS_DIR)) {
   mkdir(PROJECTS_DIR, { recursive: true }).catch(console.error);
 }
@@ -5416,8 +5595,10 @@ function generateAIDescription(item: unknown, type: 'battery' | 'rate'): string 
   }
 }
 
-// Initialize on startup
-initializeLibraryStorage();
+// NOTE: Library storage initialization can be expensive (loads/seeds JSON libraries).
+// Avoid doing this at module-import time so unit tests that import `app` don't
+// eagerly load large datasets. When running the server normally, `bootstrap()`
+// will warm this cache once; routes also lazily initialize as needed.
 
 /**
  * GET /api/library/batteries - Get all batteries
@@ -6000,6 +6181,12 @@ app.get('/api/projects/:id/analysis-results-v1', async (c) => {
   }
 
   try {
+    const nowIso = new Date().toISOString();
+    const runId = randomUUID();
+    const idFactory = makeRequestScopedIdFactory({ prefix: 'analysis', runId });
+    const suggestionIdFactory = makeRequestScopedIdFactory({ prefix: 'suggestion', runId });
+    const inboxIdFactory = makeRequestScopedIdFactory({ prefix: 'inbox', runId });
+
     const project = demo ? null : await loadProjectInternal(userId, projectId);
     if (!demo && !project) return c.json({ success: false, error: 'Project not found' }, 404);
 
@@ -6012,15 +6199,53 @@ app.get('/api/projects/:id/analysis-results-v1', async (c) => {
       | null = null;
     const intervalWarnings: string[] = [];
     if (demo) {
-      const fp = path.join(process.cwd(), 'samples', 'interval_peaky_office.json');
+      const fp = path.join(DEFAULT_SAMPLES_DIR, 'interval_peaky_office.json');
       const loaded = await loadIntervalInputsFromFile(fp);
       intervalKwSeries = loaded.intervalKwSeries;
       intervalPointsV1 = loaded.intervalPointsV1 || null;
       intervalWarnings.push(...loaded.warnings);
     } else {
+      // Prefer persisted interval intake v1 (parsed points + deterministic meta).
+      const storedPts = (project as any)?.telemetry?.intervalElectricV1;
+      const storedMeta = (project as any)?.telemetry?.intervalElectricMetaV1;
+      if (Array.isArray(storedPts) && storedPts.length) {
+        intervalPointsV1 = storedPts
+          .map((p: any) => ({
+            timestampIso: String(p?.timestampIso || '').trim(),
+            intervalMinutes: Number(p?.intervalMinutes),
+            ...(Number.isFinite(Number(p?.kWh)) ? { kWh: Number(p.kWh) } : {}),
+            ...(Number.isFinite(Number(p?.kW)) ? { kW: Number(p.kW) } : {}),
+            ...(Number.isFinite(Number(p?.temperatureF)) ? { temperatureF: Number(p.temperatureF) } : {}),
+          }))
+          .filter((p: any) => p.timestampIso && Number.isFinite(Number(p.intervalMinutes)) && Number(p.intervalMinutes) > 0);
+        intervalKwSeries =
+          intervalPointsV1
+            ?.map((p: any) => {
+              const kwExplicit = Number(p?.kW);
+              const kWh = Number(p?.kWh);
+              const mins = Number(p?.intervalMinutes);
+              const kwDerived = !Number.isFinite(kwExplicit) && Number.isFinite(kWh) && Number.isFinite(mins) && mins > 0 ? kWh * (60 / mins) : NaN;
+              const kw = Number.isFinite(kwExplicit) ? kwExplicit : kwDerived;
+              return { timestampIso: String(p?.timestampIso || '').trim(), kw };
+            })
+            .filter((x: any) => x.timestampIso && Number.isFinite(Number(x.kw))) || null;
+
+        if (storedMeta && typeof storedMeta === 'object') {
+          const ws = (storedMeta as any)?.warnings;
+          if (Array.isArray(ws) && ws.length) {
+            for (const w of ws.slice(0, 12)) {
+              const code = String((w as any)?.code || '').trim();
+              if (code) intervalWarnings.push(`interval meta: ${code}`);
+            }
+          }
+        }
+      }
+
       const intervalFilePath = String((project as any)?.telemetry?.intervalFilePath || '').trim();
-      if (intervalFilePath) {
-        const loaded = await loadIntervalInputsFromFile(intervalFilePath);
+      if (!intervalKwSeries && intervalFilePath) {
+        const abs = resolveAllowlistedPath(intervalFilePath, [DEFAULT_UPLOADS_DIR]);
+        if (!abs) return c.json({ success: false, error: 'intervalFilePath rejected (outside uploads allowlist)' }, 400);
+        const loaded = await loadIntervalInputsFromFile(abs);
         intervalKwSeries = loaded.intervalKwSeries;
         intervalPointsV1 = loaded.intervalPointsV1 || null;
         intervalWarnings.push(...loaded.warnings);
@@ -6045,6 +6270,7 @@ app.get('/api/projects/:id/analysis-results-v1', async (c) => {
     const projectName = String(customer?.projectName || customer?.companyName || '').trim() || (demo ? 'Demo: Peaky Office' : '');
     const siteLocation = String(customer?.siteLocation || '').trim() || (demo ? 'Oakland, CA' : '');
     const billPdfText = String(telemetry?.billPdfText || '').trim();
+    const pciaVintageKey = !demo ? (String((telemetry as any)?.pciaVintageKey || '').trim() || null) : null;
     const tariffOverrideV1 = !demo ? ((project as any)?.tariffOverrideV1 ?? null) : null;
     const { resolveCurrentRateSelectionV1 } = await import('./modules/utilityIntelligence/currentRate/resolveCurrentRateSelectionV1');
     const resolvedRate = await resolveCurrentRateSelectionV1({
@@ -6055,7 +6281,7 @@ app.get('/api/projects/:id/analysis-results-v1', async (c) => {
       tariffOverrideV1,
     });
 
-    const inputs = {
+    const inputs: UtilityInputs = {
       orgId: userId,
       projectId,
       serviceType: 'electric',
@@ -6070,22 +6296,27 @@ app.get('/api/projects/:id/analysis-results-v1', async (c) => {
         : {}),
       ...(billPdfText ? { billPdfText } : {}),
       ...(tariffOverrideV1 ? { tariffOverrideV1 } : {}),
-    } as const;
+    };
 
     const workflow = await runUtilityWorkflow({
-      inputs: inputs as any,
+      inputs,
       meterId: String(c.req.query('meterId') || '').trim() || undefined,
       intervalKwSeries,
       intervalPointsV1,
       batteryLibrary: lib.library.items,
+      nowIso,
+      idFactory,
+      suggestionIdFactory,
+      inboxIdFactory,
     });
 
     const summary = generateUtilitySummaryV1({
-      inputs: inputs as any,
+      inputs,
       insights: workflow.utility.insights,
       utilityRecommendations: workflow.utility.recommendations,
       batteryGate: workflow.battery.gate,
       batterySelection: workflow.battery.selection,
+      nowIso,
     });
 
     return c.json({
@@ -6169,6 +6400,12 @@ app.get('/api/projects/:id/analysis-results-v1.pdf', async (c) => {
   }
 
   try {
+    const nowIso = new Date().toISOString();
+    const runId = randomUUID();
+    const idFactory = makeRequestScopedIdFactory({ prefix: 'analysis', runId });
+    const suggestionIdFactory = makeRequestScopedIdFactory({ prefix: 'suggestion', runId });
+    const inboxIdFactory = makeRequestScopedIdFactory({ prefix: 'inbox', runId });
+
     const project = demo ? null : await loadProjectInternal(userId, projectId);
     if (!demo && !project) return c.json({ success: false, error: 'Project not found' }, 404);
 
@@ -6177,12 +6414,16 @@ app.get('/api/projects/:id/analysis-results-v1.pdf', async (c) => {
     // - project: `project.telemetry.intervalFilePath` if present
     let intervalKwSeries: Array<{ timestampIso: string; kw: number }> | null = null;
     if (demo) {
-      const fp = path.join(process.cwd(), 'samples', 'interval_peaky_office.json');
+      const fp = path.join(DEFAULT_SAMPLES_DIR, 'interval_peaky_office.json');
       intervalKwSeries = await loadIntervalKwSeriesFromFile(fp);
     } else {
       const intervalFilePath = String((project as any)?.telemetry?.intervalFilePath || '').trim();
       if (intervalFilePath) {
-        intervalKwSeries = await loadIntervalKwSeriesFromFile(intervalFilePath);
+        const abs = resolveAllowlistedPath(intervalFilePath, [DEFAULT_UPLOADS_DIR]);
+        if (!abs) {
+          return c.json({ success: false, error: 'intervalFilePath rejected (outside uploads allowlist)' }, 400);
+        }
+        intervalKwSeries = await loadIntervalKwSeriesFromFile(abs);
       }
     }
 
@@ -6202,6 +6443,7 @@ app.get('/api/projects/:id/analysis-results-v1.pdf', async (c) => {
     const projectName = String(customer?.projectName || customer?.companyName || '').trim() || (demo ? 'Demo: Peaky Office' : '');
     const siteLocation = String(customer?.siteLocation || '').trim() || (demo ? 'Oakland, CA' : '');
     const billPdfText = String(telemetry?.billPdfText || '').trim();
+    const pciaVintageKey = !demo ? (String((telemetry as any)?.pciaVintageKey || '').trim() || null) : null;
     const tariffOverrideV1 = !demo ? ((project as any)?.tariffOverrideV1 ?? null) : null;
     const { resolveCurrentRateSelectionV1 } = await import('./modules/utilityIntelligence/currentRate/resolveCurrentRateSelectionV1');
     const resolvedRate = await resolveCurrentRateSelectionV1({
@@ -6212,7 +6454,7 @@ app.get('/api/projects/:id/analysis-results-v1.pdf', async (c) => {
       tariffOverrideV1,
     });
 
-    const inputs = {
+    const inputs: UtilityInputs = {
       orgId: userId,
       projectId,
       serviceType: 'electric',
@@ -6225,21 +6467,26 @@ app.get('/api/projects/:id/analysis-results-v1.pdf', async (c) => {
       ...(siteLocation ? { address: { line1: siteLocation, city: '', state: '', zip: '', country: 'US' } } : {}),
       ...(billPdfText ? { billPdfText } : {}),
       ...(tariffOverrideV1 ? { tariffOverrideV1 } : {}),
-    } as const;
+    };
 
     const workflow = await runUtilityWorkflow({
-      inputs: inputs as any,
+      inputs,
       meterId: String(c.req.query('meterId') || '').trim() || undefined,
       intervalKwSeries,
       batteryLibrary: lib.library.items,
+      nowIso,
+      idFactory,
+      suggestionIdFactory,
+      inboxIdFactory,
     });
 
     const summary = generateUtilitySummaryV1({
-      inputs: inputs as any,
+      inputs,
       insights: workflow.utility.insights,
       utilityRecommendations: workflow.utility.recommendations,
       batteryGate: workflow.battery.gate,
       batterySelection: workflow.battery.selection,
+      nowIso,
     });
 
     const pdf = await renderUtilitySummaryPdf({
@@ -6261,6 +6508,1577 @@ app.get('/api/projects/:id/analysis-results-v1.pdf', async (c) => {
       },
       500
     );
+  }
+});
+
+/**
+ * ==========================================
+ * ANALYSIS RUNS v1 (snapshot-only persistence)
+ * ==========================================
+ *
+ * CRITICAL:
+ * - Stored runs are immutable JSON snapshots.
+ * - Reads/diffs/PDF exports must NEVER recompute engines.
+ */
+
+app.get('/api/analysis-results-v1/runs', async (c) => {
+  try {
+    const warnings: string[] = [];
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const store = createAnalysisRunsStoreFsV1();
+
+    // Use the persisted index.json (do not scan directories).
+    const { existsSync } = await import('node:fs');
+    const idxPath = path.join(store.baseDir, 'index.json');
+    if (!existsSync(idxPath)) {
+      return c.json({ success: true, runs: [], warnings: ['analysisRunsV1 index.json missing; returning empty index'] });
+    }
+
+    const rows = await store.listIndex();
+    const MAX = 200;
+    const sliced = rows.length > MAX ? rows.slice(0, MAX) : rows;
+    if (rows.length > MAX) warnings.push(`analysisRunsV1 index truncated to ${MAX} (of ${rows.length})`);
+
+    const runs: Array<{
+      runId: string;
+      createdAtIso: string;
+      inputFingerprint: string;
+      summary: {
+        utility: string;
+        utilityConfidence?: number;
+        rateCode?: string;
+        supplyProviderType?: 'CCA' | 'DA' | 'NONE';
+        lseName?: string;
+        hasIntervals?: boolean;
+        hasBillText?: boolean;
+        hasWeather?: boolean;
+        rateSourceKind?: string;
+      };
+      engineVersionsSummary?: Record<string, string>;
+    }> = [];
+
+    for (const r of sliced) {
+      const runId = String(r.runId || '').trim();
+      if (!runId) continue;
+
+      let analysisRun: any = null;
+      try {
+        analysisRun = await store.readRun(runId);
+      } catch (e) {
+        warnings.push(`Failed to read run ${runId}: ${String((e as any)?.message || e)}`);
+      }
+
+      const reportJson: any = analysisRun?.snapshot?.reportJson ?? null;
+      const workflow: any = analysisRun?.snapshot?.response && typeof analysisRun.snapshot.response === 'object' ? (analysisRun.snapshot.response as any).workflow : reportJson?.workflow ?? null;
+      const utilityInputs: any = workflow?.utility?.inputs ?? null;
+      const utilityInsights: any = workflow?.utility?.insights ?? null;
+
+      const currentRate: any = utilityInputs?.currentRate ?? null;
+      const utilityTerritory = String(currentRate?.utility || utilityInputs?.utilityTerritory || reportJson?.project?.territory || '').trim();
+      const rateCode = String(currentRate?.rateCode || currentRate?.tariffIdOrRateCode || '').trim();
+
+      const supplyStructure: any = utilityInsights?.supplyStructure ?? null;
+      const supplyType = String(supplyStructure?.supplyType || '').trim();
+      const supplyProviderType = supplyType === 'CCA' ? 'CCA' : supplyType === 'DA' ? 'DA' : supplyType ? 'NONE' : undefined;
+      const lseName = String(supplyStructure?.evidence?.serviceProvider || '').trim();
+
+      const hasIntervals = Boolean(reportJson?.telemetry?.intervalElectricV1?.present) || Number(reportJson?.telemetry?.intervalElectricV1?.pointCount) > 0;
+      const hasWeather = Boolean(reportJson?.weatherRegressionV1);
+      const hasBillText = Boolean(String(utilityInputs?.billPdfText || '').trim());
+      const rateSourceKind = String(utilityInputs?.currentRateSelectionSource || '').trim();
+
+      const engineVersions: any = analysisRun?.engineVersions ?? reportJson?.engineVersions ?? null;
+      const engineVersionsSummary = (() => {
+        if (!engineVersions || typeof engineVersions !== 'object') return undefined;
+        const pick = ['batteryEconomics', 'dispatch', 'ssa', 'exitFees', 'tariffEngine', 'intervalIntake'];
+        const out: Record<string, string> = {};
+        for (const k of pick) {
+          const v = String((engineVersions as any)[k] || '').trim();
+          if (v) out[k] = v;
+        }
+        return Object.keys(out).length ? out : undefined;
+      })();
+
+      runs.push({
+        runId,
+        createdAtIso: String(r.createdAtIso || analysisRun?.createdAtIso || '').trim(),
+        inputFingerprint: String(r.inputFingerprint || analysisRun?.inputFingerprint || '').trim(),
+        summary: {
+          utility: utilityTerritory,
+          ...(rateCode ? { rateCode } : {}),
+          ...(supplyProviderType ? { supplyProviderType } : {}),
+          ...(lseName ? { lseName } : {}),
+          ...(hasIntervals ? { hasIntervals } : {}),
+          ...(hasBillText ? { hasBillText } : {}),
+          ...(hasWeather ? { hasWeather } : {}),
+          ...(rateSourceKind ? { rateSourceKind } : {}),
+        },
+        ...(engineVersionsSummary ? { engineVersionsSummary } : {}),
+      });
+    }
+
+    // Deterministic: createdAtIso desc, then runId asc.
+    runs.sort((a, b) => String(b.createdAtIso || '').localeCompare(String(a.createdAtIso || '')) || String(a.runId || '').localeCompare(String(b.runId || '')));
+
+    return c.json({ success: true, runs, warnings });
+  } catch (error) {
+    console.error('analysis-results-v1.runs index error:', error);
+    return c.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to list analysis runs',
+      },
+      500
+    );
+  }
+});
+
+app.get('/api/analysis-results-v1/projects/:projectId/runs', async (c) => {
+  try {
+    const projectId = String(c.req.param('projectId') || '').trim();
+    if (!projectId) return c.json({ success: false, error: 'projectId is required' }, 400);
+
+    const limitRaw = Number(c.req.query('limit') ?? 25);
+    const limit = Math.max(1, Math.min(100, Number.isFinite(limitRaw) ? Math.trunc(limitRaw) : 25));
+
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const store = createAnalysisRunsStoreFsV1();
+
+    const rows = await store.listIndex();
+    const filtered = rows.filter((r: any) => String(r?.projectId ?? '').trim() === projectId).slice(0, limit);
+
+    const runs: Array<{
+      runId: string;
+      createdAtIso: string;
+      inputFingerprint: string;
+      engineVersions: Record<string, string>;
+      provenance: { tariffSnapshotId?: string | null; generationEnergySnapshotId?: string | null; addersSnapshotId?: string | null; exitFeesSnapshotId?: string | null };
+      warningsSummary: { engineWarningsCount: number; topEngineWarningCodes: string[]; missingInfoCount: number; topMissingInfoCodes: string[] };
+      coverage?: {
+        hasInterval: boolean;
+        intervalDays: number | null;
+        tariffMatchStatus: string | null;
+        supplyProviderType: string | null;
+        supplyConfidence: number | null;
+      };
+    }> = [];
+
+    for (const r of filtered) {
+      const runId = String((r as any)?.runId || '').trim();
+      if (!runId) continue;
+
+      const analysisRun: any = await store.readRun(runId);
+      const reportJson: any = analysisRun?.snapshot?.reportJson ?? null;
+      const trace: any = reportJson?.analysisTraceV1 ?? null;
+      const coverage: any = trace?.coverage ?? null;
+
+      const workflow: any = reportJson?.workflow ?? (analysisRun?.snapshot?.response as any)?.workflow ?? null;
+      const supplyStructure: any = workflow?.utility?.insights?.supplyStructure ?? null;
+      const rateFitStatus =
+        (coverage && coverage.tariffMatchStatus !== null && typeof coverage.tariffMatchStatus !== 'undefined'
+          ? String(coverage.tariffMatchStatus)
+          : String(reportJson?.summary?.json?.rateFit?.status ?? '')) || null;
+
+      const supplyProviderType =
+        (coverage && (coverage.supplyProviderType !== null && typeof coverage.supplyProviderType !== 'undefined') ? String(coverage.supplyProviderType) : '') ||
+        (supplyStructure?.supplyType ? String(supplyStructure.supplyType) : '') ||
+        null;
+
+      const supplyConfidenceNum =
+        Number.isFinite(Number(coverage?.supplyConfidence)) ? Number(coverage.supplyConfidence) : Number.isFinite(Number(supplyStructure?.confidence)) ? Number(supplyStructure.confidence) : null;
+
+      const hasInterval =
+        Boolean(coverage?.hasInterval) ||
+        Boolean(reportJson?.telemetry?.intervalElectricV1?.present) ||
+        Number(reportJson?.telemetry?.intervalElectricV1?.pointCount) > 0;
+
+      const intervalDays = Number.isFinite(Number(coverage?.intervalDays)) ? Number(coverage.intervalDays) : null;
+
+      const engineVersions: any = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : {};
+      const provenance: any = analysisRun?.provenance && typeof analysisRun.provenance === 'object' ? analysisRun.provenance : {};
+      const warningsSummary: any = analysisRun?.warningsSummary && typeof analysisRun.warningsSummary === 'object' ? analysisRun.warningsSummary : {};
+
+      runs.push({
+        runId,
+        createdAtIso: String((r as any)?.createdAtIso || analysisRun?.createdAtIso || '').trim(),
+        inputFingerprint: String((r as any)?.inputFingerprint || analysisRun?.inputFingerprint || '').trim(),
+        engineVersions,
+        provenance: {
+          tariffSnapshotId: provenance?.tariffSnapshotId ?? null,
+          generationEnergySnapshotId: provenance?.generationEnergySnapshotId ?? null,
+          addersSnapshotId: provenance?.addersSnapshotId ?? null,
+          exitFeesSnapshotId: provenance?.exitFeesSnapshotId ?? null,
+        },
+        warningsSummary: {
+          engineWarningsCount: Number(warningsSummary?.engineWarningsCount) || 0,
+          topEngineWarningCodes: Array.isArray(warningsSummary?.topEngineWarningCodes) ? warningsSummary.topEngineWarningCodes.slice(0, 10).map(String) : [],
+          missingInfoCount: Number(warningsSummary?.missingInfoCount) || 0,
+          topMissingInfoCodes: Array.isArray(warningsSummary?.topMissingInfoCodes) ? warningsSummary.topMissingInfoCodes.slice(0, 10).map(String) : [],
+        },
+        coverage: {
+          hasInterval,
+          intervalDays,
+          tariffMatchStatus: rateFitStatus ? String(rateFitStatus) : null,
+          supplyProviderType: supplyProviderType ? String(supplyProviderType) : null,
+          supplyConfidence: supplyConfidenceNum,
+        },
+      });
+    }
+
+    // Deterministic: createdAtIso desc, then runId asc.
+    runs.sort((a, b) => String(b.createdAtIso || '').localeCompare(String(a.createdAtIso || '')) || String(a.runId || '').localeCompare(String(b.runId || '')));
+
+    return c.json({ success: true, projectId, runs });
+  } catch (error) {
+    console.error('analysis-results-v1.projects.runs list error:', error);
+    return c.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to list project analysis runs',
+      },
+      500,
+    );
+  }
+});
+
+app.post('/api/analysis-results-v1/run-and-store', async (c) => {
+  const userId = getCurrentUserId(c);
+  const body = await c.req.json().catch(() => ({}));
+  const demo = String((body as any)?.demo || '').trim().toLowerCase() === 'true' || (body as any)?.demo === true;
+
+  async function loadIntervalInputsFromFile(filePath: string): Promise<{
+    intervalKwSeries: Array<{ timestampIso: string; kw: number }>;
+    intervalPointsV1?: Array<{ timestampIso: string; intervalMinutes: number; kWh?: number; kW?: number; temperatureF?: number }>;
+    warnings: string[];
+  }> {
+    const ext = path.extname(filePath).toLowerCase();
+    const warnings: string[] = [];
+
+    if (ext === '.json') {
+      const raw = JSON.parse(await readFile(filePath, 'utf-8')) as any;
+      const arr = Array.isArray(raw) ? raw : Array.isArray(raw?.intervals) ? raw.intervals : [];
+      const out: Array<{ timestampIso: string; kw: number }> = [];
+      for (const r of arr) {
+        const ts = String(r?.timestampIso ?? r?.timestamp ?? r?.ts ?? '').trim();
+        const kw = typeof r?.kw === 'number' ? r.kw : Number(r?.kw);
+        if (!ts || !Number.isFinite(kw)) continue;
+        out.push({ timestampIso: ts, kw });
+      }
+      return { intervalKwSeries: out, warnings };
+    }
+
+    // Spreadsheet/CSV path
+    if (ext === '.csv') {
+      try {
+        const csvText = await readFile(filePath, 'utf-8');
+        const { detectPgeCsvTypeV1 } = await import('./modules/determinants/adapters/pge/detectPgeCsvType');
+        const det = detectPgeCsvTypeV1(csvText);
+        if (det.type === 'interval' && det.confidence >= 0.6) {
+          const { parsePgeIntervalCsvV1 } = await import('./modules/determinants/adapters/pge/parsePgeIntervalCsv');
+          const parsed = parsePgeIntervalCsvV1({ csvTextOrBuffer: csvText, timezoneHint: 'America/Los_Angeles' });
+          warnings.push(...(parsed.warnings || []));
+          const firstMeter = parsed.meters?.[0];
+          const points = Array.isArray(firstMeter?.intervals) ? firstMeter.intervals : [];
+          const intervalPointsV1 = points.map((p: any) => ({
+            timestampIso: String(p?.timestampIso || '').trim(),
+            intervalMinutes: Number(p?.intervalMinutes),
+            ...(Number.isFinite(Number(p?.kWh)) ? { kWh: Number(p.kWh) } : {}),
+            ...(Number.isFinite(Number(p?.kW)) ? { kW: Number(p.kW) } : {}),
+            ...(Number.isFinite(Number(p?.temperatureF)) ? { temperatureF: Number(p.temperatureF) } : {}),
+          }));
+          const intervalKwSeries = intervalPointsV1
+            .map((p) => ({ timestampIso: p.timestampIso, kw: Number((p as any).kW) }))
+            .filter((p) => p.timestampIso && Number.isFinite(p.kw));
+          return { intervalKwSeries, intervalPointsV1, warnings };
+        }
+      } catch (e) {
+        warnings.push(`Interval CSV parse warning: ${String((e as any)?.message || e)}`);
+      }
+    }
+
+    const rows = await readIntervalData(filePath);
+    const out: Array<{ timestampIso: string; kw: number }> = [];
+    for (const r of rows as any[]) {
+      const ts = r?.timestamp ? new Date(r.timestamp).toISOString() : String(r?.timestampIso || '').trim();
+      const kw = typeof r?.kw === 'number' ? r.kw : Number(r?.kw);
+      if (!ts || !Number.isFinite(kw)) continue;
+      out.push({ timestampIso: ts, kw });
+    }
+    return { intervalKwSeries: out, warnings };
+  }
+
+  try {
+    const nowIso = new Date().toISOString();
+    const runId = randomUUID();
+    const idFactory = makeRequestScopedIdFactory({ prefix: 'analysis', runId });
+    const suggestionIdFactory = makeRequestScopedIdFactory({ prefix: 'suggestion', runId });
+    const inboxIdFactory = makeRequestScopedIdFactory({ prefix: 'inbox', runId });
+
+    const projectId = String((body as any)?.projectId || '').trim();
+    const project = demo ? null : await loadProjectInternal(userId, projectId);
+    if (!demo && !project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    // Load interval series:
+    // - demo: `samples/interval_peaky_office.json`
+    // - project: prefer persisted interval intake v1, then `project.telemetry.intervalFilePath`
+    let intervalKwSeries: Array<{ timestampIso: string; kw: number }> | null = null;
+    let intervalPointsV1:
+      | Array<{ timestampIso: string; intervalMinutes: number; kWh?: number; kW?: number; temperatureF?: number }>
+      | null = null;
+    let intervalMetaV1: any | null = null;
+    const intervalWarnings: string[] = [];
+
+    if (demo) {
+      const fp = path.join(DEFAULT_SAMPLES_DIR, 'interval_peaky_office.json');
+      const loaded = await loadIntervalInputsFromFile(fp);
+      intervalKwSeries = loaded.intervalKwSeries;
+      intervalPointsV1 = loaded.intervalPointsV1 || null;
+      intervalWarnings.push(...loaded.warnings);
+    } else {
+      const storedPts = (project as any)?.telemetry?.intervalElectricV1;
+      const storedMeta = (project as any)?.telemetry?.intervalElectricMetaV1;
+      intervalMetaV1 = storedMeta && typeof storedMeta === 'object' ? storedMeta : null;
+
+      if (Array.isArray(storedPts) && storedPts.length) {
+        intervalPointsV1 = storedPts
+          .map((p: any) => ({
+            timestampIso: String(p?.timestampIso || '').trim(),
+            intervalMinutes: Number(p?.intervalMinutes),
+            ...(Number.isFinite(Number(p?.kWh)) ? { kWh: Number(p.kWh) } : {}),
+            ...(Number.isFinite(Number(p?.kW)) ? { kW: Number(p.kW) } : {}),
+            ...(Number.isFinite(Number(p?.temperatureF)) ? { temperatureF: Number(p.temperatureF) } : {}),
+          }))
+          .filter((p: any) => p.timestampIso && Number.isFinite(Number(p.intervalMinutes)) && Number(p.intervalMinutes) > 0);
+
+        intervalKwSeries =
+          intervalPointsV1
+            ?.map((p: any) => {
+              const kwExplicit = Number(p?.kW);
+              const kWh = Number(p?.kWh);
+              const mins = Number(p?.intervalMinutes);
+              const kwDerived = !Number.isFinite(kwExplicit) && Number.isFinite(kWh) && Number.isFinite(mins) && mins > 0 ? kWh * (60 / mins) : NaN;
+              const kw = Number.isFinite(kwExplicit) ? kwExplicit : kwDerived;
+              return { timestampIso: String(p?.timestampIso || '').trim(), kw };
+            })
+            .filter((x: any) => x.timestampIso && Number.isFinite(Number(x.kw))) || null;
+
+        if (intervalMetaV1) {
+          const ws = (intervalMetaV1 as any)?.warnings;
+          if (Array.isArray(ws) && ws.length) {
+            for (const w of ws.slice(0, 12)) {
+              const code = String((w as any)?.code || '').trim();
+              if (code) intervalWarnings.push(`interval meta: ${code}`);
+            }
+          }
+        }
+      }
+
+      const intervalFilePath = String((project as any)?.telemetry?.intervalFilePath || '').trim();
+      if (!intervalKwSeries && intervalFilePath) {
+        const abs = resolveAllowlistedPath(intervalFilePath, [DEFAULT_UPLOADS_DIR]);
+        if (!abs) return c.json({ success: false, error: 'intervalFilePath rejected (outside uploads allowlist)' }, 400);
+        const loaded = await loadIntervalInputsFromFile(abs);
+        intervalKwSeries = loaded.intervalKwSeries;
+        intervalPointsV1 = loaded.intervalPointsV1 || null;
+        intervalWarnings.push(...loaded.warnings);
+      }
+    }
+    if (intervalWarnings.length) {
+      console.warn(`interval input warnings (${intervalWarnings.length}):`, intervalWarnings.slice(0, 6));
+    }
+
+    const { loadBatteryLibraryV1 } = await import('./modules/batteryLibrary/loadLibrary');
+    const { runUtilityWorkflow } = await import('./modules/workflows/runUtilityWorkflow');
+    const { generateUtilitySummaryV1 } = await import('./modules/reports/utilitySummary/v1/generateUtilitySummary');
+    const { buildInternalEngineeringReportJsonV1 } = await import('./modules/reports/internalEngineering/v1/buildInternalEngineeringReportJsonV1');
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+
+    const libPath = path.join(process.cwd(), 'samples', 'battery_library_fixture.json');
+    const lib = await loadBatteryLibraryV1(libPath);
+
+    const customer = (project as any)?.customer || {};
+    const telemetry = (project as any)?.telemetry || {};
+    const territory =
+      String((project as any)?.telemetry?.utilityTerritory || customer?.utilityCompany || (project as any)?.utilityTerritory || '').trim() ||
+      (demo ? 'PGE' : '');
+    const projectName = String(customer?.projectName || customer?.companyName || '').trim() || (demo ? 'Demo: Peaky Office' : '');
+    const siteLocation = String(customer?.siteLocation || '').trim() || (demo ? 'Oakland, CA' : '');
+    const billPdfText = String(telemetry?.billPdfText || '').trim();
+    const pciaVintageKey = !demo ? (String((telemetry as any)?.pciaVintageKey || '').trim() || null) : null;
+    const tariffOverrideV1 = !demo ? ((project as any)?.tariffOverrideV1 ?? null) : null;
+    const { resolveCurrentRateSelectionV1 } = await import('./modules/utilityIntelligence/currentRate/resolveCurrentRateSelectionV1');
+    const resolvedRate = await resolveCurrentRateSelectionV1({
+      demo,
+      territory,
+      customerRateCode: demo ? null : (customer?.rateCode ? String(customer.rateCode) : null),
+      billPdfText: billPdfText || null,
+      tariffOverrideV1,
+    });
+
+    const inputs: UtilityInputs = {
+      orgId: userId,
+      projectId: projectId || (demo ? 'demo' : 'unknown'),
+      serviceType: 'electric',
+      utilityTerritory: territory || undefined,
+      currentRate: resolvedRate.currentRate,
+      currentRateSelectionSource: resolvedRate.currentRateSelectionSource,
+      customerType: customer?.customerType ? String(customer.customerType) : undefined,
+      naicsCode: customer?.naicsCode ? String(customer.naicsCode) : undefined,
+      ...(siteLocation ? { address: { line1: siteLocation, city: '', state: '', zip: '', country: 'US' } } : {}),
+      ...(billPdfText ? { billPdfText } : {}),
+      ...(tariffOverrideV1 ? { tariffOverrideV1 } : {}),
+    };
+
+    const workflow = await runUtilityWorkflow({
+      inputs,
+      meterId: String((body as any)?.meterId || '').trim() || undefined,
+      intervalKwSeries,
+      intervalPointsV1,
+      batteryLibrary: lib.library.items,
+      pciaVintageKey,
+      nowIso,
+      idFactory,
+      suggestionIdFactory,
+      inboxIdFactory,
+    });
+
+    const summary = generateUtilitySummaryV1({
+      inputs,
+      insights: workflow.utility.insights,
+      utilityRecommendations: workflow.utility.recommendations,
+      batteryGate: workflow.battery.gate,
+      batterySelection: workflow.battery.selection,
+      nowIso,
+    });
+
+    const responsePayload = {
+      success: true as const,
+      demo,
+      project: {
+        id: inputs.projectId,
+        name: projectName,
+        siteLocation,
+        territory,
+        customer: customer || {},
+      },
+      workflow,
+      summary,
+    };
+
+    // Stable input fingerprint (avoid storing raw bill text; hash it).
+    const intervalCount = Array.isArray(intervalPointsV1) ? intervalPointsV1.length : Array.isArray(intervalKwSeries) ? intervalKwSeries.length : 0;
+    const tsRange = (() => {
+      const series: Array<{ timestampIso: string }> = (Array.isArray(intervalPointsV1) ? intervalPointsV1 : intervalKwSeries || []) as any;
+      let min: string | null = null;
+      let max: string | null = null;
+      for (const p of series) {
+        const ts = String((p as any)?.timestampIso || '').trim();
+        if (!ts) continue;
+        if (min === null || ts < min) min = ts;
+        if (max === null || ts > max) max = ts;
+      }
+      return { min, max };
+    })();
+
+    const fingerprintObj = {
+      schemaVersion: 'analysisRunInputsV1',
+      demo,
+      projectId: projectId || null,
+      serviceType: inputs.serviceType,
+      utilityTerritory: inputs.utilityTerritory || null,
+      currentRate: inputs.currentRate ? { utility: inputs.currentRate.utility, rateCode: inputs.currentRate.rateCode, effectiveDate: inputs.currentRate.effectiveDate || null } : null,
+      currentRateSelectionSource: inputs.currentRateSelectionSource || null,
+      tariffOverrideV1: inputs.tariffOverrideV1
+        ? {
+            commodity: (inputs.tariffOverrideV1 as any).commodity ?? null,
+            utilityId: (inputs.tariffOverrideV1 as any).utilityId ?? null,
+            snapshotId: (inputs.tariffOverrideV1 as any).snapshotId ?? null,
+            tariffIdOrRateCode: (inputs.tariffOverrideV1 as any).tariffIdOrRateCode ?? null,
+            selectionSource: (inputs.tariffOverrideV1 as any).selectionSource ?? null,
+            matchType: (inputs.tariffOverrideV1 as any).matchType ?? null,
+          }
+        : null,
+      customerType: inputs.customerType || null,
+      naicsCode: inputs.naicsCode || null,
+      billPdfTextSha256: billPdfText ? sha256Hex(billPdfText) : null,
+      interval: {
+        pointCount: intervalCount,
+        firstTimestampIso: tsRange.min,
+        lastTimestampIso: tsRange.max,
+        intervalMinutes: Array.isArray(intervalPointsV1) && intervalPointsV1.length ? Number((intervalPointsV1[0] as any)?.intervalMinutes) || null : null,
+      },
+      intervalMeta: intervalMetaV1
+        ? {
+            parserVersion: String((intervalMetaV1 as any)?.parserVersion || '').trim() || null,
+            timezoneUsed: String((intervalMetaV1 as any)?.timezoneUsed || '').trim() || null,
+          }
+        : null,
+    };
+    const inputFingerprint = sha256Hex(stableStringifyV1(fingerprintObj));
+
+    const reportJson = buildInternalEngineeringReportJsonV1({
+      projectId: inputs.projectId,
+      generatedAtIso: nowIso,
+      analysisResults: { project: responsePayload.project, workflow, summary },
+      telemetry: {
+        intervalElectricPointsV1: intervalPointsV1,
+        intervalElectricMetaV1: intervalMetaV1,
+      },
+    });
+
+    const trace = (workflow as any)?.analysisTraceV1 || null;
+    const warningsSummary = (trace as any)?.warningsSummary || { engineWarningsCount: 0, topEngineWarningCodes: [], missingInfoCount: 0, topMissingInfoCodes: [] };
+    const provenance = (trace as any)?.provenance || {};
+
+    const analysisRun = {
+      runId,
+      createdAtIso: nowIso,
+      nowIso,
+      projectId: projectId || null,
+      inputFingerprint,
+      engineVersions: (reportJson as any)?.engineVersions && typeof (reportJson as any).engineVersions === 'object' ? (reportJson as any).engineVersions : {},
+      provenance: {
+        tariffSnapshotId: (provenance as any)?.tariffSnapshotId ?? null,
+        generationEnergySnapshotId: (provenance as any)?.generationEnergySnapshotId ?? null,
+        addersSnapshotId: (provenance as any)?.addersSnapshotId ?? null,
+        exitFeesSnapshotId: (provenance as any)?.exitFeesSnapshotId ?? null,
+      },
+      warningsSummary: {
+        engineWarningsCount: Number((warningsSummary as any)?.engineWarningsCount) || 0,
+        topEngineWarningCodes: Array.isArray((warningsSummary as any)?.topEngineWarningCodes) ? (warningsSummary as any).topEngineWarningCodes.slice(0, 10).map(String) : [],
+        missingInfoCount: Number((warningsSummary as any)?.missingInfoCount) || 0,
+        topMissingInfoCodes: Array.isArray((warningsSummary as any)?.topMissingInfoCodes) ? (warningsSummary as any).topMissingInfoCodes.slice(0, 10).map(String) : [],
+      },
+      snapshot: {
+        response: responsePayload,
+        reportJson,
+      },
+    };
+
+    const store = createAnalysisRunsStoreFsV1();
+    await store.writeRun(analysisRun as any);
+
+    const analysisRunMeta = {
+      runId: analysisRun.runId,
+      createdAtIso: analysisRun.createdAtIso,
+      projectId: analysisRun.projectId,
+      inputFingerprint: analysisRun.inputFingerprint,
+      engineVersions: analysisRun.engineVersions,
+      provenance: analysisRun.provenance,
+      warningsSummary: analysisRun.warningsSummary,
+    };
+
+    return c.json({
+      success: true,
+      runId,
+      snapshot: analysisRun.snapshot,
+      analysisRunMeta,
+      // Back-compat: keep the older field name.
+      analysisRun: analysisRunMeta,
+    });
+  } catch (error) {
+    console.error('analysis-results-v1.run-and-store error:', error);
+    return c.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to run and store analysis',
+      },
+      500
+    );
+  }
+});
+
+app.get('/api/analysis-results-v1/runs/:runId', async (c) => {
+  try {
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const store = createAnalysisRunsStoreFsV1();
+    const runId = c.req.param('runId');
+    const analysisRun = await store.readRun(runId);
+    return c.json({ success: true, analysisRun });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to load analysis run';
+    const status = String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/analysis-results-v1/diff', async (c) => {
+  try {
+    const body = await c.req.json().catch(() => ({}));
+    const runIdA = String((body as any)?.runIdA || '').trim();
+    const runIdB = String((body as any)?.runIdB || '').trim();
+    if (!runIdA || !runIdB) return c.json({ success: false, error: 'runIdA and runIdB are required' }, 400);
+
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { buildDiffSummaryV1 } = await import('./modules/analysisRunsV1/diffV1');
+    const store = createAnalysisRunsStoreFsV1();
+
+    const runA = await store.readRun(runIdA);
+    const runB = await store.readRun(runIdB);
+    const diff = buildDiffSummaryV1({ runA, runB });
+    return c.json({ success: true, diff });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to diff analysis runs';
+    const status = String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/analysis-results-v1/runs/:runId/pdf', async (c) => {
+  function safeFilenamePart(s: string): string {
+    const cleaned = String(s || '')
+      .trim()
+      .replace(/[^\w\-]+/g, '_')
+      .replace(/_+/g, '_')
+      .slice(0, 80);
+    return cleaned || 'analysis_run';
+  }
+
+  try {
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { renderUtilitySummaryPdf } = await import('./modules/reports/utilitySummary/v1/renderUtilitySummaryPdf');
+    const store = createAnalysisRunsStoreFsV1();
+    const runId = c.req.param('runId');
+    const analysisRun = await store.readRun(runId);
+
+    const reportJson: any = (analysisRun as any)?.snapshot?.reportJson ?? null;
+    const summaryMarkdown = String(reportJson?.summary?.markdown || '').trim();
+    const summaryJson = reportJson?.summary?.json ?? null;
+    const project = reportJson?.project ?? null;
+    const projectName = String(project?.name || project?.projectName || (analysisRun as any)?.projectId || '').trim() || runId;
+    const siteLocation = String(project?.siteLocation || project?.address || '').trim();
+    const territory = String(project?.territory || '').trim();
+
+    if (!summaryMarkdown || !summaryJson) {
+      return c.json({ success: false, error: 'Stored reportJson is missing summary markdown/json (cannot render PDF without recompute)' }, 400);
+    }
+
+    const pdf = await renderUtilitySummaryPdf({
+      project: { name: projectName, address: siteLocation || undefined, territory: territory || undefined },
+      summaryMarkdown,
+      summaryJson,
+    });
+
+    const filename = `EverWatt_AnalysisRunV1_${safeFilenamePart(projectName || runId)}.pdf`;
+    c.header('Content-Type', 'application/pdf');
+    c.header('Content-Disposition', `attachment; filename="${filename}"`);
+    return c.body(new Uint8Array(pdf));
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to render PDF';
+    const status = String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+/**
+ * ==========================================
+ * REPORT SESSIONS v1 (user-facing spine)
+ * ==========================================
+ *
+ * CRITICAL:
+ * - Stored sessions are immutable-ish metadata + pointers to stored run snapshots.
+ * - Reads must NEVER recompute engines.
+ * - Run endpoints may compute, but they must persist snapshots and return ids.
+ */
+
+app.post('/api/report-sessions-v1/create', async (c) => {
+  try {
+    const body = await c.req.json().catch(() => ({}));
+    const kind = String((body as any)?.kind || '').trim() || 'CUSTOM';
+    const title = String((body as any)?.title || '').trim() || undefined;
+    const projectId = String((body as any)?.projectId || '').trim() || null;
+    const inputsSummary = ((body as any)?.inputsSummary && typeof (body as any).inputsSummary === 'object' ? (body as any).inputsSummary : {}) as any;
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const created = await store.createSession({ kind, ...(title ? { title } : {}), ...(projectId ? { projectId } : {}), inputsSummary });
+    return c.json({ success: true, reportId: created.reportId, session: created.session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to create report session';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.get('/api/report-sessions-v1', async (c) => {
+  try {
+    const limitRaw = Number(c.req.query('limit') ?? 50);
+    const limit = Math.max(1, Math.min(200, Number.isFinite(limitRaw) ? Math.trunc(limitRaw) : 50));
+    const q = String(c.req.query('q') || '').trim() || undefined;
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const sessions = await store.listSessions({ limit, ...(q ? { query: q } : {}) });
+    return c.json({ success: true, sessions, warnings: [] });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to list report sessions';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.get('/api/report-sessions-v1/:reportId', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const session = await store.getSession(reportId);
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to load report session';
+    const status = String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/attach-run', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+    const runId = String((body as any)?.runId || '').trim();
+    if (!runId) return c.json({ success: false, error: 'runId is required' }, 400);
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const session = await store.attachRun(reportId, runId);
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to attach run';
+    const status = String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/attach-revision', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+
+    const revisionId = String((body as any)?.revisionId || '').trim();
+    const runId = String((body as any)?.runId || '').trim();
+    const format = String((body as any)?.format || 'HTML').trim() as any;
+    const downloadUrl = String((body as any)?.downloadUrl || '').trim() || undefined;
+    const createdAtIso = String((body as any)?.createdAtIso || new Date().toISOString()).trim();
+    if (!revisionId) return c.json({ success: false, error: 'revisionId is required' }, 400);
+    if (!runId) return c.json({ success: false, error: 'runId is required' }, 400);
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const session = await store.attachRevision(reportId, { revisionId, createdAtIso, runId, format, ...(downloadUrl ? { downloadUrl } : {}) } as any);
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to attach revision';
+    const status = String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/inputs/upload-bill', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.parseBody().catch(() => ({} as any));
+    const file = (body as any)?.file || (body as any)?.billFile;
+    if (!file) return c.json({ success: false, error: 'file is required (multipart field: file)' }, 400);
+
+    // Guardrail: avoid buffering extremely large PDFs in memory.
+    const MAX_PDF_BYTES = 25 * 1024 * 1024; // 25MB
+    if (typeof (file as any).size === 'number' && (file as any).size > MAX_PDF_BYTES) {
+      return c.json({ success: false, error: `Bill PDF too large (max ${Math.round(MAX_PDF_BYTES / (1024 * 1024))}MB)` }, 413);
+    }
+
+    const uploadsDir = path.join(DEFAULT_UPLOADS_DIR, 'reportSessionsV1', reportId);
+    await mkdir(uploadsDir, { recursive: true });
+
+    const originalFilename = String((file as any)?.name || 'bill.pdf').trim().slice(0, 180) || 'bill.pdf';
+    const buf = Buffer.from(await (file as any).arrayBuffer());
+    const sha256Hex = createHash('sha256').update(buf).digest('hex');
+    const pdfName = `bill_${sha256Hex}.pdf`;
+    const uploadsRefPdf = path.join('reportSessionsV1', reportId, pdfName).replace(/\\/g, '/');
+    const absPdf = path.join(DEFAULT_UPLOADS_DIR, uploadsRefPdf);
+    await writeFile(absPdf, buf);
+
+    // Extract text snapshot (keeps session record small).
+    // If parsing fails (non-PDF/test fixture), we still store the PDF ref and proceed.
+    let text = '';
+    try {
+      const { parsePdf } = await import('./utils/pdf-parser');
+      const parsed = await parsePdf(absPdf);
+      text = String((parsed as any)?.text || '').trim();
+    } catch (e) {
+      text = '';
+      try {
+        const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+        const store = createReportSessionsStoreFsV1();
+        await store.recordError(reportId, {
+          code: 'BILL_PDF_PARSE_FAILED',
+          context: { message: String((e as any)?.message || e), sha256Hex },
+        });
+      } catch {
+        // best-effort
+      }
+    }
+    const txtName = `bill_${sha256Hex}.txt`;
+    const uploadsRefTxt = path.join('reportSessionsV1', reportId, txtName).replace(/\\/g, '/');
+    const absTxt = path.join(DEFAULT_UPLOADS_DIR, uploadsRefTxt);
+    await writeFile(absTxt, text ? text + '\n' : '');
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const nowIso = new Date().toISOString();
+    const session = await store.patchInputsV1(
+      reportId,
+      {
+        inputsV1Patch: {
+          billPdf: { uploadsRef: uploadsRefPdf, originalFilename, sha256Hex, bytes: buf.byteLength, uploadedAtIso: nowIso } as any,
+          billPdfTextRef: uploadsRefTxt,
+        },
+        inputsSummaryPatch: { hasBillText: Boolean(text) },
+        event: { type: 'INPUT_BILL_UPLOADED', atIso: nowIso, sha256Hex } as any,
+      },
+      { nowIso },
+    );
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to upload bill';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/inputs/upload-interval', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.parseBody().catch(() => ({} as any));
+    const file = (body as any)?.file || (body as any)?.intervalFile;
+    if (!file) return c.json({ success: false, error: 'file is required (multipart field: file)' }, 400);
+
+    const MAX_INTERVAL_BYTES = 50 * 1024 * 1024; // 50MB
+    if (typeof (file as any).size === 'number' && (file as any).size > MAX_INTERVAL_BYTES) {
+      return c.json({ success: false, error: `Interval file too large (max ${Math.round(MAX_INTERVAL_BYTES / (1024 * 1024))}MB)` }, 413);
+    }
+
+    const uploadsDir = path.join(DEFAULT_UPLOADS_DIR, 'reportSessionsV1', reportId);
+    await mkdir(uploadsDir, { recursive: true });
+
+    const originalFilename = String((file as any)?.name || 'interval.csv').trim().slice(0, 180) || 'interval.csv';
+    const buf = Buffer.from(await (file as any).arrayBuffer());
+    const sha256Hex = createHash('sha256').update(buf).digest('hex');
+    const ext = path.extname(originalFilename).toLowerCase() || '.csv';
+    const name = `interval_${sha256Hex}${ext}`;
+    const uploadsRef = path.join('reportSessionsV1', reportId, name).replace(/\\/g, '/');
+    const abs = path.join(DEFAULT_UPLOADS_DIR, uploadsRef);
+    await writeFile(abs, buf);
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const nowIso = new Date().toISOString();
+    const session = await store.patchInputsV1(
+      reportId,
+      {
+        inputsV1Patch: {
+          intervalFile: { uploadsRef, originalFilename, sha256Hex, bytes: buf.byteLength, uploadedAtIso: nowIso } as any,
+        },
+        inputsSummaryPatch: { hasIntervals: true },
+        event: { type: 'INPUT_INTERVAL_UPLOADED', atIso: nowIso, sha256Hex } as any,
+      },
+      { nowIso },
+    );
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to upload interval';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/inputs/set-rate-code', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+    const rateCode = String((body as any)?.rateCode || '').trim().toUpperCase().replace(/\s+/g, '');
+    if (!rateCode) return c.json({ success: false, error: 'rateCode is required' }, 400);
+    if (rateCode.length > 40) return c.json({ success: false, error: 'rateCode too long' }, 400);
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const nowIso = new Date().toISOString();
+    const session = await store.patchInputsV1(
+      reportId,
+      { inputsV1Patch: { rateCode }, event: { type: 'INPUT_RATE_CODE_SET', atIso: nowIso, rateCode } as any },
+      { nowIso },
+    );
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to set rate code';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/inputs/set-provider', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+    const providerType = String((body as any)?.providerType || '').trim().toUpperCase();
+    if (providerType !== 'CCA' && providerType !== 'DA' && providerType !== 'NONE') {
+      return c.json({ success: false, error: 'providerType must be CCA, DA, or NONE' }, 400);
+    }
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const nowIso = new Date().toISOString();
+    const session = await store.patchInputsV1(
+      reportId,
+      {
+        inputsV1Patch: { providerType: providerType as any },
+        event: { type: 'INPUT_PROVIDER_SET', atIso: nowIso, providerType } as any,
+      },
+      { nowIso },
+    );
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to set provider';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/inputs/set-pcia-vintage-key', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+    const pciaVintageKey = String((body as any)?.pciaVintageKey || '').trim();
+    if (!pciaVintageKey) return c.json({ success: false, error: 'pciaVintageKey is required' }, 400);
+    if (pciaVintageKey.length > 40) return c.json({ success: false, error: 'pciaVintageKey too long' }, 400);
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const nowIso = new Date().toISOString();
+    const session = await store.patchInputsV1(
+      reportId,
+      {
+        inputsV1Patch: { pciaVintageKey },
+        event: { type: 'INPUT_PCIA_VINTAGE_SET', atIso: nowIso, pciaVintageKey } as any,
+      },
+      { nowIso },
+    );
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to set PCIA vintage key';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/inputs/set-project-metadata', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+
+    const projectName = String((body as any)?.projectName || '').trim() || undefined;
+    const address = String((body as any)?.address || '').trim() || undefined;
+    const utilityHint = String((body as any)?.utilityHint || '').trim() || undefined;
+    const meterId = String((body as any)?.meterId || '').trim() || undefined;
+    const accountNumber = String((body as any)?.accountNumber || '').trim() || undefined;
+    const serviceAccountId = String((body as any)?.serviceAccountId || '').trim() || undefined;
+
+    const keys = Object.keys({ ...(projectName ? { projectName: true } : {}), ...(address ? { address: true } : {}), ...(utilityHint ? { utilityHint: true } : {}), ...(meterId ? { meterId: true } : {}), ...(accountNumber ? { accountNumber: true } : {}), ...(serviceAccountId ? { serviceAccountId: true } : {}) });
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const store = createReportSessionsStoreFsV1();
+    const nowIso = new Date().toISOString();
+    const session = await store.patchInputsV1(
+      reportId,
+      {
+        inputsV1Patch: {
+          projectMetadata: {
+            ...(projectName ? { projectName } : {}),
+            ...(address ? { address } : {}),
+            ...(utilityHint ? { utilityHint } : {}),
+            ...(meterId ? { meterId } : {}),
+            ...(accountNumber ? { accountNumber } : {}),
+            ...(serviceAccountId ? { serviceAccountId } : {}),
+          } as any,
+        },
+        inputsSummaryPatch: { ...(address ? { hasAddress: true } : {}), ...(utilityHint ? { utilityHint } : {}) } as any,
+        event: { type: 'INPUT_PROJECT_METADATA_SET', atIso: nowIso, keys } as any,
+      },
+      { nowIso },
+    );
+    return c.json({ success: true, session });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to set project metadata';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/run-utility', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const { createProjectShellIntakeOnlyV1 } = await import('./modules/project/createProjectShellIntakeOnlyV1');
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { computeWizardGatingV1 } = await import('./modules/wizardOutputV1/gatingV1');
+    const { buildWizardOutputV1 } = await import('./modules/wizardOutputV1/buildWizardOutputV1');
+    const store = createReportSessionsStoreFsV1();
+    const session = await store.getSession(reportId);
+
+    const workflowInputs = ((body as any)?.workflowInputs && typeof (body as any).workflowInputs === 'object' ? (body as any).workflowInputs : {}) as any;
+    const demo = Boolean(workflowInputs?.demo === true || String(workflowInputs?.demo || '').trim().toLowerCase() === 'true');
+    const runAnywayChosen = Boolean((body as any)?.runAnyway === true || String((body as any)?.runAnyway || '').trim().toLowerCase() === 'true');
+
+    let projectId =
+      String((body as any)?.projectId || '').trim() ||
+      String(session?.projectId || '').trim() ||
+      '';
+
+    // Deterministic gating (based on stored run snapshots only).
+    // If the last run indicates required missing inputs, block reruns unless explicitly overridden.
+    if (Array.isArray((session as any)?.runIds) && (session as any).runIds.length) {
+      const lastRunId = String((session as any).runIds[0] || '').trim();
+      if (lastRunId) {
+        const runStore = createAnalysisRunsStoreFsV1();
+        const lastRun: any = await runStore.readRun(lastRunId).catch(() => null);
+        const reportJson: any = lastRun?.snapshot?.reportJson ?? null;
+        const response: any = lastRun?.snapshot?.response ?? null;
+        const workflow: any = reportJson?.workflow ?? response?.workflow ?? null;
+        const requiredInputsMissing = Array.isArray(workflow?.requiredInputsMissing) ? workflow.requiredInputsMissing : [];
+        const missingInfo = Array.isArray(reportJson?.missingInfo) ? reportJson.missingInfo : [];
+        const gating = computeWizardGatingV1({ requiredInputsMissing, missingInfo, runAnywayChosen });
+        if (gating.blocked) {
+          return c.json(
+            { success: false, error: 'Run blocked: required inputs missing (choose runAnyway to proceed with partial outputs)', blockedReasons: gating.blockedReasons },
+            409,
+          );
+        }
+      }
+    }
+
+    if (!projectId) {
+      const shell = await createProjectShellIntakeOnlyV1({
+        orgId: userId,
+        reportId,
+        name: String(workflowInputs?.projectName || workflowInputs?.name || '').trim() || undefined,
+        address: String(workflowInputs?.address || '').trim() || undefined,
+        utilityCompany: String(workflowInputs?.utilityHint || workflowInputs?.utilityCompany || '').trim() || undefined,
+      });
+      projectId = shell.projectId;
+      await store.patchSession(reportId, { projectId });
+    }
+
+    // Optionally persist intake artifacts into project.telemetry (additive).
+    // This gives the engines something to work with without requiring full project builder flows.
+    const sessionInputs: any = (session as any)?.inputsV1 && typeof (session as any).inputsV1 === 'object' ? (session as any).inputsV1 : {};
+
+    const billPdfTextFromSession = await (async () => {
+      const ref = String(sessionInputs?.billPdfTextRef || '').trim();
+      if (!ref) return '';
+      const abs = resolveUploadsRefV1(ref);
+      if (!abs) return '';
+      try {
+        return String(await readFile(abs, 'utf-8')).trim();
+      } catch {
+        return '';
+      }
+    })();
+
+    const billPdfText = String(workflowInputs?.billPdfText || '').trim() || billPdfTextFromSession;
+    const intervalElectricV1 = Array.isArray(workflowInputs?.intervalElectricV1) ? workflowInputs.intervalElectricV1 : null;
+    const intervalElectricMetaV1 =
+      workflowInputs?.intervalElectricMetaV1 && typeof workflowInputs.intervalElectricMetaV1 === 'object' ? workflowInputs.intervalElectricMetaV1 : null;
+
+    const intervalFileAbsFromSession = (() => {
+      const ref = String(sessionInputs?.intervalFile?.uploadsRef || '').trim();
+      if (!ref) return '';
+      const abs = resolveUploadsRefV1(ref);
+      return abs || '';
+    })();
+
+    const rateCodeFromSession = String(sessionInputs?.rateCode || '').trim();
+    const pciaVintageKeyFromSession = String(sessionInputs?.pciaVintageKey || '').trim();
+
+    if (billPdfText || intervalElectricV1 || intervalElectricMetaV1 || intervalFileAbsFromSession || pciaVintageKeyFromSession) {
+      const proj = await loadProjectInternal(userId, projectId);
+      if (proj) {
+        const nextTelemetry: any = { ...(proj as any)?.telemetry };
+        if (billPdfText) nextTelemetry.billPdfText = billPdfText;
+        if (intervalElectricV1) nextTelemetry.intervalElectricV1 = intervalElectricV1;
+        if (intervalElectricMetaV1) nextTelemetry.intervalElectricMetaV1 = intervalElectricMetaV1;
+        if (intervalFileAbsFromSession) nextTelemetry.intervalFilePath = intervalFileAbsFromSession;
+        if (pciaVintageKeyFromSession) nextTelemetry.pciaVintageKey = pciaVintageKeyFromSession;
+        await persistProjectInternal(userId, projectId, { telemetry: nextTelemetry });
+      }
+    }
+
+    if (rateCodeFromSession) {
+      const proj = await loadProjectInternal(userId, projectId);
+      if (proj) {
+        const nextCustomer: any = { ...(proj as any)?.customer };
+        nextCustomer.rateCode = rateCodeFromSession;
+        await persistProjectInternal(userId, projectId, { customer: nextCustomer });
+      }
+    }
+
+    // Delegate to the existing run-and-store endpoint (single source of truth).
+    const auth = c.req.header('Authorization');
+    const runRes = await app.request('/api/analysis-results-v1/run-and-store', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-user-id': userId,
+        ...(auth ? { Authorization: auth } : {}),
+      },
+      body: JSON.stringify({
+        ...(demo ? { demo: true } : {}),
+        projectId,
+        ...(String(workflowInputs?.meterId || '').trim() ? { meterId: String(workflowInputs.meterId).trim() } : {}),
+      }),
+    });
+
+    if (!runRes.ok) {
+      const text = await runRes.text().catch(() => '');
+      return c.json({ success: false, error: `Failed to run utility workflow (${runRes.status}): ${text || runRes.statusText}` }, 400);
+    }
+    const runJson: any = await runRes.json();
+    const runId = String(runJson?.runId || runJson?.analysisRunMeta?.runId || runJson?.analysisRun?.runId || '').trim();
+    if (!runId) return c.json({ success: false, error: 'run-and-store did not return runId' }, 500);
+
+    await store.attachRun(reportId, runId);
+
+    // Auto-build and attach wizard output deterministically (from stored run snapshot only).
+    try {
+      const runStore = createAnalysisRunsStoreFsV1();
+      const analysisRun = await runStore.readRun(runId);
+      const refreshed = await store.getSession(reportId);
+      const wizardOutput = buildWizardOutputV1({
+        session: refreshed,
+        runId,
+        analysisRunSnapshot: analysisRun,
+        partialRunAllowed: runAnywayChosen,
+      });
+      const generatedAtIso = String((wizardOutput as any)?.provenance?.generatedAtIso || '').trim() || new Date().toISOString();
+      await store.attachWizardOutput(
+        reportId,
+        {
+          wizardOutput,
+          hash: String((wizardOutput as any)?.wizardOutputHash || '').trim() || 'missing_hash',
+          generatedAtIso,
+          runIdsUsed: Array.isArray((wizardOutput as any)?.provenance?.runIdsUsed) ? (wizardOutput as any).provenance.runIdsUsed : [runId],
+          revisionIdsUsed: Array.isArray((wizardOutput as any)?.provenance?.revisionIdsUsed) ? (wizardOutput as any).provenance.revisionIdsUsed : [],
+        },
+        { nowIso: generatedAtIso },
+      );
+    } catch (e) {
+      // Never fail the run if wizard build fails; record error deterministically.
+      await store.recordError(reportId, { code: 'WIZARD_OUTPUT_BUILD_FAILED', context: { message: String((e as any)?.message || e), runId } }).catch(() => {});
+    }
+
+    return c.json({ success: true, reportId, projectId, runId });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to run utility workflow';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/generate-internal-engineering-report', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+    const requestedRunId = String((body as any)?.runId || '').trim() || null;
+    const requestedTitle = String((body as any)?.title || '').trim() || '';
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { createProjectShellIntakeOnlyV1 } = await import('./modules/project/createProjectShellIntakeOnlyV1');
+
+    const sessionStore = createReportSessionsStoreFsV1();
+    const runStore = createAnalysisRunsStoreFsV1();
+
+    let session = await sessionStore.getSession(reportId);
+    let projectId = String(session?.projectId || '').trim();
+    if (!projectId) {
+      const shell = await createProjectShellIntakeOnlyV1({
+        orgId: userId,
+        reportId,
+        name: undefined,
+        address: undefined,
+        utilityCompany: undefined,
+      });
+      projectId = shell.projectId;
+      session = await sessionStore.patchSession(reportId, { projectId });
+    }
+
+    const runId = requestedRunId || (Array.isArray(session.runIds) && session.runIds.length ? String(session.runIds[0] || '').trim() : '');
+    if (!runId) return c.json({ success: false, error: 'runId is required (or attach a run first)' }, 400);
+    if (!Array.isArray(session.runIds) || !session.runIds.includes(runId)) {
+      return c.json({ success: false, error: 'runId must be attached to this report session (use run-utility or attach-run)' }, 400);
+    }
+
+    const analysisRun: any = await runStore.readRun(runId);
+    const reportJson = analysisRun?.snapshot?.reportJson;
+    if (!reportJson) return c.json({ success: false, error: 'Stored analysis run is missing reportJson' }, 400);
+
+    // Persist a revision under the project record (append-only, bounded) without recompute.
+    const nowIso = new Date().toISOString();
+    const title = requestedTitle || `Internal Engineering Report • ${nowIso.slice(0, 10)}`;
+    const reportHash = sha256Hex(stableStringifyV1(reportJson));
+    const engineVersionsMeta = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : undefined;
+    const warningsSummaryMeta =
+      reportJson?.analysisTraceV1?.warningsSummary && typeof reportJson.analysisTraceV1.warningsSummary === 'object' ? reportJson.analysisTraceV1.warningsSummary : undefined;
+    const wizardOutputHashMeta = String((session as any)?.wizardOutputV1?.hash || '').trim() || undefined;
+
+    const revisionId = randomUUID();
+    const revision: any = {
+      id: revisionId,
+      createdAt: nowIso,
+      title,
+      reportType: 'INTERNAL_ENGINEERING_V1',
+      reportHash,
+      reportJson,
+      runId,
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+      ...(wizardOutputHashMeta ? { wizardOutputHash: wizardOutputHashMeta } : {}),
+    };
+
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const existingReports = (project as any)?.reportsV1 && typeof (project as any).reportsV1 === 'object' ? (project as any).reportsV1 : {};
+    const existingRevisions = Array.isArray(existingReports?.internalEngineering) ? existingReports.internalEngineering : [];
+    const nextRevisions = [revision, ...existingRevisions].slice(0, 200);
+    const nextReportsV1 = { ...existingReports, internalEngineering: nextRevisions };
+    await persistProjectInternal(userId, projectId, { reportsV1: nextReportsV1 });
+
+    const htmlUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/internal-engineering/${encodeURIComponent(revisionId)}.html`;
+    const jsonUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/internal-engineering/${encodeURIComponent(revisionId)}.json`;
+
+    const revisionMeta = {
+      revisionId,
+      createdAtIso: nowIso,
+      runId,
+      reportType: 'INTERNAL_ENGINEERING_V1' as const,
+      format: 'HTML' as const,
+      downloadUrl: htmlUrl,
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+      ...(wizardOutputHashMeta ? { wizardOutputHash: wizardOutputHashMeta } : {}),
+    };
+    await sessionStore.attachRevision(reportId, revisionMeta);
+
+    return c.json({
+      success: true,
+      revisionMeta: {
+        ...revisionMeta,
+        download: { htmlUrl, jsonUrl },
+        projectId,
+      },
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to generate internal engineering report';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/generate-engineering-pack', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+    const requestedRunId = String((body as any)?.runId || '').trim() || null;
+    const requestedTitle = String((body as any)?.title || '').trim() || '';
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { createProjectShellIntakeOnlyV1 } = await import('./modules/project/createProjectShellIntakeOnlyV1');
+    const { buildEngineeringPackJsonV1 } = await import('./modules/reports/engineeringPack/v1/buildEngineeringPackJsonV1');
+
+    const sessionStore = createReportSessionsStoreFsV1();
+    const runStore = createAnalysisRunsStoreFsV1();
+
+    let session = await sessionStore.getSession(reportId);
+    let projectId = String(session?.projectId || '').trim();
+    if (!projectId) {
+      const shell = await createProjectShellIntakeOnlyV1({
+        orgId: userId,
+        reportId,
+        name: undefined,
+        address: undefined,
+        utilityCompany: undefined,
+      });
+      projectId = shell.projectId;
+      session = await sessionStore.patchSession(reportId, { projectId });
+    }
+
+    const runId = requestedRunId || (Array.isArray(session.runIds) && session.runIds.length ? String(session.runIds[0] || '').trim() : '');
+    if (!runId) return c.json({ success: false, error: 'runId is required (or attach a run first)' }, 400);
+    if (!Array.isArray(session.runIds) || !session.runIds.includes(runId)) {
+      return c.json({ success: false, error: 'runId must be attached to this report session (use run-utility or attach-run)' }, 400);
+    }
+
+    const analysisRun: any = await runStore.readRun(runId);
+    const reportJson = analysisRun?.snapshot?.reportJson;
+    if (!reportJson) return c.json({ success: false, error: 'Stored analysis run is missing reportJson' }, 400);
+
+    const nowIso = new Date().toISOString();
+    const title = requestedTitle || `Engineering Pack • ${nowIso.slice(0, 10)}`;
+    const revisionId = randomUUID();
+
+    const wizardOutput = await sessionStore.readWizardOutput(reportId).catch(() => null);
+    const wizardOutputHash = String((session as any)?.wizardOutputV1?.hash || '').trim() || null;
+
+    const packJson = buildEngineeringPackJsonV1({
+      title,
+      project: {
+        projectId,
+        projectName: String((session as any)?.inputsV1?.projectMetadata?.projectName || '').trim() || undefined,
+        address: String((session as any)?.inputsV1?.projectMetadata?.address || '').trim() || undefined,
+        utilityTerritory: String((reportJson as any)?.project?.territory || '').trim() || undefined,
+        reportId,
+      },
+      revisionId,
+      runId,
+      generatedAtIso: nowIso,
+      analysisRun,
+      reportJson,
+      wizardOutput,
+      wizardOutputHash,
+    });
+
+    const packHash = sha256Hex(stableStringifyV1(packJson));
+    const engineVersionsMeta = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : undefined;
+    const warningsSummaryMeta =
+      reportJson?.analysisTraceV1?.warningsSummary && typeof reportJson.analysisTraceV1.warningsSummary === 'object' ? reportJson.analysisTraceV1.warningsSummary : undefined;
+
+    const revision: any = {
+      id: revisionId,
+      createdAt: nowIso,
+      title,
+      reportType: 'ENGINEERING_PACK_V1',
+      packHash,
+      packJson,
+      runId,
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+      ...(wizardOutputHash ? { wizardOutputHash } : {}),
+    };
+
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const existingReports = (project as any)?.reportsV1 && typeof (project as any).reportsV1 === 'object' ? (project as any).reportsV1 : {};
+    const existingRevisions = Array.isArray(existingReports?.engineeringPackV1) ? existingReports.engineeringPackV1 : [];
+    const nextRevisions = [revision, ...existingRevisions].slice(0, 200);
+    const nextReportsV1 = { ...existingReports, engineeringPackV1: nextRevisions };
+    await persistProjectInternal(userId, projectId, { reportsV1: nextReportsV1 });
+
+    const htmlUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/html`;
+    const jsonUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/json`;
+    const pdfUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/pdf`;
+
+    const revisionMeta = {
+      revisionId,
+      createdAtIso: nowIso,
+      runId,
+      reportType: 'ENGINEERING_PACK_V1' as const,
+      format: 'HTML' as const,
+      downloadUrl: htmlUrl,
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+      ...(wizardOutputHash ? { wizardOutputHash } : {}),
+    };
+    await sessionStore.attachRevision(reportId, revisionMeta);
+
+    return c.json({
+      success: true,
+      revisionMeta: {
+        ...revisionMeta,
+        download: { htmlUrl, jsonUrl, pdfUrl },
+        projectId,
+      },
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to generate engineering pack';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/generate-executive-pack', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+    const requestedRunId = String((body as any)?.runId || '').trim() || null;
+    const requestedTitle = String((body as any)?.title || '').trim() || '';
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { createProjectShellIntakeOnlyV1 } = await import('./modules/project/createProjectShellIntakeOnlyV1');
+    const { buildExecutivePackJsonV1 } = await import('./modules/reports/executivePack/v1/buildExecutivePackJsonV1');
+    const { buildDiffSummaryV1 } = await import('./modules/analysisRunsV1/diffV1');
+
+    const sessionStore = createReportSessionsStoreFsV1();
+    const runStore = createAnalysisRunsStoreFsV1();
+
+    let session = await sessionStore.getSession(reportId);
+    let projectId = String(session?.projectId || '').trim();
+    if (!projectId) {
+      const shell = await createProjectShellIntakeOnlyV1({
+        orgId: userId,
+        reportId,
+        name: undefined,
+        address: undefined,
+        utilityCompany: undefined,
+      });
+      projectId = shell.projectId;
+      session = await sessionStore.patchSession(reportId, { projectId });
+    }
+
+    const runId = requestedRunId || (Array.isArray(session.runIds) && session.runIds.length ? String(session.runIds[0] || '').trim() : '');
+    if (!runId) return c.json({ success: false, error: 'runId is required (or attach a run first)' }, 400);
+    if (!Array.isArray(session.runIds) || !session.runIds.includes(runId)) {
+      return c.json({ success: false, error: 'runId must be attached to this report session (use run-utility or attach-run)' }, 400);
+    }
+
+    const analysisRun: any = await runStore.readRun(runId);
+    const reportJson = analysisRun?.snapshot?.reportJson;
+    if (!reportJson) return c.json({ success: false, error: 'Stored analysis run is missing reportJson' }, 400);
+
+    // Optional diff since previous attached run (snapshot-only).
+    const diffSincePreviousRun = await (async () => {
+      try {
+        const runIds = Array.isArray(session.runIds) ? session.runIds : [];
+        const prev = runIds.find((x) => String(x || '').trim() && String(x || '').trim() !== runId) || null;
+        if (!prev) return null;
+        const runA = await runStore.readRun(String(prev));
+        const runB = analysisRun;
+        return buildDiffSummaryV1({ runA, runB });
+      } catch {
+        return null;
+      }
+    })();
+
+    const nowIso = new Date().toISOString();
+    const title = requestedTitle || `Executive Pack • ${nowIso.slice(0, 10)}`;
+    const revisionId = randomUUID();
+
+    const wizardOutput = await sessionStore.readWizardOutput(reportId).catch(() => null);
+    const wizardOutputHash = String((session as any)?.wizardOutputV1?.hash || '').trim() || null;
+
+    const packJson = buildExecutivePackJsonV1({
+      title,
+      project: {
+        projectId,
+        projectName: String((session as any)?.inputsV1?.projectMetadata?.projectName || '').trim() || undefined,
+        address: String((session as any)?.inputsV1?.projectMetadata?.address || '').trim() || undefined,
+        utilityTerritory: String((reportJson as any)?.project?.territory || '').trim() || undefined,
+        reportId,
+      },
+      revisionId,
+      runId,
+      generatedAtIso: nowIso,
+      analysisRun,
+      reportJson,
+      wizardOutput,
+      wizardOutputHash,
+      diffSincePreviousRun,
+    });
+
+    const packHash = sha256Hex(stableStringifyV1(packJson));
+    const engineVersionsMeta = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : undefined;
+    const warningsSummaryMeta =
+      reportJson?.analysisTraceV1?.warningsSummary && typeof reportJson.analysisTraceV1.warningsSummary === 'object' ? reportJson.analysisTraceV1.warningsSummary : undefined;
+
+    const revision: any = {
+      id: revisionId,
+      createdAt: nowIso,
+      title,
+      reportType: 'EXECUTIVE_PACK_V1',
+      packHash,
+      packJson,
+      runId,
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+      ...(wizardOutputHash ? { wizardOutputHash } : {}),
+    };
+
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const existingReports = (project as any)?.reportsV1 && typeof (project as any).reportsV1 === 'object' ? (project as any).reportsV1 : {};
+    const existingRevisions = Array.isArray(existingReports?.executivePackV1) ? existingReports.executivePackV1 : [];
+    const nextRevisions = [revision, ...existingRevisions].slice(0, 200);
+    const nextReportsV1 = { ...existingReports, executivePackV1: nextRevisions };
+    await persistProjectInternal(userId, projectId, { reportsV1: nextReportsV1 });
+
+    const htmlUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/html`;
+    const jsonUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/json`;
+    const pdfUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/pdf`;
+
+    const revisionMeta = {
+      revisionId,
+      createdAtIso: nowIso,
+      runId,
+      reportType: 'EXECUTIVE_PACK_V1' as const,
+      format: 'HTML' as const,
+      downloadUrl: htmlUrl,
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+      ...(wizardOutputHash ? { wizardOutputHash } : {}),
+    };
+    await sessionStore.attachRevision(reportId, revisionMeta);
+
+    return c.json({
+      success: true,
+      revisionMeta: {
+        ...revisionMeta,
+        download: { htmlUrl, jsonUrl, pdfUrl },
+        projectId,
+      },
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to generate executive pack';
+    return c.json({ success: false, error: message }, 400);
+  }
+});
+
+app.post('/api/report-sessions-v1/:reportId/build-wizard-output', async (c) => {
+  try {
+    const reportId = String(c.req.param('reportId') || '').trim();
+    const body = await c.req.json().catch(() => ({}));
+    const requestedRunId = String((body as any)?.runId || '').trim() || null;
+
+    const { createReportSessionsStoreFsV1 } = await import('./modules/reportSessionsV1/storeFsV1');
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { buildWizardOutputV1 } = await import('./modules/wizardOutputV1/buildWizardOutputV1');
+
+    const sessionStore = createReportSessionsStoreFsV1();
+    const runStore = createAnalysisRunsStoreFsV1();
+
+    const session = await sessionStore.getSession(reportId);
+    const runId = requestedRunId || (Array.isArray(session.runIds) && session.runIds.length ? String(session.runIds[0] || '').trim() : '');
+    if (!runId) return c.json({ success: false, error: 'runId is required (or attach a run first)' }, 400);
+    if (!Array.isArray(session.runIds) || !session.runIds.includes(runId)) {
+      return c.json({ success: false, error: 'runId must be attached to this report session (use run-utility or attach-run)' }, 400);
+    }
+
+    const analysisRun = await runStore.readRun(runId);
+    const partialRunAllowed = Boolean((body as any)?.partialRunAllowed === true || String((body as any)?.partialRunAllowed || '').trim().toLowerCase() === 'true');
+    const wizardOutput = buildWizardOutputV1({ session, runId, analysisRunSnapshot: analysisRun, partialRunAllowed });
+    const generatedAtIso = String((wizardOutput as any)?.provenance?.generatedAtIso || '').trim() || new Date().toISOString();
+    await sessionStore.attachWizardOutput(
+      reportId,
+      {
+        wizardOutput,
+        hash: String((wizardOutput as any)?.wizardOutputHash || '').trim() || 'missing_hash',
+        generatedAtIso,
+        runIdsUsed: Array.isArray((wizardOutput as any)?.provenance?.runIdsUsed) ? (wizardOutput as any).provenance.runIdsUsed : [runId],
+        revisionIdsUsed: Array.isArray((wizardOutput as any)?.provenance?.revisionIdsUsed) ? (wizardOutput as any).provenance.revisionIdsUsed : [],
+      },
+      { nowIso: generatedAtIso },
+    );
+    return c.json({ success: true, wizardOutput });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to build wizard output';
+    const status = String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
   }
 });
 
@@ -8060,6 +9878,621 @@ app.delete('/api/projects/:id/decision-memory/:memoryId', async (c) => {
   }
 });
 
+/**
+ * ==========================================
+ * INTERNAL ENGINEERING REPORTS (append-only)
+ * ==========================================
+ *
+ * V1: append-only JSON revisions stored on the project record, with deterministic HTML rendering.
+ */
+
+function stableStringifyV1(value: unknown): string {
+  const seen = new WeakSet<object>();
+  const normalize = (v: any): any => {
+    if (v === null || typeof v !== 'object') return v;
+    if (seen.has(v)) return '[Circular]';
+    seen.add(v);
+    if (Array.isArray(v)) return v.map(normalize);
+    const out: Record<string, any> = {};
+    for (const k of Object.keys(v).sort()) out[k] = normalize(v[k]);
+    return out;
+  };
+  return JSON.stringify(normalize(value));
+}
+
+function sha256Hex(text: string): string {
+  return createHash('sha256').update(text).digest('hex');
+}
+
+app.get('/api/projects/:id/reports/internal-engineering', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const id = c.req.param('id');
+    const project = await loadProjectInternal(userId, id);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+    const revisions = Array.isArray((project as any)?.reportsV1?.internalEngineering)
+      ? (project as any).reportsV1.internalEngineering
+      : [];
+    return c.json({ success: true, revisions });
+  } catch (error) {
+    console.error('List internal engineering reports error:', error);
+    return c.json({ success: false, error: 'Failed to list internal reports' }, 500);
+  }
+});
+
+app.get('/api/projects/:id/reports/internal-engineering/revisions', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const id = c.req.param('id');
+    const project = await loadProjectInternal(userId, id);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const revisions = Array.isArray((project as any)?.reportsV1?.internalEngineering)
+      ? (project as any).reportsV1.internalEngineering
+      : [];
+
+    const out = revisions
+      .map((rev: any) => {
+        const revisionId = String(rev?.id || '').trim();
+        const createdAtIso = String(rev?.createdAt || rev?.createdAtIso || '').trim();
+        const runId = rev?.runId === null || typeof rev?.runId === 'undefined' ? null : String(rev.runId || '').trim() || null;
+
+        const engineVersions =
+          rev?.engineVersions && typeof rev.engineVersions === 'object'
+            ? (rev.engineVersions as any)
+            : rev?.reportJson?.engineVersions && typeof rev.reportJson.engineVersions === 'object'
+              ? (rev.reportJson.engineVersions as any)
+              : null;
+
+        const warningsSummary =
+          rev?.warningsSummary && typeof rev.warningsSummary === 'object'
+            ? (rev.warningsSummary as any)
+            : rev?.reportJson?.analysisTraceV1?.warningsSummary && typeof rev.reportJson.analysisTraceV1.warningsSummary === 'object'
+              ? (rev.reportJson.analysisTraceV1.warningsSummary as any)
+              : null;
+
+        const htmlUrl = revisionId ? `/api/projects/${encodeURIComponent(id)}/reports/internal-engineering/${encodeURIComponent(revisionId)}.html` : null;
+        const jsonUrl = revisionId ? `/api/projects/${encodeURIComponent(id)}/reports/internal-engineering/${encodeURIComponent(revisionId)}.json` : null;
+
+        return {
+          revisionId,
+          createdAtIso,
+          runId,
+          engineVersions: engineVersions && typeof engineVersions === 'object' ? engineVersions : {},
+          warningsSummary,
+          download: { htmlUrl, jsonUrl },
+        };
+      })
+      .filter((x: any) => x.revisionId && x.createdAtIso);
+
+    return c.json({ success: true, projectId: id, revisions: out });
+  } catch (error) {
+    console.error('List internal engineering revisions meta error:', error);
+    return c.json({ success: false, error: 'Failed to list internal report revisions' }, 500);
+  }
+});
+
+app.post('/api/projects/:id/reports/internal-engineering/generate', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const id = c.req.param('id');
+    const project = await loadProjectInternal(userId, id);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const body = await c.req.json().catch(() => ({}));
+    const title = String((body as any)?.title || '').trim() || 'Internal Engineering Report (v1)';
+    const analysisResults = (body as any)?.analysisResults;
+    const runIdRaw = String((body as any)?.runId || '').trim();
+    if (!analysisResults || typeof analysisResults !== 'object') {
+      return c.json({ success: false, error: 'analysisResults is required' }, 400);
+    }
+
+    const nowIso = new Date().toISOString();
+    const intervalMeta = (project as any)?.telemetry?.intervalElectricMetaV1 || null;
+    const intervalPts = (project as any)?.telemetry?.intervalElectricV1;
+
+    const { buildInternalEngineeringReportJsonV1 } = await import('./modules/reports/internalEngineering/v1/buildInternalEngineeringReportJsonV1');
+    const reportJson = buildInternalEngineeringReportJsonV1({
+      projectId: id,
+      generatedAtIso: nowIso,
+      analysisResults: analysisResults as any,
+      telemetry: {
+        intervalElectricPointsV1: Array.isArray(intervalPts) ? intervalPts : null,
+        intervalElectricMetaV1: intervalMeta,
+      },
+    });
+
+    const reportHash = sha256Hex(stableStringifyV1(reportJson));
+    let runId: string | null = null;
+    if (runIdRaw) {
+      if (runIdRaw.length > 120) return c.json({ success: false, error: 'runId too long' }, 400);
+      if (!/^[A-Za-z0-9_-]+$/.test(runIdRaw)) return c.json({ success: false, error: 'Invalid runId (allowed: [A-Za-z0-9_-])' }, 400);
+      runId = runIdRaw;
+    }
+
+    const engineVersionsMeta = (reportJson as any)?.engineVersions && typeof (reportJson as any).engineVersions === 'object' ? (reportJson as any).engineVersions : undefined;
+    const warningsSummaryMeta =
+      (reportJson as any)?.analysisTraceV1?.warningsSummary && typeof (reportJson as any).analysisTraceV1.warningsSummary === 'object'
+        ? (reportJson as any).analysisTraceV1.warningsSummary
+        : undefined;
+
+    const revision = {
+      id: randomUUID(),
+      createdAt: nowIso,
+      title,
+      reportHash,
+      reportJson,
+      ...(runId !== null ? { runId } : {}),
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+    };
+
+    const existingReports = (project as any)?.reportsV1 && typeof (project as any).reportsV1 === 'object' ? (project as any).reportsV1 : {};
+    const existingRevisions = Array.isArray(existingReports?.internalEngineering) ? existingReports.internalEngineering : [];
+    const nextRevisions = [revision, ...existingRevisions].slice(0, 200);
+    const nextReportsV1 = { ...existingReports, internalEngineering: nextRevisions };
+    const updated = await persistProjectInternal(userId, id, { reportsV1: nextReportsV1 });
+    return c.json({ success: true, revision, revisions: (updated as any)?.reportsV1?.internalEngineering || nextRevisions });
+  } catch (error) {
+    console.error('Generate internal engineering report error:', error);
+    return c.json({ success: false, error: 'Failed to generate internal report' }, 500);
+  }
+});
+
+app.post('/api/projects/:id/reports/internal-engineering', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const id = c.req.param('id');
+    const project = await loadProjectInternal(userId, id);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const body = await c.req.json().catch(() => ({}));
+    const title = String((body as any)?.title || '').trim() || 'Internal Engineering Report (v1)';
+    const reportJsonRaw = (body as any)?.reportJson;
+    if (reportJsonRaw === null || reportJsonRaw === undefined) return c.json({ success: false, error: 'reportJson is required' }, 400);
+
+    // Hardening: enforce server-side truth for projectId inside the snapshot JSON.
+    // This guarantees stable deep links even if clients change/malfunction.
+    const reportJson = (() => {
+      const v = reportJsonRaw as any;
+      if (v && typeof v === 'object') {
+        if (Array.isArray(v)) return { projectId: id, items: v };
+        return { ...v, projectId: id };
+      }
+      return { projectId: id, value: v };
+    })();
+
+    const now = new Date().toISOString();
+    const reportHash = sha256Hex(stableStringifyV1(reportJson));
+    const revision = {
+      id: randomUUID(),
+      createdAt: now,
+      title,
+      reportHash,
+      reportJson,
+    };
+
+    const existingReports = (project as any)?.reportsV1 && typeof (project as any).reportsV1 === 'object' ? (project as any).reportsV1 : {};
+    const existingRevisions = Array.isArray(existingReports?.internalEngineering) ? existingReports.internalEngineering : [];
+    // Append-only: always create a new revision; keep a bounded history.
+    const nextRevisions = [revision, ...existingRevisions].slice(0, 200);
+    const nextReportsV1 = { ...existingReports, internalEngineering: nextRevisions };
+    const updated = await persistProjectInternal(userId, id, { reportsV1: nextReportsV1 });
+    return c.json({ success: true, revision, revisions: (updated as any)?.reportsV1?.internalEngineering || nextRevisions });
+  } catch (error) {
+    console.error('Append internal engineering report error:', error);
+    return c.json({ success: false, error: 'Failed to append internal report' }, 500);
+  }
+});
+
+app.get('/api/projects/:id/reports/internal-engineering/:revisionId.json', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const id = c.req.param('id');
+    const revisionId = c.req.param('revisionId');
+    const project = await loadProjectInternal(userId, id);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+    const revisions = Array.isArray((project as any)?.reportsV1?.internalEngineering)
+      ? (project as any).reportsV1.internalEngineering
+      : [];
+    const rev = revisions.find((r: any) => String(r?.id || '') === String(revisionId || ''));
+    if (!rev) return c.json({ success: false, error: 'Report revision not found' }, 404);
+    return c.json({ success: true, revision: rev });
+  } catch (error) {
+    console.error('Get internal engineering report json error:', error);
+    return c.json({ success: false, error: 'Failed to load report json' }, 500);
+  }
+});
+
+app.get('/api/projects/:id/reports/internal-engineering/:revisionId.html', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const id = c.req.param('id');
+    const revisionId = c.req.param('revisionId');
+    const project = await loadProjectInternal(userId, id);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+    const revisions = Array.isArray((project as any)?.reportsV1?.internalEngineering)
+      ? (project as any).reportsV1.internalEngineering
+      : [];
+    const rev = revisions.find((r: any) => String(r?.id || '') === String(revisionId || ''));
+    if (!rev) return c.json({ success: false, error: 'Report revision not found' }, 404);
+
+    const { renderInternalEngineeringReportHtmlV1 } = await import('./modules/reports/internalEngineering/v1/renderInternalEngineeringReportHtml');
+    const html = renderInternalEngineeringReportHtmlV1({
+      project: {
+        id,
+        name: String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined,
+      },
+      revision: {
+        id: String((rev as any)?.id || ''),
+        createdAt: String((rev as any)?.createdAt || ''),
+        title: String((rev as any)?.title || ''),
+        reportJson: (rev as any)?.reportJson,
+        reportHash: String((rev as any)?.reportHash || ''),
+      },
+    });
+    c.header('Content-Type', 'text/html; charset=utf-8');
+    return c.body(html);
+  } catch (error) {
+    console.error('Render internal engineering report html error:', error);
+    return c.json({ success: false, error: 'Failed to render report html' }, 500);
+  }
+});
+
+/**
+ * ==========================================
+ * STAKEHOLDER REPORT PACKS v1 (snapshot-only)
+ * ==========================================
+ *
+ * Stores pack JSON snapshots as project report revisions and renders HTML/PDF
+ * strictly from stored revision payloads (never recompute on GET).
+ */
+
+app.post('/api/projects/:id/reports/engineering-pack-v1/generate', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const projectId = c.req.param('id');
+    const body = await c.req.json().catch(() => ({}));
+    const runId = String((body as any)?.runId || '').trim();
+    const title = String((body as any)?.title || '').trim() || 'Engineering Pack (v1)';
+    if (!runId) return c.json({ success: false, error: 'runId is required' }, 400);
+
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { buildEngineeringPackJsonV1 } = await import('./modules/reports/engineeringPack/v1/buildEngineeringPackJsonV1');
+    const runStore = createAnalysisRunsStoreFsV1();
+
+    const analysisRun: any = await runStore.readRun(runId);
+    const reportJson = analysisRun?.snapshot?.reportJson;
+    if (!reportJson) return c.json({ success: false, error: 'Stored analysis run is missing reportJson' }, 400);
+
+    const nowIso = new Date().toISOString();
+    const revisionId = randomUUID();
+    const projectName = String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined;
+    const address = String((project as any)?.customer?.siteLocation || (project as any)?.customer?.address || '').trim() || undefined;
+    const utilityTerritory = String((reportJson as any)?.project?.territory || (project as any)?.telemetry?.utilityTerritory || '').trim() || undefined;
+
+    const packJson = buildEngineeringPackJsonV1({
+      title,
+      project: { projectId, projectName, address, utilityTerritory },
+      revisionId,
+      runId,
+      generatedAtIso: nowIso,
+      analysisRun,
+      reportJson,
+      wizardOutput: null,
+      wizardOutputHash: null,
+    });
+
+    const packHash = sha256Hex(stableStringifyV1(packJson));
+    const engineVersionsMeta = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : undefined;
+    const warningsSummaryMeta =
+      reportJson?.analysisTraceV1?.warningsSummary && typeof reportJson.analysisTraceV1.warningsSummary === 'object' ? reportJson.analysisTraceV1.warningsSummary : undefined;
+
+    const revision: any = {
+      id: revisionId,
+      createdAt: nowIso,
+      title,
+      reportType: 'ENGINEERING_PACK_V1',
+      packHash,
+      packJson,
+      runId,
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+    };
+
+    const existingReports = (project as any)?.reportsV1 && typeof (project as any).reportsV1 === 'object' ? (project as any).reportsV1 : {};
+    const existingRevisions = Array.isArray(existingReports?.engineeringPackV1) ? existingReports.engineeringPackV1 : [];
+    const nextRevisions = [revision, ...existingRevisions].slice(0, 200);
+    const nextReportsV1 = { ...existingReports, engineeringPackV1: nextRevisions };
+    await persistProjectInternal(userId, projectId, { reportsV1: nextReportsV1 });
+
+    const htmlUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/html`;
+    const jsonUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/json`;
+    const pdfUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/pdf`;
+
+    return c.json({ success: true, revisionId, reportType: 'ENGINEERING_PACK_V1', download: { htmlUrl, jsonUrl, pdfUrl } });
+  } catch (error) {
+    console.error('Generate engineering pack error:', error);
+    return c.json({ success: false, error: 'Failed to generate engineering pack' }, 500);
+  }
+});
+
+app.post('/api/projects/:id/reports/executive-pack-v1/generate', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const projectId = c.req.param('id');
+    const body = await c.req.json().catch(() => ({}));
+    const runId = String((body as any)?.runId || '').trim();
+    const title = String((body as any)?.title || '').trim() || 'Executive Pack (v1)';
+    if (!runId) return c.json({ success: false, error: 'runId is required' }, 400);
+
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const { createAnalysisRunsStoreFsV1 } = await import('./modules/analysisRunsV1/storeFsV1');
+    const { buildExecutivePackJsonV1 } = await import('./modules/reports/executivePack/v1/buildExecutivePackJsonV1');
+    const runStore = createAnalysisRunsStoreFsV1();
+
+    const analysisRun: any = await runStore.readRun(runId);
+    const reportJson = analysisRun?.snapshot?.reportJson;
+    if (!reportJson) return c.json({ success: false, error: 'Stored analysis run is missing reportJson' }, 400);
+
+    const nowIso = new Date().toISOString();
+    const revisionId = randomUUID();
+    const projectName = String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined;
+    const address = String((project as any)?.customer?.siteLocation || (project as any)?.customer?.address || '').trim() || undefined;
+    const utilityTerritory = String((reportJson as any)?.project?.territory || (project as any)?.telemetry?.utilityTerritory || '').trim() || undefined;
+
+    const packJson = buildExecutivePackJsonV1({
+      title,
+      project: { projectId, projectName, address, utilityTerritory },
+      revisionId,
+      runId,
+      generatedAtIso: nowIso,
+      analysisRun,
+      reportJson,
+      wizardOutput: null,
+      wizardOutputHash: null,
+      diffSincePreviousRun: null,
+    });
+
+    const packHash = sha256Hex(stableStringifyV1(packJson));
+    const engineVersionsMeta = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : undefined;
+    const warningsSummaryMeta =
+      reportJson?.analysisTraceV1?.warningsSummary && typeof reportJson.analysisTraceV1.warningsSummary === 'object' ? reportJson.analysisTraceV1.warningsSummary : undefined;
+
+    const revision: any = {
+      id: revisionId,
+      createdAt: nowIso,
+      title,
+      reportType: 'EXECUTIVE_PACK_V1',
+      packHash,
+      packJson,
+      runId,
+      ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
+      ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
+    };
+
+    const existingReports = (project as any)?.reportsV1 && typeof (project as any).reportsV1 === 'object' ? (project as any).reportsV1 : {};
+    const existingRevisions = Array.isArray(existingReports?.executivePackV1) ? existingReports.executivePackV1 : [];
+    const nextRevisions = [revision, ...existingRevisions].slice(0, 200);
+    const nextReportsV1 = { ...existingReports, executivePackV1: nextRevisions };
+    await persistProjectInternal(userId, projectId, { reportsV1: nextReportsV1 });
+
+    const htmlUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/html`;
+    const jsonUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/json`;
+    const pdfUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/pdf`;
+
+    return c.json({ success: true, revisionId, reportType: 'EXECUTIVE_PACK_V1', download: { htmlUrl, jsonUrl, pdfUrl } });
+  } catch (error) {
+    console.error('Generate executive pack error:', error);
+    return c.json({ success: false, error: 'Failed to generate executive pack' }, 500);
+  }
+});
+
+function findProjectReportRevisionV1(project: any, revisionId: string): { reportType: string; rev: any } | null {
+  const reports = project?.reportsV1 && typeof project.reportsV1 === 'object' ? project.reportsV1 : {};
+  const buckets: Array<{ reportType: string; arr: any[] }> = [
+    { reportType: 'INTERNAL_ENGINEERING_V1', arr: Array.isArray(reports?.internalEngineering) ? reports.internalEngineering : [] },
+    { reportType: 'ENGINEERING_PACK_V1', arr: Array.isArray(reports?.engineeringPackV1) ? reports.engineeringPackV1 : [] },
+    { reportType: 'EXECUTIVE_PACK_V1', arr: Array.isArray(reports?.executivePackV1) ? reports.executivePackV1 : [] },
+  ];
+  for (const b of buckets) {
+    const found = b.arr.find((r: any) => String(r?.id || '') === String(revisionId || ''));
+    if (found) {
+      const rt = String(found?.reportType || '').trim() || b.reportType;
+      return { reportType: rt, rev: found };
+    }
+  }
+  return null;
+}
+
+app.get('/api/projects/:id/reports/revisions/:revisionId', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const projectId = c.req.param('id');
+    const revisionId = c.req.param('revisionId');
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const found = findProjectReportRevisionV1(project, revisionId);
+    if (!found) return c.json({ success: false, error: 'Report revision not found' }, 404);
+
+    const rev = found.rev;
+    const createdAtIso = String(rev?.createdAt || '').trim();
+    const runId = String(rev?.runId || '').trim() || null;
+    const engineVersions = rev?.engineVersions && typeof rev.engineVersions === 'object' ? rev.engineVersions : {};
+    const warningsSummary = rev?.warningsSummary && typeof rev.warningsSummary === 'object' ? rev.warningsSummary : null;
+    const wizardOutputHash = String(rev?.wizardOutputHash || '').trim() || null;
+
+    const htmlUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/html`;
+    const jsonUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/json`;
+    const pdfUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/pdf`;
+
+    return c.json({
+      success: true,
+      revision: {
+        revisionId,
+        reportType: found.reportType,
+        createdAtIso,
+        ...(runId ? { runId } : {}),
+        engineVersions,
+        ...(warningsSummary ? { warningsSummary } : {}),
+        ...(wizardOutputHash ? { wizardOutputHash } : {}),
+      },
+      links: { htmlUrl, jsonUrl, pdfUrl },
+    });
+  } catch (error) {
+    console.error('Get revision meta error:', error);
+    return c.json({ success: false, error: 'Failed to load revision meta' }, 500);
+  }
+});
+
+app.get('/api/projects/:id/reports/revisions/:revisionId/json', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const projectId = c.req.param('id');
+    const revisionId = c.req.param('revisionId');
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+    const found = findProjectReportRevisionV1(project, revisionId);
+    if (!found) return c.json({ success: false, error: 'Report revision not found' }, 404);
+    return c.json({ success: true, reportType: found.reportType, revision: found.rev });
+  } catch (error) {
+    console.error('Get revision json error:', error);
+    return c.json({ success: false, error: 'Failed to load revision json' }, 500);
+  }
+});
+
+app.get('/api/projects/:id/reports/revisions/:revisionId/html', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const projectId = c.req.param('id');
+    const revisionId = c.req.param('revisionId');
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+    const found = findProjectReportRevisionV1(project, revisionId);
+    if (!found) return c.json({ success: false, error: 'Report revision not found' }, 404);
+
+    const rt = String(found.reportType || '').trim();
+    const rev = found.rev;
+
+    if (rt === 'INTERNAL_ENGINEERING_V1') {
+      const { renderInternalEngineeringReportHtmlV1 } = await import('./modules/reports/internalEngineering/v1/renderInternalEngineeringReportHtml');
+      const html = renderInternalEngineeringReportHtmlV1({
+        project: {
+          id: projectId,
+          name: String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined,
+        },
+        revision: {
+          id: String((rev as any)?.id || ''),
+          createdAt: String((rev as any)?.createdAt || ''),
+          title: String((rev as any)?.title || ''),
+          reportJson: (rev as any)?.reportJson,
+          reportHash: String((rev as any)?.reportHash || ''),
+        },
+      });
+      c.header('Content-Type', 'text/html; charset=utf-8');
+      return c.body(html);
+    }
+
+    if (rt === 'ENGINEERING_PACK_V1') {
+      const { renderEngineeringPackHtmlV1 } = await import('./modules/reports/engineeringPack/v1/renderEngineeringPackHtmlV1');
+      const html = renderEngineeringPackHtmlV1({
+        project: {
+          id: projectId,
+          name: String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined,
+        },
+        revision: {
+          id: String((rev as any)?.id || ''),
+          createdAt: String((rev as any)?.createdAt || ''),
+          title: String((rev as any)?.title || ''),
+          packJson: (rev as any)?.packJson,
+          packHash: String((rev as any)?.packHash || ''),
+        },
+      });
+      c.header('Content-Type', 'text/html; charset=utf-8');
+      return c.body(html);
+    }
+
+    if (rt === 'EXECUTIVE_PACK_V1') {
+      const { renderExecutivePackHtmlV1 } = await import('./modules/reports/executivePack/v1/renderExecutivePackHtmlV1');
+      const html = renderExecutivePackHtmlV1({
+        project: {
+          id: projectId,
+          name: String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined,
+        },
+        revision: {
+          id: String((rev as any)?.id || ''),
+          createdAt: String((rev as any)?.createdAt || ''),
+          title: String((rev as any)?.title || ''),
+          packJson: (rev as any)?.packJson,
+          packHash: String((rev as any)?.packHash || ''),
+        },
+      });
+      c.header('Content-Type', 'text/html; charset=utf-8');
+      return c.body(html);
+    }
+
+    return c.json({ success: false, error: 'Unsupported reportType' }, 400);
+  } catch (error) {
+    console.error('Render revision html error:', error);
+    return c.json({ success: false, error: 'Failed to render revision html' }, 500);
+  }
+});
+
+app.get('/api/projects/:id/reports/revisions/:revisionId/pdf', async (c) => {
+  try {
+    const userId = getCurrentUserId(c);
+    const projectId = c.req.param('id');
+    const revisionId = c.req.param('revisionId');
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+    const found = findProjectReportRevisionV1(project, revisionId);
+    if (!found) return c.json({ success: false, error: 'Report revision not found' }, 404);
+
+    const rt = String(found.reportType || '').trim();
+    const rev = found.rev;
+
+    const safeFilenamePart = (s: string): string => {
+      const cleaned = String(s || '')
+        .trim()
+        .replace(/[^\w\-]+/g, '_')
+        .replace(/_+/g, '_')
+        .slice(0, 80);
+      return cleaned || 'report';
+    };
+
+    if (rt === 'ENGINEERING_PACK_V1') {
+      const { renderEngineeringPackPdfV1 } = await import('./modules/reports/engineeringPack/v1/renderEngineeringPackPdfV1');
+      const pdf = await renderEngineeringPackPdfV1({ packJson: (rev as any)?.packJson });
+      const projectName = String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || projectId).trim() || projectId;
+      const filename = `EverWatt_EngineeringPackV1_${safeFilenamePart(projectName)}.pdf`;
+      c.header('Content-Type', 'application/pdf');
+      c.header('Content-Disposition', `attachment; filename="${filename}"`);
+      return c.body(new Uint8Array(pdf));
+    }
+
+    if (rt === 'EXECUTIVE_PACK_V1') {
+      const { renderExecutivePackPdfV1 } = await import('./modules/reports/executivePack/v1/renderExecutivePackPdfV1');
+      const pdf = await renderExecutivePackPdfV1({ packJson: (rev as any)?.packJson });
+      const projectName = String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || projectId).trim() || projectId;
+      const filename = `EverWatt_ExecutivePackV1_${safeFilenamePart(projectName)}.pdf`;
+      c.header('Content-Type', 'application/pdf');
+      c.header('Content-Disposition', `attachment; filename="${filename}"`);
+      return c.body(new Uint8Array(pdf));
+    }
+
+    return c.json({ success: false, error: 'PDF not supported for this reportType' }, 400);
+  } catch (error) {
+    console.error('Render revision pdf error:', error);
+    return c.json({ success: false, error: 'Failed to render revision pdf' }, 500);
+  }
+});
+
 app.get('/api/change-orders/next-number', async (c) => {
   const userId = getCurrentUserId(c);
   const projectId = String(c.req.query('projectId') || '').trim();
@@ -8386,71 +10819,103 @@ async function bootstrap() {
     console.error('Database initialization failed:', e);
   }
 
-  // Dev ergonomics: when running under a file-watcher (tsx watch), we can re-enter
-  // `bootstrap()` within the same process. Ensure we close the previous listener
-  // to avoid EADDRINUSE / intermittent API downtime during reloads.
-  if (globalThis.__everwattServer) {
-    await new Promise<void>((resolve) => {
-      try {
-        globalThis.__everwattServer?.close(() => resolve());
-      } catch {
-        resolve();
-      }
-    });
-    globalThis.__everwattServer = undefined;
-  }
+  const store: any = process as any;
+  const isWatch = Boolean(process.env.TSX_WATCH) || process.argv.some((a) => String(a || '').toLowerCase() === 'watch');
 
-  const listener = getRequestListener(app.fetch);
-  const server = createServer(listener);
-  globalThis.__everwattServer = server;
-
-  // Attach error handler before listen so EADDRINUSE doesn't crash the process.
-  server.on('error', (err: any) => {
-    console.error('Server error:', err);
-  });
-
-  // Small retry loop helps on rapid restarts.
-  const maxRetries = 5;
-  for (let attempt = 0; attempt <= maxRetries; attempt++) {
-    try {
-      await new Promise<void>((resolve, reject) => {
-        server.listen(port, () => resolve());
-        server.once('error', reject);
-      });
-      console.log(`🚀 EverWatt Engine API Server running on http://localhost:${port}`);
-      console.log(`📡 Health check: http://localhost:${port}/health`);
-      console.log(`📊 Analyze endpoint: POST http://localhost:${port}/api/analyze`);
-
-      // Non-fatal startup snapshot summary (decision-safety signal).
-      try {
-        const nowIso = new Date().toISOString();
-        const utilities = ['PGE', 'SCE', 'SDGE'] as const;
-        console.log('[tariffLibrary:v0] Tariff Library loaded:');
-        for (const u of utilities) {
-          const snap = await loadLatestSnapshot(u);
-          if (!snap) {
-            console.log(`  ${u}: (missing) → run: npm run tariffs:ingest:ca`);
-            continue;
-          }
-          const stale = isSnapshotStale(snap.capturedAt, nowIso, 14);
-          console.log(`  ${u}@${snap.versionTag} (${stale ? 'stale' : 'fresh'}) capturedAt=${snap.capturedAt} rates=${snap.rates?.length || 0}`);
+  const startServer = async (args: { closeExisting: boolean }) => {
+    // Dev ergonomics: when running under a file-watcher (tsx watch), we can re-enter
+    // `bootstrap()` within the same process. Ensure we close the previous listener
+    // to avoid EADDRINUSE / intermittent API downtime during reloads.
+    if (args.closeExisting && store.__everwattServer) {
+      await new Promise<void>((resolve) => {
+        try {
+          store.__everwattServer?.close(() => resolve());
+        } catch {
+          resolve();
         }
-      } catch {
-        // ignore
-      }
-
-      break;
-    } catch (err: any) {
-      if (err?.code === 'EADDRINUSE' && attempt < maxRetries) {
-        await new Promise((r) => setTimeout(r, 250));
-        continue;
-      }
-      throw err;
+      });
+      store.__everwattServer = undefined;
     }
+
+    // In Vitest (module isolation) and other re-import scenarios, avoid repeatedly
+    // bootstrapping the API server within the same Node process.
+    if (store.__everwattServer) return;
+
+    // Warm library storage once on real server start (not on import).
+    // Routes will also lazily initialize on-demand.
+    await initializeLibraryStorage();
+
+    const listener = getRequestListener(app.fetch);
+    const server = createServer(listener);
+    store.__everwattServer = server;
+
+    // Attach error handler before listen so EADDRINUSE doesn't crash the process.
+    server.on('error', (err: any) => {
+      console.error('Server error:', err);
+    });
+
+    // Small retry loop helps on rapid restarts.
+    const maxRetries = 5;
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        await new Promise<void>((resolve, reject) => {
+          server.listen(port, () => resolve());
+          server.once('error', reject);
+        });
+        console.log(`🚀 EverWatt Engine API Server running on http://localhost:${port}`);
+        console.log(`📡 Health check: http://localhost:${port}/health`);
+        console.log(`📊 Analyze endpoint: POST http://localhost:${port}/api/analyze`);
+
+        // Non-fatal startup snapshot summary (decision-safety signal).
+        try {
+          const nowIso = new Date().toISOString();
+          const utilities = ['PGE', 'SCE', 'SDGE'] as const;
+          console.log('[tariffLibrary:v0] Tariff Library loaded:');
+          for (const u of utilities) {
+            const snap = await loadLatestSnapshot(u);
+            if (!snap) {
+              console.log(`  ${u}: (missing) → run: npm run tariffs:ingest:ca`);
+              continue;
+            }
+            const stale = isSnapshotStale(snap.capturedAt, nowIso, 14);
+            console.log(`  ${u}@${snap.versionTag} (${stale ? 'stale' : 'fresh'}) capturedAt=${snap.capturedAt} rates=${snap.rates?.length || 0}`);
+          }
+        } catch {
+          // ignore
+        }
+
+        break;
+      } catch (err: any) {
+        if (err?.code === 'EADDRINUSE' && attempt < maxRetries) {
+          await new Promise((r) => setTimeout(r, 250));
+          continue;
+        }
+        throw err;
+      }
+    }
+  };
+
+  if (!isWatch) {
+    if (store.__everwattBootstrapPromise) return await store.__everwattBootstrapPromise;
+    store.__everwattBootstrapPromise = startServer({ closeExisting: false });
+    return await store.__everwattBootstrapPromise;
   }
+
+  await startServer({ closeExisting: true });
 }
 
-bootstrap();
+// Only start the network listener when this file is the entrypoint.
+// Unit tests import `app` and call `app.request(...)` without needing a live port.
+try {
+  const thisFile = path.resolve(fileURLToPath(import.meta.url));
+  const entry = path.resolve(String(process.argv[1] || ''));
+  if (thisFile === entry) {
+    bootstrap();
+  }
+} catch {
+  // If we can't determine entrypoint, default to starting (backwards compatible).
+  bootstrap();
+}
 
 export default app;
 

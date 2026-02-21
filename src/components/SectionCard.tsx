@@ -1,5 +1,5 @@
 import React from 'react';
-import type { SectionInsight } from '../services/llm-insights';
+import type { SectionInsight } from '../types/ai-insights';
 import { AIInsightPanel } from './AIInsightPanel';
 
 interface SectionCardProps {

@@ -26,8 +26,8 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
-import { loadBatteryCatalog } from '../utils/battery-catalog-loader';
-import type { CatalogBatteryRow } from '../utils/battery-catalog-loader';
+import type { CatalogBatteryRow } from '../shared/types/batteryCatalog';
+import { loadBatteryCatalogFromUrl } from '../utils/battery-catalog-browser';
 import { useToast } from '../contexts/ToastContext';
 import { logger } from '../services/logger';
 
@@ -469,7 +469,7 @@ export const UnifiedLibrary: React.FC = () => {
   const loadBatteries = async () => {
     try {
       setLoading(true);
-      const loadedBatteries = loadBatteryCatalog('/battery-catalog.csv');
+      const loadedBatteries = await loadBatteryCatalogFromUrl('/battery-catalog.csv');
       setBatteries(loadedBatteries);
     } catch (err) {
       console.error('Error loading batteries:', err);

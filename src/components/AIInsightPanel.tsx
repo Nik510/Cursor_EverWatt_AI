@@ -3,7 +3,7 @@
  * Displays dual-perspective AI insights for sales and engineering audiences
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Lightbulb,
   Wrench,
@@ -16,7 +16,7 @@ import {
   CheckCircle2,
   Target,
 } from 'lucide-react';
-import type { SectionInsight } from '../services/llm-insights';
+import type { SectionInsight } from '../types/ai-insights';
 
 interface AIInsightPanelProps {
   /**
@@ -254,7 +254,7 @@ export const AIInsightPanel: React.FC<AIInsightPanelProps> = ({
           {/* Generated timestamp */}
           {insight.generatedAt && (
             <div className="text-xs text-gray-400 text-right">
-              Generated {insight.generatedAt.toLocaleTimeString()}
+              Generated {new Date(insight.generatedAt).toLocaleTimeString()}
             </div>
           )}
         </div>

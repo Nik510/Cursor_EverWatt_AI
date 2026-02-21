@@ -1,0 +1,9 @@
+{
+  "caseId": "03_missing_tariff_prices",
+  "intervalCsv": "tests/fixtures/intervals/v1/office_9to5_15m.csv",
+  "timezoneHint": "America/Los_Angeles",
+  "economicsMode": "use_dispatch",
+  "tariffPriceSignalsV1": null,
+  "determinantsV1": { "billingDemandKw": 150, "ratchetDemandKw": null, "billingDemandMethod": "fixture" }
+}
+

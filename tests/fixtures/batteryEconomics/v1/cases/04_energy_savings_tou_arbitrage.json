@@ -1,0 +1,18 @@
+{
+  "caseId": "04_energy_savings_tou_arbitrage",
+  "inputs": {
+    "battery": { "powerKw": 60, "energyKwh": 240, "roundTripEff": 0.88, "usableFraction": 0.9, "degradationPctYr": 2 },
+    "costs": {
+      "batteryCostPerKwhUsd": 260,
+      "batteryCostPerKwUsd": 500,
+      "installAdderPct": 0.25,
+      "interconnectFlatUsd": 25000,
+      "softCostsFlatUsd": 35000,
+      "contingencyPct": 0.1,
+      "omPerKwYrUsd": 9
+    },
+    "tariffs": { "snapshotId": "snap_tou", "energyPriceOnPeakUsdPerKwh": 0.35, "energyPriceOffPeakUsdPerKwh": 0.12 },
+    "dispatch": { "shiftedKwhAnnual": 40000 }
+  }
+}
+

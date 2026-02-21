@@ -1,0 +1,33 @@
+{
+  "caseId": "07_all_components_with_finance_override",
+  "inputs": {
+    "battery": { "powerKw": 120, "energyKwh": 240, "roundTripEff": 0.9, "usableFraction": 0.9, "degradationPctYr": 2 },
+    "costs": {
+      "batteryCostPerKwhUsd": 240,
+      "batteryCostPerKwUsd": 480,
+      "installAdderPct": 0.22,
+      "interconnectFlatUsd": 22000,
+      "softCostsFlatUsd": 32000,
+      "contingencyPct": 0.1,
+      "omPerKwYrUsd": 9,
+      "warrantyReservePctOfCapexPerYear": 0.005
+    },
+    "tariffs": {
+      "snapshotId": "snap_all",
+      "demandChargePerKwMonthUsd": 20,
+      "energyPriceOnPeakUsdPerKwh": 0.32,
+      "energyPriceOffPeakUsdPerKwh": 0.11
+    },
+    "determinants": {
+      "billingDemandKw": 210,
+      "ratchetDemandKw": 130,
+      "billingDemandMethod": "RATCHET_80PCT_12MO",
+      "ratchetHistoryMaxKw": 162.5,
+      "ratchetFloorPct": 0.8
+    },
+    "dispatch": { "peakReductionKwAssumed": 60, "shiftedKwhAnnual": 55000 },
+    "dr": { "annualValueUsd": 8000 },
+    "finance": { "discountRate": 0.08, "termYears": 12 }
+  }
+}
+

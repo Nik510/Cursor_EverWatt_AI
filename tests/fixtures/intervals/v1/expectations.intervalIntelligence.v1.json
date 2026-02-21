@@ -1,0 +1,273 @@
+[
+  {
+    "fixtureFile": "tests/fixtures/intervals/v1/flat_baseload_15m.csv",
+    "expected": {
+      "coverageDays": 1,
+      "granularityMinutes": 15,
+      "pointsReturnedCount": 96,
+      "avgDailyKwh": 120,
+      "avgKw": 5,
+      "baseloadKw": 5,
+      "baseloadMethod": "p10_night_v1",
+      "peakKw": 5,
+      "peakTimestampIso": "2026-01-02T08:00:00.000Z",
+      "weekdayAvgKw": 5,
+      "weekendAvgKw": null,
+      "weekdayWeekendDeltaPct": null,
+      "dailyProfileBuckets": [
+        { "bucketStartHourLocal": 0, "bucketEndHourLocalExclusive": 4, "avgKw": 5 },
+        { "bucketStartHourLocal": 4, "bucketEndHourLocalExclusive": 8, "avgKw": 5 },
+        { "bucketStartHourLocal": 8, "bucketEndHourLocalExclusive": 12, "avgKw": 5 },
+        { "bucketStartHourLocal": 12, "bucketEndHourLocalExclusive": 16, "avgKw": 5 },
+        { "bucketStartHourLocal": 16, "bucketEndHourLocalExclusive": 20, "avgKw": 5 },
+        { "bucketStartHourLocal": 20, "bucketEndHourLocalExclusive": 24, "avgKw": 5 }
+      ],
+      "topPeakEvents": [
+        { "timestampIso": "2026-01-02T08:00:00.000Z", "kw": 5 },
+        { "timestampIso": "2026-01-02T08:15:00.000Z", "kw": 5 },
+        { "timestampIso": "2026-01-02T08:30:00.000Z", "kw": 5 },
+        { "timestampIso": "2026-01-02T08:45:00.000Z", "kw": 5 },
+        { "timestampIso": "2026-01-02T09:00:00.000Z", "kw": 5 },
+        { "timestampIso": "2026-01-02T09:15:00.000Z", "kw": 5 },
+        { "timestampIso": "2026-01-02T09:30:00.000Z", "kw": 5 }
+      ],
+      "warnings": ["interval.intel.insufficient_days"]
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/intervals/v1/office_9to5_15m.csv",
+    "expected": {
+      "coverageDays": 1,
+      "granularityMinutes": 15,
+      "pointsReturnedCount": 20,
+      "avgDailyKwh": 70,
+      "avgKw": 14,
+      "baseloadKw": 5,
+      "baseloadMethod": "p10_night_v1",
+      "peakKw": 20,
+      "peakTimestampIso": "2026-01-05T17:00:00.000Z",
+      "weekdayAvgKw": 14,
+      "weekendAvgKw": null,
+      "weekdayWeekendDeltaPct": null,
+      "dailyProfileBuckets": [
+        { "bucketStartHourLocal": 0, "bucketEndHourLocalExclusive": 4, "avgKw": 5 },
+        { "bucketStartHourLocal": 4, "bucketEndHourLocalExclusive": 8, "avgKw": 0 },
+        { "bucketStartHourLocal": 8, "bucketEndHourLocalExclusive": 12, "avgKw": 16.25 },
+        { "bucketStartHourLocal": 12, "bucketEndHourLocalExclusive": 16, "avgKw": 0 },
+        { "bucketStartHourLocal": 16, "bucketEndHourLocalExclusive": 20, "avgKw": 0 },
+        { "bucketStartHourLocal": 20, "bucketEndHourLocalExclusive": 24, "avgKw": 0 }
+      ],
+      "topPeakEvents": [
+        { "timestampIso": "2026-01-05T17:00:00.000Z", "kw": 20 },
+        { "timestampIso": "2026-01-05T17:15:00.000Z", "kw": 20 },
+        { "timestampIso": "2026-01-05T17:30:00.000Z", "kw": 20 },
+        { "timestampIso": "2026-01-05T17:45:00.000Z", "kw": 20 },
+        { "timestampIso": "2026-01-05T18:00:00.000Z", "kw": 20 },
+        { "timestampIso": "2026-01-05T18:15:00.000Z", "kw": 20 },
+        { "timestampIso": "2026-01-05T18:30:00.000Z", "kw": 20 }
+      ],
+      "warnings": ["interval.intel.insufficient_days", "interval.points.large_gaps"]
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/intervals/v1/weekend_heavy_15m.csv",
+    "expected": {
+      "coverageDays": 2,
+      "granularityMinutes": 15,
+      "pointsReturnedCount": 24,
+      "avgDailyKwh": 20,
+      "avgKw": 6.667,
+      "baseloadKw": 5,
+      "baseloadMethod": "p10_night_v1",
+      "peakKw": 10,
+      "peakTimestampIso": "2026-01-03T20:00:00.000Z",
+      "weekdayAvgKw": 5,
+      "weekendAvgKw": 8.333,
+      "weekdayWeekendDeltaPct": -40,
+      "dailyProfileBuckets": [
+        { "bucketStartHourLocal": 0, "bucketEndHourLocalExclusive": 4, "avgKw": 5 },
+        { "bucketStartHourLocal": 4, "bucketEndHourLocalExclusive": 8, "avgKw": 0 },
+        { "bucketStartHourLocal": 8, "bucketEndHourLocalExclusive": 12, "avgKw": 0 },
+        { "bucketStartHourLocal": 12, "bucketEndHourLocalExclusive": 16, "avgKw": 7.5 },
+        { "bucketStartHourLocal": 16, "bucketEndHourLocalExclusive": 20, "avgKw": 0 },
+        { "bucketStartHourLocal": 20, "bucketEndHourLocalExclusive": 24, "avgKw": 0 }
+      ],
+      "topPeakEvents": [
+        { "timestampIso": "2026-01-03T20:00:00.000Z", "kw": 10 },
+        { "timestampIso": "2026-01-03T20:15:00.000Z", "kw": 10 },
+        { "timestampIso": "2026-01-03T20:30:00.000Z", "kw": 10 },
+        { "timestampIso": "2026-01-03T20:45:00.000Z", "kw": 10 },
+        { "timestampIso": "2026-01-03T21:00:00.000Z", "kw": 10 },
+        { "timestampIso": "2026-01-03T21:15:00.000Z", "kw": 10 },
+        { "timestampIso": "2026-01-03T21:30:00.000Z", "kw": 10 }
+      ],
+      "warnings": ["interval.points.large_gaps"]
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/intervals/v1/large_gaps_15m.csv",
+    "expected": {
+      "coverageDays": 1,
+      "granularityMinutes": 15,
+      "pointsReturnedCount": 8,
+      "avgDailyKwh": 8,
+      "avgKw": 4,
+      "baseloadKw": 4,
+      "baseloadMethod": "p10_night_v1",
+      "peakKw": 4,
+      "peakTimestampIso": "2026-01-06T08:00:00.000Z",
+      "weekdayAvgKw": 4,
+      "weekendAvgKw": null,
+      "weekdayWeekendDeltaPct": null,
+      "dailyProfileBuckets": [
+        { "bucketStartHourLocal": 0, "bucketEndHourLocalExclusive": 4, "avgKw": 4 },
+        { "bucketStartHourLocal": 4, "bucketEndHourLocalExclusive": 8, "avgKw": 0 },
+        { "bucketStartHourLocal": 8, "bucketEndHourLocalExclusive": 12, "avgKw": 0 },
+        { "bucketStartHourLocal": 12, "bucketEndHourLocalExclusive": 16, "avgKw": 0 },
+        { "bucketStartHourLocal": 16, "bucketEndHourLocalExclusive": 20, "avgKw": 0 },
+        { "bucketStartHourLocal": 20, "bucketEndHourLocalExclusive": 24, "avgKw": 0 }
+      ],
+      "topPeakEvents": [
+        { "timestampIso": "2026-01-06T08:00:00.000Z", "kw": 4 },
+        { "timestampIso": "2026-01-06T08:15:00.000Z", "kw": 4 },
+        { "timestampIso": "2026-01-06T08:30:00.000Z", "kw": 4 },
+        { "timestampIso": "2026-01-06T08:45:00.000Z", "kw": 4 },
+        { "timestampIso": "2026-01-06T11:00:00.000Z", "kw": 4 },
+        { "timestampIso": "2026-01-06T11:15:00.000Z", "kw": 4 },
+        { "timestampIso": "2026-01-06T11:30:00.000Z", "kw": 4 }
+      ],
+      "warnings": ["interval.intel.insufficient_days", "interval.points.large_gaps"]
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/intervals/v1/duplicate_ts_15m.csv",
+    "expected": {
+      "coverageDays": 1,
+      "granularityMinutes": 15,
+      "pointsReturnedCount": 4,
+      "avgDailyKwh": 4,
+      "avgKw": 4,
+      "baseloadKw": 4,
+      "baseloadMethod": "p10_night_v1",
+      "peakKw": 4,
+      "peakTimestampIso": "2026-01-07T08:00:00.000Z",
+      "weekdayAvgKw": 4,
+      "weekendAvgKw": null,
+      "weekdayWeekendDeltaPct": null,
+      "dailyProfileBuckets": [
+        { "bucketStartHourLocal": 0, "bucketEndHourLocalExclusive": 4, "avgKw": 4 },
+        { "bucketStartHourLocal": 4, "bucketEndHourLocalExclusive": 8, "avgKw": 0 },
+        { "bucketStartHourLocal": 8, "bucketEndHourLocalExclusive": 12, "avgKw": 0 },
+        { "bucketStartHourLocal": 12, "bucketEndHourLocalExclusive": 16, "avgKw": 0 },
+        { "bucketStartHourLocal": 16, "bucketEndHourLocalExclusive": 20, "avgKw": 0 },
+        { "bucketStartHourLocal": 20, "bucketEndHourLocalExclusive": 24, "avgKw": 0 }
+      ],
+      "topPeakEvents": [
+        { "timestampIso": "2026-01-07T08:00:00.000Z", "kw": 4 },
+        { "timestampIso": "2026-01-07T08:15:00.000Z", "kw": 4 },
+        { "timestampIso": "2026-01-07T08:30:00.000Z", "kw": 4 },
+        { "timestampIso": "2026-01-07T08:45:00.000Z", "kw": 4 }
+      ],
+      "warnings": ["interval.intel.insufficient_days", "interval.points.duplicate_ts"]
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/intervals/v1/non_uniform_granularity_mixed.csv",
+    "expected": {
+      "coverageDays": 1,
+      "granularityMinutes": 15,
+      "pointsReturnedCount": 3,
+      "avgDailyKwh": 4,
+      "avgKw": 4,
+      "baseloadKw": 4,
+      "baseloadMethod": "p10_night_v1",
+      "peakKw": 4,
+      "peakTimestampIso": "2026-01-08T08:00:00.000Z",
+      "weekdayAvgKw": 4,
+      "weekendAvgKw": null,
+      "weekdayWeekendDeltaPct": null,
+      "dailyProfileBuckets": [
+        { "bucketStartHourLocal": 0, "bucketEndHourLocalExclusive": 4, "avgKw": 4 },
+        { "bucketStartHourLocal": 4, "bucketEndHourLocalExclusive": 8, "avgKw": 0 },
+        { "bucketStartHourLocal": 8, "bucketEndHourLocalExclusive": 12, "avgKw": 0 },
+        { "bucketStartHourLocal": 12, "bucketEndHourLocalExclusive": 16, "avgKw": 0 },
+        { "bucketStartHourLocal": 16, "bucketEndHourLocalExclusive": 20, "avgKw": 0 },
+        { "bucketStartHourLocal": 20, "bucketEndHourLocalExclusive": 24, "avgKw": 0 }
+      ],
+      "topPeakEvents": [
+        { "timestampIso": "2026-01-08T08:00:00.000Z", "kw": 4 },
+        { "timestampIso": "2026-01-08T08:15:00.000Z", "kw": 4 },
+        { "timestampIso": "2026-01-08T08:45:00.000Z", "kw": 4 }
+      ],
+      "warnings": ["interval.intel.insufficient_days", "interval.points.non_uniform_granularity"]
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/intervals/v1/dst_boundary_la_15m.csv",
+    "expected": {
+      "coverageDays": 1,
+      "granularityMinutes": 15,
+      "pointsReturnedCount": 8,
+      "avgDailyKwh": 8,
+      "avgKw": 4,
+      "baseloadKw": 4,
+      "baseloadMethod": "p10_night_v1",
+      "peakKw": 4,
+      "peakTimestampIso": "2026-03-08T09:00:00.000Z",
+      "weekdayAvgKw": null,
+      "weekendAvgKw": 4,
+      "weekdayWeekendDeltaPct": null,
+      "dailyProfileBuckets": [
+        { "bucketStartHourLocal": 0, "bucketEndHourLocalExclusive": 4, "avgKw": 4 },
+        { "bucketStartHourLocal": 4, "bucketEndHourLocalExclusive": 8, "avgKw": 0 },
+        { "bucketStartHourLocal": 8, "bucketEndHourLocalExclusive": 12, "avgKw": 0 },
+        { "bucketStartHourLocal": 12, "bucketEndHourLocalExclusive": 16, "avgKw": 0 },
+        { "bucketStartHourLocal": 16, "bucketEndHourLocalExclusive": 20, "avgKw": 0 },
+        { "bucketStartHourLocal": 20, "bucketEndHourLocalExclusive": 24, "avgKw": 0 }
+      ],
+      "topPeakEvents": [
+        { "timestampIso": "2026-03-08T09:00:00.000Z", "kw": 4 },
+        { "timestampIso": "2026-03-08T09:15:00.000Z", "kw": 4 },
+        { "timestampIso": "2026-03-08T09:30:00.000Z", "kw": 4 },
+        { "timestampIso": "2026-03-08T09:45:00.000Z", "kw": 4 },
+        { "timestampIso": "2026-03-08T10:00:00.000Z", "kw": 4 },
+        { "timestampIso": "2026-03-08T10:15:00.000Z", "kw": 4 },
+        { "timestampIso": "2026-03-08T10:30:00.000Z", "kw": 4 }
+      ],
+      "warnings": ["interval.intel.insufficient_days"]
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/intervals/v1/kw_only_15m.csv",
+    "expected": {
+      "coverageDays": 1,
+      "granularityMinutes": 15,
+      "pointsReturnedCount": 4,
+      "avgDailyKwh": null,
+      "avgKw": null,
+      "baseloadKw": 6,
+      "baseloadMethod": "p10_night_v1",
+      "peakKw": 6,
+      "peakTimestampIso": "2026-01-09T08:00:00.000Z",
+      "weekdayAvgKw": 6,
+      "weekendAvgKw": null,
+      "weekdayWeekendDeltaPct": null,
+      "dailyProfileBuckets": [
+        { "bucketStartHourLocal": 0, "bucketEndHourLocalExclusive": 4, "avgKw": 6 },
+        { "bucketStartHourLocal": 4, "bucketEndHourLocalExclusive": 8, "avgKw": 0 },
+        { "bucketStartHourLocal": 8, "bucketEndHourLocalExclusive": 12, "avgKw": 0 },
+        { "bucketStartHourLocal": 12, "bucketEndHourLocalExclusive": 16, "avgKw": 0 },
+        { "bucketStartHourLocal": 16, "bucketEndHourLocalExclusive": 20, "avgKw": 0 },
+        { "bucketStartHourLocal": 20, "bucketEndHourLocalExclusive": 24, "avgKw": 0 }
+      ],
+      "topPeakEvents": [
+        { "timestampIso": "2026-01-09T08:00:00.000Z", "kw": 6 },
+        { "timestampIso": "2026-01-09T08:15:00.000Z", "kw": 6 },
+        { "timestampIso": "2026-01-09T08:30:00.000Z", "kw": 6 },
+        { "timestampIso": "2026-01-09T08:45:00.000Z", "kw": 6 }
+      ],
+      "warnings": ["interval.intel.insufficient_days", "interval.intel.missing_kwh"]
+    }
+  }
+]
+

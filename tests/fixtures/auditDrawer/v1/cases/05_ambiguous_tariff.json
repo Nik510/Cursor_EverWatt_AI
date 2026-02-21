@@ -1,0 +1,41 @@
+{
+  "caseId": "05_ambiguous_tariff",
+  "reportJson": {
+    "projectId": "p_audit_05",
+    "generatedAtIso": "2026-03-01T00:00:00.000Z",
+    "engineVersions": { "batteryEconomics": "battery_econ_v1.0", "tariffEngine": "tariff_vX" },
+    "workflow": {
+      "utility": {
+        "inputs": { "currentRate": { "utility": "PGE", "rateCode": "E-19", "capturedAt": "snap_05" } },
+        "insights": {
+          "effectiveRateContextV1": {
+            "iou": { "utility": "PGE", "rateCode": "E-19", "snapshotId": "snap_05" },
+            "generation": { "providerType": "NONE", "lseName": null, "rateCode": null, "snapshotId": null },
+            "warnings": ["tariff.match.ambiguous"],
+            "missingInfo": [{ "id": "tariff.match.ambiguous" }]
+          },
+          "missingInfo": [{ "id": "tariff.match.ambiguous" }],
+          "rateFit": { "status": "unknown" }
+        }
+      }
+    },
+    "telemetry": {
+      "intervalElectricV1": { "present": false, "pointCount": 0, "warningCount": 0 },
+      "intervalElectricMetaV1": null
+    },
+    "batteryEconomicsV1": {
+      "engineVersion": "battery_econ_v1.0",
+      "savingsAnnual": { "energyUsd": null, "demandUsd": null, "ratchetAvoidedUsd": null, "drUsd": null, "otherUsd": null, "totalUsd": null, "assumptions": [] },
+      "audit": { "lineItems": [] },
+      "warnings": ["batteryEconomicsV1.unavailable"],
+      "confidenceTier": "NONE",
+      "methodTag": "battery_econ_v1",
+      "capex": { "totalUsd": null, "batteryEquipmentUsd": null, "installUsd": null, "interconnectUsd": null, "softCostsUsd": null, "contingencyUsd": null, "assumptions": [] },
+      "opexAnnual": { "omUsd": null, "warrantyReserveUsd": null, "totalUsd": null, "assumptions": [] },
+      "cashflow": { "year0Usd": null, "years1toNUsd": [], "npvUsd": null, "irrApprox": null, "simplePaybackYears": null, "discountedPaybackYears": null },
+      "sizingSanity": { "cRate": null, "hoursAtPower": null, "violations": [] }
+    },
+    "storageOpportunityPackV1": { "dispatchSimulationV1": { "assumptions": { "strategyId": "DISPATCH_MULTI_STRATEGY_V1", "rte": 0.9, "maxCyclesPerDay": 1, "dispatchDaysPerYear": 260, "demandWindowStrategy": "WINDOW_AROUND_DAILY_PEAK_V1" }, "strategyResults": [], "warnings": [] } }
+  }
+}
+

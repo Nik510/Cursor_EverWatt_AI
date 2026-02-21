@@ -1,0 +1,22 @@
+{
+  "caseId": "06_ambiguous_tou_windows",
+  "cycles": [
+    {
+      "cycleLabel": "2026-01",
+      "cycleStartIso": "2026-01-15T08:00:00.000Z",
+      "cycleEndIso": "2026-01-16T08:00:00.000Z",
+      "timezone": "America/Los_Angeles"
+    }
+  ],
+  "intervalPointsFile": "tests\\fixtures\\dispatch\\v1_1\\shared\\intervalPoints_1day_hourly_arbitrage.json",
+  "touEnergyPrices": [
+    { "periodId": "ALL", "startHourLocal": 0, "endHourLocalExclusive": 24, "days": "all", "pricePerKwh": 0.1 },
+    { "periodId": "ON", "startHourLocal": 16, "endHourLocalExclusive": 21, "days": "all", "pricePerKwh": 0.3 }
+  ],
+  "battery": { "powerKw": 50, "energyKwh": 200, "rte": 0.9, "minSoc": 0.1, "maxSoc": 0.9 },
+  "expect": {
+    "okAllCycles": false,
+    "warningsMustContain": ["dispatch.tou_ambiguous", "dispatch.insufficient_data"]
+  }
+}
+

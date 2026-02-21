@@ -268,8 +268,8 @@ export async function renderUtilitySummaryPdf(args: RenderArgs): Promise<Buffer>
     Author: 'EverWatt',
     Producer: 'EverWatt Engine',
     Creator: 'EverWatt Engine',
-    CreationDate: generatedAtIso ? new Date(generatedAtIso) : new Date('2026-01-01T00:00:00.000Z'),
-    ModDate: generatedAtIso ? new Date(generatedAtIso) : new Date('2026-01-01T00:00:00.000Z'),
+    CreationDate: generatedAtIso ? new Date(generatedAtIso) : new Date(),
+    ModDate: generatedAtIso ? new Date(generatedAtIso) : new Date(),
   };
 
   const chunks: Buffer[] = [];

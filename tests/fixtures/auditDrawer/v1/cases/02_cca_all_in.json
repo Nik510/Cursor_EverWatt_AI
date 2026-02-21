@@ -1,0 +1,56 @@
+{
+  "caseId": "02_cca_all_in",
+  "reportJson": {
+    "projectId": "p_audit_02",
+    "generatedAtIso": "2026-03-01T00:00:00.000Z",
+    "engineVersions": { "batteryEconomics": "battery_econ_v1.0", "tariffEngine": "tariff_vX" },
+    "telemetry": {
+      "intervalElectricV1": { "present": true, "pointCount": 35040, "warningCount": 0 },
+      "intervalElectricMetaV1": {
+        "schemaVersion": "intervalElectricMetaV1",
+        "parserVersion": "intervalElectricCsvV1",
+        "detectedFormat": "pge_interval_csv_v1",
+        "detection": { "type": "interval", "confidence": 0.99, "because": ["fixture"] },
+        "timezoneUsed": "America/Los_Angeles",
+        "pointCount": 35040,
+        "warnings": [],
+        "missingInfo": [],
+        "source": { "kind": "vaultFile", "vaultFileId": "vf_02", "storageKey": "sk_02" }
+      }
+    },
+    "workflow": {
+      "utility": {
+        "inputs": { "currentRate": { "utility": "PGE", "rateCode": "B-19", "capturedAt": "snap_02" } },
+        "insights": {
+          "effectiveRateContextV1": {
+            "iou": { "utility": "PGE", "rateCode": "B-19", "snapshotId": "snap_02" },
+            "generation": { "providerType": "CCA", "lseName": "East Bay Community Energy", "rateCode": "EBCE_ELEC", "snapshotId": "gen_snap_02", "generationAddersSnapshotId": "add_snap_02" },
+            "warnings": [],
+            "missingInfo": []
+          },
+          "missingInfo": []
+        }
+      }
+    },
+    "batteryEconomicsV1": {
+      "engineVersion": "battery_econ_v1.0",
+      "savingsAnnual": { "energyUsd": 1000, "demandUsd": 700, "ratchetAvoidedUsd": 0, "drUsd": 0, "otherUsd": 0, "totalUsd": 1700, "assumptions": [] },
+      "audit": {
+        "lineItems": [
+          { "id": "savings.energyAnnual", "label": "Energy savings", "amountUsd": 1000, "amountUsdRaw": 1000, "basis": "fixture", "sourceEngine": "tariffEngine", "sourcePath": "fixture", "rateSource": { "snapshotId": "snap_02", "rateCode": "B-19", "kind": "CCA_GEN_V0_ALL_IN" } },
+          { "id": "savings.demandAnnual", "label": "Demand savings", "amountUsd": 700, "amountUsdRaw": 700, "basis": "fixture", "sourceEngine": "tariffEngine", "sourcePath": "fixture" },
+          { "id": "savings.totalAnnual", "label": "Total savings", "amountUsd": 1700, "amountUsdRaw": 1700, "basis": "fixture", "sourceEngine": "assumption", "sourcePath": "fixture" }
+        ]
+      },
+      "warnings": [],
+      "confidenceTier": "HIGH",
+      "methodTag": "battery_econ_v1",
+      "capex": { "totalUsd": null, "batteryEquipmentUsd": null, "installUsd": null, "interconnectUsd": null, "softCostsUsd": null, "contingencyUsd": null, "assumptions": [] },
+      "opexAnnual": { "omUsd": null, "warrantyReserveUsd": null, "totalUsd": null, "assumptions": [] },
+      "cashflow": { "year0Usd": null, "years1toNUsd": [], "npvUsd": null, "irrApprox": null, "simplePaybackYears": null, "discountedPaybackYears": null },
+      "sizingSanity": { "cRate": null, "hoursAtPower": null, "violations": [] }
+    },
+    "storageOpportunityPackV1": { "dispatchSimulationV1": { "assumptions": { "strategyId": "DISPATCH_MULTI_STRATEGY_V1", "rte": 0.9, "maxCyclesPerDay": 1, "dispatchDaysPerYear": 260, "demandWindowStrategy": "WINDOW_AROUND_DAILY_PEAK_V1" }, "strategyResults": [], "warnings": [] } }
+  }
+}
+

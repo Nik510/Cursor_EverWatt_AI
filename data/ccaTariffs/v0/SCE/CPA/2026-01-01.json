@@ -1,0 +1,23 @@
+{
+  "snapshotId": "cca.v0.SCE.CPA.2026-01-01",
+  "iouUtility": "SCE",
+  "ccaId": "CPA",
+  "ccaDisplayName": "Clean Power Alliance",
+  "effectiveStartYmd": "2026-01-01",
+  "effectiveEndYmd": null,
+  "timezone": "America/Los_Angeles",
+  "customerClass": "COMMERCIAL_DEFAULT",
+  "acquisitionMethodUsed": "MANUAL_SEED_V0",
+  "touPeriods": [
+    { "periodId": "OFF", "season": "ALL", "weekdays": "ALL", "startMin": 0, "endMin": 960, "pricePerKwh": 0.12 },
+    { "periodId": "ON", "season": "ALL", "weekdays": "ALL", "startMin": 960, "endMin": 1260, "pricePerKwh": 0.36 },
+    { "periodId": "OFF2", "season": "ALL", "weekdays": "ALL", "startMin": 1260, "endMin": 1440, "pricePerKwh": 0.14 }
+  ],
+  "notes": [
+    "acquisitionMethodUsed: MANUAL_SEED_V0",
+    "PROVISIONAL_SEED_DO_NOT_USE_FOR_FINAL_BILLING",
+    "MANUAL_SEED_V0 provisional placeholder rates: intended to prevent IOU delivery TOU fallback in storage economics/dispatch.",
+    "ENERGY ONLY: excludes PCIA/exit fees/NBCs/other bill components."
+  ]
+}
+

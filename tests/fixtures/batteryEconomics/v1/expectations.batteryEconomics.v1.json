@@ -1,0 +1,224 @@
+[
+  {
+    "fixtureFile": "tests\\fixtures\\batteryEconomics\\v1\\cases\\01_missing_everything.json",
+    "expected": {
+      "expectedConfidenceTier": "NONE",
+      "expectedWarnings": [
+        "battery.econ.capex_defaults_used",
+        "battery.econ.degradation_assumed_default",
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_capex_inputs",
+        "battery.econ.missing_tariff_inputs",
+        "battery.econ.net_savings_non_positive",
+        "battery.econ.rte_assumed_default",
+        "battery.econ.savings_unavailable_no_dispatch",
+        "battery.econ.savings_unavailable_no_tariffengine"
+      ],
+      "expectedCapexTotalUsd": 0,
+      "expectedSavingsTotalUsd": 0,
+      "expectedPaybackYears": null,
+      "expectedNpvUsd": 0,
+      "expectedAuditMustContainIds": [
+        "capex.total",
+        "savings.totalAnnual",
+        "finance.npv"
+      ]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\batteryEconomics\\v1\\cases\\02_capex_only_with_sizing.json",
+    "expected": {
+      "expectedConfidenceTier": "LOW",
+      "expectedWarnings": [
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_tariff_inputs",
+        "battery.econ.net_savings_non_positive",
+        "battery.econ.savings_unavailable_no_dispatch",
+        "battery.econ.savings_unavailable_no_tariffengine"
+      ],
+      "expectedCapexTotalUsd": 213400,
+      "expectedSavingsTotalUsd": 0,
+      "expectedPaybackYears": null,
+      "expectedNpvUsd": -218534.13,
+      "expectedAuditMustContainIds": [
+        "capex.total",
+        "savings.totalAnnual",
+        "finance.npv"
+      ]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\batteryEconomics\\v1\\cases\\03_demand_savings_basic.json",
+    "expected": {
+      "expectedConfidenceTier": "MEDIUM",
+      "expectedWarnings": [
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.savings_unavailable_no_dispatch",
+        "battery.econ.savings_unavailable_no_tariffengine"
+      ],
+      "expectedCapexTotalUsd": 168669.6,
+      "expectedSavingsTotalUsd": 8640,
+      "expectedPaybackYears": 21.51398,
+      "expectedNpvUsd": -118355.16,
+      "expectedAuditMustContainIds": [
+        "capex.total",
+        "savings.totalAnnual",
+        "finance.npv"
+      ]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\batteryEconomics\\v1\\cases\\04_energy_savings_tou_arbitrage.json",
+    "expected": {
+      "expectedConfidenceTier": "MEDIUM",
+      "expectedWarnings": [
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_tariff_inputs"
+      ],
+      "expectedCapexTotalUsd": 193050,
+      "expectedSavingsTotalUsd": 8545.45,
+      "expectedPaybackYears": 24.114822,
+      "expectedNpvUsd": -141673.76,
+      "expectedAuditMustContainIds": [
+        "capex.total",
+        "savings.totalAnnual",
+        "finance.npv"
+      ]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\batteryEconomics\\v1\\cases\\05_ratchet_savings_guardrail.json",
+    "expected": {
+      "expectedConfidenceTier": "MEDIUM",
+      "expectedWarnings": [
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.savings_unavailable_no_dispatch",
+        "battery.econ.savings_unavailable_no_tariffengine"
+      ],
+      "expectedCapexTotalUsd": 228228,
+      "expectedSavingsTotalUsd": 8448,
+      "expectedPaybackYears": 30.642857,
+      "expectedNpvUsd": -180429.29,
+      "expectedAuditMustContainIds": [
+        "capex.total",
+        "savings.totalAnnual",
+        "finance.npv"
+      ]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\batteryEconomics\\v1\\cases\\06_dr_value_only.json",
+    "expected": {
+      "expectedConfidenceTier": "LOW",
+      "expectedWarnings": [
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_tariff_inputs",
+        "battery.econ.savings_unavailable_no_dispatch",
+        "battery.econ.savings_unavailable_no_tariffengine"
+      ],
+      "expectedCapexTotalUsd": 123640,
+      "expectedSavingsTotalUsd": 12000,
+      "expectedPaybackYears": 10.658621,
+      "expectedNpvUsd": -49195.17,
+      "expectedAuditMustContainIds": [
+        "capex.total",
+        "savings.totalAnnual",
+        "finance.npv"
+      ]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\batteryEconomics\\v1\\cases\\07_all_components_with_finance_override.json",
+    "expected": {
+      "expectedConfidenceTier": "MEDIUM",
+      "expectedWarnings": [],
+      "expectedCapexTotalUsd": 213998.4,
+      "expectedSavingsTotalUsd": 33277.78,
+      "expectedPaybackYears": 6.874834,
+      "expectedNpvUsd": 20583.05,
+      "expectedAuditMustContainIds": [
+        "capex.total",
+        "savings.totalAnnual",
+        "finance.npv"
+      ]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\batteryEconomics\\v1\\cases\\08_out_of_bounds_inputs.json",
+    "expected": {
+      "expectedConfidenceTier": "NONE",
+      "expectedWarnings": [
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_tariff_inputs",
+        "battery.econ.net_savings_non_positive",
+        "battery.econ.out_of_bounds_inputs",
+        "battery.econ.savings_unavailable_no_dispatch",
+        "battery.econ.savings_unavailable_no_tariffengine"
+      ],
+      "expectedCapexTotalUsd": 0,
+      "expectedSavingsTotalUsd": 0,
+      "expectedPaybackYears": null,
+      "expectedNpvUsd": 0,
+      "expectedAuditMustContainIds": [
+        "capex.total",
+        "savings.totalAnnual",
+        "finance.npv"
+      ]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\batteryEconomics\\v1\\cases\\09_export_not_supported_flag.json",
+    "expected": {
+      "expectedConfidenceTier": "LOW",
+      "expectedWarnings": [
+        "battery.econ.dr_value_unknown",
+        "battery.econ.export_not_supported",
+        "battery.econ.finance_missing_discount_rate",
+        "battery.econ.missing_tariff_inputs",
+        "battery.econ.net_savings_non_positive",
+        "battery.econ.savings_unavailable_no_dispatch",
+        "battery.econ.savings_unavailable_no_tariffengine"
+      ],
+      "expectedCapexTotalUsd": 185968.75,
+      "expectedSavingsTotalUsd": 0,
+      "expectedPaybackYears": null,
+      "expectedNpvUsd": -190781.99,
+      "expectedAuditMustContainIds": [
+        "capex.total",
+        "savings.totalAnnual",
+        "finance.npv"
+      ]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\batteryEconomics\\v1\\cases\\10_finance_flags_placeholders.json",
+    "expected": {
+      "expectedConfidenceTier": "LOW",
+      "expectedWarnings": [
+        "battery.econ.depreciation_flag_only",
+        "battery.econ.dr_value_unknown",
+        "battery.econ.finance_debt_placeholder",
+        "battery.econ.itc_flag_only",
+        "battery.econ.missing_tariff_inputs",
+        "battery.econ.net_savings_non_positive",
+        "battery.econ.savings_unavailable_no_dispatch",
+        "battery.econ.savings_unavailable_no_tariffengine"
+      ],
+      "expectedCapexTotalUsd": 202675,
+      "expectedSavingsTotalUsd": 0,
+      "expectedPaybackYears": null,
+      "expectedNpvUsd": -208205.11,
+      "expectedAuditMustContainIds": [
+        "capex.total",
+        "savings.totalAnnual",
+        "finance.npv"
+      ]
+    }
+  }
+]

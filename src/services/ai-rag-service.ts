@@ -33,6 +33,9 @@ const DEFAULT_EMBED_MODEL = process.env.AI_EMBEDDING_MODEL || 'text-embedding-3-
 const DEFAULT_TOP_K = Number(process.env.AI_RAG_TOP_K || 8);
 
 function getClient(): OpenAI {
+  if (typeof window !== 'undefined') {
+    throw new Error('[everwatt] OpenAI client initialization attempted in a browser context. This is server-only.');
+  }
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) throw new Error('OPENAI_API_KEY is not configured');
   return new OpenAI({ apiKey });

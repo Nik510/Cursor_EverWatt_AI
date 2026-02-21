@@ -60,6 +60,10 @@ import { HistoricalProjectLibrary } from './pages/HistoricalProjectLibrary';
 import { Projects } from './pages/Projects';
 import { ProjectBuilderHome } from './modules/project_builder/pages/ProjectBuilderHome';
 import { ProjectBuilderProject } from './modules/project_builder/pages/ProjectBuilderProject';
+import { IntervalIntakeV1Page } from './modules/project_builder/pages/IntervalIntakeV1Page';
+import { BillingIntakePlaceholder } from './modules/project_builder/pages/BillingIntakePlaceholder';
+import { InternalEngineeringReportV1Page } from './modules/project_builder/pages/InternalEngineeringReportV1Page';
+import { AnalysisRunsV1Page } from './modules/project_builder/pages/AnalysisRunsV1Page';
 import { Phase1Tariff } from './pages/Phase1Tariff';
 import { logger } from './services/logger';
 import { ErrorBoundary } from './components/ErrorBoundary';
@@ -131,7 +135,11 @@ function App() {
         <Route path="/historical-library" element={withBoundary(<HistoricalProjectLibrary />)} />
         <Route path="/projects" element={withBoundary(<Projects />)} />
         <Route path="/project-builder" element={withBoundary(<ProjectBuilderHome />)} />
+        <Route path="/project-builder/analysis-runs" element={withBoundary(<AnalysisRunsV1Page />)} />
         <Route path="/project-builder/:projectId" element={withBoundary(<ProjectBuilderProject />)} />
+        <Route path="/project-builder/:projectId/intake/intervals" element={withBoundary(<IntervalIntakeV1Page />)} />
+        <Route path="/project-builder/:projectId/intake/billing" element={withBoundary(<BillingIntakePlaceholder />)} />
+        <Route path="/project-builder/:projectId/reports/internal-engineering" element={withBoundary(<InternalEngineeringReportV1Page />)} />
 
         {/* Phase 1 (Battery + Tariff Intelligence) */}
         <Route path="/phase1-tariff" element={withBoundary(<Phase1Tariff />)} />

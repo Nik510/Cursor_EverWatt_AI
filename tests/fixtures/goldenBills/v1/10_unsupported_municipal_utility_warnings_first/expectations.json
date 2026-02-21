@@ -1,0 +1,21 @@
+{
+  "expectedUtility": "LADWP",
+  "expectedSupplyProviderType": "NONE",
+  "expectedLseName": null,
+  "expectedRateSourceKind": "DELIVERY",
+  "expectedMissingInfoIds": [
+    "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+    "billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+    "billPdfTariffHints.BILL_RATE_SCHEDULE_MISSING",
+    "billPdfTariffHints.BILL_UTILITY_UNSUPPORTED",
+    "billTariffLibraryMatch.BILL_TARIFF_NOT_FOUND_IN_LIBRARY",
+    "supply.v1.lse_undetected",
+    "supplyStructure.supply.v1.confidence_low",
+    "supplyStructure.supply.v1.lse_undetected",
+    "supplyStructure.supply.v1.utility_unknown",
+    "tariff.currentRateCode.missing"
+  ],
+  "expectedAuditReconcile": false,
+  "expectedTopLineNumbers": {}
+}
+
