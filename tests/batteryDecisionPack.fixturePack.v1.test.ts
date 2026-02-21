@@ -33,6 +33,14 @@ function safeNum(x: unknown): number | null {
   return n;
 }
 
+function resolveRepoPath(rel: string): string {
+  const raw = String(rel || '').trim();
+  if (!raw) return '';
+  const normalized = raw.replace(/\\/g, '/');
+  // Treat both '\' and '/' as separators to be cross-platform (CI runs on Linux).
+  return path.join(process.cwd(), ...normalized.split('/'));
+}
+
 function assertSortedByNpvThenPayback(options: any[]): void {
   const xs = Array.isArray(options) ? options : [];
   for (let i = 1; i < xs.length; i++) {
@@ -71,11 +79,11 @@ describe('Battery Decision Pack v1 fixture pack contract (deterministic)', () =>
 
     for (const ex of expectations) {
       try {
-        const fixturePath = path.join(process.cwd(), ex.fixtureFile);
+        const fixturePath = resolveRepoPath(ex.fixtureFile);
         const fixture = JSON.parse(readFileSync(fixturePath, 'utf-8')) as any;
 
         const points = (() => {
-          const fp = fixture.intervalPointsFile ? path.join(process.cwd(), String(fixture.intervalPointsFile)) : null;
+          const fp = fixture.intervalPointsFile ? resolveRepoPath(String(fixture.intervalPointsFile)) : null;
           if (!fp) return null;
           return JSON.parse(readFileSync(fp, 'utf-8')) as any[];
         })();

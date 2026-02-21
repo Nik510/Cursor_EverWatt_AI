@@ -26,6 +26,13 @@ function ids(items: any[]): string[] {
     .sort((a, b) => a.localeCompare(b));
 }
 
+function resolveRepoPath(rel: string): string {
+  const raw = String(rel || '').trim();
+  if (!raw) return '';
+  const normalized = raw.replace(/\\/g, '/');
+  return path.join(process.cwd(), ...normalized.split('/'));
+}
+
 describe('Supply Structure Analyzer v1.2 fixture pack contract (deterministic)', () => {
   it('matches all SSA v1.2 fixture expectations (fast)', () => {
     const expectationsPath = path.join(process.cwd(), 'tests', 'fixtures', 'supplyStructure', 'v1_2', 'expectations.ssa.v1_2.json');
@@ -34,7 +41,7 @@ describe('Supply Structure Analyzer v1.2 fixture pack contract (deterministic)',
     expect(expectations.length).toBeGreaterThanOrEqual(20);
 
     for (const ex of expectations) {
-      const fp = path.join(process.cwd(), ex.fixtureFile);
+      const fp = resolveRepoPath(ex.fixtureFile);
       const billText = readFileSync(fp, 'utf-8');
       const hints = extractBillPdfTariffHintsV1(billText);
 

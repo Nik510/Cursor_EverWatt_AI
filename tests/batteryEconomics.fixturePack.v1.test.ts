@@ -21,6 +21,13 @@ function uniqSorted(arr: string[]): string[] {
   return Array.from(new Set((arr || []).map((s) => String(s || '').trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b));
 }
 
+function resolveRepoPath(rel: string): string {
+  const raw = String(rel || '').trim();
+  if (!raw) return '';
+  const normalized = raw.replace(/\\/g, '/');
+  return path.join(process.cwd(), ...normalized.split('/'));
+}
+
 describe('Battery Economics v1 fixture pack contract (deterministic)', () => {
   it('matches all fixture expectations (fast)', () => {
     const t0 = Date.now();
@@ -32,7 +39,7 @@ describe('Battery Economics v1 fixture pack contract (deterministic)', () => {
 
     for (const ex of expectations) {
       try {
-        const fixturePath = path.join(process.cwd(), ex.fixtureFile);
+        const fixturePath = resolveRepoPath(ex.fixtureFile);
         const fixture = JSON.parse(readFileSync(fixturePath, 'utf-8')) as any;
         const out = evaluateBatteryEconomicsV1(fixture.inputs || null);
 

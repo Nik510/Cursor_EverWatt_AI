@@ -24,7 +24,12 @@ function loadJson(fp: string): any {
 }
 
 function loadText(fp: string): string {
-  return readFileSync(fp, 'utf-8');
+  // Normalize fixtures to CRLF so golden snapshots are OS-independent.
+  // The committed snapshots contain CRLF escapes (\\r\\n) and CI runs on Linux.
+  const raw = readFileSync(fp, 'utf-8');
+  const lf = raw.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  const crlf = lf.replace(/\n/g, '\r\n');
+  return crlf.endsWith('\r\n') ? crlf : `${crlf}\r\n`;
 }
 
 function makeEphemeralIdFactory(args: { prefix: string; seed: string }): () => string {
