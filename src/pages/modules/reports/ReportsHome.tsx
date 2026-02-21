@@ -190,6 +190,20 @@ export const ReportsHome: React.FC = () => {
         },
       ],
     },
+    {
+      section: 'Operations',
+      items: [
+        {
+          id: 'shares-admin-v1',
+          title: 'Shares Admin (v1)',
+          description: 'Staff-only panel to list/manage share links and view the access ledger.',
+          route: '/reports/shares',
+          badge: 'New',
+          icon: <ClipboardCheck className="w-6 h-6 text-white" />,
+          gradient: 'from-slate-800 to-slate-950',
+        },
+      ],
+    },
   ];
 
   return (

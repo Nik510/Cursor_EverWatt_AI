@@ -10380,11 +10380,7 @@ app.get('/api/projects/:id/reports/revisions/:revisionId', async (c) => {
     const userId = getCurrentUserId(c);
     const projectId = c.req.param('id');
     const revisionId = c.req.param('revisionId');
-    const project = await loadProjectInternal(userId, projectId);
-    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
-
-    const found = findProjectReportRevisionV1(project, revisionId);
-    if (!found) return c.json({ success: false, error: 'Report revision not found' }, 404);
+    const { found } = await loadSharedRevisionV1({ projectId, revisionId });
 
     const rev = found.rev;
     const createdAtIso = String(rev?.createdAt || '').trim();
@@ -10781,7 +10777,13 @@ async function resolveShareFromRequestV1(c: Context): Promise<{ tokenPlain: stri
 
   // Access accounting (atomic-ish; best effort).
   try {
-    await store.recordAccess({ shareId: share.shareId, nowIso });
+    const ua = String(c.req.header('user-agent') || '').trim();
+    const xfwd = String(c.req.header('x-forwarded-for') || '').trim();
+    const xreal = String(c.req.header('x-real-ip') || '').trim();
+    const ip = (xfwd ? xfwd.split(',')[0]?.trim() : '') || xreal || '';
+    const userAgentHash = ua ? createHash('sha256').update(ua, 'utf-8').digest('hex') : null;
+    const ipHash = ip ? createHash('sha256').update(ip, 'utf-8').digest('hex') : null;
+    await store.recordAccess({ shareId: share.shareId, nowIso, userAgentHash, ipHash });
   } catch {
     // best-effort
   }
@@ -10923,24 +10925,19 @@ app.post('/api/shares-v1/create', async (c) => {
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to create share link';
-    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : 400;
+    const status = (error as any)?.status || (String(message).toLowerCase().includes('unauthorized') ? 401 : 400);
     return c.json({ success: false, error: message }, status as any);
   }
 });
 
 app.post('/api/shares-v1/:shareId/revoke', async (c) => {
   try {
-    const { userId } = requireEditorAccessForAi(c);
+    requireEditorAccessForAi(c);
     const shareId = String(c.req.param('shareId') || '').trim();
     if (!shareId) return c.json({ success: false, error: 'shareId is required' }, 400);
 
     const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
     const store = createSharesStoreFsV1();
-    const share = await store.getShareById(shareId);
-
-    const project = await loadProjectInternal(userId, String(share.projectId || '').trim());
-    if (!project) return c.json({ success: false, error: 'Share not found' }, 404);
-
     const revoked = await store.revokeShare({ shareId });
     return c.json({ success: true, share: revoked });
   } catch (error) {
@@ -10952,13 +10949,10 @@ app.post('/api/shares-v1/:shareId/revoke', async (c) => {
 
 app.get('/api/shares-v1/projects/:projectId', async (c) => {
   try {
-    const { userId } = requireEditorAccessForAi(c);
+    requireEditorAccessForAi(c);
     const projectId = String(c.req.param('projectId') || '').trim();
     const limitRaw = Number(c.req.query('limit') ?? 50);
     const limit = Math.max(1, Math.min(200, Number.isFinite(limitRaw) ? Math.trunc(limitRaw) : 50));
-
-    const project = await loadProjectInternal(userId, projectId);
-    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
 
     const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
     const store = createSharesStoreFsV1();
@@ -10967,6 +10961,79 @@ app.get('/api/shares-v1/projects/:projectId', async (c) => {
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to list shares';
     const status = String(message).toLowerCase().includes('unauthorized') ? 401 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/shares-v1', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const limitRaw = Number(c.req.query('limit') ?? 100);
+    const limit = Math.max(1, Math.min(500, Number.isFinite(limitRaw) ? Math.trunc(limitRaw) : 100));
+    const q = String(c.req.query('q') || '').trim() || undefined;
+
+    const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+    const store = createSharesStoreFsV1();
+    const shares = await store.listShares({ limit, ...(q ? { q } : {}) });
+    return c.json({ success: true, shares });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to list shares';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/shares-v1/:shareId', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const shareId = String(c.req.param('shareId') || '').trim();
+    if (!shareId) return c.json({ success: false, error: 'shareId is required' }, 400);
+
+    const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+    const store = createSharesStoreFsV1();
+    const share = await store.getShareById(shareId);
+    return c.json({ success: true, share });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to read share';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/shares-v1/:shareId/extend-expiry', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const shareId = String(c.req.param('shareId') || '').trim();
+    if (!shareId) return c.json({ success: false, error: 'shareId is required' }, 400);
+    const body = await c.req.json().catch(() => ({}));
+    const extendHours = Number((body as any)?.extendHours ?? 168);
+
+    const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+    const store = createSharesStoreFsV1();
+    const share = await store.extendExpiry({ shareId, extendHours });
+    return c.json({ success: true, share });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to extend share expiry';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/shares-v1/:shareId/set-scope', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const shareId = String(c.req.param('shareId') || '').trim();
+    if (!shareId) return c.json({ success: false, error: 'shareId is required' }, 400);
+    const body = await c.req.json().catch(() => ({}));
+    const scope = normalizeShareScopeV1((body as any)?.scope);
+
+    const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+    const store = createSharesStoreFsV1();
+    const share = await store.setScope({ shareId, scope });
+    return c.json({ success: true, share });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to update share scope';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : String(message).toLowerCase().includes('not found') ? 404 : 400;
     return c.json({ success: false, error: message }, status as any);
   }
 });

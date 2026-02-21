@@ -3,7 +3,7 @@ import { existsSync } from 'node:fs';
 import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import { randomBytes, randomUUID } from 'node:crypto';
 
-import type { ShareLinkV1, ShareScopeV1 } from './types';
+import type { ShareEventV1, ShareLinkMetaV1, ShareLinkV1, ShareScopeV1 } from './types';
 import { getEverwattSharesBaseDirV1 } from '../dataDirsV1';
 
 type ShareLinkStoredV1 = ShareLinkV1 & { tokenHash: string };
@@ -65,6 +65,67 @@ function assertIsoLike(label: string, value: string): string {
   return v;
 }
 
+function hashLikeOrNull(v: unknown): string | null {
+  const s = String(v ?? '').trim().toLowerCase();
+  if (!s) return null;
+  // Accept sha256 hex only (no raw UA/IP ever stored).
+  if (!/^[0-9a-f]{64}$/.test(s)) return null;
+  return s;
+}
+
+function normalizeEventV1(raw: any): ShareEventV1 | null {
+  const type = String(raw?.type || '').trim().toUpperCase();
+  try {
+    if (type === 'CREATED') {
+      const createdAtIso = assertIsoLike('event.createdAtIso', String(raw?.createdAtIso || '').trim());
+      const scope = normalizeScopeV1(raw?.scope);
+      const expiresAtIso = String(raw?.expiresAtIso || '').trim() || null;
+      const note = Object.prototype.hasOwnProperty.call(raw, 'note') ? (sanitizeNote(raw?.note) ?? null) : undefined;
+      return {
+        type: 'CREATED',
+        createdAtIso,
+        scope,
+        expiresAtIso: expiresAtIso ? assertIsoLike('event.expiresAtIso', expiresAtIso) : null,
+        ...(note !== undefined ? { note } : {}),
+      };
+    }
+
+    if (type === 'ACCESSED') {
+      const atIso = assertIsoLike('event.atIso', String(raw?.atIso || '').trim());
+      const userAgentHash = hashLikeOrNull(raw?.userAgentHash) || undefined;
+      const ipHash = hashLikeOrNull(raw?.ipHash) || undefined;
+      return { type: 'ACCESSED', atIso, ...(userAgentHash ? { userAgentHash } : {}), ...(ipHash ? { ipHash } : {}) };
+    }
+
+    if (type === 'REVOKED') {
+      const atIso = assertIsoLike('event.atIso', String(raw?.atIso || '').trim());
+      return { type: 'REVOKED', atIso };
+    }
+
+    if (type === 'EXPIRY_EXTENDED') {
+      const atIso = assertIsoLike('event.atIso', String(raw?.atIso || '').trim());
+      const newExpiresAtIso = assertIsoLike('event.newExpiresAtIso', String(raw?.newExpiresAtIso || '').trim());
+      return { type: 'EXPIRY_EXTENDED', atIso, newExpiresAtIso };
+    }
+
+    if (type === 'SCOPE_CHANGED') {
+      const atIso = assertIsoLike('event.atIso', String(raw?.atIso || '').trim());
+      const newScope = normalizeScopeV1(raw?.newScope);
+      return { type: 'SCOPE_CHANGED', atIso, newScope };
+    }
+
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+function appendBoundedEventV1(eventsRaw: ShareEventV1[] | undefined, ev: ShareEventV1): ShareEventV1[] {
+  const prev = Array.isArray(eventsRaw) ? eventsRaw : [];
+  const next = [...prev, ev];
+  return next.length <= 200 ? next : next.slice(-200);
+}
+
 function sanitizeNote(note: unknown): string | null {
   const s = String(note ?? '').trim();
   if (!s) return null;
@@ -116,6 +177,11 @@ async function readAllShares(baseDir: string): Promise<ShareLinkStoredV1[]> {
         const lastAccessAtIso = String((x as any).lastAccessAtIso || '').trim() || null;
         const createdBy = Object.prototype.hasOwnProperty.call(x, 'createdBy') ? (String((x as any).createdBy ?? '').trim() || null) : undefined;
         const note = Object.prototype.hasOwnProperty.call(x, 'note') ? (sanitizeNote((x as any).note) ?? null) : undefined;
+        const events: ShareEventV1[] = (() => {
+          const rawEvents = Array.isArray((x as any).events) ? (x as any).events : [];
+          const norm = rawEvents.map(normalizeEventV1).filter(Boolean) as ShareEventV1[];
+          return norm.length <= 200 ? norm : norm.slice(-200);
+        })();
 
         if (!shareId || !createdAtIso || !projectId || !revisionId || !reportType || !scope) return null;
         if (!/^[0-9a-f]{64}$/.test(tokenHash)) return null;
@@ -133,6 +199,7 @@ async function readAllShares(baseDir: string): Promise<ShareLinkStoredV1[]> {
           accessCount: Number.isFinite(accessCount) && accessCount >= 0 ? Math.trunc(accessCount) : 0,
           lastAccessAtIso,
           ...(note !== undefined ? { note } : {}),
+          events,
         } as any as ShareLinkStoredV1;
       })
       .filter(Boolean) as ShareLinkStoredV1[];
@@ -145,6 +212,12 @@ function stripTokenHash(stored: ShareLinkStoredV1): ShareLinkV1 {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { tokenHash: _omit, ...pub } = stored as any;
   return pub as ShareLinkV1;
+}
+
+function stripTokenHashAndEvents(stored: ShareLinkStoredV1): ShareLinkMetaV1 {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { tokenHash: _omit, events: _omitEvents, ...pub } = stored as any;
+  return pub as ShareLinkMetaV1;
 }
 
 async function writeAllShares(baseDir: string, shares: ShareLinkStoredV1[]): Promise<void> {
@@ -206,6 +279,13 @@ export function createSharesStoreFsV1(args?: { baseDir?: string }) {
         accessCount: 0,
         lastAccessAtIso: null,
         ...(note !== undefined ? { note } : {}),
+        events: appendBoundedEventV1([], {
+          type: 'CREATED',
+          createdAtIso: nowIso,
+          scope,
+          expiresAtIso,
+          ...(note ? { note } : {}),
+        }),
       };
 
       const existing = await readAllShares(baseDir);
@@ -217,7 +297,7 @@ export function createSharesStoreFsV1(args?: { baseDir?: string }) {
       return stripTokenHash(recStored as ShareLinkStoredV1);
     },
 
-    async listSharesForProject(args: { projectId: string; limit?: number }): Promise<ShareLinkV1[]> {
+    async listSharesForProject(args: { projectId: string; limit?: number }): Promise<ShareLinkMetaV1[]> {
       const projectId = assertIdLike({ label: 'projectId', value: args.projectId, max: 120 });
       const limitRaw = Number(args.limit ?? 50);
       const limit = Math.max(1, Math.min(200, Number.isFinite(limitRaw) ? Math.trunc(limitRaw) : 50));
@@ -225,7 +305,25 @@ export function createSharesStoreFsV1(args?: { baseDir?: string }) {
       const filtered = all.filter((s) => String((s as any).projectId || '') === projectId);
       return sortSharesDeterministic(filtered as any as ShareLinkV1[])
         .slice(0, limit)
-        .map((s) => stripTokenHash(s as any as ShareLinkStoredV1));
+        .map((s) => stripTokenHashAndEvents(s as any as ShareLinkStoredV1));
+    },
+
+    async listShares(args?: { limit?: number; q?: string }): Promise<ShareLinkMetaV1[]> {
+      const limitRaw = Number(args?.limit ?? 100);
+      const limit = Math.max(1, Math.min(500, Number.isFinite(limitRaw) ? Math.trunc(limitRaw) : 100));
+      const q = String(args?.q || '').trim().toLowerCase();
+      const all = await readAllShares(baseDir);
+      const filtered = q
+        ? all.filter((s: any) => {
+            const projectId = String(s?.projectId || '').toLowerCase();
+            const revisionId = String(s?.revisionId || '').toLowerCase();
+            const note = String(s?.note || '').toLowerCase();
+            return projectId.includes(q) || revisionId.includes(q) || note.includes(q);
+          })
+        : all;
+      return sortSharesDeterministic(filtered as any as ShareLinkV1[])
+        .slice(0, limit)
+        .map((s) => stripTokenHashAndEvents(s as any as ShareLinkStoredV1));
     },
 
     async getShareById(shareIdRaw: string): Promise<ShareLinkV1> {
@@ -255,17 +353,80 @@ export function createSharesStoreFsV1(args?: { baseDir?: string }) {
       if (idx < 0) throw new Error('Share not found');
       const prev = all[idx] as any;
       const alreadyRevoked = String(prev?.revokedAtIso || '').trim();
-      const nextRec: any = alreadyRevoked ? prev : { ...prev, revokedAtIso: nowIso };
+      const nextRec: any = alreadyRevoked
+        ? prev
+        : {
+            ...prev,
+            revokedAtIso: nowIso,
+            events: appendBoundedEventV1(Array.isArray(prev?.events) ? prev.events : [], { type: 'REVOKED', atIso: nowIso }),
+          };
       const next = all.slice();
       next[idx] = nextRec as ShareLinkStoredV1;
       await writeAllShares(baseDir, next);
       return stripTokenHash(nextRec as ShareLinkStoredV1);
     },
 
-    async recordAccess(args: { shareId: string; nowIso?: string }): Promise<void> {
+    async extendExpiry(args: { shareId: string; extendHours: number; nowIso?: string }): Promise<ShareLinkV1> {
       const shareId = assertIdLike({ label: 'shareId', value: args.shareId, max: 180 });
       const nowIso = String(args.nowIso || new Date().toISOString()).trim();
       assertIsoLike('nowIso', nowIso);
+
+      const extendHoursRaw = Number(args.extendHours ?? 0);
+      const extendHours = Math.max(1, Math.min(24 * 365 * 5, Number.isFinite(extendHoursRaw) ? Math.trunc(extendHoursRaw) : 168));
+
+      const all = await readAllShares(baseDir);
+      const idx = all.findIndex((s) => String(s.shareId) === shareId);
+      if (idx < 0) throw new Error('Share not found');
+      const prev = all[idx] as any;
+
+      const prevExpMs = prev?.expiresAtIso ? Date.parse(String(prev.expiresAtIso)) : NaN;
+      const baseMs = Number.isFinite(prevExpMs) ? prevExpMs : Date.parse(nowIso);
+      const nextExpiresAtIso = new Date(baseMs + extendHours * 60 * 60 * 1000).toISOString();
+
+      const nextRec: any = {
+        ...prev,
+        expiresAtIso: nextExpiresAtIso,
+        events: appendBoundedEventV1(Array.isArray(prev?.events) ? prev.events : [], {
+          type: 'EXPIRY_EXTENDED',
+          atIso: nowIso,
+          newExpiresAtIso: nextExpiresAtIso,
+        }),
+      };
+      const next = all.slice();
+      next[idx] = nextRec as ShareLinkStoredV1;
+      await writeAllShares(baseDir, next);
+      return stripTokenHash(nextRec as ShareLinkStoredV1);
+    },
+
+    async setScope(args: { shareId: string; scope: ShareScopeV1; nowIso?: string }): Promise<ShareLinkV1> {
+      const shareId = assertIdLike({ label: 'shareId', value: args.shareId, max: 180 });
+      const nowIso = String(args.nowIso || new Date().toISOString()).trim();
+      assertIsoLike('nowIso', nowIso);
+      const scope = normalizeScopeV1(args.scope);
+
+      const all = await readAllShares(baseDir);
+      const idx = all.findIndex((s) => String(s.shareId) === shareId);
+      if (idx < 0) throw new Error('Share not found');
+      const prev = all[idx] as any;
+      if (String(prev?.scope || '').toUpperCase() === scope) return stripTokenHash(prev as ShareLinkStoredV1);
+
+      const nextRec: any = {
+        ...prev,
+        scope,
+        events: appendBoundedEventV1(Array.isArray(prev?.events) ? prev.events : [], { type: 'SCOPE_CHANGED', atIso: nowIso, newScope: scope }),
+      };
+      const next = all.slice();
+      next[idx] = nextRec as ShareLinkStoredV1;
+      await writeAllShares(baseDir, next);
+      return stripTokenHash(nextRec as ShareLinkStoredV1);
+    },
+
+    async recordAccess(args: { shareId: string; nowIso?: string; userAgentHash?: string | null; ipHash?: string | null }): Promise<void> {
+      const shareId = assertIdLike({ label: 'shareId', value: args.shareId, max: 180 });
+      const nowIso = String(args.nowIso || new Date().toISOString()).trim();
+      assertIsoLike('nowIso', nowIso);
+      const userAgentHash = hashLikeOrNull(args.userAgentHash) || undefined;
+      const ipHash = hashLikeOrNull(args.ipHash) || undefined;
 
       const all = await readAllShares(baseDir);
       const idx = all.findIndex((s) => String(s.shareId) === shareId);
@@ -275,6 +436,12 @@ export function createSharesStoreFsV1(args?: { baseDir?: string }) {
         ...prev,
         accessCount: Math.max(0, Math.trunc(Number(prev?.accessCount || 0))) + 1,
         lastAccessAtIso: nowIso,
+        events: appendBoundedEventV1(Array.isArray(prev?.events) ? prev.events : [], {
+          type: 'ACCESSED',
+          atIso: nowIso,
+          ...(userAgentHash ? { userAgentHash } : {}),
+          ...(ipHash ? { ipHash } : {}),
+        }),
       };
       const next = all.slice();
       next[idx] = nextRec as ShareLinkStoredV1;
