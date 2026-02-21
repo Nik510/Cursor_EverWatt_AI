@@ -41,6 +41,7 @@ data/analyses/
 data/exports/
 data/_rollback/
 data/tmp/
+data/uploads/
 .data/analysisRunsV1/
 .data/reportSessionsV1/
 **/*export*.csv

@@ -3,13 +3,10 @@ import { existsSync } from 'node:fs';
 import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 
 import type { AnalysisRunIndexRowV1, AnalysisRunV1 } from './types';
-
-const ENV_BASEDIR = 'EVERWATT_ANALYSIS_RUNS_V1_BASEDIR';
+import { getEverwattRunsBaseDirV1 } from '../dataDirsV1';
 
 export function getAnalysisRunsV1BaseDir(): string {
-  const env = String(process.env[ENV_BASEDIR] || '').trim();
-  if (env) return path.resolve(env);
-  return path.join(process.cwd(), '.data', 'analysisRunsV1');
+  return getEverwattRunsBaseDirV1();
 }
 
 export function assertValidRunIdV1(runIdRaw: string): string {

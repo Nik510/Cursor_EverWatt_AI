@@ -81,6 +81,25 @@ const DEFAULT_SAMPLES_DIR = path.join(process.cwd(), 'samples');
 // Fail fast in production if JWT secret is missing.
 assertJwtSecretConfigured();
 
+function isProductionEnv(): boolean {
+  return String(process.env.NODE_ENV || '')
+    .trim()
+    .toLowerCase() === 'production';
+}
+
+function demoAuthEnabled(): boolean {
+  return process.env.EVERWATT_DEMO_AUTH === '1';
+}
+
+function allowInternalEndpointsInThisEnv(): boolean {
+  // Default-safe: internal endpoints are off in production unless explicitly demo-gated.
+  return !isProductionEnv() || demoAuthEnabled();
+}
+
+function internalEndpointNotFound(c: Context) {
+  return c.json({ success: false, error: 'Not found' }, 404);
+}
+
 function resolveAllowlistedPath(rawPath: string, allowRoots: string[]): string | null {
   const fp = String(rawPath || '').trim();
   if (!fp) return null;
@@ -5907,6 +5926,7 @@ app.post('/api/library/ai-description', async (c) => {
  * ==========================================
  */
 app.get('/api/hvac/demo-trends.csv', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const demoPath = path.join(process.cwd(), 'data', 'hvac', 'demo_trends.csv');
     if (!existsSync(demoPath)) {
@@ -7231,6 +7251,7 @@ app.get('/api/report-sessions-v1/:reportId', async (c) => {
 });
 
 app.post('/api/report-sessions-v1/:reportId/attach-run', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const reportId = String(c.req.param('reportId') || '').trim();
     const body = await c.req.json().catch(() => ({}));
@@ -7249,6 +7270,7 @@ app.post('/api/report-sessions-v1/:reportId/attach-run', async (c) => {
 });
 
 app.post('/api/report-sessions-v1/:reportId/attach-revision', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const reportId = String(c.req.param('reportId') || '').trim();
     const body = await c.req.json().catch(() => ({}));
@@ -7678,6 +7700,7 @@ app.post('/api/report-sessions-v1/:reportId/run-utility', async (c) => {
 });
 
 app.post('/api/report-sessions-v1/:reportId/generate-internal-engineering-report', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const userId = getCurrentUserId(c);
     const reportId = String(c.req.param('reportId') || '').trim();
@@ -9941,6 +9964,7 @@ function sha256Hex(text: string): string {
 }
 
 app.get('/api/projects/:id/reports/internal-engineering', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const userId = getCurrentUserId(c);
     const id = c.req.param('id');
@@ -9957,6 +9981,7 @@ app.get('/api/projects/:id/reports/internal-engineering', async (c) => {
 });
 
 app.get('/api/projects/:id/reports/internal-engineering/revisions', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const userId = getCurrentUserId(c);
     const id = c.req.param('id');
@@ -10009,6 +10034,7 @@ app.get('/api/projects/:id/reports/internal-engineering/revisions', async (c) =>
 });
 
 app.post('/api/projects/:id/reports/internal-engineering/generate', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const userId = getCurrentUserId(c);
     const id = c.req.param('id');
@@ -10076,6 +10102,7 @@ app.post('/api/projects/:id/reports/internal-engineering/generate', async (c) =>
 });
 
 app.post('/api/projects/:id/reports/internal-engineering', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const userId = getCurrentUserId(c);
     const id = c.req.param('id');
@@ -10122,6 +10149,7 @@ app.post('/api/projects/:id/reports/internal-engineering', async (c) => {
 });
 
 app.get('/api/projects/:id/reports/internal-engineering/:revisionId.json', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const userId = getCurrentUserId(c);
     const id = c.req.param('id');
@@ -10141,6 +10169,7 @@ app.get('/api/projects/:id/reports/internal-engineering/:revisionId.json', async
 });
 
 app.get('/api/projects/:id/reports/internal-engineering/:revisionId.html', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const userId = getCurrentUserId(c);
     const id = c.req.param('id');

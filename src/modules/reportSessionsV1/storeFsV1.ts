@@ -13,13 +13,10 @@ import type {
   ReportSessionWizardOutputRefV1,
 } from './types';
 import { assertReportSessionInvariantV1, computeReportSessionStatusV1 } from './types';
-
-const ENV_BASEDIR = 'EVERWATT_REPORT_SESSIONS_V1_BASEDIR';
+import { getEverwattReportsBaseDirV1 } from '../dataDirsV1';
 
 export function getReportSessionsV1BaseDir(): string {
-  const env = String(process.env[ENV_BASEDIR] || '').trim();
-  if (env) return path.resolve(env);
-  return path.join(process.cwd(), '.data', 'reportSessionsV1');
+  return getEverwattReportsBaseDirV1();
 }
 
 export function assertValidReportIdV1(reportIdRaw: string): string {
