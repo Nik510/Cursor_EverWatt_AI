@@ -47,3 +47,12 @@ export function getEverwattReportsBaseDirV1(): string {
   );
 }
 
+/**
+ * Share links v1 base dir (snapshot-only distribution).
+ *
+ * Env override: EVERWATT_SHARES_BASEDIR
+ */
+export function getEverwattSharesBaseDirV1(): string {
+  return resolveEnvDir(process.env.EVERWATT_SHARES_BASEDIR) ?? path.resolve(path.join(getEverwattDataDirV1(), 'sharesV1'));
+}
+
