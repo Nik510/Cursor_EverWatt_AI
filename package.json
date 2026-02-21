@@ -48,6 +48,7 @@
     "hono": "^4.10.8",
     "jspdf": "^3.0.4",
     "jspdf-autotable": "^5.0.2",
+    "jszip": "^3.10.1",
     "lucide-react": "^0.559.0",
     "mammoth": "^1.11.0",
     "modbus-serial": "^8.0.23",

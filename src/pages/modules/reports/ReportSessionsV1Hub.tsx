@@ -846,6 +846,14 @@ export const ReportSessionsV1Hub: React.FC = () => {
                                 {session?.projectId ? (
                                   <a
                                     className="text-xs font-semibold text-blue-700 hover:underline"
+                                    href={`/reports/revisions/${encodeURIComponent(String(r.revisionId))}?projectId=${encodeURIComponent(String(session.projectId))}`}
+                                  >
+                                    Landing
+                                  </a>
+                                ) : null}
+                                {session?.projectId ? (
+                                  <a
+                                    className="text-xs font-semibold text-blue-700 hover:underline"
                                     href={`/api/projects/${encodeURIComponent(String(session.projectId))}/reports/revisions/${encodeURIComponent(String(r.revisionId))}/html`}
                                     target="_blank"
                                     rel="noreferrer"
