@@ -81,6 +81,25 @@ const DEFAULT_SAMPLES_DIR = path.join(process.cwd(), 'samples');
 // Fail fast in production if JWT secret is missing.
 assertJwtSecretConfigured();
 
+function isProductionEnv(): boolean {
+  return String(process.env.NODE_ENV || '')
+    .trim()
+    .toLowerCase() === 'production';
+}
+
+function demoAuthEnabled(): boolean {
+  return process.env.EVERWATT_DEMO_AUTH === '1';
+}
+
+function allowInternalEndpointsInThisEnv(): boolean {
+  // Default-safe: internal endpoints are off in production unless explicitly demo-gated.
+  return !isProductionEnv() || demoAuthEnabled();
+}
+
+function internalEndpointNotFound(c: Context) {
+  return c.json({ success: false, error: 'Not found' }, 404);
+}
+
 function resolveAllowlistedPath(rawPath: string, allowRoots: string[]): string | null {
   const fp = String(rawPath || '').trim();
   if (!fp) return null;
@@ -5907,6 +5926,7 @@ app.post('/api/library/ai-description', async (c) => {
  * ==========================================
  */
 app.get('/api/hvac/demo-trends.csv', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const demoPath = path.join(process.cwd(), 'data', 'hvac', 'demo_trends.csv');
     if (!existsSync(demoPath)) {
@@ -7231,6 +7251,7 @@ app.get('/api/report-sessions-v1/:reportId', async (c) => {
 });
 
 app.post('/api/report-sessions-v1/:reportId/attach-run', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const reportId = String(c.req.param('reportId') || '').trim();
     const body = await c.req.json().catch(() => ({}));
@@ -7249,6 +7270,7 @@ app.post('/api/report-sessions-v1/:reportId/attach-run', async (c) => {
 });
 
 app.post('/api/report-sessions-v1/:reportId/attach-revision', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const reportId = String(c.req.param('reportId') || '').trim();
     const body = await c.req.json().catch(() => ({}));
@@ -7678,6 +7700,7 @@ app.post('/api/report-sessions-v1/:reportId/run-utility', async (c) => {
 });
 
 app.post('/api/report-sessions-v1/:reportId/generate-internal-engineering-report', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const userId = getCurrentUserId(c);
     const reportId = String(c.req.param('reportId') || '').trim();
@@ -9941,6 +9964,7 @@ function sha256Hex(text: string): string {
 }
 
 app.get('/api/projects/:id/reports/internal-engineering', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const userId = getCurrentUserId(c);
     const id = c.req.param('id');
@@ -9957,6 +9981,7 @@ app.get('/api/projects/:id/reports/internal-engineering', async (c) => {
 });
 
 app.get('/api/projects/:id/reports/internal-engineering/revisions', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const userId = getCurrentUserId(c);
     const id = c.req.param('id');
@@ -10009,6 +10034,7 @@ app.get('/api/projects/:id/reports/internal-engineering/revisions', async (c) =>
 });
 
 app.post('/api/projects/:id/reports/internal-engineering/generate', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const userId = getCurrentUserId(c);
     const id = c.req.param('id');
@@ -10076,6 +10102,7 @@ app.post('/api/projects/:id/reports/internal-engineering/generate', async (c) =>
 });
 
 app.post('/api/projects/:id/reports/internal-engineering', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const userId = getCurrentUserId(c);
     const id = c.req.param('id');
@@ -10122,6 +10149,7 @@ app.post('/api/projects/:id/reports/internal-engineering', async (c) => {
 });
 
 app.get('/api/projects/:id/reports/internal-engineering/:revisionId.json', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const userId = getCurrentUserId(c);
     const id = c.req.param('id');
@@ -10141,6 +10169,7 @@ app.get('/api/projects/:id/reports/internal-engineering/:revisionId.json', async
 });
 
 app.get('/api/projects/:id/reports/internal-engineering/:revisionId.html', async (c) => {
+  if (!allowInternalEndpointsInThisEnv()) return internalEndpointNotFound(c);
   try {
     const userId = getCurrentUserId(c);
     const id = c.req.param('id');
@@ -10629,6 +10658,601 @@ app.get('/api/projects/:id/reports/revisions/:revisionId/bundle.zip', async (c) 
   } catch (error) {
     console.error('Get revision bundle zip error:', error);
     return c.json({ success: false, error: 'Failed to build revision bundle' }, 500);
+  }
+});
+
+/**
+ * ==========================================
+ * SHARES v1 (public distribution links)
+ * ==========================================
+ *
+ * Goals:
+ * - snapshot-only (no engine recompute; derive only from stored revision payloads)
+ * - tokenized, revocable, time-limited
+ * - scope-limited (VIEW vs DOWNLOAD)
+ * - production-safe (no demo auth dependency)
+ */
+
+type ShareScopeV1 = 'VIEW' | 'DOWNLOAD' | 'BOTH';
+type ShareLinkV1 = {
+  shareId: string;
+  createdAtIso: string;
+  createdBy?: string | null;
+  projectId: string;
+  revisionId: string;
+  reportType: string;
+  scope: ShareScopeV1;
+  expiresAtIso: string | null;
+  revokedAtIso: string | null;
+  accessCount: number;
+  lastAccessAtIso: string | null;
+  note?: string | null;
+};
+
+function normalizeShareScopeV1(raw: unknown): ShareScopeV1 {
+  const s = String(raw ?? '').trim().toUpperCase();
+  if (s === 'VIEW') return 'VIEW';
+  if (s === 'DOWNLOAD') return 'DOWNLOAD';
+  if (s === 'BOTH') return 'BOTH';
+  throw new Error('Invalid scope (expected VIEW|DOWNLOAD|BOTH)');
+}
+
+function scopeAllowsV1(scope: ShareScopeV1, need: 'VIEW' | 'DOWNLOAD'): boolean {
+  if (scope === 'BOTH') return true;
+  if (need === 'VIEW') return scope === 'VIEW';
+  return scope === 'DOWNLOAD';
+}
+
+function parseShareAuthTokenPlainV1(c: Context): string | null {
+  const auth = String(c.req.header('Authorization') || '').trim();
+  if (auth) {
+    const m = auth.match(/^share\s+(.+)$/i);
+    if (m && m[1]) return String(m[1]).trim() || null;
+  }
+  const qs = String(c.req.query('token') || '').trim();
+  return qs || null;
+}
+
+type TokenBucketV1 = { resetAt: number; count: number };
+const shareTokenBucketsV1 = new Map<string, TokenBucketV1>();
+
+function rateLimitShareTokenBestEffortV1(args: { tokenHash: string; nowMs: number; windowMs?: number; max?: number }): void {
+  const windowMs = args.windowMs ?? 60_000;
+  const max = args.max ?? 120;
+  const key = String(args.tokenHash || '').trim().toLowerCase();
+  const now = args.nowMs;
+  const bucket = shareTokenBucketsV1.get(key);
+  if (!bucket || now >= bucket.resetAt) {
+    shareTokenBucketsV1.set(key, { resetAt: now + windowMs, count: 1 });
+  } else {
+    bucket.count += 1;
+  }
+  const current = shareTokenBucketsV1.get(key)!;
+  if (current.count > max) {
+    const err: any = new Error('Rate limit exceeded');
+    err.status = 429;
+    throw err;
+  }
+  // Opportunistic cleanup (keep map bounded)
+  if (shareTokenBucketsV1.size > 10_000 && Math.random() < 0.01) {
+    for (const [k, b] of shareTokenBucketsV1) {
+      if (now >= b.resetAt) shareTokenBucketsV1.delete(k);
+    }
+  }
+}
+
+async function resolveShareFromRequestV1(c: Context): Promise<{ tokenPlain: string; share: ShareLinkV1 }> {
+  const tokenPlain = parseShareAuthTokenPlainV1(c);
+  if (!tokenPlain) {
+    const err: any = new Error('Missing share token');
+    err.status = 401;
+    throw err;
+  }
+
+  const { isLikelyShareTokenPlainV1, sha256TokenPlainV1 } = await import('./modules/sharesV1/tokenV1');
+  if (!isLikelyShareTokenPlainV1(tokenPlain)) {
+    const err: any = new Error('Invalid share token');
+    err.status = 401;
+    throw err;
+  }
+  const tokenHash = sha256TokenPlainV1(tokenPlain);
+
+  // Token-level best-effort rate limiting (auditable, prevents hotlink storms).
+  rateLimitShareTokenBestEffortV1({ tokenHash, nowMs: Date.now(), windowMs: 60_000, max: 120 });
+
+  const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+  const store = createSharesStoreFsV1();
+  const share = (await store.resolveShareByTokenHash(tokenHash)) as ShareLinkV1;
+
+  const nowIso = new Date().toISOString();
+  if (share.revokedAtIso) {
+    const err: any = new Error('Share link revoked');
+    err.status = 410;
+    throw err;
+  }
+  if (share.expiresAtIso) {
+    const expMs = Date.parse(String(share.expiresAtIso));
+    if (Number.isFinite(expMs) && Date.now() > expMs) {
+      const err: any = new Error('Share link expired');
+      err.status = 410;
+      throw err;
+    }
+  }
+
+  // Access accounting (atomic-ish; best effort).
+  try {
+    await store.recordAccess({ shareId: share.shareId, nowIso });
+  } catch {
+    // best-effort
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (c as any).set?.('shareTokenPlainV1', tokenPlain);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (c as any).set?.('shareLinkV1', share);
+  return { tokenPlain, share };
+}
+
+function getShareFromContextV1(c: Context): { tokenPlain: string; share: ShareLinkV1 } | null {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const tokenPlain = ((c as any).get?.('shareTokenPlainV1') as string | undefined) || null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const share = ((c as any).get?.('shareLinkV1') as ShareLinkV1 | undefined) || null;
+  return tokenPlain && share ? { tokenPlain, share } : null;
+}
+
+async function loadSharedRevisionV1(args: { projectId: string; revisionId: string }): Promise<{ project: any; found: { reportType: string; rev: any } }> {
+  if (isDatabaseEnabled()) {
+    const err: any = new Error('Share routes are not supported when database mode is enabled');
+    err.status = 501;
+    throw err;
+  }
+  const projectId = String(args.projectId || '').trim();
+  const revisionId = String(args.revisionId || '').trim();
+  if (!/^[A-Za-z0-9_-]{1,120}$/.test(projectId)) {
+    const err: any = new Error('Invalid projectId');
+    err.status = 400;
+    throw err;
+  }
+  if (!/^[A-Za-z0-9_-]{1,120}$/.test(revisionId)) {
+    const err: any = new Error('Invalid revisionId');
+    err.status = 400;
+    throw err;
+  }
+  const filePath = path.join(PROJECTS_DIR, `${projectId}.json`);
+  if (!existsSync(filePath)) {
+    const err: any = new Error('Project not found');
+    err.status = 404;
+    throw err;
+  }
+  const project = JSON.parse(await readFile(filePath, 'utf-8')) as any;
+  const found = findProjectReportRevisionV1(project, revisionId);
+  if (!found) {
+    const err: any = new Error('Report revision not found');
+    err.status = 404;
+    throw err;
+  }
+  return { project, found };
+}
+
+function toShareSafeRevisionMetaV1(args: { revisionId: string; reportType: string; rev: any }): {
+  revisionId: string;
+  reportType: string;
+  createdAtIso: string;
+  runId?: string;
+  engineVersions?: Record<string, string>;
+  warningsSummary?: any;
+  wizardOutputHash?: string;
+} {
+  const revisionId = String(args.revisionId || '').trim();
+  const reportType = String(args.reportType || '').trim();
+  const rev = args.rev || {};
+  const createdAtIso = String(rev?.createdAt || rev?.createdAtIso || '').trim();
+  const runId = String(rev?.runId || '').trim() || null;
+  const engineVersions = rev?.engineVersions && typeof rev.engineVersions === 'object' ? rev.engineVersions : null;
+  const warningsSummary = rev?.warningsSummary && typeof rev.warningsSummary === 'object' ? rev.warningsSummary : null;
+  const wizardOutputHash = String(rev?.wizardOutputHash || '').trim() || null;
+  return {
+    revisionId,
+    reportType,
+    createdAtIso,
+    ...(runId ? { runId } : {}),
+    ...(engineVersions ? { engineVersions } : {}),
+    ...(warningsSummary ? { warningsSummary } : {}),
+    ...(wizardOutputHash ? { wizardOutputHash } : {}),
+  };
+}
+
+function shareDownloadFilenameV1(args: { reportType: string; revisionId: string; createdAtIso?: string | null; ext: 'pdf' | 'json' | 'zip' }): string {
+  return buildRevisionFilenameV1({
+    reportType: args.reportType,
+    projectOrReportId: 'shared',
+    revisionId: args.revisionId,
+    createdAtIso: args.createdAtIso ?? null,
+    ext: args.ext,
+  });
+}
+
+// Internal (staff) APIs for managing share links (not demo-gated).
+app.post('/api/shares-v1/create', async (c) => {
+  try {
+    const { userId } = requireEditorAccessForAi(c);
+    const body = await c.req.json().catch(() => ({}));
+    const projectId = String((body as any)?.projectId || '').trim();
+    const revisionId = String((body as any)?.revisionId || '').trim();
+    const scope = normalizeShareScopeV1((body as any)?.scope);
+    const expiresInHoursRaw = Number((body as any)?.expiresInHours ?? 168);
+    const expiresInHours = Math.max(1, Math.min(24 * 365, Number.isFinite(expiresInHoursRaw) ? Math.trunc(expiresInHoursRaw) : 168));
+    const note = String((body as any)?.note ?? '').trim() || null;
+
+    if (!projectId) return c.json({ success: false, error: 'projectId is required' }, 400);
+    if (!revisionId) return c.json({ success: false, error: 'revisionId is required' }, 400);
+
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const found = findProjectReportRevisionV1(project, revisionId);
+    if (!found) return c.json({ success: false, error: 'Report revision not found' }, 404);
+
+    const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+    const { generateShareTokenPlainV1, sha256TokenPlainV1 } = await import('./modules/sharesV1/tokenV1');
+    const store = createSharesStoreFsV1();
+    const tokenPlain = generateShareTokenPlainV1();
+    const tokenHash = sha256TokenPlainV1(tokenPlain);
+
+    const nowIso = new Date().toISOString();
+    const expiresAtIso = new Date(Date.now() + expiresInHours * 60 * 60 * 1000).toISOString();
+
+    const created = await store.createShareLink({
+      tokenHash,
+      projectId,
+      revisionId,
+      reportType: String(found.reportType || '').trim(),
+      scope,
+      expiresAtIso,
+      createdAtIso: nowIso,
+      createdBy: userId,
+      ...(note ? { note } : {}),
+    });
+
+    return c.json({
+      success: true,
+      shareUrl: `/share/${encodeURIComponent(tokenPlain)}`,
+      shareId: created.shareId,
+      expiresAtIso,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to create share link';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/shares-v1/:shareId/revoke', async (c) => {
+  try {
+    const { userId } = requireEditorAccessForAi(c);
+    const shareId = String(c.req.param('shareId') || '').trim();
+    if (!shareId) return c.json({ success: false, error: 'shareId is required' }, 400);
+
+    const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+    const store = createSharesStoreFsV1();
+    const share = await store.getShareById(shareId);
+
+    const project = await loadProjectInternal(userId, String(share.projectId || '').trim());
+    if (!project) return c.json({ success: false, error: 'Share not found' }, 404);
+
+    const revoked = await store.revokeShare({ shareId });
+    return c.json({ success: true, share: revoked });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to revoke share link';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/shares-v1/projects/:projectId', async (c) => {
+  try {
+    const { userId } = requireEditorAccessForAi(c);
+    const projectId = String(c.req.param('projectId') || '').trim();
+    const limitRaw = Number(c.req.query('limit') ?? 50);
+    const limit = Math.max(1, Math.min(200, Number.isFinite(limitRaw) ? Math.trunc(limitRaw) : 50));
+
+    const project = await loadProjectInternal(userId, projectId);
+    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
+
+    const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+    const store = createSharesStoreFsV1();
+    const shares = await store.listSharesForProject({ projectId, limit });
+    return c.json({ success: true, shares });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to list shares';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+// Public, share-token-authorized APIs (no login).
+app.get('/api/share/v1/revision-meta', async (c) => {
+  try {
+    const { tokenPlain, share } = (getShareFromContextV1(c) ?? (await resolveShareFromRequestV1(c))) as any;
+    const { found } = await loadSharedRevisionV1({ projectId: share.projectId, revisionId: share.revisionId });
+    const reportType = String(found.reportType || '').trim();
+    if (String(share.reportType || '').trim() && String(share.reportType || '').trim() !== reportType) {
+      return c.json({ success: false, error: 'Share link does not match this revision' }, 409);
+    }
+    const rev = found.rev;
+    const revision = toShareSafeRevisionMetaV1({ revisionId: share.revisionId, reportType, rev });
+
+    const links: any = {
+      metaUrl: '/api/share/v1/revision-meta',
+      htmlUrl: '/api/share/v1/revision/html',
+      pdfUrl: '/api/share/v1/revision/pdf',
+      jsonUrl: '/api/share/v1/revision/json',
+      bundleZipUrl: '/api/share/v1/revision/bundle.zip',
+    };
+    // Scope-limited link exposure (meta always allowed).
+    if (!scopeAllowsV1(share.scope, 'VIEW')) delete links.htmlUrl;
+    if (!scopeAllowsV1(share.scope, 'DOWNLOAD')) {
+      delete links.pdfUrl;
+      delete links.jsonUrl;
+      delete links.bundleZipUrl;
+    }
+
+    return c.json({
+      success: true,
+      share: {
+        scope: share.scope,
+        expiresAtIso: share.expiresAtIso,
+        lastAccessAtIso: share.lastAccessAtIso,
+        accessCount: share.accessCount,
+      },
+      revision,
+      links,
+      tokenHint: tokenPlain ? `Share ${String(tokenPlain).slice(0, 6)}…` : undefined,
+    });
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to resolve share token';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/share/v1/revision/html', async (c) => {
+  try {
+    const { share } = (getShareFromContextV1(c) ?? (await resolveShareFromRequestV1(c))) as any;
+    if (!scopeAllowsV1(share.scope, 'VIEW')) return c.json({ success: false, error: 'Share scope does not allow viewing' }, 403);
+
+    const { project, found } = await loadSharedRevisionV1({ projectId: share.projectId, revisionId: share.revisionId });
+    const rt = String(found.reportType || '').trim();
+    const rev = found.rev;
+
+    if (rt === 'INTERNAL_ENGINEERING_V1') {
+      const { renderInternalEngineeringReportHtmlV1 } = await import('./modules/reports/internalEngineering/v1/renderInternalEngineeringReportHtml');
+      const html = renderInternalEngineeringReportHtmlV1({
+        project: {
+          id: share.projectId,
+          name: String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined,
+        },
+        revision: {
+          id: String((rev as any)?.id || ''),
+          createdAt: String((rev as any)?.createdAt || ''),
+          title: String((rev as any)?.title || ''),
+          reportJson: (rev as any)?.reportJson,
+          reportHash: String((rev as any)?.reportHash || ''),
+        },
+      });
+      c.header('Content-Type', 'text/html; charset=utf-8');
+      return c.body(html);
+    }
+
+    if (rt === 'ENGINEERING_PACK_V1') {
+      const { renderEngineeringPackHtmlV1 } = await import('./modules/reports/engineeringPack/v1/renderEngineeringPackHtmlV1');
+      const html = renderEngineeringPackHtmlV1({
+        project: {
+          id: share.projectId,
+          name: String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined,
+        },
+        revision: {
+          id: String((rev as any)?.id || ''),
+          createdAt: String((rev as any)?.createdAt || ''),
+          title: String((rev as any)?.title || ''),
+          packJson: (rev as any)?.packJson,
+          packHash: String((rev as any)?.packHash || ''),
+        },
+      });
+      c.header('Content-Type', 'text/html; charset=utf-8');
+      return c.body(html);
+    }
+
+    if (rt === 'EXECUTIVE_PACK_V1') {
+      const { renderExecutivePackHtmlV1 } = await import('./modules/reports/executivePack/v1/renderExecutivePackHtmlV1');
+      const html = renderExecutivePackHtmlV1({
+        project: {
+          id: share.projectId,
+          name: String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined,
+        },
+        revision: {
+          id: String((rev as any)?.id || ''),
+          createdAt: String((rev as any)?.createdAt || ''),
+          title: String((rev as any)?.title || ''),
+          packJson: (rev as any)?.packJson,
+          packHash: String((rev as any)?.packHash || ''),
+        },
+      });
+      c.header('Content-Type', 'text/html; charset=utf-8');
+      return c.body(html);
+    }
+
+    return c.json({ success: false, error: 'Unsupported reportType' }, 400);
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to render shared HTML';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/share/v1/revision/json', async (c) => {
+  try {
+    const { share } = (getShareFromContextV1(c) ?? (await resolveShareFromRequestV1(c))) as any;
+    // meta allowed, json is download-scoped
+    if (!scopeAllowsV1(share.scope, 'DOWNLOAD')) return c.json({ success: false, error: 'Share scope does not allow download' }, 403);
+
+    const { found } = await loadSharedRevisionV1({ projectId: share.projectId, revisionId: share.revisionId });
+    const rt = String(found.reportType || '').trim();
+    const rev = found.rev || {};
+    const createdAtIso = String((rev as any)?.createdAt || (rev as any)?.createdAtIso || '').trim() || null;
+    const filename = shareDownloadFilenameV1({ reportType: rt, revisionId: share.revisionId, createdAtIso, ext: 'json' });
+    c.header('Content-Disposition', `attachment; filename="${filename}"`);
+
+    // Security: do not expose internal storage keys or wrapper record; return the snapshot artifact JSON only.
+    if (rt === 'INTERNAL_ENGINEERING_V1') return c.json({ success: true, reportType: rt, revisionId: share.revisionId, reportJson: (rev as any)?.reportJson ?? null });
+    if (rt === 'ENGINEERING_PACK_V1' || rt === 'EXECUTIVE_PACK_V1') return c.json({ success: true, reportType: rt, revisionId: share.revisionId, packJson: (rev as any)?.packJson ?? null });
+    return c.json({ success: false, error: 'Unsupported reportType' }, 400);
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to load shared JSON';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/share/v1/revision/pdf', async (c) => {
+  try {
+    const { share } = (getShareFromContextV1(c) ?? (await resolveShareFromRequestV1(c))) as any;
+    if (!scopeAllowsV1(share.scope, 'DOWNLOAD')) return c.json({ success: false, error: 'Share scope does not allow download' }, 403);
+
+    const { found } = await loadSharedRevisionV1({ projectId: share.projectId, revisionId: share.revisionId });
+    const rt = String(found.reportType || '').trim();
+    const rev = found.rev || {};
+    const createdAtIso = String((rev as any)?.createdAt || (rev as any)?.createdAtIso || '').trim() || null;
+    const filename = shareDownloadFilenameV1({ reportType: rt, revisionId: share.revisionId, createdAtIso, ext: 'pdf' });
+
+    if (rt === 'ENGINEERING_PACK_V1') {
+      const { renderEngineeringPackPdfV1 } = await import('./modules/reports/engineeringPack/v1/renderEngineeringPackPdfV1');
+      const pdf = await renderEngineeringPackPdfV1({ packJson: (rev as any)?.packJson });
+      c.header('Content-Type', 'application/pdf');
+      c.header('Content-Disposition', `attachment; filename="${filename}"`);
+      return c.body(new Uint8Array(pdf));
+    }
+
+    if (rt === 'EXECUTIVE_PACK_V1') {
+      const { renderExecutivePackPdfV1 } = await import('./modules/reports/executivePack/v1/renderExecutivePackPdfV1');
+      const pdf = await renderExecutivePackPdfV1({ packJson: (rev as any)?.packJson });
+      c.header('Content-Type', 'application/pdf');
+      c.header('Content-Disposition', `attachment; filename="${filename}"`);
+      return c.body(new Uint8Array(pdf));
+    }
+
+    return c.json({ success: false, error: 'PDF not supported for this reportType' }, 400);
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to render shared PDF';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/share/v1/revision/bundle.zip', async (c) => {
+  try {
+    const { share } = (getShareFromContextV1(c) ?? (await resolveShareFromRequestV1(c))) as any;
+    if (!scopeAllowsV1(share.scope, 'DOWNLOAD')) return c.json({ success: false, error: 'Share scope does not allow download' }, 403);
+
+    const { project, found } = await loadSharedRevisionV1({ projectId: share.projectId, revisionId: share.revisionId });
+    const primaryType = String(found.reportType || '').trim() || 'UNKNOWN';
+    const primaryRev: any = found.rev || {};
+
+    const createdAtIso = String(primaryRev?.createdAt || primaryRev?.createdAtIso || '').trim() || null;
+    const revisionId = String(share.revisionId || '').trim();
+    const runId = String(primaryRev?.runId || '').trim() || null;
+    const engineVersions = primaryRev?.engineVersions && typeof primaryRev.engineVersions === 'object' ? primaryRev.engineVersions : {};
+    const warningsSummary = primaryRev?.warningsSummary && typeof primaryRev.warningsSummary === 'object' ? primaryRev.warningsSummary : null;
+    const wizardOutputHash = String(primaryRev?.wizardOutputHash || '').trim() || null;
+
+    const { default: JSZip } = await import('jszip');
+    const zip = new JSZip();
+
+    const renderPackPdfIfPossible = async (rt: string, rev: any, outName: string): Promise<boolean> => {
+      try {
+        if (rt === 'ENGINEERING_PACK_V1') {
+          const { renderEngineeringPackPdfV1 } = await import('./modules/reports/engineeringPack/v1/renderEngineeringPackPdfV1');
+          const pdf = await renderEngineeringPackPdfV1({ packJson: (rev as any)?.packJson });
+          zip.file(outName, pdf);
+          return true;
+        }
+        if (rt === 'EXECUTIVE_PACK_V1') {
+          const { renderExecutivePackPdfV1 } = await import('./modules/reports/executivePack/v1/renderExecutivePackPdfV1');
+          const pdf = await renderExecutivePackPdfV1({ packJson: (rev as any)?.packJson });
+          zip.file(outName, pdf);
+          return true;
+        }
+        return false;
+      } catch {
+        return false;
+      }
+    };
+
+    const chooseBestPackForRun = (rt: 'ENGINEERING_PACK_V1' | 'EXECUTIVE_PACK_V1'): any | null => {
+      if (!runId) return null;
+      const reports = project?.reportsV1 && typeof project.reportsV1 === 'object' ? project.reportsV1 : {};
+      const bucket = rt === 'ENGINEERING_PACK_V1' ? (Array.isArray(reports?.engineeringPackV1) ? reports.engineeringPackV1 : []) : (Array.isArray(reports?.executivePackV1) ? reports.executivePackV1 : []);
+      const matches = bucket.filter((r: any) => String(r?.runId || '').trim() === String(runId));
+      const narrowed = wizardOutputHash ? matches.filter((r: any) => String(r?.wizardOutputHash || '').trim() === String(wizardOutputHash)) : matches;
+      const pool = narrowed.length ? narrowed : matches;
+      if (!pool.length) return null;
+      pool.sort((a: any, b: any) => String(b?.createdAt || '').localeCompare(String(a?.createdAt || '')));
+      return pool[0] || null;
+    };
+
+    // Always include the primary revision's derived PDF when supported.
+    if (primaryType === 'ENGINEERING_PACK_V1') await renderPackPdfIfPossible(primaryType, primaryRev, 'engineering-pack.pdf');
+    if (primaryType === 'EXECUTIVE_PACK_V1') await renderPackPdfIfPossible(primaryType, primaryRev, 'executive-pack.pdf');
+
+    // Optionally include sibling pack PDFs for the same run.
+    const engForRun = chooseBestPackForRun('ENGINEERING_PACK_V1');
+    const execForRun = chooseBestPackForRun('EXECUTIVE_PACK_V1');
+    if (engForRun) await renderPackPdfIfPossible('ENGINEERING_PACK_V1', engForRun, 'engineering-pack.pdf');
+    if (execForRun) await renderPackPdfIfPossible('EXECUTIVE_PACK_V1', execForRun, 'executive-pack.pdf');
+
+    const safeArtifactJson =
+      primaryType === 'INTERNAL_ENGINEERING_V1'
+        ? { success: true, reportType: primaryType, revisionId, reportJson: primaryRev?.reportJson ?? null }
+        : { success: true, reportType: primaryType, revisionId, packJson: primaryRev?.packJson ?? null };
+    zip.file('pack.json', JSON.stringify(safeArtifactJson, null, 2));
+
+    const readmeLines: string[] = [];
+    readmeLines.push('EverWatt Shared Pack Bundle (snapshot-only)');
+    readmeLines.push('');
+    readmeLines.push(`revisionId: ${revisionId}`);
+    readmeLines.push(`reportType: ${primaryType}`);
+    if (createdAtIso) readmeLines.push(`createdAtIso: ${createdAtIso}`);
+    if (runId) readmeLines.push(`runId: ${runId}`);
+    if (wizardOutputHash) readmeLines.push(`wizardOutputHash: ${wizardOutputHash}`);
+    readmeLines.push('');
+    readmeLines.push('engineVersions:');
+    for (const k of Object.keys(engineVersions || {}).sort()) {
+      readmeLines.push(`- ${k}: ${String((engineVersions as any)[k])}`);
+    }
+    if (warningsSummary) {
+      readmeLines.push('');
+      readmeLines.push('warningsSummary:');
+      readmeLines.push(`- engineWarningsCount: ${String((warningsSummary as any)?.engineWarningsCount ?? '')}`);
+      readmeLines.push(`- missingInfoCount: ${String((warningsSummary as any)?.missingInfoCount ?? '')}`);
+      const topEngine = Array.isArray((warningsSummary as any)?.topEngineWarningCodes) ? (warningsSummary as any).topEngineWarningCodes : [];
+      const topMissing = Array.isArray((warningsSummary as any)?.topMissingInfoCodes) ? (warningsSummary as any).topMissingInfoCodes : [];
+      readmeLines.push(`- topEngineWarningCodes: ${topEngine.length ? topEngine.join(', ') : '—'}`);
+      readmeLines.push(`- topMissingInfoCodes: ${topMissing.length ? topMissing.join(', ') : '—'}`);
+    }
+    readmeLines.push('');
+    readmeLines.push('Disclaimer: snapshot-only artifact; no recompute. Handle token links as secrets.');
+    zip.file('README.txt', readmeLines.join('\n'));
+
+    const out = await zip.generateAsync({ type: 'nodebuffer' });
+    const filename = shareDownloadFilenameV1({ reportType: primaryType, revisionId, createdAtIso, ext: 'zip' });
+    c.header('Content-Type', 'application/zip');
+    c.header('Content-Disposition', `attachment; filename="${filename}"`);
+    return c.body(new Uint8Array(out));
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to build shared bundle';
+    return c.json({ success: false, error: message }, status as any);
   }
 });
 

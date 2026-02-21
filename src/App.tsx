@@ -24,6 +24,7 @@ import { NMECSavingsReport } from './modules/reports/pages/reports/NMECSavingsRe
 import { PGETsbPacReport } from './modules/reports/pages/reports/PGETsbPacReport';
 import { CarbonFootprintReport } from './modules/reports/pages/reports/CarbonFootprintReport';
 import { ReportRevisionLandingPage } from './pages/modules/reports/ReportRevisionLandingPage';
+import { SharedRevisionLandingPage } from './pages/modules/reports/SharedRevisionLandingPage';
 import { HVACOptimizer } from './modules/hvac_optimizer/pages/HVACOptimizer';
 import { UtilitiesAndProgramsLanding } from './modules/utilities/pages/UtilitiesAndProgramsLanding';
 import { UtilitiesAndPrograms } from './modules/utilities/pages/UtilitiesAndPrograms';
@@ -97,6 +98,7 @@ function App() {
         <Route path="/reports/pge-tsb-pac" element={withBoundary(<PGETsbPacReport />)} />
         <Route path="/reports/carbon-footprint" element={withBoundary(<CarbonFootprintReport />)} />
         <Route path="/reports/revisions/:revisionId" element={withBoundary(<ReportRevisionLandingPage />)} />
+        <Route path="/share/:token" element={withBoundary(<SharedRevisionLandingPage />)} />
         <Route path="/reports/*" element={withBoundary(<Reports />)} />
         <Route path="/reports/pge-regression" element={withBoundary(<PGERegressionReport />)} />
         <Route path="/reports/regression-analysis" element={withBoundary(<RegressionReportGenerator />)} />
