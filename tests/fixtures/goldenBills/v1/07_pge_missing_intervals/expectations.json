@@ -1,0 +1,22 @@
+{
+  "expectedUtility": "PGE",
+  "expectedSupplyProviderType": "NONE",
+  "expectedLseName": null,
+  "expectedRateSourceKind": "DELIVERY",
+  "expectedMissingInfoIds": [
+    "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+    "billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+    "determinants.reconcile.billingRecords.missing",
+    "determinants.reconcile.reconcilable.count",
+    "interval.intervalElectricV1.missing",
+    "supply.v1.lse_undetected",
+    "supplyStructure.supply.v1.lse_undetected",
+    "tariff.applicability.demand.missing",
+    "tariff.applicability.rules.missing",
+    "tariff.applicability.unknown",
+    "tariff.applicability.voltage.unknown"
+  ],
+  "expectedAuditReconcile": false,
+  "expectedTopLineNumbers": {}
+}
+

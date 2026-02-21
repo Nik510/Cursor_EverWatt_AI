@@ -1,0 +1,13 @@
+{
+  "caseId": "05_sgip_snapshot_missing",
+  "inputs": {
+    "battery": { "powerKw": 30, "energyKwh": 120, "roundTripEff": 0.9 },
+    "costs": null,
+    "tariffs": null,
+    "determinants": null,
+    "dispatch": null,
+    "finance": { "termYears": 5, "discountRate": 0.09 },
+    "sgipInputsV0": { "eligible": true, "category": "general_market", "effectiveYmd": "2025-01-01" }
+  }
+}
+

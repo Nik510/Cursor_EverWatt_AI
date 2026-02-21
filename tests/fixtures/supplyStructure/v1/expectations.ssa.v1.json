@@ -1,0 +1,223 @@
+[
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\01_pge_bundled_minimal.txt",
+    "expected": {
+      "serviceType": "IOU_ONLY",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "confidence": 0.6,
+      "warnings": ["supply.v1.lse_undetected"],
+      "missingInfoIds": ["supply.v1.lse_undetected"]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\02_pge_cleanpowersf.txt",
+    "expected": {
+      "serviceType": "CCA",
+      "iouUtility": "PGE",
+      "lseName": "CleanPowerSF",
+      "confidence": 0.87,
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\03_pge_sf_clean_energy.txt",
+    "expected": {
+      "serviceType": "CCA",
+      "iouUtility": "PGE",
+      "lseName": "CleanPowerSF",
+      "confidence": 0.87,
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\04_pge_peninsula_clean_energy.txt",
+    "expected": {
+      "serviceType": "CCA",
+      "iouUtility": "PGE",
+      "lseName": "Peninsula Clean Energy",
+      "confidence": 0.87,
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\05_pge_svce.txt",
+    "expected": {
+      "serviceType": "CCA",
+      "iouUtility": "PGE",
+      "lseName": "Silicon Valley Clean Energy",
+      "confidence": 0.87,
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\06_pge_ebce.txt",
+    "expected": {
+      "serviceType": "CCA",
+      "iouUtility": "PGE",
+      "lseName": "East Bay Community Energy",
+      "confidence": 0.87,
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\07_pge_sonoma_clean_power.txt",
+    "expected": {
+      "serviceType": "CCA",
+      "iouUtility": "PGE",
+      "lseName": "Sonoma Clean Power",
+      "confidence": 0.87,
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\08_pge_marin_clean_energy.txt",
+    "expected": {
+      "serviceType": "CCA",
+      "iouUtility": "PGE",
+      "lseName": "Marin Clean Energy",
+      "confidence": 0.87,
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\09_pge_3ce.txt",
+    "expected": {
+      "serviceType": "CCA",
+      "iouUtility": "PGE",
+      "lseName": "Central Coast Community Energy",
+      "confidence": 0.87,
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\10_pge_ava_energy.txt",
+    "expected": {
+      "serviceType": "CCA",
+      "iouUtility": "PGE",
+      "lseName": "Ava Community Energy",
+      "confidence": 0.87,
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\11_pge_da_direct_access.txt",
+    "expected": {
+      "serviceType": "DA",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "confidence": 0.9,
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\12_pge_da_esp.txt",
+    "expected": {
+      "serviceType": "DA",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "confidence": 0.85,
+      "warnings": [],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\13_pge_cca_keyword_unknown_lse.txt",
+    "expected": {
+      "serviceType": "CCA",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "confidence": 0.7,
+      "warnings": ["supply.v1.lse_undetected", "supply.v1.lse_unsupported"],
+      "missingInfoIds": ["supply.v1.lse_undetected", "supply.v1.lse_unsupported"]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\14_pge_cca_ambiguous_two_lses.txt",
+    "expected": {
+      "serviceType": "CCA",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "confidence": 0.55,
+      "warnings": ["supply.v1.lse_ambiguous"],
+      "missingInfoIds": ["supply.v1.lse_ambiguous"]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\15_utility_unknown_but_lse_present.txt",
+    "expected": {
+      "serviceType": "CCA",
+      "iouUtility": "UNKNOWN",
+      "lseName": "Peninsula Clean Energy",
+      "confidence": 0.87,
+      "warnings": ["supply.v1.utility_unknown"],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\16_no_bill_text.txt",
+    "expected": {
+      "serviceType": "UNKNOWN",
+      "iouUtility": "UNKNOWN",
+      "lseName": null,
+      "confidence": 0.2,
+      "warnings": ["supply.v1.confidence_low", "supply.v1.utility_unknown"],
+      "missingInfoIds": []
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\17_sce_bundled_minimal.txt",
+    "expected": {
+      "serviceType": "IOU_ONLY",
+      "iouUtility": "SCE",
+      "lseName": null,
+      "confidence": 0.6,
+      "warnings": ["supply.v1.lse_undetected"],
+      "missingInfoIds": ["supply.v1.lse_undetected"]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\18_sdge_bundled_minimal.txt",
+    "expected": {
+      "serviceType": "IOU_ONLY",
+      "iouUtility": "SDGE",
+      "lseName": null,
+      "confidence": 0.6,
+      "warnings": ["supply.v1.lse_undetected"],
+      "missingInfoIds": ["supply.v1.lse_undetected"]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\19_pge_bill_mentions_cca_and_da.txt",
+    "expected": {
+      "serviceType": "DA",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "confidence": 0.9,
+      "warnings": ["supply.v1.conflict_markers"],
+      "missingInfoIds": ["supply.v1.conflict_markers"]
+    }
+  },
+  {
+    "fixtureFile": "tests\\fixtures\\supplyStructure\\v1\\cases\\20_pge_text_too_short.txt",
+    "expected": {
+      "serviceType": "IOU_ONLY",
+      "iouUtility": "PGE",
+      "lseName": null,
+      "confidence": 0.6,
+      "warnings": ["supply.v1.lse_undetected"],
+      "missingInfoIds": ["supply.v1.lse_undetected"]
+    }
+  }
+]
+

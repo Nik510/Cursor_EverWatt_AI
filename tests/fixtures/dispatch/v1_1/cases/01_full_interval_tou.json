@@ -1,0 +1,31 @@
+{
+  "caseId": "01_full_interval_tou",
+  "cycles": [
+    {
+      "cycleLabel": "2026-01",
+      "cycleStartIso": "2026-01-15T08:00:00.000Z",
+      "cycleEndIso": "2026-01-16T08:00:00.000Z",
+      "timezone": "America/Los_Angeles"
+    }
+  ],
+  "intervalPointsFile": "tests\\fixtures\\dispatch\\v1_1\\shared\\intervalPoints_1day_hourly_arbitrage.json",
+  "touEnergyPrices": [
+    { "periodId": "OFF", "startHourLocal": 0, "endHourLocalExclusive": 16, "days": "all", "pricePerKwh": 0.1 },
+    { "periodId": "ON", "startHourLocal": 16, "endHourLocalExclusive": 21, "days": "all", "pricePerKwh": 0.3 },
+    { "periodId": "OFF2", "startHourLocal": 21, "endHourLocalExclusive": 24, "days": "all", "pricePerKwh": 0.12 }
+  ],
+  "battery": { "powerKw": 50, "energyKwh": 200, "rte": 0.9, "minSoc": 0.1, "maxSoc": 0.9 },
+  "expect": {
+    "okAllCycles": true,
+    "checksByCycleLabel": {
+      "2026-01": {
+        "demandPeakAfterLtBefore": true,
+        "chargedTouMustContain": ["OFF"],
+        "dischargedTouMustContain": ["ON"],
+        "chargedKwhOnTouEq": { "OFF": 177.777778 },
+        "dischargedKwhOnTouEq": { "ON": 160 }
+      }
+    }
+  }
+}
+

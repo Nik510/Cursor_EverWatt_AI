@@ -3,6 +3,7 @@
  * Simple session-based auth (can be upgraded to JWT/OAuth)
  */
 
+import { randomBytes } from 'node:crypto';
 import type { User, AdminSession, UserRole } from './types';
 
 // In-memory user store (replace with database in production)
@@ -31,11 +32,21 @@ const sessions = new Map<string, AdminSession>();
  * In production, this would verify against a database
  */
 export async function login(email: string, password: string): Promise<AdminSession | null> {
-  // For demo: accept any password for known emails
-  // In production: hash and verify password
   const user = users.find(u => u.email === email);
   
   if (!user) {
+    return null;
+  }
+
+  const demoAuthEnabled = process.env.EVERWATT_DEMO_AUTH === '1';
+  if (!demoAuthEnabled) {
+    // Stop-ship guard: refuse "accept any password" behavior unless explicitly demo-gated.
+    // Proper password verification is not implemented in this in-memory demo store.
+    return null;
+  }
+
+  // Demo: accept any non-empty password for known emails
+  if (!String(password || '').trim()) {
     return null;
   }
 
@@ -116,7 +127,7 @@ export function isAdmin(session: AdminSession | null): boolean {
  * Generate session token
  */
 function generateToken(): string {
-  return `token_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  return `adm_${randomBytes(32).toString('hex')}`;
 }
 
 /**

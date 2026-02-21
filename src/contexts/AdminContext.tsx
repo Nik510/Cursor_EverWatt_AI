@@ -3,7 +3,7 @@
  * Provides admin session and permissions throughout the app
  */
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 import type { AdminSession, UserRole } from '../backend/admin/types';
 
 interface AdminContextType {
@@ -17,6 +17,8 @@ interface AdminContextType {
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
+
+let warnedTokenPersistence = false;
 
 export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [session, setSession] = useState<AdminSession | null>(null);
@@ -45,17 +47,6 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }
 
-  // Load session from localStorage on mount (server-validated)
-  useEffect(() => {
-    const token = localStorage.getItem('admin_token');
-    if (token) {
-      fetchSession(token).then((verified) => {
-        if (verified) setSession(verified);
-        else localStorage.removeItem('admin_token');
-      });
-    }
-  }, []);
-
   const login = useCallback(async (email: string, password: string): Promise<boolean> => {
     try {
       const res = await fetch('/api/admin/login', {
@@ -67,7 +58,10 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       const data = await res.json();
       if (data?.success && data.session?.token) {
         setSession(data.session as AdminSession);
-        localStorage.setItem('admin_token', data.session.token);
+        if (!warnedTokenPersistence) {
+          warnedTokenPersistence = true;
+          console.warn('[everwatt] Admin token persistence is disabled; you will be logged out on refresh.');
+        }
         return true;
       }
       return false;
@@ -77,7 +71,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   const logout = useCallback(() => {
-    const token = session?.token || localStorage.getItem('admin_token');
+    const token = session?.token;
     if (token) {
       fetch('/api/admin/logout', {
         method: 'POST',
@@ -85,18 +79,17 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }).catch(() => {});
     }
     setSession(null);
-    localStorage.removeItem('admin_token');
   }, [session]);
 
   const refreshSession = useCallback(() => {
-    const token = localStorage.getItem('admin_token');
+    const token = session?.token;
     if (token) {
       fetchSession(token).then((verified) => {
         if (verified) setSession(verified);
         else logout();
       });
     }
-  }, [logout]);
+  }, [logout, session]);
 
   const checkPermission = useCallback((role: UserRole) => {
     if (!session) return false;

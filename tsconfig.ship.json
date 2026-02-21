@@ -5,12 +5,16 @@
     "skipLibCheck": true
   },
   "include": [
-    "src/pages/ModuleHub.tsx",
-    "src/pages/projectBuilder/**/*.tsx",
-    "src/components/projectBuilder/**/*.tsx",
-    "src/types/project-graph.ts",
-    "src/validation/schemas/project-graph-phase1-schema.ts",
-    "src/services/inbox-decisions.ts"
+    "src/vite-env.d.ts",
+    "src/main.ship.tsx",
+    "src/types/ai-insights.ts",
+    "src/services/ai-insights-client.ts",
+    "src/config/ai-config.ts",
+    "src/services/llm-insights.ts",
+    "src/services/ai-service.ts",
+    "src/services/ai-rag-service.ts",
+    "src/services/auth-service.ts",
+    "src/backend/admin/auth.ts"
   ]
 }
 

@@ -1,0 +1,9 @@
+SDG&E
+Commercial Electric Service
+
+Rate Schedule: AL-TOU
+Service Provider: San Diego Community Power
+Billing Period: 2026-01-01 to 2026-01-31
+
+This is sanitized bill text for deterministic testing. No customer data.
+

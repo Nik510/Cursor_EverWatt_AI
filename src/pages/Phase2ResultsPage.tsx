@@ -10,6 +10,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useAdmin } from '../contexts/AdminContext';
 import {
   Activity,
   AlertTriangle,
@@ -59,12 +60,12 @@ import {
 } from 'recharts';
 import { AnalysisQABot } from '../components/AnalysisQABot';
 import { calculateOptionSDemandCharges, DEFAULT_OPTION_S_RATES_2025_SECONDARY, simulateBatteryDispatchWithSRate } from '../utils/battery/s-rate-calculations';
-import { generateExecutiveNarrative, isAIEnabled, type SectionInsight } from '../services/llm-insights';
+import { fetchAiHealth, fetchExecutiveNarrative } from '../services/ai-insights-client';
+import type { SectionInsight } from '../types/ai-insights';
 import { SectionCard } from '../components/SectionCard';
 import { checkSRateEligibility, isAlreadyOnOptionS } from '../utils/rates/s-rate-eligibility';
 import { getRateByCode } from '../utils/rates/storage';
 import type { UtilityProvider } from '../utils/rates/types';
-import { performHolisticAnalysis } from '../modules/battery/intelligent-peak-analysis';
 import type { LoadProfile } from '../modules/battery/types';
 import type { BatterySpec, SimulationResult } from '../modules/battery/types';
 // All calculations moved to backend - see /api/batteries/analyze endpoint
@@ -261,6 +262,15 @@ export const Phase2ResultsPage: React.FC<Partial<Phase2ResultsProps>> = (props) 
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
+  const { session } = useAdmin();
+  const adminToken = session?.token || '';
+
+  const [aiConfigured, setAiConfigured] = useState<boolean | null>(null);
+  useEffect(() => {
+    fetchAiHealth()
+      .then((d) => setAiConfigured(!!d.configured))
+      .catch(() => setAiConfigured(false));
+  }, []);
 
   const hasDirectProps =
     !!(props as any).customerInfo &&
@@ -541,7 +551,6 @@ export const Phase2ResultsPage: React.FC<Partial<Phase2ResultsProps>> = (props) 
     } catch (e) {
       // If persisted snapshot is malformed, fall back to legacy analysis mapping.
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [persistedRun, hasDirectProps]);
 
   // Load persisted battery run snapshot (source of truth for UI + PDFs)
@@ -1215,7 +1224,7 @@ export const Phase2ResultsPage: React.FC<Partial<Phase2ResultsProps>> = (props) 
     setExecutiveNarrativeLoading(true);
     setExecutiveNarrativeError(null);
     try {
-      const narrative = await generateExecutiveNarrative(executiveNarrativeInput);
+      const narrative = await fetchExecutiveNarrative({ adminToken, analysisData: executiveNarrativeInput });
       setExecutiveNarrative(narrative);
       lastNarrativeKeyRef.current = key;
     } catch (e) {
@@ -1867,7 +1876,7 @@ export const Phase2ResultsPage: React.FC<Partial<Phase2ResultsProps>> = (props) 
   }, [customerInfo.rateCode, customerInfo.rateSchedule, customerInfo.serviceProvider]);
 
   // Intelligent Holistic Peak Analysis
-  const [holisticAnalysis, setHolisticAnalysis] = useState<Awaited<ReturnType<typeof performHolisticAnalysis>> | null>(null);
+  const [holisticAnalysis, setHolisticAnalysis] = useState<any | null>(null);
   const [holisticAnalysisLoading, setHolisticAnalysisLoading] = useState(false);
   const [holisticAnalysisError, setHolisticAnalysisError] = useState<string | null>(null);
 
@@ -1894,16 +1903,24 @@ export const Phase2ResultsPage: React.FC<Partial<Phase2ResultsProps>> = (props) 
         // Get demand rate from financials
         const demandRate = Number.isFinite(finN.demandRate) ? finN.demandRate : 20;
 
-        // Run holistic analysis
-        const analysis = await performHolisticAnalysis(loadProfile, {
-          demandRate,
-          financialParams: {
-            discountRate: 0.06,
-            inflationRate: 0.02,
-            analysisPeriod: 15,
-          },
-          maxPaybackYears: 10,
+        // Run holistic analysis on backend to avoid bundling Node-only engine code in the browser.
+        const res = await fetch('/api/batteries/holistic-analysis', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            intervals: loadProfile.intervals.map((i) => ({
+              timestamp: i.timestamp instanceof Date ? i.timestamp.toISOString() : new Date(i.timestamp as any).toISOString(),
+              kw: i.kw,
+            })),
+            demandRate,
+            financialParams: { discountRate: 0.06, inflationRate: 0.02, analysisPeriod: 15 },
+            maxPaybackYears: 10,
+          }),
         });
+        if (!res.ok) throw new Error(`Holistic analysis failed (${res.status})`);
+        const json = await res.json();
+        if (!json?.success) throw new Error(String(json?.error || 'Holistic analysis failed'));
+        const analysis = json.analysis;
 
         if (!cancelled) {
           setHolisticAnalysis(analysis);
@@ -3885,7 +3902,7 @@ export const Phase2ResultsPage: React.FC<Partial<Phase2ResultsProps>> = (props) 
                   onClick={() => void refreshExecutiveNarrative(true)}
                   className="px-3 py-2 rounded-lg border border-gray-300 text-gray-700 text-sm hover:bg-gray-50 disabled:opacity-60"
                   disabled={executiveNarrativeLoading}
-                  title={isAIEnabled() ? 'Regenerate AI narrative' : 'AI is not configured; will use fallback summary'}
+                  title={aiConfigured ? 'Regenerate AI narrative' : 'AI is not configured; will use fallback summary'}
                 >
                   {executiveNarrativeLoading ? 'Generating…' : 'Regenerate'}
                 </button>
@@ -3911,7 +3928,7 @@ export const Phase2ResultsPage: React.FC<Partial<Phase2ResultsProps>> = (props) 
                   'We’re not guessing: this summary is generated from the customer’s actual interval/billing inputs.',
                 ],
                 recommendations: ['Use this as the closing section in Phase 1, then transition to Phase 2 for pricing and ROI.'],
-                isGenerated: isAIEnabled(),
+                isGenerated: !!aiConfigured,
               }}
               insightVariant="purple"
             >

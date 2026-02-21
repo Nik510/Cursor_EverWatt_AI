@@ -46,8 +46,25 @@ function signHs256(data: string, secret: string): string {
   return base64UrlEncode(crypto.createHmac('sha256', secret).update(data).digest());
 }
 
-function getJwtSecret(): string {
-  return process.env.JWT_SECRET || process.env.AUTH_SECRET || 'dev-insecure-secret-change-me';
+let warnedDevJwtSecret = false;
+
+export function getJwtSecret(): string {
+  const secret = process.env.JWT_SECRET || process.env.AUTH_SECRET;
+  const nodeEnv = process.env.NODE_ENV;
+
+  if (nodeEnv === 'production') {
+    if (!secret) {
+      throw new Error('[everwatt] JWT_SECRET (or AUTH_SECRET) is required in production. Refusing to start with an insecure fallback.');
+    }
+    return secret;
+  }
+
+  if (secret) return secret;
+  if (!warnedDevJwtSecret) {
+    warnedDevJwtSecret = true;
+    console.warn('[everwatt] Using insecure dev JWT secret fallback (set JWT_SECRET to silence this warning).');
+  }
+  return 'dev-insecure-secret-change-me';
 }
 
 export function signJwt(user: AuthUser, expiresInSeconds: number = 60 * 60 * 24): string {
@@ -109,4 +126,8 @@ export function getBearerTokenFromAuthHeader(authHeader: string | undefined | nu
   const trimmed = authHeader.trim();
   if (!/^bearer\s+/i.test(trimmed)) return null;
   return trimmed.replace(/^bearer\s+/i, '').trim() || null;
+}
+
+export function assertJwtSecretConfigured(): void {
+  void getJwtSecret();
 }

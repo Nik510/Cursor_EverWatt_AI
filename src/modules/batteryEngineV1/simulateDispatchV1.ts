@@ -86,7 +86,10 @@ function findPeakAndOffpeakPrices(args: { tariff: TariffPriceSignalsV1 | null | 
   offpeakPricePerKwh: number | null;
 } {
   const t = args.tariff;
-  const wins = Array.isArray(t?.touEnergyPrices) ? t!.touEnergyPrices : [];
+  const winsGenAllIn = Array.isArray((t as any)?.generationAllInTouEnergyPrices) ? (((t as any).generationAllInTouEnergyPrices as any[]) || []) : [];
+  const winsGenEnergyOnly = Array.isArray((t as any)?.generationTouEnergyPrices) ? (((t as any).generationTouEnergyPrices as any[]) || []) : [];
+  const winsDelivery = Array.isArray(t?.touEnergyPrices) ? (t!.touEnergyPrices as any[]) : [];
+  const wins = winsGenAllIn.length ? (winsGenAllIn as any) : winsGenEnergyOnly.length ? (winsGenEnergyOnly as any) : (winsDelivery as any);
   const prices = wins.map((w) => Number((w as any)?.pricePerKwh)).filter((n) => Number.isFinite(n) && n >= 0);
   if (!wins.length || !prices.length) return { ok: false, peakPricePerKwh: null, offpeakPricePerKwh: null };
   const peak = Math.max(...prices);

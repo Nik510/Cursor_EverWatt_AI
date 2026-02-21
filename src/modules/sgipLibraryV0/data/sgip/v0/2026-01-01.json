@@ -1,0 +1,43 @@
+{
+  "snapshotId": "sgip.v0.2026-01-01",
+  "effectiveStartYmd": "2026-01-01",
+  "acquisitionMethodUsed": "MANUAL_SEED_V0",
+  "notes": "Seeded SGIP snapshot v0. Deterministic fixture-pack seed for unit tests and offline economics. Not a live program feed; budget availability/step-down timing not modeled.",
+  "programRules": {
+    "eligibility": {
+      "modeled": "explicit_flags_only_v0",
+      "notes": "Eligibility is not inferred in v0; caller must pass eligible=true and category."
+    },
+    "budgetAvailability": {
+      "modeled": false,
+      "notes": "Budget exhaustion and step-downs are not modeled in v0."
+    }
+  },
+  "incentiveRates": {
+    "general_market": {
+      "category": "general_market",
+      "rateUsdPerWh": 0.15,
+      "programCapUsd": null,
+      "notes": "Seed rate ($/Wh). Caps/adders not exhaustively modeled in v0."
+    },
+    "equity_resiliency": {
+      "category": "equity_resiliency",
+      "rateUsdPerWh": 1.0,
+      "programCapUsd": null,
+      "notes": "Seed rate ($/Wh). Caps/adders not exhaustively modeled in v0."
+    },
+    "equity": {
+      "category": "equity",
+      "rateUsdPerWh": 0.85,
+      "programCapUsd": null,
+      "notes": "Seed rate ($/Wh). Caps/adders not exhaustively modeled in v0."
+    },
+    "residential": {
+      "category": "residential",
+      "rateUsdPerWh": 0.2,
+      "programCapUsd": null,
+      "notes": "Present for completeness; v0 calculators do not apply residential unless explicitly selected."
+    }
+  }
+}
+

@@ -159,7 +159,11 @@ export function evaluateStorageOpportunityPackV1(args: EvaluateStorageOpportunit
   if (!hasIntervalPoints) missingInfo.push(BatteryOpportunityReasonCodesV1.BATTERY_V1_MISSING_INTERVALS);
 
   const tariff = args.tariffPriceSignalsV1 || null;
-  const hasTariffPrices = Boolean(Array.isArray((tariff as any)?.touEnergyPrices) && (tariff as any).touEnergyPrices.length);
+  const hasTariffPrices = Boolean(
+    (Array.isArray((tariff as any)?.generationAllInTouEnergyPrices) && (tariff as any).generationAllInTouEnergyPrices.length) ||
+      (Array.isArray((tariff as any)?.generationTouEnergyPrices) && (tariff as any).generationTouEnergyPrices.length) ||
+      (Array.isArray((tariff as any)?.touEnergyPrices) && (tariff as any).touEnergyPrices.length),
+  );
   if (!hasTariffPrices) missingInfo.push(BatteryOpportunityReasonCodesV1.BATTERY_V1_MISSING_TARIFF_PRICES);
 
   const det = args.determinantsV1 || null;
@@ -247,6 +251,15 @@ export function evaluateStorageOpportunityPackV1(args: EvaluateStorageOpportunit
     intervalInsightsV1: intervalInsights as any,
   });
 
+  const batteryEconomicsV1Summary = {
+    confidenceTier: storageEconomicsV1Out.confidenceTier,
+    capexTotalUsd: Array.isArray((storageEconomicsV1Out as any)?.capexEstimate?.totalCapexUsdRange) ? (storageEconomicsV1Out as any).capexEstimate.totalCapexUsdRange[0] ?? null : null,
+    savingsAnnualTotalUsd: Array.isArray((storageEconomicsV1Out as any)?.cashflow?.annualGrossSavingsUsdRange) ? (storageEconomicsV1Out as any).cashflow.annualGrossSavingsUsdRange[0] ?? null : null,
+    simplePaybackYears: Array.isArray((storageEconomicsV1Out as any)?.payback?.simplePaybackYearsRange) ? (storageEconomicsV1Out as any).payback.simplePaybackYearsRange[0] ?? null : null,
+    npvUsd: Array.isArray((storageEconomicsV1Out as any)?.npvLite?.npvUsdRange) ? (storageEconomicsV1Out as any).npvLite.npvUsdRange[0] ?? null : null,
+    warnings: Array.isArray((storageEconomicsV1Out as any)?.warnings) ? (storageEconomicsV1Out as any).warnings : [],
+  } as const;
+
   const incentivesStubV1Out = incentivesStubV1({
     recommendedBatteryConfig: recommendedBatteryConfigs[0] || null,
     customerType: args.customerType || null,
@@ -257,6 +270,7 @@ export function evaluateStorageOpportunityPackV1(args: EvaluateStorageOpportunit
     dispatchSimulationV1,
     drReadinessV1: dr,
     storageEconomicsV1: storageEconomicsV1Out,
+    batteryEconomicsV1Summary,
     incentivesStubV1: incentivesStubV1Out,
   };
 }

@@ -12,7 +12,7 @@ type ChatMessage = {
 
 export function AiChat(props: { title: string; systemPrompt?: string; analysisContext?: string }) {
   const { session } = useAdmin();
-  const adminToken = session?.token || localStorage.getItem('admin_token') || '';
+  const adminToken = session?.token || '';
 
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
     const initial: ChatMessage[] = [];

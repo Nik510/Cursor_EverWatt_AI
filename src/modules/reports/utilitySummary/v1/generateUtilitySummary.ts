@@ -55,7 +55,7 @@ export function generateUtilitySummaryV1(args: {
   batterySelection: BatteryCandidateSelectionOutput;
   nowIso?: string;
 }): { json: UtilitySummaryV1; markdown: string } {
-  const nowIso = args.nowIso || new Date('2026-01-01T00:00:00.000Z').toISOString();
+  const nowIso = args.nowIso || new Date().toISOString();
 
   const missing = uniq([
     ...(args.insights.requiredInputsMissing || []),

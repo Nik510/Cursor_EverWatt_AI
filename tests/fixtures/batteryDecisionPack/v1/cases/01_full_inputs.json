@@ -1,0 +1,20 @@
+{
+  "caseId": "01_full_inputs",
+  "intervalPointsFile": "tests\\fixtures\\batteryDecisionPack\\v1\\shared\\intervalPoints_2days_hourly.json",
+  "tariffSnapshotId": "snap_full_1",
+  "tariffPriceSignalsV1": {
+    "timezone": "America/Los_Angeles",
+    "touEnergyPrices": [
+      { "periodId": "off", "startHourLocal": 0, "endHourLocalExclusive": 16, "days": "all", "pricePerKwh": 0.12 },
+      { "periodId": "on", "startHourLocal": 16, "endHourLocalExclusive": 21, "days": "all", "pricePerKwh": 0.42 },
+      { "periodId": "off2", "startHourLocal": 21, "endHourLocalExclusive": 24, "days": "all", "pricePerKwh": 0.15 }
+    ],
+    "demandChargePerKw": 22
+  },
+  "determinantsV1": {
+    "billingDemandKw": 240,
+    "ratchetDemandKw": null,
+    "billingDemandMethod": "BILLING_DEMAND_V1"
+  }
+}
+

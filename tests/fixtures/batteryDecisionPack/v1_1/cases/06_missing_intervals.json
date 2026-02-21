@@ -1,0 +1,24 @@
+{
+  "caseId": "06_missing_intervals",
+  "utility": "PGE",
+  "rate": "B-19",
+  "intervalPointsFixture": null,
+  "tariffSnapshotId": "2026-03-01T0000Z",
+  "tariffPriceSignalsV1": {
+    "timezone": "America/Los_Angeles",
+    "touEnergyPrices": [
+      { "periodId": "OFF", "startHourLocal": 0, "endHourLocalExclusive": 16, "days": "all", "pricePerKwh": 0.12 },
+      { "periodId": "ON", "startHourLocal": 16, "endHourLocalExclusive": 21, "days": "all", "pricePerKwh": 0.32 }
+    ],
+    "demandChargePerKw": 20,
+    "supplyProviderType": null,
+    "supplyLseName": null
+  },
+  "determinantsV1": {
+    "billingDemandKw": 180,
+    "ratchetDemandKw": null,
+    "billingDemandMethod": "DETERMINANTS_V1_PLACEHOLDER"
+  },
+  "determinantsCycles": null
+}
+

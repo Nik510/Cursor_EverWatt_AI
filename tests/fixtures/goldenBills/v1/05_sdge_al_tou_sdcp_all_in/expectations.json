@@ -1,0 +1,23 @@
+{
+  "expectedUtility": "SDGE",
+  "expectedSupplyProviderType": "CCA",
+  "expectedLseName": "San Diego Community Power",
+  "expectedRateSourceKind": "CCA_GEN_V0_ALL_IN_WITH_EXIT_FEES_DEDUPED",
+  "expectedMissingInfoIds": [
+    "billing.billPdfTouUsage.BILL_PDF_TOU_DEMAND_NOT_EXPLICIT",
+    "billing.billPdfTouUsage.BILL_PDF_TOU_ENERGY_NOT_EXPLICIT",
+    "determinants.demandRules.utility.SDGE.missing",
+    "determinants.reconcile.billingRecords.missing",
+    "determinants.reconcile.coverageLow.2026-01",
+    "determinants.reconcile.reconcilable.count",
+    "determinants.tou.labeling.unavailable",
+    "determinants.tou.max.missing",
+    "tariff.applicability.customerClass.unknown",
+    "tariff.applicability.rules.missing.SDGE",
+    "tariff.applicability.unknown",
+    "tariff.applicability.voltage.unknown"
+  ],
+  "expectedAuditReconcile": true,
+  "expectedTopLineNumbers": {}
+}
+

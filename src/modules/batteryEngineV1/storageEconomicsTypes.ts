@@ -16,6 +16,23 @@ export type StorageEconomicsCapexOverridesV1 = {
 };
 
 export type StorageEconomicsV1 = {
+  /**
+   * Legacy-to-canonical bridge fields (additive; derived from batteryEconomicsV1).
+   * These are deterministic point estimates (not ranges).
+   */
+  totalCapexUsd?: number | null;
+  opexAnnualUsd?: number | null;
+  savingsAnnualUsdTotal?: number | null;
+  savingsAnnualUsdComponents?: {
+    demandUsd?: number | null;
+    energyUsd?: number | null;
+    ratchetAvoidedUsd?: number | null;
+    drUsd?: number | null;
+    otherUsd?: number | null;
+  };
+  simplePaybackYears?: number | null;
+  npvUsd?: number | null;
+
   assumptions: {
     projectLifeYears: { value: number | null; method: string };
     discountRateRange: { min: number | null; max: number | null; method: string };

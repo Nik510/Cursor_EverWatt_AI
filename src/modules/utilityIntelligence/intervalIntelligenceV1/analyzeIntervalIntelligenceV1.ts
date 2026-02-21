@@ -62,7 +62,8 @@ function fourHourBucketStart(hour: number): number {
 }
 
 function deriveKw(args: { kwh: number | null; kwExplicit: number | null; intervalMinutes: number | null }): number | null {
-  if (Number.isFinite(Number(args.kwExplicit))) return Number(args.kwExplicit);
+  // IMPORTANT: treat null/undefined as missing (do not coerce null -> 0).
+  if (args.kwExplicit !== null && Number.isFinite(Number(args.kwExplicit))) return Number(args.kwExplicit);
   if (Number.isFinite(Number(args.kwh)) && Number.isFinite(Number(args.intervalMinutes)) && Number(args.intervalMinutes) > 0) {
     return Number(args.kwh) * (60 / Number(args.intervalMinutes));
   }

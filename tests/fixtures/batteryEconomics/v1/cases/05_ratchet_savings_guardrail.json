@@ -12,7 +12,13 @@
       "omPerKwYrUsd": 10
     },
     "tariffs": { "snapshotId": "snap_r", "demandChargePerKwMonthUsd": 22 },
-    "determinants": { "billingDemandKw": 180, "ratchetDemandKw": 150, "billingDemandMethod": "fixture" },
+    "determinants": {
+      "billingDemandKw": 150,
+      "ratchetDemandKw": 150,
+      "billingDemandMethod": "RATCHET_80PCT_12MO",
+      "ratchetHistoryMaxKw": 187.5,
+      "ratchetFloorPct": 0.8
+    },
     "dispatch": { "peakReductionKwAssumed": 40 }
   }
 }

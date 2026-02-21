@@ -4,6 +4,7 @@ import {
   FileText,
   BarChart3,
   TrendingUp,
+  Layers,
   ClipboardSignature,
   Leaf,
   Sun,
@@ -32,6 +33,15 @@ export const ReportsHome: React.FC = () => {
     {
       section: 'Core Report Builders',
       items: [
+        {
+          id: 'report-sessions-v1',
+          title: 'Report Sessions (v1)',
+          description: 'Wizard + standalone report spine: run-and-store, revisions, and diffs (snapshot-only reads).',
+          route: '/reports/sessions',
+          badge: 'New',
+          icon: <Layers className="w-6 h-6 text-white" />,
+          gradient: 'from-slate-800 to-slate-950',
+        },
         {
           id: 'energy-model',
           title: 'Energy Model Report',

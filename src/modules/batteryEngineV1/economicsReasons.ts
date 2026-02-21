@@ -6,6 +6,8 @@ export const StorageEconomicsReasonCodesV1 = {
   STORAGE_ECON_V1_NET_SAVINGS_NON_POSITIVE: 'storage.econ.v1.net_savings_non_positive',
   STORAGE_ECON_V1_INSUFFICIENT_INPUTS: 'storage.econ.v1.insufficient_inputs',
   STORAGE_ECON_V1_DISCOUNT_RATE_DEFAULT_USED: 'storage.econ.v1.discount_rate_default_used',
+  /** Legacy adapter warning: storageEconomicsV1 is now derived from batteryEconomicsV1. */
+  STORAGE_ECON_V1_DEPRECATED_USE_BATTERY_ECONOMICS_V1: 'storage.econ.deprecated_use_batteryEconomicsV1',
 } as const;
 
 export const IncentivesStubReasonCodesV1 = {

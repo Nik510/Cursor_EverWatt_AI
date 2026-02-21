@@ -1,10 +1,13 @@
 import type { MissingInfoItemV0 } from '../../../utilityIntelligence/missingInfo/types';
 import { engineVersions, intervalIntakeVersion } from '../../../engineVersions';
 import { analyzeIntervalIntelligenceV1 } from '../../../utilityIntelligence/intervalIntelligenceV1/analyzeIntervalIntelligenceV1';
+import { buildAnalysisTraceV1 } from '../../../utilityIntelligence/analysisTraceV1/buildAnalysisTraceV1';
+import { normalizeIntervalInputsV1 } from '../../../utilityIntelligence/intervalNormalizationV1/normalizeIntervalInputsV1';
 import {
   buildDailyUsageAndWeatherSeriesFromIntervalPointsV1,
   regressUsageVsWeatherV1,
 } from '../../../utilityIntelligence/weatherRegressionV1/regressUsageVsWeatherV1';
+import { buildCalculationAuditDrawerV1 } from '../../../auditDrawerV1/buildAuditDrawerV1';
 
 function sortMissingInfo(a: any, b: any): number {
   const sevRank = (s: any): number => {
@@ -99,8 +102,26 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
 
   const storageOpportunityPackV1 = (args.analysisResults?.workflow as any)?.utility?.insights?.storageOpportunityPackV1 ?? null;
   const batteryEconomicsV1 = (args.analysisResults?.workflow as any)?.utility?.insights?.batteryEconomicsV1 ?? null;
+  const batteryDecisionPackV1 = (args.analysisResults?.workflow as any)?.utility?.insights?.batteryDecisionPackV1 ?? null;
+  const batteryDecisionPackV1_2 = (args.analysisResults?.workflow as any)?.utility?.insights?.batteryDecisionPackV1_2 ?? null;
 
-  return {
+  const workflowUtilityInputs = (args.analysisResults?.workflow as any)?.utility?.inputs ?? null;
+  const workflowUtilityInsights = (args.analysisResults?.workflow as any)?.utility?.insights ?? null;
+  const workflowTrace = (args.analysisResults?.workflow as any)?.analysisTraceV1 ?? null;
+  const normalizedIntervalV1 = normalizeIntervalInputsV1({ intervalPointsV1: intervalPts as any });
+  const analysisTraceV1 =
+    workflowTrace && typeof workflowTrace === 'object'
+      ? workflowTrace
+      : buildAnalysisTraceV1({
+          nowIso: nowIso || new Date().toISOString(),
+          inputs: (workflowUtilityInputs && typeof workflowUtilityInputs === 'object' ? workflowUtilityInputs : { orgId: 'unknown', projectId, serviceType: 'electric' }) as any,
+          intervalPointsV1: intervalPts as any,
+          intervalMetaV1: intervalMeta,
+          normalizedIntervalV1,
+          insights: workflowUtilityInsights && typeof workflowUtilityInsights === 'object' ? workflowUtilityInsights : {},
+        });
+
+  const reportJson: any = {
     schemaVersion: 'internalEngineeringReportV1',
     generatedAtIso: nowIso,
     projectId,
@@ -123,9 +144,21 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
     weatherRegressionV1,
     storageOpportunityPackV1,
     batteryEconomicsV1,
+    batteryDecisionPackV1,
+    batteryDecisionPackV1_2,
+    analysisTraceV1,
     workflow: args.analysisResults?.workflow,
     summary: args.analysisResults?.summary,
     missingInfo,
   };
+
+  // Additive: deterministic audit drawer payload (snapshot-only).
+  try {
+    reportJson.auditDrawerV1 = buildCalculationAuditDrawerV1(reportJson, args.analysisResults);
+  } catch {
+    reportJson.auditDrawerV1 = null;
+  }
+
+  return reportJson;
 }
 

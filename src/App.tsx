@@ -63,6 +63,7 @@ import { ProjectBuilderProject } from './modules/project_builder/pages/ProjectBu
 import { IntervalIntakeV1Page } from './modules/project_builder/pages/IntervalIntakeV1Page';
 import { BillingIntakePlaceholder } from './modules/project_builder/pages/BillingIntakePlaceholder';
 import { InternalEngineeringReportV1Page } from './modules/project_builder/pages/InternalEngineeringReportV1Page';
+import { AnalysisRunsV1Page } from './modules/project_builder/pages/AnalysisRunsV1Page';
 import { Phase1Tariff } from './pages/Phase1Tariff';
 import { logger } from './services/logger';
 import { ErrorBoundary } from './components/ErrorBoundary';
@@ -134,6 +135,7 @@ function App() {
         <Route path="/historical-library" element={withBoundary(<HistoricalProjectLibrary />)} />
         <Route path="/projects" element={withBoundary(<Projects />)} />
         <Route path="/project-builder" element={withBoundary(<ProjectBuilderHome />)} />
+        <Route path="/project-builder/analysis-runs" element={withBoundary(<AnalysisRunsV1Page />)} />
         <Route path="/project-builder/:projectId" element={withBoundary(<ProjectBuilderProject />)} />
         <Route path="/project-builder/:projectId/intake/intervals" element={withBoundary(<IntervalIntakeV1Page />)} />
         <Route path="/project-builder/:projectId/intake/billing" element={withBoundary(<BillingIntakePlaceholder />)} />

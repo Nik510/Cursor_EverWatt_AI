@@ -1,132 +1,15 @@
 [
   {
-    "fixtureFile": "tests/fixtures/batteryPack/v1/cases/office_tou_with_demand.json",
+    "fixtureFile": "tests/fixtures/batteryPack/v1/cases/dst_boundary_tou.json",
     "expected": {
       "batteryOpportunityV1": {
         "recommendedPowerKwRange": [
-          3,
-          7.5
+          0,
+          0
         ],
         "recommendedEnergyKwhRange": [
-          9,
-          30
-        ],
-        "valueDrivers": [
-          "TOU_ARBITRAGE",
-          "DEMAND_PEAK_SHAVE",
-          "LOAD_SHIFT"
-        ],
-        "confidenceTier": "NONE",
-        "warnings": [],
-        "missingInfo": [],
-        "savingsTotal": {
-          "min": 1686.883333,
-          "max": 1686.883333,
-          "method": "battery_total_savings_hybrid_v1"
-        }
-      },
-      "storageEconomicsV1": {
-        "confidenceTier": "LOW",
-        "engineVersion": "storage_econ_v1.0",
-        "capexTotal": [
-          7166.25,
-          20160
-        ],
-        "annualNetSavings": [
-          1082.083333,
-          1615.220833
-        ],
-        "paybackYears": [
-          4.4367,
-          18.630728
-        ],
-        "npvUsd": [
-          -14045.987864,
-          4721.915855
-        ],
-        "warnings": [],
-        "missingInfo": [
-          "storage.econ.v1.capex_defaults_used",
-          "storage.econ.v1.discount_rate_default_used"
-        ]
-      },
-      "incentivesStubV1": {
-        "confidenceTier": "NONE",
-        "engineVersion": "incentives_stub_v1.0",
-        "programsConsideredCount": 0,
-        "missingInfo": [
-          "incentives.v1.need_customer_classification",
-          "incentives.v1.program_unknown"
-        ],
-        "warnings": []
-      },
-      "dispatchSimulationV1": {
-        "strategyOrder": [
-          "PEAK_SHAVE_DAILY_V1",
-          "TOU_SHIFT_V1",
-          "HYBRID_V1"
-        ],
-        "strategyMethods": [
-          {
-            "strategyId": "PEAK_SHAVE_DAILY_V1",
-            "peakMethod": "dispatch_peak_kw_reduction_v1",
-            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
-            "energyMethod": "tou_arbitrage_simple_v1",
-            "demandMethod": "demand_charge_simple_monthly_v1"
-          },
-          {
-            "strategyId": "TOU_SHIFT_V1",
-            "peakMethod": "dispatch_peak_kw_reduction_v1",
-            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
-            "energyMethod": "tou_arbitrage_simple_v1",
-            "demandMethod": "demand_charge_simple_monthly_v1"
-          },
-          {
-            "strategyId": "HYBRID_V1",
-            "peakMethod": "dispatch_peak_kw_reduction_v1",
-            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
-            "energyMethod": "tou_arbitrage_simple_v1",
-            "demandMethod": "demand_charge_simple_monthly_v1"
-          }
-        ],
-        "warnings": []
-      },
-      "drReadinessV1": {
-        "topEventWindowsCount": 1,
-        "topEventWindowsTop3": [
-          {
-            "dateIso": "2026-01-05",
-            "startHourLocal": 8,
-            "durationHours": 2
-          }
-        ],
-        "typicalShedPotentialKwRange": [
-          15,
-          15
-        ],
-        "variabilityScore": {
-          "value": 0,
-          "method": "dr_variability_cv_v1"
-        },
-        "confidenceTier": "NONE",
-        "warnings": [
-          "dr.v1.insufficient_coverage"
-        ],
-        "missingInfo": []
-      }
-    }
-  },
-  {
-    "fixtureFile": "tests/fixtures/batteryPack/v1/cases/office_tou_no_demand.json",
-    "expected": {
-      "batteryOpportunityV1": {
-        "recommendedPowerKwRange": [
-          3,
-          7.5
-        ],
-        "recommendedEnergyKwhRange": [
-          9,
-          30
+          0,
+          0
         ],
         "valueDrivers": [
           "TOU_ARBITRAGE",
@@ -138,31 +21,38 @@
           "battery.v1.missing_demand_determinants"
         ],
         "savingsTotal": {
-          "min": 489.883333,
-          "max": 489.883333,
+          "min": 0,
+          "max": 0,
           "method": "battery_total_savings_hybrid_v1"
         }
       },
       "storageEconomicsV1": {
-        "confidenceTier": "LOW",
+        "confidenceTier": "NONE",
         "engineVersion": "storage_econ_v1.0",
         "capexTotal": [
-          7166.25,
-          20160
+          0,
+          0
         ],
         "annualNetSavings": [
-          -114.916667,
-          418.220833
+          0,
+          0
         ],
         "paybackYears": [
-          null,
-          null
+          0,
+          0
         ],
         "npvUsd": [
-          -20809.304795,
-          -4088.108284
+          0,
+          0
         ],
         "warnings": [
+          "battery.econ.capex_defaults_used",
+          "battery.econ.demand_savings_unavailable_missing_determinants",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "battery.econ.net_savings_non_positive",
+          "storage.econ.deprecated_use_batteryEconomicsV1",
           "storage.econ.v1.missing_demand_determinants",
           "storage.econ.v1.net_savings_non_positive"
         ],
@@ -171,12 +61,31 @@
           "storage.econ.v1.discount_rate_default_used"
         ]
       },
+      "batteryEconomicsV1Summary": {
+        "confidenceTier": "NONE",
+        "capexTotalUsd": 0,
+        "savingsAnnualTotalUsd": 0,
+        "simplePaybackYears": 0,
+        "npvUsd": 0,
+        "warnings": [
+          "battery.econ.capex_defaults_used",
+          "battery.econ.demand_savings_unavailable_missing_determinants",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "battery.econ.net_savings_non_positive",
+          "storage.econ.deprecated_use_batteryEconomicsV1",
+          "storage.econ.v1.missing_demand_determinants",
+          "storage.econ.v1.net_savings_non_positive"
+        ]
+      },
       "incentivesStubV1": {
         "confidenceTier": "NONE",
         "engineVersion": "incentives_stub_v1.0",
         "programsConsideredCount": 0,
         "missingInfo": [
           "incentives.v1.need_customer_classification",
+          "incentives.v1.need_technology_details",
           "incentives.v1.program_unknown"
         ],
         "warnings": []
@@ -218,14 +127,14 @@
         "topEventWindowsCount": 1,
         "topEventWindowsTop3": [
           {
-            "dateIso": "2026-01-05",
-            "startHourLocal": 8,
+            "dateIso": "2026-03-08",
+            "startHourLocal": 0,
             "durationHours": 2
           }
         ],
         "typicalShedPotentialKwRange": [
-          15,
-          15
+          0,
+          0
         ],
         "variabilityScore": {
           "value": 0,
@@ -270,28 +179,57 @@
         "confidenceTier": "NONE",
         "engineVersion": "storage_econ_v1.0",
         "capexTotal": [
-          null,
-          null
+          0,
+          0
         ],
         "annualNetSavings": [
-          null,
-          null
+          0,
+          0
         ],
         "paybackYears": [
-          null,
-          null
+          0,
+          0
         ],
         "npvUsd": [
-          null,
-          null
+          0,
+          0
         ],
         "warnings": [
+          "battery.econ.capex_defaults_used",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "battery.econ.missing_tariff_inputs",
+          "battery.econ.net_savings_non_positive",
+          "battery.econ.savings_unavailable_no_tariffengine",
+          "storage.econ.deprecated_use_batteryEconomicsV1",
           "storage.econ.v1.missing_demand_determinants",
-          "storage.econ.v1.missing_tariff_prices"
+          "storage.econ.v1.missing_tariff_prices",
+          "storage.econ.v1.net_savings_non_positive"
         ],
         "missingInfo": [
           "storage.econ.v1.capex_defaults_used",
           "storage.econ.v1.discount_rate_default_used"
+        ]
+      },
+      "batteryEconomicsV1Summary": {
+        "confidenceTier": "NONE",
+        "capexTotalUsd": 0,
+        "savingsAnnualTotalUsd": 0,
+        "simplePaybackYears": 0,
+        "npvUsd": 0,
+        "warnings": [
+          "battery.econ.capex_defaults_used",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "battery.econ.missing_tariff_inputs",
+          "battery.econ.net_savings_non_positive",
+          "battery.econ.savings_unavailable_no_tariffengine",
+          "storage.econ.deprecated_use_batteryEconomicsV1",
+          "storage.econ.v1.missing_demand_determinants",
+          "storage.econ.v1.missing_tariff_prices",
+          "storage.econ.v1.net_savings_non_positive"
         ]
       },
       "incentivesStubV1": {
@@ -365,134 +303,6 @@
     }
   },
   {
-    "fixtureFile": "tests/fixtures/batteryPack/v1/cases/weekend_heavy_tou.json",
-    "expected": {
-      "batteryOpportunityV1": {
-        "recommendedPowerKwRange": [
-          1,
-          2.5
-        ],
-        "recommendedEnergyKwhRange": [
-          3,
-          10
-        ],
-        "valueDrivers": [
-          "TOU_ARBITRAGE",
-          "LOAD_SHIFT"
-        ],
-        "confidenceTier": "LOW",
-        "warnings": [],
-        "missingInfo": [
-          "battery.v1.missing_demand_determinants"
-        ],
-        "savingsTotal": {
-          "min": 163.294444,
-          "max": 163.294444,
-          "method": "battery_total_savings_hybrid_v1"
-        }
-      },
-      "storageEconomicsV1": {
-        "confidenceTier": "LOW",
-        "engineVersion": "storage_econ_v1.0",
-        "capexTotal": [
-          2388.75,
-          6720
-        ],
-        "annualNetSavings": [
-          -38.305556,
-          139.406944
-        ],
-        "paybackYears": [
-          null,
-          null
-        ],
-        "npvUsd": [
-          -6936.434934,
-          -1362.702764
-        ],
-        "warnings": [
-          "storage.econ.v1.missing_demand_determinants",
-          "storage.econ.v1.net_savings_non_positive"
-        ],
-        "missingInfo": [
-          "storage.econ.v1.capex_defaults_used",
-          "storage.econ.v1.discount_rate_default_used"
-        ]
-      },
-      "incentivesStubV1": {
-        "confidenceTier": "NONE",
-        "engineVersion": "incentives_stub_v1.0",
-        "programsConsideredCount": 0,
-        "missingInfo": [
-          "incentives.v1.need_customer_classification",
-          "incentives.v1.program_unknown"
-        ],
-        "warnings": []
-      },
-      "dispatchSimulationV1": {
-        "strategyOrder": [
-          "PEAK_SHAVE_DAILY_V1",
-          "TOU_SHIFT_V1",
-          "HYBRID_V1"
-        ],
-        "strategyMethods": [
-          {
-            "strategyId": "PEAK_SHAVE_DAILY_V1",
-            "peakMethod": "dispatch_peak_kw_reduction_v1",
-            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
-            "energyMethod": "tou_arbitrage_simple_v1",
-            "demandMethod": "demand_charge_simple_monthly_v1"
-          },
-          {
-            "strategyId": "TOU_SHIFT_V1",
-            "peakMethod": "dispatch_peak_kw_reduction_v1",
-            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
-            "energyMethod": "tou_arbitrage_simple_v1",
-            "demandMethod": "demand_charge_simple_monthly_v1"
-          },
-          {
-            "strategyId": "HYBRID_V1",
-            "peakMethod": "dispatch_peak_kw_reduction_v1",
-            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
-            "energyMethod": "tou_arbitrage_simple_v1",
-            "demandMethod": "demand_charge_simple_monthly_v1"
-          }
-        ],
-        "warnings": [
-          "battery.v1.missing_demand_determinants"
-        ]
-      },
-      "drReadinessV1": {
-        "topEventWindowsCount": 2,
-        "topEventWindowsTop3": [
-          {
-            "dateIso": "2026-01-03",
-            "startHourLocal": 11,
-            "durationHours": 2
-          },
-          {
-            "dateIso": "2026-01-02",
-            "startHourLocal": 0,
-            "durationHours": 2
-          }
-        ],
-        "typicalShedPotentialKwRange": [
-          0,
-          0
-        ],
-        "variabilityScore": {
-          "value": 1,
-          "method": "dr_variability_cv_v1"
-        },
-        "confidenceTier": "NONE",
-        "warnings": [
-          "dr.v1.insufficient_coverage"
-        ],
-        "missingInfo": []
-      }
-    }
-  },
-  {
     "fixtureFile": "tests/fixtures/batteryPack/v1/cases/kw_only_tou.json",
     "expected": {
       "batteryOpportunityV1": {
@@ -523,27 +333,53 @@
         "confidenceTier": "NONE",
         "engineVersion": "storage_econ_v1.0",
         "capexTotal": [
-          null,
-          null
+          0,
+          0
         ],
         "annualNetSavings": [
-          null,
-          null
+          0,
+          0
         ],
         "paybackYears": [
-          null,
-          null
+          0,
+          0
         ],
         "npvUsd": [
-          null,
-          null
+          0,
+          0
         ],
         "warnings": [
-          "storage.econ.v1.missing_demand_determinants"
+          "battery.econ.capex_defaults_used",
+          "battery.econ.demand_savings_unavailable_missing_determinants",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "battery.econ.net_savings_non_positive",
+          "storage.econ.deprecated_use_batteryEconomicsV1",
+          "storage.econ.v1.missing_demand_determinants",
+          "storage.econ.v1.net_savings_non_positive"
         ],
         "missingInfo": [
           "storage.econ.v1.capex_defaults_used",
           "storage.econ.v1.discount_rate_default_used"
+        ]
+      },
+      "batteryEconomicsV1Summary": {
+        "confidenceTier": "NONE",
+        "capexTotalUsd": 0,
+        "savingsAnnualTotalUsd": 0,
+        "simplePaybackYears": 0,
+        "npvUsd": 0,
+        "warnings": [
+          "battery.econ.capex_defaults_used",
+          "battery.econ.demand_savings_unavailable_missing_determinants",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "battery.econ.net_savings_non_positive",
+          "storage.econ.deprecated_use_batteryEconomicsV1",
+          "storage.econ.v1.missing_demand_determinants",
+          "storage.econ.v1.net_savings_non_positive"
         ]
       },
       "incentivesStubV1": {
@@ -646,27 +482,53 @@
         "confidenceTier": "NONE",
         "engineVersion": "storage_econ_v1.0",
         "capexTotal": [
-          null,
-          null
+          0,
+          0
         ],
         "annualNetSavings": [
-          null,
-          null
+          0,
+          0
         ],
         "paybackYears": [
-          null,
-          null
+          0,
+          0
         ],
         "npvUsd": [
-          null,
-          null
+          0,
+          0
         ],
         "warnings": [
-          "storage.econ.v1.missing_demand_determinants"
+          "battery.econ.capex_defaults_used",
+          "battery.econ.demand_savings_unavailable_missing_determinants",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "battery.econ.net_savings_non_positive",
+          "storage.econ.deprecated_use_batteryEconomicsV1",
+          "storage.econ.v1.missing_demand_determinants",
+          "storage.econ.v1.net_savings_non_positive"
         ],
         "missingInfo": [
           "storage.econ.v1.capex_defaults_used",
           "storage.econ.v1.discount_rate_default_used"
+        ]
+      },
+      "batteryEconomicsV1Summary": {
+        "confidenceTier": "NONE",
+        "capexTotalUsd": 0,
+        "savingsAnnualTotalUsd": 0,
+        "simplePaybackYears": 0,
+        "npvUsd": 0,
+        "warnings": [
+          "battery.econ.capex_defaults_used",
+          "battery.econ.demand_savings_unavailable_missing_determinants",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "battery.econ.net_savings_non_positive",
+          "storage.econ.deprecated_use_batteryEconomicsV1",
+          "storage.econ.v1.missing_demand_determinants",
+          "storage.econ.v1.net_savings_non_positive"
         ]
       },
       "incentivesStubV1": {
@@ -739,129 +601,6 @@
     }
   },
   {
-    "fixtureFile": "tests/fixtures/batteryPack/v1/cases/dst_boundary_tou.json",
-    "expected": {
-      "batteryOpportunityV1": {
-        "recommendedPowerKwRange": [
-          0,
-          0
-        ],
-        "recommendedEnergyKwhRange": [
-          0,
-          0
-        ],
-        "valueDrivers": [
-          "TOU_ARBITRAGE",
-          "LOAD_SHIFT"
-        ],
-        "confidenceTier": "NONE",
-        "warnings": [],
-        "missingInfo": [
-          "battery.v1.missing_demand_determinants"
-        ],
-        "savingsTotal": {
-          "min": 0,
-          "max": 0,
-          "method": "battery_total_savings_hybrid_v1"
-        }
-      },
-      "storageEconomicsV1": {
-        "confidenceTier": "NONE",
-        "engineVersion": "storage_econ_v1.0",
-        "capexTotal": [
-          null,
-          null
-        ],
-        "annualNetSavings": [
-          null,
-          null
-        ],
-        "paybackYears": [
-          null,
-          null
-        ],
-        "npvUsd": [
-          null,
-          null
-        ],
-        "warnings": [
-          "storage.econ.v1.missing_demand_determinants"
-        ],
-        "missingInfo": [
-          "storage.econ.v1.capex_defaults_used",
-          "storage.econ.v1.discount_rate_default_used"
-        ]
-      },
-      "incentivesStubV1": {
-        "confidenceTier": "NONE",
-        "engineVersion": "incentives_stub_v1.0",
-        "programsConsideredCount": 0,
-        "missingInfo": [
-          "incentives.v1.need_customer_classification",
-          "incentives.v1.need_technology_details",
-          "incentives.v1.program_unknown"
-        ],
-        "warnings": []
-      },
-      "dispatchSimulationV1": {
-        "strategyOrder": [
-          "PEAK_SHAVE_DAILY_V1",
-          "TOU_SHIFT_V1",
-          "HYBRID_V1"
-        ],
-        "strategyMethods": [
-          {
-            "strategyId": "PEAK_SHAVE_DAILY_V1",
-            "peakMethod": "dispatch_peak_kw_reduction_v1",
-            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
-            "energyMethod": "tou_arbitrage_simple_v1",
-            "demandMethod": "demand_charge_simple_monthly_v1"
-          },
-          {
-            "strategyId": "TOU_SHIFT_V1",
-            "peakMethod": "dispatch_peak_kw_reduction_v1",
-            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
-            "energyMethod": "tou_arbitrage_simple_v1",
-            "demandMethod": "demand_charge_simple_monthly_v1"
-          },
-          {
-            "strategyId": "HYBRID_V1",
-            "peakMethod": "dispatch_peak_kw_reduction_v1",
-            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
-            "energyMethod": "tou_arbitrage_simple_v1",
-            "demandMethod": "demand_charge_simple_monthly_v1"
-          }
-        ],
-        "warnings": [
-          "battery.v1.missing_demand_determinants"
-        ]
-      },
-      "drReadinessV1": {
-        "topEventWindowsCount": 1,
-        "topEventWindowsTop3": [
-          {
-            "dateIso": "2026-03-08",
-            "startHourLocal": 0,
-            "durationHours": 2
-          }
-        ],
-        "typicalShedPotentialKwRange": [
-          0,
-          0
-        ],
-        "variabilityScore": {
-          "value": 0,
-          "method": "dr_variability_cv_v1"
-        },
-        "confidenceTier": "NONE",
-        "warnings": [
-          "dr.v1.insufficient_coverage"
-        ],
-        "missingInfo": []
-      }
-    }
-  },
-  {
     "fixtureFile": "tests/fixtures/batteryPack/v1/cases/non_uniform_granularity_tou.json",
     "expected": {
       "batteryOpportunityV1": {
@@ -892,27 +631,53 @@
         "confidenceTier": "NONE",
         "engineVersion": "storage_econ_v1.0",
         "capexTotal": [
-          null,
-          null
+          0,
+          0
         ],
         "annualNetSavings": [
-          null,
-          null
+          0,
+          0
         ],
         "paybackYears": [
-          null,
-          null
+          0,
+          0
         ],
         "npvUsd": [
-          null,
-          null
+          0,
+          0
         ],
         "warnings": [
-          "storage.econ.v1.missing_demand_determinants"
+          "battery.econ.capex_defaults_used",
+          "battery.econ.demand_savings_unavailable_missing_determinants",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "battery.econ.net_savings_non_positive",
+          "storage.econ.deprecated_use_batteryEconomicsV1",
+          "storage.econ.v1.missing_demand_determinants",
+          "storage.econ.v1.net_savings_non_positive"
         ],
         "missingInfo": [
           "storage.econ.v1.capex_defaults_used",
           "storage.econ.v1.discount_rate_default_used"
+        ]
+      },
+      "batteryEconomicsV1Summary": {
+        "confidenceTier": "NONE",
+        "capexTotalUsd": 0,
+        "savingsAnnualTotalUsd": 0,
+        "simplePaybackYears": 0,
+        "npvUsd": 0,
+        "warnings": [
+          "battery.econ.capex_defaults_used",
+          "battery.econ.demand_savings_unavailable_missing_determinants",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "battery.econ.net_savings_non_positive",
+          "storage.econ.deprecated_use_batteryEconomicsV1",
+          "storage.econ.v1.missing_demand_determinants",
+          "storage.econ.v1.net_savings_non_positive"
         ]
       },
       "incentivesStubV1": {
@@ -983,5 +748,438 @@
         "missingInfo": []
       }
     }
+  },
+  {
+    "fixtureFile": "tests/fixtures/batteryPack/v1/cases/office_tou_no_demand.json",
+    "expected": {
+      "batteryOpportunityV1": {
+        "recommendedPowerKwRange": [
+          3,
+          7.5
+        ],
+        "recommendedEnergyKwhRange": [
+          9,
+          30
+        ],
+        "valueDrivers": [
+          "TOU_ARBITRAGE",
+          "LOAD_SHIFT"
+        ],
+        "confidenceTier": "NONE",
+        "warnings": [],
+        "missingInfo": [
+          "battery.v1.missing_demand_determinants"
+        ],
+        "savingsTotal": {
+          "min": 489.883333,
+          "max": 489.883333,
+          "method": "battery_total_savings_hybrid_v1"
+        }
+      },
+      "storageEconomicsV1": {
+        "confidenceTier": "MEDIUM",
+        "engineVersion": "storage_econ_v1.0",
+        "capexTotal": [
+          87020.31,
+          87020.31
+        ],
+        "annualNetSavings": [
+          463.17,
+          463.17
+        ],
+        "paybackYears": [
+          187.87985,
+          187.87985
+        ],
+        "npvUsd": [
+          -84047.84,
+          -84047.84
+        ],
+        "warnings": [
+          "battery.econ.capex_defaults_used",
+          "battery.econ.demand_savings_unavailable_missing_determinants",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "storage.econ.deprecated_use_batteryEconomicsV1",
+          "storage.econ.v1.missing_demand_determinants"
+        ],
+        "missingInfo": [
+          "storage.econ.v1.capex_defaults_used",
+          "storage.econ.v1.discount_rate_default_used"
+        ]
+      },
+      "batteryEconomicsV1Summary": {
+        "confidenceTier": "MEDIUM",
+        "capexTotalUsd": 87020.31,
+        "savingsAnnualTotalUsd": 515.67,
+        "simplePaybackYears": 187.87985,
+        "npvUsd": -84047.84,
+        "warnings": [
+          "battery.econ.capex_defaults_used",
+          "battery.econ.demand_savings_unavailable_missing_determinants",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "storage.econ.deprecated_use_batteryEconomicsV1",
+          "storage.econ.v1.missing_demand_determinants"
+        ]
+      },
+      "incentivesStubV1": {
+        "confidenceTier": "NONE",
+        "engineVersion": "incentives_stub_v1.0",
+        "programsConsideredCount": 0,
+        "missingInfo": [
+          "incentives.v1.need_customer_classification",
+          "incentives.v1.program_unknown"
+        ],
+        "warnings": []
+      },
+      "dispatchSimulationV1": {
+        "strategyOrder": [
+          "PEAK_SHAVE_DAILY_V1",
+          "TOU_SHIFT_V1",
+          "HYBRID_V1"
+        ],
+        "strategyMethods": [
+          {
+            "strategyId": "PEAK_SHAVE_DAILY_V1",
+            "peakMethod": "dispatch_peak_kw_reduction_v1",
+            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
+            "energyMethod": "tou_arbitrage_simple_v1",
+            "demandMethod": "demand_charge_simple_monthly_v1"
+          },
+          {
+            "strategyId": "TOU_SHIFT_V1",
+            "peakMethod": "dispatch_peak_kw_reduction_v1",
+            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
+            "energyMethod": "tou_arbitrage_simple_v1",
+            "demandMethod": "demand_charge_simple_monthly_v1"
+          },
+          {
+            "strategyId": "HYBRID_V1",
+            "peakMethod": "dispatch_peak_kw_reduction_v1",
+            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
+            "energyMethod": "tou_arbitrage_simple_v1",
+            "demandMethod": "demand_charge_simple_monthly_v1"
+          }
+        ],
+        "warnings": [
+          "battery.v1.missing_demand_determinants"
+        ]
+      },
+      "drReadinessV1": {
+        "topEventWindowsCount": 1,
+        "topEventWindowsTop3": [
+          {
+            "dateIso": "2026-01-05",
+            "startHourLocal": 8,
+            "durationHours": 2
+          }
+        ],
+        "typicalShedPotentialKwRange": [
+          15,
+          15
+        ],
+        "variabilityScore": {
+          "value": 0,
+          "method": "dr_variability_cv_v1"
+        },
+        "confidenceTier": "NONE",
+        "warnings": [
+          "dr.v1.insufficient_coverage"
+        ],
+        "missingInfo": []
+      }
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/batteryPack/v1/cases/office_tou_with_demand.json",
+    "expected": {
+      "batteryOpportunityV1": {
+        "recommendedPowerKwRange": [
+          3,
+          7.5
+        ],
+        "recommendedEnergyKwhRange": [
+          9,
+          30
+        ],
+        "valueDrivers": [
+          "TOU_ARBITRAGE",
+          "DEMAND_PEAK_SHAVE",
+          "LOAD_SHIFT"
+        ],
+        "confidenceTier": "NONE",
+        "warnings": [],
+        "missingInfo": [],
+        "savingsTotal": {
+          "min": 1686.883333,
+          "max": 1686.883333,
+          "method": "battery_total_savings_hybrid_v1"
+        }
+      },
+      "storageEconomicsV1": {
+        "confidenceTier": "MEDIUM",
+        "engineVersion": "storage_econ_v1.0",
+        "capexTotal": [
+          87020.31,
+          87020.31
+        ],
+        "annualNetSavings": [
+          1723.17,
+          1723.17
+        ],
+        "paybackYears": [
+          50.500131,
+          50.500131
+        ],
+        "npvUsd": [
+          -75961.59,
+          -75961.59
+        ],
+        "warnings": [
+          "battery.econ.capex_defaults_used",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "battery.econ.ratchet.unavailable",
+          "storage.econ.deprecated_use_batteryEconomicsV1"
+        ],
+        "missingInfo": [
+          "storage.econ.v1.capex_defaults_used",
+          "storage.econ.v1.discount_rate_default_used"
+        ]
+      },
+      "batteryEconomicsV1Summary": {
+        "confidenceTier": "MEDIUM",
+        "capexTotalUsd": 87020.31,
+        "savingsAnnualTotalUsd": 1775.67,
+        "simplePaybackYears": 50.500131,
+        "npvUsd": -75961.59,
+        "warnings": [
+          "battery.econ.capex_defaults_used",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "battery.econ.ratchet.unavailable",
+          "storage.econ.deprecated_use_batteryEconomicsV1"
+        ]
+      },
+      "incentivesStubV1": {
+        "confidenceTier": "NONE",
+        "engineVersion": "incentives_stub_v1.0",
+        "programsConsideredCount": 0,
+        "missingInfo": [
+          "incentives.v1.need_customer_classification",
+          "incentives.v1.program_unknown"
+        ],
+        "warnings": []
+      },
+      "dispatchSimulationV1": {
+        "strategyOrder": [
+          "PEAK_SHAVE_DAILY_V1",
+          "TOU_SHIFT_V1",
+          "HYBRID_V1"
+        ],
+        "strategyMethods": [
+          {
+            "strategyId": "PEAK_SHAVE_DAILY_V1",
+            "peakMethod": "dispatch_peak_kw_reduction_v1",
+            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
+            "energyMethod": "tou_arbitrage_simple_v1",
+            "demandMethod": "demand_charge_simple_monthly_v1"
+          },
+          {
+            "strategyId": "TOU_SHIFT_V1",
+            "peakMethod": "dispatch_peak_kw_reduction_v1",
+            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
+            "energyMethod": "tou_arbitrage_simple_v1",
+            "demandMethod": "demand_charge_simple_monthly_v1"
+          },
+          {
+            "strategyId": "HYBRID_V1",
+            "peakMethod": "dispatch_peak_kw_reduction_v1",
+            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
+            "energyMethod": "tou_arbitrage_simple_v1",
+            "demandMethod": "demand_charge_simple_monthly_v1"
+          }
+        ],
+        "warnings": []
+      },
+      "drReadinessV1": {
+        "topEventWindowsCount": 1,
+        "topEventWindowsTop3": [
+          {
+            "dateIso": "2026-01-05",
+            "startHourLocal": 8,
+            "durationHours": 2
+          }
+        ],
+        "typicalShedPotentialKwRange": [
+          15,
+          15
+        ],
+        "variabilityScore": {
+          "value": 0,
+          "method": "dr_variability_cv_v1"
+        },
+        "confidenceTier": "NONE",
+        "warnings": [
+          "dr.v1.insufficient_coverage"
+        ],
+        "missingInfo": []
+      }
+    }
+  },
+  {
+    "fixtureFile": "tests/fixtures/batteryPack/v1/cases/weekend_heavy_tou.json",
+    "expected": {
+      "batteryOpportunityV1": {
+        "recommendedPowerKwRange": [
+          1,
+          2.5
+        ],
+        "recommendedEnergyKwhRange": [
+          3,
+          10
+        ],
+        "valueDrivers": [
+          "TOU_ARBITRAGE",
+          "LOAD_SHIFT"
+        ],
+        "confidenceTier": "LOW",
+        "warnings": [],
+        "missingInfo": [
+          "battery.v1.missing_demand_determinants"
+        ],
+        "savingsTotal": {
+          "min": 163.294444,
+          "max": 163.294444,
+          "method": "battery_total_savings_hybrid_v1"
+        }
+      },
+      "storageEconomicsV1": {
+        "confidenceTier": "MEDIUM",
+        "engineVersion": "storage_econ_v1.0",
+        "capexTotal": [
+          76673.44,
+          76673.44
+        ],
+        "annualNetSavings": [
+          154.39,
+          154.39
+        ],
+        "paybackYears": [
+          496.621802,
+          496.621802
+        ],
+        "npvUsd": [
+          -75682.62,
+          -75682.62
+        ],
+        "warnings": [
+          "battery.econ.capex_defaults_used",
+          "battery.econ.demand_savings_unavailable_missing_determinants",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "storage.econ.deprecated_use_batteryEconomicsV1",
+          "storage.econ.v1.missing_demand_determinants"
+        ],
+        "missingInfo": [
+          "storage.econ.v1.capex_defaults_used",
+          "storage.econ.v1.discount_rate_default_used"
+        ]
+      },
+      "batteryEconomicsV1Summary": {
+        "confidenceTier": "MEDIUM",
+        "capexTotalUsd": 76673.44,
+        "savingsAnnualTotalUsd": 171.89,
+        "simplePaybackYears": 496.621802,
+        "npvUsd": -75682.62,
+        "warnings": [
+          "battery.econ.capex_defaults_used",
+          "battery.econ.demand_savings_unavailable_missing_determinants",
+          "battery.econ.dr_value_unknown",
+          "battery.econ.finance_missing_discount_rate",
+          "battery.econ.missing_capex_inputs",
+          "storage.econ.deprecated_use_batteryEconomicsV1",
+          "storage.econ.v1.missing_demand_determinants"
+        ]
+      },
+      "incentivesStubV1": {
+        "confidenceTier": "NONE",
+        "engineVersion": "incentives_stub_v1.0",
+        "programsConsideredCount": 0,
+        "missingInfo": [
+          "incentives.v1.need_customer_classification",
+          "incentives.v1.program_unknown"
+        ],
+        "warnings": []
+      },
+      "dispatchSimulationV1": {
+        "strategyOrder": [
+          "PEAK_SHAVE_DAILY_V1",
+          "TOU_SHIFT_V1",
+          "HYBRID_V1"
+        ],
+        "strategyMethods": [
+          {
+            "strategyId": "PEAK_SHAVE_DAILY_V1",
+            "peakMethod": "dispatch_peak_kw_reduction_v1",
+            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
+            "energyMethod": "tou_arbitrage_simple_v1",
+            "demandMethod": "demand_charge_simple_monthly_v1"
+          },
+          {
+            "strategyId": "TOU_SHIFT_V1",
+            "peakMethod": "dispatch_peak_kw_reduction_v1",
+            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
+            "energyMethod": "tou_arbitrage_simple_v1",
+            "demandMethod": "demand_charge_simple_monthly_v1"
+          },
+          {
+            "strategyId": "HYBRID_V1",
+            "peakMethod": "dispatch_peak_kw_reduction_v1",
+            "kwhMethod": "dispatch_shifted_kwh_annual_v1",
+            "energyMethod": "tou_arbitrage_simple_v1",
+            "demandMethod": "demand_charge_simple_monthly_v1"
+          }
+        ],
+        "warnings": [
+          "battery.v1.missing_demand_determinants"
+        ]
+      },
+      "drReadinessV1": {
+        "topEventWindowsCount": 2,
+        "topEventWindowsTop3": [
+          {
+            "dateIso": "2026-01-03",
+            "startHourLocal": 11,
+            "durationHours": 2
+          },
+          {
+            "dateIso": "2026-01-02",
+            "startHourLocal": 0,
+            "durationHours": 2
+          }
+        ],
+        "typicalShedPotentialKwRange": [
+          0,
+          0
+        ],
+        "variabilityScore": {
+          "value": 1,
+          "method": "dr_variability_cv_v1"
+        },
+        "confidenceTier": "NONE",
+        "warnings": [
+          "dr.v1.insufficient_coverage"
+        ],
+        "missingInfo": []
+      }
+    }
   }
 ]
+

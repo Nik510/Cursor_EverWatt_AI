@@ -1,14 +1,19 @@
-import { randomUUID } from 'crypto';
+export { analyzeUtilityV1 as analyzeUtility } from './analyzeUtilityV1';
+export type { AnalyzeUtilityDeps } from './analyzeUtilityV1';
+
 import path from 'path';
 import { existsSync } from 'fs';
+import { tmpdir } from 'os';
 
-import type { UtilityInputs, UtilityInsights, UtilityRecommendation } from './types';
+import type { EngineWarning, UtilityInputs, UtilityInsights, UtilityRecommendation } from './types';
 import { getUtilityMissingInputs } from './missingInputs';
 import { analyzeLoadShape, type IntervalKwPoint as IntervalKwPoint1 } from './interval/analyzeLoadShape';
 import { evaluateLoadShiftPotential } from './interval/loadShiftPotential';
 import { estimateAnnualKwh } from './interval/annualize';
 import { computeProvenMetricsV1 } from './interval/provenMetrics';
 import { analyzeSupplyStructure } from './supply/analyzeSupplyStructure';
+import { detectSupplyStructureV1 } from '../supplyStructureAnalyzerV1/detectSupplyStructureV1';
+import { SupplyStructureAnalyzerReasonCodesV1 } from '../supplyStructureAnalyzerV1/reasons';
 import { extractBillPdfTariffHintsV1 } from './billPdf/extractBillPdfTariffHintsV1';
 import { extractBillPdfTouUsageV1 } from './billPdf/extractBillPdfTouUsageV1';
 import { analyzeBillIntelligenceV1 } from './billPdf/analyzeBillIntelligenceV1';
@@ -35,15 +40,30 @@ import { computeBehaviorInsights } from './behavior/computeBehaviorInsights';
 import { computeBehaviorInsightsV2 } from './behaviorV2/computeBehaviorInsightsV2';
 import { computeBehaviorInsightsV3 } from './behaviorV3/computeBehaviorInsightsV3';
 
+import { normalizeIntervalInputsV1 } from './intervalNormalizationV1/normalizeIntervalInputsV1.node';
+import type { NormalizedIntervalV1 } from './intervalNormalizationV1/types';
+
 import { getDefaultCatalogForTerritory, matchPrograms } from '../programIntelligence/matchPrograms';
 import { programMatchesToRecommendations } from '../programIntelligence/toRecommendations';
 import { evaluateStorageOpportunityPackV1 } from '../batteryEngineV1/evaluateBatteryOpportunityV1';
 import { evaluateBatteryEconomicsV1 } from '../batteryEconomicsV1/evaluateBatteryEconomicsV1';
+import { buildBatteryDecisionPackV1 } from '../batteryEconomicsV1/decisionPackV1';
+import { buildBatteryDecisionPackV1_2 } from '../batteryDecisionPackV1_2/buildBatteryDecisionPackV1_2';
+import type { BatteryDecisionConstraintsV1 } from '../batteryDecisionPackV1_2/types';
+import type { TariffPriceSignalsV1 } from '../batteryEngineV1/types';
+import { buildGenerationTouEnergySignalsV0, getCcaGenerationSnapshotV0 } from '../ccaTariffLibraryV0/getCcaGenerationSnapshotV0';
+import { matchCcaFromSsaV0 } from '../ccaTariffLibraryV0/matchCcaFromSsaV0';
+import { CcaTariffLibraryReasonCodesV0 } from '../ccaTariffLibraryV0/reasons';
+import { getCcaAddersSnapshotV0 } from '../ccaAddersLibraryV0/getCcaAddersSnapshotV0';
+import { CcaAddersLibraryReasonCodesV0 } from '../ccaAddersLibraryV0/reasons';
+import { computeAddersPerKwhTotal } from '../ccaAddersLibraryV0/computeAddersPerKwhTotal';
+import { getExitFeesSnapshotV0 } from '../exitFeesLibraryV0/getExitFeesSnapshotV0';
 
 import { loadProjectForOrg } from '../project/projectRepository';
 import { readIntervalData } from '../../utils/excel-reader';
 import { BillTariffLibraryMatchWarningCodesV1, matchBillTariffToLibraryV1 } from '../tariffLibrary/matching/matchBillTariffToLibraryV1';
 import { loadLatestGasSnapshot } from '../tariffLibraryGas/storage';
+import type { AnalyzeUtilityStepNameV1, StepTraceV1 } from './stepTraceV1';
 
 type IntervalKwPoint = IntervalKwPoint1 & IntervalKwPoint2;
 
@@ -148,7 +168,39 @@ function inferScheduleBucket(args: { metrics: UtilityInsights['inferredLoadShape
   return { scheduleBucket: 'mixed', confidence: 0.55, reasons };
 }
 
-async function tryLoadIntervalKwFromProject(inputs: UtilityInputs): Promise<IntervalKwPoint[] | null> {
+function exceptionName(e: unknown): string {
+  if (e && typeof e === 'object' && 'name' in e) return String((e as any).name || 'Error');
+  if (typeof e === 'string') return 'Error';
+  return String(e === null ? 'null' : typeof e);
+}
+
+const DEFAULT_ALLOWLIST_ROOTS = [path.join(tmpdir(), 'everwatt-uploads'), path.join(process.cwd(), 'samples')];
+
+function resolveAllowlistedPath(rawPath: string, allowRoots = DEFAULT_ALLOWLIST_ROOTS): string | null {
+  const fp = String(rawPath || '').trim();
+  if (!fp) return null;
+  const abs = path.resolve(path.isAbsolute(fp) ? fp : path.join(process.cwd(), fp));
+  for (const rootRaw of allowRoots) {
+    const root = path.resolve(String(rootRaw || ''));
+    if (!root) continue;
+    if (abs === root) return abs;
+    if (abs.startsWith(root + path.sep)) return abs;
+  }
+  return null;
+}
+
+function makeEphemeralIdFactory(args: { prefix: string; seed: string }): () => string {
+  const prefix = String(args.prefix || 'id').trim() || 'id';
+  const seed =
+    String(args.seed || '')
+      .trim()
+      .replace(/[^0-9A-Za-z]/g, '')
+      .slice(0, 24) || 'seed';
+  let i = 0;
+  return () => `${prefix}_${seed}_${++i}`;
+}
+
+async function tryLoadIntervalKwFromProject(inputs: UtilityInputs, warn?: (w: EngineWarning) => void): Promise<IntervalKwPoint[] | null> {
   try {
     if (!inputs.orgId || !inputs.projectId) return null;
     const project = await loadProjectForOrg(inputs.orgId, inputs.projectId);
@@ -169,38 +221,70 @@ async function tryLoadIntervalKwFromProject(inputs: UtilityInputs): Promise<Inte
 
     const fp = String(telemetry.intervalFilePath || '').trim();
     if (fp) {
-      const abs = path.isAbsolute(fp) ? fp : path.join(process.cwd(), fp);
-      if (existsSync(abs)) {
-        const data = readIntervalData(abs);
-        const out: IntervalKwPoint[] = data
-          .map((d) => ({
-            timestampIso: d.timestamp instanceof Date ? d.timestamp.toISOString() : new Date(d.timestamp as any).toISOString(),
-            kw: Number((d as any).demand),
-            temperatureF: Number((d as any).temperatureF ?? (d as any).avgTemperature ?? (d as any).temperature),
-          }))
-          .filter((r) => r.timestampIso && Number.isFinite(r.kw));
-        if (out.length) return out;
+      const abs = resolveAllowlistedPath(fp);
+      if (!abs) {
+        warn?.({
+          code: 'UIE_INTERVAL_FILE_PATH_REJECTED',
+          module: 'utilityIntelligence/analyzeUtility',
+          operation: 'tryLoadIntervalKwFromProject',
+          exceptionName: 'PathNotAllowed',
+          contextKey: 'intervalFilePath',
+        });
+      } else if (existsSync(abs)) {
+        try {
+          const data = readIntervalData(abs);
+          const out: IntervalKwPoint[] = data
+            .map((d) => ({
+              timestampIso: d.timestamp instanceof Date ? d.timestamp.toISOString() : new Date(d.timestamp as any).toISOString(),
+              kw: Number((d as any).demand),
+              temperatureF: Number((d as any).temperatureF ?? (d as any).avgTemperature ?? (d as any).temperature),
+            }))
+            .filter((r) => r.timestampIso && Number.isFinite(r.kw));
+          if (out.length) return out;
+        } catch (e) {
+          warn?.({
+            code: 'UIE_INTERVAL_FILE_READ_FAILED',
+            module: 'utilityIntelligence/analyzeUtility',
+            operation: 'readIntervalData',
+            exceptionName: exceptionName(e),
+            contextKey: 'intervalFilePath',
+          });
+        }
       }
     }
 
     return null;
-  } catch {
+  } catch (e) {
+    warn?.({
+      code: 'UIE_INTERVAL_LOAD_FROM_PROJECT_FAILED',
+      module: 'utilityIntelligence/analyzeUtility',
+      operation: 'tryLoadIntervalKwFromProject',
+      exceptionName: exceptionName(e),
+      contextKey: 'projectTelemetry',
+    });
     return null;
   }
 }
 
-async function tryLoadProjectTelemetry(inputs: UtilityInputs): Promise<any | null> {
+async function tryLoadProjectTelemetry(inputs: UtilityInputs, warn?: (w: EngineWarning) => void): Promise<any | null> {
   try {
     if (!inputs.orgId || !inputs.projectId) return null;
     const project = await loadProjectForOrg(inputs.orgId, inputs.projectId);
     const telemetry: any = (project as any)?.telemetry || null;
     return telemetry && typeof telemetry === 'object' ? telemetry : null;
-  } catch {
+  } catch (e) {
+    warn?.({
+      code: 'UIE_PROJECT_TELEMETRY_LOAD_FAILED',
+      module: 'utilityIntelligence/analyzeUtility',
+      operation: 'tryLoadProjectTelemetry',
+      exceptionName: exceptionName(e),
+      contextKey: 'projectTelemetry',
+    });
     return null;
   }
 }
 
-function intervalKwFromProjectTelemetry(telemetry: any): IntervalKwPoint[] | null {
+function intervalKwFromProjectTelemetry(telemetry: any, warn?: (w: EngineWarning) => void): IntervalKwPoint[] | null {
   try {
     if (!telemetry || typeof telemetry !== 'object') return null;
 
@@ -218,35 +302,73 @@ function intervalKwFromProjectTelemetry(telemetry: any): IntervalKwPoint[] | nul
 
     const fp = String((telemetry as any).intervalFilePath || '').trim();
     if (fp) {
-      const abs = path.isAbsolute(fp) ? fp : path.join(process.cwd(), fp);
-      if (existsSync(abs)) {
-        const data = readIntervalData(abs);
-        const out: IntervalKwPoint[] = data
-          .map((d) => ({
-            timestampIso: d.timestamp instanceof Date ? d.timestamp.toISOString() : new Date(d.timestamp as any).toISOString(),
-            kw: Number((d as any).demand),
-            temperatureF: Number((d as any).temperatureF ?? (d as any).avgTemperature ?? (d as any).temperature),
-          }))
-          .filter((r) => r.timestampIso && Number.isFinite(r.kw));
-        if (out.length) return out;
+      const abs = resolveAllowlistedPath(fp);
+      if (!abs) {
+        warn?.({
+          code: 'UIE_INTERVAL_FILE_PATH_REJECTED',
+          module: 'utilityIntelligence/analyzeUtility',
+          operation: 'intervalKwFromProjectTelemetry',
+          exceptionName: 'PathNotAllowed',
+          contextKey: 'intervalFilePath',
+        });
+      } else if (existsSync(abs)) {
+        try {
+          const data = readIntervalData(abs);
+          const out: IntervalKwPoint[] = data
+            .map((d) => ({
+              timestampIso: d.timestamp instanceof Date ? d.timestamp.toISOString() : new Date(d.timestamp as any).toISOString(),
+              kw: Number((d as any).demand),
+              temperatureF: Number((d as any).temperatureF ?? (d as any).avgTemperature ?? (d as any).temperature),
+            }))
+            .filter((r) => r.timestampIso && Number.isFinite(r.kw));
+          if (out.length) return out;
+        } catch (e) {
+          warn?.({
+            code: 'UIE_INTERVAL_FILE_READ_FAILED',
+            module: 'utilityIntelligence/analyzeUtility',
+            operation: 'readIntervalData',
+            exceptionName: exceptionName(e),
+            contextKey: 'intervalFilePath',
+          });
+        }
       }
     }
 
     return null;
-  } catch {
+  } catch (e) {
+    warn?.({
+      code: 'UIE_INTERVAL_FROM_TELEMETRY_FAILED',
+      module: 'utilityIntelligence/analyzeUtility',
+      operation: 'intervalKwFromProjectTelemetry',
+      exceptionName: exceptionName(e),
+      contextKey: 'projectTelemetry',
+    });
     return null;
   }
 }
 
-export type AnalyzeUtilityDeps = {
+type AnalyzeUtilityDepsLegacy = {
   intervalKwSeries?: IntervalKwPoint[] | null;
   /** Canonical interval points (kWh/kW/temperatureF) from PG&E exports or other sources. */
   intervalPointsV1?: Array<{ timestampIso: string; intervalMinutes: number; kWh?: number; kW?: number; temperatureF?: number }> | null;
+  /**
+   * Optional deterministic tariff price signals (TOU windows + demand charge) for battery/storage engines.
+   * This must be provided by fixtures/operators; analyzeUtility does not infer or guess prices.
+   */
+  tariffPriceSignalsV1?: TariffPriceSignalsV1 | null;
+  /** Optional tariff snapshot id/version tag for audit trail. */
+  tariffSnapshotId?: string | null;
   /** Optional operator-provided deterministic economics overrides (capex/opex assumptions). */
   storageEconomicsOverridesV1?: any | null;
+  /** Optional PCIA vintage key (when known) to select vintage-specific PCIA deterministically (no fetches). */
+  pciaVintageKey?: string | null;
+  /** Optional battery decision constraints (v1). When omitted, may be read from project.telemetry when available. */
+  batteryDecisionConstraintsV1?: BatteryDecisionConstraintsV1 | null;
   weatherProvider?: WeatherProvider;
   nowIso?: string;
   idFactory?: () => string;
+  /** Optional request-scoped step trace recorder (deterministic). */
+  stepTraceV1?: StepTraceV1 | null;
 };
 
 /**
@@ -255,57 +377,102 @@ export type AnalyzeUtilityDeps = {
  * Note: v1 is best-effort; it may accept interval series from deps (fixtures/telemetry adapters),
  * or attempt to load from project records when available.
  */
-export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilityDeps): Promise<{
+async function analyzeUtilityLegacy(inputs: UtilityInputs, deps?: AnalyzeUtilityDepsLegacy): Promise<{
   insights: UtilityInsights;
   recommendations: UtilityRecommendation[];
 }> {
-  const nowIso = deps?.nowIso || new Date('2026-01-01T00:00:00.000Z').toISOString();
-  const idFactory = deps?.idFactory || (() => randomUUID());
-
-  const intervalFromCanonical =
-    Array.isArray(deps?.intervalPointsV1) && deps?.intervalPointsV1.length
-      ? deps?.intervalPointsV1
-          .map((p) => {
-            const ts = String((p as any)?.timestampIso || '').trim();
-            const mins = Number((p as any)?.intervalMinutes);
-            const kW = Number((p as any)?.kW);
-            const kWh = Number((p as any)?.kWh);
-            const derived = !Number.isFinite(kW) && Number.isFinite(kWh) && Number.isFinite(mins) && mins > 0 ? kWh * (60 / mins) : NaN;
-            const kw = Number.isFinite(kW) ? kW : derived;
-            const temperatureF = Number((p as any)?.temperatureF);
-            return { timestampIso: ts, kw, ...(Number.isFinite(temperatureF) ? { temperatureF } : {}) };
-          })
-          .filter((p) => p.timestampIso && Number.isFinite((p as any).kw))
-      : null;
+  const nowIso = String(deps?.nowIso || new Date().toISOString());
+  const engineWarnings: EngineWarning[] = [];
+  const warn = (w: EngineWarning) => engineWarnings.push(w);
+  const idFactory = deps?.idFactory || makeEphemeralIdFactory({ prefix: 'utilReco', seed: nowIso });
+  const stepTraceV1 = deps?.stepTraceV1 ?? null;
+  const beginStep = (name: AnalyzeUtilityStepNameV1) => stepTraceV1?.beginStep(name);
+  const endStep = (name: AnalyzeUtilityStepNameV1, opts?: { skipped?: boolean; reasonCode?: string }) => stepTraceV1?.endStep(name, opts);
 
   const depsHasIntervalKwSeries = Array.isArray(deps?.intervalKwSeries) ? deps?.intervalKwSeries : null;
   const depsHasEconomicsOverrides = deps && Object.prototype.hasOwnProperty.call(deps, 'storageEconomicsOverridesV1');
-  const needProjectTelemetry = Boolean((!intervalFromCanonical || !intervalFromCanonical.length) && !depsHasIntervalKwSeries) || !depsHasEconomicsOverrides;
-  const projectTelemetry = needProjectTelemetry ? await tryLoadProjectTelemetry(inputs) : null;
+  const depsHasBatteryDecisionConstraints = deps && Object.prototype.hasOwnProperty.call(deps, 'batteryDecisionConstraintsV1');
 
-  const intervalKw: IntervalKwPoint[] | null =
-    (intervalFromCanonical && intervalFromCanonical.length ? (intervalFromCanonical as any) : null) ??
-    (depsHasIntervalKwSeries ??
-      intervalKwFromProjectTelemetry(projectTelemetry) ??
-      (projectTelemetry ? null : await tryLoadIntervalKwFromProject(inputs)));
+  const intervalResolutionMinutesHint =
+    inputs.intervalDataRef?.resolution === '15min'
+      ? 15
+      : inputs.intervalDataRef?.resolution === 'hourly'
+        ? 60
+        : inputs.intervalDataRef?.resolution === 'daily'
+          ? 1440
+          : null;
+
+  beginStep('normalizeIntervalInputsV1');
+  const normalizedFromCanonicalPoints: NormalizedIntervalV1 | null = normalizeIntervalInputsV1({
+    intervalPointsV1: Array.isArray(deps?.intervalPointsV1) ? deps?.intervalPointsV1 : null,
+    resolutionMinutesHint: intervalResolutionMinutesHint,
+  });
+
+  const needProjectTelemetry =
+    Boolean((!normalizedFromCanonicalPoints || !normalizedFromCanonicalPoints.seriesKw.length) && !depsHasIntervalKwSeries) ||
+    !depsHasEconomicsOverrides ||
+    !depsHasBatteryDecisionConstraints;
+  const projectTelemetry = needProjectTelemetry ? await tryLoadProjectTelemetry(inputs, warn) : null;
+
+  const intervalKwRaw: any[] | null =
+    (normalizedFromCanonicalPoints && normalizedFromCanonicalPoints.seriesKw.length
+      ? normalizedFromCanonicalPoints.seriesKw.map((p) => ({ timestampIso: p.tsIso, kw: p.kw }))
+      : null) ??
+    (depsHasIntervalKwSeries ?? intervalKwFromProjectTelemetry(projectTelemetry, warn) ?? (projectTelemetry ? null : await tryLoadIntervalKwFromProject(inputs, warn)));
+
+  const normalizedInterval: NormalizedIntervalV1 | null =
+    normalizedFromCanonicalPoints ??
+    normalizeIntervalInputsV1({
+      intervalKwSeries: Array.isArray(intervalKwRaw) ? (intervalKwRaw as any) : null,
+      resolutionMinutesHint: intervalResolutionMinutesHint,
+    });
+
+  const intervalKwSeries: IntervalKwPoint[] = normalizedInterval ? normalizedInterval.seriesKw.map((p) => ({ timestampIso: p.tsIso, kw: p.kw })) : [];
+  endStep('normalizeIntervalInputsV1');
 
   const storageEconomicsOverridesV1 = depsHasEconomicsOverrides
     ? (deps as any).storageEconomicsOverridesV1 || null
     : (projectTelemetry as any)?.storageEconomicsOverridesV1 || null;
 
+  const batteryDecisionConstraintsV1 = depsHasBatteryDecisionConstraints
+    ? ((deps as any).batteryDecisionConstraintsV1 || null)
+    : ((projectTelemetry as any)?.batteryDecisionConstraintsV1 || null);
+
   const missingGlobal = getUtilityMissingInputs(inputs);
 
   // Interval analytics
-  const loadShape = analyzeLoadShape({ intervalKw: intervalKw || undefined });
-  const schedule = inferScheduleBucket({ metrics: loadShape.metrics, intervalPoints: intervalKw?.length || 0 });
-  const loadShift = evaluateLoadShiftPotential({ intervalKw: intervalKw || undefined, loadShape: loadShape.metrics, constraints: inputs.constraints });
+  const loadShape = analyzeLoadShape({ intervalKw: intervalKwSeries.length ? intervalKwSeries : undefined });
+  const schedule = inferScheduleBucket({ metrics: loadShape.metrics, intervalPoints: intervalKwSeries.length || 0 });
+  const loadShift = evaluateLoadShiftPotential({
+    intervalKw: intervalKwSeries.length ? intervalKwSeries : undefined,
+    loadShape: loadShape.metrics,
+    constraints: inputs.constraints,
+  });
 
   // Weather sensitivity (optional provider)
-  const weather = await runWeatherRegressionV1({
-    inputs,
-    intervalKw: (intervalKw || []).map((r) => ({ timestampIso: r.timestampIso, kw: r.kw } satisfies IntervalKwPointWithTemp)),
-    provider: deps?.weatherProvider,
-  });
+  const weather = await (async () => {
+    try {
+      return await runWeatherRegressionV1({
+        inputs,
+        intervalKw: intervalKwSeries.map((r) => ({ timestampIso: r.timestampIso, kw: r.kw } satisfies IntervalKwPointWithTemp)),
+        provider: deps?.weatherProvider,
+      });
+    } catch (e) {
+      warn({
+        code: 'UIE_WEATHER_REGRESSION_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'runWeatherRegressionV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'weatherRegressionV1',
+      });
+      return {
+        available: false,
+        method: 'regression_v1' as const,
+        reasons: ['Weather regression failed (best-effort).'],
+        requiredInputsMissing: ['Weather regression failed; see engineWarnings.'],
+      };
+    }
+  })();
 
   const loadAttribution = (() => {
     try {
@@ -319,18 +486,23 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
             const kw = Number.isFinite(kW) ? kW : derived;
             return { timestampIso: ts, kw, temperatureF: Number((p as any)?.temperatureF) };
           })
-        : Array.isArray(intervalKw)
-          ? (intervalKw as any[]).map((p) => ({ timestampIso: String((p as any)?.timestampIso || ''), kw: Number((p as any)?.kw), temperatureF: Number((p as any)?.temperatureF) }))
+        : Array.isArray(intervalKwRaw)
+          ? (intervalKwRaw as any[]).map((p) => ({ timestampIso: String((p as any)?.timestampIso || ''), kw: Number((p as any)?.kw), temperatureF: Number((p as any)?.temperatureF) }))
           : [];
       if (!ptsAll.length) return undefined;
-      const withTemp = ptsAll.filter((p) => Number.isFinite(Number(p?.temperatureF)));
-      const coverage = ptsAll.length ? withTemp.length / ptsAll.length : 0;
       return analyzeLoadAttributionV1({
         points: ptsAll.map((p) => ({ timestampIso: String(p?.timestampIso || ''), kw: Number(p?.kw), temperatureF: Number(p?.temperatureF) })),
         minPoints: 1000,
         minTempStddevF: 3,
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_LOAD_ATTRIBUTION_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'analyzeLoadAttributionV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'loadAttribution',
+      });
       return undefined;
     }
   })();
@@ -340,7 +512,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     inputs,
     scheduleBucket: schedule.scheduleBucket,
     loadShape: loadShape.metrics,
-    intervalKw: intervalKw || undefined,
+    intervalKw: intervalKwSeries.length ? intervalKwSeries : undefined,
   });
 
   // Option S relevance
@@ -351,14 +523,22 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
   });
 
   // Program intelligence (deterministic catalog matching)
-  const proven = computeProvenMetricsV1({ inputs, intervalKw: intervalKw || null });
+  beginStep('programIntelligenceV1');
+  const proven = computeProvenMetricsV1({ inputs, intervalKw: intervalKwSeries.length ? intervalKwSeries : null });
   const tz =
     String(proven.provenTouExposureSummary?.timezone || '').trim() ||
     (normText(inputs.utilityTerritory).includes('pge') ? 'America/Los_Angeles' : 'UTC');
   const billTou = (() => {
     try {
       return extractBillPdfTouUsageV1({ billPdfText: inputs.billPdfText || null, timezone: tz });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_BILL_PDF_TOU_EXTRACT_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'extractBillPdfTouUsageV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'billPdfTou',
+      });
       return null;
     }
   })();
@@ -401,9 +581,9 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       annualKwh,
       scheduleBucket: schedule.scheduleBucket,
       loadShiftScore: loadShift.score,
-      hasIntervalData: Boolean(intervalKw && intervalKw.length),
-      hasAdvancedMetering: Boolean(intervalKw && intervalKw.length),
-      intervalKw: intervalKw || undefined,
+      hasIntervalData: Boolean(intervalKwSeries.length),
+      hasAdvancedMetering: Boolean(intervalKwSeries.length),
+      intervalKw: intervalKwSeries.length ? intervalKwSeries : undefined,
       timezone: proven.provenTouExposureSummary?.timezone || (normText(inputs.utilityTerritory).includes('pge') ? 'America/Los_Angeles' : 'UTC'),
       provenTouExposureSummary: proven.provenTouExposureSummary,
     },
@@ -418,10 +598,31 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     idFactory,
   });
 
+  // Deterministic ordering for output-only (does not affect which matches are turned into recommendations above).
+  const matchesSortedForOutput = matches
+    .slice()
+    .sort((a: any, b: any) => {
+      const rank = (s: any): number => {
+        const x = String(s ?? '');
+        if (x === 'eligible') return 0;
+        if (x === 'likely_eligible') return 1;
+        if (x === 'unknown') return 2;
+        return 3; // unlikely / other
+      };
+      const ra = rank((a as any)?.matchStatus);
+      const rb = rank((b as any)?.matchStatus);
+      if (ra !== rb) return ra - rb;
+      const sa = Number((a as any)?.score);
+      const sb = Number((b as any)?.score);
+      if (Number.isFinite(sa) && Number.isFinite(sb) && sa !== sb) return sb - sa;
+      return String((a as any)?.programId || '').localeCompare(String((b as any)?.programId || ''));
+    });
+
   const programs: UtilityInsights['programs'] = {
-    matches,
+    matches: matchesSortedForOutput as any,
     topRecommendations: programRecs.slice(0, 5),
   };
+  endStep('programIntelligenceV1');
 
   const supplyStructure = analyzeSupplyStructure({
     inputs,
@@ -430,6 +631,29 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
   });
 
   const billPdfTariffTruth = extractBillPdfTariffHintsV1(inputs.billPdfText || null);
+
+  beginStep('supplyStructureAnalyzerV1_2');
+  const ssaV1 = (() => {
+    try {
+      return detectSupplyStructureV1({
+        billPdfText: inputs.billPdfText || null,
+        billHints: {
+          utilityHint: (billPdfTariffTruth as any)?.utilityHint ?? null,
+          rateScheduleText: (billPdfTariffTruth as any)?.rateScheduleText ?? null,
+        },
+      });
+    } catch (e) {
+      warn({
+        code: 'UIE_SUPPLY_STRUCTURE_DETECT_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'detectSupplyStructureV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'supplyStructureAnalyzerV1',
+      });
+      return null;
+    }
+  })();
+  endStep('supplyStructureAnalyzerV1_2');
 
   const billIntelligenceV1 = analyzeBillIntelligenceV1({
     billPdfText: inputs.billPdfText || null,
@@ -458,27 +682,48 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
 
   // Interval Intelligence v1 – Product-grade interval-derived outputs (warnings-first, deterministic).
   const intervalIntelligenceV1 = (() => {
+    beginStep('intervalIntelligenceV1');
     try {
       const pts = Array.isArray(deps?.intervalPointsV1) ? (deps?.intervalPointsV1 as any[]) : null;
-      if (!pts || !pts.length) return undefined;
-      return analyzeIntervalIntelligenceV1({
+      if (!pts || !pts.length) {
+        endStep('intervalIntelligenceV1', { skipped: true, reasonCode: 'NO_INTERVAL_POINTS_V1' });
+        return undefined;
+      }
+      const out = analyzeIntervalIntelligenceV1({
         points: pts as any,
         timezoneHint: tz,
         topPeakEventsCount: 7,
       }).intervalIntelligenceV1;
-    } catch {
+      endStep('intervalIntelligenceV1');
+      return out;
+    } catch (e) {
+      warn({
+        code: 'UIE_INTERVAL_INTELLIGENCE_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'analyzeIntervalIntelligenceV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'intervalIntelligenceV1',
+      });
+      endStep('intervalIntelligenceV1');
       return undefined;
     }
   })();
 
   const weatherRegressionV1 = (() => {
+    beginStep('weatherRegressionV1');
     try {
       const pts = Array.isArray(deps?.intervalPointsV1) ? (deps?.intervalPointsV1 as any[]) : null;
-      if (!pts || !pts.length) return undefined;
+      if (!pts || !pts.length) {
+        endStep('weatherRegressionV1', { skipped: true, reasonCode: 'NO_INTERVAL_POINTS_V1' });
+        return undefined;
+      }
       const anyTemp = pts.some((p) => Number.isFinite(Number((p as any)?.temperatureF)));
-      if (!anyTemp) return undefined;
+      if (!anyTemp) {
+        endStep('weatherRegressionV1', { skipped: true, reasonCode: 'NO_TEMPERATURE_IN_INTERVALS' });
+        return undefined;
+      }
       const daily = buildDailyUsageAndWeatherSeriesFromIntervalPointsV1({ points: pts as any, timezoneHint: tz });
-      return regressUsageVsWeatherV1({
+      const out = regressUsageVsWeatherV1({
         usageByDay: daily.usageByDay,
         weatherByDay: daily.weatherByDay,
         hddBaseF: 65,
@@ -486,11 +731,22 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         minOverlapDays: 10,
         timezoneHint: tz,
       }).weatherRegressionV1;
-    } catch {
+      endStep('weatherRegressionV1');
+      return out;
+    } catch (e) {
+      warn({
+        code: 'UIE_WEATHER_REGRESSION_V1_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'regressUsageVsWeatherV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'weatherRegressionV1',
+      });
+      endStep('weatherRegressionV1');
       return undefined;
     }
   })();
 
+  beginStep('tariffMatchAndRateContext');
   const billTariffCommodity: 'electric' | 'gas' =
     String(inputs.serviceType || '').toLowerCase() === 'gas' ? 'gas' : 'electric';
 
@@ -501,9 +757,27 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
 
   const billTariffSnapshot =
     billTariffUtilityKey && billTariffCommodity === 'electric'
-      ? await loadLatestSnapshot(billTariffUtilityKey as any).catch(() => null)
+      ? await loadLatestSnapshot(billTariffUtilityKey as any).catch((e) => {
+          warn({
+            code: 'UIE_TARIFF_SNAPSHOT_LOAD_FAILED',
+            module: 'utilityIntelligence/analyzeUtility',
+            operation: 'loadLatestSnapshot',
+            exceptionName: exceptionName(e),
+            contextKey: 'tariffLibrarySnapshot',
+          });
+          return null;
+        })
       : billTariffUtilityKey && billTariffCommodity === 'gas'
-        ? await loadLatestGasSnapshot(billTariffUtilityKey as any).catch(() => null)
+        ? await loadLatestGasSnapshot(billTariffUtilityKey as any).catch((e) => {
+            warn({
+              code: 'UIE_GAS_TARIFF_SNAPSHOT_LOAD_FAILED',
+              module: 'utilityIntelligence/analyzeUtility',
+              operation: 'loadLatestGasSnapshot',
+              exceptionName: exceptionName(e),
+              contextKey: 'tariffLibrarySnapshot',
+            });
+            return null;
+          })
         : null;
 
   const billPdfTariffLibraryMatchRaw = matchBillTariffToLibraryV1({
@@ -571,11 +845,358 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         ...(changeSummary ? { changeSummary } : {}),
         rateMetadata: md,
       };
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_TARIFF_LIBRARY_METADATA_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'tariffLibraryMetadata',
+        exceptionName: exceptionName(e),
+        contextKey: 'tariffLibrary',
+      });
       return undefined;
     }
   })();
 
+  const effectiveRateContextV1 = (() => {
+    try {
+      const iouUtility = String(inputs.currentRate?.utility || inputs.utilityTerritory || '').trim() || 'unknown';
+      const rateCode = String(inputs.currentRate?.rateCode || '').trim() || null;
+      const snapshotId = String((tariffLibrary as any)?.snapshotVersionTag || '').trim() || null;
+      const providerType = ssaV1?.providerType === 'CCA' ? ('CCA' as const) : ssaV1?.providerType === 'DA' ? ('DA' as const) : null;
+      const lseName = ssaV1?.providerType === 'CCA' ? (ssaV1?.lseName ?? null) : null;
+      const daProviderName = ssaV1?.providerType === 'DA' ? (ssaV1?.daProviderName ?? null) : null;
+      const ssaConfidence = Number.isFinite(Number(ssaV1?.confidence)) ? Number(ssaV1?.confidence) : null;
+      const ssaEvidence = (ssaV1 as any)?.evidence && typeof (ssaV1 as any).evidence === 'object' ? ((ssaV1 as any).evidence as any) : null;
+
+      const extraMissing: any[] = [];
+      const extraWarnings: string[] = [];
+
+      const dedupMissingInfoById = (items: any[]): any[] => {
+        const out: any[] = [];
+        const seen = new Set<string>();
+        for (const it of items || []) {
+          const id = String(it?.id || '').trim();
+          if (!id) continue;
+          const k = id.toLowerCase();
+          if (seen.has(k)) continue;
+          seen.add(k);
+          out.push(it);
+        }
+        return out;
+      };
+
+      const billPeriodStartYmd = (() => {
+        try {
+          const bills: any[] = Array.isArray(inputs.billingRecords) ? (inputs.billingRecords as any[]) : [];
+          if (bills.length) {
+            const sorted = bills
+              .map((b) => ({ b, t: b?.billEndDate ? new Date(b.billEndDate as any).getTime() : 0 }))
+              .sort((a, b) => a.t - b.t);
+            const latest: any = sorted[sorted.length - 1]?.b || null;
+            const start = latest?.billStartDate ? new Date(latest.billStartDate as any) : null;
+            const iso = start && Number.isFinite(start.getTime()) ? start.toISOString() : '';
+            return iso ? iso.slice(0, 10) : null;
+          }
+          const m = Array.isArray(inputs.billingSummary?.monthly) ? (inputs.billingSummary!.monthly as any[]) : [];
+          if (m.length) {
+            const sorted = m
+              .map((r) => ({
+                start: String((r as any)?.start || '').trim(),
+                end: String((r as any)?.end || '').trim(),
+              }))
+              .filter((r) => r.start)
+              .sort((a, b) => a.end.localeCompare(b.end) || a.start.localeCompare(b.start));
+            const latest = sorted[sorted.length - 1];
+            const s = String(latest?.start || '').trim();
+            return /^\d{4}-\d{2}-\d{2}/.test(s) ? s.slice(0, 10) : null;
+          }
+          return null;
+        } catch (e) {
+          warn({
+            code: 'UIE_BILL_PERIOD_DERIVE_FAILED',
+            module: 'utilityIntelligence/analyzeUtility',
+            operation: 'deriveBillPeriodStartYmd',
+            exceptionName: exceptionName(e),
+            contextKey: 'billPeriod',
+          });
+          return null;
+        }
+      })();
+
+      const iouForGen = (() => {
+        const u = (ssaV1 as any)?.iouUtility;
+        return asCaIouUtility(u) || asCaIouUtility(inputs.currentRate?.utility ?? inputs.utilityTerritory);
+      })();
+
+      const gen = (() => {
+        if (providerType !== 'CCA' || !lseName) return null;
+        const m = matchCcaFromSsaV0({ lseName });
+        if (!m.ok) return null;
+        if (!iouForGen) return null;
+        const snap = getCcaGenerationSnapshotV0({ iouUtility: iouForGen, ccaId: m.ccaId, billPeriodStartYmd: billPeriodStartYmd ?? null });
+        if (!snap.ok || !snap.snapshot) return null;
+        const sig = buildGenerationTouEnergySignalsV0({ snapshot: snap.snapshot, upstreamWarnings: snap.warnings });
+
+        const pciaVintageKey = String((deps as any)?.pciaVintageKey || '').trim() || null;
+
+        const addersLookup = getCcaAddersSnapshotV0({
+          iouUtility: iouForGen,
+          ccaId: m.ccaId,
+          billPeriodStartYmd: billPeriodStartYmd ?? null,
+        });
+        const addersSnap = addersLookup.ok ? addersLookup.snapshot : null;
+
+        const exitFeesLookup = getExitFeesSnapshotV0({
+          iou: iouForGen,
+          effectiveYmd: billPeriodStartYmd ?? null,
+          providerType,
+          pciaVintageKey,
+        });
+        const exitFeesSnap = exitFeesLookup.ok ? exitFeesLookup.snapshot : null;
+        const nbcPerKwhTotal = exitFeesLookup.selectedCharges.nbcPerKwhTotal;
+        const pciaPerKwhApplied = exitFeesLookup.selectedCharges.pciaPerKwhApplied;
+        const otherExitFeesPerKwhTotal = exitFeesLookup.selectedCharges.otherExitFeesPerKwhTotal;
+        const exitFeesPerKwhTotal = exitFeesLookup.selectedCharges.exitFeesPerKwhTotal;
+
+        const addersUsed = (() => {
+          if (!addersSnap) return { addersPerKwhTotal: null as number | null, warnings: [] as string[] };
+          const charges: any = (addersSnap as any)?.charges || null;
+          const computed = computeAddersPerKwhTotal({ snapshot: { charges }, pciaVintageKey });
+          const hasExitFees = Boolean(exitFeesSnap && String((exitFeesSnap as any)?.snapshotId || '').trim());
+
+          // If exit fees exist, treat exitFees as authoritative for NBC/PCIA; only apply non-overlapping CCA adders.
+          if (hasExitFees) {
+            const other = Number((charges as any)?.otherPerKwhTotal);
+            const otherOk = Number.isFinite(other) ? other : 0;
+            const indiff = Number((charges as any)?.indifferenceAdjustmentPerKwh);
+            const indiffOk = Number.isFinite(indiff) ? indiff : 0;
+            const isCompleteBundle = (addersSnap as any)?.isCompleteBundle === true;
+
+            // v0.1 rule: default to "other only"; if explicitly flagged complete bundle, include indifference adjustment too.
+            const addersNonExitFees = Math.round((otherOk + (isCompleteBundle ? indiffOk : 0)) * 1e9) / 1e9;
+
+            const overlapDetected = Boolean(
+              Number.isFinite(Number((charges as any)?.nbcPerKwhTotal)) ||
+                Number.isFinite(Number((charges as any)?.pciaPerKwhDefault)) ||
+                ((charges as any)?.pciaPerKwhByVintageKey && typeof (charges as any).pciaPerKwhByVintageKey === 'object' && Object.keys((charges as any).pciaPerKwhByVintageKey).length) ||
+                (Array.isArray((addersSnap as any)?.addersBreakdown) &&
+                  (addersSnap as any).addersBreakdown.some((it: any) => String(it?.id || '').toLowerCase().includes('pcia') || String(it?.id || '').toLowerCase().includes('nbc'))),
+            );
+
+            const warnings = [
+              ...(computed.warnings || []),
+              ...(overlapDetected ? (['generation.v1.adders_overlap_deduped'] as string[]) : []),
+            ];
+
+            return { addersPerKwhTotal: addersNonExitFees, warnings };
+          }
+
+          return { addersPerKwhTotal: computed.addersPerKwhTotal, warnings: computed.warnings || [] };
+        })();
+
+        const generationAllInTouEnergyPrices =
+          addersUsed.addersPerKwhTotal !== null
+            ? (sig.generationTouEnergyPrices || []).map((w) => ({
+                periodId: String((w as any)?.periodId || '').trim(),
+                startHourLocal: Number((w as any)?.startHourLocal),
+                endHourLocalExclusive: Number((w as any)?.endHourLocalExclusive),
+                days: (w as any)?.days === 'weekday' || (w as any)?.days === 'weekend' ? (w as any).days : 'all',
+                pricePerKwh: Math.round((Number((w as any)?.pricePerKwh) + Number(addersUsed.addersPerKwhTotal || 0)) * 1e9) / 1e9,
+              }))
+            : null;
+
+        const generationAllInWithExitFeesTouPrices =
+          exitFeesPerKwhTotal !== null && generationAllInTouEnergyPrices && generationAllInTouEnergyPrices.length
+            ? generationAllInTouEnergyPrices.map((w) => ({
+                periodId: String((w as any)?.periodId || '').trim(),
+                startHourLocal: Number((w as any)?.startHourLocal),
+                endHourLocalExclusive: Number((w as any)?.endHourLocalExclusive),
+                days: (w as any)?.days === 'weekday' || (w as any)?.days === 'weekend' ? (w as any).days : 'all',
+                pricePerKwh: Math.round((Number((w as any)?.pricePerKwh) + exitFeesPerKwhTotal) * 1e9) / 1e9,
+              }))
+            : null;
+
+        const warnings = (() => {
+          const base = [
+            ...(sig.warnings || []),
+            ...(addersLookup.warnings || []),
+            ...(addersUsed.warnings || []),
+            ...(exitFeesLookup.warnings || []),
+          ];
+          if (addersUsed.addersPerKwhTotal !== null && generationAllInTouEnergyPrices && generationAllInTouEnergyPrices.length) return base;
+          return [CcaTariffLibraryReasonCodesV0.CCA_V0_ENERGY_ONLY_NO_EXIT_FEES, ...base, CcaAddersLibraryReasonCodesV0.CCA_ADDERS_V0_MISSING];
+        })();
+
+        return {
+          generation: {
+            providerType,
+            lseName,
+            daProviderName: null,
+            confidence: ssaConfidence,
+            evidence: ssaEvidence,
+            rateCode: sig.generationRateCode,
+            snapshotId: sig.generationSnapshotId,
+            generationTouEnergyPrices: sig.generationTouEnergyPrices,
+            generationEnergyTouPrices: sig.generationTouEnergyPrices,
+            generationAddersPerKwhTotal: addersUsed.addersPerKwhTotal,
+            generationAddersSnapshotId: addersSnap ? String((addersSnap as any)?.snapshotId || '').trim() || null : null,
+            generationAddersAcquisitionMethodUsed: addersSnap ? (String((addersSnap as any)?.acquisitionMethodUsed || '').trim() === 'MANUAL_SEED_V0' ? 'MANUAL_SEED_V0' : null) : null,
+            generationAllInTouEnergyPrices: generationAllInTouEnergyPrices,
+            exitFeesSnapshotId: exitFeesSnap ? String((exitFeesSnap as any)?.snapshotId || '').trim() || null : null,
+            nbcPerKwhTotal,
+            pciaPerKwhApplied,
+            otherExitFeesPerKwhTotal,
+            generationAllInWithExitFeesTouPrices,
+            exitFeesWarnings: exitFeesLookup.warnings || [],
+          },
+          warnings,
+        };
+      })();
+
+      // Exit fees warnings-first: if supply is CCA/DA and IOU is known, surface selector warnings even when generation rates are missing.
+      if ((providerType === 'DA' || providerType === 'CCA') && iouForGen && (providerType === 'DA' || !gen)) {
+        const pciaVintageKey = String((deps as any)?.pciaVintageKey || '').trim() || null;
+        const exitFeesLookup = getExitFeesSnapshotV0({
+          iou: iouForGen,
+          effectiveYmd: billPeriodStartYmd ?? null,
+          providerType: providerType as any,
+          pciaVintageKey,
+        });
+        extraWarnings.push(...(exitFeesLookup.warnings || []));
+      }
+
+      if (providerType === 'DA') {
+        extraWarnings.push(SupplyStructureAnalyzerReasonCodesV1.SUPPLY_V1_DA_DETECTED_GENERATION_RATES_MISSING);
+        extraMissing.push({
+          id: SupplyStructureAnalyzerReasonCodesV1.SUPPLY_V1_DA_DETECTED_GENERATION_RATES_MISSING,
+          category: 'tariff',
+          severity: 'warning',
+          description: 'Direct Access (DA) supply detected, but generation tariff/rates are not yet available in this repository; using IOU delivery context only.',
+        });
+      }
+
+      if (providerType === 'DA' && ssaConfidence !== null && ssaConfidence < 0.95) {
+        extraWarnings.push(SupplyStructureAnalyzerReasonCodesV1.SUPPLY_V1_LOW_CONFIDENCE);
+        extraMissing.push({
+          id: SupplyStructureAnalyzerReasonCodesV1.SUPPLY_V1_LOW_CONFIDENCE,
+          category: 'tariff',
+          severity: 'warning',
+          description: `Supply provider detection confidence is below threshold (confidence=${ssaConfidence.toFixed(3)} < 0.95).`,
+        });
+      }
+
+      // If CCA is detected but generation rates are missing, surface missingInfo deterministically.
+      if (providerType === 'CCA' && lseName && !gen) {
+        extraWarnings.push(SupplyStructureAnalyzerReasonCodesV1.SUPPLY_V1_LSE_SUPPORTED_BUT_GENERATION_RATES_MISSING);
+        extraMissing.push({
+          id: SupplyStructureAnalyzerReasonCodesV1.SUPPLY_V1_LSE_SUPPORTED_BUT_GENERATION_RATES_MISSING,
+          category: 'tariff',
+          severity: 'warning',
+          description: 'CCA detected, but generation tariff/rates are not available in this repository; using IOU delivery context only.',
+        });
+      }
+
+      return {
+        iou: { utility: iouUtility, rateCode, snapshotId },
+        generation: gen
+          ? (gen.generation as any)
+          : (() => {
+              const baseGen: any = {
+                providerType,
+                lseName,
+                daProviderName,
+                confidence: ssaConfidence,
+                evidence: ssaEvidence,
+                rateCode: null,
+                snapshotId: null,
+              };
+              // v0: even when DA generation rates are missing, attach deterministic exit fees when possible.
+              if ((providerType === 'DA' || providerType === 'CCA') && iouForGen) {
+                const pciaVintageKey = String((deps as any)?.pciaVintageKey || '').trim() || null;
+                const exitFeesLookup = getExitFeesSnapshotV0({
+                  iou: iouForGen,
+                  effectiveYmd: billPeriodStartYmd ?? null,
+                  providerType: providerType as any,
+                  pciaVintageKey,
+                });
+                const exitFeesSnap = exitFeesLookup.ok ? exitFeesLookup.snapshot : null;
+                baseGen.exitFeesSnapshotId = exitFeesSnap ? String((exitFeesSnap as any)?.snapshotId || '').trim() || null : null;
+                baseGen.nbcPerKwhTotal = exitFeesLookup.selectedCharges.nbcPerKwhTotal;
+                baseGen.pciaPerKwhApplied = exitFeesLookup.selectedCharges.pciaPerKwhApplied;
+                baseGen.otherExitFeesPerKwhTotal = exitFeesLookup.selectedCharges.otherExitFeesPerKwhTotal;
+                baseGen.exitFeesWarnings = exitFeesLookup.warnings || [];
+              }
+              return baseGen;
+            })(),
+        method: 'ssa_v1' as const,
+        warnings: Array.from(
+          new Set([...(Array.isArray(ssaV1?.warnings) ? ssaV1!.warnings : []), ...extraWarnings, ...(gen ? gen.warnings : [])]),
+        ).sort((a, b) => a.localeCompare(b)),
+        missingInfo: dedupMissingInfoById([...(Array.isArray(ssaV1?.missingInfo) ? ssaV1!.missingInfo : []), ...extraMissing]).sort(
+          (a: any, b: any) => String(a?.id || '').localeCompare(String(b?.id || '')),
+        ),
+      };
+    } catch (e) {
+      warn({
+        code: 'UIE_EFFECTIVE_RATE_CONTEXT_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'effectiveRateContextV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'effectiveRateContextV1',
+      });
+      return undefined;
+    }
+  })();
+
+  const composedTariffPriceSignalsV1: TariffPriceSignalsV1 | null = (() => {
+    try {
+      const base = (deps?.tariffPriceSignalsV1 as any) || null;
+      if (!base || typeof base !== 'object') return null;
+      const gen = (effectiveRateContextV1 as any)?.generation || null;
+      const genWins = Array.isArray(gen?.generationTouEnergyPrices) ? (gen.generationTouEnergyPrices as any[]) : [];
+      const merged: any = {
+        ...(base as any),
+        // Always carry supply context for downstream engines (even when generation rates are missing).
+        supplyProviderType: gen?.providerType === 'CCA' || gen?.providerType === 'DA' ? gen.providerType : null,
+        supplyLseName: String(gen?.lseName || '').trim() || null,
+        generationSnapshotId: String(gen?.snapshotId || '').trim() || null,
+        generationRateCode: String(gen?.rateCode || '').trim() || null,
+        // Generation price windows are additive when present; otherwise downstream engines can emit "fallback used" warnings.
+        generationTouEnergyPrices: genWins.length ? genWins : ((base as any)?.generationTouEnergyPrices ?? null),
+        generationAllInTouEnergyPrices: Array.isArray(gen?.generationAllInTouEnergyPrices)
+          ? ((gen.generationAllInTouEnergyPrices as any[]) || [])
+          : ((base as any)?.generationAllInTouEnergyPrices ?? null),
+        generationAllInWithExitFeesTouPrices: Array.isArray(gen?.generationAllInWithExitFeesTouPrices)
+          ? ((gen.generationAllInWithExitFeesTouPrices as any[]) || [])
+          : ((base as any)?.generationAllInWithExitFeesTouPrices ?? null),
+        generationAddersPerKwhTotal: Number.isFinite(Number((gen as any)?.generationAddersPerKwhTotal)) ? Number((gen as any).generationAddersPerKwhTotal) : null,
+        generationAddersSnapshotId: String((gen as any)?.generationAddersSnapshotId || '').trim() || null,
+        exitFeesSnapshotId: String((gen as any)?.exitFeesSnapshotId || '').trim() || null,
+        nbcPerKwhTotal: Number.isFinite(Number((gen as any)?.nbcPerKwhTotal)) ? Number((gen as any).nbcPerKwhTotal) : null,
+        pciaPerKwhApplied: Number.isFinite(Number((gen as any)?.pciaPerKwhApplied)) ? Number((gen as any).pciaPerKwhApplied) : null,
+        otherExitFeesPerKwhTotal: Number.isFinite(Number((gen as any)?.otherExitFeesPerKwhTotal)) ? Number((gen as any).otherExitFeesPerKwhTotal) : null,
+        exitFeesPerKwhTotal:
+          Number.isFinite(Number((gen as any)?.nbcPerKwhTotal)) &&
+          Number.isFinite(Number((gen as any)?.pciaPerKwhApplied)) &&
+          Number.isFinite(Number((gen as any)?.otherExitFeesPerKwhTotal))
+            ? Number((gen as any).nbcPerKwhTotal) + Number((gen as any).pciaPerKwhApplied) + Number((gen as any).otherExitFeesPerKwhTotal)
+            : null,
+      };
+      return merged as any;
+    } catch (e) {
+      warn({
+        code: 'UIE_TARIFF_PRICE_SIGNALS_COMPOSE_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'composeTariffPriceSignalsV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'tariffPriceSignalsV1',
+      });
+      return (deps?.tariffPriceSignalsV1 as any) || null;
+    }
+  })();
+  endStep('tariffMatchAndRateContext');
+
+  beginStep('determinantsPackV1');
   const tariffApplicability = (() => {
     try {
       const rateCode = String(inputs.currentRate?.rateCode || '').trim();
@@ -595,10 +1216,17 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         tariffMetadata: (tariffLibrary as any)?.rateMetadata || null,
         supplyType: (supplyStructure as any)?.supplyType,
         territoryId: null,
-        intervalKwSeries: (intervalKw || []).map((r) => ({ timestampIso: r.timestampIso, kw: r.kw })),
-        intervalResolutionMinutes: intervalResolutionMinutes === 15 || intervalResolutionMinutes === 30 ? intervalResolutionMinutes : undefined,
+        intervalKwSeries: intervalKwSeries,
+        intervalResolutionMinutes: intervalResolutionMinutes ?? undefined,
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_TARIFF_APPLICABILITY_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'evaluateTariffApplicabilityV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'tariffApplicability',
+      });
       return undefined;
     }
   })();
@@ -658,7 +1286,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         billPdfText: inputs.billPdfText || null,
         ...(observedTouEnergyByMeterAndCycle ? { observedTouEnergyByMeterAndCycle } : {}),
         ...(observedTouDemandByMeterAndCycle ? { observedTouDemandByMeterAndCycle } : {}),
-        intervalSeries: canonicalPoints || intervalKw
+        intervalSeries: canonicalPoints || intervalKwRaw
           ? [
               {
                 meterId: meterIdGuess,
@@ -670,7 +1298,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
                       ...(Number.isFinite(Number((p as any)?.kW)) ? { kW: Number((p as any).kW) } : {}),
                       ...(Number.isFinite(Number((p as any)?.temperatureF)) ? { temperatureF: Number((p as any).temperatureF) } : {}),
                     }))
-                  : (intervalKw || []).map((r) => ({ timestampIso: r.timestampIso, kw: r.kw })),
+                  : intervalKwSeries,
                 intervalMinutes: canonicalPoints ? undefined : (intervalMinutes ?? undefined),
                 timezone: tz,
                 source: canonicalPoints ? 'workflow:intervalPointsV1' : 'utilityIntelligence:intervalKwSeries',
@@ -678,7 +1306,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
             ]
           : null,
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_DETERMINANTS_PACK_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'buildDeterminantsPackV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'determinantsPack',
+      });
       return null;
     }
   })();
@@ -728,12 +1363,25 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         meters,
         warnings: Array.isArray(determinantsPack.warnings) ? determinantsPack.warnings.slice(0, 6) : [],
       };
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_DETERMINANTS_PACK_SUMMARY_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'determinantsPackSummary',
+        exceptionName: exceptionName(e),
+        contextKey: 'determinantsPackSummary',
+      });
       return undefined;
     }
   })();
+  {
+    const hasRateCode = Boolean(String(inputs.currentRate?.rateCode || '').trim());
+    if (!hasRateCode) endStep('determinantsPackV1', { skipped: true, reasonCode: 'NO_CURRENT_RATE_CODE' });
+    else endStep('determinantsPackV1');
+  }
 
   // Storage Opportunity Pack v1 (battery + dispatch + DR readiness): always attach (warnings-first).
+  beginStep('batteryOpportunityPackV1');
   const storageOpportunityPackV1 = (() => {
     try {
       const det0: any = (determinantsPackSummary as any)?.meters?.[0]?.last12Cycles?.[0] || null;
@@ -749,7 +1397,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         intervalInsightsV1: (intervalIntelligenceV1 as any) || null,
         intervalPointsV1: Array.isArray(deps?.intervalPointsV1) ? (deps?.intervalPointsV1 as any) : null,
         // Tariff price signals are not inferred here (no guessing); fixture tests can supply them directly to the engine.
-        tariffPriceSignalsV1: null,
+        tariffPriceSignalsV1: (composedTariffPriceSignalsV1 as any) || null,
         determinantsV1,
         storageEconomicsOverridesV1,
         customerType: String((inputs as any)?.customerType || '').trim() || null,
@@ -760,7 +1408,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
           demandWindowStrategy: 'WINDOW_AROUND_DAILY_PEAK_V1',
         },
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_STORAGE_OPPORTUNITY_PACK_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'evaluateStorageOpportunityPackV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'storageOpportunityPackV1',
+      });
       // Last-resort deterministic fallback (do not throw from analyzeUtility).
       return evaluateStorageOpportunityPackV1({
         intervalInsightsV1: null,
@@ -770,6 +1425,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       });
     }
   })();
+  endStep('batteryOpportunityPackV1');
 
   // Battery Economics v1: always attach (warnings-first). No tariff/cost guessing in analyzeUtility.
   const batteryEconomicsV1 = (() => {
@@ -801,6 +1457,8 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
               ratchetDemandKw: Number.isFinite(Number(det0?.ratchetDemandKw)) ? Number(det0.ratchetDemandKw) : null,
               billingDemandKw: Number.isFinite(Number(det0?.billingDemandKw)) ? Number(det0.billingDemandKw) : null,
               billingDemandMethod: String(det0?.billingDemandMethod || '').trim() || null,
+              ratchetHistoryMaxKw: Number.isFinite(Number(det0?.ratchetHistoryMaxKw)) ? Number(det0.ratchetHistoryMaxKw) : null,
+              ratchetFloorPct: Number.isFinite(Number(det0?.ratchetFloorPct)) ? Number(det0.ratchetFloorPct) : null,
             }
           : null,
         dispatch: {
@@ -810,10 +1468,131 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         dr: null,
         finance: null,
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_BATTERY_ECONOMICS_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'evaluateBatteryEconomicsV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'batteryEconomicsV1',
+      });
       return evaluateBatteryEconomicsV1(null);
     }
   })();
+
+  // Battery Decision Pack v1 (sizing search + deterministic economics): always attach (warnings-first).
+  const batteryDecisionPackV1 = (() => {
+    try {
+      const det0: any = (determinantsPackSummary as any)?.meters?.[0]?.last12Cycles?.[0] || null;
+      const determinantsV1 = det0
+        ? {
+            billingDemandKw: Number.isFinite(Number(det0?.billingDemandKw)) ? Number(det0.billingDemandKw) : null,
+            ratchetDemandKw: Number.isFinite(Number(det0?.ratchetDemandKw)) ? Number(det0.ratchetDemandKw) : null,
+            billingDemandMethod: String(det0?.billingDemandMethod || '').trim() || null,
+            ratchetHistoryMaxKw: Number.isFinite(Number(det0?.ratchetHistoryMaxKw)) ? Number(det0.ratchetHistoryMaxKw) : null,
+            ratchetFloorPct: Number.isFinite(Number(det0?.ratchetFloorPct)) ? Number(det0.ratchetFloorPct) : null,
+          }
+        : null;
+
+      return buildBatteryDecisionPackV1({
+        intervalPointsV1: Array.isArray(deps?.intervalPointsV1) ? (deps?.intervalPointsV1 as any) : null,
+        intervalInsightsV1: (intervalIntelligenceV1 as any) || null,
+        tariffPriceSignalsV1: (composedTariffPriceSignalsV1 as any) || null,
+        tariffSnapshotId: String(deps?.tariffSnapshotId || '').trim() || null,
+        determinantsV1,
+        drReadinessV1: (storageOpportunityPackV1 as any)?.drReadinessV1 || null,
+        drAnnualValueUsd: null,
+        costs: null,
+        finance: null,
+        versionTags: {
+          determinantsVersionTag: String((determinantsPack as any)?.determinantsVersionTag || (determinantsPack as any)?.rulesVersionTag || 'determinants_v1'),
+          touLabelerVersionTag: String((determinantsPack as any)?.touLabelerVersionTag || 'tou_v1'),
+        },
+      });
+    } catch (e) {
+      warn({
+        code: 'UIE_BATTERY_DECISION_PACK_V1_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'buildBatteryDecisionPackV1',
+        exceptionName: exceptionName(e),
+        contextKey: 'batteryDecisionPackV1',
+      });
+      return buildBatteryDecisionPackV1({
+        intervalPointsV1: null,
+        intervalInsightsV1: null,
+        tariffPriceSignalsV1: null,
+        tariffSnapshotId: null,
+        determinantsV1: null,
+        drReadinessV1: null,
+        drAnnualValueUsd: null,
+        costs: null,
+        finance: null,
+        versionTags: null,
+      });
+    }
+  })();
+
+  // Battery Decision Pack v1.2 (decision-quality: constraints + sensitivity + deterministic narrative): always attach (warnings-first).
+  beginStep('batteryDecisionPackV1_2');
+  const batteryDecisionPackV1_2 = (() => {
+    try {
+      const det0: any = (determinantsPackSummary as any)?.meters?.[0]?.last12Cycles?.[0] || null;
+      const determinantsV1 = det0
+        ? {
+            billingDemandKw: Number.isFinite(Number(det0?.billingDemandKw)) ? Number(det0.billingDemandKw) : null,
+            ratchetDemandKw: Number.isFinite(Number(det0?.ratchetDemandKw)) ? Number(det0.ratchetDemandKw) : null,
+            billingDemandMethod: String(det0?.billingDemandMethod || '').trim() || null,
+            ratchetHistoryMaxKw: Number.isFinite(Number(det0?.ratchetHistoryMaxKw)) ? Number(det0.ratchetHistoryMaxKw) : null,
+            ratchetFloorPct: Number.isFinite(Number(det0?.ratchetFloorPct)) ? Number(det0.ratchetFloorPct) : null,
+          }
+        : null;
+
+      const detCycles =
+        Array.isArray((determinantsPackSummary as any)?.meters?.[0]?.last12Cycles) && (determinantsPackSummary as any).meters[0].last12Cycles.length
+          ? ((determinantsPackSummary as any).meters[0].last12Cycles as any[]).map((c: any) => ({
+              cycleLabel: String(c?.cycleLabel || '').trim() || 'cycle',
+              startIso: String(c?.startIso || '').trim(),
+              endIso: String(c?.endIso || '').trim(),
+            }))
+          : null;
+
+      return buildBatteryDecisionPackV1_2({
+        utility: asCaIouUtility(inputs.currentRate?.utility ?? inputs.utilityTerritory) || String(inputs.currentRate?.utility || inputs.utilityTerritory || '').trim() || null,
+        rate: String(inputs.currentRate?.rateCode || '').trim() || null,
+        intervalPointsV1: Array.isArray(deps?.intervalPointsV1) ? (deps?.intervalPointsV1 as any) : null,
+        intervalInsightsV1: (intervalIntelligenceV1 as any) || null,
+        tariffPriceSignalsV1: (composedTariffPriceSignalsV1 as any) || null,
+        tariffSnapshotId: String(deps?.tariffSnapshotId || '').trim() || null,
+        determinantsV1,
+        determinantsCycles: detCycles,
+        drReadinessV1: (storageOpportunityPackV1 as any)?.drReadinessV1 || null,
+        drAnnualValueUsd: null,
+        batteryDecisionConstraintsV1: (batteryDecisionConstraintsV1 as any) || null,
+      });
+    } catch (e) {
+      warn({
+        code: 'UIE_BATTERY_DECISION_PACK_V1_2_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'buildBatteryDecisionPackV1_2',
+        exceptionName: exceptionName(e),
+        contextKey: 'batteryDecisionPackV1_2',
+      });
+      return buildBatteryDecisionPackV1_2({
+        utility: null,
+        rate: null,
+        intervalPointsV1: null,
+        intervalInsightsV1: null,
+        tariffPriceSignalsV1: null,
+        tariffSnapshotId: null,
+        determinantsV1: null,
+        determinantsCycles: null,
+        drReadinessV1: null,
+        drAnnualValueUsd: null,
+        batteryDecisionConstraintsV1: null,
+      });
+    }
+  })();
+  endStep('batteryDecisionPackV1_2');
 
   const behaviorInsights = (() => {
     try {
@@ -823,7 +1602,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         intervalPointsV1: Array.isArray(deps?.intervalPointsV1) ? deps?.intervalPointsV1 : null,
         loadAttribution: loadAttribution || null,
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_BEHAVIOR_INSIGHTS_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'computeBehaviorInsights',
+        exceptionName: exceptionName(e),
+        contextKey: 'behaviorInsights',
+      });
       return undefined;
     }
   })();
@@ -836,7 +1622,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         loadAttribution: loadAttribution || null,
         nowIso,
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_BEHAVIOR_INSIGHTS_V2_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'computeBehaviorInsightsV2',
+        exceptionName: exceptionName(e),
+        contextKey: 'behaviorInsightsV2',
+      });
       return undefined;
     }
   })();
@@ -848,7 +1641,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
         determinantsPack: determinantsPack || null,
         nowIso,
       });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_BEHAVIOR_INSIGHTS_V3_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'computeBehaviorInsightsV3',
+        exceptionName: exceptionName(e),
+        contextKey: 'behaviorInsightsV3',
+      });
       return undefined;
     }
   })();
@@ -858,12 +1658,36 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       if (!determinantsPack) return undefined;
       const md = (tariffLibrary as any)?.rateMetadata || null;
       return simulateBillSimV2({ determinantsPack, tariffMetadata: md });
-    } catch {
+    } catch (e) {
+      warn({
+        code: 'UIE_BILL_SIM_V2_FAILED',
+        module: 'utilityIntelligence/analyzeUtility',
+        operation: 'simulateBillSimV2',
+        exceptionName: exceptionName(e),
+        contextKey: 'billSimV2',
+      });
       return undefined;
     }
   })();
 
+  beginStep('missingInfoAssembly');
   const missingInfo: MissingInfoItemV0[] = (() => {
+    const sortMissingInfo = (a: any, b: any): number => {
+      const sevRank = (s: any): number => {
+        const x = String(s ?? '').toLowerCase();
+        if (x === 'blocking') return 0;
+        if (x === 'warning') return 1;
+        return 2;
+      };
+      const ra = sevRank(a?.severity);
+      const rb = sevRank(b?.severity);
+      if (ra !== rb) return ra - rb;
+      const ida = String(a?.id ?? '');
+      const idb = String(b?.id ?? '');
+      if (ida !== idb) return ida.localeCompare(idb);
+      return String(a?.description ?? '').localeCompare(String(b?.description ?? ''));
+    };
+
     const items: MissingInfoItemV0[] = [];
 
     const currentRateCode = String(inputs.currentRate?.rateCode || '').trim();
@@ -926,11 +1750,11 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       }
     }
 
-    const hasIntervals = Boolean((deps?.intervalPointsV1 && deps.intervalPointsV1.length) || (intervalKw && intervalKw.length));
+    const hasIntervals = Boolean((deps?.intervalPointsV1 && deps.intervalPointsV1.length) || intervalKwSeries.length);
     if (!hasIntervals) {
       items.push({
         id: 'interval.intervalElectricV1.missing',
-        category: 'interval',
+        category: 'billing',
         severity: 'info',
         description: 'Interval electricity data is missing; interval-derived insights (and some deterministic audit signals) will be unavailable.',
       });
@@ -998,8 +1822,8 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     }
 
     // If intervals exist but temperature is absent, surface a decision-safety note.
-    if ((deps?.intervalPointsV1 && deps.intervalPointsV1.length) || (intervalKw && intervalKw.length)) {
-      const anyTemp = (Array.isArray(deps?.intervalPointsV1) ? deps?.intervalPointsV1 : (intervalKw as any[])).some((p: any) =>
+    if ((deps?.intervalPointsV1 && deps.intervalPointsV1.length) || (Array.isArray(intervalKwRaw) && intervalKwRaw.length)) {
+      const anyTemp = (Array.isArray(deps?.intervalPointsV1) ? deps?.intervalPointsV1 : (intervalKwRaw as any[])).some((p: any) =>
         Number.isFinite(Number(p?.temperatureF)),
       );
       if (!anyTemp) {
@@ -1068,7 +1892,19 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       }
     }
 
-    return items;
+    // Supply Structure Analyzer v1 missingInfo (additive)
+    if (effectiveRateContextV1 && Array.isArray((effectiveRateContextV1 as any).missingInfo) && (effectiveRateContextV1 as any).missingInfo.length) {
+      const seen = new Set(items.map((x) => String(x.id || '')));
+      for (const it of (effectiveRateContextV1 as any).missingInfo) {
+        const id = String((it as any)?.id || '').trim();
+        if (!id || seen.has(id)) continue;
+        seen.add(id);
+        items.push(it as any);
+      }
+    }
+
+    // Deterministic ordering to reduce snapshot noise (content is unchanged).
+    return items.slice().sort(sortMissingInfo);
   })();
 
   const requiredInputsMissing = uniq([
@@ -1080,8 +1916,10 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     ...(optionS.requiredInputsMissing || []),
     ...(matches.flatMap((m) => m.requiredInputsMissing || []) || []),
   ]);
+  endStep('missingInfoAssembly');
 
   // Recommendations: inbox-only suggestions (do not auto-apply).
+  beginStep('recommendationsAssembly');
   const recos: UtilityRecommendation[] = [];
 
   // 1) Collect missing rate code if needed
@@ -1203,6 +2041,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
 
   const insights: UtilityInsights = {
     inferredLoadShape: loadShape.metrics,
+    ...(engineWarnings.length ? { engineWarnings } : {}),
     ...(Number.isFinite(proven.provenPeakKw ?? NaN) ? { provenPeakKw: proven.provenPeakKw } : {}),
     ...(Number.isFinite(proven.provenMonthlyKwh ?? NaN) ? { provenMonthlyKwh: proven.provenMonthlyKwh } : {}),
     ...(annualEstimate ? { provenAnnualKwhEstimate: annualEstimate } : {}),
@@ -1225,6 +2064,7 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     optionSRelevance: optionS,
     programs,
     ...(supplyStructure ? { supplyStructure } : {}),
+    ...(effectiveRateContextV1 ? { effectiveRateContextV1 } : {}),
     ...(billPdfTariffTruth ? { billPdfTariffTruth } : {}),
     ...(billPdfTariffLibraryMatch ? { billPdfTariffLibraryMatch } : {}),
     ...(tariffLibrary ? { tariffLibrary } : {}),
@@ -1235,6 +2075,8 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
     ...(intervalIntelligenceV1 ? { intervalIntelligenceV1 } : {}),
     storageOpportunityPackV1,
     batteryEconomicsV1,
+    batteryDecisionPackV1,
+    batteryDecisionPackV1_2,
     ...(weatherRegressionV1 ? { weatherRegressionV1 } : {}),
     ...(behaviorInsights ? { behaviorInsights } : {}),
     ...(behaviorInsightsV2 ? { behaviorInsightsV2 } : {}),
@@ -1259,7 +2101,14 @@ export async function analyzeUtility(inputs: UtilityInputs, deps?: AnalyzeUtilit
       requiredInputsMissing: Array.isArray(r.requiredInputsMissing) ? uniq(r.requiredInputsMissing) : [],
     }))
     // stable ordering
-    .sort((a, b) => b.score - a.score || b.confidence - a.confidence || normText(a.recommendationType).localeCompare(normText(b.recommendationType)));
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        b.confidence - a.confidence ||
+        normText(a.recommendationType).localeCompare(normText(b.recommendationType)) ||
+        String(a.recommendationId || '').localeCompare(String(b.recommendationId || '')),
+    );
+  endStep('recommendationsAssembly');
 
   return { insights, recommendations };
 }

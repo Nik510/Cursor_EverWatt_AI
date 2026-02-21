@@ -15,6 +15,9 @@ export type ChatResponse = {
 };
 
 function getClient(): OpenAI {
+  if (typeof window !== 'undefined') {
+    throw new Error('[everwatt] OpenAI client initialization attempted in a browser context. This is server-only.');
+  }
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     throw new Error('OPENAI_API_KEY is not configured');

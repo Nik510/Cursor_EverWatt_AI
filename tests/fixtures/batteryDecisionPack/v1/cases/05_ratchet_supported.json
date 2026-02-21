@@ -1,0 +1,18 @@
+{
+  "caseId": "05_ratchet_supported",
+  "intervalPointsFile": "tests\\fixtures\\batteryDecisionPack\\v1\\shared\\intervalPoints_2days_hourly.json",
+  "tariffSnapshotId": "snap_ratchet_1",
+  "tariffPriceSignalsV1": {
+    "timezone": "America/Los_Angeles",
+    "touEnergyPrices": [],
+    "demandChargePerKw": 22
+  },
+  "determinantsV1": {
+    "billingDemandKw": 220,
+    "ratchetDemandKw": 220,
+    "billingDemandMethod": "RATCHET_80PCT_12MO",
+    "ratchetHistoryMaxKw": 275,
+    "ratchetFloorPct": 0.8
+  }
+}
+

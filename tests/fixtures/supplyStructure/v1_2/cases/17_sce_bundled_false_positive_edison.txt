@@ -1,0 +1,5 @@
+Southern California Edison (SCE)
+Rate Schedule: TOU-GS-3
+
+This bill references the IOU utility only.
+

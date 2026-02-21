@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "batteryDecisionPackV1_2.fixtureExpectations",
+  "cases": {
+    "01_iou_delivery_base": {
+      "expectedSelectedCandidateId": "CAND_100KW_1H",
+      "expectedRecommendationTier": "WEAK",
+      "expectedWarningsIncludes": [],
+      "expectedMissingInfoIncludes": []
+    },
+    "02_cca_all_in": {
+      "expectedSelectedCandidateId": "CAND_100KW_1H",
+      "expectedRecommendationTier": "WEAK",
+      "expectedWarningsIncludes": [],
+      "expectedMissingInfoIncludes": []
+    },
+    "03_cca_energy_only": {
+      "expectedSelectedCandidateId": "CAND_100KW_1H",
+      "expectedRecommendationTier": "WEAK",
+      "expectedWarningsIncludes": [],
+      "expectedMissingInfoIncludes": []
+    },
+    "04_da_fallback_delivery": {
+      "expectedSelectedCandidateId": "CAND_100KW_1H",
+      "expectedRecommendationTier": "WEAK",
+      "expectedWarningsIncludes": [],
+      "expectedMissingInfoIncludes": []
+    },
+    "05_backup_only_arbitrage_disabled": {
+      "expectedSelectedCandidateId": "CAND_100KW_1H",
+      "expectedRecommendationTier": "DO_NOT_PROCEED",
+      "expectedWarningsIncludes": ["battery.decision.constraints.backup_only_arbitrage_disabled"],
+      "expectedMissingInfoIncludes": []
+    },
+    "06_interconnection_limit_binding": {
+      "expectedSelectedCandidateId": "CAND_50KW_2H",
+      "expectedRecommendationTier": "DO_NOT_PROCEED",
+      "expectedWarningsIncludes": [],
+      "expectedMissingInfoIncludes": ["battery.decision.constraints.interconnection_limit"]
+    },
+    "07_constraints_eliminate_all_candidates": {
+      "expectedSelectedCandidateId": null,
+      "expectedRecommendationTier": "DO_NOT_PROCEED",
+      "expectedWarningsIncludes": [],
+      "expectedMissingInfoIncludes": ["battery.decision.constraints.no_candidates"],
+      "expectNoCandidates": true
+    },
+    "08_missing_intervals_confidence_none": {
+      "expectedSelectedCandidateId": null,
+      "expectedRecommendationTier": "DO_NOT_PROCEED",
+      "expectedWarningsIncludes": [],
+      "expectedMissingInfoIncludes": [
+        "battery.decision_pack.v1_2.missing_intervals",
+        "battery.decision_pack.v1_2.missing_interval_insights"
+      ]
+    },
+    "09_ratchet_history_missing_clipped": {
+      "expectedSelectedCandidateId": "CAND_50KW_1H",
+      "expectedRecommendationTier": "DO_NOT_PROCEED",
+      "expectedWarningsIncludes": ["battery.econ.ratchet_unavailable"],
+      "expectedMissingInfoIncludes": []
+    },
+    "10_capex_sensitivity_flips_tier": {
+      "expectedSelectedCandidateId": "CAND_100KW_1H",
+      "expectedRecommendationTier": "DO_NOT_PROCEED",
+      "expectedWarningsIncludes": [],
+      "expectedMissingInfoIncludes": []
+    }
+  }
+}
+

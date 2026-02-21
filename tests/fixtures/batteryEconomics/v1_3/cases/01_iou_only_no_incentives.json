@@ -1,0 +1,20 @@
+{
+  "caseId": "01_iou_only_no_incentives",
+  "inputs": {
+    "battery": { "powerKw": 50, "energyKwh": 200, "roundTripEff": 0.9 },
+    "costs": {
+      "batteryCostPerKwhUsd": 150,
+      "batteryCostPerKwUsd": 470,
+      "installAdderPct": 0.25,
+      "interconnectFlatUsd": 25000,
+      "softCostsFlatUsd": 35000,
+      "contingencyPct": 0.1,
+      "omPerKwYrUsd": 10
+    },
+    "tariffs": { "snapshotId": "snap_tou", "energyPriceOnPeakUsdPerKwh": 0.35, "energyPriceOffPeakUsdPerKwh": 0.12, "demandChargePerKwMonthUsd": 20 },
+    "determinants": { "billingDemandKw": 300 },
+    "dispatch": { "shiftedKwhAnnual": 40000, "peakReductionKwAssumed": 30 },
+    "finance": { "termYears": 5, "discountRate": 0.09 }
+  }
+}
+

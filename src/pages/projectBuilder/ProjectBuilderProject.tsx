@@ -356,14 +356,24 @@ export const ProjectBuilderProject: React.FC = () => {
             <span className="font-semibold">{project?.customer?.companyName || '—'}</span>
           </p>
         </div>
-        <button
-          onClick={loadAll}
-          className="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-50"
-          disabled={loading}
-        >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-          Refresh
-        </button>
+        <div className="flex items-center gap-2">
+          <Link
+            to={`/project-builder/analysis-runs?projectId=${encodeURIComponent(projectId)}`}
+            className="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+            title="Open snapshot-only Analysis Runs (V1) and prefill this projectId"
+          >
+            <ListChecks className="w-4 h-4" />
+            Analysis Runs
+          </Link>
+          <button
+            onClick={loadAll}
+            className="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+            disabled={loading}
+          >
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+            Refresh
+          </button>
+        </div>
       </div>
 
       {error && <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg p-3">{error}</div>}

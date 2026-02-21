@@ -1,0 +1,30 @@
+{
+  "snapshotId": "ccaAdders.v0.SDGE.SDCP.2025-01-01",
+  "iouUtility": "SDGE",
+  "ccaId": "SDCP",
+  "effectiveStartYmd": "2025-01-01",
+  "effectiveEndYmd": "2025-12-31",
+  "timezone": "America/Los_Angeles",
+  "acquisitionMethodUsed": "MANUAL_SEED_V0",
+  "charges": {
+    "pciaPerKwhDefault": 0.019,
+    "pciaPerKwhByVintageKey": { "V2019": 0.017, "V2020": 0.023 },
+    "nbcPerKwhTotal": 0.031,
+    "indifferenceAdjustmentPerKwh": 0.0,
+    "otherPerKwhTotal": 0.0026,
+    "notes": "PROVISIONAL_SEED_DO_NOT_USE_FOR_FINAL_BILLING (v0/v1 additive components)."
+  },
+  "addersPerKwhTotal": 0.0526,
+  "addersBreakdown": [
+    { "id": "pcia", "label": "PCIA (exit fee) default", "adderPerKwh": 0.019, "notes": ["Provisional placeholder."] },
+    { "id": "nbc", "label": "Non-bypassable charges (NBCs)", "adderPerKwh": 0.031, "notes": ["Provisional placeholder."] },
+    { "id": "other", "label": "Other CCA adders (non-exit-fee)", "adderPerKwh": 0.0026, "notes": ["Provisional placeholder (CCA-specific)."] }
+  ],
+  "notes": [
+    "acquisitionMethodUsed: MANUAL_SEED_V0",
+    "PROVISIONAL_SEED_DO_NOT_USE_FOR_FINAL_BILLING",
+    "MANUAL_SEED_V0 provisional placeholder adders for v0.",
+    "Blended $/kWh only (PCIA/NBC/other riders)."
+  ]
+}
+

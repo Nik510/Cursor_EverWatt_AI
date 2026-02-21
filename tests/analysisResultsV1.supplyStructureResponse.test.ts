@@ -81,6 +81,22 @@ describe('analysis-results-v1 payload includes supplyStructure', () => {
     // This is the same object the API returns under `workflow`, so it will be surfaced to the UI.
     const apiPayload = { success: true as const, project: { id: 'proj:test' }, workflow, summary: { json: {}, markdown: '' } };
     expect((apiPayload as any).workflow.utility.insights.supplyStructure.supplyType).toBe('CCA');
+
+    // Additive: analysisTraceV1 is present and deterministically ordered.
+    const trace = (workflow as any)?.analysisTraceV1;
+    expect(trace).toBeTruthy();
+    expect(trace.generatedAtIso).toBe(new Date('2026-01-01T00:00:00.000Z').toISOString());
+    expect(Array.isArray(trace.ranModules)).toBe(true);
+    expect(trace.ranModules.slice().sort()).toEqual(trace.ranModules);
+    expect(Array.isArray(trace.skippedModules)).toBe(true);
+    const skippedSorted = trace.skippedModules
+      .slice()
+      .sort((a: any, b: any) => String(a?.module || '').localeCompare(String(b?.module || '')) || String(a?.reasonCode || '').localeCompare(String(b?.reasonCode || '')));
+    expect(skippedSorted).toEqual(trace.skippedModules);
+
+    expect((trace as any)?.coverage?.supplyProviderType).toBe('CCA');
+    expect((trace as any)?.warningsSummary?.topEngineWarningCodes?.length || 0).toBeLessThanOrEqual(10);
+    expect((trace as any)?.warningsSummary?.topMissingInfoCodes?.length || 0).toBeLessThanOrEqual(10);
   });
 });
 

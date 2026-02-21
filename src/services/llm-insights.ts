@@ -5,32 +5,14 @@
 
 import OpenAI from 'openai';
 import { aiConfig, aiSystemPrompts, insightPromptTemplates } from '../config/ai-config';
-import { getSectionContext, getAllTrainingContent } from '../data/training';
+import { getSectionContext } from '../data/training/ee-measures';
+import type { SectionInsight, WeatherInsight } from '../types/ai-insights';
 
-/**
- * Section insight response structure
- */
-export interface SectionInsight {
-  sectionId: string;
-  title: string;
-  whatWeAreLookingAt: string;
-  whyItMatters: string;
-  engineeringFocus: string[];
-  salesTalkingPoints: string[];
-  recommendations?: string[];
-  isGenerated: boolean;
-  generatedAt?: Date;
-  error?: string;
-}
-
-/**
- * Weather correlation insight response
- */
-export interface WeatherInsight {
-  summary: string;
-  technicalFindings: string[];
-  efficiencyOpportunities: string[];
-  impactOnBattery: string;
+// Hard stop-ship guard: this module must never execute in a browser bundle.
+if (typeof window !== 'undefined') {
+  throw new Error(
+    '[everwatt] src/services/llm-insights.ts is server-only. Use /api/ai/* endpoints instead of importing this module in the browser.'
+  );
 }
 
 /**
@@ -54,7 +36,6 @@ function getOpenAIClient(): OpenAI | null {
   if (!openaiClient) {
     openaiClient = new OpenAI({
       apiKey: aiConfig.openaiApiKey,
-      dangerouslyAllowBrowser: true, // Allow client-side usage
     });
   }
 
@@ -131,7 +112,7 @@ ${insightPromptTemplates.sectionInsight(sectionId, sectionData)}`;
       salesTalkingPoints: parsed.salesTalkingPoints || [],
       recommendations: parsed.recommendations,
       isGenerated: true,
-      generatedAt: new Date(),
+      generatedAt: new Date().toISOString(),
     };
 
     // Cache the result
@@ -152,7 +133,7 @@ ${insightPromptTemplates.sectionInsight(sectionId, sectionData)}`;
  */
 function generateFallbackInsight(
   sectionId: string,
-  sectionData: Record<string, unknown>,
+  _sectionData: Record<string, unknown>,
   title: string
 ): SectionInsight {
   const sectionContext = getSectionContext(sectionId);
@@ -273,7 +254,7 @@ Provide your response in JSON format:
       salesTalkingPoints: parsed.salesTalkingPoints || [],
       recommendations: parsed.recommendations,
       isGenerated: true,
-      generatedAt: new Date(),
+      generatedAt: new Date().toISOString(),
     };
   } catch (error) {
     console.error('Failed to generate battery insight:', error);

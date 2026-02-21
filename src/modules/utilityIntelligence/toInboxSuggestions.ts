@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto';
 import type { InboxItem, EvidenceRef } from '../../types/project-graph';
 import type { RecommendationSuggestion, RecommendationBecause, RecommendationTopContributor } from '../project/types';
 import type { UtilityInputs, UtilityRecommendation } from './types';
@@ -47,7 +46,18 @@ function matchingFeaturesUsed(inputs: UtilityInputs): Array<'buildingType' | 'sq
   if (inputs.climateZone) out.push('climateZone');
   // v1 uses schedule inference; we mark scheduleBucket as used by default.
   out.push('scheduleBucket');
-  return uniq(out) as any;
+  return uniq(out) as Array<'buildingType' | 'sqftBucket' | 'climateZone' | 'territory' | 'assetInventory' | 'scheduleBucket'>;
+}
+
+function makeEphemeralIdFactory(args: { prefix: string; seed: string }): () => string {
+  const prefix = String(args.prefix || 'id').trim() || 'id';
+  const seed =
+    String(args.seed || '')
+      .trim()
+      .replace(/[^0-9A-Za-z]/g, '')
+      .slice(0, 24) || 'seed';
+  let i = 0;
+  return () => `${prefix}_${seed}_${++i}`;
 }
 
 export function toInboxSuggestions(args: {
@@ -57,9 +67,9 @@ export function toInboxSuggestions(args: {
   suggestionIdFactory?: () => string;
   inboxIdFactory?: () => string;
 }): { suggestions: RecommendationSuggestion[]; inboxItems: InboxItem[] } {
-  const nowIso = args.nowIso || new Date('2026-01-01T00:00:00.000Z').toISOString();
-  const suggestionIdFactory = args.suggestionIdFactory || (() => randomUUID());
-  const inboxIdFactory = args.inboxIdFactory || (() => randomUUID());
+  const nowIso = args.nowIso || new Date().toISOString();
+  const suggestionIdFactory = args.suggestionIdFactory || makeEphemeralIdFactory({ prefix: 'utilSug', seed: nowIso });
+  const inboxIdFactory = args.inboxIdFactory || makeEphemeralIdFactory({ prefix: 'utilInbox', seed: nowIso });
 
   const suggestions: RecommendationSuggestion[] = [];
   const inboxItems: InboxItem[] = [];
@@ -139,7 +149,7 @@ export function toInboxSuggestions(args: {
       confidence: clamp01(rec.confidence),
       needsConfirmation: true,
       createdAt: nowIso,
-    } as any;
+    };
 
     suggestions.push(suggestion);
     inboxItems.push(inboxItem);

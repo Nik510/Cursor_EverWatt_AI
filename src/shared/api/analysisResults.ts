@@ -19,6 +19,10 @@ export type SupplyStructureV1 = {
   };
 };
 
+export const SupplyStructureWarningCodesV1 = {
+  MISSING_INPUT: 'MISSING_INPUT',
+} as const;
+
 export type UtilityInsightsApiV1 = {
   supplyStructure?: SupplyStructureV1;
   // Keep additive + permissive; existing UI reads other fields dynamically.

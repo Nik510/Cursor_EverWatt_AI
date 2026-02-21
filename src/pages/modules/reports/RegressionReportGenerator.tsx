@@ -141,8 +141,7 @@ export const RegressionReportGenerator: React.FC = () => {
 
   useEffect(() => {
     if (!intervalCsv) return;
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    recompute();
+    void recompute();
     // Only re-run when raw data or mapping override changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [intervalCsv, weatherCsv, JSON.stringify(mappingOverride)]);

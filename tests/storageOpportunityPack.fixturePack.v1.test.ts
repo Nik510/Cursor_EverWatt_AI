@@ -74,6 +74,16 @@ describe('Storage Opportunity Pack v1 fixture pack contract (deterministic)', ()
             warnings: uniqSorted(out.storageEconomicsV1.warnings),
             missingInfo: uniqSorted(out.storageEconomicsV1.missingInfo),
           },
+          batteryEconomicsV1Summary: out.batteryEconomicsV1Summary
+            ? {
+                confidenceTier: out.batteryEconomicsV1Summary.confidenceTier,
+                capexTotalUsd: out.batteryEconomicsV1Summary.capexTotalUsd,
+                savingsAnnualTotalUsd: out.batteryEconomicsV1Summary.savingsAnnualTotalUsd,
+                simplePaybackYears: out.batteryEconomicsV1Summary.simplePaybackYears,
+                npvUsd: out.batteryEconomicsV1Summary.npvUsd,
+                warnings: uniqSorted(out.batteryEconomicsV1Summary.warnings),
+              }
+            : null,
           incentivesStubV1: {
             confidenceTier: out.incentivesStubV1.confidenceTier,
             engineVersion: out.incentivesStubV1.engineVersion,

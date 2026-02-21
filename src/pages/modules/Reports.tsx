@@ -5,6 +5,7 @@ import { ReportGenerator } from './reports/ReportGenerator';
 import { NIFSSolarAnalysis } from './reports/NIFSSolarAnalysis';
 import { MVComparisonReport } from './reports/MVComparisonReport';
 import { ReportsHome } from './reports/ReportsHome';
+import { ReportSessionsV1Hub } from './reports/ReportSessionsV1Hub';
 
 export const Reports: React.FC = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ export const Reports: React.FC = () => {
   // Check if we're on the NIFS Solar Analysis sub-route
   const isNIFSPage = location.pathname === '/reports/nifs-solar';
   const isMVPage = location.pathname === '/reports/mv-comparison';
+  const isReportSessionsV1 = location.pathname === '/reports/sessions';
   const isReportsRoot = location.pathname === '/reports';
   const hasTypeParam = Boolean(searchParams.get('type'));
 
@@ -23,6 +25,10 @@ export const Reports: React.FC = () => {
 
   if (isMVPage) {
     return <MVComparisonReport />;
+  }
+
+  if (isReportSessionsV1) {
+    return <ReportSessionsV1Hub />;
   }
 
   // If deep-linked to a specific generator via /reports?type=..., render the generator UI.

@@ -20,7 +20,8 @@ import {
   ReferenceLine,
   ResponsiveContainer,
 } from 'recharts';
-import type { CatalogBatteryRow } from '../utils/battery-catalog-loader';
+import type { CatalogBatteryRow } from '../shared/types/batteryCatalog';
+import { getBatteriesCatalog } from '../shared/api/batteries';
 
 // Tabs for data upload section
  type DataTab = 'interval' | 'usage' | 'battery' | 'srate';
@@ -116,17 +117,10 @@ export const NewAnalysis: React.FC = () => {
     setLoadingBatteries(true);
     setCatalogError(null);
     try {
-      const response = await fetch('/api/batteries/catalog');
-      if (response.ok) {
-        const data = await response.json();
-        if (data.success && data.batteries && data.batteries.length > 0) {
-          setBatteries(data.batteries);
-        } else {
-          setCatalogError('Battery catalog is empty. Please load a real catalog.');
-          setBatteries([]);
-        }
-      } else {
-        setCatalogError('Failed to load battery catalog from API.');
+      const data = await getBatteriesCatalog();
+      if (data.success && data.batteries && data.batteries.length > 0) setBatteries(data.batteries);
+      else {
+        setCatalogError('Battery catalog is empty. Please load a real catalog.');
         setBatteries([]);
       }
     } catch (err) {

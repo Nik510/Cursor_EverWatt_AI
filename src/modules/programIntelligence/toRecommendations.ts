@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto';
 import type { UtilityInputs, UtilityRecommendation } from '../utilityIntelligence/types';
 import type { ProgramCatalogEntry, ProgramMatchResult } from './types';
 
@@ -27,6 +26,17 @@ function byId(catalog: ProgramCatalogEntry[]): Map<string, ProgramCatalogEntry> 
   return m;
 }
 
+function makeEphemeralIdFactory(args: { prefix: string; seed: string }): () => string {
+  const prefix = String(args.prefix || 'id').trim() || 'id';
+  const seed =
+    String(args.seed || '')
+      .trim()
+      .replace(/[^0-9A-Za-z]/g, '')
+      .slice(0, 24) || 'seed';
+  let i = 0;
+  return () => `${prefix}_${seed}_${++i}`;
+}
+
 export function programMatchesToRecommendations(args: {
   inputs: UtilityInputs;
   matches: ProgramMatchResult[];
@@ -34,8 +44,8 @@ export function programMatchesToRecommendations(args: {
   nowIso?: string;
   idFactory?: () => string;
 }): UtilityRecommendation[] {
-  const nowIso = args.nowIso || new Date('2026-01-01T00:00:00.000Z').toISOString();
-  const idFactory = args.idFactory || (() => randomUUID());
+  const nowIso = args.nowIso || new Date().toISOString();
+  const idFactory = args.idFactory || makeEphemeralIdFactory({ prefix: 'progReco', seed: nowIso });
   const lookup = byId(args.catalog);
 
   const recos: UtilityRecommendation[] = [];

@@ -8,6 +8,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
+import { useAdmin } from '../contexts/AdminContext';
 import { z } from 'zod';
 import {
   ArrowLeft,
@@ -71,13 +72,8 @@ import { buildMonthlyCapEventStats } from '../utils/battery/cap-event-stats';
 
 // AI Insights imports
 import { AIInsightPanel, WeatherInsightPanel } from '../components/AIInsightPanel';
-import type { SectionInsight } from '../services/llm-insights';
-import {
-  generateSectionInsight,
-  generateBatteryInsight,
-  generateWeatherInsight,
-  isAIEnabled,
-} from '../services/llm-insights';
+import { fetchBatteryInsight, fetchSectionInsight, fetchWeatherInsight } from '../services/ai-insights-client';
+import type { SectionInsight, WeatherInsight } from '../types/ai-insights';
 import {
   fetchWeatherData,
   mergeWeatherWithIntervals,
@@ -299,6 +295,8 @@ const SectionHeader: React.FC<{
 export const AnalysisReportPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { session } = useAdmin();
+  const adminToken = session?.token || '';
   const [analysisData, setAnalysisData] = useState<AnalysisData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -311,12 +309,7 @@ export const AnalysisReportPage: React.FC = () => {
   const [weatherCorrelation, setWeatherCorrelation] = useState<WeatherCorrelation | null>(null);
   const [weatherData, setWeatherData] = useState<LoadIntervalWithWeather[]>([]);
   const [weatherLoading, setWeatherLoading] = useState(false);
-  const [weatherInsight, setWeatherInsight] = useState<{
-    summary: string;
-    technicalFindings: string[];
-    efficiencyOpportunities: string[];
-    impactOnBattery: string;
-  } | null>(null);
+  const [weatherInsight, setWeatherInsight] = useState<WeatherInsight | null>(null);
   
   // Derived analysis state (as requested in plan)
   const [sRateEligibility, setSRateEligibility] = useState<ReturnType<typeof checkSRateEligibility> | null>(null);
@@ -417,7 +410,7 @@ export const AnalysisReportPage: React.FC = () => {
           setWeatherCorrelation(correlation);
           
           // Generate weather insight
-          const insight = await generateWeatherInsight(correlation);
+          const insight = await fetchWeatherInsight({ adminToken, correlationData: correlation });
           setWeatherInsight(insight);
         }
       } catch (err) {
@@ -819,7 +812,12 @@ export const AnalysisReportPage: React.FC = () => {
         if (!sectionInsights[section.id] && !insightsLoading[section.id]) {
           setInsightsLoading(prev => ({ ...prev, [section.id]: true }));
           try {
-            const insight = await generateSectionInsight(section.id, section.data as Record<string, unknown>, section.title);
+            const insight = await fetchSectionInsight({
+              adminToken,
+              sectionId: section.id,
+              sectionTitle: section.title,
+              sectionData: section.data as Record<string, unknown>,
+            });
             setSectionInsights(prev => ({ ...prev, [section.id]: insight }));
           } catch (err) {
             console.error(`Failed to generate insight for ${section.id}:`, err);
@@ -833,8 +831,9 @@ export const AnalysisReportPage: React.FC = () => {
       if (analysisData.aiRecommendations && analysisData.aiRecommendations.length > 0 && !sectionInsights['battery-recommendations']) {
         setInsightsLoading(prev => ({ ...prev, 'battery-recommendations': true }));
         try {
-          const batteryInsight = await generateBatteryInsight(
-            analysisData.aiRecommendations.slice(0, 5).map(r => ({
+          const batteryInsight = await fetchBatteryInsight({
+            adminToken,
+            batteries: analysisData.aiRecommendations.slice(0, 5).map(r => ({
               modelName: r.modelName,
               manufacturer: r.manufacturer,
               capacityKwh: r.capacityKwh,
@@ -843,13 +842,13 @@ export const AnalysisReportPage: React.FC = () => {
               annualSavings: r.annualSavings,
               paybackYears: r.paybackYears,
             })),
-            {
+            peakProfile: {
               peakKw: intervalStats.peakDemand.kw,
               avgKw: intervalStats.avgDemand,
               loadFactor: intervalStats.loadFactor,
               peakEvents: peakEventStats.totalEvents,
-            }
-          );
+            },
+          });
           setSectionInsights(prev => ({ ...prev, 'battery-recommendations': batteryInsight }));
         } catch (err) {
           console.error('Failed to generate battery insight:', err);
