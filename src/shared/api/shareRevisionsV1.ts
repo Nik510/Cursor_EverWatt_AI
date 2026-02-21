@@ -18,6 +18,8 @@ export type GetSharedRevisionMetaV1Response = {
     reportType: string;
     createdAtIso: string;
     runId?: string;
+    verifierStatusV1?: 'PASS' | 'WARN' | 'FAIL';
+    claimsStatusV1?: 'ALLOW' | 'LIMITED' | 'BLOCK';
     engineVersions?: Record<string, string>;
     warningsSummary?: {
       engineWarningsCount: number;

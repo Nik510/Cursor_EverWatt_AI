@@ -64,6 +64,8 @@ export function renderEngineeringPackHtmlV1(args: {
     { k: 'runId', v: fmt(linkage.runId) },
     { k: 'revisionId', v: fmt(linkage.revisionId || revId) },
     ...(linkage.wizardOutputHash ? [{ k: 'wizardOutputHash', v: fmt(linkage.wizardOutputHash) }] : []),
+    { k: 'verifierStatus', v: fmt((pack as any)?.verificationSummaryV1?.status || (pack as any)?.verifierResultV1?.status) },
+    { k: 'claimsStatus', v: fmt((pack as any)?.claimsPolicyV1?.status) },
     { k: 'generatedAtIso', v: fmt((pack as any)?.generatedAtIso) },
   ];
 

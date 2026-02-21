@@ -7743,7 +7743,32 @@ app.post('/api/report-sessions-v1/:reportId/generate-internal-engineering-report
     // Persist a revision under the project record (append-only, bounded) without recompute.
     const nowIso = new Date().toISOString();
     const title = requestedTitle || `Internal Engineering Report • ${nowIso.slice(0, 10)}`;
-    const reportHash = sha256Hex(stableStringifyV1(reportJson));
+
+    const { runVerifierV1 } = await import('./modules/verifierV1/runVerifierV1');
+    const { evaluateClaimsPolicyV1 } = await import('./modules/claimsPolicyV1/evaluateClaimsPolicyV1');
+
+    const verifierResultV1 = runVerifierV1({
+      generatedAtIso: nowIso,
+      reportType: 'INTERNAL_ENGINEERING_V1',
+      analysisRun,
+      reportJson,
+      packJson: null,
+      wizardOutput: null,
+    });
+    const claimsPolicyV1 = evaluateClaimsPolicyV1({
+      analysisTraceV1: (reportJson as any)?.analysisTraceV1 ?? null,
+      requiredInputsMissing: (reportJson as any)?.workflow?.requiredInputsMissing ?? [],
+      missingInfo: (reportJson as any)?.missingInfo ?? [],
+      engineWarnings: ((reportJson as any)?.analysisTraceV1 as any)?.engineWarnings ?? [],
+      verifierResultV1,
+    });
+
+    const reportJsonV1 = {
+      ...(reportJson as any),
+      verifierResultV1,
+      claimsPolicyV1,
+    };
+    const reportHash = sha256Hex(stableStringifyV1(reportJsonV1));
     const engineVersionsMeta = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : undefined;
     const warningsSummaryMeta =
       reportJson?.analysisTraceV1?.warningsSummary && typeof reportJson.analysisTraceV1.warningsSummary === 'object' ? reportJson.analysisTraceV1.warningsSummary : undefined;
@@ -7756,8 +7781,10 @@ app.post('/api/report-sessions-v1/:reportId/generate-internal-engineering-report
       title,
       reportType: 'INTERNAL_ENGINEERING_V1',
       reportHash,
-      reportJson,
+      reportJson: reportJsonV1,
       runId,
+      verifierResultV1,
+      claimsPolicyV1,
       ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
       ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
       ...(wizardOutputHashMeta ? { wizardOutputHash: wizardOutputHashMeta } : {}),
@@ -7869,6 +7896,9 @@ app.post('/api/report-sessions-v1/:reportId/generate-engineering-pack', async (c
       wizardOutputHash,
     });
 
+    const verifierResultV1 = (packJson as any)?.verifierResultV1 ?? null;
+    const claimsPolicyV1 = (packJson as any)?.claimsPolicyV1 ?? null;
+
     const packHash = sha256Hex(stableStringifyV1(packJson));
     const engineVersionsMeta = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : undefined;
     const warningsSummaryMeta =
@@ -7897,6 +7927,8 @@ app.post('/api/report-sessions-v1/:reportId/generate-engineering-pack', async (c
       packJson,
       pdfStorageKey,
       runId,
+      ...(verifierResultV1 ? { verifierResultV1 } : {}),
+      ...(claimsPolicyV1 ? { claimsPolicyV1 } : {}),
       ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
       ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
       ...(wizardOutputHash ? { wizardOutputHash } : {}),
@@ -8026,6 +8058,9 @@ app.post('/api/report-sessions-v1/:reportId/generate-executive-pack', async (c) 
       diffSincePreviousRun,
     });
 
+    const verifierResultV1 = (packJson as any)?.verifierResultV1 ?? null;
+    const claimsPolicyV1 = (packJson as any)?.claimsPolicyV1 ?? null;
+
     const packHash = sha256Hex(stableStringifyV1(packJson));
     const engineVersionsMeta = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : undefined;
     const warningsSummaryMeta =
@@ -8054,6 +8089,8 @@ app.post('/api/report-sessions-v1/:reportId/generate-executive-pack', async (c) 
       packJson,
       pdfStorageKey,
       runId,
+      ...(verifierResultV1 ? { verifierResultV1 } : {}),
+      ...(claimsPolicyV1 ? { claimsPolicyV1 } : {}),
       ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
       ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
       ...(wizardOutputHash ? { wizardOutputHash } : {}),
@@ -10376,6 +10413,30 @@ function findProjectReportRevisionV1(project: any, revisionId: string): { report
   return null;
 }
 
+function extractTrustBadgesFromRevisionV1(rev: any): { verifierStatus?: string; claimsStatus?: string } {
+  try {
+    const vTop = rev?.verifierResultV1 ?? null;
+    const cTop = rev?.claimsPolicyV1 ?? null;
+
+    const vFromPack = rev?.packJson?.verifierResultV1 ?? rev?.packJson?.verificationSummaryV1 ?? null;
+    const cFromPack = rev?.packJson?.claimsPolicyV1 ?? null;
+
+    const vFromReport = rev?.reportJson?.verifierResultV1 ?? null;
+    const cFromReport = rev?.reportJson?.claimsPolicyV1 ?? null;
+
+    const verifierStatusRaw =
+      String(vTop?.status || vFromPack?.status || vFromReport?.status || '').trim().toUpperCase() || '';
+    const claimsStatusRaw = String(cTop?.status || cFromPack?.status || cFromReport?.status || '').trim().toUpperCase() || '';
+
+    const verifierStatus = verifierStatusRaw === 'PASS' || verifierStatusRaw === 'WARN' || verifierStatusRaw === 'FAIL' ? verifierStatusRaw : undefined;
+    const claimsStatus = claimsStatusRaw === 'ALLOW' || claimsStatusRaw === 'LIMITED' || claimsStatusRaw === 'BLOCK' ? claimsStatusRaw : undefined;
+
+    return { ...(verifierStatus ? { verifierStatus } : {}), ...(claimsStatus ? { claimsStatus } : {}) };
+  } catch {
+    return {};
+  }
+}
+
 app.get('/api/projects/:id/reports/revisions/:revisionId', async (c) => {
   try {
     const userId = getCurrentUserId(c);
@@ -10389,6 +10450,7 @@ app.get('/api/projects/:id/reports/revisions/:revisionId', async (c) => {
     const engineVersions = rev?.engineVersions && typeof rev.engineVersions === 'object' ? rev.engineVersions : {};
     const warningsSummary = rev?.warningsSummary && typeof rev.warningsSummary === 'object' ? rev.warningsSummary : null;
     const wizardOutputHash = String(rev?.wizardOutputHash || '').trim() || null;
+    const trust = extractTrustBadgesFromRevisionV1(rev);
 
     const htmlUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/html`;
     const jsonUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/json`;
@@ -10404,6 +10466,8 @@ app.get('/api/projects/:id/reports/revisions/:revisionId', async (c) => {
         engineVersions,
         ...(warningsSummary ? { warningsSummary } : {}),
         ...(wizardOutputHash ? { wizardOutputHash } : {}),
+        ...(trust.verifierStatus ? { verifierStatusV1: trust.verifierStatus } : {}),
+        ...(trust.claimsStatus ? { claimsStatusV1: trust.claimsStatus } : {}),
       },
       links: { htmlUrl, jsonUrl, pdfUrl, bundleZipUrl },
     });
@@ -10949,6 +11013,8 @@ function toShareSafeRevisionMetaV1(args: { revisionId: string; reportType: strin
   engineVersions?: Record<string, string>;
   warningsSummary?: any;
   wizardOutputHash?: string;
+  verifierStatusV1?: string;
+  claimsStatusV1?: string;
 } {
   const revisionId = String(args.revisionId || '').trim();
   const reportType = String(args.reportType || '').trim();
@@ -10958,6 +11024,7 @@ function toShareSafeRevisionMetaV1(args: { revisionId: string; reportType: strin
   const engineVersions = rev?.engineVersions && typeof rev.engineVersions === 'object' ? rev.engineVersions : null;
   const warningsSummary = rev?.warningsSummary && typeof rev.warningsSummary === 'object' ? rev.warningsSummary : null;
   const wizardOutputHash = String(rev?.wizardOutputHash || '').trim() || null;
+  const trust = extractTrustBadgesFromRevisionV1(rev);
   return {
     revisionId,
     reportType,
@@ -10966,6 +11033,8 @@ function toShareSafeRevisionMetaV1(args: { revisionId: string; reportType: strin
     ...(engineVersions ? { engineVersions } : {}),
     ...(warningsSummary ? { warningsSummary } : {}),
     ...(wizardOutputHash ? { wizardOutputHash } : {}),
+    ...(trust.verifierStatus ? { verifierStatusV1: trust.verifierStatus } : {}),
+    ...(trust.claimsStatus ? { claimsStatusV1: trust.claimsStatus } : {}),
   };
 }
 

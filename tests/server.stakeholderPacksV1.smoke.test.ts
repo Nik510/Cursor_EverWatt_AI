@@ -87,6 +87,8 @@ describe('stakeholder report packs v1 endpoints (smoke)', () => {
       expect(revJson?.success).toBe(true);
       expect(revJson?.reportType).toBe('EXECUTIVE_PACK_V1');
       expect(revJson?.revision?.packJson?.schemaVersion).toBe('executivePackV1');
+      expect(revJson?.revision?.packJson?.verificationSummaryV1).toBeTruthy();
+      expect(revJson?.revision?.packJson?.claimsPolicyV1).toBeTruthy();
 
       // Prove GET is snapshot-only: delete analysis runs dir and re-fetch HTML/JSON.
       rmSync(runsDir, { recursive: true, force: true });
@@ -104,6 +106,8 @@ describe('stakeholder report packs v1 endpoints (smoke)', () => {
       expect(revJson2?.success).toBe(true);
       expect(revJson2?.reportType).toBe('ENGINEERING_PACK_V1');
       expect(revJson2?.revision?.packJson?.schemaVersion).toBe('engineeringPackV1');
+      expect(revJson2?.revision?.packJson?.verificationSummaryV1).toBeTruthy();
+      expect(revJson2?.revision?.packJson?.claimsPolicyV1).toBeTruthy();
     } finally {
       if (typeof prevSessions === 'string') process.env.EVERWATT_REPORT_SESSIONS_V1_BASEDIR = prevSessions;
       else delete process.env.EVERWATT_REPORT_SESSIONS_V1_BASEDIR;

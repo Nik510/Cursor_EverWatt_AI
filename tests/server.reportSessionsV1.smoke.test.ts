@@ -110,6 +110,8 @@ describe('reportSessionsV1 endpoints (smoke)', () => {
       expect(typeof wizJson?.wizardOutput?.wizardOutputHash).toBe('string');
       expect(typeof wizJson?.wizardOutput?.dataQuality?.score0to100).toBe('number');
       expect(Array.isArray(wizJson?.wizardOutput?.findings)).toBe(true);
+      expect(wizJson?.wizardOutput?.claimsPolicyV1).toBeTruthy();
+      expect(wizJson?.wizardOutput?.verifierResultV1).toBeTruthy();
     } finally {
       if (typeof prevSessions === 'string') process.env.EVERWATT_REPORT_SESSIONS_V1_BASEDIR = prevSessions;
       else delete process.env.EVERWATT_REPORT_SESSIONS_V1_BASEDIR;

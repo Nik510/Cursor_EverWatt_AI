@@ -385,6 +385,7 @@ export const ReportSessionsV1Hub: React.FC = () => {
 
   const activeStep = steps.find((s: any) => String(s?.id || '') === String(selectedStepId || '')) || steps[0] || null;
   const missingInfoSummary = (wizardOutput as any)?.missingInfoSummary || null;
+  const claimsPolicy = (wizardOutput as any)?.claimsPolicyV1 || null;
   const gatingStep = steps.find((s: any) => String(s?.id || '') === 'run_utility') || null;
   const runBlocked = String(gatingStep?.status || '').toUpperCase() === 'BLOCKED';
   const runNeedsInput = String(gatingStep?.status || '').toUpperCase() === 'NEEDS_INPUT';
@@ -910,6 +911,49 @@ export const ReportSessionsV1Hub: React.FC = () => {
                           {Array.isArray((missingInfoSummary as any)?.recommended) && (missingInfoSummary as any).recommended.length
                             ? (missingInfoSummary as any).recommended.slice(0, 8).map((m: any) => <div key={String(m?.id)} className="font-mono break-all">{String(m?.id)}</div>)
                             : '—'}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+
+                {claimsPolicy ? (
+                  <div className="border-t border-gray-100 pt-4 space-y-2">
+                    <div className="text-sm font-semibold text-gray-900">Claims gating (anti-hallucination)</div>
+                    <div className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                      <div className="text-xs font-semibold text-gray-700">Status</div>
+                      <div className="text-xs font-mono text-gray-900 mt-1">{String((claimsPolicy as any)?.status || '—')}</div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <div className="p-3 bg-white border border-gray-200 rounded-lg">
+                        <div className="text-xs font-semibold text-gray-700">Blocked reasons</div>
+                        <div className="text-xs text-gray-800 mt-1 space-y-1">
+                          {Array.isArray((claimsPolicy as any)?.blockedReasons) && (claimsPolicy as any).blockedReasons.length ? (
+                            (claimsPolicy as any).blockedReasons.slice(0, 12).map((r: any) => (
+                              <div key={String(r)} className="font-mono break-all">
+                                {String(r)}
+                              </div>
+                            ))
+                          ) : (
+                            <div>—</div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="p-3 bg-white border border-gray-200 rounded-lg">
+                        <div className="text-xs font-semibold text-gray-700">Required next data</div>
+                        <div className="text-xs text-gray-800 mt-1 space-y-1">
+                          {Array.isArray((claimsPolicy as any)?.requiredNextData) && (claimsPolicy as any).requiredNextData.length ? (
+                            (claimsPolicy as any).requiredNextData.slice(0, 12).map((it: any) => (
+                              <div key={String(it?.code || it?.label)} className="break-all">
+                                <span className="font-mono">{String(it?.code || '—')}</span>
+                                {it?.label ? <span className="text-gray-600">{` — ${String(it.label)}`}</span> : null}
+                              </div>
+                            ))
+                          ) : (
+                            <div>—</div>
+                          )}
                         </div>
                       </div>
                     </div>

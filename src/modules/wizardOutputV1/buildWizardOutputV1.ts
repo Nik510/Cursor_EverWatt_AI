@@ -11,6 +11,8 @@ import type {
   WizardStepStatusV1,
 } from './types';
 import { computeWizardGatingV1 } from './gatingV1';
+import { runVerifierV1 } from '../verifierV1/runVerifierV1';
+import { evaluateClaimsPolicyV1 } from '../claimsPolicyV1/evaluateClaimsPolicyV1';
 
 type JsonValue = null | boolean | number | string | JsonValue[] | { [k: string]: JsonValue };
 
@@ -548,6 +550,35 @@ export function buildWizardOutputV1(args: {
     return steps as any[];
   })();
 
+  const verifierResultV1 = (() => {
+    try {
+      return runVerifierV1({
+        generatedAtIso: nowIso,
+        reportType: 'UNKNOWN',
+        analysisRun,
+        reportJson,
+        packJson: null,
+        wizardOutput: null,
+      });
+    } catch {
+      return null;
+    }
+  })();
+
+  const claimsPolicyV1 = (() => {
+    try {
+      return evaluateClaimsPolicyV1({
+        analysisTraceV1: reportJson?.analysisTraceV1 ?? null,
+        requiredInputsMissing,
+        missingInfo: missingInfoRaw,
+        engineWarnings,
+        verifierResultV1: verifierResultV1 ?? null,
+      });
+    } catch {
+      return null;
+    }
+  })();
+
   const payload = {
     provenance: {
       reportId: String(session.reportId),
@@ -564,6 +595,8 @@ export function buildWizardOutputV1(args: {
       recommended: missingInfoRecommended.slice(0, 120),
       warnings: engineWarnings.slice(0, 80),
     },
+    ...(verifierResultV1 ? { verifierResultV1 } : {}),
+    ...(claimsPolicyV1 ? { claimsPolicyV1 } : {}),
     dataQuality: {
       score0to100: score,
       missingInfoIds: missingInfoIds.slice(0, 50),

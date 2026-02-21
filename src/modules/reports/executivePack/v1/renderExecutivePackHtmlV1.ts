@@ -64,9 +64,13 @@ export function renderExecutivePackHtmlV1(args: {
   const dq: any = (pack as any)?.dataQuality || {};
   const batt: any = (pack as any)?.batteryFit || {};
   const savings: any = (pack as any)?.savings || {};
+  const verifierStatus = fmt((pack as any)?.verificationSummaryV1?.status || (pack as any)?.verifierResultV1?.status);
+  const claimsStatus = fmt((pack as any)?.claimsPolicyV1?.status);
 
   const tiles = [
     `<div class="tiles">`,
+    `<div class="tile"><div class="tLabel">Verifier</div><div class="tVal">${escapeHtml(verifierStatus)}</div><div class="tSub">snapshot-only</div></div>`,
+    `<div class="tile"><div class="tLabel">Claims</div><div class="tVal">${escapeHtml(claimsStatus)}</div><div class="tSub">gating policy v1</div></div>`,
     `<div class="tile"><div class="tLabel">Annual kWh (est.)</div><div class="tVal">${kpis?.annualKwhEstimate ? fmtNum(kpis.annualKwhEstimate.value, 0) : '—'}</div><div class="tSub">${kpis?.annualKwhEstimate?.confidenceTier ? `conf=${escapeHtml(fmt(kpis.annualKwhEstimate.confidenceTier))}` : 'snapshot-only'}</div></div>`,
     `<div class="tile"><div class="tLabel">Baseload (kW)</div><div class="tVal">${kpis?.baseloadKw ? fmtNum(kpis.baseloadKw.value, 2) : '—'}</div><div class="tSub">${kpis?.baseloadKw?.confidenceTier ? `conf=${escapeHtml(fmt(kpis.baseloadKw.confidenceTier))}` : 'snapshot-only'}</div></div>`,
     `<div class="tile"><div class="tLabel">Peak (kW)</div><div class="tVal">${kpis?.peakKw ? fmtNum(kpis.peakKw.value, 2) : '—'}</div><div class="tSub">snapshot-only</div></div>`,

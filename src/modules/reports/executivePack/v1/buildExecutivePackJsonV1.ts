@@ -1,5 +1,7 @@
 import type { AnalysisRunV1 } from '../../../analysisRunsV1/types';
 import type { DiffSummaryV1 } from '../../../analysisRunsV1/diffV1';
+import { runVerifierV1 } from '../../../verifierV1/runVerifierV1';
+import { evaluateClaimsPolicyV1 } from '../../../claimsPolicyV1/evaluateClaimsPolicyV1';
 
 export type ExecutivePackDataQualityTierV1 = 'HIGH' | 'MEDIUM' | 'LOW' | 'UNKNOWN';
 export type ExecutiveBatteryFitV1 = 'YES' | 'NO' | 'MAYBE' | 'UNKNOWN';
@@ -7,6 +9,9 @@ export type ExecutiveBatteryFitV1 = 'YES' | 'NO' | 'MAYBE' | 'UNKNOWN';
 export type ExecutivePackJsonV1 = {
   schemaVersion: 'executivePackV1';
   generatedAtIso: string;
+  verifierResultV1?: unknown;
+  verificationSummaryV1?: { status: string; passCount: number; warnCount: number; failCount: number };
+  claimsPolicyV1?: unknown;
   /**
    * Provenance header: stable, required fields for downstream gating.
    * Keys are always present; values may be null where explicitly unknown.
@@ -62,7 +67,7 @@ export type ExecutivePackJsonV1 = {
   batteryFit: { decision: ExecutiveBatteryFitV1; confidenceTier?: string; tierSource?: string; missingInfoIds: string[] };
   dataQuality: { score0to100?: number | null; tier: ExecutivePackDataQualityTierV1; reasons: string[]; missingInfoIds: string[] };
   savings: {
-    status: 'DETERMINISTIC_AVAILABLE' | 'PENDING_INPUTS';
+    status: 'DETERMINISTIC_AVAILABLE' | 'PENDING_INPUTS' | 'BLOCKED_BY_VERIFIER';
     annualUsd?: { value?: number; min?: number; max?: number; source: string } | null;
     missingInfoIds: string[];
   };
@@ -318,6 +323,7 @@ export function buildExecutivePackJsonV1(args: {
   const reportId = stableString(args.project?.reportId, 140) || undefined;
 
   const reportJson: any = args.reportJson && typeof args.reportJson === 'object' ? (args.reportJson as any) : {};
+  const workflow: any = reportJson?.workflow ?? null;
   const trace: any = reportJson?.analysisTraceV1 ?? null;
   const coverage: any = trace?.coverage ?? {};
   const warningsSummary: any = trace?.warningsSummary ?? args.analysisRun?.warningsSummary ?? {};
@@ -378,10 +384,7 @@ export function buildExecutivePackJsonV1(args: {
   const wizardOutputRef = wizardOutput ? `wizardOutput:${reportId || 'session'}:${wizardOutputHash || 'missing_hash'}` : undefined;
   const warningsSummaryNormalized = normalizeWarningsSummary(warningsSummary);
 
-  // Savings rule: never claim unless deterministic number/range exists in snapshot.
-  const savingsStatus = savingsDet.found ? 'DETERMINISTIC_AVAILABLE' : 'PENDING_INPUTS';
-
-  return {
+  const pack: ExecutivePackJsonV1 = {
     schemaVersion: 'executivePackV1',
     generatedAtIso: nowIso,
     provenanceHeader: {
@@ -430,7 +433,7 @@ export function buildExecutivePackJsonV1(args: {
       missingInfoIds: wizardMissingIds,
     },
     savings: {
-      status: savingsStatus,
+      status: savingsDet.found ? 'DETERMINISTIC_AVAILABLE' : 'PENDING_INPUTS',
       ...(savingsDet.found ? { annualUsd: savingsDet.annualUsd } : { annualUsd: null }),
       missingInfoIds: savingsMissingIds,
     },
@@ -447,5 +450,45 @@ export function buildExecutivePackJsonV1(args: {
       ...(wizardOutputRef ? { wizardOutputRef } : {}),
     },
   };
+
+  const verifierResultV1 = runVerifierV1({
+    generatedAtIso: nowIso,
+    reportType: 'EXECUTIVE_PACK_V1',
+    analysisRun: args.analysisRun,
+    reportJson,
+    packJson: pack,
+    wizardOutput: args.wizardOutput ?? null,
+  });
+
+  const claimsPolicyV1 = evaluateClaimsPolicyV1({
+    analysisTraceV1: reportJson?.analysisTraceV1 ?? null,
+    requiredInputsMissing: workflow?.requiredInputsMissing ?? [],
+    missingInfo: reportJson?.missingInfo ?? [],
+    engineWarnings: (reportJson?.analysisTraceV1 as any)?.engineWarnings ?? [],
+    verifierResultV1,
+  });
+
+  // Enforce hard gating in exec pack: never publish annualUsd when blocked/limited.
+  const allowedClaims: any = (claimsPolicyV1 as any)?.allowedClaims ?? null;
+  const canClaimAnnual = Boolean(allowedClaims?.canClaimAnnualUsdSavings);
+
+  if (stableString((verifierResultV1 as any)?.status, 10).toUpperCase() === 'FAIL') {
+    pack.savings.status = 'BLOCKED_BY_VERIFIER';
+    pack.savings.annualUsd = null;
+  } else if (!canClaimAnnual) {
+    pack.savings.status = 'PENDING_INPUTS';
+    pack.savings.annualUsd = null;
+  }
+
+  (pack as any).verifierResultV1 = verifierResultV1;
+  (pack as any).verificationSummaryV1 = {
+    status: (verifierResultV1 as any).status,
+    passCount: (verifierResultV1 as any).summary?.passCount ?? 0,
+    warnCount: (verifierResultV1 as any).summary?.warnCount ?? 0,
+    failCount: (verifierResultV1 as any).summary?.failCount ?? 0,
+  };
+  (pack as any).claimsPolicyV1 = claimsPolicyV1;
+
+  return pack;
 }
 

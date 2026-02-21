@@ -1,4 +1,6 @@
 import type { AnalysisRunV1 } from '../../../analysisRunsV1/types';
+import { runVerifierV1 } from '../../../verifierV1/runVerifierV1';
+import { evaluateClaimsPolicyV1 } from '../../../claimsPolicyV1/evaluateClaimsPolicyV1';
 
 type MissingInfoLike = {
   id?: string;
@@ -11,6 +13,12 @@ type MissingInfoLike = {
 export type EngineeringPackJsonV1 = {
   schemaVersion: 'engineeringPackV1';
   generatedAtIso: string;
+  /** Deterministic verification layer (anti-hallucination firewall). */
+  verifierResultV1?: unknown;
+  /** Lightweight badge-ready summary (stable keys). */
+  verificationSummaryV1?: { status: string; passCount: number; warnCount: number; failCount: number };
+  /** Claims gating policy derived from stored snapshots only. */
+  claimsPolicyV1?: unknown;
   /**
    * Provenance header: stable, required fields for downstream gating.
    * Keys are always present; values may be null where explicitly unknown.
@@ -265,7 +273,7 @@ export function buildEngineeringPackJsonV1(args: {
   const wizardOutputRef = args.wizardOutput ? `wizardOutput:${reportId || 'session'}:${wizardOutputHash || 'missing_hash'}` : undefined;
   const warningsSummary = normalizeWarningsSummary(trace?.warningsSummary ?? (args.analysisRun as any)?.warningsSummary ?? null);
 
-  return {
+  const pack: EngineeringPackJsonV1 = {
     schemaVersion: 'engineeringPackV1',
     generatedAtIso: nowIso,
     provenanceHeader: {
@@ -331,5 +339,33 @@ export function buildEngineeringPackJsonV1(args: {
       ...(wizardOutputRef ? { wizardOutputRef } : {}),
     },
   };
+
+  const verifierResultV1 = runVerifierV1({
+    generatedAtIso: nowIso,
+    reportType: 'ENGINEERING_PACK_V1',
+    analysisRun: args.analysisRun,
+    reportJson,
+    packJson: pack,
+    wizardOutput: args.wizardOutput ?? null,
+  });
+
+  const claimsPolicyV1 = evaluateClaimsPolicyV1({
+    analysisTraceV1: reportJson?.analysisTraceV1 ?? null,
+    requiredInputsMissing: workflow?.requiredInputsMissing ?? [],
+    missingInfo: reportJson?.missingInfo ?? [],
+    engineWarnings: (reportJson?.analysisTraceV1 as any)?.engineWarnings ?? [],
+    verifierResultV1,
+  });
+
+  pack.verifierResultV1 = verifierResultV1;
+  pack.verificationSummaryV1 = {
+    status: verifierResultV1.status,
+    passCount: verifierResultV1.summary.passCount,
+    warnCount: verifierResultV1.summary.warnCount,
+    failCount: verifierResultV1.summary.failCount,
+  };
+  pack.claimsPolicyV1 = claimsPolicyV1;
+
+  return pack;
 }
 

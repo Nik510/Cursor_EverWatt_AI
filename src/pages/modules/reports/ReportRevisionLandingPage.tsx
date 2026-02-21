@@ -25,6 +25,22 @@ export const ReportRevisionLandingPage: React.FC = () => {
     return { label: `${total} warnings`, tone: 'amber' as const };
   }, [data]);
 
+  const verifierBadge = useMemo(() => {
+    const s = String((data as any)?.revision?.verifierStatusV1 || '').trim().toUpperCase();
+    if (s === 'PASS') return { label: 'Verifier: PASS', tone: 'green' as const };
+    if (s === 'WARN') return { label: 'Verifier: WARN', tone: 'amber' as const };
+    if (s === 'FAIL') return { label: 'Verifier: FAIL', tone: 'red' as const };
+    return { label: 'Verifier: —', tone: 'gray' as const };
+  }, [data]);
+
+  const claimsBadge = useMemo(() => {
+    const s = String((data as any)?.revision?.claimsStatusV1 || '').trim().toUpperCase();
+    if (s === 'ALLOW') return { label: 'Claims: ALLOW', tone: 'green' as const };
+    if (s === 'LIMITED') return { label: 'Claims: LIMITED', tone: 'amber' as const };
+    if (s === 'BLOCK') return { label: 'Claims: BLOCK', tone: 'red' as const };
+    return { label: 'Claims: —', tone: 'gray' as const };
+  }, [data]);
+
   useEffect(() => {
     let cancelled = false;
     const projectId = projectIdFromQs;
@@ -59,6 +75,15 @@ export const ReportRevisionLandingPage: React.FC = () => {
       : warningsBadge.tone === 'amber'
         ? 'bg-amber-50 text-amber-900 border-amber-200'
         : 'bg-gray-50 text-gray-800 border-gray-200';
+
+  const smallBadgeClass = (tone: string) =>
+    tone === 'green'
+      ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+      : tone === 'amber'
+        ? 'bg-amber-50 text-amber-900 border-amber-200'
+        : tone === 'red'
+          ? 'bg-red-50 text-red-800 border-red-200'
+          : 'bg-gray-50 text-gray-800 border-gray-200';
 
   return (
     <div className="h-screen flex flex-col bg-gray-50">
@@ -159,6 +184,19 @@ export const ReportRevisionLandingPage: React.FC = () => {
                       </>
                     ) : null}
                   </div>
+                </div>
+
+                <div className="p-4 bg-white border border-gray-200 rounded-xl">
+                  <div className="text-sm font-semibold text-gray-900">Trust badges</div>
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <div className={`inline-flex items-center px-3 py-1.5 rounded-full border text-xs font-semibold ${smallBadgeClass(verifierBadge.tone)}`}>
+                      {verifierBadge.label}
+                    </div>
+                    <div className={`inline-flex items-center px-3 py-1.5 rounded-full border text-xs font-semibold ${smallBadgeClass(claimsBadge.tone)}`}>
+                      {claimsBadge.label}
+                    </div>
+                  </div>
+                  <div className="mt-2 text-xs text-gray-600">Badges are derived from stored revision snapshots only.</div>
                 </div>
 
                 <div className="p-4 bg-white border border-gray-200 rounded-xl">

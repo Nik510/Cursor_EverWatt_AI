@@ -107,6 +107,8 @@ export async function renderExecutivePackPdfV1(args: { packJson: ExecutivePackJs
       { key: 'utility', value: safeText(hdr.utilityTerritory) || 'n/a' },
       { key: 'runId', value: safeText(linkage.runId) || 'n/a' },
       { key: 'revisionId', value: safeText(linkage.revisionId) || 'n/a' },
+      { key: 'verifierStatus', value: safeText(pack?.verificationSummaryV1?.status || pack?.verifierResultV1?.status) || '—' },
+      { key: 'claimsStatus', value: safeText(pack?.claimsPolicyV1?.status) || '—' },
       { key: 'generatedAtIso', value: generatedAtIso || 'n/a' },
     ]);
 

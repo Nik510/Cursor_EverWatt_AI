@@ -103,6 +103,8 @@ export async function renderEngineeringPackPdfV1(args: { packJson: EngineeringPa
       { key: 'utility', value: safeText(hdr.utilityTerritory) || 'n/a' },
       { key: 'runId', value: safeText(linkage.runId) || 'n/a' },
       { key: 'revisionId', value: safeText(linkage.revisionId) || 'n/a' },
+      { key: 'verifierStatus', value: safeText((pack as any)?.verificationSummaryV1?.status || (pack as any)?.verifierResultV1?.status) || '—' },
+      { key: 'claimsStatus', value: safeText((pack as any)?.claimsPolicyV1?.status) || '—' },
       { key: 'generatedAtIso', value: generatedAtIso || 'n/a' },
     ]);
 

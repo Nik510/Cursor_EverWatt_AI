@@ -20,7 +20,7 @@
       },
       {
         "atIso": "2026-03-01T00:00:00.000Z",
-        "hash": "d413cd8b5d31c13d8d14aa6692af2edced39d385eee20e25582ccd6f9ce67b87",
+        "hash": "3fac3cd276464f365b8357d059310049fa7988af0bd1c498a29f194dd6dee435",
         "runIdsUsed": [
           "run_golden_01"
         ],
@@ -49,9 +49,9 @@
     "updatedAtIso": "2026-03-01T00:00:00.000Z",
     "warnings": [],
     "wizardOutputV1": {
-      "approxBytes": 17140,
+      "approxBytes": 20550,
       "generatedAtIso": "2026-03-01T00:00:00.000Z",
-      "hash": "d413cd8b5d31c13d8d14aa6692af2edced39d385eee20e25582ccd6f9ce67b87",
+      "hash": "3fac3cd276464f365b8357d059310049fa7988af0bd1c498a29f194dd6dee435",
       "kind": "INLINE",
       "revisionIdsUsed": [
         "rev_01_single_run_with_revision_and_wizard"
@@ -59,6 +59,60 @@
       "runIdsUsed": "[Circular]",
       "wizardOutput": {
         "charts": [],
+        "claimsPolicyV1": {
+          "allowedClaims": {
+            "canClaimAnnualUsdSavings": false,
+            "canClaimDemandSavings": false,
+            "canClaimEmissionsAvoided": true,
+            "canRecommendBatterySizing": false,
+            "canRecommendTariffSwitch": true
+          },
+          "blockedReasons": [
+            "requiredInputsMissing:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+            "requiredInputsMissing:Customer segment/type required to match many utility/ISO programs",
+            "requiredInputsMissing:Customer type required for this program (segment-gated).",
+            "requiredInputsMissing:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+            "requiredInputsMissing:Interval data reference required for load shape, load shifting, and demand response eligibility",
+            "requiredInputsMissing:NAICS code required for this program.",
+            "requiredInputsMissing:NAICS code required to match many utility/ISO programs",
+            "requiredInputsMissing:Weather series not available; provide weather data or configure provider."
+          ],
+          "requiredNextData": [
+            {
+              "code": "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "label": "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+            },
+            {
+              "code": "required:Customer segment/type required to match many utility/ISO programs",
+              "label": "Customer segment/type required to match many utility/ISO programs"
+            },
+            {
+              "code": "required:Customer type required for this program (segment-gated).",
+              "label": "Customer type required for this program (segment-gated)."
+            },
+            {
+              "code": "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+              "label": "Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance."
+            },
+            {
+              "code": "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+              "label": "Interval data reference required for load shape, load shifting, and demand response eligibility"
+            },
+            {
+              "code": "required:NAICS code required for this program.",
+              "label": "NAICS code required for this program."
+            },
+            {
+              "code": "required:NAICS code required to match many utility/ISO programs",
+              "label": "NAICS code required to match many utility/ISO programs"
+            },
+            {
+              "code": "required:Weather series not available; provide weather data or configure provider.",
+              "label": "Weather series not available; provide weather data or configure provider."
+            }
+          ],
+          "status": "LIMITED"
+        },
         "dataQuality": {
           "missingInfoIds": [
             "behaviorV2.baseLoadDrift.unavailable",
@@ -370,7 +424,32 @@
             "run_golden_01"
           ]
         },
-        "wizardOutputHash": "d413cd8b5d31c13d8d14aa6692af2edced39d385eee20e25582ccd6f9ce67b87",
+        "verifierResultV1": {
+          "checks": [
+            {
+              "code": "verifier.econ.sum_mismatch",
+              "details": {
+                "delta": 0,
+                "sumLineItems": 0,
+                "total": 0
+              },
+              "message": "Battery economics reconcile within tolerance.",
+              "paths": [
+                "reportJson.batteryDecisionPackV1_2.audit.reconcile"
+              ],
+              "status": "PASS",
+              "tolerance": 0.01
+            }
+          ],
+          "generatedAtIso": "2026-03-01T00:00:00.000Z",
+          "status": "PASS",
+          "summary": {
+            "failCount": 0,
+            "passCount": 1,
+            "warnCount": 0
+          }
+        },
+        "wizardOutputHash": "3fac3cd276464f365b8357d059310049fa7988af0bd1c498a29f194dd6dee435",
         "wizardSteps": [
           {
             "evidence": {
@@ -561,6 +640,60 @@
   },
   "wizardOutput": {
     "charts": [],
+    "claimsPolicyV1": {
+      "allowedClaims": {
+        "canClaimAnnualUsdSavings": false,
+        "canClaimDemandSavings": false,
+        "canClaimEmissionsAvoided": true,
+        "canRecommendBatterySizing": false,
+        "canRecommendTariffSwitch": true
+      },
+      "blockedReasons": [
+        "requiredInputsMissing:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+        "requiredInputsMissing:Customer segment/type required to match many utility/ISO programs",
+        "requiredInputsMissing:Customer type required for this program (segment-gated).",
+        "requiredInputsMissing:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+        "requiredInputsMissing:Interval data reference required for load shape, load shifting, and demand response eligibility",
+        "requiredInputsMissing:NAICS code required for this program.",
+        "requiredInputsMissing:NAICS code required to match many utility/ISO programs",
+        "requiredInputsMissing:Weather series not available; provide weather data or configure provider."
+      ],
+      "requiredNextData": [
+        {
+          "code": "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+          "label": "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+        },
+        {
+          "code": "required:Customer segment/type required to match many utility/ISO programs",
+          "label": "Customer segment/type required to match many utility/ISO programs"
+        },
+        {
+          "code": "required:Customer type required for this program (segment-gated).",
+          "label": "Customer type required for this program (segment-gated)."
+        },
+        {
+          "code": "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+          "label": "Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance."
+        },
+        {
+          "code": "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+          "label": "Interval data reference required for load shape, load shifting, and demand response eligibility"
+        },
+        {
+          "code": "required:NAICS code required for this program.",
+          "label": "NAICS code required for this program."
+        },
+        {
+          "code": "required:NAICS code required to match many utility/ISO programs",
+          "label": "NAICS code required to match many utility/ISO programs"
+        },
+        {
+          "code": "required:Weather series not available; provide weather data or configure provider.",
+          "label": "Weather series not available; provide weather data or configure provider."
+        }
+      ],
+      "status": "LIMITED"
+    },
     "dataQuality": {
       "missingInfoIds": [
         "behaviorV2.baseLoadDrift.unavailable",
@@ -872,7 +1005,32 @@
         "run_golden_01"
       ]
     },
-    "wizardOutputHash": "d413cd8b5d31c13d8d14aa6692af2edced39d385eee20e25582ccd6f9ce67b87",
+    "verifierResultV1": {
+      "checks": [
+        {
+          "code": "verifier.econ.sum_mismatch",
+          "details": {
+            "delta": 0,
+            "sumLineItems": 0,
+            "total": 0
+          },
+          "message": "Battery economics reconcile within tolerance.",
+          "paths": [
+            "reportJson.batteryDecisionPackV1_2.audit.reconcile"
+          ],
+          "status": "PASS",
+          "tolerance": 0.01
+        }
+      ],
+      "generatedAtIso": "2026-03-01T00:00:00.000Z",
+      "status": "PASS",
+      "summary": {
+        "failCount": 0,
+        "passCount": 1,
+        "warnCount": 0
+      }
+    },
+    "wizardOutputHash": "3fac3cd276464f365b8357d059310049fa7988af0bd1c498a29f194dd6dee435",
     "wizardSteps": [
       {
         "evidence": {
