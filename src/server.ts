@@ -11524,6 +11524,625 @@ app.get('/api/share/v1/revision/bundle.zip', async (c) => {
   }
 });
 
+/**
+ * ==========================================
+ * CUSTOMER PORTAL v1 (org + users + RBAC + portfolio reports)
+ * ==========================================
+ *
+ * Goals:
+ * - snapshot-only: serve stored revision snapshots (no recompute)
+ * - staff-managed orgs/users/project links
+ * - minimal auth: staff issues short-lived login token; user verifies to set HttpOnly session cookie
+ * - do not interfere with shares (separate cookie name and Path scoping)
+ */
+
+type PortalUserRoleV1 = 'VIEWER' | 'ADMIN' | 'OWNER';
+
+function normalizePortalRoleV1(raw: unknown): PortalUserRoleV1 {
+  const s = String(raw ?? '').trim().toUpperCase();
+  if (s === 'VIEWER') return 'VIEWER';
+  if (s === 'ADMIN') return 'ADMIN';
+  if (s === 'OWNER') return 'OWNER';
+  throw new Error('Invalid role (expected VIEWER|ADMIN|OWNER)');
+}
+
+function portalRoleAllowsV1(role: PortalUserRoleV1, need: 'VIEWER' | 'ADMIN'): boolean {
+  if (need === 'VIEWER') return role === 'VIEWER' || role === 'ADMIN' || role === 'OWNER';
+  return role === 'ADMIN' || role === 'OWNER';
+}
+
+function getPortalSessionCookieV1(c: Context): string | null {
+  const v = String(getCookie(c, 'portal_session') || '').trim();
+  return v || null;
+}
+
+function setPortalSessionCookiesV1(c: Context, value: string, maxAgeSeconds: number) {
+  const secure = process.env.NODE_ENV === 'production';
+  // Two cookies (same name, different Path) to scope to portal surfaces only.
+  setCookie(c, 'portal_session', value, { httpOnly: true, sameSite: 'Lax', secure, path: '/api/portal-v1', maxAge: maxAgeSeconds });
+  setCookie(c, 'portal_session', value, { httpOnly: true, sameSite: 'Lax', secure, path: '/portal', maxAge: maxAgeSeconds });
+}
+
+function clearPortalSessionCookiesV1(c: Context) {
+  const secure = process.env.NODE_ENV === 'production';
+  setCookie(c, 'portal_session', '', { httpOnly: true, sameSite: 'Lax', secure, path: '/api/portal-v1', maxAge: 0 });
+  setCookie(c, 'portal_session', '', { httpOnly: true, sameSite: 'Lax', secure, path: '/portal', maxAge: 0 });
+}
+
+async function requirePortalAuthV1(c: Context): Promise<{ user: any; org: any; sessionId: string }> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const cached = ((c as any).get?.('portalAuthV1') as any | undefined) || null;
+  if (cached) return cached;
+
+  const cookie = getPortalSessionCookieV1(c);
+  if (!cookie) {
+    const err: any = new Error('Unauthorized');
+    err.status = 401;
+    throw err;
+  }
+
+  const { verifyPortalSessionV1 } = await import('./modules/portalV1/portalSessionV1');
+  const parsed = verifyPortalSessionV1(cookie);
+  if (!parsed?.sessionId || !parsed?.userId) {
+    const err: any = new Error('Unauthorized');
+    err.status = 401;
+    throw err;
+  }
+
+  const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+  const store = createPortalStoreFsV1();
+  const session = await store.getSession(parsed.sessionId);
+  if (!session || String(session.userId) !== String(parsed.userId)) {
+    const err: any = new Error('Unauthorized');
+    err.status = 401;
+    throw err;
+  }
+
+  const user = await store.getUserById(parsed.userId);
+  if (!user || user.disabledAtIso) {
+    const err: any = new Error('Unauthorized');
+    err.status = 401;
+    throw err;
+  }
+
+  const org = await store.getOrgById(String(user.orgId || ''));
+  if (!org) {
+    const err: any = new Error('Unauthorized');
+    err.status = 401;
+    throw err;
+  }
+
+  const auth = { user, org, sessionId: String(parsed.sessionId) };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (c as any).set?.('portalAuthV1', auth);
+  return auth;
+}
+
+async function requirePortalProjectAccessV1(c: Context, projectIdRaw: string): Promise<{ auth: { user: any; org: any; sessionId: string }; projectId: string }> {
+  const auth = await requirePortalAuthV1(c);
+  const projectId = String(projectIdRaw || '').trim();
+  if (!/^[A-Za-z0-9_-]{1,120}$/.test(projectId)) {
+    const err: any = new Error('Invalid projectId');
+    err.status = 400;
+    throw err;
+  }
+  const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+  const store = createPortalStoreFsV1();
+  const linkedOrgId = await store.getOrgIdForProject(projectId);
+  if (!linkedOrgId || String(linkedOrgId) !== String(auth.org.orgId)) {
+    const err: any = new Error('Not found');
+    err.status = 404;
+    throw err;
+  }
+  return { auth, projectId };
+}
+
+async function loadPortalProjectSnapshotV1(projectId: string): Promise<any> {
+  if (isDatabaseEnabled()) {
+    const err: any = new Error('Portal routes are not supported when database mode is enabled');
+    err.status = 501;
+    throw err;
+  }
+  if (!/^[A-Za-z0-9_-]{1,120}$/.test(projectId)) {
+    const err: any = new Error('Invalid projectId');
+    err.status = 400;
+    throw err;
+  }
+  const filePath = path.join(PROJECTS_DIR, `${projectId}.json`);
+  if (!existsSync(filePath)) {
+    const err: any = new Error('Project not found');
+    err.status = 404;
+    throw err;
+  }
+  return JSON.parse(await readFile(filePath, 'utf-8')) as any;
+}
+
+async function loadPortalRevisionSnapshotV1(args: { projectId: string; revisionId: string }): Promise<{ project: any; found: { reportType: string; rev: any } }> {
+  const projectId = String(args.projectId || '').trim();
+  const revisionId = String(args.revisionId || '').trim();
+  if (!/^[A-Za-z0-9_-]{1,120}$/.test(revisionId)) {
+    const err: any = new Error('Invalid revisionId');
+    err.status = 400;
+    throw err;
+  }
+  const project = await loadPortalProjectSnapshotV1(projectId);
+  const found = findProjectReportRevisionV1(project, revisionId);
+  if (!found) {
+    const err: any = new Error('Report revision not found');
+    err.status = 404;
+    throw err;
+  }
+  return { project, found };
+}
+
+function listProjectRevisionsSafeV1(project: any): Array<{ revisionId: string; reportType: string; createdAtIso: string; runId?: string; engineVersions?: Record<string, string>; warningsSummary?: any; wizardOutputHash?: string }> {
+  const reports = project?.reportsV1 && typeof project.reportsV1 === 'object' ? project.reportsV1 : {};
+  const buckets: Array<{ reportType: string; arr: any[] }> = [
+    { reportType: 'INTERNAL_ENGINEERING_V1', arr: Array.isArray(reports?.internalEngineering) ? reports.internalEngineering : [] },
+    { reportType: 'ENGINEERING_PACK_V1', arr: Array.isArray(reports?.engineeringPackV1) ? reports.engineeringPackV1 : [] },
+    { reportType: 'EXECUTIVE_PACK_V1', arr: Array.isArray(reports?.executivePackV1) ? reports.executivePackV1 : [] },
+  ];
+
+  const all = buckets.flatMap((b) =>
+    b.arr.map((rev) => {
+      const revisionId = String(rev?.id || '').trim();
+      const rt = String(rev?.reportType || '').trim() || b.reportType;
+      if (!revisionId) return null;
+      return toShareSafeRevisionMetaV1({ revisionId, reportType: rt, rev });
+    }),
+  );
+
+  return (all.filter(Boolean) as any[]).sort(
+    (a: any, b: any) =>
+      String(b?.createdAtIso || '').localeCompare(String(a?.createdAtIso || '')) || String(a?.revisionId || '').localeCompare(String(b?.revisionId || '')),
+  );
+}
+
+// Staff-only: create org
+app.post('/api/portal-v1/orgs/create', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const body = await c.req.json().catch(() => ({}));
+    const name = String((body as any)?.name || '').trim();
+    if (!name) return c.json({ success: false, error: 'name is required' }, 400);
+
+    const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+    const store = createPortalStoreFsV1();
+    const org = await store.createOrg({ name });
+    return c.json({ success: true, org });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to create org';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+// Staff-only: create portal user
+app.post('/api/portal-v1/users/create', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const body = await c.req.json().catch(() => ({}));
+    const orgId = String((body as any)?.orgId || '').trim();
+    const email = String((body as any)?.email || '').trim();
+    const role = normalizePortalRoleV1((body as any)?.role);
+    if (!orgId) return c.json({ success: false, error: 'orgId is required' }, 400);
+    if (!email) return c.json({ success: false, error: 'email is required' }, 400);
+
+    const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+    const store = createPortalStoreFsV1();
+    const user = await store.createUser({ orgId, email, role });
+    return c.json({ success: true, user });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to create user';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+// Staff-only: link project to org
+app.post('/api/portal-v1/projects/:projectId/link-org', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const projectId = String(c.req.param('projectId') || '').trim();
+    if (!projectId) return c.json({ success: false, error: 'projectId is required' }, 400);
+    const body = await c.req.json().catch(() => ({}));
+    const orgId = String((body as any)?.orgId || '').trim();
+    if (!orgId) return c.json({ success: false, error: 'orgId is required' }, 400);
+
+    // Ensure project exists (snapshot-only FS mode).
+    await loadPortalProjectSnapshotV1(projectId);
+
+    const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+    const store = createPortalStoreFsV1();
+    const link = await store.linkProjectToOrg({ projectId, orgId });
+    return c.json({ success: true, link });
+  } catch (error) {
+    const status = (error as any)?.status || (String(error instanceof Error ? error.message : '').toLowerCase().includes('unauthorized') ? 401 : 400);
+    const message = error instanceof Error ? error.message : 'Failed to link project';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+// Staff-only: list users in org
+app.get('/api/portal-v1/orgs/:orgId/users', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const orgId = String(c.req.param('orgId') || '').trim();
+    if (!orgId) return c.json({ success: false, error: 'orgId is required' }, 400);
+
+    const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+    const store = createPortalStoreFsV1();
+    const users = await store.listOrgUsers({ orgId });
+    return c.json({ success: true, users });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to list org users';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+// Staff-only: generate a one-time login token for a portal user (shown once; email delivery can be added later).
+app.post('/api/portal-v1/login/request', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const body = await c.req.json().catch(() => ({}));
+    const email = String((body as any)?.email || '').trim();
+    if (!email) return c.json({ success: false, error: 'email is required' }, 400);
+
+    const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+    const { generatePortalLoginTokenPlainV1, sha256TokenPlainV1 } = await import('./modules/portalV1/tokenV1');
+    const store = createPortalStoreFsV1();
+    const user = await store.getUserByEmail(email);
+    if (!user || user.disabledAtIso) return c.json({ success: false, error: 'User not found' }, 404);
+
+    const tokenPlain = generatePortalLoginTokenPlainV1();
+    const tokenHash = sha256TokenPlainV1(tokenPlain);
+    const nowIso = new Date().toISOString();
+    const expiresAtIso = new Date(Date.now() + 15 * 60_000).toISOString();
+    await store.upsertLoginToken({ userId: user.userId, email: user.email, tokenHash, createdAtIso: nowIso, expiresAtIso });
+
+    return c.json({ success: true, tokenPlain, expiresAtIso });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to generate login token';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+// Customer-facing: verify login token and set HttpOnly session cookie.
+app.post('/api/portal-v1/login/verify', async (c) => {
+  try {
+    const body = await c.req.json().catch(() => ({}));
+    const email = String((body as any)?.email || '').trim();
+    const tokenPlain = String((body as any)?.tokenPlain || '').trim();
+    if (!email) return c.json({ success: false, error: 'email is required' }, 400);
+    if (!tokenPlain) return c.json({ success: false, error: 'tokenPlain is required' }, 400);
+
+    const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+    const { isLikelyPortalLoginTokenPlainV1, sha256TokenPlainV1 } = await import('./modules/portalV1/tokenV1');
+    if (!isLikelyPortalLoginTokenPlainV1(tokenPlain)) return c.json({ success: false, error: 'Invalid credentials' }, 401);
+
+    const tokenHash = sha256TokenPlainV1(tokenPlain);
+    const store = createPortalStoreFsV1();
+    const consumed = await store.consumeLoginToken({ email, tokenHash });
+    if (!consumed?.userId) return c.json({ success: false, error: 'Invalid credentials' }, 401);
+
+    const nowIso = new Date().toISOString();
+    const expiresAtIso = new Date(Date.now() + 8 * 60 * 60_000).toISOString();
+    const session = await store.createSession({ userId: consumed.userId, createdAtIso: nowIso, expiresAtIso });
+
+    const { signPortalSessionV1 } = await import('./modules/portalV1/portalSessionV1');
+    const sessionToken = signPortalSessionV1({ sessionId: session.sessionId, userId: consumed.userId, expiresInSeconds: 60 * 60 * 8 });
+    setPortalSessionCookiesV1(c, sessionToken, 60 * 60 * 8);
+
+    return c.json({ success: true });
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to verify login';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/portal-v1/logout', async (c) => {
+  try {
+    const cookie = getPortalSessionCookieV1(c);
+    if (cookie) {
+      const { verifyPortalSessionV1 } = await import('./modules/portalV1/portalSessionV1');
+      const parsed = verifyPortalSessionV1(cookie);
+      if (parsed?.sessionId) {
+        const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+        const store = createPortalStoreFsV1();
+        await store.revokeSession(parsed.sessionId);
+      }
+    }
+    clearPortalSessionCookiesV1(c);
+    return c.json({ success: true });
+  } catch {
+    clearPortalSessionCookiesV1(c);
+    return c.json({ success: true });
+  }
+});
+
+// Portal APIs (snapshot-only, org-scoped)
+app.get('/api/portal-v1/me', async (c) => {
+  try {
+    const { user, org } = await requirePortalAuthV1(c);
+    return c.json({
+      success: true,
+      user: { userId: user.userId, orgId: user.orgId, email: user.email, role: user.role, createdAtIso: user.createdAtIso },
+      org: { orgId: org.orgId, name: org.name, createdAtIso: org.createdAtIso },
+    });
+  } catch (error) {
+    const status = (error as any)?.status || 401;
+    const message = error instanceof Error ? error.message : 'Unauthorized';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/portal-v1/projects', async (c) => {
+  try {
+    const { user, org } = await requirePortalAuthV1(c);
+    if (!portalRoleAllowsV1(normalizePortalRoleV1(user.role), 'VIEWER')) return c.json({ success: false, error: 'Forbidden' }, 403);
+
+    const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+    const store = createPortalStoreFsV1();
+    const projectIds = await store.listProjectIdsForOrg({ orgId: org.orgId });
+
+    const projects = await Promise.all(
+      projectIds.map(async (projectId) => {
+        try {
+          const project = await loadPortalProjectSnapshotV1(projectId);
+          const name = String(project?.customer?.projectName || project?.customer?.companyName || '').trim() || projectId;
+          const revisions = listProjectRevisionsSafeV1(project);
+          const latest = revisions[0] || null;
+          return { projectId, name, latestRevision: latest };
+        } catch {
+          return { projectId, name: projectId, latestRevision: null };
+        }
+      }),
+    );
+
+    projects.sort((a, b) => String(a.name || '').localeCompare(String(b.name || '')) || String(a.projectId).localeCompare(String(b.projectId)));
+    return c.json({ success: true, orgId: org.orgId, projects });
+  } catch (error) {
+    const status = (error as any)?.status || 401;
+    const message = error instanceof Error ? error.message : 'Unauthorized';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/portal-v1/projects/:projectId/revisions', async (c) => {
+  try {
+    const { projectId } = await requirePortalProjectAccessV1(c, c.req.param('projectId'));
+    const project = await loadPortalProjectSnapshotV1(projectId);
+    const revisions = listProjectRevisionsSafeV1(project);
+    return c.json({ success: true, projectId, revisions });
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to list revisions';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/portal-v1/projects/:projectId/revisions/:revisionId/html', async (c) => {
+  try {
+    const { projectId } = await requirePortalProjectAccessV1(c, c.req.param('projectId'));
+    const revisionId = String(c.req.param('revisionId') || '').trim();
+    const { project, found } = await loadPortalRevisionSnapshotV1({ projectId, revisionId });
+    const rt = String(found.reportType || '').trim();
+    const rev = found.rev;
+
+    if (rt === 'INTERNAL_ENGINEERING_V1') {
+      const { renderInternalEngineeringReportHtmlV1 } = await import('./modules/reports/internalEngineering/v1/renderInternalEngineeringReportHtml');
+      const html = renderInternalEngineeringReportHtmlV1({
+        project: { id: projectId, name: String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined },
+        revision: {
+          id: String((rev as any)?.id || ''),
+          createdAt: String((rev as any)?.createdAt || ''),
+          title: String((rev as any)?.title || ''),
+          reportJson: (rev as any)?.reportJson,
+          reportHash: String((rev as any)?.reportHash || ''),
+        },
+      });
+      c.header('Content-Type', 'text/html; charset=utf-8');
+      return c.body(html);
+    }
+
+    if (rt === 'ENGINEERING_PACK_V1') {
+      const { renderEngineeringPackHtmlV1 } = await import('./modules/reports/engineeringPack/v1/renderEngineeringPackHtmlV1');
+      const html = renderEngineeringPackHtmlV1({
+        project: { id: projectId, name: String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined },
+        revision: {
+          id: String((rev as any)?.id || ''),
+          createdAt: String((rev as any)?.createdAt || ''),
+          title: String((rev as any)?.title || ''),
+          packJson: (rev as any)?.packJson,
+          packHash: String((rev as any)?.packHash || ''),
+        },
+      });
+      c.header('Content-Type', 'text/html; charset=utf-8');
+      return c.body(html);
+    }
+
+    if (rt === 'EXECUTIVE_PACK_V1') {
+      const { renderExecutivePackHtmlV1 } = await import('./modules/reports/executivePack/v1/renderExecutivePackHtmlV1');
+      const html = renderExecutivePackHtmlV1({
+        project: { id: projectId, name: String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined },
+        revision: {
+          id: String((rev as any)?.id || ''),
+          createdAt: String((rev as any)?.createdAt || ''),
+          title: String((rev as any)?.title || ''),
+          packJson: (rev as any)?.packJson,
+          packHash: String((rev as any)?.packHash || ''),
+        },
+      });
+      c.header('Content-Type', 'text/html; charset=utf-8');
+      return c.body(html);
+    }
+
+    return c.json({ success: false, error: 'Unsupported reportType' }, 400);
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to render HTML';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/portal-v1/projects/:projectId/revisions/:revisionId/json', async (c) => {
+  try {
+    const { projectId } = await requirePortalProjectAccessV1(c, c.req.param('projectId'));
+    const revisionId = String(c.req.param('revisionId') || '').trim();
+    const { found } = await loadPortalRevisionSnapshotV1({ projectId, revisionId });
+    const rt = String(found.reportType || '').trim();
+    const rev = found.rev || {};
+    const createdAtIso = String((rev as any)?.createdAt || (rev as any)?.createdAtIso || '').trim() || null;
+    const filename = buildRevisionFilenameV1({ reportType: rt, projectOrReportId: projectId, revisionId, createdAtIso, ext: 'json' });
+    c.header('Content-Disposition', `attachment; filename="${filename}"`);
+
+    // Security: return the snapshot artifact JSON only.
+    if (rt === 'INTERNAL_ENGINEERING_V1') return c.json({ success: true, reportType: rt, revisionId, reportJson: (rev as any)?.reportJson ?? null });
+    if (rt === 'ENGINEERING_PACK_V1' || rt === 'EXECUTIVE_PACK_V1') return c.json({ success: true, reportType: rt, revisionId, packJson: (rev as any)?.packJson ?? null });
+    return c.json({ success: false, error: 'Unsupported reportType' }, 400);
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to load JSON';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/portal-v1/projects/:projectId/revisions/:revisionId/pdf', async (c) => {
+  try {
+    const { projectId } = await requirePortalProjectAccessV1(c, c.req.param('projectId'));
+    const revisionId = String(c.req.param('revisionId') || '').trim();
+    const { found } = await loadPortalRevisionSnapshotV1({ projectId, revisionId });
+    const rt = String(found.reportType || '').trim();
+    const rev = found.rev || {};
+    const createdAtIso = String((rev as any)?.createdAt || (rev as any)?.createdAtIso || '').trim() || null;
+    const filename = buildRevisionFilenameV1({ reportType: rt, projectOrReportId: projectId, revisionId, createdAtIso, ext: 'pdf' });
+
+    if (rt === 'ENGINEERING_PACK_V1') {
+      const { renderEngineeringPackPdfV1 } = await import('./modules/reports/engineeringPack/v1/renderEngineeringPackPdfV1');
+      const pdf = await renderEngineeringPackPdfV1({ packJson: (rev as any)?.packJson });
+      c.header('Content-Type', 'application/pdf');
+      c.header('Content-Disposition', `attachment; filename="${filename}"`);
+      return c.body(new Uint8Array(pdf));
+    }
+
+    if (rt === 'EXECUTIVE_PACK_V1') {
+      const { renderExecutivePackPdfV1 } = await import('./modules/reports/executivePack/v1/renderExecutivePackPdfV1');
+      const pdf = await renderExecutivePackPdfV1({ packJson: (rev as any)?.packJson });
+      c.header('Content-Type', 'application/pdf');
+      c.header('Content-Disposition', `attachment; filename="${filename}"`);
+      return c.body(new Uint8Array(pdf));
+    }
+
+    return c.json({ success: false, error: 'PDF not supported for this reportType' }, 400);
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to render PDF';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/portal-v1/projects/:projectId/revisions/:revisionId/bundle', async (c) => {
+  try {
+    const { projectId } = await requirePortalProjectAccessV1(c, c.req.param('projectId'));
+    const revisionId = String(c.req.param('revisionId') || '').trim();
+    const { project, found } = await loadPortalRevisionSnapshotV1({ projectId, revisionId });
+    const primaryType = String(found.reportType || '').trim() || 'UNKNOWN';
+    const primaryRev: any = found.rev || {};
+
+    const createdAtIso = String(primaryRev?.createdAt || primaryRev?.createdAtIso || '').trim() || null;
+    const runId = String(primaryRev?.runId || '').trim() || null;
+    const engineVersions = primaryRev?.engineVersions && typeof primaryRev.engineVersions === 'object' ? primaryRev.engineVersions : {};
+    const warningsSummary = primaryRev?.warningsSummary && typeof primaryRev.warningsSummary === 'object' ? primaryRev.warningsSummary : null;
+    const wizardOutputHash = String(primaryRev?.wizardOutputHash || '').trim() || null;
+
+    const { default: JSZip } = await import('jszip');
+    const zip = new JSZip();
+
+    const renderPackPdfIfPossible = async (rt: string, rev: any, outName: string): Promise<boolean> => {
+      try {
+        if (rt === 'ENGINEERING_PACK_V1') {
+          const { renderEngineeringPackPdfV1 } = await import('./modules/reports/engineeringPack/v1/renderEngineeringPackPdfV1');
+          const pdf = await renderEngineeringPackPdfV1({ packJson: (rev as any)?.packJson });
+          zip.file(outName, pdf);
+          return true;
+        }
+        if (rt === 'EXECUTIVE_PACK_V1') {
+          const { renderExecutivePackPdfV1 } = await import('./modules/reports/executivePack/v1/renderExecutivePackPdfV1');
+          const pdf = await renderExecutivePackPdfV1({ packJson: (rev as any)?.packJson });
+          zip.file(outName, pdf);
+          return true;
+        }
+        return false;
+      } catch {
+        return false;
+      }
+    };
+
+    const chooseBestPackForRun = (rt: 'ENGINEERING_PACK_V1' | 'EXECUTIVE_PACK_V1'): any | null => {
+      if (!runId) return null;
+      const reports = project?.reportsV1 && typeof project.reportsV1 === 'object' ? project.reportsV1 : {};
+      const bucket = rt === 'ENGINEERING_PACK_V1' ? (Array.isArray(reports?.engineeringPackV1) ? reports.engineeringPackV1 : []) : (Array.isArray(reports?.executivePackV1) ? reports.executivePackV1 : []);
+      const matches = bucket.filter((r: any) => String(r?.runId || '').trim() === String(runId));
+      const narrowed = wizardOutputHash ? matches.filter((r: any) => String(r?.wizardOutputHash || '').trim() === String(wizardOutputHash)) : matches;
+      const pool = narrowed.length ? narrowed : matches;
+      if (!pool.length) return null;
+      pool.sort((a: any, b: any) => String(b?.createdAt || '').localeCompare(String(a?.createdAt || '')));
+      return pool[0] || null;
+    };
+
+    // Always include the primary revision's derived PDF when supported.
+    if (primaryType === 'ENGINEERING_PACK_V1') await renderPackPdfIfPossible(primaryType, primaryRev, 'engineering-pack.pdf');
+    if (primaryType === 'EXECUTIVE_PACK_V1') await renderPackPdfIfPossible(primaryType, primaryRev, 'executive-pack.pdf');
+
+    // Optionally include sibling pack PDFs for the same run.
+    const engForRun = chooseBestPackForRun('ENGINEERING_PACK_V1');
+    const execForRun = chooseBestPackForRun('EXECUTIVE_PACK_V1');
+    if (engForRun) await renderPackPdfIfPossible('ENGINEERING_PACK_V1', engForRun, 'engineering-pack.pdf');
+    if (execForRun) await renderPackPdfIfPossible('EXECUTIVE_PACK_V1', execForRun, 'executive-pack.pdf');
+
+    const safeArtifactJson =
+      primaryType === 'INTERNAL_ENGINEERING_V1'
+        ? { success: true, reportType: primaryType, revisionId, reportJson: primaryRev?.reportJson ?? null }
+        : { success: true, reportType: primaryType, revisionId, packJson: primaryRev?.packJson ?? null };
+    zip.file('pack.json', JSON.stringify(safeArtifactJson, null, 2));
+
+    const readmeLines: string[] = [];
+    readmeLines.push('EverWatt Portal Bundle (snapshot-only)');
+    readmeLines.push('');
+    readmeLines.push(`projectId: ${projectId}`);
+    readmeLines.push(`revisionId: ${revisionId}`);
+    readmeLines.push(`reportType: ${primaryType}`);
+    if (createdAtIso) readmeLines.push(`createdAtIso: ${createdAtIso}`);
+    if (runId) readmeLines.push(`runId: ${runId}`);
+    if (wizardOutputHash) readmeLines.push(`wizardOutputHash: ${wizardOutputHash}`);
+    readmeLines.push('');
+    readmeLines.push('engineVersions:');
+    for (const k of Object.keys(engineVersions || {}).sort()) readmeLines.push(`- ${k}: ${String((engineVersions as any)[k])}`);
+    if (warningsSummary) {
+      readmeLines.push('');
+      readmeLines.push('warningsSummary:');
+      readmeLines.push(`- engineWarningsCount: ${String((warningsSummary as any)?.engineWarningsCount ?? '')}`);
+      readmeLines.push(`- missingInfoCount: ${String((warningsSummary as any)?.missingInfoCount ?? '')}`);
+    }
+    readmeLines.push('');
+    readmeLines.push('Disclaimer: snapshot-only artifact; no recompute.');
+    zip.file('README.txt', readmeLines.join('\n'));
+
+    const out = await zip.generateAsync({ type: 'nodebuffer' });
+    const filename = buildRevisionFilenameV1({ reportType: primaryType, projectOrReportId: projectId, revisionId, createdAtIso, ext: 'zip' });
+    c.header('Content-Type', 'application/zip');
+    c.header('Content-Disposition', `attachment; filename="${filename}"`);
+    return c.body(new Uint8Array(out));
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to build bundle';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
 app.get('/api/change-orders/next-number', async (c) => {
   const userId = getCurrentUserId(c);
   const projectId = String(c.req.query('projectId') || '').trim();

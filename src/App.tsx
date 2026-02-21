@@ -26,6 +26,9 @@ import { CarbonFootprintReport } from './modules/reports/pages/reports/CarbonFoo
 import { ReportRevisionLandingPage } from './pages/modules/reports/ReportRevisionLandingPage';
 import { SharedRevisionLandingPage } from './pages/modules/reports/SharedRevisionLandingPage';
 import { SharesAdminV1Page } from './pages/modules/reports/SharesAdminV1Page';
+import { PortalLoginPage } from './pages/modules/portal/PortalLoginPage';
+import { PortalHomePage } from './pages/modules/portal/PortalHomePage';
+import { PortalProjectPage } from './pages/modules/portal/PortalProjectPage';
 import { HVACOptimizer } from './modules/hvac_optimizer/pages/HVACOptimizer';
 import { UtilitiesAndProgramsLanding } from './modules/utilities/pages/UtilitiesAndProgramsLanding';
 import { UtilitiesAndPrograms } from './modules/utilities/pages/UtilitiesAndPrograms';
@@ -101,6 +104,9 @@ function App() {
         <Route path="/reports/revisions/:revisionId" element={withBoundary(<ReportRevisionLandingPage />)} />
         <Route path="/reports/shares" element={withBoundary(<SharesAdminV1Page />)} />
         <Route path="/share/:token" element={withBoundary(<SharedRevisionLandingPage />)} />
+        <Route path="/portal/login" element={withBoundary(<PortalLoginPage />)} />
+        <Route path="/portal/projects/:projectId" element={withBoundary(<PortalProjectPage />)} />
+        <Route path="/portal" element={withBoundary(<PortalHomePage />)} />
         <Route path="/reports/*" element={withBoundary(<Reports />)} />
         <Route path="/reports/pge-regression" element={withBoundary(<PGERegressionReport />)} />
         <Route path="/reports/regression-analysis" element={withBoundary(<RegressionReportGenerator />)} />
