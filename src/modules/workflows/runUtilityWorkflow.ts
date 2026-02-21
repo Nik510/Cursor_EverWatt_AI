@@ -7,6 +7,7 @@ import { buildAnalysisTraceV1 } from '../utilityIntelligence/analysisTraceV1/bui
 import type { AnalysisTraceV1 } from '../utilityIntelligence/analysisTraceV1/types';
 import { normalizeIntervalInputsV1 } from '../utilityIntelligence/intervalNormalizationV1/normalizeIntervalInputsV1.node';
 import { StepTraceV1 } from '../utilityIntelligence/stepTraceV1';
+import { runTruthEngineV1 } from '../truthEngineV1/runTruthEngineV1';
 
 import { shouldEvaluateBattery } from '../batteryIntelligence/shouldEvaluateBattery';
 import { selectBatteryCandidatesV1 } from '../batteryIntelligence/selectCandidates';
@@ -55,6 +56,7 @@ export async function runUtilityWorkflow(args: {
     gate: ReturnType<typeof shouldEvaluateBattery>;
     selection: ReturnType<typeof selectBatteryCandidatesV1>;
   };
+  truthSnapshotV1: ReturnType<typeof runTruthEngineV1>;
   inbox: {
     utility: ReturnType<typeof toInboxSuggestions>;
     battery: ReturnType<typeof toBatteryRecommendationsV1>;
@@ -123,9 +125,18 @@ export async function runUtilityWorkflow(args: {
     steps: stepTraceV1.getSteps(),
   });
 
+  const truthSnapshotV1 = runTruthEngineV1({
+    generatedAtIso: nowIso,
+    normalizedIntervalV1,
+    intervalPointsV1: args.intervalPointsV1 || null,
+    hasBillText: Boolean(String(args.inputs?.billPdfText || '').trim()),
+    billingMonthly: (args.inputs as any)?.billingSummary?.monthly ?? null,
+  });
+
   return {
     utility,
     battery: { gate, selection },
+    truthSnapshotV1,
     inbox: {
       utility: utilityInbox,
       battery: batteryInbox,

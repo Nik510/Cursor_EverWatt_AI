@@ -25,7 +25,7 @@
       },
       {
         "atIso": "2026-03-01T00:00:00.000Z",
-        "hash": "b86710f161049409ad9186a178a9718ab1fdb422e5dabb1d90baf7c471315b5b",
+        "hash": "3ebead51bf4dd5e2c4a5daaaac108aa011ddbfe183496aff086173a41544bc3a",
         "runIdsUsed": [
           "run_golden_02_b"
         ],
@@ -55,9 +55,9 @@
     "updatedAtIso": "2026-03-01T00:00:00.000Z",
     "warnings": [],
     "wizardOutputV1": {
-      "approxBytes": 22558,
+      "approxBytes": 23233,
       "generatedAtIso": "2026-03-01T00:00:00.000Z",
-      "hash": "b86710f161049409ad9186a178a9718ab1fdb422e5dabb1d90baf7c471315b5b",
+      "hash": "3ebead51bf4dd5e2c4a5daaaac108aa011ddbfe183496aff086173a41544bc3a",
       "kind": "INLINE",
       "revisionIdsUsed": [
         "rev_02_multi_run_latest_revision_and_wizard"
@@ -268,6 +268,18 @@
             "title": "Rate fit status"
           },
           {
+            "confidence0to1": 0.45,
+            "evidenceRefs": [
+              "analysisRun:run_golden_02_b:reportJson.truthSnapshotV1"
+            ],
+            "id": "truth_building_story",
+            "severity": "warning",
+            "summaryBullets": [
+              "Truth Engine confidence: C"
+            ],
+            "title": "Building story (Truth Engine v1)"
+          },
+          {
             "confidence0to1": 0.7,
             "evidenceRefs": [
               "analysisRun:run_golden_02_b:reportJson.batteryDecisionPackV1_2"
@@ -473,7 +485,7 @@
             "warnCount": 0
           }
         },
-        "wizardOutputHash": "b86710f161049409ad9186a178a9718ab1fdb422e5dabb1d90baf7c471315b5b",
+        "wizardOutputHash": "3ebead51bf4dd5e2c4a5daaaac108aa011ddbfe183496aff086173a41544bc3a",
         "wizardSteps": [
           {
             "evidence": {
@@ -551,6 +563,16 @@
             ],
             "status": "NEEDS_INPUT",
             "title": "Interval data (CSV)"
+          },
+          {
+            "evidence": {
+              "runId": "run_golden_02_b"
+            },
+            "helpText": "Optional: interval data unlocks baseline expectations, residual maps, changepoints, and bounded anomaly ledger.",
+            "id": "building_story",
+            "requiredActions": [],
+            "status": "OPTIONAL",
+            "title": "Building story (Truth Engine v1)"
           },
           {
             "evidence": {
@@ -867,6 +889,18 @@
         "title": "Rate fit status"
       },
       {
+        "confidence0to1": 0.45,
+        "evidenceRefs": [
+          "analysisRun:run_golden_02_b:reportJson.truthSnapshotV1"
+        ],
+        "id": "truth_building_story",
+        "severity": "warning",
+        "summaryBullets": [
+          "Truth Engine confidence: C"
+        ],
+        "title": "Building story (Truth Engine v1)"
+      },
+      {
         "confidence0to1": 0.7,
         "evidenceRefs": [
           "analysisRun:run_golden_02_b:reportJson.batteryDecisionPackV1_2"
@@ -1072,7 +1106,7 @@
         "warnCount": 0
       }
     },
-    "wizardOutputHash": "b86710f161049409ad9186a178a9718ab1fdb422e5dabb1d90baf7c471315b5b",
+    "wizardOutputHash": "3ebead51bf4dd5e2c4a5daaaac108aa011ddbfe183496aff086173a41544bc3a",
     "wizardSteps": [
       {
         "evidence": {
@@ -1150,6 +1184,16 @@
         ],
         "status": "NEEDS_INPUT",
         "title": "Interval data (CSV)"
+      },
+      {
+        "evidence": {
+          "runId": "run_golden_02_b"
+        },
+        "helpText": "Optional: interval data unlocks baseline expectations, residual maps, changepoints, and bounded anomaly ledger.",
+        "id": "building_story",
+        "requiredActions": [],
+        "status": "OPTIONAL",
+        "title": "Building story (Truth Engine v1)"
       },
       {
         "evidence": {

@@ -51,7 +51,7 @@ import type { AdminSession, UserRole } from './backend/admin/types';
 import { signJwt, verifyJwt, getBearerTokenFromAuthHeader, assertJwtSecretConfigured } from './services/auth-service';
 import { authMiddleware, requireRole as requireJwtRole } from './middleware/auth';
 import { ensureDatabaseSchema, isDatabaseEnabled } from './db/client';
-import { isApiError } from './middleware/error-handler';
+import { ApiError, isApiError } from './middleware/error-handler';
 import { securityHeaders } from './middleware/security';
 import { rateLimit } from './middleware/rate-limit';
 import { parseGoogleSheetsUrl, toGoogleSheetsCsvExportUrl } from './utils/google-sheets';
@@ -75,6 +75,7 @@ import { applyTariffBusinessCanonV1 } from './modules/tariffLibrary/businessCano
 import { applyTariffEffectiveStatusV1 } from './modules/tariffLibrary/effectiveStatusV1';
 import { applyTariffCurationV1, loadTariffCurationV1 } from './modules/policy/curation/loadTariffCurationV1';
 import { getLatestProgramsV1 } from './modules/programLibrary/v1';
+import { verifyPortalSessionV1 } from './modules/portalV1/portalSessionV1';
 
 const DEFAULT_UPLOADS_DIR = path.join(tmpdir(), 'everwatt-uploads');
 const DEFAULT_SAMPLES_DIR = path.join(process.cwd(), 'samples');
@@ -138,8 +139,56 @@ function makeRequestScopedIdFactory(args: { prefix: string; runId: string }): ()
 
 const app = new Hono();
 
-// Enable CORS for frontend
-app.use('*', cors());
+/**
+ * CORS lockdown (fail closed by default)
+ * - dev: allow local Vite origins + optional env overrides
+ * - prod: allow only EVERWATT_CORS_ORIGINS (comma-separated)
+ */
+const ENV_CORS_ORIGINS = 'EVERWATT_CORS_ORIGINS';
+const DEV_CORS_DEFAULTS = new Set([
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:5175',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:5174',
+  'http://127.0.0.1:5175',
+]);
+
+function parseCorsOriginsV1(raw: string): string[] {
+  return String(raw || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function getAllowedCorsOriginsV1(): Set<string> {
+  const env = parseCorsOriginsV1(String(process.env[ENV_CORS_ORIGINS] || ''));
+  if (isProductionEnv()) return new Set(env);
+  const out = new Set<string>([...DEV_CORS_DEFAULTS, ...env]);
+  return out;
+}
+
+const allowedCorsOriginsV1 = getAllowedCorsOriginsV1();
+
+app.use(
+  '*',
+  cors({
+    origin: (origin) => {
+      const o = String(origin || '').trim();
+      if (!o) return undefined;
+      return allowedCorsOriginsV1.has(o) ? o : undefined;
+    },
+    credentials: true,
+  })
+);
+
+app.use('*', async (c, next) => {
+  const origin = String(c.req.header('Origin') || '').trim();
+  if (origin && allowedCorsOriginsV1.has(origin)) {
+    c.header('Vary', 'Origin');
+  }
+  await next();
+});
 // Basic security headers
 app.use('*', securityHeaders());
 // Attach JWT user (if present) onto context
@@ -154,6 +203,142 @@ app.use(
     max: Number(process.env.AI_RATE_LIMIT_MAX || 60),
   })
 );
+
+const MAX_JSON_BYTES = (() => {
+  const raw = process.env.EVERWATT_MAX_JSON_BYTES;
+  const parsed = raw !== undefined ? Number(raw) : 2_000_000; // default 2MB
+  const n = Number.isFinite(parsed) && parsed > 0 ? parsed : 2_000_000;
+  // Allow small values for deterministic security tests; keep a hard max.
+  return Math.max(1, Math.min(10 * 1024 * 1024, Math.trunc(n)));
+})();
+const MAX_MULTIPART_BYTES = (() => {
+  const raw = process.env.EVERWATT_MAX_MULTIPART_BYTES;
+  const parsed = raw !== undefined ? Number(raw) : 30_000_000; // default 30MB
+  const n = Number.isFinite(parsed) && parsed > 0 ? parsed : 30_000_000;
+  return Math.max(1, Math.min(200 * 1024 * 1024, Math.trunc(n)));
+})();
+
+async function readJsonWithLimitV1(c: Context, maxBytes: number): Promise<any> {
+  const ab = await c.req.raw.arrayBuffer();
+  const buf = Buffer.from(ab);
+  if (buf.length > maxBytes) {
+    throw new ApiError('Payload too large', { status: 413, code: 'PAYLOAD_TOO_LARGE', details: { maxBytes } });
+  }
+  const text = buf.toString('utf-8').trim();
+  if (!text) return {};
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new ApiError('Invalid JSON', { status: 400, code: 'INVALID_JSON' });
+  }
+}
+
+const HEAVY_ENDPOINT_TIMEOUT_MS = (() => {
+  const raw = process.env.EVERWATT_HEAVY_ENDPOINT_TIMEOUT_MS;
+  const parsed = raw !== undefined ? Number(raw) : isProductionEnv() ? 120_000 : 0; // default 120s in prod, off elsewhere
+  const n = Number.isFinite(parsed) && parsed >= 0 ? parsed : isProductionEnv() ? 120_000 : 0;
+  return Math.max(0, Math.min(30 * 60_000, Math.trunc(n)));
+})();
+
+async function withTimeoutV1<T>(p: Promise<T>, ms: number, label: string): Promise<T> {
+  if (!ms || ms <= 0) return await p;
+  let t: NodeJS.Timeout | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    t = setTimeout(() => reject(new ApiError('Request timed out', { status: 504, code: 'TIMEOUT', details: { label, timeoutMs: ms } })), ms);
+  });
+  try {
+    return await Promise.race([p, timeout]);
+  } finally {
+    if (t) clearTimeout(t);
+  }
+}
+
+// Best-effort request size limits (fail closed when Content-Length is provided)
+app.use('/api/*', async (c, next) => {
+  const method = String(c.req.method || 'GET').toUpperCase();
+  if (method === 'POST' || method === 'PUT' || method === 'PATCH') {
+    const ct = String(c.req.header('content-type') || '').toLowerCase();
+    const len = Number(c.req.header('content-length') || 0);
+    if (Number.isFinite(len) && len > 0) {
+      if (ct.includes('application/json') && len > MAX_JSON_BYTES) {
+        return c.json({ success: false, error: 'Payload too large', code: 'PAYLOAD_TOO_LARGE' }, 413);
+      }
+      if (ct.includes('multipart/form-data') && len > MAX_MULTIPART_BYTES) {
+        return c.json({ success: false, error: 'Payload too large', code: 'PAYLOAD_TOO_LARGE' }, 413);
+      }
+    }
+  }
+  await next();
+});
+
+type RequestIdentityV1 =
+  | { kind: 'jwt'; userId: string }
+  | { kind: 'admin'; userId: string }
+  | { kind: 'portal'; userId: string }
+  | { kind: 'devHeader'; userId: string }
+  | { kind: 'share'; token: string }
+  | { kind: 'none' };
+
+function getRequestIdentityV1(c: Context): RequestIdentityV1 {
+  const authz = String(c.req.header('Authorization') || '').trim();
+  if (/^share\s+/i.test(authz)) {
+    const token = authz.replace(/^share\s+/i, '').trim();
+    return token ? { kind: 'share', token } : { kind: 'none' };
+  }
+
+  const jwtToken = getBearerTokenFromAuthHeader(authz);
+  const jwtUser = jwtToken ? verifyJwt(jwtToken) : null;
+  if (jwtUser?.userId) return { kind: 'jwt', userId: jwtUser.userId };
+
+  const adminSession = getAdminSessionFromRequest(c);
+  if (adminSession?.userId) return { kind: 'admin', userId: adminSession.userId };
+
+  // Portal session cookie (signed; deeper validation happens in portal routes)
+  try {
+    const cookie = String(getCookie(c, 'portal_session') || '').trim();
+    if (cookie) {
+      const parsed = verifyPortalSessionV1(cookie);
+      if (parsed?.userId) return { kind: 'portal', userId: parsed.userId };
+    }
+  } catch {
+    // ignore
+  }
+
+  // Development-only escape hatch for internal tooling/tests.
+  // CRITICAL: must never be accepted in production.
+  if (!isProductionEnv()) {
+    const hdr = String(c.req.header('x-user-id') || '').trim();
+    if (hdr) return { kind: 'devHeader', userId: hdr };
+  }
+
+  return { kind: 'none' };
+}
+
+function requireUserIdentityV1(c: Context): string {
+  const id = getRequestIdentityV1(c);
+  if (id.kind === 'jwt' || id.kind === 'admin' || id.kind === 'portal' || id.kind === 'devHeader') return id.userId;
+  throw new ApiError('Unauthorized', { status: 401, code: 'UNAUTHENTICATED' });
+}
+
+// Protected user-scoped APIs (must never accept spoofed headers)
+const PROTECTED_USER_SCOPED_ROUTES = [
+  '/api/files/*',
+  '/api/analyses',
+  '/api/analyses/*',
+  '/api/projects/*',
+  '/api/calculations',
+  '/api/calculations/*',
+  '/api/audits',
+  '/api/audits/*',
+  '/api/change-orders',
+  '/api/change-orders/*',
+];
+for (const p of PROTECTED_USER_SCOPED_ROUTES) {
+  app.use(p as any, async (c, next) => {
+    requireUserIdentityV1(c);
+    await next();
+  });
+}
 
 // Standardize "not found" responses
 app.notFound((c) => {
@@ -1341,7 +1526,16 @@ app.post('/api/files/upload', async (c) => {
       return c.json({ success: false, error: 'file is required' }, 400);
     }
 
+    const MAX_FILE_BYTES = Math.max(1 * 1024 * 1024, Math.min(500 * 1024 * 1024, Number(process.env.EVERWATT_MAX_UPLOAD_FILE_BYTES || 25_000_000))); // default 25MB/file
+    // Best-effort precheck using File.size (not always populated depending on runtime)
+    if (Number(file.size || 0) > MAX_FILE_BYTES) {
+      return c.json({ success: false, error: 'File too large', code: 'PAYLOAD_TOO_LARGE' }, 413);
+    }
+
     const buf = Buffer.from(await file.arrayBuffer());
+    if (buf.length > MAX_FILE_BYTES) {
+      return c.json({ success: false, error: 'File too large', code: 'PAYLOAD_TOO_LARGE' }, 413);
+    }
     const contentType = file.type || 'application/octet-stream';
 
     const { putUserFile } = await import('./services/storage-service');
@@ -1385,13 +1579,25 @@ app.get('/api/files/*', async (c) => {
 
 app.post('/api/auth/login', async (c) => {
   try {
-    const body = await c.req.json();
-    const email = String(body?.email || '').trim();
-    const userId = String(body?.userId || '').trim();
-    const role = (String(body?.role || 'viewer') as UserRole) || 'viewer';
+    // Demo-only endpoint: disabled in production.
+    if (isProductionEnv() || !demoAuthEnabled()) return internalEndpointNotFound(c);
 
-    // Minimal “dev login” (replace with DB + password later)
-    const resolvedUserId = userId || (email ? `user:${email.toLowerCase()}` : `user:${randomUUID()}`);
+    const body = await readJsonWithLimitV1(c, MAX_JSON_BYTES);
+    const email = String((body as any)?.email || '').trim();
+    const userId = String((body as any)?.userId || '').trim();
+
+    // Deterministic, non-escalatable demo login: role is always VIEWER.
+    const role: UserRole = 'viewer';
+    const requestedUserId = userId;
+    const userIdSafeRe = /^[A-Za-z0-9_-]{1,120}$/;
+    if (requestedUserId && !userIdSafeRe.test(requestedUserId)) {
+      return c.json({ success: false, error: 'Invalid userId (expected [A-Za-z0-9_-])', code: 'INVALID_USER_ID' }, 400);
+    }
+    const resolvedUserId = requestedUserId
+      ? requestedUserId
+      : email
+        ? `user_${createHash('sha256').update(email.toLowerCase()).digest('hex').slice(0, 24)}`
+        : `user_${randomUUID().replace(/-/g, '')}`;
 
     const token = signJwt(
       {
@@ -1408,6 +1614,9 @@ app.post('/api/auth/login', async (c) => {
       user: { userId: resolvedUserId, email: email || undefined, role },
     });
   } catch (error) {
+    if (isApiError(error)) {
+      return c.json({ success: false, error: error.message, ...(error.code ? { code: error.code } : {}) }, error.status as any);
+    }
     console.error('Auth login error:', error);
     return c.json({ success: false, error: 'Login failed' }, 500);
   }
@@ -1448,15 +1657,20 @@ function getAdminSessionFromRequest(c: Context): AdminSession | null {
   return verifySession(token);
 }
 
-function requireRole(c: Context, role: UserRole): AdminSession | null {
+function requireRole(c: Context, role: UserRole): AdminSession {
   const session = getAdminSessionFromRequest(c);
-  if (!hasPermission(session, role)) return null;
+  if (!session) {
+    throw new ApiError('Unauthorized', { status: 401, code: 'UNAUTHENTICATED' });
+  }
+  if (!hasPermission(session, role)) {
+    throw new ApiError('Forbidden', { status: 403, code: 'FORBIDDEN' });
+  }
   return session;
 }
 
 app.post('/api/admin/login', async (c) => {
   try {
-    const body = await c.req.json();
+    const body = await readJsonWithLimitV1(c, MAX_JSON_BYTES);
     const email = String(body?.email || '');
     const password = String(body?.password || '');
 
@@ -1467,6 +1681,9 @@ app.post('/api/admin/login', async (c) => {
 
     return c.json({ success: true, session });
   } catch (error) {
+    if (isApiError(error)) {
+      return c.json({ success: false, error: error.message, ...(error.code ? { code: error.code } : {}) }, error.status as any);
+    }
     console.error('Admin login error:', error);
     return c.json({ success: false, error: 'Login failed' }, 500);
   }
@@ -2344,6 +2561,39 @@ app.post('/api/analyze', async (c) => {
       );
     }
 
+    const MAX_FILE_BYTES = (() => {
+      const raw = process.env.EVERWATT_MAX_UPLOAD_FILE_BYTES;
+      const parsed = raw !== undefined ? Number(raw) : 25_000_000; // default 25MB/file
+      const n = Number.isFinite(parsed) && parsed > 0 ? parsed : 25_000_000;
+      // Allow small values for deterministic security tests; keep a hard max.
+      return Math.max(1, Math.min(200 * 1024 * 1024, Math.trunc(n)));
+    })();
+
+    function isSuspiciousUploadName(name: string): boolean {
+      const raw = String(name || '');
+      if (!raw) return true;
+      if (raw.includes('\0')) return true;
+      if (raw.includes('/') || raw.includes('\\')) return true;
+      if (raw.includes('..')) return true;
+      return false;
+    }
+
+    function pickAllowedExt(name: string, allow: Set<string>, fallback: string): string {
+      const ext = path.extname(String(name || '').trim()).toLowerCase();
+      if (ext && allow.has(ext)) return ext;
+      return fallback;
+    }
+
+    const allowExt = new Set(['.csv', '.xlsx', '.xls']);
+    if (isSuspiciousUploadName(intervalFile.name) || isSuspiciousUploadName(monthlyBillFile.name)) {
+      return c.json({ success: false, error: 'Invalid filename', code: 'INVALID_FILENAME' }, 400);
+    }
+
+    // Best-effort early limit using File.size (not always populated depending on runtime)
+    if (Number(intervalFile.size || 0) > MAX_FILE_BYTES || Number(monthlyBillFile.size || 0) > MAX_FILE_BYTES) {
+      return c.json({ success: false, error: 'File too large', code: 'PAYLOAD_TOO_LARGE' }, 413);
+    }
+
     // Create temporary directory
     const tempDir = path.join(tmpdir(), 'everwatt-uploads');
     if (!existsSync(tempDir)) {
@@ -2351,12 +2601,18 @@ app.post('/api/analyze', async (c) => {
     }
 
     // Generate unique filenames
-    const intervalFilePath = path.join(tempDir, `interval_${Date.now()}_${intervalFile.name}`);
-    const monthlyBillFilePath = path.join(tempDir, `bills_${Date.now()}_${monthlyBillFile.name}`);
+    const intervalExt = pickAllowedExt(intervalFile.name, allowExt, '.xlsx');
+    const billsExt = pickAllowedExt(monthlyBillFile.name, allowExt, '.xlsx');
+    const intervalFilePath = path.join(tempDir, `interval_${Date.now()}_${randomUUID()}${intervalExt}`);
+    const monthlyBillFilePath = path.join(tempDir, `bills_${Date.now()}_${randomUUID()}${billsExt}`);
 
-    // Save uploaded files
+    // Read uploaded files into memory (enforce size on bytes, not just File.size)
     const intervalFileBuffer = Buffer.from(await intervalFile.arrayBuffer());
     const monthlyBillFileBuffer = Buffer.from(await monthlyBillFile.arrayBuffer());
+
+    if (intervalFileBuffer.length > MAX_FILE_BYTES || monthlyBillFileBuffer.length > MAX_FILE_BYTES) {
+      return c.json({ success: false, error: 'File too large', code: 'PAYLOAD_TOO_LARGE' }, 413);
+    }
     
     await writeFile(intervalFilePath, intervalFileBuffer);
     await writeFile(monthlyBillFilePath, monthlyBillFileBuffer);
@@ -4772,17 +5028,7 @@ if (!existsSync(CHANGE_ORDERS_DIR)) {
  * Get current user ID (placeholder - replace with actual auth)
  */
 function getCurrentUserId(c: Context): string {
-  // Prefer JWT user (normal auth)
-  const jwtToken = getBearerTokenFromAuthHeader(c.req.header('Authorization'));
-  const jwtUser = jwtToken ? verifyJwt(jwtToken) : null;
-  if (jwtUser?.userId) return jwtUser.userId;
-
-  // Also accept server-validated admin session when available
-  const adminSession = getAdminSessionFromRequest(c);
-  if (adminSession?.userId) return adminSession.userId;
-
-  // Fallback for non-admin flows
-  return c.req.header('x-user-id') || 'default-user';
+  return requireUserIdentityV1(c);
 }
 
 /**
@@ -5577,7 +5823,12 @@ async function initializeLibraryStorage() {
 // Helper to check admin status (server-validated admin sessions)
 function isAdmin(c: Context): boolean {
   // Admin session tokens
-  if (requireRole(c, 'admin')) return true;
+  try {
+    const session = getAdminSessionFromRequest(c);
+    if (session && hasPermission(session, 'admin')) return true;
+  } catch {
+    // ignore
+  }
 
   // JWT role
   const jwtToken = getBearerTokenFromAuthHeader(c.req.header('Authorization'));
@@ -6320,7 +6571,8 @@ app.get('/api/projects/:id/analysis-results-v1', async (c) => {
       ...(tariffOverrideV1 ? { tariffOverrideV1 } : {}),
     };
 
-    const workflow = await runUtilityWorkflow({
+    const workflow = await withTimeoutV1(
+      runUtilityWorkflow({
       inputs,
       meterId: String(c.req.query('meterId') || '').trim() || undefined,
       intervalKwSeries,
@@ -6330,7 +6582,10 @@ app.get('/api/projects/:id/analysis-results-v1', async (c) => {
       idFactory,
       suggestionIdFactory,
       inboxIdFactory,
-    });
+      }),
+      HEAVY_ENDPOINT_TIMEOUT_MS,
+      'runUtilityWorkflow'
+    );
 
     const summary = generateUtilitySummaryV1({
       inputs,
@@ -6491,16 +6746,20 @@ app.get('/api/projects/:id/analysis-results-v1.pdf', async (c) => {
       ...(tariffOverrideV1 ? { tariffOverrideV1 } : {}),
     };
 
-    const workflow = await runUtilityWorkflow({
-      inputs,
-      meterId: String(c.req.query('meterId') || '').trim() || undefined,
-      intervalKwSeries,
-      batteryLibrary: lib.library.items,
-      nowIso,
-      idFactory,
-      suggestionIdFactory,
-      inboxIdFactory,
-    });
+    const workflow = await withTimeoutV1(
+      runUtilityWorkflow({
+        inputs,
+        meterId: String(c.req.query('meterId') || '').trim() || undefined,
+        intervalKwSeries,
+        batteryLibrary: lib.library.items,
+        nowIso,
+        idFactory,
+        suggestionIdFactory,
+        inboxIdFactory,
+      }),
+      HEAVY_ENDPOINT_TIMEOUT_MS,
+      'runUtilityWorkflow'
+    );
 
     const summary = generateUtilitySummaryV1({
       inputs,

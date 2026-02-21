@@ -4,6 +4,7 @@ import path from 'node:path';
 import { mkdtempSync, rmSync } from 'node:fs';
 
 import './helpers/mockHeavyServerDeps';
+import { enableDemoJwtForTests, getDemoBearerToken } from './helpers/demoJwt';
 
 describe('stakeholder report packs v1 bundle.zip endpoint (smoke)', () => {
   it('returns a zip of stored artifacts (no recompute)', async () => {
@@ -24,12 +25,14 @@ describe('stakeholder report packs v1 bundle.zip endpoint (smoke)', () => {
 
     try {
       vi.resetModules();
+      enableDemoJwtForTests();
       const { default: app } = await import('../src/server');
       const { default: JSZip } = await import('jszip');
+      const authz = await getDemoBearerToken(app, 'u_test@example.com', 'u_test');
 
       const createRes = await app.request('/api/report-sessions-v1/create', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ kind: 'WIZARD', title: 'Test Session' }),
       });
       expect(createRes.status).toBe(200);
@@ -39,7 +42,7 @@ describe('stakeholder report packs v1 bundle.zip endpoint (smoke)', () => {
 
       const runRes = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/run-utility`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ workflowInputs: { demo: true } }),
       });
       expect(runRes.status).toBe(200);
@@ -50,26 +53,30 @@ describe('stakeholder report packs v1 bundle.zip endpoint (smoke)', () => {
 
       const genEng = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/generate-engineering-pack`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({}),
       });
-      expect(genEng.status).toBe(200);
+      if (genEng.status !== 200) {
+        throw new Error(`generate-engineering-pack failed: ${genEng.status} ${await genEng.text()}`);
+      }
       const engJson: any = await genEng.json();
       const engRevId = String(engJson?.revisionMeta?.revisionId || '').trim();
       expect(engRevId).toBeTruthy();
 
       const genExec = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/generate-executive-pack`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({}),
       });
-      expect(genExec.status).toBe(200);
+      if (genExec.status !== 200) {
+        throw new Error(`generate-executive-pack failed: ${genExec.status} ${await genExec.text()}`);
+      }
       const execJson: any = await genExec.json();
       const execRevId = String(execJson?.revisionMeta?.revisionId || '').trim();
       expect(execRevId).toBeTruthy();
 
       const zipRes = await app.request(`/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(execRevId)}/bundle.zip`, {
-        headers: { 'x-user-id': 'u_test' },
+        headers: { Authorization: authz },
       });
       expect(zipRes.status).toBe(200);
       expect(String(zipRes.headers.get('content-type') || '')).toContain('application/zip');
@@ -96,7 +103,7 @@ describe('stakeholder report packs v1 bundle.zip endpoint (smoke)', () => {
       // Prove GET is snapshot-only: delete analysis runs dir and re-fetch bundle.
       rmSync(runsDir, { recursive: true, force: true });
       const zipRes2 = await app.request(`/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(execRevId)}/bundle.zip`, {
-        headers: { 'x-user-id': 'u_test' },
+        headers: { Authorization: authz },
       });
       expect(zipRes2.status).toBe(200);
     } finally {

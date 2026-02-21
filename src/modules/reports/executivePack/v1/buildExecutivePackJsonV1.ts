@@ -59,6 +59,15 @@ export type ExecutivePackJsonV1 = {
     analysisRunCreatedAtIso?: string;
   };
   topFindings: string[];
+  /** Snapshot-only Truth Engine summary (no recompute on GET). */
+  truthEngineV1?:
+    | {
+        confidenceTier: 'A' | 'B' | 'C' | 'UNKNOWN';
+        bullets: string[];
+        residualPeakHours: Array<{ dow: number; hour: number; meanResidualKw: number; sampleCount: number }>;
+        requiredNextData: string[];
+      }
+    | null;
   kpis: {
     annualKwhEstimate?: { value: number; confidenceTier?: string; source: string } | null;
     baseloadKw?: { value: number; confidenceTier?: string; source: string } | null;
@@ -177,6 +186,56 @@ function parseWizardTopFindings(wizardOutput: any): string[] {
     if (line) out.push(line);
   }
   return uniqSorted(out, 10).slice(0, 5);
+}
+
+function extractTruthEngineExecSummary(reportJson: any): ExecutivePackJsonV1['truthEngineV1'] {
+  const truth: any = reportJson?.truthSnapshotV1 ?? reportJson?.workflow?.truthSnapshotV1 ?? null;
+  if (!truth || typeof truth !== 'object' || String(truth?.schemaVersion) !== 'truthSnapshotV1') return null;
+
+  const tierRaw = stableString(truth?.truthConfidence?.tier, 10).toUpperCase();
+  const confidenceTier: 'A' | 'B' | 'C' | 'UNKNOWN' = tierRaw === 'A' || tierRaw === 'B' || tierRaw === 'C' ? (tierRaw as any) : 'UNKNOWN';
+
+  const cps: any[] = Array.isArray(truth?.changepointsV1) ? truth.changepointsV1 : [];
+  cps.sort(
+    (a, b) =>
+      Number(b?.confidence || 0) - Number(a?.confidence || 0) ||
+      Math.abs(Number(b?.magnitude || 0)) - Math.abs(Number(a?.magnitude || 0)) ||
+      stableString(a?.atIso, 60).localeCompare(stableString(b?.atIso, 60)) ||
+      stableString(a?.type, 60).localeCompare(stableString(b?.type, 60)),
+  );
+
+  const anoms: any[] = Array.isArray(truth?.anomalyLedgerV1) ? truth.anomalyLedgerV1 : [];
+
+  const peakHours: any[] = Array.isArray(truth?.residualMapsV1?.peakResidualHours) ? truth.residualMapsV1.peakResidualHours : [];
+  const residualPeakHours = peakHours
+    .map((p) => ({
+      dow: Math.max(0, Math.min(6, Math.trunc(Number(p?.dow)))),
+      hour: Math.max(0, Math.min(23, Math.trunc(Number(p?.hour)))),
+      meanResidualKw: Number.isFinite(Number(p?.meanResidualKw)) ? Number(p.meanResidualKw) : 0,
+      sampleCount: Number.isFinite(Number(p?.sampleCount)) ? Math.max(0, Math.trunc(Number(p.sampleCount))) : 0,
+    }))
+    .slice(0, 6);
+
+  const requiredNextData = uniqSorted(
+    anoms
+      .flatMap((a) => (Array.isArray(a?.requiredNextData) ? a.requiredNextData : []))
+      .map((x) => stableString(x, 140))
+      .filter(Boolean),
+    12,
+  );
+
+  const bullets: string[] = [];
+  bullets.push(`Confidence: ${confidenceTier}`);
+  bullets.push(`Baseline: ${stableString(truth?.baselineModelV1?.modelKind, 80) || 'unknown'} (intervalDays=${stableString(truth?.coverage?.intervalDays, 40) || 'n/a'})`);
+  if (cps.length) bullets.push(`Changepoints: ${cps.slice(0, 3).map((c) => `${stableString(c?.type, 40)} @ ${stableString(c?.atIso, 30)}`).join(' • ')}`);
+  if (anoms.length) bullets.push(`Anomalies: ${anoms.slice(0, 3).map((a) => `${stableString(a?.class, 20)} (${stableString(a?.window?.startIso, 30)})`).join(' • ')}`);
+
+  return {
+    confidenceTier,
+    bullets: bullets.slice(0, 3),
+    residualPeakHours: residualPeakHours.slice(0, 3),
+    requiredNextData: requiredNextData.slice(0, 6),
+  };
 }
 
 function extractWizardMissingInfoSummary(wizardOutput: any): {
@@ -335,6 +394,8 @@ export function buildExecutivePackJsonV1(args: {
 
   const topFindings = wizardOutput ? parseWizardTopFindings(wizardOutput) : uniqSorted([], 10);
 
+  const truthEngineV1 = extractTruthEngineExecSummary(reportJson);
+
   const intervalInsights: any = reportJson?.intervalInsightsV1 ?? null;
   const baseloadKw = asNumber(intervalInsights?.baseloadKw);
   const baseloadConfidence = stableString(intervalInsights?.baseloadConfidence, 40) || undefined;
@@ -415,6 +476,7 @@ export function buildExecutivePackJsonV1(args: {
       ...(stableString((args.analysisRun as any)?.createdAtIso, 60) ? { analysisRunCreatedAtIso: stableString((args.analysisRun as any).createdAtIso, 60) } : {}),
     },
     topFindings,
+    ...(truthEngineV1 !== null ? { truthEngineV1 } : {}),
     kpis: {
       annualKwhEstimate: annualKwh !== null ? { value: annualKwh, ...(annualConf ? { confidenceTier: annualConf } : {}), source: 'reportJson.weatherRegressionV1.annualization.annualKwhEstimate' } : null,
       baseloadKw: baseloadKw !== null ? { value: baseloadKw, ...(baseloadConfidence ? { confidenceTier: baseloadConfidence } : {}), source: 'reportJson.intervalInsightsV1.baseloadKw' } : null,

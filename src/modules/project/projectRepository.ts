@@ -10,14 +10,13 @@ function getProjectsDir(): string {
   if (env) return path.resolve(env);
   return path.join(process.cwd(), 'data', 'projects');
 }
-const PROJECTS_DIR = getProjectsDir();
 
-async function ensureProjectsDir(): Promise<void> {
-  if (!existsSync(PROJECTS_DIR)) await mkdir(PROJECTS_DIR, { recursive: true });
+async function ensureProjectsDir(dirAbs: string): Promise<void> {
+  if (!existsSync(dirAbs)) await mkdir(dirAbs, { recursive: true });
 }
 
 function projectPath(projectId: string): string {
-  return path.join(PROJECTS_DIR, `${projectId}.json`);
+  return path.join(getProjectsDir(), `${projectId}.json`);
 }
 
 export async function loadProjectForOrg(orgId: string, projectId: string): Promise<ProjectRecord | null> {
@@ -42,7 +41,7 @@ export async function createOrOverwriteProjectForOrg(orgId: string, project: Pro
     return;
   }
 
-  await ensureProjectsDir();
+  await ensureProjectsDir(getProjectsDir());
   const fp = projectPath(project.id);
   const toWrite = { ...(project as any), userId: orgId };
   await writeFile(fp, JSON.stringify(toWrite, null, 2), 'utf-8');
@@ -54,7 +53,7 @@ export async function patchProjectForOrg(orgId: string, projectId: string, patch
     return await updateProject(orgId, projectId, patch as any);
   }
 
-  await ensureProjectsDir();
+  await ensureProjectsDir(getProjectsDir());
   const fp = projectPath(projectId);
   if (!existsSync(fp)) throw new Error('Project not found');
   const rec = JSON.parse(await readFile(fp, 'utf-8')) as any;
@@ -79,13 +78,14 @@ export async function listProjectsForOrg(orgId: string): Promise<ProjectRecord[]
     return await listProjects(orgId);
   }
 
-  await ensureProjectsDir();
-  const files = await readdir(PROJECTS_DIR).catch(() => []);
+  const projectsDir = getProjectsDir();
+  await ensureProjectsDir(projectsDir);
+  const files = await readdir(projectsDir).catch(() => []);
   const out: ProjectRecord[] = [];
   for (const f of files) {
     if (!f.endsWith('.json')) continue;
     try {
-      const raw = await readFile(path.join(PROJECTS_DIR, f), 'utf-8');
+      const raw = await readFile(path.join(projectsDir, f), 'utf-8');
       const rec = JSON.parse(raw) as any;
       if (String(rec?.userId || '') !== String(orgId || '')) continue;
       out.push(rec as ProjectRecord);

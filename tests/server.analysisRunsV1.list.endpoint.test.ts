@@ -6,6 +6,7 @@ import { mkdtempSync } from 'node:fs';
 import './helpers/mockHeavyServerDeps';
 import { createAnalysisRunsStoreFsV1 } from '../src/modules/analysisRunsV1/storeFsV1';
 import type { AnalysisRunV1 } from '../src/modules/analysisRunsV1/types';
+import { enableDemoJwtForTests, getDemoBearerToken } from './helpers/demoJwt';
 
 describe('analysisRunsV1 list endpoint', () => {
   it('returns empty list + warning when index.json missing', async () => {
@@ -15,9 +16,11 @@ describe('analysisRunsV1 list endpoint', () => {
 
     try {
       vi.resetModules();
+      enableDemoJwtForTests();
       const { default: app } = await import('../src/server');
+      const authz = await getDemoBearerToken(app, 'u_test@example.com', 'u_test');
 
-      const res = await app.request('/api/analysis-results-v1/runs', { headers: { 'x-user-id': 'u_test' } });
+      const res = await app.request('/api/analysis-results-v1/runs', { headers: { Authorization: authz } });
       expect(res.status).toBe(200);
       const json: any = await res.json();
       expect(json?.success).toBe(true);
@@ -38,12 +41,14 @@ describe('analysisRunsV1 list endpoint', () => {
 
     try {
       vi.resetModules();
+      enableDemoJwtForTests();
       const { default: app } = await import('../src/server');
+      const authz = await getDemoBearerToken(app, 'u_test@example.com', 'u_test');
 
       async function runAndStoreDemo(): Promise<{ runId: string; createdAtIso: string; inputFingerprint: string }> {
         const res = await app.request('/api/analysis-results-v1/run-and-store', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+          headers: { 'Content-Type': 'application/json', Authorization: authz },
           body: JSON.stringify({ demo: true }),
         });
         expect(res.status).toBe(200);
@@ -59,7 +64,7 @@ describe('analysisRunsV1 list endpoint', () => {
       const a = await runAndStoreDemo();
       const b = await runAndStoreDemo();
 
-      const listRes = await app.request('/api/analysis-results-v1/runs', { headers: { 'x-user-id': 'u_test' } });
+      const listRes = await app.request('/api/analysis-results-v1/runs', { headers: { Authorization: authz } });
       expect(listRes.status).toBe(200);
       const listJson: any = await listRes.json();
       expect(listJson?.success).toBe(true);
@@ -128,9 +133,11 @@ describe('analysisRunsV1 list endpoint', () => {
       await store.writeRun(mkRun({ runId: 'r3', createdAtIso: '2026-02-21T00:00:00.000Z', projectId: 'p2', hasInterval: true, intervalDays: 10 }));
 
       vi.resetModules();
+      enableDemoJwtForTests();
       const { default: app } = await import('../src/server');
+      const authz = await getDemoBearerToken(app, 'u_test@example.com', 'u_test');
 
-      const res = await app.request('/api/analysis-results-v1/projects/p1/runs?limit=1', { headers: { 'x-user-id': 'u_test' } });
+      const res = await app.request('/api/analysis-results-v1/projects/p1/runs?limit=1', { headers: { Authorization: authz } });
       expect(res.status).toBe(200);
       const json: any = await res.json();
       expect(json?.success).toBe(true);

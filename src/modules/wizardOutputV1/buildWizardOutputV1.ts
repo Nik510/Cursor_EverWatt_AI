@@ -323,6 +323,47 @@ export function buildWizardOutputV1(args: {
     });
   }
 
+  const truthSnapshot: any = reportJson?.truthSnapshotV1 ?? workflow?.truthSnapshotV1 ?? null;
+  if (truthSnapshot && typeof truthSnapshot === 'object' && String(truthSnapshot?.schemaVersion) === 'truthSnapshotV1') {
+    const tier = safeString(truthSnapshot?.truthConfidence?.tier, 10) || 'C';
+    const sev: WizardFindingV1['severity'] = tier === 'A' ? 'info' : tier === 'B' ? 'warning' : 'warning';
+    const conf0to1 = clamp01(tier === 'A' ? 0.85 : tier === 'B' ? 0.65 : 0.45);
+
+    const cps: any[] = Array.isArray(truthSnapshot?.changepointsV1) ? truthSnapshot.changepointsV1 : [];
+    cps.sort(
+      (a, b) =>
+        Number(b?.confidence || 0) - Number(a?.confidence || 0) ||
+        Math.abs(Number(b?.magnitude || 0)) - Math.abs(Number(a?.magnitude || 0)) ||
+        safeString(a?.atIso, 60).localeCompare(safeString(b?.atIso, 60)) ||
+        safeString(a?.type, 60).localeCompare(safeString(b?.type, 60)),
+    );
+
+    const anoms: any[] = Array.isArray(truthSnapshot?.anomalyLedgerV1) ? truthSnapshot.anomalyLedgerV1 : [];
+
+    const requiredNext = uniqSorted(
+      anoms
+        .flatMap((a: any) => (Array.isArray(a?.requiredNextData) ? a.requiredNextData : []))
+        .map((x: any) => safeString(x, 120))
+        .filter(Boolean),
+      12,
+    );
+
+    const bullets: string[] = [];
+    bullets.push(`Truth Engine confidence: ${tier}`);
+    if (cps.length) bullets.push(`Top changepoints: ${cps.slice(0, 3).map((c) => `${safeString(c?.type, 40)} @ ${safeString(c?.atIso, 30)}`).join(' • ')}`);
+    if (anoms.length) bullets.push(`Top anomalies: ${anoms.slice(0, 5).map((a) => `${safeString(a?.class, 20)} (${safeString(a?.window?.startIso, 30)})`).join(' • ')}`);
+    if (requiredNext.length) bullets.push(`Required next data: ${requiredNext.slice(0, 6).join(' • ')}`);
+
+    pushFinding({
+      id: 'truth_building_story',
+      title: 'Building story (Truth Engine v1)',
+      severity: sev,
+      confidence0to1: conf0to1,
+      evidenceRefs: [`analysisRun:${runId}:reportJson.truthSnapshotV1`],
+      summaryBullets: bullets,
+    });
+  }
+
   // Deterministic, bounded.
   const severityRank: Record<string, number> = { critical: 0, warning: 1, info: 2 };
   const boundedFindings = findings
@@ -453,6 +494,18 @@ export function buildWizardOutputV1(args: {
       ],
       evidence: { runId },
       helpText: 'Enables interval-derived load shape, demand, and battery feasibility signals.',
+    });
+
+    // Building story (Truth Engine)
+    steps.push({
+      id: 'building_story',
+      title: 'Building story (Truth Engine v1)',
+      status: hasIntervals ? 'DONE' : 'OPTIONAL',
+      requiredActions: [],
+      evidence: { runId },
+      helpText: hasIntervals
+        ? 'Derived from stored interval/weather snapshots only: baseline expectations, residual maps, changepoints, and bounded anomaly ledger.'
+        : 'Optional: interval data unlocks baseline expectations, residual maps, changepoints, and bounded anomaly ledger.',
     });
 
     // Rate code (required for full tariff auditability)

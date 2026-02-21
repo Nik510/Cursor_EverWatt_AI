@@ -84,6 +84,8 @@ export type EngineeringPackJsonV1 = {
     intervalInsights: unknown | null;
     determinantsPackSummary: unknown | null;
     weatherRegression: unknown | null;
+    /** Snapshot-only Truth Engine detail view (bounded). */
+    truthEngineV1: unknown | null;
     battery: {
       storageOpportunityPackV1?: unknown | null;
       batteryEconomicsV1?: unknown | null;
@@ -236,6 +238,23 @@ export function buildEngineeringPackJsonV1(args: {
   const determinantsPackSummary = workflow?.utility?.insights?.determinantsPackSummary ?? null;
   const weatherRegression = reportJson?.weatherRegressionV1 ?? null;
 
+  const truthEngineV1 = (() => {
+    const truth: any = reportJson?.truthSnapshotV1 ?? reportJson?.workflow?.truthSnapshotV1 ?? null;
+    if (!truth || typeof truth !== 'object' || String(truth?.schemaVersion) !== 'truthSnapshotV1') return null;
+    const cps: any[] = Array.isArray(truth?.changepointsV1) ? truth.changepointsV1 : [];
+    const anoms: any[] = Array.isArray(truth?.anomalyLedgerV1) ? truth.anomalyLedgerV1 : [];
+    const peakHours: any[] = Array.isArray(truth?.residualMapsV1?.peakResidualHours) ? truth.residualMapsV1.peakResidualHours : [];
+    return {
+      coverage: truth?.coverage ?? null,
+      baselineModelV1: truth?.baselineModelV1 ?? null,
+      truthConfidence: truth?.truthConfidence ?? null,
+      truthWarnings: truth?.truthWarnings ?? null,
+      residualPeakHours: peakHours.slice(0, 10),
+      changepointsV1: cps.slice(0, 20),
+      anomalyLedgerV1: anoms.slice(0, 50),
+    };
+  })();
+
   const auditDrawerV1: any = reportJson?.auditDrawerV1 ?? null;
   const auditDrawer = (() => {
     try {
@@ -321,6 +340,7 @@ export function buildEngineeringPackJsonV1(args: {
       intervalInsights,
       determinantsPackSummary,
       weatherRegression,
+      truthEngineV1,
       battery: {
         storageOpportunityPackV1: reportJson?.storageOpportunityPackV1 ?? null,
         batteryEconomicsV1: reportJson?.batteryEconomicsV1 ?? null,

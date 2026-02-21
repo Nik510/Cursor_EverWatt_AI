@@ -4,6 +4,7 @@ import path from 'node:path';
 import { mkdtempSync } from 'node:fs';
 
 import './helpers/mockHeavyServerDeps';
+import { enableDemoJwtForTests, getDemoBearerToken } from './helpers/demoJwt';
 
 describe('reportSessionsV1 endpoints (smoke)', () => {
   it('create session -> run utility (demo) -> attach runId -> generate revision -> build wizard output', async () => {
@@ -21,11 +22,13 @@ describe('reportSessionsV1 endpoints (smoke)', () => {
 
     try {
       vi.resetModules();
+      enableDemoJwtForTests();
       const { default: app } = await import('../src/server');
+      const authz = await getDemoBearerToken(app, 'u_test@example.com', 'u_test');
 
       const createRes = await app.request('/api/report-sessions-v1/create', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ kind: 'WIZARD', title: 'Test Session' }),
       });
       expect(createRes.status).toBe(200);
@@ -37,35 +40,35 @@ describe('reportSessionsV1 endpoints (smoke)', () => {
       // Set some wizard inputs (snapshot-only) before running.
       const setRate = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/inputs/set-rate-code`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ rateCode: 'B-19' }),
       });
       expect(setRate.status).toBe(200);
 
       const setProvider = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/inputs/set-provider`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ providerType: 'NONE' }),
       });
       expect(setProvider.status).toBe(200);
 
       const setPcia = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/inputs/set-pcia-vintage-key`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ pciaVintageKey: '2019' }),
       });
       expect(setPcia.status).toBe(200);
 
       const setMeta = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/inputs/set-project-metadata`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ address: '123 Main St, Oakland, CA', utilityHint: 'PGE' }),
       });
       expect(setMeta.status).toBe(200);
 
       const runRes = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/run-utility`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ workflowInputs: { demo: true } }),
       });
       expect(runRes.status).toBe(200);
@@ -75,7 +78,7 @@ describe('reportSessionsV1 endpoints (smoke)', () => {
       expect(String(runJson?.projectId || '')).toBeTruthy();
 
       const getRes = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}`, {
-        headers: { 'x-user-id': 'u_test' },
+        headers: { Authorization: authz },
       });
       expect(getRes.status).toBe(200);
       const getJson: any = await getRes.json();
@@ -87,7 +90,7 @@ describe('reportSessionsV1 endpoints (smoke)', () => {
 
       const genRes = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/generate-internal-engineering-report`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({}),
       });
       expect(genRes.status).toBe(200);
@@ -98,7 +101,7 @@ describe('reportSessionsV1 endpoints (smoke)', () => {
 
       const wizRes = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/build-wizard-output`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({}),
       });
       expect(wizRes.status).toBe(200);

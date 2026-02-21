@@ -148,6 +148,8 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
     batteryDecisionPackV1_2,
     analysisTraceV1,
     workflow: args.analysisResults?.workflow,
+    // Additive: snapshot-only Truth Engine output (no recompute on GET).
+    truthSnapshotV1: (args.analysisResults?.workflow as any)?.truthSnapshotV1 ?? null,
     summary: args.analysisResults?.summary,
     missingInfo,
   };

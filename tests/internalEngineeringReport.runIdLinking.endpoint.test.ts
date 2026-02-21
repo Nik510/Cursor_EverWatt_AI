@@ -3,15 +3,21 @@ import path from 'node:path';
 import { mkdir, writeFile, unlink } from 'node:fs/promises';
 
 import './helpers/mockHeavyServerDeps';
+import { enableDemoJwtForTests, getDemoBearerToken } from './helpers/demoJwt';
 
 describe('internal engineering report runId linking', () => {
   it('stores runId on generated revision and exposes it via revisions meta endpoint', async () => {
     const userId = 'u_test_internal_eng_runid';
+    const email = `${userId}@example.com`;
+    const authUserId = userId;
     const projectId = `p_${Date.now()}_${Math.random().toString(16).slice(2, 8)}`;
 
     try {
+      delete process.env.EVERWATT_PROJECTS_BASEDIR;
       vi.resetModules();
+      enableDemoJwtForTests();
       const { default: app } = await import('../src/server');
+      const authz = await getDemoBearerToken(app, email, authUserId);
 
       // Minimal project record (file-backed mode) gated by userId.
       const projectsDir = path.join(process.cwd(), 'data', 'projects');
@@ -22,7 +28,7 @@ describe('internal engineering report runId linking', () => {
         JSON.stringify(
           {
             id: projectId,
-            userId,
+            userId: authUserId,
             driveFolderLink: '',
             customer: { projectNumber: '1', companyName: 'Acme' },
             telemetry: {},
@@ -42,7 +48,7 @@ describe('internal engineering report runId linking', () => {
 
       const genRes = await app.request(`/api/projects/${encodeURIComponent(projectId)}/reports/internal-engineering/generate`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': userId },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ title: 't', runId: 'run_123', analysisResults }),
       });
       expect(genRes.status).toBe(200);
@@ -51,7 +57,7 @@ describe('internal engineering report runId linking', () => {
       expect(genJson?.revision?.runId).toBe('run_123');
 
       const listRes = await app.request(`/api/projects/${encodeURIComponent(projectId)}/reports/internal-engineering/revisions`, {
-        headers: { 'x-user-id': userId },
+        headers: { Authorization: authz },
       });
       expect(listRes.status).toBe(200);
       const listJson: any = await listRes.json();
@@ -74,11 +80,16 @@ describe('internal engineering report runId linking', () => {
 
   it('rejects invalid runId on generate', async () => {
     const userId = 'u_test_internal_eng_runid_invalid';
+    const email = `${userId}@example.com`;
+    const authUserId = userId;
     const projectId = `p_${Date.now()}_${Math.random().toString(16).slice(2, 8)}`;
 
     try {
+      delete process.env.EVERWATT_PROJECTS_BASEDIR;
       vi.resetModules();
+      enableDemoJwtForTests();
       const { default: app } = await import('../src/server');
+      const authz = await getDemoBearerToken(app, email, authUserId);
 
       const projectsDir = path.join(process.cwd(), 'data', 'projects');
       await mkdir(projectsDir, { recursive: true });
@@ -88,7 +99,7 @@ describe('internal engineering report runId linking', () => {
         JSON.stringify(
           {
             id: projectId,
-            userId,
+            userId: authUserId,
             driveFolderLink: '',
             customer: { projectNumber: '1', companyName: 'Acme' },
             telemetry: {},
@@ -108,7 +119,7 @@ describe('internal engineering report runId linking', () => {
 
       const res = await app.request(`/api/projects/${encodeURIComponent(projectId)}/reports/internal-engineering/generate`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': userId },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ title: 't', runId: '../evil', analysisResults }),
       });
       expect(res.status).toBe(400);

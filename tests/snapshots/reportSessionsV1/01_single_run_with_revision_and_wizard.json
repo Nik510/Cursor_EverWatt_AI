@@ -20,7 +20,7 @@
       },
       {
         "atIso": "2026-03-01T00:00:00.000Z",
-        "hash": "3fac3cd276464f365b8357d059310049fa7988af0bd1c498a29f194dd6dee435",
+        "hash": "fd722b8db1e638c93375756d7cb99d6ed2fede3fd567f7bc2b21928f98ca1900",
         "runIdsUsed": [
           "run_golden_01"
         ],
@@ -49,9 +49,9 @@
     "updatedAtIso": "2026-03-01T00:00:00.000Z",
     "warnings": [],
     "wizardOutputV1": {
-      "approxBytes": 20550,
+      "approxBytes": 21235,
       "generatedAtIso": "2026-03-01T00:00:00.000Z",
-      "hash": "3fac3cd276464f365b8357d059310049fa7988af0bd1c498a29f194dd6dee435",
+      "hash": "fd722b8db1e638c93375756d7cb99d6ed2fede3fd567f7bc2b21928f98ca1900",
       "kind": "INLINE",
       "revisionIdsUsed": [
         "rev_01_single_run_with_revision_and_wizard"
@@ -225,6 +225,18 @@
               "Confidence: 0.1"
             ],
             "title": "Supply structure"
+          },
+          {
+            "confidence0to1": 0.85,
+            "evidenceRefs": [
+              "analysisRun:run_golden_01:reportJson.truthSnapshotV1"
+            ],
+            "id": "truth_building_story",
+            "severity": "info",
+            "summaryBullets": [
+              "Truth Engine confidence: A"
+            ],
+            "title": "Building story (Truth Engine v1)"
           },
           {
             "confidence0to1": 0.85,
@@ -449,7 +461,7 @@
             "warnCount": 0
           }
         },
-        "wizardOutputHash": "3fac3cd276464f365b8357d059310049fa7988af0bd1c498a29f194dd6dee435",
+        "wizardOutputHash": "fd722b8db1e638c93375756d7cb99d6ed2fede3fd567f7bc2b21928f98ca1900",
         "wizardSteps": [
           {
             "evidence": {
@@ -527,6 +539,16 @@
             ],
             "status": "DONE",
             "title": "Interval data (CSV)"
+          },
+          {
+            "evidence": {
+              "runId": "run_golden_01"
+            },
+            "helpText": "Derived from stored interval/weather snapshots only: baseline expectations, residual maps, changepoints, and bounded anomaly ledger.",
+            "id": "building_story",
+            "requiredActions": [],
+            "status": "DONE",
+            "title": "Building story (Truth Engine v1)"
           },
           {
             "evidence": {
@@ -810,6 +832,18 @@
       {
         "confidence0to1": 0.85,
         "evidenceRefs": [
+          "analysisRun:run_golden_01:reportJson.truthSnapshotV1"
+        ],
+        "id": "truth_building_story",
+        "severity": "info",
+        "summaryBullets": [
+          "Truth Engine confidence: A"
+        ],
+        "title": "Building story (Truth Engine v1)"
+      },
+      {
+        "confidence0to1": 0.85,
+        "evidenceRefs": [
           "analysisRun:run_golden_01:reportJson.project.territory"
         ],
         "id": "utility_territory",
@@ -1030,7 +1064,7 @@
         "warnCount": 0
       }
     },
-    "wizardOutputHash": "3fac3cd276464f365b8357d059310049fa7988af0bd1c498a29f194dd6dee435",
+    "wizardOutputHash": "fd722b8db1e638c93375756d7cb99d6ed2fede3fd567f7bc2b21928f98ca1900",
     "wizardSteps": [
       {
         "evidence": {
@@ -1108,6 +1142,16 @@
         ],
         "status": "DONE",
         "title": "Interval data (CSV)"
+      },
+      {
+        "evidence": {
+          "runId": "run_golden_01"
+        },
+        "helpText": "Derived from stored interval/weather snapshots only: baseline expectations, residual maps, changepoints, and bounded anomaly ledger.",
+        "id": "building_story",
+        "requiredActions": [],
+        "status": "DONE",
+        "title": "Building story (Truth Engine v1)"
       },
       {
         "evidence": {
