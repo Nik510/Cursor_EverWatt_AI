@@ -90,7 +90,8 @@ describe('sharesV1 endpoints (smoke)', () => {
       const htmlRes = await app.request('/api/share/v1/revision/html', { headers: shareAuth });
       expect(htmlRes.status).toBe(200);
       const html = await htmlRes.text();
-      expect(html).toContain('Executive Pack v1');
+      expect(html).toContain('EverWatt');
+      expect(html).toContain('EXECUTIVE_PACK_V1');
 
       const pdfRes = await app.request('/api/share/v1/revision/pdf', { headers: shareAuth });
       expect(pdfRes.status).toBe(200);

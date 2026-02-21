@@ -76,7 +76,8 @@ describe('stakeholder report packs v1 endpoints (smoke)', () => {
       });
       expect(htmlRes.status).toBe(200);
       const htmlText = await htmlRes.text();
-      expect(htmlText).toContain('Executive Pack v1');
+      expect(htmlText).toContain('EverWatt');
+      expect(htmlText).toContain('EXECUTIVE_PACK_V1');
 
       const jsonRes = await app.request(`/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(execRevId)}/json`, {
         headers: { 'x-user-id': 'u_test' },

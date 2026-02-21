@@ -3,10 +3,10 @@ import { existsSync } from 'node:fs';
 import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import { randomBytes, randomUUID } from 'node:crypto';
 
-import type { ShareEventV1, ShareLinkMetaV1, ShareLinkV1, ShareScopeV1 } from './types';
+import type { ShareEventV1, ShareLinkMetaV1, ShareLinkSafeV1, ShareLinkV1, ShareScopeV1 } from './types';
 import { getEverwattSharesBaseDirV1 } from '../dataDirsV1';
 
-type ShareLinkStoredV1 = ShareLinkV1 & { tokenHash: string };
+type ShareLinkStoredV1 = ShareLinkSafeV1 & { tokenHash: string; passwordHash: string | null };
 
 function stableStringifyV1(value: unknown): string {
   const seen = new WeakSet<object>();
@@ -132,7 +132,14 @@ function sanitizeNote(note: unknown): string | null {
   return s.length > 500 ? s.slice(0, 500) + '…(truncated)' : s;
 }
 
-function sortSharesDeterministic(shares: ShareLinkV1[]): ShareLinkV1[] {
+function sanitizePasswordHint(hint: unknown): string | null {
+  const s = String(hint ?? '').trim();
+  if (!s) return null;
+  // Keep this intentionally short and safe to display.
+  return s.length > 140 ? s.slice(0, 140) + '…(truncated)' : s;
+}
+
+function sortSharesDeterministic(shares: ShareLinkSafeV1[]): ShareLinkSafeV1[] {
   // Deterministic: newest first, then shareId asc.
   return shares
     .slice()
@@ -143,7 +150,7 @@ function sortSharesDeterministic(shares: ShareLinkV1[]): ShareLinkV1[] {
     );
 }
 
-function clampShares(shares: ShareLinkV1[], max: number): ShareLinkV1[] {
+function clampShares(shares: ShareLinkSafeV1[], max: number): ShareLinkSafeV1[] {
   const m = Math.max(100, Math.min(50_000, Math.trunc(Number(max) || 50_000)));
   return shares.length <= m ? shares : sortSharesDeterministic(shares).slice(0, m);
 }
@@ -177,6 +184,13 @@ async function readAllShares(baseDir: string): Promise<ShareLinkStoredV1[]> {
         const lastAccessAtIso = String((x as any).lastAccessAtIso || '').trim() || null;
         const createdBy = Object.prototype.hasOwnProperty.call(x, 'createdBy') ? (String((x as any).createdBy ?? '').trim() || null) : undefined;
         const note = Object.prototype.hasOwnProperty.call(x, 'note') ? (sanitizeNote((x as any).note) ?? null) : undefined;
+
+        const passwordHashRaw = Object.prototype.hasOwnProperty.call(x, 'passwordHash') ? String((x as any).passwordHash ?? '').trim() : '';
+        const passwordHash = passwordHashRaw ? (passwordHashRaw.length > 800 ? null : passwordHashRaw) : null;
+        const requiresPasswordRaw = Object.prototype.hasOwnProperty.call(x, 'requiresPassword') ? Boolean((x as any).requiresPassword) : null;
+        const requiresPassword = requiresPasswordRaw !== null ? requiresPasswordRaw : Boolean(passwordHash);
+        const passwordHint = Object.prototype.hasOwnProperty.call(x, 'passwordHint') ? (sanitizePasswordHint((x as any).passwordHint) ?? null) : null;
+
         const events: ShareEventV1[] = (() => {
           const rawEvents = Array.isArray((x as any).events) ? (x as any).events : [];
           const norm = rawEvents.map(normalizeEventV1).filter(Boolean) as ShareEventV1[];
@@ -198,6 +212,9 @@ async function readAllShares(baseDir: string): Promise<ShareLinkStoredV1[]> {
           tokenHash,
           accessCount: Number.isFinite(accessCount) && accessCount >= 0 ? Math.trunc(accessCount) : 0,
           lastAccessAtIso,
+          requiresPassword,
+          passwordHash,
+          passwordHint,
           ...(note !== undefined ? { note } : {}),
           events,
         } as any as ShareLinkStoredV1;
@@ -208,20 +225,20 @@ async function readAllShares(baseDir: string): Promise<ShareLinkStoredV1[]> {
   }
 }
 
-function stripTokenHash(stored: ShareLinkStoredV1): ShareLinkV1 {
+function stripSecrets(stored: ShareLinkStoredV1): ShareLinkSafeV1 {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { tokenHash: _omit, ...pub } = stored as any;
-  return pub as ShareLinkV1;
+  const { tokenHash: _omitTokenHash, passwordHash: _omitPasswordHash, ...pub } = stored as any;
+  return pub as ShareLinkSafeV1;
 }
 
 function stripTokenHashAndEvents(stored: ShareLinkStoredV1): ShareLinkMetaV1 {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { tokenHash: _omit, events: _omitEvents, ...pub } = stored as any;
+  const { tokenHash: _omitTokenHash, passwordHash: _omitPasswordHash, events: _omitEvents, ...pub } = stored as any;
   return pub as ShareLinkMetaV1;
 }
 
 async function writeAllShares(baseDir: string, shares: ShareLinkStoredV1[]): Promise<void> {
-  const bounded = clampShares(shares as any as ShareLinkV1[], 50_000) as any as ShareLinkStoredV1[];
+  const bounded = clampShares(shares as any as ShareLinkSafeV1[], 50_000) as any as ShareLinkStoredV1[];
   const sorted = sortSharesDeterministic(bounded);
   await writeFileAtomicLike(indexPath(baseDir), stableStringifyV1(sorted));
 }
@@ -242,8 +259,11 @@ export function createSharesStoreFsV1(args?: { baseDir?: string }) {
       createdAtIso?: string;
       createdBy?: string | null;
       note?: string | null;
+      requiresPassword?: boolean;
+      passwordHash?: string | null;
+      passwordHint?: string | null;
       shareId?: string;
-    }): Promise<ShareLinkV1> {
+    }): Promise<ShareLinkSafeV1> {
       const nowIso = String(args.createdAtIso || new Date().toISOString()).trim();
       assertIsoLike('createdAtIso', nowIso);
 
@@ -264,6 +284,9 @@ export function createSharesStoreFsV1(args?: { baseDir?: string }) {
       const shareId = args.shareId ? assertIdLike({ label: 'shareId', value: args.shareId, max: 180 }) : randomUUID();
       const createdBy = args.createdBy === undefined ? undefined : (String(args.createdBy ?? '').trim() || null);
       const note = args.note === undefined ? undefined : (sanitizeNote(args.note) ?? null);
+      const passwordHash = args.passwordHash === undefined ? null : (String(args.passwordHash ?? '').trim() || null);
+      const requiresPassword = args.requiresPassword === undefined ? Boolean(passwordHash) : Boolean(args.requiresPassword);
+      const passwordHint = args.passwordHint === undefined ? null : (sanitizePasswordHint(args.passwordHint) ?? null);
 
       const recStored: any = {
         shareId,
@@ -278,6 +301,9 @@ export function createSharesStoreFsV1(args?: { baseDir?: string }) {
         tokenHash,
         accessCount: 0,
         lastAccessAtIso: null,
+        requiresPassword,
+        passwordHash,
+        passwordHint,
         ...(note !== undefined ? { note } : {}),
         events: appendBoundedEventV1([], {
           type: 'CREATED',
@@ -294,7 +320,7 @@ export function createSharesStoreFsV1(args?: { baseDir?: string }) {
       }
       const next = [recStored as ShareLinkStoredV1, ...existing];
       await writeAllShares(baseDir, next);
-      return stripTokenHash(recStored as ShareLinkStoredV1);
+      return stripSecrets(recStored as ShareLinkStoredV1);
     },
 
     async listSharesForProject(args: { projectId: string; limit?: number }): Promise<ShareLinkMetaV1[]> {
@@ -303,7 +329,7 @@ export function createSharesStoreFsV1(args?: { baseDir?: string }) {
       const limit = Math.max(1, Math.min(200, Number.isFinite(limitRaw) ? Math.trunc(limitRaw) : 50));
       const all = await readAllShares(baseDir);
       const filtered = all.filter((s) => String((s as any).projectId || '') === projectId);
-      return sortSharesDeterministic(filtered as any as ShareLinkV1[])
+      return sortSharesDeterministic(filtered as any as ShareLinkSafeV1[])
         .slice(0, limit)
         .map((s) => stripTokenHashAndEvents(s as any as ShareLinkStoredV1));
     },
@@ -321,29 +347,46 @@ export function createSharesStoreFsV1(args?: { baseDir?: string }) {
             return projectId.includes(q) || revisionId.includes(q) || note.includes(q);
           })
         : all;
-      return sortSharesDeterministic(filtered as any as ShareLinkV1[])
+      return sortSharesDeterministic(filtered as any as ShareLinkSafeV1[])
         .slice(0, limit)
         .map((s) => stripTokenHashAndEvents(s as any as ShareLinkStoredV1));
     },
 
-    async getShareById(shareIdRaw: string): Promise<ShareLinkV1> {
+    async getShareById(shareIdRaw: string): Promise<ShareLinkSafeV1> {
       const shareId = assertIdLike({ label: 'shareId', value: shareIdRaw, max: 180 });
       const all = await readAllShares(baseDir);
       const found = all.find((s) => String(s.shareId) === shareId);
       if (!found) throw new Error('Share not found');
-      return stripTokenHash(found as ShareLinkStoredV1);
+      return stripSecrets(found as ShareLinkStoredV1);
     },
 
-    async resolveShareByTokenHash(tokenHashRaw: string): Promise<ShareLinkV1> {
+    async getShareStoredById(shareIdRaw: string): Promise<ShareLinkStoredV1> {
+      const shareId = assertIdLike({ label: 'shareId', value: shareIdRaw, max: 180 });
+      const all = await readAllShares(baseDir);
+      const found = all.find((s) => String(s.shareId) === shareId);
+      if (!found) throw new Error('Share not found');
+      return found as ShareLinkStoredV1;
+    },
+
+    async resolveShareByTokenHash(tokenHashRaw: string): Promise<ShareLinkSafeV1> {
       const tokenHash = String(tokenHashRaw || '').trim().toLowerCase();
       if (!/^[0-9a-f]{64}$/.test(tokenHash)) throw new Error('Invalid share token');
       const all = await readAllShares(baseDir);
       const found = all.find((s) => String((s as any).tokenHash || '').toLowerCase() === tokenHash);
       if (!found) throw new Error('Invalid share token');
-      return stripTokenHash(found as ShareLinkStoredV1);
+      return stripSecrets(found as ShareLinkStoredV1);
     },
 
-    async revokeShare(args: { shareId: string; nowIso?: string }): Promise<ShareLinkV1> {
+    async resolveShareStoredByTokenHash(tokenHashRaw: string): Promise<ShareLinkStoredV1> {
+      const tokenHash = String(tokenHashRaw || '').trim().toLowerCase();
+      if (!/^[0-9a-f]{64}$/.test(tokenHash)) throw new Error('Invalid share token');
+      const all = await readAllShares(baseDir);
+      const found = all.find((s) => String((s as any).tokenHash || '').toLowerCase() === tokenHash);
+      if (!found) throw new Error('Invalid share token');
+      return found as ShareLinkStoredV1;
+    },
+
+    async revokeShare(args: { shareId: string; nowIso?: string }): Promise<ShareLinkSafeV1> {
       const shareId = assertIdLike({ label: 'shareId', value: args.shareId, max: 180 });
       const nowIso = String(args.nowIso || new Date().toISOString()).trim();
       assertIsoLike('nowIso', nowIso);
@@ -363,10 +406,10 @@ export function createSharesStoreFsV1(args?: { baseDir?: string }) {
       const next = all.slice();
       next[idx] = nextRec as ShareLinkStoredV1;
       await writeAllShares(baseDir, next);
-      return stripTokenHash(nextRec as ShareLinkStoredV1);
+      return stripSecrets(nextRec as ShareLinkStoredV1);
     },
 
-    async extendExpiry(args: { shareId: string; extendHours: number; nowIso?: string }): Promise<ShareLinkV1> {
+    async extendExpiry(args: { shareId: string; extendHours: number; nowIso?: string }): Promise<ShareLinkSafeV1> {
       const shareId = assertIdLike({ label: 'shareId', value: args.shareId, max: 180 });
       const nowIso = String(args.nowIso || new Date().toISOString()).trim();
       assertIsoLike('nowIso', nowIso);
@@ -395,10 +438,10 @@ export function createSharesStoreFsV1(args?: { baseDir?: string }) {
       const next = all.slice();
       next[idx] = nextRec as ShareLinkStoredV1;
       await writeAllShares(baseDir, next);
-      return stripTokenHash(nextRec as ShareLinkStoredV1);
+      return stripSecrets(nextRec as ShareLinkStoredV1);
     },
 
-    async setScope(args: { shareId: string; scope: ShareScopeV1; nowIso?: string }): Promise<ShareLinkV1> {
+    async setScope(args: { shareId: string; scope: ShareScopeV1; nowIso?: string }): Promise<ShareLinkSafeV1> {
       const shareId = assertIdLike({ label: 'shareId', value: args.shareId, max: 180 });
       const nowIso = String(args.nowIso || new Date().toISOString()).trim();
       assertIsoLike('nowIso', nowIso);
@@ -408,7 +451,7 @@ export function createSharesStoreFsV1(args?: { baseDir?: string }) {
       const idx = all.findIndex((s) => String(s.shareId) === shareId);
       if (idx < 0) throw new Error('Share not found');
       const prev = all[idx] as any;
-      if (String(prev?.scope || '').toUpperCase() === scope) return stripTokenHash(prev as ShareLinkStoredV1);
+      if (String(prev?.scope || '').toUpperCase() === scope) return stripSecrets(prev as ShareLinkStoredV1);
 
       const nextRec: any = {
         ...prev,
@@ -418,7 +461,35 @@ export function createSharesStoreFsV1(args?: { baseDir?: string }) {
       const next = all.slice();
       next[idx] = nextRec as ShareLinkStoredV1;
       await writeAllShares(baseDir, next);
-      return stripTokenHash(nextRec as ShareLinkStoredV1);
+      return stripSecrets(nextRec as ShareLinkStoredV1);
+    },
+
+    async setPassword(args: { shareId: string; passwordHash: string; passwordHint?: string | null; nowIso?: string }): Promise<ShareLinkSafeV1> {
+      const shareId = assertIdLike({ label: 'shareId', value: args.shareId, max: 180 });
+      const nowIso = String(args.nowIso || new Date().toISOString()).trim();
+      assertIsoLike('nowIso', nowIso);
+
+      const passwordHash = String(args.passwordHash || '').trim();
+      if (!passwordHash) throw new Error('passwordHash is required');
+      if (passwordHash.length > 800) throw new Error('passwordHash too long');
+      const passwordHint = args.passwordHint === undefined ? null : (sanitizePasswordHint(args.passwordHint) ?? null);
+
+      const all = await readAllShares(baseDir);
+      const idx = all.findIndex((s) => String(s.shareId) === shareId);
+      if (idx < 0) throw new Error('Share not found');
+      const prev = all[idx] as any;
+
+      const nextRec: any = {
+        ...prev,
+        requiresPassword: true,
+        passwordHash,
+        passwordHint,
+      };
+
+      const next = all.slice();
+      next[idx] = nextRec as ShareLinkStoredV1;
+      await writeAllShares(baseDir, next);
+      return stripSecrets(nextRec as ShareLinkStoredV1);
     },
 
     async recordAccess(args: { shareId: string; nowIso?: string; userAgentHash?: string | null; ipHash?: string | null }): Promise<void> {

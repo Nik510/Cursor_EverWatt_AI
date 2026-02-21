@@ -21,6 +21,8 @@ export type ShareLinkMetaV1 = {
   revokedAtIso: string | null;
   accessCount: number;
   lastAccessAtIso: string | null;
+  requiresPassword: boolean;
+  passwordHint: string | null;
   note?: string | null;
 };
 
@@ -39,6 +41,8 @@ export async function createShareV1(args: {
   scope: ShareScopeV1;
   expiresInHours?: number;
   note?: string | null;
+  password?: string | null;
+  passwordHint?: string | null;
   adminToken?: string;
 }): Promise<CreateShareV1Response> {
   return apiRequest<CreateShareV1Response>({
@@ -51,6 +55,8 @@ export async function createShareV1(args: {
       scope: args.scope,
       ...(args.expiresInHours !== undefined ? { expiresInHours: args.expiresInHours } : {}),
       ...(args.note !== undefined ? { note: args.note } : {}),
+      ...(args.password !== undefined ? { password: args.password } : {}),
+      ...(args.passwordHint !== undefined ? { passwordHint: args.passwordHint } : {}),
     }),
   });
 }
@@ -131,6 +137,24 @@ export async function setScopeV1(args: { shareId: string; scope: ShareScopeV1; a
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(staffHeaders(args.adminToken) || {}) },
     body: JSON.stringify({ scope: args.scope }),
+  });
+}
+
+export type SetPasswordV1Response = { success: true; share: ShareLinkV1 };
+
+export async function setPasswordV1(args: { shareId: string; password: string; passwordHint?: string | null; adminToken?: string }): Promise<SetPasswordV1Response> {
+  const shareId = String(args.shareId || '').trim();
+  if (!shareId) throw new Error('shareId is required');
+  const password = String(args.password || '').trim();
+  if (!password) throw new Error('password is required');
+  return apiRequest<SetPasswordV1Response>({
+    url: `/api/shares-v1/${encodeURIComponent(shareId)}/set-password`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...(staffHeaders(args.adminToken) || {}) },
+    body: JSON.stringify({
+      password,
+      ...(args.passwordHint !== undefined ? { passwordHint: args.passwordHint } : {}),
+    }),
   });
 }
 

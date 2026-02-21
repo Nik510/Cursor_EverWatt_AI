@@ -6,6 +6,7 @@
 import { getRequestListener } from '@hono/node-server';
 import { Hono, type Context } from 'hono';
 import { cors } from 'hono/cors';
+import { getCookie, setCookie } from 'hono/cookie';
 import { writeFile, mkdir, unlink, readFile, readdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
@@ -10683,6 +10684,8 @@ type ShareLinkV1 = {
   accessCount: number;
   lastAccessAtIso: string | null;
   note?: string | null;
+  requiresPassword: boolean;
+  passwordHint: string | null;
 };
 
 function normalizeShareScopeV1(raw: unknown): ShareScopeV1 {
@@ -10709,8 +10712,21 @@ function parseShareAuthTokenPlainV1(c: Context): string | null {
   return qs || null;
 }
 
+function getShareSessionCookieV1(c: Context): string | null {
+  const v = String(getCookie(c, 'share_session') || '').trim();
+  return v || null;
+}
+
+function setShareSessionCookiesV1(c: Context, value: string, maxAgeSeconds: number) {
+  const secure = process.env.NODE_ENV === 'production';
+  // Two cookies (same name, different Path) to scope to share surfaces only.
+  setCookie(c, 'share_session', value, { httpOnly: true, sameSite: 'Lax', secure, path: '/api/share/v1', maxAge: maxAgeSeconds });
+  setCookie(c, 'share_session', value, { httpOnly: true, sameSite: 'Lax', secure, path: '/share', maxAge: maxAgeSeconds });
+}
+
 type TokenBucketV1 = { resetAt: number; count: number };
 const shareTokenBucketsV1 = new Map<string, TokenBucketV1>();
+const sharePasswordAttemptBucketsV1 = new Map<string, TokenBucketV1>();
 
 function rateLimitShareTokenBestEffortV1(args: { tokenHash: string; nowMs: number; windowMs?: number; max?: number }): void {
   const windowMs = args.windowMs ?? 60_000;
@@ -10737,7 +10753,86 @@ function rateLimitShareTokenBestEffortV1(args: { tokenHash: string; nowMs: numbe
   }
 }
 
-async function resolveShareFromRequestV1(c: Context): Promise<{ tokenPlain: string; share: ShareLinkV1 }> {
+function rateLimitSharePasswordAttemptsBestEffortV1(args: { shareId: string; nowMs: number; windowMs?: number; max?: number }): void {
+  const windowMs = args.windowMs ?? 10 * 60_000;
+  const max = args.max ?? 12;
+  const key = String(args.shareId || '').trim();
+  if (!key) return;
+  const now = args.nowMs;
+  const bucket = sharePasswordAttemptBucketsV1.get(key);
+  if (!bucket || now >= bucket.resetAt) {
+    sharePasswordAttemptBucketsV1.set(key, { resetAt: now + windowMs, count: 1 });
+  } else {
+    bucket.count += 1;
+  }
+  const current = sharePasswordAttemptBucketsV1.get(key)!;
+  if (current.count > max) {
+    const err: any = new Error('Rate limit exceeded');
+    err.status = 429;
+    throw err;
+  }
+  if (sharePasswordAttemptBucketsV1.size > 25_000 && Math.random() < 0.01) {
+    for (const [k, b] of sharePasswordAttemptBucketsV1) {
+      if (now >= b.resetAt) sharePasswordAttemptBucketsV1.delete(k);
+    }
+  }
+}
+
+async function resolveShareFromRequestV1(
+  c: Context,
+  opts?: { allowUnverifiedPassword?: boolean },
+): Promise<{ tokenPlain: string | null; share: ShareLinkV1; passwordVerified: boolean }> {
+  const session = getShareSessionCookieV1(c);
+  if (session) {
+    const { verifyShareSessionV1 } = await import('./modules/sharesV1/shareSessionV1');
+    const parsed = verifyShareSessionV1(session);
+    if (parsed) {
+      const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+      const store = createSharesStoreFsV1();
+      const stored = (await store.getShareStoredById(parsed.shareId)) as any;
+      if (String(stored?.tokenHash || '').trim().toLowerCase() === parsed.tokenHash) {
+        const share = (() => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { tokenHash: _omitTokenHash, passwordHash: _omitPasswordHash, ...pub } = stored as any;
+          return pub as ShareLinkV1;
+        })();
+        // Expiry/revoke checks
+        if (share.revokedAtIso) {
+          const err: any = new Error('Share link revoked');
+          err.status = 410;
+          throw err;
+        }
+        if (share.expiresAtIso) {
+          const expMs = Date.parse(String(share.expiresAtIso));
+          if (Number.isFinite(expMs) && Date.now() > expMs) {
+            const err: any = new Error('Share link expired');
+            err.status = 410;
+            throw err;
+          }
+        }
+
+        // Access accounting (best effort).
+        try {
+          const ua = String(c.req.header('user-agent') || '').trim();
+          const xfwd = String(c.req.header('x-forwarded-for') || '').trim();
+          const xreal = String(c.req.header('x-real-ip') || '').trim();
+          const ip = (xfwd ? xfwd.split(',')[0]?.trim() : '') || xreal || '';
+          const userAgentHash = ua ? createHash('sha256').update(ua, 'utf-8').digest('hex') : null;
+          const ipHash = ip ? createHash('sha256').update(ip, 'utf-8').digest('hex') : null;
+          await store.recordAccess({ shareId: share.shareId, nowIso: new Date().toISOString(), userAgentHash, ipHash });
+        } catch {
+          // best-effort
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (c as any).set?.('shareLinkV1', share);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (c as any).set?.('sharePasswordVerifiedV1', true);
+        return { tokenPlain: null, share, passwordVerified: true };
+      }
+    }
+  }
+
   const tokenPlain = parseShareAuthTokenPlainV1(c);
   if (!tokenPlain) {
     const err: any = new Error('Missing share token');
@@ -10788,19 +10883,28 @@ async function resolveShareFromRequestV1(c: Context): Promise<{ tokenPlain: stri
     // best-effort
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (c as any).set?.('shareTokenPlainV1', tokenPlain);
+  if (share.requiresPassword) {
+    const allow = Boolean(opts?.allowUnverifiedPassword);
+    if (!allow) {
+      const err: any = new Error('Password required');
+      err.status = 401;
+      throw err;
+    }
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (c as any).set?.('shareLinkV1', share);
-  return { tokenPlain, share };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (c as any).set?.('sharePasswordVerifiedV1', !share.requiresPassword);
+  return { tokenPlain, share, passwordVerified: !share.requiresPassword };
 }
 
-function getShareFromContextV1(c: Context): { tokenPlain: string; share: ShareLinkV1 } | null {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const tokenPlain = ((c as any).get?.('shareTokenPlainV1') as string | undefined) || null;
+function getShareFromContextV1(c: Context): { tokenPlain: string | null; share: ShareLinkV1; passwordVerified: boolean } | null {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const share = ((c as any).get?.('shareLinkV1') as ShareLinkV1 | undefined) || null;
-  return tokenPlain && share ? { tokenPlain, share } : null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const verified = Boolean(((c as any).get?.('sharePasswordVerifiedV1') as boolean | undefined) ?? false);
+  return share ? { tokenPlain: null, share, passwordVerified: verified } : null;
 }
 
 async function loadSharedRevisionV1(args: { projectId: string; revisionId: string }): Promise<{ project: any; found: { reportType: string; rev: any } }> {
@@ -10886,6 +10990,8 @@ app.post('/api/shares-v1/create', async (c) => {
     const expiresInHoursRaw = Number((body as any)?.expiresInHours ?? 168);
     const expiresInHours = Math.max(1, Math.min(24 * 365, Number.isFinite(expiresInHoursRaw) ? Math.trunc(expiresInHoursRaw) : 168));
     const note = String((body as any)?.note ?? '').trim() || null;
+    const password = String((body as any)?.password ?? '').trim() || null;
+    const passwordHint = String((body as any)?.passwordHint ?? '').trim() || null;
 
     if (!projectId) return c.json({ success: false, error: 'projectId is required' }, 400);
     if (!revisionId) return c.json({ success: false, error: 'revisionId is required' }, 400);
@@ -10905,6 +11011,8 @@ app.post('/api/shares-v1/create', async (c) => {
     const nowIso = new Date().toISOString();
     const expiresAtIso = new Date(Date.now() + expiresInHours * 60 * 60 * 1000).toISOString();
 
+    const pwHash = password ? (await import('./modules/sharesV1/passwordV1')).hashSharePasswordV1(password) : null;
+
     const created = await store.createShareLink({
       tokenHash,
       projectId,
@@ -10914,6 +11022,7 @@ app.post('/api/shares-v1/create', async (c) => {
       expiresAtIso,
       createdAtIso: nowIso,
       createdBy: userId,
+      ...(pwHash ? { requiresPassword: true, passwordHash: pwHash, passwordHint } : {}),
       ...(note ? { note } : {}),
     });
 
@@ -10926,6 +11035,31 @@ app.post('/api/shares-v1/create', async (c) => {
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to create share link';
     const status = (error as any)?.status || (String(message).toLowerCase().includes('unauthorized') ? 401 : 400);
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/shares-v1/:shareId/set-password', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const shareId = String(c.req.param('shareId') || '').trim();
+    if (!shareId) return c.json({ success: false, error: 'shareId is required' }, 400);
+
+    const body = await c.req.json().catch(() => ({}));
+    const password = String((body as any)?.password ?? '').trim();
+    const passwordHint = Object.prototype.hasOwnProperty.call(body as any, 'passwordHint') ? (String((body as any)?.passwordHint ?? '').trim() || null) : undefined;
+    if (!password) return c.json({ success: false, error: 'password is required' }, 400);
+
+    const { hashSharePasswordV1 } = await import('./modules/sharesV1/passwordV1');
+    const passwordHash = hashSharePasswordV1(password);
+
+    const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+    const store = createSharesStoreFsV1();
+    const share = await store.setPassword({ shareId, passwordHash, ...(passwordHint !== undefined ? { passwordHint } : {}) });
+    return c.json({ success: true, share });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to set share password';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : String(message).toLowerCase().includes('not found') ? 404 : 400;
     return c.json({ success: false, error: message }, status as any);
   }
 });
@@ -11039,9 +11173,65 @@ app.post('/api/shares-v1/:shareId/set-scope', async (c) => {
 });
 
 // Public, share-token-authorized APIs (no login).
+app.post('/api/share/v1/verify-password', async (c) => {
+  try {
+    const tokenPlain = parseShareAuthTokenPlainV1(c);
+    if (!tokenPlain) return c.json({ success: false, error: 'Missing share token' }, 401);
+
+    const { isLikelyShareTokenPlainV1, sha256TokenPlainV1 } = await import('./modules/sharesV1/tokenV1');
+    if (!isLikelyShareTokenPlainV1(tokenPlain)) return c.json({ success: false, error: 'Invalid credentials' }, 401);
+    const tokenHash = sha256TokenPlainV1(tokenPlain);
+
+    // Token-level best-effort rate limiting.
+    rateLimitShareTokenBestEffortV1({ tokenHash, nowMs: Date.now(), windowMs: 60_000, max: 120 });
+
+    const body = await c.req.json().catch(() => ({}));
+    const password = String((body as any)?.password ?? '').trim();
+    if (!password) return c.json({ success: false, error: 'password is required' }, 400);
+
+    const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+    const store = createSharesStoreFsV1();
+    const stored = (await store.resolveShareStoredByTokenHash(tokenHash)) as any;
+
+    const share = (() => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { tokenHash: _omitTokenHash, passwordHash: _omitPasswordHash, ...pub } = stored as any;
+      return pub as ShareLinkV1;
+    })();
+
+    // Revoke/expiry checks
+    if (share.revokedAtIso) return c.json({ success: false, error: 'Invalid credentials' }, 401);
+    if (share.expiresAtIso) {
+      const expMs = Date.parse(String(share.expiresAtIso));
+      if (Number.isFinite(expMs) && Date.now() > expMs) return c.json({ success: false, error: 'Invalid credentials' }, 401);
+    }
+
+    const passwordHash = String(stored?.passwordHash || '').trim() || null;
+    if (!share.requiresPassword || !passwordHash) {
+      return c.json({ success: true, verified: true });
+    }
+
+    rateLimitSharePasswordAttemptsBestEffortV1({ shareId: share.shareId, nowMs: Date.now(), windowMs: 10 * 60_000, max: 12 });
+
+    const { verifySharePasswordV1 } = await import('./modules/sharesV1/passwordV1');
+    const ok = verifySharePasswordV1({ password, passwordHash });
+    if (!ok) return c.json({ success: false, error: 'Invalid credentials' }, 401);
+
+    const { signShareSessionV1 } = await import('./modules/sharesV1/shareSessionV1');
+    const sessionToken = signShareSessionV1({ shareId: share.shareId, tokenHash, expiresInSeconds: 60 * 60 * 8 });
+    setShareSessionCookiesV1(c, sessionToken, 60 * 60 * 8);
+
+    return c.json({ success: true, verified: true });
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to verify password';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
 app.get('/api/share/v1/revision-meta', async (c) => {
   try {
-    const { tokenPlain, share } = (getShareFromContextV1(c) ?? (await resolveShareFromRequestV1(c))) as any;
+    const { share, passwordVerified } = (getShareFromContextV1(c) ?? (await resolveShareFromRequestV1(c, { allowUnverifiedPassword: true }))) as any;
     const { found } = await loadSharedRevisionV1({ projectId: share.projectId, revisionId: share.revisionId });
     const reportType = String(found.reportType || '').trim();
     if (String(share.reportType || '').trim() && String(share.reportType || '').trim() !== reportType) {
@@ -11052,6 +11242,7 @@ app.get('/api/share/v1/revision-meta', async (c) => {
 
     const links: any = {
       metaUrl: '/api/share/v1/revision-meta',
+      verifyPasswordUrl: '/api/share/v1/verify-password',
       htmlUrl: '/api/share/v1/revision/html',
       pdfUrl: '/api/share/v1/revision/pdf',
       jsonUrl: '/api/share/v1/revision/json',
@@ -11065,6 +11256,14 @@ app.get('/api/share/v1/revision-meta', async (c) => {
       delete links.bundleZipUrl;
     }
 
+    // Password gating: meta allowed, but no other links until verified.
+    if (share.requiresPassword && !passwordVerified) {
+      delete links.htmlUrl;
+      delete links.pdfUrl;
+      delete links.jsonUrl;
+      delete links.bundleZipUrl;
+    }
+
     return c.json({
       success: true,
       share: {
@@ -11072,10 +11271,12 @@ app.get('/api/share/v1/revision-meta', async (c) => {
         expiresAtIso: share.expiresAtIso,
         lastAccessAtIso: share.lastAccessAtIso,
         accessCount: share.accessCount,
+        requiresPassword: Boolean(share.requiresPassword),
+        passwordHint: share.passwordHint ?? null,
+        passwordVerified: Boolean(passwordVerified),
       },
       revision,
       links,
-      tokenHint: tokenPlain ? `Share ${String(tokenPlain).slice(0, 6)}…` : undefined,
     });
   } catch (error) {
     const status = (error as any)?.status || 400;
