@@ -7,6 +7,10 @@ import { buildAnalysisTraceV1 } from '../utilityIntelligence/analysisTraceV1/bui
 import type { AnalysisTraceV1 } from '../utilityIntelligence/analysisTraceV1/types';
 import { normalizeIntervalInputsV1 } from '../utilityIntelligence/intervalNormalizationV1/normalizeIntervalInputsV1.node';
 import { StepTraceV1 } from '../utilityIntelligence/stepTraceV1';
+import { runTruthEngineV1 } from '../truthEngineV1/runTruthEngineV1';
+import { runVerifierV1 } from '../verifierV1/runVerifierV1';
+import { evaluateClaimsPolicyV1 } from '../claimsPolicyV1/evaluateClaimsPolicyV1';
+import { runScenarioLabV1 } from '../scenarioLabV1/runScenarioLabV1';
 
 import { shouldEvaluateBattery } from '../batteryIntelligence/shouldEvaluateBattery';
 import { selectBatteryCandidatesV1 } from '../batteryIntelligence/selectCandidates';
@@ -55,6 +59,9 @@ export async function runUtilityWorkflow(args: {
     gate: ReturnType<typeof shouldEvaluateBattery>;
     selection: ReturnType<typeof selectBatteryCandidatesV1>;
   };
+  truthSnapshotV1: ReturnType<typeof runTruthEngineV1>;
+  /** Additive: deterministic Scenario Lab v1 (snapshot-only). */
+  scenarioLabV1: ReturnType<typeof runScenarioLabV1>;
   inbox: {
     utility: ReturnType<typeof toInboxSuggestions>;
     battery: ReturnType<typeof toBatteryRecommendationsV1>;
@@ -123,9 +130,74 @@ export async function runUtilityWorkflow(args: {
     steps: stepTraceV1.getSteps(),
   });
 
+  const truthSnapshotV1 = runTruthEngineV1({
+    generatedAtIso: nowIso,
+    normalizedIntervalV1,
+    intervalPointsV1: args.intervalPointsV1 || null,
+    hasBillText: Boolean(String(args.inputs?.billPdfText || '').trim()),
+    billingMonthly: (args.inputs as any)?.billingSummary?.monthly ?? null,
+  });
+
+  // Deterministic verifier + claims policy, derived strictly from stored workflow snapshots (no GET recompute).
+  const pseudoReportJson: any = {
+    analysisTraceV1,
+    // Prefer the stored battery pack outputs already computed by analyzeUtility.
+    batteryDecisionPackV1_2: (utilityAnalysis as any)?.insights?.batteryDecisionPackV1_2 ?? null,
+    batteryDecisionPackV1: (utilityAnalysis as any)?.insights?.batteryDecisionPackV1 ?? null,
+    batteryEconomicsV1: (utilityAnalysis as any)?.insights?.batteryEconomicsV1 ?? null,
+    storageOpportunityPackV1: (utilityAnalysis as any)?.insights?.storageOpportunityPackV1 ?? null,
+  };
+
+  const verifierResultV1 = (() => {
+    try {
+      return runVerifierV1({
+        generatedAtIso: nowIso,
+        reportType: 'UNKNOWN',
+        analysisRun: null,
+        reportJson: pseudoReportJson,
+        packJson: null,
+        wizardOutput: null,
+      });
+    } catch {
+      return null;
+    }
+  })();
+
+  const claimsPolicyV1 = (() => {
+    try {
+      return evaluateClaimsPolicyV1({
+        analysisTraceV1,
+        requiredInputsMissing,
+        missingInfo: (utilityAnalysis as any)?.insights?.missingInfo ?? [],
+        engineWarnings: (utilityAnalysis as any)?.insights?.engineWarnings ?? [],
+        verifierResultV1: verifierResultV1 ?? null,
+      });
+    } catch {
+      return null;
+    }
+  })();
+
+  const scenarioLabV1 = runScenarioLabV1({
+    storedRunSnapshot: {
+      nowIso,
+      analysisTraceV1,
+      workflow: {
+        utility,
+        battery: { gate, selection },
+      },
+      ...pseudoReportJson,
+    },
+    truthSnapshotV1: truthSnapshotV1 as any,
+    verifierResultV1: verifierResultV1 as any,
+    claimsPolicyV1: claimsPolicyV1 as any,
+    constraints: { maxScenarios: 25, maxFrontierPoints: 15 },
+  });
+
   return {
     utility,
     battery: { gate, selection },
+    truthSnapshotV1,
+    scenarioLabV1,
     inbox: {
       utility: utilityInbox,
       battery: batteryInbox,

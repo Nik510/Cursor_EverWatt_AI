@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
-import path from 'node:path';
 
 import { extractBillPdfTariffHintsV1 } from '../src/modules/utilityIntelligence/billPdf/extractBillPdfTariffHintsV1';
 import { matchBillTariffToLibraryV1 } from '../src/modules/tariffLibrary/matching/matchBillTariffToLibraryV1';
+import { resolveFixturePath } from './helpers/fixturePath';
 
 type Expectation = {
   fixtureFile: string;
@@ -37,7 +37,7 @@ function loadPackCase(args: { packPath: string; caseId: string }): string {
 
 function loadFixtureText(fixtureFile: string): string {
   const [rel, caseId] = fixtureFile.split('#');
-  const fp = path.join(process.cwd(), rel);
+  const fp = resolveFixturePath(rel);
   if (caseId) return loadPackCase({ packPath: fp, caseId });
   return readFileSync(fp, 'utf-8');
 }
@@ -130,7 +130,7 @@ function computeMatchStatus(match: any): 'EXACT' | 'NORMALIZED' | 'AMBIGUOUS' | 
 describe('billPdf fixture pack (CA): tariff hints + tariff library match (deterministic)', () => {
   it('matches all fixture expectations', () => {
     const t0 = Date.now();
-    const expectationsPath = path.join(process.cwd(), 'tests', 'fixtures', 'bills', 'ca', 'expectations.billTariffMatch.ca.v1.json');
+    const expectationsPath = resolveFixturePath('tests/fixtures/bills/ca/expectations.billTariffMatch.ca.v1.json');
     const expectations = JSON.parse(readFileSync(expectationsPath, 'utf-8')) as Expectation[];
     expect(Array.isArray(expectations)).toBe(true);
     expect(expectations.length).toBeGreaterThan(10);

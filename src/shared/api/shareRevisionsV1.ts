@@ -9,12 +9,17 @@ export type GetSharedRevisionMetaV1Response = {
     expiresAtIso: string | null;
     lastAccessAtIso: string | null;
     accessCount: number;
+    requiresPassword: boolean;
+    passwordHint: string | null;
+    passwordVerified: boolean;
   };
   revision: {
     revisionId: string;
     reportType: string;
     createdAtIso: string;
     runId?: string;
+    verifierStatusV1?: 'PASS' | 'WARN' | 'FAIL';
+    claimsStatusV1?: 'ALLOW' | 'LIMITED' | 'BLOCK';
     engineVersions?: Record<string, string>;
     warningsSummary?: {
       engineWarningsCount: number;
@@ -26,6 +31,7 @@ export type GetSharedRevisionMetaV1Response = {
   };
   links: {
     metaUrl: string;
+    verifyPasswordUrl: string;
     htmlUrl?: string;
     pdfUrl?: string;
     jsonUrl?: string;
@@ -39,6 +45,21 @@ export async function getSharedRevisionMetaV1(args: { token: string }): Promise<
   return apiRequest<GetSharedRevisionMetaV1Response>({
     url: '/api/share/v1/revision-meta',
     headers: { Authorization: `Share ${token}` },
+  });
+}
+
+export type VerifySharedRevisionPasswordV1Response = { success: true; verified: true };
+
+export async function verifySharedRevisionPasswordV1(args: { token: string; password: string }): Promise<VerifySharedRevisionPasswordV1Response> {
+  const token = String(args.token || '').trim();
+  if (!token) throw new Error('token is required');
+  const password = String(args.password || '').trim();
+  if (!password) throw new Error('password is required');
+  return apiRequest<VerifySharedRevisionPasswordV1Response>({
+    url: '/api/share/v1/verify-password',
+    method: 'POST',
+    headers: { Authorization: `Share ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password }),
   });
 }
 

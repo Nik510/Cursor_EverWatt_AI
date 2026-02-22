@@ -11,6 +11,8 @@ import type {
   WizardStepStatusV1,
 } from './types';
 import { computeWizardGatingV1 } from './gatingV1';
+import { runVerifierV1 } from '../verifierV1/runVerifierV1';
+import { evaluateClaimsPolicyV1 } from '../claimsPolicyV1/evaluateClaimsPolicyV1';
 
 type JsonValue = null | boolean | number | string | JsonValue[] | { [k: string]: JsonValue };
 
@@ -147,6 +149,59 @@ function buildAction(args: {
   };
 }
 
+function summarizeScenarioLabV1(lab: any): { topLines: string[]; blockedLines: string[]; requiredNext: string[] } {
+  if (!lab || typeof lab !== 'object') return { topLines: [], blockedLines: [], requiredNext: [] };
+  const scenarios: any[] = Array.isArray(lab?.scenarios) ? lab.scenarios : [];
+  const blocked: any[] = Array.isArray(lab?.blockedScenarios) ? lab.blockedScenarios : [];
+  const frontierPts: any[] = Array.isArray(lab?.frontier?.points) ? lab.frontier.points : [];
+
+  const numOrNull = (x: any): number | null => {
+    const n = Number(x);
+    return Number.isFinite(n) ? n : null;
+  };
+
+  const ran = scenarios.filter((s) => String(s?.status || '').toUpperCase() === 'RAN');
+  ran.sort((a, b) => {
+    const aUsd = numOrNull(a?.kpis?.annualUsd);
+    const bUsd = numOrNull(b?.kpis?.annualUsd);
+    const aPb = numOrNull(a?.kpis?.paybackYears);
+    const bPb = numOrNull(b?.kpis?.paybackYears);
+    return (
+      (bUsd ?? -Infinity) - (aUsd ?? -Infinity) ||
+      (aPb ?? Infinity) - (bPb ?? Infinity) ||
+      safeString(a?.scenarioId, 80).localeCompare(safeString(b?.scenarioId, 80))
+    );
+  });
+
+  const top = ran.slice(0, 5).map((s) => {
+    const title = safeString(s?.title, 120) || safeString(s?.scenarioId, 60) || 'scenario';
+    const usd = numOrNull(s?.kpis?.annualUsd);
+    const capex = numOrNull(s?.kpis?.capexUsd);
+    const pb = numOrNull(s?.kpis?.paybackYears);
+    const parts = [
+      usd !== null ? `$${Math.round(usd).toLocaleString('en-US')}/yr` : 'usd gated',
+      capex !== null ? `capex=$${Math.round(capex).toLocaleString('en-US')}` : 'capex n/a',
+      pb !== null ? `payback≈${pb.toFixed(1)}y` : 'payback n/a',
+    ];
+    return `${title} — ${parts.join(' • ')}`;
+  });
+
+  const blockedLines = blocked.slice(0, 8).map((b) => {
+    const title = safeString(b?.title, 120) || safeString(b?.scenarioId, 60) || 'scenario';
+    const req = Array.isArray(b?.requiredNextData) ? b.requiredNextData.map((x: any) => safeString(x, 80)).filter(Boolean) : [];
+    return req.length ? `${title} — needs: ${req.slice(0, 4).join(', ')}` : `${title} — blocked`;
+  });
+
+  const requiredNext = uniqSorted(
+    blocked.flatMap((b) => (Array.isArray(b?.requiredNextData) ? b.requiredNextData : [])).map((x: any) => safeString(x, 120)).filter(Boolean),
+    20,
+  );
+
+  const frontierLine = frontierPts.length ? [`Frontier points: ${String(frontierPts.length)} (bounded)`] : [];
+
+  return { topLines: [...frontierLine, ...top], blockedLines, requiredNext };
+}
+
 export function buildWizardOutputV1(args: {
   session: ReportSessionV1;
   runId: string;
@@ -225,6 +280,9 @@ export function buildWizardOutputV1(args: {
   const batteryDecisionPack: any = reportJson?.batteryDecisionPackV1_2 ?? null;
   const batteryTier = safeString(batteryDecisionPack?.recommendationV1?.recommendationTier || batteryDecisionPack?.confidenceTier);
   const batterySelected = safeString(batteryDecisionPack?.selected?.candidateId);
+
+  const scenarioLabV1: any = reportJson?.scenarioLabV1 ?? workflow?.scenarioLabV1 ?? null;
+  const scenarioLabSummary = summarizeScenarioLabV1(scenarioLabV1);
 
   const findings: WizardFindingV1[] = [];
   const pushFinding = (f: WizardFindingV1) => findings.push(f);
@@ -318,6 +376,47 @@ export function buildWizardOutputV1(args: {
         ...(batteryTier ? [`Recommendation tier: ${batteryTier}`] : []),
         ...(batterySelected ? [`Selected candidate: ${batterySelected}`] : []),
       ],
+    });
+  }
+
+  const truthSnapshot: any = reportJson?.truthSnapshotV1 ?? workflow?.truthSnapshotV1 ?? null;
+  if (truthSnapshot && typeof truthSnapshot === 'object' && String(truthSnapshot?.schemaVersion) === 'truthSnapshotV1') {
+    const tier = safeString(truthSnapshot?.truthConfidence?.tier, 10) || 'C';
+    const sev: WizardFindingV1['severity'] = tier === 'A' ? 'info' : tier === 'B' ? 'warning' : 'warning';
+    const conf0to1 = clamp01(tier === 'A' ? 0.85 : tier === 'B' ? 0.65 : 0.45);
+
+    const cps: any[] = Array.isArray(truthSnapshot?.changepointsV1) ? truthSnapshot.changepointsV1 : [];
+    cps.sort(
+      (a, b) =>
+        Number(b?.confidence || 0) - Number(a?.confidence || 0) ||
+        Math.abs(Number(b?.magnitude || 0)) - Math.abs(Number(a?.magnitude || 0)) ||
+        safeString(a?.atIso, 60).localeCompare(safeString(b?.atIso, 60)) ||
+        safeString(a?.type, 60).localeCompare(safeString(b?.type, 60)),
+    );
+
+    const anoms: any[] = Array.isArray(truthSnapshot?.anomalyLedgerV1) ? truthSnapshot.anomalyLedgerV1 : [];
+
+    const requiredNext = uniqSorted(
+      anoms
+        .flatMap((a: any) => (Array.isArray(a?.requiredNextData) ? a.requiredNextData : []))
+        .map((x: any) => safeString(x, 120))
+        .filter(Boolean),
+      12,
+    );
+
+    const bullets: string[] = [];
+    bullets.push(`Truth Engine confidence: ${tier}`);
+    if (cps.length) bullets.push(`Top changepoints: ${cps.slice(0, 3).map((c) => `${safeString(c?.type, 40)} @ ${safeString(c?.atIso, 30)}`).join(' • ')}`);
+    if (anoms.length) bullets.push(`Top anomalies: ${anoms.slice(0, 5).map((a) => `${safeString(a?.class, 20)} (${safeString(a?.window?.startIso, 30)})`).join(' • ')}`);
+    if (requiredNext.length) bullets.push(`Required next data: ${requiredNext.slice(0, 6).join(' • ')}`);
+
+    pushFinding({
+      id: 'truth_building_story',
+      title: 'Building story (Truth Engine v1)',
+      severity: sev,
+      confidence0to1: conf0to1,
+      evidenceRefs: [`analysisRun:${runId}:reportJson.truthSnapshotV1`],
+      summaryBullets: bullets,
     });
   }
 
@@ -453,6 +552,34 @@ export function buildWizardOutputV1(args: {
       helpText: 'Enables interval-derived load shape, demand, and battery feasibility signals.',
     });
 
+    // Building story (Truth Engine)
+    steps.push({
+      id: 'building_story',
+      title: 'Building story (Truth Engine v1)',
+      status: hasIntervals ? 'DONE' : 'OPTIONAL',
+      requiredActions: [],
+      evidence: { runId },
+      helpText: hasIntervals
+        ? 'Derived from stored interval/weather snapshots only: baseline expectations, residual maps, changepoints, and bounded anomaly ledger.'
+        : 'Optional: interval data unlocks baseline expectations, residual maps, changepoints, and bounded anomaly ledger.',
+    });
+
+    // Opportunity frontier (Scenario Lab)
+    steps.push({
+      id: 'opportunity_frontier',
+      title: 'Opportunity Frontier (Scenario Lab v1)',
+      status: scenarioLabV1 ? 'DONE' : 'OPTIONAL',
+      requiredActions: [],
+      evidence: { runId },
+      helpText: scenarioLabV1
+        ? [
+            ...scenarioLabSummary.topLines.map((x) => `• ${x}`),
+            ...(scenarioLabSummary.blockedLines.length ? ['Blocked scenarios:', ...scenarioLabSummary.blockedLines.map((x) => `• ${x}`)] : []),
+            ...(scenarioLabSummary.requiredNext.length ? [`Required next data (deduped): ${scenarioLabSummary.requiredNext.join(' • ')}`] : []),
+          ].join('\n')
+        : 'Snapshot-only bounded scenario exploration (battery-first + tariff-light), gated by verifier + claims policy.',
+    });
+
     // Rate code (required for full tariff auditability)
     steps.push({
       id: 'rate_code',
@@ -548,6 +675,35 @@ export function buildWizardOutputV1(args: {
     return steps as any[];
   })();
 
+  const verifierResultV1 = (() => {
+    try {
+      return runVerifierV1({
+        generatedAtIso: nowIso,
+        reportType: 'UNKNOWN',
+        analysisRun,
+        reportJson,
+        packJson: null,
+        wizardOutput: null,
+      });
+    } catch {
+      return null;
+    }
+  })();
+
+  const claimsPolicyV1 = (() => {
+    try {
+      return evaluateClaimsPolicyV1({
+        analysisTraceV1: reportJson?.analysisTraceV1 ?? null,
+        requiredInputsMissing,
+        missingInfo: missingInfoRaw,
+        engineWarnings,
+        verifierResultV1: verifierResultV1 ?? null,
+      });
+    } catch {
+      return null;
+    }
+  })();
+
   const payload = {
     provenance: {
       reportId: String(session.reportId),
@@ -564,6 +720,8 @@ export function buildWizardOutputV1(args: {
       recommended: missingInfoRecommended.slice(0, 120),
       warnings: engineWarnings.slice(0, 80),
     },
+    ...(verifierResultV1 ? { verifierResultV1 } : {}),
+    ...(claimsPolicyV1 ? { claimsPolicyV1 } : {}),
     dataQuality: {
       score0to100: score,
       missingInfoIds: missingInfoIds.slice(0, 50),

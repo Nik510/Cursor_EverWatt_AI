@@ -3,15 +3,21 @@ import path from 'node:path';
 import { mkdir, writeFile, unlink } from 'node:fs/promises';
 
 import './helpers/mockHeavyServerDeps';
+import { enableDemoJwtForTests, getDemoBearerToken } from './helpers/demoJwt';
 
 describe('internal engineering report endpoint hardening', () => {
   it('overwrites reportJson.projectId with route param projectId', async () => {
     const userId = 'u_test_internal_eng';
+    const email = `${userId}@example.com`;
+    const authUserId = userId;
     const projectId = `p_${Date.now()}_${Math.random().toString(16).slice(2, 8)}`;
 
     try {
+      delete process.env.EVERWATT_PROJECTS_BASEDIR;
       vi.resetModules();
+      enableDemoJwtForTests();
       const { default: app } = await import('../src/server');
+      const authz = await getDemoBearerToken(app, email, authUserId);
 
       // Create a minimal project record that matches the server's userId gating.
       const projectsDir = path.join(process.cwd(), 'data', 'projects');
@@ -22,7 +28,7 @@ describe('internal engineering report endpoint hardening', () => {
         JSON.stringify(
           {
             id: projectId,
-            userId,
+            userId: authUserId,
             driveFolderLink: '',
             customer: { projectNumber: '1', companyName: 'Acme' },
             reportsV1: {},
@@ -34,7 +40,7 @@ describe('internal engineering report endpoint hardening', () => {
 
       const res = await app.request(`/api/projects/${encodeURIComponent(projectId)}/reports/internal-engineering`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': userId },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({
           title: 't',
           reportJson: { schemaVersion: 'internalEngineeringReportV1', projectId: 'p_evil', telemetry: {} },
@@ -46,7 +52,7 @@ describe('internal engineering report endpoint hardening', () => {
       expect(json?.revision?.reportJson?.projectId).toBe(projectId);
 
       const listRes = await app.request(`/api/projects/${encodeURIComponent(projectId)}/reports/internal-engineering`, {
-        headers: { 'x-user-id': userId },
+        headers: { Authorization: authz },
       });
       expect(listRes.status).toBe(200);
       const listJson = await listRes.json();

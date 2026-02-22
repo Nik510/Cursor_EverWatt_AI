@@ -4,6 +4,7 @@ import path from 'node:path';
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 
 import './helpers/mockHeavyServerDeps';
+import { enableDemoJwtForTests, getDemoBearerToken } from './helpers/demoJwt';
 
 type RunAndStoreResponse = {
   success: true;
@@ -55,21 +56,26 @@ describe('analysisRunsV1 endpoints (e2e deterministic contract)', () => {
     process.env.EVERWATT_ANALYSIS_RUNS_V1_BASEDIR = baseDir;
 
     const userId = 'u_test';
+    const email = `${userId}@example.com`;
+    const authUserId = userId;
     const projectIdA = `p_contract_${process.pid}_a`;
     const projectIdB = `p_contract_${process.pid}_b`;
-    const projectFileA = writeProjectFixture({ userId, projectId: projectIdA, rateCode: 'B-19' });
-    const projectFileB = writeProjectFixture({ userId, projectId: projectIdB, rateCode: 'B-20' });
+    const projectFileA = writeProjectFixture({ userId: authUserId, projectId: projectIdA, rateCode: 'B-19' });
+    const projectFileB = writeProjectFixture({ userId: authUserId, projectId: projectIdB, rateCode: 'B-20' });
 
     vi.useFakeTimers();
     try {
+      delete process.env.EVERWATT_PROJECTS_BASEDIR;
       vi.resetModules();
+      enableDemoJwtForTests();
       const { default: app } = await import('../src/server');
+      const authz = await getDemoBearerToken(app, email, authUserId);
 
       async function runAndStore(projectId: string, nowIso: string): Promise<RunAndStoreResponse> {
         vi.setSystemTime(new Date(nowIso));
         const res = await app.request('/api/analysis-results-v1/run-and-store', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'x-user-id': userId },
+          headers: { 'Content-Type': 'application/json', Authorization: authz },
           body: JSON.stringify({ projectId }),
         });
         expect(res.status).toBe(200);
@@ -84,7 +90,7 @@ describe('analysisRunsV1 endpoints (e2e deterministic contract)', () => {
 
       expect(runA.runId).not.toBe(runB.runId);
 
-      const listRes = await app.request('/api/analysis-results-v1/runs', { headers: { 'x-user-id': userId } });
+      const listRes = await app.request('/api/analysis-results-v1/runs', { headers: { Authorization: authz } });
       expect(listRes.status).toBe(200);
       const listJson: any = await listRes.json();
       expect(listJson?.success).toBe(true);
@@ -108,7 +114,7 @@ describe('analysisRunsV1 endpoints (e2e deterministic contract)', () => {
 
       const diffRes = await app.request('/api/analysis-results-v1/diff', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': userId },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ runIdA: runA.runId, runIdB: runB.runId }),
       });
       expect(diffRes.status).toBe(200);
@@ -135,7 +141,7 @@ describe('analysisRunsV1 endpoints (e2e deterministic contract)', () => {
       expect(diffJson.diff.changedSections).toEqual(expect.arrayContaining(['rate_and_supply']));
 
       const pdfRes = await app.request(`/api/analysis-results-v1/runs/${encodeURIComponent(runB.runId)}/pdf`, {
-        headers: { 'x-user-id': userId },
+        headers: { Authorization: authz },
       });
       expect(pdfRes.status).toBe(200);
       expect(pdfRes.headers.get('content-type')).toContain('application/pdf');

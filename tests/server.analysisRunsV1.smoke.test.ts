@@ -4,6 +4,7 @@ import path from 'node:path';
 import { mkdtempSync } from 'node:fs';
 
 import './helpers/mockHeavyServerDeps';
+import { enableDemoJwtForTests, getDemoBearerToken } from './helpers/demoJwt';
 
 describe('analysisRunsV1 endpoints (smoke)', () => {
   it('can run-and-store (demo), fetch run snapshot, diff, and render pdf without recompute', async () => {
@@ -13,11 +14,13 @@ describe('analysisRunsV1 endpoints (smoke)', () => {
 
     try {
       vi.resetModules();
+      enableDemoJwtForTests();
       const { default: app } = await import('../src/server');
+      const authz = await getDemoBearerToken(app, 'u_test@example.com', 'u_test');
 
       const runRes = await app.request('/api/analysis-results-v1/run-and-store', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ demo: true }),
       });
       expect(runRes.status).toBe(200);
@@ -29,7 +32,7 @@ describe('analysisRunsV1 endpoints (smoke)', () => {
       const runId = String(runJson.runId);
 
       const getRes = await app.request(`/api/analysis-results-v1/runs/${runId}`, {
-        headers: { 'x-user-id': 'u_test' },
+        headers: { Authorization: authz },
       });
       expect(getRes.status).toBe(200);
       const getJson: any = await getRes.json();
@@ -38,7 +41,7 @@ describe('analysisRunsV1 endpoints (smoke)', () => {
 
       const diffRes = await app.request(`/api/analysis-results-v1/diff`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ runIdA: runId, runIdB: runId }),
       });
       expect(diffRes.status).toBe(200);
@@ -47,7 +50,7 @@ describe('analysisRunsV1 endpoints (smoke)', () => {
       expect(Array.isArray(diffJson?.diff?.categories)).toBe(true);
 
       const pdfRes = await app.request(`/api/analysis-results-v1/runs/${runId}/pdf`, {
-        headers: { 'x-user-id': 'u_test' },
+        headers: { Authorization: authz },
       });
       expect(pdfRes.status).toBe(200);
       expect(pdfRes.headers.get('content-type')).toContain('application/pdf');

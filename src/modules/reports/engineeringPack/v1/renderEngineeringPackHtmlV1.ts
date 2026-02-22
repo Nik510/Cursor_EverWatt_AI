@@ -1,4 +1,5 @@
 import type { EngineeringPackJsonV1 } from './buildEngineeringPackJsonV1';
+import { renderBrandTemplateV1 } from '../../shared/renderBrandTemplateV1';
 
 type StableJson = any;
 
@@ -38,6 +39,13 @@ function fmt(x: unknown): string {
   return s ? s : '—';
 }
 
+function fmtNum(x: unknown, digits = 0): string {
+  const n = Number(x);
+  if (!Number.isFinite(n)) return '—';
+  const isInt = Math.abs(n - Math.round(n)) < 1e-9;
+  return isInt ? String(Math.round(n)) : n.toFixed(digits);
+}
+
 export function renderEngineeringPackHtmlV1(args: {
   project: { id: string; name?: string };
   revision: { id: string; createdAt: string; title?: string; packJson: EngineeringPackJsonV1; packHash?: string };
@@ -63,12 +71,15 @@ export function renderEngineeringPackHtmlV1(args: {
     { k: 'runId', v: fmt(linkage.runId) },
     { k: 'revisionId', v: fmt(linkage.revisionId || revId) },
     ...(linkage.wizardOutputHash ? [{ k: 'wizardOutputHash', v: fmt(linkage.wizardOutputHash) }] : []),
+    { k: 'verifierStatus', v: fmt((pack as any)?.verificationSummaryV1?.status || (pack as any)?.verifierResultV1?.status) },
+    { k: 'claimsStatus', v: fmt((pack as any)?.claimsPolicyV1?.status) },
     { k: 'generatedAtIso', v: fmt((pack as any)?.generatedAtIso) },
   ];
 
   const warnings: any = sections?.warningsAndMissingInfo || {};
   const engineWarnings = Array.isArray(warnings.engineWarnings) ? warnings.engineWarnings : [];
   const missingInfo = Array.isArray(warnings.missingInfo) ? warnings.missingInfo : [];
+  const lab: any = sections?.scenarioLabV1 ?? null;
 
   const audit: any = sections?.auditDrawer || {};
   const auditLine = audit?.present
@@ -89,64 +100,71 @@ export function renderEngineeringPackHtmlV1(args: {
 
   const jsonPretty = JSON.stringify(stableNormalize(pack), null, 2);
 
-  return [
-    `<!doctype html>`,
-    `<html lang="en">`,
-    `<head>`,
-    `<meta charset="utf-8" />`,
-    `<meta name="viewport" content="width=device-width, initial-scale=1" />`,
-    `<title>${escapeHtml(title)}</title>`,
-    `<style>`,
-    `  :root { --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }`,
-    `  body { margin:0; font-family: var(--sans); background: #ffffff; color: #0f172a; }`,
-    `  .wrap { max-width: 1040px; margin: 0 auto; padding: 28px 20px; }`,
-    `  .hdr { display:flex; justify-content: space-between; gap: 16px; align-items: flex-start; }`,
-    `  h1 { font-size: 20px; margin:0; }`,
-    `  .meta { font-family: var(--mono); font-size: 12px; color: #334155; }`,
-    `  .pill { display:inline-block; padding: 2px 8px; border-radius: 999px; border: 1px solid #e2e8f0; background: #f8fafc; font-family: var(--mono); font-size: 11px; color:#334155; }`,
-    `  .grid { display:grid; grid-template-columns: 1fr; gap: 14px; margin-top: 16px; }`,
-    `  .card { border: 1px solid #e2e8f0; border-radius: 12px; overflow:hidden; }`,
-    `  .cardTitle { padding: 10px 12px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; font-size: 12px; font-weight: 800; }`,
-    `  .cardBody { padding: 12px; }`,
-    `  table.kv { width:100%; border-collapse: collapse; }`,
-    `  table.kv td { padding: 6px 8px; border-bottom: 1px solid #e2e8f0; font-size: 12px; }`,
-    `  table.kv td.k { width: 260px; color:#334155; font-family: var(--mono); }`,
-    `  table.kv td.v { color:#0f172a; font-family: var(--mono); }`,
-    `  .muted { color:#64748b; font-size: 12px; }`,
-    `  pre { margin:0; padding: 12px; font-family: var(--mono); font-size: 12px; line-height: 1.45; overflow:auto; background: #0b1020; color: #e2e8f0; border-radius: 12px; }`,
-    `  ul { margin: 0; padding-left: 18px; }`,
-    `  li { font-family: var(--mono); font-size: 12px; color:#0f172a; margin: 3px 0; }`,
-    `</style>`,
-    `</head>`,
-    `<body>`,
-    `<div class="wrap">`,
-    `<div class="hdr">`,
-    `<div>`,
-    `<h1>${escapeHtml(title)}</h1>`,
-    `<div class="meta">createdAt=${escapeHtml(createdAt)} • revisionId=${escapeHtml(revId)}${hash ? ` • hash=${escapeHtml(hash.slice(0, 12))}…` : ''}</div>`,
-    `</div>`,
-    `<div class="pill">snapshot-only • deterministic renderer</div>`,
-    `</div>`,
+  const scenarioLabHtml = (() => {
+    if (!lab || typeof lab !== 'object') return `<div class="muted">(scenario lab unavailable)</div>`;
+    const scenarios: any[] = Array.isArray(lab?.scenarios) ? lab.scenarios : [];
+    const blocked: any[] = Array.isArray(lab?.blockedScenarios) ? lab.blockedScenarios : [];
+
+    const rows = scenarios
+      .slice(0, 25)
+      .map((s: any) => {
+        const id = fmt(s?.scenarioId);
+        const title = fmt(s?.title);
+        const status = fmt(s?.status);
+        const conf = fmt(s?.confidenceTier);
+        const usd = s?.kpis?.annualUsd !== null && s?.kpis?.annualUsd !== undefined ? `$${fmtNum(s.kpis.annualUsd, 0)}/yr` : 'usd n/a';
+        const capex = s?.kpis?.capexUsd !== null && s?.kpis?.capexUsd !== undefined ? `$${fmtNum(s.kpis.capexUsd, 0)}` : 'capex n/a';
+        const pb = s?.kpis?.paybackYears !== null && s?.kpis?.paybackYears !== undefined ? `${fmtNum(s.kpis.paybackYears, 1)}y` : 'pb n/a';
+        return `<tr><td class="mono">${escapeHtml(id)}</td><td>${escapeHtml(title)}</td><td>${escapeHtml(status)}</td><td>${escapeHtml(conf)}</td><td class="mono">${escapeHtml(usd)}</td><td class="mono">${escapeHtml(capex)}</td><td class="mono">${escapeHtml(pb)}</td></tr>`;
+      })
+      .join('');
+
+    const blockedReq = blocked
+      .flatMap((b: any) => (Array.isArray(b?.requiredNextData) ? b.requiredNextData : []))
+      .map((x: any) => fmt(x))
+      .filter(Boolean);
+
+    const blockedSummary = blocked.length
+      ? `<div class="muted mono">blockedCount=${escapeHtml(String(blocked.length))} • requiredNextData=${escapeHtml(blockedReq.slice(0, 16).join(' • '))}</div>`
+      : `<div class="muted">(no blocked scenarios)</div>`;
+
+    return [
+      `<div class="muted">bounded scenarios=${escapeHtml(String(scenarios.length))}</div>`,
+      `<table class="tbl"><thead><tr><th>scenarioId</th><th>title</th><th>status</th><th>conf</th><th>annualUsd</th><th>capexUsd</th><th>payback</th></tr></thead><tbody>${rows}</tbody></table>`,
+      `<div style="margin-top:10px">${blockedSummary}</div>`,
+    ].join('\n');
+  })();
+
+  const bodyHtml = [
     `<div class="grid">`,
     `<div class="card"><div class="cardTitle">Header</div><div class="cardBody">${renderKv(metaRows)}</div></div>`,
     `<div class="card"><div class="cardTitle">Provenance</div><div class="cardBody">${renderKv(provRows)}<div class="muted" style="margin-top:8px;font-family: var(--mono);">auditDrawerV1: ${escapeHtml(auditLine)}</div></div></div>`,
+    `<div class="card"><div class="cardTitle">Scenario Lab v1 (snapshot-only)</div><div class="cardBody">${scenarioLabHtml}</div></div>`,
     `<div class="card"><div class="cardTitle">Warnings (engine)</div><div class="cardBody">${
-      engineWarnings.length
-        ? `<ul>${engineWarnings.slice(0, 60).map((w: any) => `<li>${escapeHtml(fmt(w?.code))}</li>`).join('')}</ul>`
-        : `<div class="muted">(none)</div>`
+      engineWarnings.length ? `<ul>${engineWarnings.slice(0, 60).map((w: any) => `<li>${escapeHtml(fmt(w?.code))}</li>`).join('')}</ul>` : `<div class="muted">(none)</div>`
     }</div></div>`,
     `<div class="card"><div class="cardTitle">Missing info</div><div class="cardBody">${
-      missingInfo.length
-        ? `<ul>${missingInfo.slice(0, 80).map((m: any) => `<li>${escapeHtml(fmt(m?.id || m?.description))}</li>`).join('')}</ul>`
-        : `<div class="muted">(none)</div>`
+      missingInfo.length ? `<ul>${missingInfo.slice(0, 80).map((m: any) => `<li>${escapeHtml(fmt(m?.id || m?.description))}</li>`).join('')}</ul>` : `<div class="muted">(none)</div>`
     }</div></div>`,
     `<div class="card"><div class="cardTitle">Pack JSON (stable key ordering)</div><div class="cardBody"><pre>${escapeHtml(jsonPretty)}</pre></div></div>`,
     `</div>`,
-    `<div class="muted" style="margin-top:14px;">EverWatt • Engineering Pack v1</div>`,
-    `</div>`,
-    `</body>`,
-    `</html>`,
-    ``,
   ].join('\n');
+
+  const provenanceFooterLines = [
+    { k: 'projectId', v: fmt(hdr.projectId || args.project?.id) },
+    ...(hdr.projectName ? [{ k: 'projectName', v: fmt(hdr.projectName) }] : []),
+    { k: 'revisionId', v: fmt(linkage.revisionId || revId) },
+    { k: 'reportType', v: 'ENGINEERING_PACK_V1' },
+    ...(hash ? [{ k: 'packHash', v: hash.slice(0, 12) + '…' }] : []),
+  ];
+
+  return renderBrandTemplateV1({
+    title,
+    project: { id: args.project?.id, name: args.project?.name },
+    revision: { id: revId, reportType: 'ENGINEERING_PACK_V1', createdAtIso: createdAt },
+    generatedAtIso: String((pack as any)?.generatedAtIso || '').trim() || null,
+    bodyHtml,
+    provenanceFooterLines,
+  });
 }
 

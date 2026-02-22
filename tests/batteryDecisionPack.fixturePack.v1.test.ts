@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
-import path from 'node:path';
 
 import { analyzeIntervalIntelligenceV1 } from '../src/modules/utilityIntelligence/intervalIntelligenceV1/analyzeIntervalIntelligenceV1';
 import { drReadinessV1 } from '../src/modules/batteryEngineV1/drReadinessV1';
 import { buildBatteryDecisionPackV1 } from '../src/modules/batteryEconomicsV1/decisionPackV1';
+import { resolveFixturePath } from './helpers/fixturePath';
 
 type Expectation = {
   fixtureFile: string;
@@ -31,14 +31,6 @@ function safeNum(x: unknown): number | null {
   const n = Number(x);
   if (!Number.isFinite(n)) return null;
   return n;
-}
-
-function resolveRepoPath(rel: string): string {
-  const raw = String(rel || '').trim();
-  if (!raw) return '';
-  const normalized = raw.replace(/\\/g, '/');
-  // Treat both '\' and '/' as separators to be cross-platform (CI runs on Linux).
-  return path.join(process.cwd(), ...normalized.split('/'));
 }
 
 function assertSortedByNpvThenPayback(options: any[]): void {
@@ -72,18 +64,18 @@ describe('Battery Decision Pack v1 fixture pack contract (deterministic)', () =>
   it('matches all fixture expectations (fast)', () => {
     const t0 = Date.now();
 
-    const expectationsPath = path.join(process.cwd(), 'tests', 'fixtures', 'batteryDecisionPack', 'v1', 'expectations.batteryDecisionPack.v1.json');
+    const expectationsPath = resolveFixturePath('tests/fixtures/batteryDecisionPack/v1/expectations.batteryDecisionPack.v1.json');
     const expectations = JSON.parse(readFileSync(expectationsPath, 'utf-8')) as Expectation[];
     expect(Array.isArray(expectations)).toBe(true);
     expect(expectations.length).toBeGreaterThanOrEqual(8);
 
     for (const ex of expectations) {
       try {
-        const fixturePath = resolveRepoPath(ex.fixtureFile);
+        const fixturePath = resolveFixturePath(ex.fixtureFile);
         const fixture = JSON.parse(readFileSync(fixturePath, 'utf-8')) as any;
 
         const points = (() => {
-          const fp = fixture.intervalPointsFile ? resolveRepoPath(String(fixture.intervalPointsFile)) : null;
+          const fp = fixture.intervalPointsFile ? resolveFixturePath(String(fixture.intervalPointsFile)) : null;
           if (!fp) return null;
           return JSON.parse(readFileSync(fp, 'utf-8')) as any[];
         })();

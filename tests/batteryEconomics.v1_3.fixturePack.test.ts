@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
-import path from 'node:path';
 
 import { evaluateBatteryEconomicsV1 } from '../src/modules/batteryEconomicsV1/evaluateBatteryEconomicsV1';
+import { resolveFixturePath } from './helpers/fixturePath';
 
 type Expectation = {
   fixtureFile: string;
@@ -47,14 +47,14 @@ describe('Battery Economics v1.3 fixture pack contract (SGIP + Tax + Degradation
   it('matches all v1.3 fixture expectations (fast)', () => {
     const t0 = Date.now();
 
-    const expectationsPath = path.join(process.cwd(), 'tests', 'fixtures', 'batteryEconomics', 'v1_3', 'expectations.batteryEconomics.v1_3.json');
+    const expectationsPath = resolveFixturePath('tests/fixtures/batteryEconomics/v1_3/expectations.batteryEconomics.v1_3.json');
     const expectations = JSON.parse(readFileSync(expectationsPath, 'utf-8')) as Expectation[];
     expect(Array.isArray(expectations)).toBe(true);
     expect(expectations.length).toBe(12);
 
     for (const ex of expectations) {
       try {
-        const fixturePath = path.join(process.cwd(), ex.fixtureFile);
+        const fixturePath = resolveFixturePath(ex.fixtureFile);
         const fixture = JSON.parse(readFileSync(fixturePath, 'utf-8')) as any;
         const out = evaluateBatteryEconomicsV1(fixture.inputs || null) as any;
 

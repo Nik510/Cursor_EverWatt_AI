@@ -1,4 +1,6 @@
 import type { AnalysisRunV1 } from '../../../analysisRunsV1/types';
+import { runVerifierV1 } from '../../../verifierV1/runVerifierV1';
+import { evaluateClaimsPolicyV1 } from '../../../claimsPolicyV1/evaluateClaimsPolicyV1';
 
 type MissingInfoLike = {
   id?: string;
@@ -11,6 +13,12 @@ type MissingInfoLike = {
 export type EngineeringPackJsonV1 = {
   schemaVersion: 'engineeringPackV1';
   generatedAtIso: string;
+  /** Deterministic verification layer (anti-hallucination firewall). */
+  verifierResultV1?: unknown;
+  /** Lightweight badge-ready summary (stable keys). */
+  verificationSummaryV1?: { status: string; passCount: number; warnCount: number; failCount: number };
+  /** Claims gating policy derived from stored snapshots only. */
+  claimsPolicyV1?: unknown;
   /**
    * Provenance header: stable, required fields for downstream gating.
    * Keys are always present; values may be null where explicitly unknown.
@@ -76,6 +84,8 @@ export type EngineeringPackJsonV1 = {
     intervalInsights: unknown | null;
     determinantsPackSummary: unknown | null;
     weatherRegression: unknown | null;
+    /** Snapshot-only Truth Engine detail view (bounded). */
+    truthEngineV1: unknown | null;
     battery: {
       storageOpportunityPackV1?: unknown | null;
       batteryEconomicsV1?: unknown | null;
@@ -91,6 +101,8 @@ export type EngineeringPackJsonV1 = {
       engineWarnings: Array<{ code: string; details?: unknown }>;
       missingInfo: Array<{ id: string; category?: string; severity?: string; description?: string }>;
     };
+    /** Snapshot-only Scenario Lab v1 (bounded). */
+    scenarioLabV1?: unknown | null;
   };
   /** Full snapshot payload link-out (kept as inline ref ids, not URLs). */
   payloadRefs: {
@@ -228,6 +240,23 @@ export function buildEngineeringPackJsonV1(args: {
   const determinantsPackSummary = workflow?.utility?.insights?.determinantsPackSummary ?? null;
   const weatherRegression = reportJson?.weatherRegressionV1 ?? null;
 
+  const truthEngineV1 = (() => {
+    const truth: any = reportJson?.truthSnapshotV1 ?? reportJson?.workflow?.truthSnapshotV1 ?? null;
+    if (!truth || typeof truth !== 'object' || String(truth?.schemaVersion) !== 'truthSnapshotV1') return null;
+    const cps: any[] = Array.isArray(truth?.changepointsV1) ? truth.changepointsV1 : [];
+    const anoms: any[] = Array.isArray(truth?.anomalyLedgerV1) ? truth.anomalyLedgerV1 : [];
+    const peakHours: any[] = Array.isArray(truth?.residualMapsV1?.peakResidualHours) ? truth.residualMapsV1.peakResidualHours : [];
+    return {
+      coverage: truth?.coverage ?? null,
+      baselineModelV1: truth?.baselineModelV1 ?? null,
+      truthConfidence: truth?.truthConfidence ?? null,
+      truthWarnings: truth?.truthWarnings ?? null,
+      residualPeakHours: peakHours.slice(0, 10),
+      changepointsV1: cps.slice(0, 20),
+      anomalyLedgerV1: anoms.slice(0, 50),
+    };
+  })();
+
   const auditDrawerV1: any = reportJson?.auditDrawerV1 ?? null;
   const auditDrawer = (() => {
     try {
@@ -265,7 +294,7 @@ export function buildEngineeringPackJsonV1(args: {
   const wizardOutputRef = args.wizardOutput ? `wizardOutput:${reportId || 'session'}:${wizardOutputHash || 'missing_hash'}` : undefined;
   const warningsSummary = normalizeWarningsSummary(trace?.warningsSummary ?? (args.analysisRun as any)?.warningsSummary ?? null);
 
-  return {
+  const pack: EngineeringPackJsonV1 = {
     schemaVersion: 'engineeringPackV1',
     generatedAtIso: nowIso,
     provenanceHeader: {
@@ -313,6 +342,7 @@ export function buildEngineeringPackJsonV1(args: {
       intervalInsights,
       determinantsPackSummary,
       weatherRegression,
+      truthEngineV1,
       battery: {
         storageOpportunityPackV1: reportJson?.storageOpportunityPackV1 ?? null,
         batteryEconomicsV1: reportJson?.batteryEconomicsV1 ?? null,
@@ -324,6 +354,7 @@ export function buildEngineeringPackJsonV1(args: {
         engineWarnings,
         missingInfo,
       },
+      scenarioLabV1: reportJson?.scenarioLabV1 ?? reportJson?.workflow?.scenarioLabV1 ?? null,
     },
     payloadRefs: {
       internalEngineeringReportJsonRef: `analysisRun:${runId}:snapshot.reportJson`,
@@ -331,5 +362,33 @@ export function buildEngineeringPackJsonV1(args: {
       ...(wizardOutputRef ? { wizardOutputRef } : {}),
     },
   };
+
+  const verifierResultV1 = runVerifierV1({
+    generatedAtIso: nowIso,
+    reportType: 'ENGINEERING_PACK_V1',
+    analysisRun: args.analysisRun,
+    reportJson,
+    packJson: pack,
+    wizardOutput: args.wizardOutput ?? null,
+  });
+
+  const claimsPolicyV1 = evaluateClaimsPolicyV1({
+    analysisTraceV1: reportJson?.analysisTraceV1 ?? null,
+    requiredInputsMissing: workflow?.requiredInputsMissing ?? [],
+    missingInfo: reportJson?.missingInfo ?? [],
+    engineWarnings: (reportJson?.analysisTraceV1 as any)?.engineWarnings ?? [],
+    verifierResultV1,
+  });
+
+  pack.verifierResultV1 = verifierResultV1;
+  pack.verificationSummaryV1 = {
+    status: verifierResultV1.status,
+    passCount: verifierResultV1.summary.passCount,
+    warnCount: verifierResultV1.summary.warnCount,
+    failCount: verifierResultV1.summary.failCount,
+  };
+  pack.claimsPolicyV1 = claimsPolicyV1;
+
+  return pack;
 }
 

@@ -6,6 +6,7 @@
 import { getRequestListener } from '@hono/node-server';
 import { Hono, type Context } from 'hono';
 import { cors } from 'hono/cors';
+import { getCookie, setCookie } from 'hono/cookie';
 import { writeFile, mkdir, unlink, readFile, readdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
@@ -50,7 +51,7 @@ import type { AdminSession, UserRole } from './backend/admin/types';
 import { signJwt, verifyJwt, getBearerTokenFromAuthHeader, assertJwtSecretConfigured } from './services/auth-service';
 import { authMiddleware, requireRole as requireJwtRole } from './middleware/auth';
 import { ensureDatabaseSchema, isDatabaseEnabled } from './db/client';
-import { isApiError } from './middleware/error-handler';
+import { ApiError, isApiError } from './middleware/error-handler';
 import { securityHeaders } from './middleware/security';
 import { rateLimit } from './middleware/rate-limit';
 import { parseGoogleSheetsUrl, toGoogleSheetsCsvExportUrl } from './utils/google-sheets';
@@ -74,6 +75,7 @@ import { applyTariffBusinessCanonV1 } from './modules/tariffLibrary/businessCano
 import { applyTariffEffectiveStatusV1 } from './modules/tariffLibrary/effectiveStatusV1';
 import { applyTariffCurationV1, loadTariffCurationV1 } from './modules/policy/curation/loadTariffCurationV1';
 import { getLatestProgramsV1 } from './modules/programLibrary/v1';
+import { verifyPortalSessionV1 } from './modules/portalV1/portalSessionV1';
 
 const DEFAULT_UPLOADS_DIR = path.join(tmpdir(), 'everwatt-uploads');
 const DEFAULT_SAMPLES_DIR = path.join(process.cwd(), 'samples');
@@ -137,8 +139,56 @@ function makeRequestScopedIdFactory(args: { prefix: string; runId: string }): ()
 
 const app = new Hono();
 
-// Enable CORS for frontend
-app.use('*', cors());
+/**
+ * CORS lockdown (fail closed by default)
+ * - dev: allow local Vite origins + optional env overrides
+ * - prod: allow only EVERWATT_CORS_ORIGINS (comma-separated)
+ */
+const ENV_CORS_ORIGINS = 'EVERWATT_CORS_ORIGINS';
+const DEV_CORS_DEFAULTS = new Set([
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:5175',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:5174',
+  'http://127.0.0.1:5175',
+]);
+
+function parseCorsOriginsV1(raw: string): string[] {
+  return String(raw || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function getAllowedCorsOriginsV1(): Set<string> {
+  const env = parseCorsOriginsV1(String(process.env[ENV_CORS_ORIGINS] || ''));
+  if (isProductionEnv()) return new Set(env);
+  const out = new Set<string>([...DEV_CORS_DEFAULTS, ...env]);
+  return out;
+}
+
+const allowedCorsOriginsV1 = getAllowedCorsOriginsV1();
+
+app.use(
+  '*',
+  cors({
+    origin: (origin) => {
+      const o = String(origin || '').trim();
+      if (!o) return undefined;
+      return allowedCorsOriginsV1.has(o) ? o : undefined;
+    },
+    credentials: true,
+  })
+);
+
+app.use('*', async (c, next) => {
+  const origin = String(c.req.header('Origin') || '').trim();
+  if (origin && allowedCorsOriginsV1.has(origin)) {
+    c.header('Vary', 'Origin');
+  }
+  await next();
+});
 // Basic security headers
 app.use('*', securityHeaders());
 // Attach JWT user (if present) onto context
@@ -153,6 +203,142 @@ app.use(
     max: Number(process.env.AI_RATE_LIMIT_MAX || 60),
   })
 );
+
+const MAX_JSON_BYTES = (() => {
+  const raw = process.env.EVERWATT_MAX_JSON_BYTES;
+  const parsed = raw !== undefined ? Number(raw) : 2_000_000; // default 2MB
+  const n = Number.isFinite(parsed) && parsed > 0 ? parsed : 2_000_000;
+  // Allow small values for deterministic security tests; keep a hard max.
+  return Math.max(1, Math.min(10 * 1024 * 1024, Math.trunc(n)));
+})();
+const MAX_MULTIPART_BYTES = (() => {
+  const raw = process.env.EVERWATT_MAX_MULTIPART_BYTES;
+  const parsed = raw !== undefined ? Number(raw) : 30_000_000; // default 30MB
+  const n = Number.isFinite(parsed) && parsed > 0 ? parsed : 30_000_000;
+  return Math.max(1, Math.min(200 * 1024 * 1024, Math.trunc(n)));
+})();
+
+async function readJsonWithLimitV1(c: Context, maxBytes: number): Promise<any> {
+  const ab = await c.req.raw.arrayBuffer();
+  const buf = Buffer.from(ab);
+  if (buf.length > maxBytes) {
+    throw new ApiError('Payload too large', { status: 413, code: 'PAYLOAD_TOO_LARGE', details: { maxBytes } });
+  }
+  const text = buf.toString('utf-8').trim();
+  if (!text) return {};
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new ApiError('Invalid JSON', { status: 400, code: 'INVALID_JSON' });
+  }
+}
+
+const HEAVY_ENDPOINT_TIMEOUT_MS = (() => {
+  const raw = process.env.EVERWATT_HEAVY_ENDPOINT_TIMEOUT_MS;
+  const parsed = raw !== undefined ? Number(raw) : isProductionEnv() ? 120_000 : 0; // default 120s in prod, off elsewhere
+  const n = Number.isFinite(parsed) && parsed >= 0 ? parsed : isProductionEnv() ? 120_000 : 0;
+  return Math.max(0, Math.min(30 * 60_000, Math.trunc(n)));
+})();
+
+async function withTimeoutV1<T>(p: Promise<T>, ms: number, label: string): Promise<T> {
+  if (!ms || ms <= 0) return await p;
+  let t: NodeJS.Timeout | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    t = setTimeout(() => reject(new ApiError('Request timed out', { status: 504, code: 'TIMEOUT', details: { label, timeoutMs: ms } })), ms);
+  });
+  try {
+    return await Promise.race([p, timeout]);
+  } finally {
+    if (t) clearTimeout(t);
+  }
+}
+
+// Best-effort request size limits (fail closed when Content-Length is provided)
+app.use('/api/*', async (c, next) => {
+  const method = String(c.req.method || 'GET').toUpperCase();
+  if (method === 'POST' || method === 'PUT' || method === 'PATCH') {
+    const ct = String(c.req.header('content-type') || '').toLowerCase();
+    const len = Number(c.req.header('content-length') || 0);
+    if (Number.isFinite(len) && len > 0) {
+      if (ct.includes('application/json') && len > MAX_JSON_BYTES) {
+        return c.json({ success: false, error: 'Payload too large', code: 'PAYLOAD_TOO_LARGE' }, 413);
+      }
+      if (ct.includes('multipart/form-data') && len > MAX_MULTIPART_BYTES) {
+        return c.json({ success: false, error: 'Payload too large', code: 'PAYLOAD_TOO_LARGE' }, 413);
+      }
+    }
+  }
+  await next();
+});
+
+type RequestIdentityV1 =
+  | { kind: 'jwt'; userId: string }
+  | { kind: 'admin'; userId: string }
+  | { kind: 'portal'; userId: string }
+  | { kind: 'devHeader'; userId: string }
+  | { kind: 'share'; token: string }
+  | { kind: 'none' };
+
+function getRequestIdentityV1(c: Context): RequestIdentityV1 {
+  const authz = String(c.req.header('Authorization') || '').trim();
+  if (/^share\s+/i.test(authz)) {
+    const token = authz.replace(/^share\s+/i, '').trim();
+    return token ? { kind: 'share', token } : { kind: 'none' };
+  }
+
+  const jwtToken = getBearerTokenFromAuthHeader(authz);
+  const jwtUser = jwtToken ? verifyJwt(jwtToken) : null;
+  if (jwtUser?.userId) return { kind: 'jwt', userId: jwtUser.userId };
+
+  const adminSession = getAdminSessionFromRequest(c);
+  if (adminSession?.userId) return { kind: 'admin', userId: adminSession.userId };
+
+  // Portal session cookie (signed; deeper validation happens in portal routes)
+  try {
+    const cookie = String(getCookie(c, 'portal_session') || '').trim();
+    if (cookie) {
+      const parsed = verifyPortalSessionV1(cookie);
+      if (parsed?.userId) return { kind: 'portal', userId: parsed.userId };
+    }
+  } catch {
+    // ignore
+  }
+
+  // Development-only escape hatch for internal tooling/tests.
+  // CRITICAL: must never be accepted in production.
+  if (!isProductionEnv()) {
+    const hdr = String(c.req.header('x-user-id') || '').trim();
+    if (hdr) return { kind: 'devHeader', userId: hdr };
+  }
+
+  return { kind: 'none' };
+}
+
+function requireUserIdentityV1(c: Context): string {
+  const id = getRequestIdentityV1(c);
+  if (id.kind === 'jwt' || id.kind === 'admin' || id.kind === 'portal' || id.kind === 'devHeader') return id.userId;
+  throw new ApiError('Unauthorized', { status: 401, code: 'UNAUTHENTICATED' });
+}
+
+// Protected user-scoped APIs (must never accept spoofed headers)
+const PROTECTED_USER_SCOPED_ROUTES = [
+  '/api/files/*',
+  '/api/analyses',
+  '/api/analyses/*',
+  '/api/projects/*',
+  '/api/calculations',
+  '/api/calculations/*',
+  '/api/audits',
+  '/api/audits/*',
+  '/api/change-orders',
+  '/api/change-orders/*',
+];
+for (const p of PROTECTED_USER_SCOPED_ROUTES) {
+  app.use(p as any, async (c, next) => {
+    requireUserIdentityV1(c);
+    await next();
+  });
+}
 
 // Standardize "not found" responses
 app.notFound((c) => {
@@ -1340,7 +1526,16 @@ app.post('/api/files/upload', async (c) => {
       return c.json({ success: false, error: 'file is required' }, 400);
     }
 
+    const MAX_FILE_BYTES = Math.max(1 * 1024 * 1024, Math.min(500 * 1024 * 1024, Number(process.env.EVERWATT_MAX_UPLOAD_FILE_BYTES || 25_000_000))); // default 25MB/file
+    // Best-effort precheck using File.size (not always populated depending on runtime)
+    if (Number(file.size || 0) > MAX_FILE_BYTES) {
+      return c.json({ success: false, error: 'File too large', code: 'PAYLOAD_TOO_LARGE' }, 413);
+    }
+
     const buf = Buffer.from(await file.arrayBuffer());
+    if (buf.length > MAX_FILE_BYTES) {
+      return c.json({ success: false, error: 'File too large', code: 'PAYLOAD_TOO_LARGE' }, 413);
+    }
     const contentType = file.type || 'application/octet-stream';
 
     const { putUserFile } = await import('./services/storage-service');
@@ -1384,13 +1579,25 @@ app.get('/api/files/*', async (c) => {
 
 app.post('/api/auth/login', async (c) => {
   try {
-    const body = await c.req.json();
-    const email = String(body?.email || '').trim();
-    const userId = String(body?.userId || '').trim();
-    const role = (String(body?.role || 'viewer') as UserRole) || 'viewer';
+    // Demo-only endpoint: disabled in production.
+    if (isProductionEnv() || !demoAuthEnabled()) return internalEndpointNotFound(c);
 
-    // Minimal “dev login” (replace with DB + password later)
-    const resolvedUserId = userId || (email ? `user:${email.toLowerCase()}` : `user:${randomUUID()}`);
+    const body = await readJsonWithLimitV1(c, MAX_JSON_BYTES);
+    const email = String((body as any)?.email || '').trim();
+    const userId = String((body as any)?.userId || '').trim();
+
+    // Deterministic, non-escalatable demo login: role is always VIEWER.
+    const role: UserRole = 'viewer';
+    const requestedUserId = userId;
+    const userIdSafeRe = /^[A-Za-z0-9_-]{1,120}$/;
+    if (requestedUserId && !userIdSafeRe.test(requestedUserId)) {
+      return c.json({ success: false, error: 'Invalid userId (expected [A-Za-z0-9_-])', code: 'INVALID_USER_ID' }, 400);
+    }
+    const resolvedUserId = requestedUserId
+      ? requestedUserId
+      : email
+        ? `user_${createHash('sha256').update(email.toLowerCase()).digest('hex').slice(0, 24)}`
+        : `user_${randomUUID().replace(/-/g, '')}`;
 
     const token = signJwt(
       {
@@ -1407,6 +1614,9 @@ app.post('/api/auth/login', async (c) => {
       user: { userId: resolvedUserId, email: email || undefined, role },
     });
   } catch (error) {
+    if (isApiError(error)) {
+      return c.json({ success: false, error: error.message, ...(error.code ? { code: error.code } : {}) }, error.status as any);
+    }
     console.error('Auth login error:', error);
     return c.json({ success: false, error: 'Login failed' }, 500);
   }
@@ -1447,15 +1657,20 @@ function getAdminSessionFromRequest(c: Context): AdminSession | null {
   return verifySession(token);
 }
 
-function requireRole(c: Context, role: UserRole): AdminSession | null {
+function requireRole(c: Context, role: UserRole): AdminSession {
   const session = getAdminSessionFromRequest(c);
-  if (!hasPermission(session, role)) return null;
+  if (!session) {
+    throw new ApiError('Unauthorized', { status: 401, code: 'UNAUTHENTICATED' });
+  }
+  if (!hasPermission(session, role)) {
+    throw new ApiError('Forbidden', { status: 403, code: 'FORBIDDEN' });
+  }
   return session;
 }
 
 app.post('/api/admin/login', async (c) => {
   try {
-    const body = await c.req.json();
+    const body = await readJsonWithLimitV1(c, MAX_JSON_BYTES);
     const email = String(body?.email || '');
     const password = String(body?.password || '');
 
@@ -1466,6 +1681,9 @@ app.post('/api/admin/login', async (c) => {
 
     return c.json({ success: true, session });
   } catch (error) {
+    if (isApiError(error)) {
+      return c.json({ success: false, error: error.message, ...(error.code ? { code: error.code } : {}) }, error.status as any);
+    }
     console.error('Admin login error:', error);
     return c.json({ success: false, error: 'Login failed' }, 500);
   }
@@ -2343,6 +2561,39 @@ app.post('/api/analyze', async (c) => {
       );
     }
 
+    const MAX_FILE_BYTES = (() => {
+      const raw = process.env.EVERWATT_MAX_UPLOAD_FILE_BYTES;
+      const parsed = raw !== undefined ? Number(raw) : 25_000_000; // default 25MB/file
+      const n = Number.isFinite(parsed) && parsed > 0 ? parsed : 25_000_000;
+      // Allow small values for deterministic security tests; keep a hard max.
+      return Math.max(1, Math.min(200 * 1024 * 1024, Math.trunc(n)));
+    })();
+
+    function isSuspiciousUploadName(name: string): boolean {
+      const raw = String(name || '');
+      if (!raw) return true;
+      if (raw.includes('\0')) return true;
+      if (raw.includes('/') || raw.includes('\\')) return true;
+      if (raw.includes('..')) return true;
+      return false;
+    }
+
+    function pickAllowedExt(name: string, allow: Set<string>, fallback: string): string {
+      const ext = path.extname(String(name || '').trim()).toLowerCase();
+      if (ext && allow.has(ext)) return ext;
+      return fallback;
+    }
+
+    const allowExt = new Set(['.csv', '.xlsx', '.xls']);
+    if (isSuspiciousUploadName(intervalFile.name) || isSuspiciousUploadName(monthlyBillFile.name)) {
+      return c.json({ success: false, error: 'Invalid filename', code: 'INVALID_FILENAME' }, 400);
+    }
+
+    // Best-effort early limit using File.size (not always populated depending on runtime)
+    if (Number(intervalFile.size || 0) > MAX_FILE_BYTES || Number(monthlyBillFile.size || 0) > MAX_FILE_BYTES) {
+      return c.json({ success: false, error: 'File too large', code: 'PAYLOAD_TOO_LARGE' }, 413);
+    }
+
     // Create temporary directory
     const tempDir = path.join(tmpdir(), 'everwatt-uploads');
     if (!existsSync(tempDir)) {
@@ -2350,12 +2601,18 @@ app.post('/api/analyze', async (c) => {
     }
 
     // Generate unique filenames
-    const intervalFilePath = path.join(tempDir, `interval_${Date.now()}_${intervalFile.name}`);
-    const monthlyBillFilePath = path.join(tempDir, `bills_${Date.now()}_${monthlyBillFile.name}`);
+    const intervalExt = pickAllowedExt(intervalFile.name, allowExt, '.xlsx');
+    const billsExt = pickAllowedExt(monthlyBillFile.name, allowExt, '.xlsx');
+    const intervalFilePath = path.join(tempDir, `interval_${Date.now()}_${randomUUID()}${intervalExt}`);
+    const monthlyBillFilePath = path.join(tempDir, `bills_${Date.now()}_${randomUUID()}${billsExt}`);
 
-    // Save uploaded files
+    // Read uploaded files into memory (enforce size on bytes, not just File.size)
     const intervalFileBuffer = Buffer.from(await intervalFile.arrayBuffer());
     const monthlyBillFileBuffer = Buffer.from(await monthlyBillFile.arrayBuffer());
+
+    if (intervalFileBuffer.length > MAX_FILE_BYTES || monthlyBillFileBuffer.length > MAX_FILE_BYTES) {
+      return c.json({ success: false, error: 'File too large', code: 'PAYLOAD_TOO_LARGE' }, 413);
+    }
     
     await writeFile(intervalFilePath, intervalFileBuffer);
     await writeFile(monthlyBillFilePath, monthlyBillFileBuffer);
@@ -4771,17 +5028,7 @@ if (!existsSync(CHANGE_ORDERS_DIR)) {
  * Get current user ID (placeholder - replace with actual auth)
  */
 function getCurrentUserId(c: Context): string {
-  // Prefer JWT user (normal auth)
-  const jwtToken = getBearerTokenFromAuthHeader(c.req.header('Authorization'));
-  const jwtUser = jwtToken ? verifyJwt(jwtToken) : null;
-  if (jwtUser?.userId) return jwtUser.userId;
-
-  // Also accept server-validated admin session when available
-  const adminSession = getAdminSessionFromRequest(c);
-  if (adminSession?.userId) return adminSession.userId;
-
-  // Fallback for non-admin flows
-  return c.req.header('x-user-id') || 'default-user';
+  return requireUserIdentityV1(c);
 }
 
 /**
@@ -5576,7 +5823,12 @@ async function initializeLibraryStorage() {
 // Helper to check admin status (server-validated admin sessions)
 function isAdmin(c: Context): boolean {
   // Admin session tokens
-  if (requireRole(c, 'admin')) return true;
+  try {
+    const session = getAdminSessionFromRequest(c);
+    if (session && hasPermission(session, 'admin')) return true;
+  } catch {
+    // ignore
+  }
 
   // JWT role
   const jwtToken = getBearerTokenFromAuthHeader(c.req.header('Authorization'));
@@ -6319,7 +6571,8 @@ app.get('/api/projects/:id/analysis-results-v1', async (c) => {
       ...(tariffOverrideV1 ? { tariffOverrideV1 } : {}),
     };
 
-    const workflow = await runUtilityWorkflow({
+    const workflow = await withTimeoutV1(
+      runUtilityWorkflow({
       inputs,
       meterId: String(c.req.query('meterId') || '').trim() || undefined,
       intervalKwSeries,
@@ -6329,7 +6582,10 @@ app.get('/api/projects/:id/analysis-results-v1', async (c) => {
       idFactory,
       suggestionIdFactory,
       inboxIdFactory,
-    });
+      }),
+      HEAVY_ENDPOINT_TIMEOUT_MS,
+      'runUtilityWorkflow'
+    );
 
     const summary = generateUtilitySummaryV1({
       inputs,
@@ -6490,16 +6746,20 @@ app.get('/api/projects/:id/analysis-results-v1.pdf', async (c) => {
       ...(tariffOverrideV1 ? { tariffOverrideV1 } : {}),
     };
 
-    const workflow = await runUtilityWorkflow({
-      inputs,
-      meterId: String(c.req.query('meterId') || '').trim() || undefined,
-      intervalKwSeries,
-      batteryLibrary: lib.library.items,
-      nowIso,
-      idFactory,
-      suggestionIdFactory,
-      inboxIdFactory,
-    });
+    const workflow = await withTimeoutV1(
+      runUtilityWorkflow({
+        inputs,
+        meterId: String(c.req.query('meterId') || '').trim() || undefined,
+        intervalKwSeries,
+        batteryLibrary: lib.library.items,
+        nowIso,
+        idFactory,
+        suggestionIdFactory,
+        inboxIdFactory,
+      }),
+      HEAVY_ENDPOINT_TIMEOUT_MS,
+      'runUtilityWorkflow'
+    );
 
     const summary = generateUtilitySummaryV1({
       inputs,
@@ -7742,7 +8002,32 @@ app.post('/api/report-sessions-v1/:reportId/generate-internal-engineering-report
     // Persist a revision under the project record (append-only, bounded) without recompute.
     const nowIso = new Date().toISOString();
     const title = requestedTitle || `Internal Engineering Report • ${nowIso.slice(0, 10)}`;
-    const reportHash = sha256Hex(stableStringifyV1(reportJson));
+
+    const { runVerifierV1 } = await import('./modules/verifierV1/runVerifierV1');
+    const { evaluateClaimsPolicyV1 } = await import('./modules/claimsPolicyV1/evaluateClaimsPolicyV1');
+
+    const verifierResultV1 = runVerifierV1({
+      generatedAtIso: nowIso,
+      reportType: 'INTERNAL_ENGINEERING_V1',
+      analysisRun,
+      reportJson,
+      packJson: null,
+      wizardOutput: null,
+    });
+    const claimsPolicyV1 = evaluateClaimsPolicyV1({
+      analysisTraceV1: (reportJson as any)?.analysisTraceV1 ?? null,
+      requiredInputsMissing: (reportJson as any)?.workflow?.requiredInputsMissing ?? [],
+      missingInfo: (reportJson as any)?.missingInfo ?? [],
+      engineWarnings: ((reportJson as any)?.analysisTraceV1 as any)?.engineWarnings ?? [],
+      verifierResultV1,
+    });
+
+    const reportJsonV1 = {
+      ...(reportJson as any),
+      verifierResultV1,
+      claimsPolicyV1,
+    };
+    const reportHash = sha256Hex(stableStringifyV1(reportJsonV1));
     const engineVersionsMeta = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : undefined;
     const warningsSummaryMeta =
       reportJson?.analysisTraceV1?.warningsSummary && typeof reportJson.analysisTraceV1.warningsSummary === 'object' ? reportJson.analysisTraceV1.warningsSummary : undefined;
@@ -7755,8 +8040,10 @@ app.post('/api/report-sessions-v1/:reportId/generate-internal-engineering-report
       title,
       reportType: 'INTERNAL_ENGINEERING_V1',
       reportHash,
-      reportJson,
+      reportJson: reportJsonV1,
       runId,
+      verifierResultV1,
+      claimsPolicyV1,
       ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
       ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
       ...(wizardOutputHashMeta ? { wizardOutputHash: wizardOutputHashMeta } : {}),
@@ -7868,6 +8155,9 @@ app.post('/api/report-sessions-v1/:reportId/generate-engineering-pack', async (c
       wizardOutputHash,
     });
 
+    const verifierResultV1 = (packJson as any)?.verifierResultV1 ?? null;
+    const claimsPolicyV1 = (packJson as any)?.claimsPolicyV1 ?? null;
+
     const packHash = sha256Hex(stableStringifyV1(packJson));
     const engineVersionsMeta = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : undefined;
     const warningsSummaryMeta =
@@ -7896,6 +8186,8 @@ app.post('/api/report-sessions-v1/:reportId/generate-engineering-pack', async (c
       packJson,
       pdfStorageKey,
       runId,
+      ...(verifierResultV1 ? { verifierResultV1 } : {}),
+      ...(claimsPolicyV1 ? { claimsPolicyV1 } : {}),
       ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
       ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
       ...(wizardOutputHash ? { wizardOutputHash } : {}),
@@ -8025,6 +8317,9 @@ app.post('/api/report-sessions-v1/:reportId/generate-executive-pack', async (c) 
       diffSincePreviousRun,
     });
 
+    const verifierResultV1 = (packJson as any)?.verifierResultV1 ?? null;
+    const claimsPolicyV1 = (packJson as any)?.claimsPolicyV1 ?? null;
+
     const packHash = sha256Hex(stableStringifyV1(packJson));
     const engineVersionsMeta = analysisRun?.engineVersions && typeof analysisRun.engineVersions === 'object' ? analysisRun.engineVersions : undefined;
     const warningsSummaryMeta =
@@ -8053,6 +8348,8 @@ app.post('/api/report-sessions-v1/:reportId/generate-executive-pack', async (c) 
       packJson,
       pdfStorageKey,
       runId,
+      ...(verifierResultV1 ? { verifierResultV1 } : {}),
+      ...(claimsPolicyV1 ? { claimsPolicyV1 } : {}),
       ...(engineVersionsMeta ? { engineVersions: engineVersionsMeta } : {}),
       ...(warningsSummaryMeta ? { warningsSummary: warningsSummaryMeta } : {}),
       ...(wizardOutputHash ? { wizardOutputHash } : {}),
@@ -10375,16 +10672,36 @@ function findProjectReportRevisionV1(project: any, revisionId: string): { report
   return null;
 }
 
+function extractTrustBadgesFromRevisionV1(rev: any): { verifierStatus?: string; claimsStatus?: string } {
+  try {
+    const vTop = rev?.verifierResultV1 ?? null;
+    const cTop = rev?.claimsPolicyV1 ?? null;
+
+    const vFromPack = rev?.packJson?.verifierResultV1 ?? rev?.packJson?.verificationSummaryV1 ?? null;
+    const cFromPack = rev?.packJson?.claimsPolicyV1 ?? null;
+
+    const vFromReport = rev?.reportJson?.verifierResultV1 ?? null;
+    const cFromReport = rev?.reportJson?.claimsPolicyV1 ?? null;
+
+    const verifierStatusRaw =
+      String(vTop?.status || vFromPack?.status || vFromReport?.status || '').trim().toUpperCase() || '';
+    const claimsStatusRaw = String(cTop?.status || cFromPack?.status || cFromReport?.status || '').trim().toUpperCase() || '';
+
+    const verifierStatus = verifierStatusRaw === 'PASS' || verifierStatusRaw === 'WARN' || verifierStatusRaw === 'FAIL' ? verifierStatusRaw : undefined;
+    const claimsStatus = claimsStatusRaw === 'ALLOW' || claimsStatusRaw === 'LIMITED' || claimsStatusRaw === 'BLOCK' ? claimsStatusRaw : undefined;
+
+    return { ...(verifierStatus ? { verifierStatus } : {}), ...(claimsStatus ? { claimsStatus } : {}) };
+  } catch {
+    return {};
+  }
+}
+
 app.get('/api/projects/:id/reports/revisions/:revisionId', async (c) => {
   try {
     const userId = getCurrentUserId(c);
     const projectId = c.req.param('id');
     const revisionId = c.req.param('revisionId');
-    const project = await loadProjectInternal(userId, projectId);
-    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
-
-    const found = findProjectReportRevisionV1(project, revisionId);
-    if (!found) return c.json({ success: false, error: 'Report revision not found' }, 404);
+    const { found } = await loadSharedRevisionV1({ projectId, revisionId });
 
     const rev = found.rev;
     const createdAtIso = String(rev?.createdAt || '').trim();
@@ -10392,6 +10709,7 @@ app.get('/api/projects/:id/reports/revisions/:revisionId', async (c) => {
     const engineVersions = rev?.engineVersions && typeof rev.engineVersions === 'object' ? rev.engineVersions : {};
     const warningsSummary = rev?.warningsSummary && typeof rev.warningsSummary === 'object' ? rev.warningsSummary : null;
     const wizardOutputHash = String(rev?.wizardOutputHash || '').trim() || null;
+    const trust = extractTrustBadgesFromRevisionV1(rev);
 
     const htmlUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/html`;
     const jsonUrl = `/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(revisionId)}/json`;
@@ -10407,6 +10725,8 @@ app.get('/api/projects/:id/reports/revisions/:revisionId', async (c) => {
         engineVersions,
         ...(warningsSummary ? { warningsSummary } : {}),
         ...(wizardOutputHash ? { wizardOutputHash } : {}),
+        ...(trust.verifierStatus ? { verifierStatusV1: trust.verifierStatus } : {}),
+        ...(trust.claimsStatus ? { claimsStatusV1: trust.claimsStatus } : {}),
       },
       links: { htmlUrl, jsonUrl, pdfUrl, bundleZipUrl },
     });
@@ -10687,6 +11007,8 @@ type ShareLinkV1 = {
   accessCount: number;
   lastAccessAtIso: string | null;
   note?: string | null;
+  requiresPassword: boolean;
+  passwordHint: string | null;
 };
 
 function normalizeShareScopeV1(raw: unknown): ShareScopeV1 {
@@ -10713,8 +11035,21 @@ function parseShareAuthTokenPlainV1(c: Context): string | null {
   return qs || null;
 }
 
+function getShareSessionCookieV1(c: Context): string | null {
+  const v = String(getCookie(c, 'share_session') || '').trim();
+  return v || null;
+}
+
+function setShareSessionCookiesV1(c: Context, value: string, maxAgeSeconds: number) {
+  const secure = process.env.NODE_ENV === 'production';
+  // Two cookies (same name, different Path) to scope to share surfaces only.
+  setCookie(c, 'share_session', value, { httpOnly: true, sameSite: 'Lax', secure, path: '/api/share/v1', maxAge: maxAgeSeconds });
+  setCookie(c, 'share_session', value, { httpOnly: true, sameSite: 'Lax', secure, path: '/share', maxAge: maxAgeSeconds });
+}
+
 type TokenBucketV1 = { resetAt: number; count: number };
 const shareTokenBucketsV1 = new Map<string, TokenBucketV1>();
+const sharePasswordAttemptBucketsV1 = new Map<string, TokenBucketV1>();
 
 function rateLimitShareTokenBestEffortV1(args: { tokenHash: string; nowMs: number; windowMs?: number; max?: number }): void {
   const windowMs = args.windowMs ?? 60_000;
@@ -10741,7 +11076,86 @@ function rateLimitShareTokenBestEffortV1(args: { tokenHash: string; nowMs: numbe
   }
 }
 
-async function resolveShareFromRequestV1(c: Context): Promise<{ tokenPlain: string; share: ShareLinkV1 }> {
+function rateLimitSharePasswordAttemptsBestEffortV1(args: { shareId: string; nowMs: number; windowMs?: number; max?: number }): void {
+  const windowMs = args.windowMs ?? 10 * 60_000;
+  const max = args.max ?? 12;
+  const key = String(args.shareId || '').trim();
+  if (!key) return;
+  const now = args.nowMs;
+  const bucket = sharePasswordAttemptBucketsV1.get(key);
+  if (!bucket || now >= bucket.resetAt) {
+    sharePasswordAttemptBucketsV1.set(key, { resetAt: now + windowMs, count: 1 });
+  } else {
+    bucket.count += 1;
+  }
+  const current = sharePasswordAttemptBucketsV1.get(key)!;
+  if (current.count > max) {
+    const err: any = new Error('Rate limit exceeded');
+    err.status = 429;
+    throw err;
+  }
+  if (sharePasswordAttemptBucketsV1.size > 25_000 && Math.random() < 0.01) {
+    for (const [k, b] of sharePasswordAttemptBucketsV1) {
+      if (now >= b.resetAt) sharePasswordAttemptBucketsV1.delete(k);
+    }
+  }
+}
+
+async function resolveShareFromRequestV1(
+  c: Context,
+  opts?: { allowUnverifiedPassword?: boolean },
+): Promise<{ tokenPlain: string | null; share: ShareLinkV1; passwordVerified: boolean }> {
+  const session = getShareSessionCookieV1(c);
+  if (session) {
+    const { verifyShareSessionV1 } = await import('./modules/sharesV1/shareSessionV1');
+    const parsed = verifyShareSessionV1(session);
+    if (parsed) {
+      const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+      const store = createSharesStoreFsV1();
+      const stored = (await store.getShareStoredById(parsed.shareId)) as any;
+      if (String(stored?.tokenHash || '').trim().toLowerCase() === parsed.tokenHash) {
+        const share = (() => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { tokenHash: _omitTokenHash, passwordHash: _omitPasswordHash, ...pub } = stored as any;
+          return pub as ShareLinkV1;
+        })();
+        // Expiry/revoke checks
+        if (share.revokedAtIso) {
+          const err: any = new Error('Share link revoked');
+          err.status = 410;
+          throw err;
+        }
+        if (share.expiresAtIso) {
+          const expMs = Date.parse(String(share.expiresAtIso));
+          if (Number.isFinite(expMs) && Date.now() > expMs) {
+            const err: any = new Error('Share link expired');
+            err.status = 410;
+            throw err;
+          }
+        }
+
+        // Access accounting (best effort).
+        try {
+          const ua = String(c.req.header('user-agent') || '').trim();
+          const xfwd = String(c.req.header('x-forwarded-for') || '').trim();
+          const xreal = String(c.req.header('x-real-ip') || '').trim();
+          const ip = (xfwd ? xfwd.split(',')[0]?.trim() : '') || xreal || '';
+          const userAgentHash = ua ? createHash('sha256').update(ua, 'utf-8').digest('hex') : null;
+          const ipHash = ip ? createHash('sha256').update(ip, 'utf-8').digest('hex') : null;
+          await store.recordAccess({ shareId: share.shareId, nowIso: new Date().toISOString(), userAgentHash, ipHash });
+        } catch {
+          // best-effort
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (c as any).set?.('shareLinkV1', share);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (c as any).set?.('sharePasswordVerifiedV1', true);
+        return { tokenPlain: null, share, passwordVerified: true };
+      }
+    }
+  }
+
   const tokenPlain = parseShareAuthTokenPlainV1(c);
   if (!tokenPlain) {
     const err: any = new Error('Missing share token');
@@ -10781,24 +11195,39 @@ async function resolveShareFromRequestV1(c: Context): Promise<{ tokenPlain: stri
 
   // Access accounting (atomic-ish; best effort).
   try {
-    await store.recordAccess({ shareId: share.shareId, nowIso });
+    const ua = String(c.req.header('user-agent') || '').trim();
+    const xfwd = String(c.req.header('x-forwarded-for') || '').trim();
+    const xreal = String(c.req.header('x-real-ip') || '').trim();
+    const ip = (xfwd ? xfwd.split(',')[0]?.trim() : '') || xreal || '';
+    const userAgentHash = ua ? createHash('sha256').update(ua, 'utf-8').digest('hex') : null;
+    const ipHash = ip ? createHash('sha256').update(ip, 'utf-8').digest('hex') : null;
+    await store.recordAccess({ shareId: share.shareId, nowIso, userAgentHash, ipHash });
   } catch {
     // best-effort
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (c as any).set?.('shareTokenPlainV1', tokenPlain);
+  if (share.requiresPassword) {
+    const allow = Boolean(opts?.allowUnverifiedPassword);
+    if (!allow) {
+      const err: any = new Error('Password required');
+      err.status = 401;
+      throw err;
+    }
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (c as any).set?.('shareLinkV1', share);
-  return { tokenPlain, share };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (c as any).set?.('sharePasswordVerifiedV1', !share.requiresPassword);
+  return { tokenPlain, share, passwordVerified: !share.requiresPassword };
 }
 
-function getShareFromContextV1(c: Context): { tokenPlain: string; share: ShareLinkV1 } | null {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const tokenPlain = ((c as any).get?.('shareTokenPlainV1') as string | undefined) || null;
+function getShareFromContextV1(c: Context): { tokenPlain: string | null; share: ShareLinkV1; passwordVerified: boolean } | null {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const share = ((c as any).get?.('shareLinkV1') as ShareLinkV1 | undefined) || null;
-  return tokenPlain && share ? { tokenPlain, share } : null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const verified = Boolean(((c as any).get?.('sharePasswordVerifiedV1') as boolean | undefined) ?? false);
+  return share ? { tokenPlain: null, share, passwordVerified: verified } : null;
 }
 
 async function loadSharedRevisionV1(args: { projectId: string; revisionId: string }): Promise<{ project: any; found: { reportType: string; rev: any } }> {
@@ -10843,6 +11272,8 @@ function toShareSafeRevisionMetaV1(args: { revisionId: string; reportType: strin
   engineVersions?: Record<string, string>;
   warningsSummary?: any;
   wizardOutputHash?: string;
+  verifierStatusV1?: string;
+  claimsStatusV1?: string;
 } {
   const revisionId = String(args.revisionId || '').trim();
   const reportType = String(args.reportType || '').trim();
@@ -10852,6 +11283,7 @@ function toShareSafeRevisionMetaV1(args: { revisionId: string; reportType: strin
   const engineVersions = rev?.engineVersions && typeof rev.engineVersions === 'object' ? rev.engineVersions : null;
   const warningsSummary = rev?.warningsSummary && typeof rev.warningsSummary === 'object' ? rev.warningsSummary : null;
   const wizardOutputHash = String(rev?.wizardOutputHash || '').trim() || null;
+  const trust = extractTrustBadgesFromRevisionV1(rev);
   return {
     revisionId,
     reportType,
@@ -10860,6 +11292,8 @@ function toShareSafeRevisionMetaV1(args: { revisionId: string; reportType: strin
     ...(engineVersions ? { engineVersions } : {}),
     ...(warningsSummary ? { warningsSummary } : {}),
     ...(wizardOutputHash ? { wizardOutputHash } : {}),
+    ...(trust.verifierStatus ? { verifierStatusV1: trust.verifierStatus } : {}),
+    ...(trust.claimsStatus ? { claimsStatusV1: trust.claimsStatus } : {}),
   };
 }
 
@@ -10884,6 +11318,8 @@ app.post('/api/shares-v1/create', async (c) => {
     const expiresInHoursRaw = Number((body as any)?.expiresInHours ?? 168);
     const expiresInHours = Math.max(1, Math.min(24 * 365, Number.isFinite(expiresInHoursRaw) ? Math.trunc(expiresInHoursRaw) : 168));
     const note = String((body as any)?.note ?? '').trim() || null;
+    const password = String((body as any)?.password ?? '').trim() || null;
+    const passwordHint = String((body as any)?.passwordHint ?? '').trim() || null;
 
     if (!projectId) return c.json({ success: false, error: 'projectId is required' }, 400);
     if (!revisionId) return c.json({ success: false, error: 'revisionId is required' }, 400);
@@ -10903,6 +11339,8 @@ app.post('/api/shares-v1/create', async (c) => {
     const nowIso = new Date().toISOString();
     const expiresAtIso = new Date(Date.now() + expiresInHours * 60 * 60 * 1000).toISOString();
 
+    const pwHash = password ? (await import('./modules/sharesV1/passwordV1')).hashSharePasswordV1(password) : null;
+
     const created = await store.createShareLink({
       tokenHash,
       projectId,
@@ -10912,6 +11350,7 @@ app.post('/api/shares-v1/create', async (c) => {
       expiresAtIso,
       createdAtIso: nowIso,
       createdBy: userId,
+      ...(pwHash ? { requiresPassword: true, passwordHash: pwHash, passwordHint } : {}),
       ...(note ? { note } : {}),
     });
 
@@ -10923,24 +11362,44 @@ app.post('/api/shares-v1/create', async (c) => {
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to create share link';
-    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : 400;
+    const status = (error as any)?.status || (String(message).toLowerCase().includes('unauthorized') ? 401 : 400);
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/shares-v1/:shareId/set-password', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const shareId = String(c.req.param('shareId') || '').trim();
+    if (!shareId) return c.json({ success: false, error: 'shareId is required' }, 400);
+
+    const body = await c.req.json().catch(() => ({}));
+    const password = String((body as any)?.password ?? '').trim();
+    const passwordHint = Object.prototype.hasOwnProperty.call(body as any, 'passwordHint') ? (String((body as any)?.passwordHint ?? '').trim() || null) : undefined;
+    if (!password) return c.json({ success: false, error: 'password is required' }, 400);
+
+    const { hashSharePasswordV1 } = await import('./modules/sharesV1/passwordV1');
+    const passwordHash = hashSharePasswordV1(password);
+
+    const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+    const store = createSharesStoreFsV1();
+    const share = await store.setPassword({ shareId, passwordHash, ...(passwordHint !== undefined ? { passwordHint } : {}) });
+    return c.json({ success: true, share });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to set share password';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : String(message).toLowerCase().includes('not found') ? 404 : 400;
     return c.json({ success: false, error: message }, status as any);
   }
 });
 
 app.post('/api/shares-v1/:shareId/revoke', async (c) => {
   try {
-    const { userId } = requireEditorAccessForAi(c);
+    requireEditorAccessForAi(c);
     const shareId = String(c.req.param('shareId') || '').trim();
     if (!shareId) return c.json({ success: false, error: 'shareId is required' }, 400);
 
     const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
     const store = createSharesStoreFsV1();
-    const share = await store.getShareById(shareId);
-
-    const project = await loadProjectInternal(userId, String(share.projectId || '').trim());
-    if (!project) return c.json({ success: false, error: 'Share not found' }, 404);
-
     const revoked = await store.revokeShare({ shareId });
     return c.json({ success: true, share: revoked });
   } catch (error) {
@@ -10952,13 +11411,10 @@ app.post('/api/shares-v1/:shareId/revoke', async (c) => {
 
 app.get('/api/shares-v1/projects/:projectId', async (c) => {
   try {
-    const { userId } = requireEditorAccessForAi(c);
+    requireEditorAccessForAi(c);
     const projectId = String(c.req.param('projectId') || '').trim();
     const limitRaw = Number(c.req.query('limit') ?? 50);
     const limit = Math.max(1, Math.min(200, Number.isFinite(limitRaw) ? Math.trunc(limitRaw) : 50));
-
-    const project = await loadProjectInternal(userId, projectId);
-    if (!project) return c.json({ success: false, error: 'Project not found' }, 404);
 
     const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
     const store = createSharesStoreFsV1();
@@ -10971,10 +11427,139 @@ app.get('/api/shares-v1/projects/:projectId', async (c) => {
   }
 });
 
+app.get('/api/shares-v1', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const limitRaw = Number(c.req.query('limit') ?? 100);
+    const limit = Math.max(1, Math.min(500, Number.isFinite(limitRaw) ? Math.trunc(limitRaw) : 100));
+    const q = String(c.req.query('q') || '').trim() || undefined;
+
+    const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+    const store = createSharesStoreFsV1();
+    const shares = await store.listShares({ limit, ...(q ? { q } : {}) });
+    return c.json({ success: true, shares });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to list shares';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/shares-v1/:shareId', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const shareId = String(c.req.param('shareId') || '').trim();
+    if (!shareId) return c.json({ success: false, error: 'shareId is required' }, 400);
+
+    const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+    const store = createSharesStoreFsV1();
+    const share = await store.getShareById(shareId);
+    return c.json({ success: true, share });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to read share';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/shares-v1/:shareId/extend-expiry', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const shareId = String(c.req.param('shareId') || '').trim();
+    if (!shareId) return c.json({ success: false, error: 'shareId is required' }, 400);
+    const body = await c.req.json().catch(() => ({}));
+    const extendHours = Number((body as any)?.extendHours ?? 168);
+
+    const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+    const store = createSharesStoreFsV1();
+    const share = await store.extendExpiry({ shareId, extendHours });
+    return c.json({ success: true, share });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to extend share expiry';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/shares-v1/:shareId/set-scope', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const shareId = String(c.req.param('shareId') || '').trim();
+    if (!shareId) return c.json({ success: false, error: 'shareId is required' }, 400);
+    const body = await c.req.json().catch(() => ({}));
+    const scope = normalizeShareScopeV1((body as any)?.scope);
+
+    const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+    const store = createSharesStoreFsV1();
+    const share = await store.setScope({ shareId, scope });
+    return c.json({ success: true, share });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to update share scope';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
 // Public, share-token-authorized APIs (no login).
+app.post('/api/share/v1/verify-password', async (c) => {
+  try {
+    const tokenPlain = parseShareAuthTokenPlainV1(c);
+    if (!tokenPlain) return c.json({ success: false, error: 'Missing share token' }, 401);
+
+    const { isLikelyShareTokenPlainV1, sha256TokenPlainV1 } = await import('./modules/sharesV1/tokenV1');
+    if (!isLikelyShareTokenPlainV1(tokenPlain)) return c.json({ success: false, error: 'Invalid credentials' }, 401);
+    const tokenHash = sha256TokenPlainV1(tokenPlain);
+
+    // Token-level best-effort rate limiting.
+    rateLimitShareTokenBestEffortV1({ tokenHash, nowMs: Date.now(), windowMs: 60_000, max: 120 });
+
+    const body = await c.req.json().catch(() => ({}));
+    const password = String((body as any)?.password ?? '').trim();
+    if (!password) return c.json({ success: false, error: 'password is required' }, 400);
+
+    const { createSharesStoreFsV1 } = await import('./modules/sharesV1/storeFsV1');
+    const store = createSharesStoreFsV1();
+    const stored = (await store.resolveShareStoredByTokenHash(tokenHash)) as any;
+
+    const share = (() => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { tokenHash: _omitTokenHash, passwordHash: _omitPasswordHash, ...pub } = stored as any;
+      return pub as ShareLinkV1;
+    })();
+
+    // Revoke/expiry checks
+    if (share.revokedAtIso) return c.json({ success: false, error: 'Invalid credentials' }, 401);
+    if (share.expiresAtIso) {
+      const expMs = Date.parse(String(share.expiresAtIso));
+      if (Number.isFinite(expMs) && Date.now() > expMs) return c.json({ success: false, error: 'Invalid credentials' }, 401);
+    }
+
+    const passwordHash = String(stored?.passwordHash || '').trim() || null;
+    if (!share.requiresPassword || !passwordHash) {
+      return c.json({ success: true, verified: true });
+    }
+
+    rateLimitSharePasswordAttemptsBestEffortV1({ shareId: share.shareId, nowMs: Date.now(), windowMs: 10 * 60_000, max: 12 });
+
+    const { verifySharePasswordV1 } = await import('./modules/sharesV1/passwordV1');
+    const ok = verifySharePasswordV1({ password, passwordHash });
+    if (!ok) return c.json({ success: false, error: 'Invalid credentials' }, 401);
+
+    const { signShareSessionV1 } = await import('./modules/sharesV1/shareSessionV1');
+    const sessionToken = signShareSessionV1({ shareId: share.shareId, tokenHash, expiresInSeconds: 60 * 60 * 8 });
+    setShareSessionCookiesV1(c, sessionToken, 60 * 60 * 8);
+
+    return c.json({ success: true, verified: true });
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to verify password';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
 app.get('/api/share/v1/revision-meta', async (c) => {
   try {
-    const { tokenPlain, share } = (getShareFromContextV1(c) ?? (await resolveShareFromRequestV1(c))) as any;
+    const { share, passwordVerified } = (getShareFromContextV1(c) ?? (await resolveShareFromRequestV1(c, { allowUnverifiedPassword: true }))) as any;
     const { found } = await loadSharedRevisionV1({ projectId: share.projectId, revisionId: share.revisionId });
     const reportType = String(found.reportType || '').trim();
     if (String(share.reportType || '').trim() && String(share.reportType || '').trim() !== reportType) {
@@ -10985,6 +11570,7 @@ app.get('/api/share/v1/revision-meta', async (c) => {
 
     const links: any = {
       metaUrl: '/api/share/v1/revision-meta',
+      verifyPasswordUrl: '/api/share/v1/verify-password',
       htmlUrl: '/api/share/v1/revision/html',
       pdfUrl: '/api/share/v1/revision/pdf',
       jsonUrl: '/api/share/v1/revision/json',
@@ -10998,6 +11584,14 @@ app.get('/api/share/v1/revision-meta', async (c) => {
       delete links.bundleZipUrl;
     }
 
+    // Password gating: meta allowed, but no other links until verified.
+    if (share.requiresPassword && !passwordVerified) {
+      delete links.htmlUrl;
+      delete links.pdfUrl;
+      delete links.jsonUrl;
+      delete links.bundleZipUrl;
+    }
+
     return c.json({
       success: true,
       share: {
@@ -11005,10 +11599,12 @@ app.get('/api/share/v1/revision-meta', async (c) => {
         expiresAtIso: share.expiresAtIso,
         lastAccessAtIso: share.lastAccessAtIso,
         accessCount: share.accessCount,
+        requiresPassword: Boolean(share.requiresPassword),
+        passwordHint: share.passwordHint ?? null,
+        passwordVerified: Boolean(passwordVerified),
       },
       revision,
       links,
-      tokenHint: tokenPlain ? `Share ${String(tokenPlain).slice(0, 6)}…` : undefined,
     });
   } catch (error) {
     const status = (error as any)?.status || 400;
@@ -11252,6 +11848,625 @@ app.get('/api/share/v1/revision/bundle.zip', async (c) => {
   } catch (error) {
     const status = (error as any)?.status || 400;
     const message = error instanceof Error ? error.message : 'Failed to build shared bundle';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+/**
+ * ==========================================
+ * CUSTOMER PORTAL v1 (org + users + RBAC + portfolio reports)
+ * ==========================================
+ *
+ * Goals:
+ * - snapshot-only: serve stored revision snapshots (no recompute)
+ * - staff-managed orgs/users/project links
+ * - minimal auth: staff issues short-lived login token; user verifies to set HttpOnly session cookie
+ * - do not interfere with shares (separate cookie name and Path scoping)
+ */
+
+type PortalUserRoleV1 = 'VIEWER' | 'ADMIN' | 'OWNER';
+
+function normalizePortalRoleV1(raw: unknown): PortalUserRoleV1 {
+  const s = String(raw ?? '').trim().toUpperCase();
+  if (s === 'VIEWER') return 'VIEWER';
+  if (s === 'ADMIN') return 'ADMIN';
+  if (s === 'OWNER') return 'OWNER';
+  throw new Error('Invalid role (expected VIEWER|ADMIN|OWNER)');
+}
+
+function portalRoleAllowsV1(role: PortalUserRoleV1, need: 'VIEWER' | 'ADMIN'): boolean {
+  if (need === 'VIEWER') return role === 'VIEWER' || role === 'ADMIN' || role === 'OWNER';
+  return role === 'ADMIN' || role === 'OWNER';
+}
+
+function getPortalSessionCookieV1(c: Context): string | null {
+  const v = String(getCookie(c, 'portal_session') || '').trim();
+  return v || null;
+}
+
+function setPortalSessionCookiesV1(c: Context, value: string, maxAgeSeconds: number) {
+  const secure = process.env.NODE_ENV === 'production';
+  // Two cookies (same name, different Path) to scope to portal surfaces only.
+  setCookie(c, 'portal_session', value, { httpOnly: true, sameSite: 'Lax', secure, path: '/api/portal-v1', maxAge: maxAgeSeconds });
+  setCookie(c, 'portal_session', value, { httpOnly: true, sameSite: 'Lax', secure, path: '/portal', maxAge: maxAgeSeconds });
+}
+
+function clearPortalSessionCookiesV1(c: Context) {
+  const secure = process.env.NODE_ENV === 'production';
+  setCookie(c, 'portal_session', '', { httpOnly: true, sameSite: 'Lax', secure, path: '/api/portal-v1', maxAge: 0 });
+  setCookie(c, 'portal_session', '', { httpOnly: true, sameSite: 'Lax', secure, path: '/portal', maxAge: 0 });
+}
+
+async function requirePortalAuthV1(c: Context): Promise<{ user: any; org: any; sessionId: string }> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const cached = ((c as any).get?.('portalAuthV1') as any | undefined) || null;
+  if (cached) return cached;
+
+  const cookie = getPortalSessionCookieV1(c);
+  if (!cookie) {
+    const err: any = new Error('Unauthorized');
+    err.status = 401;
+    throw err;
+  }
+
+  const { verifyPortalSessionV1 } = await import('./modules/portalV1/portalSessionV1');
+  const parsed = verifyPortalSessionV1(cookie);
+  if (!parsed?.sessionId || !parsed?.userId) {
+    const err: any = new Error('Unauthorized');
+    err.status = 401;
+    throw err;
+  }
+
+  const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+  const store = createPortalStoreFsV1();
+  const session = await store.getSession(parsed.sessionId);
+  if (!session || String(session.userId) !== String(parsed.userId)) {
+    const err: any = new Error('Unauthorized');
+    err.status = 401;
+    throw err;
+  }
+
+  const user = await store.getUserById(parsed.userId);
+  if (!user || user.disabledAtIso) {
+    const err: any = new Error('Unauthorized');
+    err.status = 401;
+    throw err;
+  }
+
+  const org = await store.getOrgById(String(user.orgId || ''));
+  if (!org) {
+    const err: any = new Error('Unauthorized');
+    err.status = 401;
+    throw err;
+  }
+
+  const auth = { user, org, sessionId: String(parsed.sessionId) };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (c as any).set?.('portalAuthV1', auth);
+  return auth;
+}
+
+async function requirePortalProjectAccessV1(c: Context, projectIdRaw: string): Promise<{ auth: { user: any; org: any; sessionId: string }; projectId: string }> {
+  const auth = await requirePortalAuthV1(c);
+  const projectId = String(projectIdRaw || '').trim();
+  if (!/^[A-Za-z0-9_-]{1,120}$/.test(projectId)) {
+    const err: any = new Error('Invalid projectId');
+    err.status = 400;
+    throw err;
+  }
+  const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+  const store = createPortalStoreFsV1();
+  const linkedOrgId = await store.getOrgIdForProject(projectId);
+  if (!linkedOrgId || String(linkedOrgId) !== String(auth.org.orgId)) {
+    const err: any = new Error('Not found');
+    err.status = 404;
+    throw err;
+  }
+  return { auth, projectId };
+}
+
+async function loadPortalProjectSnapshotV1(projectId: string): Promise<any> {
+  if (isDatabaseEnabled()) {
+    const err: any = new Error('Portal routes are not supported when database mode is enabled');
+    err.status = 501;
+    throw err;
+  }
+  if (!/^[A-Za-z0-9_-]{1,120}$/.test(projectId)) {
+    const err: any = new Error('Invalid projectId');
+    err.status = 400;
+    throw err;
+  }
+  const filePath = path.join(PROJECTS_DIR, `${projectId}.json`);
+  if (!existsSync(filePath)) {
+    const err: any = new Error('Project not found');
+    err.status = 404;
+    throw err;
+  }
+  return JSON.parse(await readFile(filePath, 'utf-8')) as any;
+}
+
+async function loadPortalRevisionSnapshotV1(args: { projectId: string; revisionId: string }): Promise<{ project: any; found: { reportType: string; rev: any } }> {
+  const projectId = String(args.projectId || '').trim();
+  const revisionId = String(args.revisionId || '').trim();
+  if (!/^[A-Za-z0-9_-]{1,120}$/.test(revisionId)) {
+    const err: any = new Error('Invalid revisionId');
+    err.status = 400;
+    throw err;
+  }
+  const project = await loadPortalProjectSnapshotV1(projectId);
+  const found = findProjectReportRevisionV1(project, revisionId);
+  if (!found) {
+    const err: any = new Error('Report revision not found');
+    err.status = 404;
+    throw err;
+  }
+  return { project, found };
+}
+
+function listProjectRevisionsSafeV1(project: any): Array<{ revisionId: string; reportType: string; createdAtIso: string; runId?: string; engineVersions?: Record<string, string>; warningsSummary?: any; wizardOutputHash?: string }> {
+  const reports = project?.reportsV1 && typeof project.reportsV1 === 'object' ? project.reportsV1 : {};
+  const buckets: Array<{ reportType: string; arr: any[] }> = [
+    { reportType: 'INTERNAL_ENGINEERING_V1', arr: Array.isArray(reports?.internalEngineering) ? reports.internalEngineering : [] },
+    { reportType: 'ENGINEERING_PACK_V1', arr: Array.isArray(reports?.engineeringPackV1) ? reports.engineeringPackV1 : [] },
+    { reportType: 'EXECUTIVE_PACK_V1', arr: Array.isArray(reports?.executivePackV1) ? reports.executivePackV1 : [] },
+  ];
+
+  const all = buckets.flatMap((b) =>
+    b.arr.map((rev) => {
+      const revisionId = String(rev?.id || '').trim();
+      const rt = String(rev?.reportType || '').trim() || b.reportType;
+      if (!revisionId) return null;
+      return toShareSafeRevisionMetaV1({ revisionId, reportType: rt, rev });
+    }),
+  );
+
+  return (all.filter(Boolean) as any[]).sort(
+    (a: any, b: any) =>
+      String(b?.createdAtIso || '').localeCompare(String(a?.createdAtIso || '')) || String(a?.revisionId || '').localeCompare(String(b?.revisionId || '')),
+  );
+}
+
+// Staff-only: create org
+app.post('/api/portal-v1/orgs/create', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const body = await c.req.json().catch(() => ({}));
+    const name = String((body as any)?.name || '').trim();
+    if (!name) return c.json({ success: false, error: 'name is required' }, 400);
+
+    const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+    const store = createPortalStoreFsV1();
+    const org = await store.createOrg({ name });
+    return c.json({ success: true, org });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to create org';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+// Staff-only: create portal user
+app.post('/api/portal-v1/users/create', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const body = await c.req.json().catch(() => ({}));
+    const orgId = String((body as any)?.orgId || '').trim();
+    const email = String((body as any)?.email || '').trim();
+    const role = normalizePortalRoleV1((body as any)?.role);
+    if (!orgId) return c.json({ success: false, error: 'orgId is required' }, 400);
+    if (!email) return c.json({ success: false, error: 'email is required' }, 400);
+
+    const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+    const store = createPortalStoreFsV1();
+    const user = await store.createUser({ orgId, email, role });
+    return c.json({ success: true, user });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to create user';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : String(message).toLowerCase().includes('not found') ? 404 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+// Staff-only: link project to org
+app.post('/api/portal-v1/projects/:projectId/link-org', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const projectId = String(c.req.param('projectId') || '').trim();
+    if (!projectId) return c.json({ success: false, error: 'projectId is required' }, 400);
+    const body = await c.req.json().catch(() => ({}));
+    const orgId = String((body as any)?.orgId || '').trim();
+    if (!orgId) return c.json({ success: false, error: 'orgId is required' }, 400);
+
+    // Ensure project exists (snapshot-only FS mode).
+    await loadPortalProjectSnapshotV1(projectId);
+
+    const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+    const store = createPortalStoreFsV1();
+    const link = await store.linkProjectToOrg({ projectId, orgId });
+    return c.json({ success: true, link });
+  } catch (error) {
+    const status = (error as any)?.status || (String(error instanceof Error ? error.message : '').toLowerCase().includes('unauthorized') ? 401 : 400);
+    const message = error instanceof Error ? error.message : 'Failed to link project';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+// Staff-only: list users in org
+app.get('/api/portal-v1/orgs/:orgId/users', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const orgId = String(c.req.param('orgId') || '').trim();
+    if (!orgId) return c.json({ success: false, error: 'orgId is required' }, 400);
+
+    const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+    const store = createPortalStoreFsV1();
+    const users = await store.listOrgUsers({ orgId });
+    return c.json({ success: true, users });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to list org users';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+// Staff-only: generate a one-time login token for a portal user (shown once; email delivery can be added later).
+app.post('/api/portal-v1/login/request', async (c) => {
+  try {
+    requireEditorAccessForAi(c);
+    const body = await c.req.json().catch(() => ({}));
+    const email = String((body as any)?.email || '').trim();
+    if (!email) return c.json({ success: false, error: 'email is required' }, 400);
+
+    const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+    const { generatePortalLoginTokenPlainV1, sha256TokenPlainV1 } = await import('./modules/portalV1/tokenV1');
+    const store = createPortalStoreFsV1();
+    const user = await store.getUserByEmail(email);
+    if (!user || user.disabledAtIso) return c.json({ success: false, error: 'User not found' }, 404);
+
+    const tokenPlain = generatePortalLoginTokenPlainV1();
+    const tokenHash = sha256TokenPlainV1(tokenPlain);
+    const nowIso = new Date().toISOString();
+    const expiresAtIso = new Date(Date.now() + 15 * 60_000).toISOString();
+    await store.upsertLoginToken({ userId: user.userId, email: user.email, tokenHash, createdAtIso: nowIso, expiresAtIso });
+
+    return c.json({ success: true, tokenPlain, expiresAtIso });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to generate login token';
+    const status = String(message).toLowerCase().includes('unauthorized') ? 401 : 400;
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+// Customer-facing: verify login token and set HttpOnly session cookie.
+app.post('/api/portal-v1/login/verify', async (c) => {
+  try {
+    const body = await c.req.json().catch(() => ({}));
+    const email = String((body as any)?.email || '').trim();
+    const tokenPlain = String((body as any)?.tokenPlain || '').trim();
+    if (!email) return c.json({ success: false, error: 'email is required' }, 400);
+    if (!tokenPlain) return c.json({ success: false, error: 'tokenPlain is required' }, 400);
+
+    const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+    const { isLikelyPortalLoginTokenPlainV1, sha256TokenPlainV1 } = await import('./modules/portalV1/tokenV1');
+    if (!isLikelyPortalLoginTokenPlainV1(tokenPlain)) return c.json({ success: false, error: 'Invalid credentials' }, 401);
+
+    const tokenHash = sha256TokenPlainV1(tokenPlain);
+    const store = createPortalStoreFsV1();
+    const consumed = await store.consumeLoginToken({ email, tokenHash });
+    if (!consumed?.userId) return c.json({ success: false, error: 'Invalid credentials' }, 401);
+
+    const nowIso = new Date().toISOString();
+    const expiresAtIso = new Date(Date.now() + 8 * 60 * 60_000).toISOString();
+    const session = await store.createSession({ userId: consumed.userId, createdAtIso: nowIso, expiresAtIso });
+
+    const { signPortalSessionV1 } = await import('./modules/portalV1/portalSessionV1');
+    const sessionToken = signPortalSessionV1({ sessionId: session.sessionId, userId: consumed.userId, expiresInSeconds: 60 * 60 * 8 });
+    setPortalSessionCookiesV1(c, sessionToken, 60 * 60 * 8);
+
+    return c.json({ success: true });
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to verify login';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.post('/api/portal-v1/logout', async (c) => {
+  try {
+    const cookie = getPortalSessionCookieV1(c);
+    if (cookie) {
+      const { verifyPortalSessionV1 } = await import('./modules/portalV1/portalSessionV1');
+      const parsed = verifyPortalSessionV1(cookie);
+      if (parsed?.sessionId) {
+        const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+        const store = createPortalStoreFsV1();
+        await store.revokeSession(parsed.sessionId);
+      }
+    }
+    clearPortalSessionCookiesV1(c);
+    return c.json({ success: true });
+  } catch {
+    clearPortalSessionCookiesV1(c);
+    return c.json({ success: true });
+  }
+});
+
+// Portal APIs (snapshot-only, org-scoped)
+app.get('/api/portal-v1/me', async (c) => {
+  try {
+    const { user, org } = await requirePortalAuthV1(c);
+    return c.json({
+      success: true,
+      user: { userId: user.userId, orgId: user.orgId, email: user.email, role: user.role, createdAtIso: user.createdAtIso },
+      org: { orgId: org.orgId, name: org.name, createdAtIso: org.createdAtIso },
+    });
+  } catch (error) {
+    const status = (error as any)?.status || 401;
+    const message = error instanceof Error ? error.message : 'Unauthorized';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/portal-v1/projects', async (c) => {
+  try {
+    const { user, org } = await requirePortalAuthV1(c);
+    if (!portalRoleAllowsV1(normalizePortalRoleV1(user.role), 'VIEWER')) return c.json({ success: false, error: 'Forbidden' }, 403);
+
+    const { createPortalStoreFsV1 } = await import('./modules/portalV1/storeFsV1');
+    const store = createPortalStoreFsV1();
+    const projectIds = await store.listProjectIdsForOrg({ orgId: org.orgId });
+
+    const projects = await Promise.all(
+      projectIds.map(async (projectId) => {
+        try {
+          const project = await loadPortalProjectSnapshotV1(projectId);
+          const name = String(project?.customer?.projectName || project?.customer?.companyName || '').trim() || projectId;
+          const revisions = listProjectRevisionsSafeV1(project);
+          const latest = revisions[0] || null;
+          return { projectId, name, latestRevision: latest };
+        } catch {
+          return { projectId, name: projectId, latestRevision: null };
+        }
+      }),
+    );
+
+    projects.sort((a, b) => String(a.name || '').localeCompare(String(b.name || '')) || String(a.projectId).localeCompare(String(b.projectId)));
+    return c.json({ success: true, orgId: org.orgId, projects });
+  } catch (error) {
+    const status = (error as any)?.status || 401;
+    const message = error instanceof Error ? error.message : 'Unauthorized';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/portal-v1/projects/:projectId/revisions', async (c) => {
+  try {
+    const { projectId } = await requirePortalProjectAccessV1(c, c.req.param('projectId'));
+    const project = await loadPortalProjectSnapshotV1(projectId);
+    const revisions = listProjectRevisionsSafeV1(project);
+    return c.json({ success: true, projectId, revisions });
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to list revisions';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/portal-v1/projects/:projectId/revisions/:revisionId/html', async (c) => {
+  try {
+    const { projectId } = await requirePortalProjectAccessV1(c, c.req.param('projectId'));
+    const revisionId = String(c.req.param('revisionId') || '').trim();
+    const { project, found } = await loadPortalRevisionSnapshotV1({ projectId, revisionId });
+    const rt = String(found.reportType || '').trim();
+    const rev = found.rev;
+
+    if (rt === 'INTERNAL_ENGINEERING_V1') {
+      const { renderInternalEngineeringReportHtmlV1 } = await import('./modules/reports/internalEngineering/v1/renderInternalEngineeringReportHtml');
+      const html = renderInternalEngineeringReportHtmlV1({
+        project: { id: projectId, name: String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined },
+        revision: {
+          id: String((rev as any)?.id || ''),
+          createdAt: String((rev as any)?.createdAt || ''),
+          title: String((rev as any)?.title || ''),
+          reportJson: (rev as any)?.reportJson,
+          reportHash: String((rev as any)?.reportHash || ''),
+        },
+      });
+      c.header('Content-Type', 'text/html; charset=utf-8');
+      return c.body(html);
+    }
+
+    if (rt === 'ENGINEERING_PACK_V1') {
+      const { renderEngineeringPackHtmlV1 } = await import('./modules/reports/engineeringPack/v1/renderEngineeringPackHtmlV1');
+      const html = renderEngineeringPackHtmlV1({
+        project: { id: projectId, name: String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined },
+        revision: {
+          id: String((rev as any)?.id || ''),
+          createdAt: String((rev as any)?.createdAt || ''),
+          title: String((rev as any)?.title || ''),
+          packJson: (rev as any)?.packJson,
+          packHash: String((rev as any)?.packHash || ''),
+        },
+      });
+      c.header('Content-Type', 'text/html; charset=utf-8');
+      return c.body(html);
+    }
+
+    if (rt === 'EXECUTIVE_PACK_V1') {
+      const { renderExecutivePackHtmlV1 } = await import('./modules/reports/executivePack/v1/renderExecutivePackHtmlV1');
+      const html = renderExecutivePackHtmlV1({
+        project: { id: projectId, name: String((project as any)?.customer?.projectName || (project as any)?.customer?.companyName || '').trim() || undefined },
+        revision: {
+          id: String((rev as any)?.id || ''),
+          createdAt: String((rev as any)?.createdAt || ''),
+          title: String((rev as any)?.title || ''),
+          packJson: (rev as any)?.packJson,
+          packHash: String((rev as any)?.packHash || ''),
+        },
+      });
+      c.header('Content-Type', 'text/html; charset=utf-8');
+      return c.body(html);
+    }
+
+    return c.json({ success: false, error: 'Unsupported reportType' }, 400);
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to render HTML';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/portal-v1/projects/:projectId/revisions/:revisionId/json', async (c) => {
+  try {
+    const { projectId } = await requirePortalProjectAccessV1(c, c.req.param('projectId'));
+    const revisionId = String(c.req.param('revisionId') || '').trim();
+    const { found } = await loadPortalRevisionSnapshotV1({ projectId, revisionId });
+    const rt = String(found.reportType || '').trim();
+    const rev = found.rev || {};
+    const createdAtIso = String((rev as any)?.createdAt || (rev as any)?.createdAtIso || '').trim() || null;
+    const filename = buildRevisionFilenameV1({ reportType: rt, projectOrReportId: projectId, revisionId, createdAtIso, ext: 'json' });
+    c.header('Content-Disposition', `attachment; filename="${filename}"`);
+
+    // Security: return the snapshot artifact JSON only.
+    if (rt === 'INTERNAL_ENGINEERING_V1') return c.json({ success: true, reportType: rt, revisionId, reportJson: (rev as any)?.reportJson ?? null });
+    if (rt === 'ENGINEERING_PACK_V1' || rt === 'EXECUTIVE_PACK_V1') return c.json({ success: true, reportType: rt, revisionId, packJson: (rev as any)?.packJson ?? null });
+    return c.json({ success: false, error: 'Unsupported reportType' }, 400);
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to load JSON';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/portal-v1/projects/:projectId/revisions/:revisionId/pdf', async (c) => {
+  try {
+    const { projectId } = await requirePortalProjectAccessV1(c, c.req.param('projectId'));
+    const revisionId = String(c.req.param('revisionId') || '').trim();
+    const { found } = await loadPortalRevisionSnapshotV1({ projectId, revisionId });
+    const rt = String(found.reportType || '').trim();
+    const rev = found.rev || {};
+    const createdAtIso = String((rev as any)?.createdAt || (rev as any)?.createdAtIso || '').trim() || null;
+    const filename = buildRevisionFilenameV1({ reportType: rt, projectOrReportId: projectId, revisionId, createdAtIso, ext: 'pdf' });
+
+    if (rt === 'ENGINEERING_PACK_V1') {
+      const { renderEngineeringPackPdfV1 } = await import('./modules/reports/engineeringPack/v1/renderEngineeringPackPdfV1');
+      const pdf = await renderEngineeringPackPdfV1({ packJson: (rev as any)?.packJson });
+      c.header('Content-Type', 'application/pdf');
+      c.header('Content-Disposition', `attachment; filename="${filename}"`);
+      return c.body(new Uint8Array(pdf));
+    }
+
+    if (rt === 'EXECUTIVE_PACK_V1') {
+      const { renderExecutivePackPdfV1 } = await import('./modules/reports/executivePack/v1/renderExecutivePackPdfV1');
+      const pdf = await renderExecutivePackPdfV1({ packJson: (rev as any)?.packJson });
+      c.header('Content-Type', 'application/pdf');
+      c.header('Content-Disposition', `attachment; filename="${filename}"`);
+      return c.body(new Uint8Array(pdf));
+    }
+
+    return c.json({ success: false, error: 'PDF not supported for this reportType' }, 400);
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to render PDF';
+    return c.json({ success: false, error: message }, status as any);
+  }
+});
+
+app.get('/api/portal-v1/projects/:projectId/revisions/:revisionId/bundle', async (c) => {
+  try {
+    const { projectId } = await requirePortalProjectAccessV1(c, c.req.param('projectId'));
+    const revisionId = String(c.req.param('revisionId') || '').trim();
+    const { project, found } = await loadPortalRevisionSnapshotV1({ projectId, revisionId });
+    const primaryType = String(found.reportType || '').trim() || 'UNKNOWN';
+    const primaryRev: any = found.rev || {};
+
+    const createdAtIso = String(primaryRev?.createdAt || primaryRev?.createdAtIso || '').trim() || null;
+    const runId = String(primaryRev?.runId || '').trim() || null;
+    const engineVersions = primaryRev?.engineVersions && typeof primaryRev.engineVersions === 'object' ? primaryRev.engineVersions : {};
+    const warningsSummary = primaryRev?.warningsSummary && typeof primaryRev.warningsSummary === 'object' ? primaryRev.warningsSummary : null;
+    const wizardOutputHash = String(primaryRev?.wizardOutputHash || '').trim() || null;
+
+    const { default: JSZip } = await import('jszip');
+    const zip = new JSZip();
+
+    const renderPackPdfIfPossible = async (rt: string, rev: any, outName: string): Promise<boolean> => {
+      try {
+        if (rt === 'ENGINEERING_PACK_V1') {
+          const { renderEngineeringPackPdfV1 } = await import('./modules/reports/engineeringPack/v1/renderEngineeringPackPdfV1');
+          const pdf = await renderEngineeringPackPdfV1({ packJson: (rev as any)?.packJson });
+          zip.file(outName, pdf);
+          return true;
+        }
+        if (rt === 'EXECUTIVE_PACK_V1') {
+          const { renderExecutivePackPdfV1 } = await import('./modules/reports/executivePack/v1/renderExecutivePackPdfV1');
+          const pdf = await renderExecutivePackPdfV1({ packJson: (rev as any)?.packJson });
+          zip.file(outName, pdf);
+          return true;
+        }
+        return false;
+      } catch {
+        return false;
+      }
+    };
+
+    const chooseBestPackForRun = (rt: 'ENGINEERING_PACK_V1' | 'EXECUTIVE_PACK_V1'): any | null => {
+      if (!runId) return null;
+      const reports = project?.reportsV1 && typeof project.reportsV1 === 'object' ? project.reportsV1 : {};
+      const bucket = rt === 'ENGINEERING_PACK_V1' ? (Array.isArray(reports?.engineeringPackV1) ? reports.engineeringPackV1 : []) : (Array.isArray(reports?.executivePackV1) ? reports.executivePackV1 : []);
+      const matches = bucket.filter((r: any) => String(r?.runId || '').trim() === String(runId));
+      const narrowed = wizardOutputHash ? matches.filter((r: any) => String(r?.wizardOutputHash || '').trim() === String(wizardOutputHash)) : matches;
+      const pool = narrowed.length ? narrowed : matches;
+      if (!pool.length) return null;
+      pool.sort((a: any, b: any) => String(b?.createdAt || '').localeCompare(String(a?.createdAt || '')));
+      return pool[0] || null;
+    };
+
+    // Always include the primary revision's derived PDF when supported.
+    if (primaryType === 'ENGINEERING_PACK_V1') await renderPackPdfIfPossible(primaryType, primaryRev, 'engineering-pack.pdf');
+    if (primaryType === 'EXECUTIVE_PACK_V1') await renderPackPdfIfPossible(primaryType, primaryRev, 'executive-pack.pdf');
+
+    // Optionally include sibling pack PDFs for the same run.
+    const engForRun = chooseBestPackForRun('ENGINEERING_PACK_V1');
+    const execForRun = chooseBestPackForRun('EXECUTIVE_PACK_V1');
+    if (engForRun) await renderPackPdfIfPossible('ENGINEERING_PACK_V1', engForRun, 'engineering-pack.pdf');
+    if (execForRun) await renderPackPdfIfPossible('EXECUTIVE_PACK_V1', execForRun, 'executive-pack.pdf');
+
+    const safeArtifactJson =
+      primaryType === 'INTERNAL_ENGINEERING_V1'
+        ? { success: true, reportType: primaryType, revisionId, reportJson: primaryRev?.reportJson ?? null }
+        : { success: true, reportType: primaryType, revisionId, packJson: primaryRev?.packJson ?? null };
+    zip.file('pack.json', JSON.stringify(safeArtifactJson, null, 2));
+
+    const readmeLines: string[] = [];
+    readmeLines.push('EverWatt Portal Bundle (snapshot-only)');
+    readmeLines.push('');
+    readmeLines.push(`projectId: ${projectId}`);
+    readmeLines.push(`revisionId: ${revisionId}`);
+    readmeLines.push(`reportType: ${primaryType}`);
+    if (createdAtIso) readmeLines.push(`createdAtIso: ${createdAtIso}`);
+    if (runId) readmeLines.push(`runId: ${runId}`);
+    if (wizardOutputHash) readmeLines.push(`wizardOutputHash: ${wizardOutputHash}`);
+    readmeLines.push('');
+    readmeLines.push('engineVersions:');
+    for (const k of Object.keys(engineVersions || {}).sort()) readmeLines.push(`- ${k}: ${String((engineVersions as any)[k])}`);
+    if (warningsSummary) {
+      readmeLines.push('');
+      readmeLines.push('warningsSummary:');
+      readmeLines.push(`- engineWarningsCount: ${String((warningsSummary as any)?.engineWarningsCount ?? '')}`);
+      readmeLines.push(`- missingInfoCount: ${String((warningsSummary as any)?.missingInfoCount ?? '')}`);
+    }
+    readmeLines.push('');
+    readmeLines.push('Disclaimer: snapshot-only artifact; no recompute.');
+    zip.file('README.txt', readmeLines.join('\n'));
+
+    const out = await zip.generateAsync({ type: 'nodebuffer' });
+    const filename = buildRevisionFilenameV1({ reportType: primaryType, projectOrReportId: projectId, revisionId, createdAtIso, ext: 'zip' });
+    c.header('Content-Type', 'application/zip');
+    c.header('Content-Disposition', `attachment; filename="${filename}"`);
+    return c.body(new Uint8Array(out));
+  } catch (error) {
+    const status = (error as any)?.status || 400;
+    const message = error instanceof Error ? error.message : 'Failed to build bundle';
     return c.json({ success: false, error: message }, status as any);
   }
 });

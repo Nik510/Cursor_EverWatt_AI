@@ -5,6 +5,7 @@ import path from 'node:path';
 import { parseIntervalElectricCsvV1 } from '../src/modules/utilityIntelligence/intake/intervalElectricV1/parseIntervalElectricCsvV1';
 import { analyzeIntervalIntelligenceV1 } from '../src/modules/utilityIntelligence/intervalIntelligenceV1/analyzeIntervalIntelligenceV1';
 import { evaluateStorageOpportunityPackV1 } from '../src/modules/batteryEngineV1/evaluateBatteryOpportunityV1';
+import { resolveFixturePath } from './helpers/fixturePath';
 
 type Expectation = {
   fixtureFile: string;
@@ -19,18 +20,18 @@ describe('Storage Opportunity Pack v1 fixture pack contract (deterministic)', ()
   it('matches all fixture expectations (fast)', () => {
     const t0 = Date.now();
 
-    const expectationsPath = path.join(process.cwd(), 'tests', 'fixtures', 'batteryPack', 'v1', 'expectations.storageOpportunityPack.v1.json');
+    const expectationsPath = resolveFixturePath('tests/fixtures/batteryPack/v1/expectations.storageOpportunityPack.v1.json');
     const expectations = JSON.parse(readFileSync(expectationsPath, 'utf-8')) as Expectation[];
     expect(Array.isArray(expectations)).toBe(true);
     expect(expectations.length).toBeGreaterThanOrEqual(8);
 
     for (const ex of expectations) {
       try {
-        const fixturePath = path.join(process.cwd(), ex.fixtureFile);
+        const fixturePath = resolveFixturePath(ex.fixtureFile);
         const fixture = JSON.parse(readFileSync(fixturePath, 'utf-8')) as any;
         expect(String(fixture.caseId || '')).toBeTruthy();
 
-        const intervalCsvPath = path.join(process.cwd(), String(fixture.intervalCsv || ''));
+        const intervalCsvPath = resolveFixturePath(String(fixture.intervalCsv || ''));
         const csvText = readFileSync(intervalCsvPath, 'utf-8');
 
         const parsed = parseIntervalElectricCsvV1({

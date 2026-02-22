@@ -1,5 +1,7 @@
 import type { AnalysisRunV1 } from '../../../analysisRunsV1/types';
 import type { DiffSummaryV1 } from '../../../analysisRunsV1/diffV1';
+import { runVerifierV1 } from '../../../verifierV1/runVerifierV1';
+import { evaluateClaimsPolicyV1 } from '../../../claimsPolicyV1/evaluateClaimsPolicyV1';
 
 export type ExecutivePackDataQualityTierV1 = 'HIGH' | 'MEDIUM' | 'LOW' | 'UNKNOWN';
 export type ExecutiveBatteryFitV1 = 'YES' | 'NO' | 'MAYBE' | 'UNKNOWN';
@@ -7,6 +9,9 @@ export type ExecutiveBatteryFitV1 = 'YES' | 'NO' | 'MAYBE' | 'UNKNOWN';
 export type ExecutivePackJsonV1 = {
   schemaVersion: 'executivePackV1';
   generatedAtIso: string;
+  verifierResultV1?: unknown;
+  verificationSummaryV1?: { status: string; passCount: number; warnCount: number; failCount: number };
+  claimsPolicyV1?: unknown;
   /**
    * Provenance header: stable, required fields for downstream gating.
    * Keys are always present; values may be null where explicitly unknown.
@@ -54,6 +59,15 @@ export type ExecutivePackJsonV1 = {
     analysisRunCreatedAtIso?: string;
   };
   topFindings: string[];
+  /** Snapshot-only Truth Engine summary (no recompute on GET). */
+  truthEngineV1?:
+    | {
+        confidenceTier: 'A' | 'B' | 'C' | 'UNKNOWN';
+        bullets: string[];
+        residualPeakHours: Array<{ dow: number; hour: number; meanResidualKw: number; sampleCount: number }>;
+        requiredNextData: string[];
+      }
+    | null;
   kpis: {
     annualKwhEstimate?: { value: number; confidenceTier?: string; source: string } | null;
     baseloadKw?: { value: number; confidenceTier?: string; source: string } | null;
@@ -62,13 +76,29 @@ export type ExecutivePackJsonV1 = {
   batteryFit: { decision: ExecutiveBatteryFitV1; confidenceTier?: string; tierSource?: string; missingInfoIds: string[] };
   dataQuality: { score0to100?: number | null; tier: ExecutivePackDataQualityTierV1; reasons: string[]; missingInfoIds: string[] };
   savings: {
-    status: 'DETERMINISTIC_AVAILABLE' | 'PENDING_INPUTS';
+    status: 'DETERMINISTIC_AVAILABLE' | 'PENDING_INPUTS' | 'BLOCKED_BY_VERIFIER';
     annualUsd?: { value?: number; min?: number; max?: number; source: string } | null;
     missingInfoIds: string[];
   };
   whatWeNeedToFinalize: { requiredMissingInfo: Array<{ id: string; category?: string; description?: string }>; recommendedMissingInfo: Array<{ id: string; category?: string; description?: string }> };
   nextBestActions: Array<{ actionId: string; type?: string; label?: string; status?: string; apiHint?: unknown }>;
   confidenceAndAssumptions: string[];
+  /** Snapshot-only Scenario Lab v1 summary (no recompute on GET). */
+  scenarioLabV1?:
+    | {
+        topOpportunities: Array<{
+          scenarioId: string;
+          title: string;
+          status: string;
+          confidenceTier: string;
+          annualUsd: number | null;
+          capexUsd: number | null;
+          paybackYears: number | null;
+        }>;
+        frontierSummary: { pointCount: number; axes: unknown; points: unknown[] };
+        blockedByData: { blockedCount: number; requiredNextData: string[]; blockedTitles: string[] };
+      }
+    | null;
   diffSincePreviousRun?: DiffSummaryV1;
   payloadRefs: {
     internalEngineeringReportJsonRef: string;
@@ -174,6 +204,56 @@ function parseWizardTopFindings(wizardOutput: any): string[] {
   return uniqSorted(out, 10).slice(0, 5);
 }
 
+function extractTruthEngineExecSummary(reportJson: any): ExecutivePackJsonV1['truthEngineV1'] {
+  const truth: any = reportJson?.truthSnapshotV1 ?? reportJson?.workflow?.truthSnapshotV1 ?? null;
+  if (!truth || typeof truth !== 'object' || String(truth?.schemaVersion) !== 'truthSnapshotV1') return null;
+
+  const tierRaw = stableString(truth?.truthConfidence?.tier, 10).toUpperCase();
+  const confidenceTier: 'A' | 'B' | 'C' | 'UNKNOWN' = tierRaw === 'A' || tierRaw === 'B' || tierRaw === 'C' ? (tierRaw as any) : 'UNKNOWN';
+
+  const cps: any[] = Array.isArray(truth?.changepointsV1) ? truth.changepointsV1 : [];
+  cps.sort(
+    (a, b) =>
+      Number(b?.confidence || 0) - Number(a?.confidence || 0) ||
+      Math.abs(Number(b?.magnitude || 0)) - Math.abs(Number(a?.magnitude || 0)) ||
+      stableString(a?.atIso, 60).localeCompare(stableString(b?.atIso, 60)) ||
+      stableString(a?.type, 60).localeCompare(stableString(b?.type, 60)),
+  );
+
+  const anoms: any[] = Array.isArray(truth?.anomalyLedgerV1) ? truth.anomalyLedgerV1 : [];
+
+  const peakHours: any[] = Array.isArray(truth?.residualMapsV1?.peakResidualHours) ? truth.residualMapsV1.peakResidualHours : [];
+  const residualPeakHours = peakHours
+    .map((p) => ({
+      dow: Math.max(0, Math.min(6, Math.trunc(Number(p?.dow)))),
+      hour: Math.max(0, Math.min(23, Math.trunc(Number(p?.hour)))),
+      meanResidualKw: Number.isFinite(Number(p?.meanResidualKw)) ? Number(p.meanResidualKw) : 0,
+      sampleCount: Number.isFinite(Number(p?.sampleCount)) ? Math.max(0, Math.trunc(Number(p.sampleCount))) : 0,
+    }))
+    .slice(0, 6);
+
+  const requiredNextData = uniqSorted(
+    anoms
+      .flatMap((a) => (Array.isArray(a?.requiredNextData) ? a.requiredNextData : []))
+      .map((x) => stableString(x, 140))
+      .filter(Boolean),
+    12,
+  );
+
+  const bullets: string[] = [];
+  bullets.push(`Confidence: ${confidenceTier}`);
+  bullets.push(`Baseline: ${stableString(truth?.baselineModelV1?.modelKind, 80) || 'unknown'} (intervalDays=${stableString(truth?.coverage?.intervalDays, 40) || 'n/a'})`);
+  if (cps.length) bullets.push(`Changepoints: ${cps.slice(0, 3).map((c) => `${stableString(c?.type, 40)} @ ${stableString(c?.atIso, 30)}`).join(' • ')}`);
+  if (anoms.length) bullets.push(`Anomalies: ${anoms.slice(0, 3).map((a) => `${stableString(a?.class, 20)} (${stableString(a?.window?.startIso, 30)})`).join(' • ')}`);
+
+  return {
+    confidenceTier,
+    bullets: bullets.slice(0, 3),
+    residualPeakHours: residualPeakHours.slice(0, 3),
+    requiredNextData: requiredNextData.slice(0, 6),
+  };
+}
+
 function extractWizardMissingInfoSummary(wizardOutput: any): {
   required: Array<{ id: string; category?: string; description?: string }>;
   recommended: Array<{ id: string; category?: string; description?: string }>;
@@ -267,6 +347,52 @@ function extractSavingsDeterministic(reportJson: any): { annualUsd: ExecutivePac
   return { found: false, annualUsd: null };
 }
 
+function extractScenarioLabExecSummary(reportJson: any): ExecutivePackJsonV1['scenarioLabV1'] {
+  const lab: any = reportJson?.scenarioLabV1 ?? reportJson?.workflow?.scenarioLabV1 ?? null;
+  if (!lab || typeof lab !== 'object' || String(lab?.schemaVersion || '') !== 'scenarioLabV1') return null;
+
+  const scenarios: any[] = Array.isArray(lab?.scenarios) ? lab.scenarios : [];
+  const frontierPts: any[] = Array.isArray(lab?.frontier?.points) ? lab.frontier.points : [];
+  const axes = lab?.frontier?.axes ?? null;
+  const blocked: any[] = Array.isArray(lab?.blockedScenarios) ? lab.blockedScenarios : [];
+
+  const numOrNull = (x: any): number | null => {
+    const n = Number(x);
+    return Number.isFinite(n) ? n : null;
+  };
+
+  const ran = scenarios.filter((s) => String(s?.status || '').toUpperCase() === 'RAN');
+  ran.sort((a, b) => {
+    const aUsd = numOrNull(a?.kpis?.annualUsd);
+    const bUsd = numOrNull(b?.kpis?.annualUsd);
+    const aPb = numOrNull(a?.kpis?.paybackYears);
+    const bPb = numOrNull(b?.kpis?.paybackYears);
+    return (bUsd ?? -Infinity) - (aUsd ?? -Infinity) || (aPb ?? Infinity) - (bPb ?? Infinity) || stableString(a?.scenarioId, 80).localeCompare(stableString(b?.scenarioId, 80));
+  });
+
+  const topOpportunities = ran.slice(0, 3).map((s) => ({
+    scenarioId: stableString(s?.scenarioId, 80) || 'scenario',
+    title: stableString(s?.title, 140) || stableString(s?.scenarioId, 80) || 'Scenario',
+    status: stableString(s?.status, 20) || 'RAN',
+    confidenceTier: stableString(s?.confidenceTier, 10) || 'C',
+    annualUsd: numOrNull(s?.kpis?.annualUsd),
+    capexUsd: numOrNull(s?.kpis?.capexUsd),
+    paybackYears: numOrNull(s?.kpis?.paybackYears),
+  }));
+
+  const requiredNext = uniqSorted(
+    blocked.flatMap((b) => (Array.isArray(b?.requiredNextData) ? b.requiredNextData : [])).map((x) => stableString(x, 140)).filter(Boolean),
+    18,
+  );
+  const blockedTitles = uniqSorted(blocked.map((b) => stableString(b?.title, 120)).filter(Boolean), 10);
+
+  return {
+    topOpportunities,
+    frontierSummary: { pointCount: frontierPts.length, axes, points: frontierPts.slice(0, 8) },
+    blockedByData: { blockedCount: blocked.length, requiredNextData: requiredNext, blockedTitles },
+  };
+}
+
 function buildConfidenceAndAssumptions(args: {
   dataQualityTier: ExecutivePackDataQualityTierV1;
   coverage: any;
@@ -318,6 +444,7 @@ export function buildExecutivePackJsonV1(args: {
   const reportId = stableString(args.project?.reportId, 140) || undefined;
 
   const reportJson: any = args.reportJson && typeof args.reportJson === 'object' ? (args.reportJson as any) : {};
+  const workflow: any = reportJson?.workflow ?? null;
   const trace: any = reportJson?.analysisTraceV1 ?? null;
   const coverage: any = trace?.coverage ?? {};
   const warningsSummary: any = trace?.warningsSummary ?? args.analysisRun?.warningsSummary ?? {};
@@ -328,6 +455,9 @@ export function buildExecutivePackJsonV1(args: {
   const dqTier = computeDataQualityTier({ coverage, warningsSummary, wizardScore0to100: wizardScore });
 
   const topFindings = wizardOutput ? parseWizardTopFindings(wizardOutput) : uniqSorted([], 10);
+
+  const truthEngineV1 = extractTruthEngineExecSummary(reportJson);
+  const scenarioLabV1 = extractScenarioLabExecSummary(reportJson);
 
   const intervalInsights: any = reportJson?.intervalInsightsV1 ?? null;
   const baseloadKw = asNumber(intervalInsights?.baseloadKw);
@@ -378,10 +508,7 @@ export function buildExecutivePackJsonV1(args: {
   const wizardOutputRef = wizardOutput ? `wizardOutput:${reportId || 'session'}:${wizardOutputHash || 'missing_hash'}` : undefined;
   const warningsSummaryNormalized = normalizeWarningsSummary(warningsSummary);
 
-  // Savings rule: never claim unless deterministic number/range exists in snapshot.
-  const savingsStatus = savingsDet.found ? 'DETERMINISTIC_AVAILABLE' : 'PENDING_INPUTS';
-
-  return {
+  const pack: ExecutivePackJsonV1 = {
     schemaVersion: 'executivePackV1',
     generatedAtIso: nowIso,
     provenanceHeader: {
@@ -412,6 +539,8 @@ export function buildExecutivePackJsonV1(args: {
       ...(stableString((args.analysisRun as any)?.createdAtIso, 60) ? { analysisRunCreatedAtIso: stableString((args.analysisRun as any).createdAtIso, 60) } : {}),
     },
     topFindings,
+    ...(truthEngineV1 !== null ? { truthEngineV1 } : {}),
+    ...(scenarioLabV1 !== null ? { scenarioLabV1 } : {}),
     kpis: {
       annualKwhEstimate: annualKwh !== null ? { value: annualKwh, ...(annualConf ? { confidenceTier: annualConf } : {}), source: 'reportJson.weatherRegressionV1.annualization.annualKwhEstimate' } : null,
       baseloadKw: baseloadKw !== null ? { value: baseloadKw, ...(baseloadConfidence ? { confidenceTier: baseloadConfidence } : {}), source: 'reportJson.intervalInsightsV1.baseloadKw' } : null,
@@ -430,7 +559,7 @@ export function buildExecutivePackJsonV1(args: {
       missingInfoIds: wizardMissingIds,
     },
     savings: {
-      status: savingsStatus,
+      status: savingsDet.found ? 'DETERMINISTIC_AVAILABLE' : 'PENDING_INPUTS',
       ...(savingsDet.found ? { annualUsd: savingsDet.annualUsd } : { annualUsd: null }),
       missingInfoIds: savingsMissingIds,
     },
@@ -447,5 +576,45 @@ export function buildExecutivePackJsonV1(args: {
       ...(wizardOutputRef ? { wizardOutputRef } : {}),
     },
   };
+
+  const verifierResultV1 = runVerifierV1({
+    generatedAtIso: nowIso,
+    reportType: 'EXECUTIVE_PACK_V1',
+    analysisRun: args.analysisRun,
+    reportJson,
+    packJson: pack,
+    wizardOutput: args.wizardOutput ?? null,
+  });
+
+  const claimsPolicyV1 = evaluateClaimsPolicyV1({
+    analysisTraceV1: reportJson?.analysisTraceV1 ?? null,
+    requiredInputsMissing: workflow?.requiredInputsMissing ?? [],
+    missingInfo: reportJson?.missingInfo ?? [],
+    engineWarnings: (reportJson?.analysisTraceV1 as any)?.engineWarnings ?? [],
+    verifierResultV1,
+  });
+
+  // Enforce hard gating in exec pack: never publish annualUsd when blocked/limited.
+  const allowedClaims: any = (claimsPolicyV1 as any)?.allowedClaims ?? null;
+  const canClaimAnnual = Boolean(allowedClaims?.canClaimAnnualUsdSavings);
+
+  if (stableString((verifierResultV1 as any)?.status, 10).toUpperCase() === 'FAIL') {
+    pack.savings.status = 'BLOCKED_BY_VERIFIER';
+    pack.savings.annualUsd = null;
+  } else if (!canClaimAnnual) {
+    pack.savings.status = 'PENDING_INPUTS';
+    pack.savings.annualUsd = null;
+  }
+
+  (pack as any).verifierResultV1 = verifierResultV1;
+  (pack as any).verificationSummaryV1 = {
+    status: (verifierResultV1 as any).status,
+    passCount: (verifierResultV1 as any).summary?.passCount ?? 0,
+    warnCount: (verifierResultV1 as any).summary?.warnCount ?? 0,
+    failCount: (verifierResultV1 as any).summary?.failCount ?? 0,
+  };
+  (pack as any).claimsPolicyV1 = claimsPolicyV1;
+
+  return pack;
 }
 

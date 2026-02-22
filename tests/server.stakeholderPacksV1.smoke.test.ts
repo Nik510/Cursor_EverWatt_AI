@@ -5,6 +5,7 @@ import { mkdtempSync } from 'node:fs';
 import { rmSync } from 'node:fs';
 
 import './helpers/mockHeavyServerDeps';
+import { enableDemoJwtForTests, getDemoBearerToken } from './helpers/demoJwt';
 
 describe('stakeholder report packs v1 endpoints (smoke)', () => {
   it('generate engineering + executive packs; retrieve stored html/json without recompute', async () => {
@@ -22,11 +23,13 @@ describe('stakeholder report packs v1 endpoints (smoke)', () => {
 
     try {
       vi.resetModules();
+      enableDemoJwtForTests();
       const { default: app } = await import('../src/server');
+      const authz = await getDemoBearerToken(app, 'u_test@example.com', 'u_test');
 
       const createRes = await app.request('/api/report-sessions-v1/create', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ kind: 'WIZARD', title: 'Test Session' }),
       });
       expect(createRes.status).toBe(200);
@@ -36,7 +39,7 @@ describe('stakeholder report packs v1 endpoints (smoke)', () => {
 
       const runRes = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/run-utility`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ workflowInputs: { demo: true } }),
       });
       expect(runRes.status).toBe(200);
@@ -49,10 +52,12 @@ describe('stakeholder report packs v1 endpoints (smoke)', () => {
 
       const genEng = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/generate-engineering-pack`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({}),
       });
-      expect(genEng.status).toBe(200);
+      if (genEng.status !== 200) {
+        throw new Error(`generate-engineering-pack failed: ${genEng.status} ${await genEng.text()}`);
+      }
       const engJson: any = await genEng.json();
       expect(engJson?.success).toBe(true);
       expect(engJson?.revisionMeta?.reportType).toBe('ENGINEERING_PACK_V1');
@@ -61,10 +66,12 @@ describe('stakeholder report packs v1 endpoints (smoke)', () => {
 
       const genExec = await app.request(`/api/report-sessions-v1/${encodeURIComponent(reportId)}/generate-executive-pack`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': 'u_test' },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({}),
       });
-      expect(genExec.status).toBe(200);
+      if (genExec.status !== 200) {
+        throw new Error(`generate-executive-pack failed: ${genExec.status} ${await genExec.text()}`);
+      }
       const execJson: any = await genExec.json();
       expect(execJson?.success).toBe(true);
       expect(execJson?.revisionMeta?.reportType).toBe('EXECUTIVE_PACK_V1');
@@ -72,37 +79,42 @@ describe('stakeholder report packs v1 endpoints (smoke)', () => {
       expect(execRevId).toBeTruthy();
 
       const htmlRes = await app.request(`/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(execRevId)}/html`, {
-        headers: { 'x-user-id': 'u_test' },
+        headers: { Authorization: authz },
       });
       expect(htmlRes.status).toBe(200);
       const htmlText = await htmlRes.text();
-      expect(htmlText).toContain('Executive Pack v1');
+      expect(htmlText).toContain('EverWatt');
+      expect(htmlText).toContain('EXECUTIVE_PACK_V1');
 
       const jsonRes = await app.request(`/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(execRevId)}/json`, {
-        headers: { 'x-user-id': 'u_test' },
+        headers: { Authorization: authz },
       });
       expect(jsonRes.status).toBe(200);
       const revJson: any = await jsonRes.json();
       expect(revJson?.success).toBe(true);
       expect(revJson?.reportType).toBe('EXECUTIVE_PACK_V1');
       expect(revJson?.revision?.packJson?.schemaVersion).toBe('executivePackV1');
+      expect(revJson?.revision?.packJson?.verificationSummaryV1).toBeTruthy();
+      expect(revJson?.revision?.packJson?.claimsPolicyV1).toBeTruthy();
 
       // Prove GET is snapshot-only: delete analysis runs dir and re-fetch HTML/JSON.
       rmSync(runsDir, { recursive: true, force: true });
 
       const htmlRes2 = await app.request(`/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(engRevId)}/html`, {
-        headers: { 'x-user-id': 'u_test' },
+        headers: { Authorization: authz },
       });
       expect(htmlRes2.status).toBe(200);
 
       const jsonRes2 = await app.request(`/api/projects/${encodeURIComponent(projectId)}/reports/revisions/${encodeURIComponent(engRevId)}/json`, {
-        headers: { 'x-user-id': 'u_test' },
+        headers: { Authorization: authz },
       });
       expect(jsonRes2.status).toBe(200);
       const revJson2: any = await jsonRes2.json();
       expect(revJson2?.success).toBe(true);
       expect(revJson2?.reportType).toBe('ENGINEERING_PACK_V1');
       expect(revJson2?.revision?.packJson?.schemaVersion).toBe('engineeringPackV1');
+      expect(revJson2?.revision?.packJson?.verificationSummaryV1).toBeTruthy();
+      expect(revJson2?.revision?.packJson?.claimsPolicyV1).toBeTruthy();
     } finally {
       if (typeof prevSessions === 'string') process.env.EVERWATT_REPORT_SESSIONS_V1_BASEDIR = prevSessions;
       else delete process.env.EVERWATT_REPORT_SESSIONS_V1_BASEDIR;

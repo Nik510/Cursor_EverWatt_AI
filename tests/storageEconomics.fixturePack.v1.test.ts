@@ -6,6 +6,7 @@ import { parseIntervalElectricCsvV1 } from '../src/modules/utilityIntelligence/i
 import { analyzeIntervalIntelligenceV1 } from '../src/modules/utilityIntelligence/intervalIntelligenceV1/analyzeIntervalIntelligenceV1';
 import { evaluateStorageOpportunityPackV1 } from '../src/modules/batteryEngineV1/evaluateBatteryOpportunityV1';
 import { storageEconomicsV1 } from '../src/modules/batteryEngineV1/storageEconomicsV1';
+import { resolveFixturePath } from './helpers/fixturePath';
 
 type Expectation = {
   fixtureFile: string;
@@ -16,29 +17,22 @@ function uniqSorted(arr: string[]): string[] {
   return Array.from(new Set((arr || []).map((s) => String(s || '').trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b));
 }
 
-function resolveRepoPath(rel: string): string {
-  const raw = String(rel || '').trim();
-  if (!raw) return '';
-  const normalized = raw.replace(/\\/g, '/');
-  return path.join(process.cwd(), ...normalized.split('/'));
-}
-
 describe('Storage Economics v1 fixture pack contract (deterministic)', () => {
   it('matches all fixture expectations (fast)', () => {
     const t0 = Date.now();
 
-    const expectationsPath = path.join(process.cwd(), 'tests', 'fixtures', 'storageEconomics', 'v1', 'expectations.storageEconomics.v1.json');
+    const expectationsPath = resolveFixturePath('tests/fixtures/storageEconomics/v1/expectations.storageEconomics.v1.json');
     const expectations = JSON.parse(readFileSync(expectationsPath, 'utf-8')) as Expectation[];
     expect(Array.isArray(expectations)).toBe(true);
     expect(expectations.length).toBeGreaterThanOrEqual(8);
 
     for (const ex of expectations) {
       try {
-        const fixturePath = resolveRepoPath(ex.fixtureFile);
+        const fixturePath = resolveFixturePath(ex.fixtureFile);
         const fixture = JSON.parse(readFileSync(fixturePath, 'utf-8')) as any;
         expect(String(fixture.caseId || '')).toBeTruthy();
 
-        const intervalCsvPath = resolveRepoPath(String(fixture.intervalCsv || ''));
+        const intervalCsvPath = resolveFixturePath(String(fixture.intervalCsv || ''));
         const csvText = readFileSync(intervalCsvPath, 'utf-8');
         const tz = String(fixture.timezoneHint || 'America/Los_Angeles');
 

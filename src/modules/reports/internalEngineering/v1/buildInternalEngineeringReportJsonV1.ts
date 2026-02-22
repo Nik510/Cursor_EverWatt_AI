@@ -146,8 +146,12 @@ export function buildInternalEngineeringReportJsonV1(args: BuildInternalEngineer
     batteryEconomicsV1,
     batteryDecisionPackV1,
     batteryDecisionPackV1_2,
+    // Additive: Scenario Lab v1 (snapshot-only). Prefer workflow-attached snapshot (no recompute here).
+    scenarioLabV1: (args.analysisResults?.workflow as any)?.scenarioLabV1 ?? null,
     analysisTraceV1,
     workflow: args.analysisResults?.workflow,
+    // Additive: snapshot-only Truth Engine output (no recompute on GET).
+    truthSnapshotV1: (args.analysisResults?.workflow as any)?.truthSnapshotV1 ?? null,
     summary: args.analysisResults?.summary,
     missingInfo,
   };

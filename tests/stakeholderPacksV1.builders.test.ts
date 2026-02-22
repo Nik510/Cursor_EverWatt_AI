@@ -93,6 +93,17 @@ describe('stakeholder report packs v1 (builders)', () => {
     assertProvHeader(eng);
     assertProvHeader(exec);
 
+    // Trust layer fields should be present (additive).
+    expect((eng as any)?.verificationSummaryV1).toBeTruthy();
+    expect((eng as any)?.claimsPolicyV1).toBeTruthy();
+    expect((exec as any)?.verificationSummaryV1).toBeTruthy();
+    expect((exec as any)?.claimsPolicyV1).toBeTruthy();
+
+    // Scenario Lab should be present (snapshot-only, additive).
+    expect((eng as any)?.sections?.scenarioLabV1).toBeTruthy();
+    expect((exec as any)?.scenarioLabV1).toBeTruthy();
+    expect(Array.isArray((exec as any)?.scenarioLabV1?.topOpportunities)).toBe(true);
+
     // Executive pack must always include confidence/assumptions section.
     expect(Array.isArray(exec.confidenceAndAssumptions)).toBe(true);
     expect(exec.confidenceAndAssumptions.length).toBeGreaterThan(0);
@@ -175,6 +186,8 @@ describe('stakeholder report packs v1 (builders)', () => {
 
     expect(pack.schemaVersion).toBe('executivePackV1');
     if (pack.savings.status === 'PENDING_INPUTS') {
+      expect(pack.savings.annualUsd).toBeNull();
+    } else if (pack.savings.status === 'BLOCKED_BY_VERIFIER') {
       expect(pack.savings.annualUsd).toBeNull();
     } else {
       expect(pack.savings.annualUsd).toBeTruthy();

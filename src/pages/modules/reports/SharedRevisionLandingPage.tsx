@@ -2,7 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { FileText, Download, AlertTriangle, Info, Link as LinkIcon } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
-import { getSharedRevisionMetaV1, type GetSharedRevisionMetaV1Response } from '../../../shared/api/shareRevisionsV1';
+import { ExternalShareLayout } from '../../../components/reports/ExternalShareLayout';
+import { getSharedRevisionMetaV1, verifySharedRevisionPasswordV1, type GetSharedRevisionMetaV1Response } from '../../../shared/api/shareRevisionsV1';
 
 function parseFilenameFromContentDisposition(cd: string | null): string | null {
   const raw = String(cd || '').trim();
@@ -13,7 +14,7 @@ function parseFilenameFromContentDisposition(cd: string | null): string | null {
 }
 
 async function fetchWithShareToken(url: string, token: string): Promise<Response> {
-  return await fetch(url, { headers: { Authorization: `Share ${token}` } });
+  return await fetch(url, { headers: { Authorization: `Share ${token}` }, credentials: 'same-origin' });
 }
 
 async function downloadWithShareToken(args: { url: string; token: string; fallbackFilename: string }): Promise<void> {
@@ -54,10 +55,15 @@ async function openHtmlInNewTab(args: { url: string; token: string }): Promise<v
 export const SharedRevisionLandingPage: React.FC = () => {
   const params = useParams();
   const token = String(params.token || '').trim();
+  const embed = useMemo(() => new URLSearchParams(window.location.search).get('embed') === '1', []);
 
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<GetSharedRevisionMetaV1Response | null>(null);
+
+  const [pw, setPw] = useState('');
+  const [pwBusy, setPwBusy] = useState(false);
+  const [pwError, setPwError] = useState<string | null>(null);
 
   const warningsBadge = useMemo(() => {
     const w = data?.revision?.warningsSummary;
@@ -65,6 +71,22 @@ export const SharedRevisionLandingPage: React.FC = () => {
     const total = Number(w.engineWarningsCount || 0) + Number(w.missingInfoCount || 0);
     if (total <= 0) return { label: 'No warnings', tone: 'green' as const };
     return { label: `${total} warnings`, tone: 'amber' as const };
+  }, [data]);
+
+  const verifierBadge = useMemo(() => {
+    const s = String((data as any)?.revision?.verifierStatusV1 || '').trim().toUpperCase();
+    if (s === 'PASS') return { label: 'Verifier: PASS', tone: 'green' as const };
+    if (s === 'WARN') return { label: 'Verifier: WARN', tone: 'amber' as const };
+    if (s === 'FAIL') return { label: 'Verifier: FAIL', tone: 'red' as const };
+    return { label: 'Verifier: —', tone: 'gray' as const };
+  }, [data]);
+
+  const claimsBadge = useMemo(() => {
+    const s = String((data as any)?.revision?.claimsStatusV1 || '').trim().toUpperCase();
+    if (s === 'ALLOW') return { label: 'Claims: ALLOW', tone: 'green' as const };
+    if (s === 'LIMITED') return { label: 'Claims: LIMITED', tone: 'amber' as const };
+    if (s === 'BLOCK') return { label: 'Claims: BLOCK', tone: 'red' as const };
+    return { label: 'Claims: —', tone: 'gray' as const };
   }, [data]);
 
   useEffect(() => {
@@ -98,32 +120,34 @@ export const SharedRevisionLandingPage: React.FC = () => {
         ? 'bg-amber-50 text-amber-900 border-amber-200'
         : 'bg-gray-50 text-gray-800 border-gray-200';
 
+  const smallBadgeClass = (tone: string) =>
+    tone === 'green'
+      ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+      : tone === 'amber'
+        ? 'bg-amber-50 text-amber-900 border-amber-200'
+        : tone === 'red'
+          ? 'bg-red-50 text-red-800 border-red-200'
+          : 'bg-gray-50 text-gray-800 border-gray-200';
+
   const links = data?.links || null;
   const revision = data?.revision || null;
   const share = data?.share || null;
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50">
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="w-10 h-10 bg-gradient-to-br from-slate-700 to-gray-900 rounded-lg flex items-center justify-center">
-              <LinkIcon className="w-5 h-5 text-white" />
-            </div>
-            <div className="min-w-0">
-              <h1 className="text-xl font-bold text-gray-900">Shared revision</h1>
-              <p className="text-sm text-gray-500 font-mono truncate">{revision?.revisionId || '—'}</p>
-            </div>
-          </div>
+    <ExternalShareLayout
+      embed={embed}
+      title={embed ? undefined : 'Shared revision'}
+      subtitle={embed ? undefined : revision?.revisionId || '—'}
+      headerRight={
+        embed ? null : (
           <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-semibold ${badgeClass}`}>
             {warningsBadge.tone === 'amber' ? <AlertTriangle className="w-4 h-4" /> : <Info className="w-4 h-4" />}
             {warningsBadge.label}
           </div>
-        </div>
-      </div>
-
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-3xl mx-auto space-y-4">
+        )
+      }
+    >
+      <div className={embed ? 'max-w-none' : 'max-w-3xl mx-auto space-y-4'}>
           {!token ? (
             <div className="p-4 bg-white border border-gray-200 rounded-xl text-sm text-gray-700">Missing token.</div>
           ) : busy ? (
@@ -132,6 +156,53 @@ export const SharedRevisionLandingPage: React.FC = () => {
             <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-sm text-red-800">{error}</div>
           ) : data && revision && links && share ? (
             <>
+              {share.requiresPassword && !share.passwordVerified ? (
+                <div className="p-4 bg-white border border-gray-200 rounded-xl space-y-3">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center flex-none">
+                      <LinkIcon className="w-5 h-5 text-white" />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold text-gray-900">Password required</div>
+                      <div className="text-sm text-gray-600 mt-1">This shared snapshot is password-protected.</div>
+                      {share.passwordHint ? <div className="text-xs text-gray-500 mt-1">Hint: {share.passwordHint}</div> : null}
+                    </div>
+                  </div>
+
+                  {pwError ? <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-800">{pwError}</div> : null}
+
+                  <form
+                    className="flex flex-col sm:flex-row gap-2"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      setPwError(null);
+                      setPwBusy(true);
+                      void verifySharedRevisionPasswordV1({ token, password: pw })
+                        .then(() => getSharedRevisionMetaV1({ token }))
+                        .then((res) => {
+                          setData(res);
+                          setPw('');
+                        })
+                        .catch((e2) => setPwError(e2 instanceof Error ? e2.message : 'Invalid credentials'))
+                        .finally(() => setPwBusy(false));
+                    }}
+                  >
+                    <input
+                      value={pw}
+                      onChange={(e) => setPw(e.target.value)}
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                      type="password"
+                      autoComplete="current-password"
+                      placeholder="Enter password"
+                      disabled={pwBusy}
+                    />
+                    <button type="submit" className="px-4 py-2 rounded-lg bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 disabled:opacity-50" disabled={pwBusy}>
+                      {pwBusy ? 'Checking…' : 'Unlock'}
+                    </button>
+                  </form>
+                </div>
+              ) : null}
+
               <div className="p-4 bg-white border border-gray-200 rounded-xl space-y-3">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
@@ -202,7 +273,23 @@ export const SharedRevisionLandingPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-4 bg-white border border-gray-200 rounded-xl">
+              {embed ? null : (
+                <div className="p-4 bg-white border border-gray-200 rounded-xl">
+                  <div className="text-sm font-semibold text-gray-900">Trust badges</div>
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <div className={`inline-flex items-center px-3 py-1.5 rounded-full border text-xs font-semibold ${smallBadgeClass(verifierBadge.tone)}`}>
+                      {verifierBadge.label}
+                    </div>
+                    <div className={`inline-flex items-center px-3 py-1.5 rounded-full border text-xs font-semibold ${smallBadgeClass(claimsBadge.tone)}`}>
+                      {claimsBadge.label}
+                    </div>
+                  </div>
+                  <div className="mt-2 text-xs text-gray-600">Badges are derived from stored revision snapshots only.</div>
+                </div>
+              )}
+
+              {embed ? null : (
+                <div className="p-4 bg-white border border-gray-200 rounded-xl">
                 <div className="text-sm font-semibold text-gray-900">Provenance</div>
                 <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
@@ -240,13 +327,13 @@ export const SharedRevisionLandingPage: React.FC = () => {
                   </div>
                 </div>
               </div>
+              )}
             </>
           ) : (
             <div className="p-4 bg-white border border-gray-200 rounded-xl text-sm text-gray-600">No data.</div>
           )}
-        </div>
       </div>
-    </div>
+    </ExternalShareLayout>
   );
 };
 

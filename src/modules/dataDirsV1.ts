@@ -56,3 +56,12 @@ export function getEverwattSharesBaseDirV1(): string {
   return resolveEnvDir(process.env.EVERWATT_SHARES_BASEDIR) ?? path.resolve(path.join(getEverwattDataDirV1(), 'sharesV1'));
 }
 
+/**
+ * Customer portal v1 base dir.
+ *
+ * Env override: EVERWATT_PORTAL_BASEDIR
+ */
+export function getEverwattPortalBaseDirV1(): string {
+  return resolveEnvDir(process.env.EVERWATT_PORTAL_BASEDIR) ?? path.resolve(path.join(getEverwattDataDirV1(), 'portalV1'));
+}
+

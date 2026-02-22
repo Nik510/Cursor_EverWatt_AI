@@ -94,6 +94,7 @@ export async function renderExecutivePackPdfV1(args: { packJson: ExecutivePackJs
     const findings: string[] = Array.isArray(pack?.topFindings) ? pack.topFindings.map((x: any) => safeText(x)).filter(Boolean) : [];
     const actions: any[] = Array.isArray(pack?.nextBestActions) ? pack.nextBestActions : [];
     const assumptions: string[] = Array.isArray(pack?.confidenceAndAssumptions) ? pack.confidenceAndAssumptions.map((x: any) => safeText(x)).filter(Boolean) : [];
+    const lab: any = pack?.scenarioLabV1 ?? null;
 
     doc.font('Helvetica-Bold').fontSize(20).fillColor('#111827').text('EverWatt', { continued: false });
     doc.font('Helvetica').fontSize(12).fillColor('#374151').text('Executive Report Pack v1 (snapshot-only)');
@@ -107,6 +108,8 @@ export async function renderExecutivePackPdfV1(args: { packJson: ExecutivePackJs
       { key: 'utility', value: safeText(hdr.utilityTerritory) || 'n/a' },
       { key: 'runId', value: safeText(linkage.runId) || 'n/a' },
       { key: 'revisionId', value: safeText(linkage.revisionId) || 'n/a' },
+      { key: 'verifierStatus', value: safeText(pack?.verificationSummaryV1?.status || pack?.verifierResultV1?.status) || '—' },
+      { key: 'claimsStatus', value: safeText(pack?.claimsPolicyV1?.status) || '—' },
       { key: 'generatedAtIso', value: generatedAtIso || 'n/a' },
     ]);
 
@@ -138,6 +141,44 @@ export async function renderExecutivePackPdfV1(args: { packJson: ExecutivePackJs
     doc.moveDown(0.3);
     if (findings.length) renderBullets(doc, findings, 8);
     else doc.font('Helvetica').fontSize(10).fillColor('#6B7280').text('(none)');
+
+    doc.moveDown(0.8);
+    doc.font('Helvetica-Bold').fontSize(12).fillColor('#111827').text('Scenario Lab v1 (snapshot-only)');
+    doc.moveDown(0.3);
+    if (lab && typeof lab === 'object') {
+      const top: any[] = Array.isArray(lab?.topOpportunities) ? lab.topOpportunities : [];
+      const blockedTitles: any[] = Array.isArray(lab?.blockedByData?.blockedTitles) ? lab.blockedByData.blockedTitles : [];
+      const requiredNext: any[] = Array.isArray(lab?.blockedByData?.requiredNextData) ? lab.blockedByData.requiredNextData : [];
+      const frontierCount = Number(lab?.frontierSummary?.pointCount) || 0;
+
+      doc.font('Helvetica-Bold').fontSize(10).fillColor('#111827').text('Top 3 opportunities');
+      doc.moveDown(0.2);
+      const lines = top.slice(0, 3).map((s: any) => {
+        const id = safeText(s?.scenarioId) || '(scenario)';
+        const title = safeText(s?.title) || id;
+        const usd = s?.annualUsd !== null && s?.annualUsd !== undefined ? `$${fmtNum(s.annualUsd, 0)}/yr` : 'usd gated';
+        return `${id} — ${title} • ${usd}`;
+      });
+      if (lines.length) renderBullets(doc, lines, 6);
+      else doc.font('Helvetica').fontSize(10).fillColor('#6B7280').text('(none)');
+
+      doc.moveDown(0.4);
+      doc.font('Helvetica').fontSize(10).fillColor('#374151').text(`Frontier points: ${String(frontierCount)} (bounded)`);
+
+      doc.moveDown(0.4);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor('#111827').text('Blocked by data (titles)');
+      doc.moveDown(0.2);
+      const bl = blockedTitles.map((x: any) => safeText(x)).filter(Boolean);
+      if (bl.length) renderBullets(doc, bl, 8);
+      else doc.font('Helvetica').fontSize(10).fillColor('#6B7280').text('(none)');
+
+      if (requiredNext.length) {
+        doc.moveDown(0.2);
+        doc.font('Helvetica').fontSize(9).fillColor('#6B7280').text(`requiredNextData: ${requiredNext.slice(0, 14).map((x: any) => safeText(x)).filter(Boolean).join(' • ')}`);
+      }
+    } else {
+      doc.font('Helvetica').fontSize(10).fillColor('#6B7280').text('(scenario lab unavailable)');
+    }
 
     doc.moveDown(0.8);
     doc.font('Helvetica-Bold').fontSize(12).fillColor('#111827').text('What we need to finalize');

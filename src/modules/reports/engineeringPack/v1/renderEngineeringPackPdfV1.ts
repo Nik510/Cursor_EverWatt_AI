@@ -90,6 +90,7 @@ export async function renderEngineeringPackPdfV1(args: { packJson: EngineeringPa
     const trace = sections?.analysisTrace || {};
     const cov = trace?.coverage || {};
     const warn = sections?.warningsAndMissingInfo || {};
+    const lab: any = sections?.scenarioLabV1 ?? null;
 
     doc.font('Helvetica-Bold').fontSize(20).fillColor('#111827').text('EverWatt', { continued: false });
     doc.font('Helvetica').fontSize(12).fillColor('#374151').text('Engineering Report Pack v1 (snapshot-only)');
@@ -103,6 +104,8 @@ export async function renderEngineeringPackPdfV1(args: { packJson: EngineeringPa
       { key: 'utility', value: safeText(hdr.utilityTerritory) || 'n/a' },
       { key: 'runId', value: safeText(linkage.runId) || 'n/a' },
       { key: 'revisionId', value: safeText(linkage.revisionId) || 'n/a' },
+      { key: 'verifierStatus', value: safeText((pack as any)?.verificationSummaryV1?.status || (pack as any)?.verifierResultV1?.status) || '—' },
+      { key: 'claimsStatus', value: safeText((pack as any)?.claimsPolicyV1?.status) || '—' },
       { key: 'generatedAtIso', value: generatedAtIso || 'n/a' },
     ]);
 
@@ -117,6 +120,30 @@ export async function renderEngineeringPackPdfV1(args: { packJson: EngineeringPa
       { key: 'tariffSnapshotId', value: safeText(snap?.tariffSnapshotId) || '—' },
       { key: 'exitFeesSnapshotId', value: safeText(snap?.exitFeesSnapshotId) || '—' },
     ]);
+
+    doc.moveDown(0.8);
+    doc.font('Helvetica-Bold').fontSize(12).fillColor('#111827').text('Scenario Lab v1 (snapshot-only)');
+    doc.moveDown(0.3);
+    if (lab && typeof lab === 'object') {
+      const scenarios: any[] = Array.isArray(lab?.scenarios) ? lab.scenarios : [];
+      const blocked: any[] = Array.isArray(lab?.blockedScenarios) ? lab.blockedScenarios : [];
+      const lines = scenarios.slice(0, 15).map((s: any) => {
+        const id = safeText(s?.scenarioId) || '(scenario)';
+        const title = safeText(s?.title) || id;
+        const status = safeText(s?.status) || 'n/a';
+        const usd = s?.kpis?.annualUsd !== null && s?.kpis?.annualUsd !== undefined ? `$${fmtNum(s.kpis.annualUsd, 0)}/yr` : 'usd n/a';
+        const capex = s?.kpis?.capexUsd !== null && s?.kpis?.capexUsd !== undefined ? `capex=$${fmtNum(s.kpis.capexUsd, 0)}` : 'capex n/a';
+        return `${id} — ${title} • ${status} • ${usd} • ${capex}`;
+      });
+      doc.font('Helvetica').fontSize(10).fillColor('#111827').text(`bounded scenarios: ${String(scenarios.length)}`);
+      doc.moveDown(0.2);
+      if (lines.length) renderBullets(doc, lines, 15);
+      else doc.font('Helvetica').fontSize(10).fillColor('#6B7280').text('(none)');
+      doc.moveDown(0.2);
+      doc.font('Helvetica').fontSize(10).fillColor('#374151').text(`blocked scenarios: ${String(blocked.length)} (bounded)`);
+    } else {
+      doc.font('Helvetica').fontSize(10).fillColor('#6B7280').text('(scenario lab unavailable)');
+    }
 
     doc.moveDown(0.8);
     doc.font('Helvetica-Bold').fontSize(12).fillColor('#111827').text('Warnings (engine)');

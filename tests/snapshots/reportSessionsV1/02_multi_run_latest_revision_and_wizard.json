@@ -25,7 +25,7 @@
       },
       {
         "atIso": "2026-03-01T00:00:00.000Z",
-        "hash": "bad5cdc55e64c67aa6e43618acf5f501817686c81b9b865ec6998c37f2ea2801",
+        "hash": "13966ba0f415a97769d69e8d10c759f05e6cc3d7f118088ac1262f652c1dc365",
         "runIdsUsed": [
           "run_golden_02_b"
         ],
@@ -55,9 +55,9 @@
     "updatedAtIso": "2026-03-01T00:00:00.000Z",
     "warnings": [],
     "wizardOutputV1": {
-      "approxBytes": 14809,
+      "approxBytes": 26104,
       "generatedAtIso": "2026-03-01T00:00:00.000Z",
-      "hash": "bad5cdc55e64c67aa6e43618acf5f501817686c81b9b865ec6998c37f2ea2801",
+      "hash": "13966ba0f415a97769d69e8d10c759f05e6cc3d7f118088ac1262f652c1dc365",
       "kind": "INLINE",
       "revisionIdsUsed": [
         "rev_02_multi_run_latest_revision_and_wizard"
@@ -65,6 +65,136 @@
       "runIdsUsed": "[Circular]",
       "wizardOutput": {
         "charts": [],
+        "claimsPolicyV1": {
+          "allowedClaims": {
+            "canClaimAnnualUsdSavings": false,
+            "canClaimDemandSavings": false,
+            "canClaimEmissionsAvoided": true,
+            "canRecommendBatterySizing": false,
+            "canRecommendTariffSwitch": true
+          },
+          "blockedReasons": [
+            "requiredInputsMissing:Advanced metering (AMI) required for this program.",
+            "requiredInputsMissing:Annual kWh required for this program (minAnnualKwh gate).",
+            "requiredInputsMissing:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+            "requiredInputsMissing:Customer segment/type required to match many utility/ISO programs",
+            "requiredInputsMissing:Customer type required for this program (segment-gated).",
+            "requiredInputsMissing:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+            "requiredInputsMissing:Interval data reference required for load shape, load shifting, and demand response eligibility",
+            "requiredInputsMissing:Interval data required for this program.",
+            "requiredInputsMissing:Interval kW series required to compute deterministic bill deltas per billing cycle.",
+            "requiredInputsMissing:Interval kW series required to evaluate load shifting potential.",
+            "requiredInputsMissing:Interval kW series required to infer load shape (provide interval data or configure loader).",
+            "requiredInputsMissing:Interval-derived baseload kW required to screen battery feasibility.",
+            "requiredInputsMissing:Interval-derived baseload kW required to size battery power.",
+            "requiredInputsMissing:Interval-derived loadFactor required to evaluate Option S relevance.",
+            "requiredInputsMissing:Interval-derived loadFactor required to screen battery feasibility.",
+            "requiredInputsMissing:Interval-derived peak kW required to evaluate Option S relevance.",
+            "requiredInputsMissing:Interval-derived peak kW required to screen battery feasibility.",
+            "requiredInputsMissing:Interval-derived peak kW required to size battery power.",
+            "requiredInputsMissing:Interval-derived peakinessIndex required to evaluate Option S relevance.",
+            "requiredInputsMissing:Interval-derived peakinessIndex required to interpret peak shaving potential."
+          ],
+          "requiredNextData": [
+            {
+              "code": "required:Advanced metering (AMI) required for this program.",
+              "label": "Advanced metering (AMI) required for this program."
+            },
+            {
+              "code": "required:Annual kWh required for this program (minAnnualKwh gate).",
+              "label": "Annual kWh required for this program (minAnnualKwh gate)."
+            },
+            {
+              "code": "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+              "label": "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+            },
+            {
+              "code": "required:Customer segment/type required to match many utility/ISO programs",
+              "label": "Customer segment/type required to match many utility/ISO programs"
+            },
+            {
+              "code": "required:Customer type required for this program (segment-gated).",
+              "label": "Customer type required for this program (segment-gated)."
+            },
+            {
+              "code": "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+              "label": "Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance."
+            },
+            {
+              "code": "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+              "label": "Interval data reference required for load shape, load shifting, and demand response eligibility"
+            },
+            {
+              "code": "required:Interval data required for this program.",
+              "label": "Interval data required for this program."
+            },
+            {
+              "code": "required:Interval kW series required to compute deterministic bill deltas per billing cycle.",
+              "label": "Interval kW series required to compute deterministic bill deltas per billing cycle."
+            },
+            {
+              "code": "required:Interval kW series required to evaluate load shifting potential.",
+              "label": "Interval kW series required to evaluate load shifting potential."
+            },
+            {
+              "code": "required:Interval kW series required to infer load shape (provide interval data or configure loader).",
+              "label": "Interval kW series required to infer load shape (provide interval data or configure loader)."
+            },
+            {
+              "code": "required:Interval-derived baseload kW required to screen battery feasibility.",
+              "label": "Interval-derived baseload kW required to screen battery feasibility."
+            },
+            {
+              "code": "required:Interval-derived baseload kW required to size battery power.",
+              "label": "Interval-derived baseload kW required to size battery power."
+            },
+            {
+              "code": "required:Interval-derived loadFactor required to evaluate Option S relevance.",
+              "label": "Interval-derived loadFactor required to evaluate Option S relevance."
+            },
+            {
+              "code": "required:Interval-derived loadFactor required to screen battery feasibility.",
+              "label": "Interval-derived loadFactor required to screen battery feasibility."
+            },
+            {
+              "code": "required:Interval-derived peak kW required to evaluate Option S relevance.",
+              "label": "Interval-derived peak kW required to evaluate Option S relevance."
+            },
+            {
+              "code": "required:Interval-derived peak kW required to screen battery feasibility.",
+              "label": "Interval-derived peak kW required to screen battery feasibility."
+            },
+            {
+              "code": "required:Interval-derived peak kW required to size battery power.",
+              "label": "Interval-derived peak kW required to size battery power."
+            },
+            {
+              "code": "required:Interval-derived peakinessIndex required to evaluate Option S relevance.",
+              "label": "Interval-derived peakinessIndex required to evaluate Option S relevance."
+            },
+            {
+              "code": "required:Interval-derived peakinessIndex required to interpret peak shaving potential.",
+              "label": "Interval-derived peakinessIndex required to interpret peak shaving potential."
+            },
+            {
+              "code": "required:Interval-derived peakinessIndex required to screen battery feasibility.",
+              "label": "Interval-derived peakinessIndex required to screen battery feasibility."
+            },
+            {
+              "code": "required:Monthly kWh required for this program (minMonthlyKwh gate).",
+              "label": "Monthly kWh required for this program (minMonthlyKwh gate)."
+            },
+            {
+              "code": "required:NAICS code required for this program.",
+              "label": "NAICS code required for this program."
+            },
+            {
+              "code": "required:NAICS code required to match many utility/ISO programs",
+              "label": "NAICS code required to match many utility/ISO programs"
+            }
+          ],
+          "status": "LIMITED"
+        },
         "dataQuality": {
           "missingInfoIds": [
             "behaviorV2.baseLoadDrift.unavailable",
@@ -136,6 +266,18 @@
               "Status: unknown"
             ],
             "title": "Rate fit status"
+          },
+          {
+            "confidence0to1": 0.45,
+            "evidenceRefs": [
+              "analysisRun:run_golden_02_b:reportJson.truthSnapshotV1"
+            ],
+            "id": "truth_building_story",
+            "severity": "warning",
+            "summaryBullets": [
+              "Truth Engine confidence: C"
+            ],
+            "title": "Building story (Truth Engine v1)"
           },
           {
             "confidence0to1": 0.7,
@@ -318,7 +460,32 @@
             "run_golden_02_b"
           ]
         },
-        "wizardOutputHash": "bad5cdc55e64c67aa6e43618acf5f501817686c81b9b865ec6998c37f2ea2801",
+        "verifierResultV1": {
+          "checks": [
+            {
+              "code": "verifier.econ.sum_mismatch",
+              "details": {
+                "delta": 0,
+                "sumLineItems": 0,
+                "total": 0
+              },
+              "message": "Battery economics reconcile within tolerance.",
+              "paths": [
+                "reportJson.batteryDecisionPackV1_2.audit.reconcile"
+              ],
+              "status": "PASS",
+              "tolerance": 0.01
+            }
+          ],
+          "generatedAtIso": "2026-03-01T00:00:00.000Z",
+          "status": "PASS",
+          "summary": {
+            "failCount": 0,
+            "passCount": 1,
+            "warnCount": 0
+          }
+        },
+        "wizardOutputHash": "13966ba0f415a97769d69e8d10c759f05e6cc3d7f118088ac1262f652c1dc365",
         "wizardSteps": [
           {
             "evidence": {
@@ -396,6 +563,26 @@
             ],
             "status": "NEEDS_INPUT",
             "title": "Interval data (CSV)"
+          },
+          {
+            "evidence": {
+              "runId": "run_golden_02_b"
+            },
+            "helpText": "Optional: interval data unlocks baseline expectations, residual maps, changepoints, and bounded anomaly ledger.",
+            "id": "building_story",
+            "requiredActions": [],
+            "status": "OPTIONAL",
+            "title": "Building story (Truth Engine v1)"
+          },
+          {
+            "evidence": {
+              "runId": "run_golden_02_b"
+            },
+            "helpText": "• Frontier points: 3 (bounded)\n• Battery: DR-ready mode (requires DR inputs) — $0/yr • capex=$0 • payback≈0.0y\n• Tariff: shortlist alternatives (no switch recommendation) — $0/yr • capex=$0 • payback≈0.0y\n• Validate current tariff match (snapshot-only) — $0/yr • capex=$0 • payback≈0.0y\nBlocked scenarios:\n• Battery: demand shaving only — needs: billing_history_12_months, required:Advanced metering (AMI) required for this program., required:Annual kWh required for this program (minAnnualKwh gate)., required:Billing cycle summary (start/end dates, demand/usage) requi…(truncated)\n• Battery: hybrid (TOU + demand) — needs: interval_data, tariff_prices\n• Battery: non-export / interconnection-limited mode — needs: interval_data\n• Battery: TOU arbitrage only (energy shifting) — needs: interval_data, tariff_tou_prices\n• Battery: backup-only (medium) — resilience value not monetized — needs: interval_data\n• Battery: backup-only (small) — resilience value not monetized — needs: interval_data\nRequired next data (deduped): billing_history_12_months • interval_data • required:Advanced metering (AMI) required for this program. • required:Annual kWh required for this program (minAnnualKwh gate). • required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas. • required:Customer segment/type required to match many utility/ISO programs • required:Customer type required for this program (segment-gated). • required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance. • required:Interval data reference required for load shape, load shifting, and demand response eligibility • required:Interval data required for this program. • required:Interval kW series required to compute deterministic bill deltas per billing cycle. • required:Interval kW series required to evaluate load shifting potential. • required:Interval kW series required to infer load shape (provide interval data or configure loader). • required:Interval-derived baseload kW required to screen battery feasibility. • required:Interval-derived baseload kW required to size battery power. • required:Interval-derived loadFactor required to evaluate Option S relevance. • required:Interval-derived loadFactor required to screen battery feasibility. • required:Interval-derived peak kW required to evaluate Option S relevance. • required:Interval-derived peak kW required to screen battery feasibility. • required:Interval-derived peak kW required to size battery power.",
+            "id": "opportunity_frontier",
+            "requiredActions": [],
+            "status": "DONE",
+            "title": "Opportunity Frontier (Scenario Lab v1)"
           },
           {
             "evidence": {
@@ -509,6 +696,136 @@
   },
   "wizardOutput": {
     "charts": [],
+    "claimsPolicyV1": {
+      "allowedClaims": {
+        "canClaimAnnualUsdSavings": false,
+        "canClaimDemandSavings": false,
+        "canClaimEmissionsAvoided": true,
+        "canRecommendBatterySizing": false,
+        "canRecommendTariffSwitch": true
+      },
+      "blockedReasons": [
+        "requiredInputsMissing:Advanced metering (AMI) required for this program.",
+        "requiredInputsMissing:Annual kWh required for this program (minAnnualKwh gate).",
+        "requiredInputsMissing:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+        "requiredInputsMissing:Customer segment/type required to match many utility/ISO programs",
+        "requiredInputsMissing:Customer type required for this program (segment-gated).",
+        "requiredInputsMissing:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+        "requiredInputsMissing:Interval data reference required for load shape, load shifting, and demand response eligibility",
+        "requiredInputsMissing:Interval data required for this program.",
+        "requiredInputsMissing:Interval kW series required to compute deterministic bill deltas per billing cycle.",
+        "requiredInputsMissing:Interval kW series required to evaluate load shifting potential.",
+        "requiredInputsMissing:Interval kW series required to infer load shape (provide interval data or configure loader).",
+        "requiredInputsMissing:Interval-derived baseload kW required to screen battery feasibility.",
+        "requiredInputsMissing:Interval-derived baseload kW required to size battery power.",
+        "requiredInputsMissing:Interval-derived loadFactor required to evaluate Option S relevance.",
+        "requiredInputsMissing:Interval-derived loadFactor required to screen battery feasibility.",
+        "requiredInputsMissing:Interval-derived peak kW required to evaluate Option S relevance.",
+        "requiredInputsMissing:Interval-derived peak kW required to screen battery feasibility.",
+        "requiredInputsMissing:Interval-derived peak kW required to size battery power.",
+        "requiredInputsMissing:Interval-derived peakinessIndex required to evaluate Option S relevance.",
+        "requiredInputsMissing:Interval-derived peakinessIndex required to interpret peak shaving potential."
+      ],
+      "requiredNextData": [
+        {
+          "code": "required:Advanced metering (AMI) required for this program.",
+          "label": "Advanced metering (AMI) required for this program."
+        },
+        {
+          "code": "required:Annual kWh required for this program (minAnnualKwh gate).",
+          "label": "Annual kWh required for this program (minAnnualKwh gate)."
+        },
+        {
+          "code": "required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas.",
+          "label": "Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas."
+        },
+        {
+          "code": "required:Customer segment/type required to match many utility/ISO programs",
+          "label": "Customer segment/type required to match many utility/ISO programs"
+        },
+        {
+          "code": "required:Customer type required for this program (segment-gated).",
+          "label": "Customer type required for this program (segment-gated)."
+        },
+        {
+          "code": "required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance.",
+          "label": "Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance."
+        },
+        {
+          "code": "required:Interval data reference required for load shape, load shifting, and demand response eligibility",
+          "label": "Interval data reference required for load shape, load shifting, and demand response eligibility"
+        },
+        {
+          "code": "required:Interval data required for this program.",
+          "label": "Interval data required for this program."
+        },
+        {
+          "code": "required:Interval kW series required to compute deterministic bill deltas per billing cycle.",
+          "label": "Interval kW series required to compute deterministic bill deltas per billing cycle."
+        },
+        {
+          "code": "required:Interval kW series required to evaluate load shifting potential.",
+          "label": "Interval kW series required to evaluate load shifting potential."
+        },
+        {
+          "code": "required:Interval kW series required to infer load shape (provide interval data or configure loader).",
+          "label": "Interval kW series required to infer load shape (provide interval data or configure loader)."
+        },
+        {
+          "code": "required:Interval-derived baseload kW required to screen battery feasibility.",
+          "label": "Interval-derived baseload kW required to screen battery feasibility."
+        },
+        {
+          "code": "required:Interval-derived baseload kW required to size battery power.",
+          "label": "Interval-derived baseload kW required to size battery power."
+        },
+        {
+          "code": "required:Interval-derived loadFactor required to evaluate Option S relevance.",
+          "label": "Interval-derived loadFactor required to evaluate Option S relevance."
+        },
+        {
+          "code": "required:Interval-derived loadFactor required to screen battery feasibility.",
+          "label": "Interval-derived loadFactor required to screen battery feasibility."
+        },
+        {
+          "code": "required:Interval-derived peak kW required to evaluate Option S relevance.",
+          "label": "Interval-derived peak kW required to evaluate Option S relevance."
+        },
+        {
+          "code": "required:Interval-derived peak kW required to screen battery feasibility.",
+          "label": "Interval-derived peak kW required to screen battery feasibility."
+        },
+        {
+          "code": "required:Interval-derived peak kW required to size battery power.",
+          "label": "Interval-derived peak kW required to size battery power."
+        },
+        {
+          "code": "required:Interval-derived peakinessIndex required to evaluate Option S relevance.",
+          "label": "Interval-derived peakinessIndex required to evaluate Option S relevance."
+        },
+        {
+          "code": "required:Interval-derived peakinessIndex required to interpret peak shaving potential.",
+          "label": "Interval-derived peakinessIndex required to interpret peak shaving potential."
+        },
+        {
+          "code": "required:Interval-derived peakinessIndex required to screen battery feasibility.",
+          "label": "Interval-derived peakinessIndex required to screen battery feasibility."
+        },
+        {
+          "code": "required:Monthly kWh required for this program (minMonthlyKwh gate).",
+          "label": "Monthly kWh required for this program (minMonthlyKwh gate)."
+        },
+        {
+          "code": "required:NAICS code required for this program.",
+          "label": "NAICS code required for this program."
+        },
+        {
+          "code": "required:NAICS code required to match many utility/ISO programs",
+          "label": "NAICS code required to match many utility/ISO programs"
+        }
+      ],
+      "status": "LIMITED"
+    },
     "dataQuality": {
       "missingInfoIds": [
         "behaviorV2.baseLoadDrift.unavailable",
@@ -580,6 +897,18 @@
           "Status: unknown"
         ],
         "title": "Rate fit status"
+      },
+      {
+        "confidence0to1": 0.45,
+        "evidenceRefs": [
+          "analysisRun:run_golden_02_b:reportJson.truthSnapshotV1"
+        ],
+        "id": "truth_building_story",
+        "severity": "warning",
+        "summaryBullets": [
+          "Truth Engine confidence: C"
+        ],
+        "title": "Building story (Truth Engine v1)"
       },
       {
         "confidence0to1": 0.7,
@@ -762,7 +1091,32 @@
         "run_golden_02_b"
       ]
     },
-    "wizardOutputHash": "bad5cdc55e64c67aa6e43618acf5f501817686c81b9b865ec6998c37f2ea2801",
+    "verifierResultV1": {
+      "checks": [
+        {
+          "code": "verifier.econ.sum_mismatch",
+          "details": {
+            "delta": 0,
+            "sumLineItems": 0,
+            "total": 0
+          },
+          "message": "Battery economics reconcile within tolerance.",
+          "paths": [
+            "reportJson.batteryDecisionPackV1_2.audit.reconcile"
+          ],
+          "status": "PASS",
+          "tolerance": 0.01
+        }
+      ],
+      "generatedAtIso": "2026-03-01T00:00:00.000Z",
+      "status": "PASS",
+      "summary": {
+        "failCount": 0,
+        "passCount": 1,
+        "warnCount": 0
+      }
+    },
+    "wizardOutputHash": "13966ba0f415a97769d69e8d10c759f05e6cc3d7f118088ac1262f652c1dc365",
     "wizardSteps": [
       {
         "evidence": {
@@ -840,6 +1194,26 @@
         ],
         "status": "NEEDS_INPUT",
         "title": "Interval data (CSV)"
+      },
+      {
+        "evidence": {
+          "runId": "run_golden_02_b"
+        },
+        "helpText": "Optional: interval data unlocks baseline expectations, residual maps, changepoints, and bounded anomaly ledger.",
+        "id": "building_story",
+        "requiredActions": [],
+        "status": "OPTIONAL",
+        "title": "Building story (Truth Engine v1)"
+      },
+      {
+        "evidence": {
+          "runId": "run_golden_02_b"
+        },
+        "helpText": "• Frontier points: 3 (bounded)\n• Battery: DR-ready mode (requires DR inputs) — $0/yr • capex=$0 • payback≈0.0y\n• Tariff: shortlist alternatives (no switch recommendation) — $0/yr • capex=$0 • payback≈0.0y\n• Validate current tariff match (snapshot-only) — $0/yr • capex=$0 • payback≈0.0y\nBlocked scenarios:\n• Battery: demand shaving only — needs: billing_history_12_months, required:Advanced metering (AMI) required for this program., required:Annual kWh required for this program (minAnnualKwh gate)., required:Billing cycle summary (start/end dates, demand/usage) requi…(truncated)\n• Battery: hybrid (TOU + demand) — needs: interval_data, tariff_prices\n• Battery: non-export / interconnection-limited mode — needs: interval_data\n• Battery: TOU arbitrage only (energy shifting) — needs: interval_data, tariff_tou_prices\n• Battery: backup-only (medium) — resilience value not monetized — needs: interval_data\n• Battery: backup-only (small) — resilience value not monetized — needs: interval_data\nRequired next data (deduped): billing_history_12_months • interval_data • required:Advanced metering (AMI) required for this program. • required:Annual kWh required for this program (minAnnualKwh gate). • required:Billing cycle summary (start/end dates, demand/usage) required to compute bill deltas. • required:Customer segment/type required to match many utility/ISO programs • required:Customer type required for this program (segment-gated). • required:Demand charge presence (meterMeta.hasDemandChargesKnown) required to interpret Option S relevance. • required:Interval data reference required for load shape, load shifting, and demand response eligibility • required:Interval data required for this program. • required:Interval kW series required to compute deterministic bill deltas per billing cycle. • required:Interval kW series required to evaluate load shifting potential. • required:Interval kW series required to infer load shape (provide interval data or configure loader). • required:Interval-derived baseload kW required to screen battery feasibility. • required:Interval-derived baseload kW required to size battery power. • required:Interval-derived loadFactor required to evaluate Option S relevance. • required:Interval-derived loadFactor required to screen battery feasibility. • required:Interval-derived peak kW required to evaluate Option S relevance. • required:Interval-derived peak kW required to screen battery feasibility. • required:Interval-derived peak kW required to size battery power.",
+        "id": "opportunity_frontier",
+        "requiredActions": [],
+        "status": "DONE",
+        "title": "Opportunity Frontier (Scenario Lab v1)"
       },
       {
         "evidence": {

@@ -32,6 +32,7 @@ export const taxVersion = 'tax_v0' as const;
 export const degradationVersion = 'degradation_v0' as const;
 export const batteryEconomicsVersion = 'battery_econ_v1.3' as const;
 export const batteryDecisionPackVersion = 'battery_decision_pack_v1.2' as const;
+export const truthEngineV1Version = 'truth_engine_v1.0' as const;
 
 export const engineVersions = {
   intervalIntake: intervalIntakeVersion,
@@ -47,6 +48,7 @@ export const engineVersions = {
   degradation: degradationVersion,
   batteryEconomics: batteryEconomicsVersion,
   batteryDecisionPack: batteryDecisionPackVersion,
+  truthEngineV1: truthEngineV1Version,
 } as const;
 
 export type EngineVersionsV1 = typeof engineVersions;

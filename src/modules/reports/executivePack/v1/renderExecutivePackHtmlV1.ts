@@ -1,4 +1,5 @@
 import type { ExecutivePackJsonV1 } from './buildExecutivePackJsonV1';
+import { renderBrandTemplateV1 } from '../../shared/renderBrandTemplateV1';
 
 type StableJson = any;
 
@@ -41,10 +42,6 @@ function card(title: string, body: string): string {
   return `<div class="card"><div class="cardTitle">${escapeHtml(title)}</div><div class="cardBody">${body}</div></div>`;
 }
 
-function pill(label: string): string {
-  return `<span class="pill">${escapeHtml(label)}</span>`;
-}
-
 export function renderExecutivePackHtmlV1(args: {
   project: { id: string; name?: string };
   revision: { id: string; createdAt: string; title?: string; packJson: ExecutivePackJsonV1; packHash?: string };
@@ -67,9 +64,14 @@ export function renderExecutivePackHtmlV1(args: {
   const dq: any = (pack as any)?.dataQuality || {};
   const batt: any = (pack as any)?.batteryFit || {};
   const savings: any = (pack as any)?.savings || {};
+  const lab: any = (pack as any)?.scenarioLabV1 || null;
+  const verifierStatus = fmt((pack as any)?.verificationSummaryV1?.status || (pack as any)?.verifierResultV1?.status);
+  const claimsStatus = fmt((pack as any)?.claimsPolicyV1?.status);
 
   const tiles = [
     `<div class="tiles">`,
+    `<div class="tile"><div class="tLabel">Verifier</div><div class="tVal">${escapeHtml(verifierStatus)}</div><div class="tSub">snapshot-only</div></div>`,
+    `<div class="tile"><div class="tLabel">Claims</div><div class="tVal">${escapeHtml(claimsStatus)}</div><div class="tSub">gating policy v1</div></div>`,
     `<div class="tile"><div class="tLabel">Annual kWh (est.)</div><div class="tVal">${kpis?.annualKwhEstimate ? fmtNum(kpis.annualKwhEstimate.value, 0) : '—'}</div><div class="tSub">${kpis?.annualKwhEstimate?.confidenceTier ? `conf=${escapeHtml(fmt(kpis.annualKwhEstimate.confidenceTier))}` : 'snapshot-only'}</div></div>`,
     `<div class="tile"><div class="tLabel">Baseload (kW)</div><div class="tVal">${kpis?.baseloadKw ? fmtNum(kpis.baseloadKw.value, 2) : '—'}</div><div class="tSub">${kpis?.baseloadKw?.confidenceTier ? `conf=${escapeHtml(fmt(kpis.baseloadKw.confidenceTier))}` : 'snapshot-only'}</div></div>`,
     `<div class="tile"><div class="tLabel">Peak (kW)</div><div class="tVal">${kpis?.peakKw ? fmtNum(kpis.peakKw.value, 2) : '—'}</div><div class="tSub">snapshot-only</div></div>`,
@@ -109,71 +111,71 @@ export function renderExecutivePackHtmlV1(args: {
         .join('')}</ul>`
     : `<div class="muted">(wizard output missing; next actions unavailable)</div>`;
 
-  const metaLine = `projectId=${escapeHtml(fmt(hdr.projectId || args.project?.id))}${hdr.projectName ? ` • projectName=${escapeHtml(fmt(hdr.projectName))}` : ''}`;
-  const linkLine = `runId=${escapeHtml(fmt(linkage.runId))} • revisionId=${escapeHtml(fmt(linkage.revisionId || revId))}${
-    linkage.wizardOutputHash ? ` • wizardOutputHash=${escapeHtml(fmt(linkage.wizardOutputHash).slice(0, 12))}…` : ''
-  }`;
-
   const jsonPretty = JSON.stringify(stableNormalize(pack), null, 2);
 
-  return [
-    `<!doctype html>`,
-    `<html lang="en">`,
-    `<head>`,
-    `<meta charset="utf-8" />`,
-    `<meta name="viewport" content="width=device-width, initial-scale=1" />`,
-    `<title>${escapeHtml(title)}</title>`,
-    `<style>`,
-    `  :root { --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }`,
-    `  body { margin:0; font-family: var(--sans); background: #ffffff; color: #0f172a; }`,
-    `  .wrap { max-width: 1040px; margin: 0 auto; padding: 28px 20px; }`,
-    `  .hdr { display:flex; justify-content: space-between; gap: 16px; align-items: flex-start; }`,
-    `  h1 { font-size: 20px; margin:0; }`,
-    `  .meta { font-family: var(--mono); font-size: 12px; color: #334155; }`,
-    `  .pill { display:inline-block; padding: 2px 8px; border-radius: 999px; border: 1px solid #e2e8f0; background: #f8fafc; font-family: var(--mono); font-size: 11px; color:#334155; }`,
-    `  .grid { display:grid; grid-template-columns: 1fr; gap: 14px; margin-top: 16px; }`,
-    `  .card { border: 1px solid #e2e8f0; border-radius: 14px; overflow:hidden; }`,
-    `  .cardTitle { padding: 10px 12px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; font-size: 12px; font-weight: 800; }`,
-    `  .cardBody { padding: 12px; }`,
-    `  .muted { color:#64748b; font-size: 12px; }`,
+  const scenarioLabHtml = (() => {
+    if (!lab || typeof lab !== 'object') return `<div class="muted">(scenario lab unavailable)</div>`;
+    const top: any[] = Array.isArray(lab?.topOpportunities) ? lab.topOpportunities : [];
+    const blockedTitles: string[] = Array.isArray(lab?.blockedByData?.blockedTitles) ? lab.blockedByData.blockedTitles.map((x: any) => fmt(x)).filter(Boolean) : [];
+    const requiredNext: string[] = Array.isArray(lab?.blockedByData?.requiredNextData) ? lab.blockedByData.requiredNextData.map((x: any) => fmt(x)).filter(Boolean) : [];
+    const frontierCount = Number(lab?.frontierSummary?.pointCount) || 0;
+    const topHtml = top.length
+      ? `<ol>${top
+          .slice(0, 3)
+          .map((s: any) => `<li><span class="mono">${escapeHtml(fmt(s?.scenarioId))}</span> — ${escapeHtml(fmt(s?.title))}${s?.annualUsd !== null && s?.annualUsd !== undefined ? ` • $${escapeHtml(fmtNum(s.annualUsd, 0))}/yr` : ' • usd gated'}</li>`)
+          .join('')}</ol>`
+      : `<div class="muted">(no ranked opportunities)</div>`;
+    const blockedHtml = blockedTitles.length ? `<ul>${blockedTitles.slice(0, 8).map((t) => `<li>${escapeHtml(t)}</li>`).join('')}</ul>` : `<div class="muted">(none)</div>`;
+    const reqHtml = requiredNext.length ? `<div class="muted mono">requiredNextData: ${escapeHtml(requiredNext.slice(0, 12).join(' • '))}</div>` : '';
+    return [
+      `<div><div class="subTitle">Top 3 opportunities</div>${topHtml}</div>`,
+      `<div style="margin-top:10px"><div class="subTitle">Opportunity frontier</div><div class="muted">frontierPoints=${escapeHtml(String(frontierCount))} (bounded)</div></div>`,
+      `<div style="margin-top:10px"><div class="subTitle">Blocked by data</div>${blockedHtml}${reqHtml}</div>`,
+    ].join('\n');
+  })();
+
+  const bodyHtml = [
+    `<div class="grid">`,
+    `${card('KPIs', tiles)}`,
+    `${card('Top findings (from stored wizard output)', findingsHtml)}`,
+    `${card('Scenario Lab v1 (snapshot-only)', scenarioLabHtml)}`,
+    `${card('What we need to finalize', missingHtml)}`,
+    `${card('Next best actions (wizard requiredActions)', actionsHtml)}`,
+    `${card('Pack JSON (stable key ordering)', `<pre>${escapeHtml(jsonPretty)}</pre>`)}`,
+    `</div>`,
+  ].join('\n');
+
+  const provenanceFooterLines = [
+    { k: 'projectId', v: fmt(hdr.projectId || args.project?.id) },
+    ...(hdr.projectName ? [{ k: 'projectName', v: fmt(hdr.projectName) }] : []),
+    { k: 'revisionId', v: fmt(linkage.revisionId || revId) },
+    { k: 'reportType', v: 'EXECUTIVE_PACK_V1' },
+    ...(hash ? [{ k: 'packHash', v: hash.slice(0, 12) + '…' }] : []),
+  ];
+
+  const extraCss = [
     `  .mono { font-family: var(--mono); }`,
     `  .tiles { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }`,
     `  @media (min-width: 900px) { .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }`,
-    `  .tile { border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px 12px; background: #ffffff; }`,
-    `  .tLabel { font-size: 11px; color:#64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; }`,
+    `  .tile { border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; background: #ffffff; }`,
+    `  .tLabel { font-size: 11px; color: var(--muted); font-weight: 900; text-transform: uppercase; letter-spacing: 0.06em; }`,
     `  .tVal { margin-top: 6px; font-size: 20px; font-weight: 900; font-family: var(--mono); }`,
     `  .tSub { margin-top: 4px; font-size: 12px; color:#475569; font-family: var(--mono); }`,
     `  .twoCol { display:grid; grid-template-columns: 1fr; gap: 12px; }`,
     `  @media (min-width: 900px) { .twoCol { grid-template-columns: 1fr 1fr; } }`,
     `  .subTitle { font-size: 12px; font-weight: 900; margin-bottom: 6px; }`,
-    `  ul { margin: 0; padding-left: 18px; }`,
     `  li { font-size: 13px; margin: 4px 0; }`,
-    `  .tag { display:inline-block; margin-left: 8px; font-size: 11px; font-weight: 900; border: 1px solid #e2e8f0; border-radius: 999px; padding: 1px 8px; font-family: var(--mono); color:#334155; background:#f8fafc; }`,
-    `  pre { margin:0; padding: 12px; font-family: var(--mono); font-size: 12px; line-height: 1.45; overflow:auto; background: #0b1020; color: #e2e8f0; border-radius: 12px; }`,
-    `</style>`,
-    `</head>`,
-    `<body>`,
-    `<div class="wrap">`,
-    `<div class="hdr">`,
-    `<div>`,
-    `<h1>${escapeHtml(title)}</h1>`,
-    `<div class="meta">${metaLine}</div>`,
-    `<div class="meta">createdAt=${escapeHtml(createdAt)} • ${linkLine}${hash ? ` • hash=${escapeHtml(hash.slice(0, 12))}…` : ''}</div>`,
-    `</div>`,
-    `<div>${pill('snapshot-only')}${pill('deterministic')}${pill('provenance-first')}</div>`,
-    `</div>`,
-    `<div class="grid">`,
-    `${card('KPIs', tiles)}`,
-    `${card('Top findings (from stored wizard output)', findingsHtml)}`,
-    `${card('What we need to finalize', missingHtml)}`,
-    `${card('Next best actions (wizard requiredActions)', actionsHtml)}`,
-    `${card('Pack JSON (stable key ordering)', `<pre>${escapeHtml(jsonPretty)}</pre>`)}`,
-    `</div>`,
-    `<div class="muted" style="margin-top:14px;">EverWatt • Executive Pack v1</div>`,
-    `</div>`,
-    `</body>`,
-    `</html>`,
-    ``,
+    `  .tag { display:inline-block; margin-left: 8px; font-size: 11px; font-weight: 900; border: 1px solid var(--border); border-radius: 999px; padding: 1px 8px; font-family: var(--mono); color:#334155; background: var(--panel); }`,
   ].join('\n');
+
+  return renderBrandTemplateV1({
+    title,
+    project: { id: args.project?.id, name: args.project?.name },
+    revision: { id: revId, reportType: 'EXECUTIVE_PACK_V1', createdAtIso: createdAt },
+    generatedAtIso: String((pack as any)?.generatedAtIso || '').trim() || null,
+    bodyHtml,
+    provenanceFooterLines,
+    extraCss,
+  });
 }
 

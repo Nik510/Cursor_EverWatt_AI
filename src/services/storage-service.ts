@@ -7,15 +7,23 @@ import { S3StorageAdapter } from '../storage/s3-adapter';
 import { R2StorageAdapter } from '../storage/r2-adapter';
 
 let adapter: StorageAdapter | null = null;
+let adapterSig: string | null = null;
 
 function getLocalBaseDir(): string {
   return process.env.STORAGE_LOCAL_DIR || path.join(process.cwd(), 'data', 'uploads');
 }
 
 export function getStorageAdapter(): StorageAdapter {
-  if (adapter) return adapter;
-
   const type = (config.storage.type || 'local').toLowerCase();
+  const sig =
+    type === 's3'
+      ? `s3:${config.storage.s3.bucket}:${config.storage.s3.region}:${String(config.storage.s3.accessKeyId || '').slice(0, 4)}`
+      : type === 'r2'
+        ? `r2:${config.storage.r2.accountId}:${config.storage.r2.bucketName}:${String(config.storage.r2.accessKeyId || '').slice(0, 4)}`
+        : `local:${getLocalBaseDir()}`;
+
+  if (adapter && adapterSig === sig) return adapter;
+  adapterSig = sig;
 
   if (type === 's3') {
     adapter = new S3StorageAdapter({

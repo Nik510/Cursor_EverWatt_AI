@@ -1,10 +1,11 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import path from 'path';
 import { mkdir, readFile, rm, writeFile } from 'fs/promises';
 import { existsSync } from 'fs';
 import { randomUUID } from 'crypto';
 
 import './helpers/mockHeavyServerDeps';
+import { enableDemoJwtForTests, getDemoBearerToken } from './helpers/demoJwt';
 
 const PROJECTS_DIR = path.join(process.cwd(), 'data', 'projects');
 
@@ -27,10 +28,13 @@ describe('Phase2A inbox decision (endpoint)', () => {
   it('accept/reject requires reason (400)', async () => {
     const projectId = `t_${randomUUID().slice(0, 8)}`;
     const userId = 'u_test';
+    const email = `${userId}@example.com`;
+    const authUserId = userId;
     try {
+      delete process.env.EVERWATT_PROJECTS_BASEDIR;
       await writeProjectFile({
         projectId,
-        userId,
+        userId: authUserId,
         project: {
           graph: {
             assets: [],
@@ -53,10 +57,13 @@ describe('Phase2A inbox decision (endpoint)', () => {
         },
       });
 
+      vi.resetModules();
+      enableDemoJwtForTests();
       const { default: app } = await import('../src/server');
+      const authz = await getDemoBearerToken(app, email, authUserId);
       const res = await app.request(`/api/projects/${projectId}/graph/inbox/ii1/decide`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': userId },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ decision: 'ACCEPT', reason: ' ' }),
       });
       expect(res.status).toBe(400);
@@ -68,10 +75,13 @@ describe('Phase2A inbox decision (endpoint)', () => {
   it('accept suggestedBomItems adds bomItems and moves item to history', async () => {
     const projectId = `t_${randomUUID().slice(0, 8)}`;
     const userId = 'u_test';
+    const email = `${userId}@example.com`;
+    const authUserId = userId;
     try {
+      delete process.env.EVERWATT_PROJECTS_BASEDIR;
       await writeProjectFile({
         projectId,
-        userId,
+        userId: authUserId,
         project: {
           graph: {
             assets: [],
@@ -95,10 +105,13 @@ describe('Phase2A inbox decision (endpoint)', () => {
         },
       });
 
+      vi.resetModules();
+      enableDemoJwtForTests();
       const { default: app } = await import('../src/server');
+      const authz = await getDemoBearerToken(app, email, authUserId);
       const res = await app.request(`/api/projects/${projectId}/graph/inbox/ii2/decide`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': userId },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ decision: 'ACCEPT', reason: 'Add to scope' }),
       });
       expect(res.status).toBe(200);
@@ -120,10 +133,13 @@ describe('Phase2A inbox decision (endpoint)', () => {
   it('reject does not add bomItems/assets/measures, but writes decision + history', async () => {
     const projectId = `t_${randomUUID().slice(0, 8)}`;
     const userId = 'u_test';
+    const email = `${userId}@example.com`;
+    const authUserId = userId;
     try {
+      delete process.env.EVERWATT_PROJECTS_BASEDIR;
       await writeProjectFile({
         projectId,
-        userId,
+        userId: authUserId,
         project: {
           graph: {
             assets: [],
@@ -146,10 +162,13 @@ describe('Phase2A inbox decision (endpoint)', () => {
         },
       });
 
+      vi.resetModules();
+      enableDemoJwtForTests();
       const { default: app } = await import('../src/server');
+      const authz = await getDemoBearerToken(app, email, authUserId);
       const res = await app.request(`/api/projects/${projectId}/graph/inbox/ii3/decide`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': userId },
+        headers: { 'Content-Type': 'application/json', Authorization: authz },
         body: JSON.stringify({ decision: 'REJECT', reason: 'Not needed' }),
       });
       expect(res.status).toBe(200);
