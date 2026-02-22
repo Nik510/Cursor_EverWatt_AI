@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import path from 'node:path';
 import { readFileSync } from 'node:fs';
 
 import { buildCalculationAuditDrawerV1 } from '../src/modules/auditDrawerV1/buildAuditDrawerV1';
 import { AUDIT_DRAWER_V1_LIMITS, auditDrawerV1VersionTag } from '../src/modules/auditDrawerV1/constants';
+import { resolveFixturePath } from './helpers/fixturePath';
 
 type Expectation = {
   fixtureFile: string;
@@ -55,14 +55,14 @@ function assertBoundedPayload(payload: any): void {
 
 describe('Calculation Audit Drawer Payload v1 fixture pack contract (deterministic)', () => {
   it('matches key contract invariants across cases', () => {
-    const expectationsPath = path.join(process.cwd(), 'tests', 'fixtures', 'auditDrawer', 'v1', 'expectations.auditDrawer.v1.json');
+    const expectationsPath = resolveFixturePath('tests/fixtures/auditDrawer/v1/expectations.auditDrawer.v1.json');
     const expectations = loadJson(expectationsPath) as Expectation[];
     expect(Array.isArray(expectations)).toBe(true);
     expect(expectations.length).toBeGreaterThanOrEqual(5);
 
     for (const ex of expectations) {
       try {
-        const fixturePath = path.join(process.cwd(), ex.fixtureFile);
+        const fixturePath = resolveFixturePath(ex.fixtureFile);
         const fixture = loadJson(fixturePath);
         const reportJson = fixture?.reportJson ?? null;
 

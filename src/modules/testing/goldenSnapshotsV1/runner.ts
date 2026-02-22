@@ -24,12 +24,11 @@ function loadJson(fp: string): any {
 }
 
 function loadText(fp: string): string {
-  // Normalize fixtures to CRLF so golden snapshots are OS-independent.
-  // The committed snapshots contain CRLF escapes (\\r\\n) and CI runs on Linux.
+  // Normalize fixtures to LF so golden snapshots are OS-independent.
+  // (CRLF vs LF changes deterministic snippet windows and evidence text.)
   const raw = readFileSync(fp, 'utf-8');
   const lf = raw.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
-  const crlf = lf.replace(/\n/g, '\r\n');
-  return crlf.endsWith('\r\n') ? crlf : `${crlf}\r\n`;
+  return lf.endsWith('\n') ? lf : `${lf}\n`;
 }
 
 function makeEphemeralIdFactory(args: { prefix: string; seed: string }): () => string {
@@ -44,10 +43,10 @@ function makeEphemeralIdFactory(args: { prefix: string; seed: string }): () => s
 }
 
 function resolveIntervalFixturePath(ref: string): string {
-  const r = String(ref || '').trim();
+  const r = String(ref || '').trim().replace(/\\/g, '/');
   if (!r) return '';
-  if (r.startsWith('tests/')) return path.join(process.cwd(), r);
-  return path.join(process.cwd(), 'tests', 'fixtures', r);
+  if (r.startsWith('tests/')) return path.join(process.cwd(), ...r.split('/').filter(Boolean));
+  return path.join(process.cwd(), 'tests', 'fixtures', ...r.split('/').filter(Boolean));
 }
 
 async function seedTariffSnapshotsForCase(args: { baseDir: string; caseId: string; utilityId: string }): Promise<void> {

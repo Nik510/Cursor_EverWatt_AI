@@ -4,6 +4,7 @@ import path from 'node:path';
 
 import { parseIntervalElectricCsvV1 } from '../src/modules/utilityIntelligence/intake/intervalElectricV1/parseIntervalElectricCsvV1';
 import { analyzeIntervalIntelligenceV1 } from '../src/modules/utilityIntelligence/intervalIntelligenceV1/analyzeIntervalIntelligenceV1';
+import { resolveFixturePath } from './helpers/fixturePath';
 
 type Expectation = {
   fixtureFile: string;
@@ -34,21 +35,14 @@ describe('Interval Intelligence v1 fixture pack contract (deterministic)', () =>
   it('matches all fixture expectations (fast)', () => {
     const t0 = Date.now();
 
-    const expectationsPath = path.join(
-      process.cwd(),
-      'tests',
-      'fixtures',
-      'intervals',
-      'v1',
-      'expectations.intervalIntelligence.v1.json',
-    );
+    const expectationsPath = resolveFixturePath('tests/fixtures/intervals/v1/expectations.intervalIntelligence.v1.json');
     const expectations = JSON.parse(readFileSync(expectationsPath, 'utf-8')) as Expectation[];
     expect(Array.isArray(expectations)).toBe(true);
     expect(expectations.length).toBeGreaterThanOrEqual(6);
 
     for (const ex of expectations) {
       try {
-        const fp = path.join(process.cwd(), ex.fixtureFile);
+        const fp = resolveFixturePath(ex.fixtureFile);
         const csvText = readFileSync(fp, 'utf-8');
         const parsed = parseIntervalElectricCsvV1({
           csvText,

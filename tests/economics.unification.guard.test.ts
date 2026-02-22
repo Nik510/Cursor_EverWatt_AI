@@ -5,6 +5,7 @@ import path from 'node:path';
 import { parseIntervalElectricCsvV1 } from '../src/modules/utilityIntelligence/intake/intervalElectricV1/parseIntervalElectricCsvV1';
 import { analyzeIntervalIntelligenceV1 } from '../src/modules/utilityIntelligence/intervalIntelligenceV1/analyzeIntervalIntelligenceV1';
 import { evaluateStorageOpportunityPackV1 } from '../src/modules/batteryEngineV1/evaluateBatteryOpportunityV1';
+import { resolveFixturePath } from './helpers/fixturePath';
 
 function uniqSorted(arr: string[]): string[] {
   return Array.from(new Set((arr || []).map((s) => String(s || '').trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b));
@@ -16,10 +17,10 @@ function expectSortedLex(arr: string[]) {
 
 describe('economics unification guard (canonical vs legacy-derived)', () => {
   it('keeps batteryEconomicsV1Summary consistent with storageEconomicsV1 totals (within tolerance)', () => {
-    const fixturePath = path.join(process.cwd(), 'tests', 'fixtures', 'batteryPack', 'v1', 'cases', 'office_tou_with_demand.json');
+    const fixturePath = resolveFixturePath('tests/fixtures/batteryPack/v1/cases/office_tou_with_demand.json');
     const fixture = JSON.parse(readFileSync(fixturePath, 'utf-8')) as any;
 
-    const intervalCsvPath = path.join(process.cwd(), String(fixture.intervalCsv || ''));
+    const intervalCsvPath = resolveFixturePath(String(fixture.intervalCsv || ''));
     const csvText = readFileSync(intervalCsvPath, 'utf-8');
 
     const tz = String(fixture.timezoneHint || 'America/Los_Angeles');

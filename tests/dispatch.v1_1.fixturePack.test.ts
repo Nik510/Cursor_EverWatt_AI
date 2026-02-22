@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
 import { dispatchV1_1 } from '../src/modules/batteryEngineV1/dispatchV1_1';
+import { resolveFixturePath } from './helpers/fixturePath';
 
 type DispatchFixture = {
   caseId: string;
@@ -43,16 +44,9 @@ function sumVals(obj: Record<string, number> | null | undefined): number {
   return xs.reduce((s, x) => s + (safeNum(x) ?? 0), 0);
 }
 
-function resolveRepoPath(rel: string): string {
-  const raw = String(rel || '').trim();
-  if (!raw) return '';
-  const normalized = raw.replace(/\\/g, '/');
-  return path.join(process.cwd(), ...normalized.split('/'));
-}
-
 describe('dispatch_v1_1 fixture pack (deterministic)', () => {
   it('matches all dispatch v1.1 fixture expectations (fast)', () => {
-    const casesDir = path.join(process.cwd(), 'tests', 'fixtures', 'dispatch', 'v1_1', 'cases');
+    const casesDir = resolveFixturePath('tests/fixtures/dispatch/v1_1/cases');
     const files = [
       '01_full_interval_tou.json',
       '02_flat_prices_zero_arbitrage.json',
@@ -70,7 +64,7 @@ describe('dispatch_v1_1 fixture pack (deterministic)', () => {
       const fx = JSON.parse(readFileSync(fixturePath, 'utf-8')) as DispatchFixture;
 
       const points = (() => {
-        const fp = fx.intervalPointsFile ? resolveRepoPath(String(fx.intervalPointsFile)) : null;
+        const fp = fx.intervalPointsFile ? resolveFixturePath(String(fx.intervalPointsFile)) : null;
         if (!fp) return null;
         return JSON.parse(readFileSync(fp, 'utf-8')) as any[];
       })();

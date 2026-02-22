@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
-import path from 'node:path';
 
 import { regressUsageVsWeatherV1 } from '../src/modules/utilityIntelligence/weatherRegressionV1/regressUsageVsWeatherV1';
+import { resolveFixturePath } from './helpers/fixturePath';
 
 type Expectation = {
   fixtureFile: string;
@@ -35,14 +35,14 @@ describe('Weather Regression v1 fixture pack contract (deterministic)', () => {
   it('matches all fixture expectations (fast)', () => {
     const t0 = Date.now();
 
-    const expectationsPath = path.join(process.cwd(), 'tests', 'fixtures', 'weather', 'v1', 'expectations.weatherRegression.v1.json');
+    const expectationsPath = resolveFixturePath('tests/fixtures/weather/v1/expectations.weatherRegression.v1.json');
     const expectations = JSON.parse(readFileSync(expectationsPath, 'utf-8')) as Expectation[];
     expect(Array.isArray(expectations)).toBe(true);
     expect(expectations.length).toBeGreaterThanOrEqual(6);
 
     for (const ex of expectations) {
       try {
-        const fp = path.join(process.cwd(), ex.fixtureFile);
+        const fp = resolveFixturePath(ex.fixtureFile);
         const fixture = JSON.parse(readFileSync(fp, 'utf-8')) as any;
         expect(Array.isArray(fixture?.usageByDay)).toBe(true);
         expect(Array.isArray(fixture?.weatherByDay)).toBe(true);
